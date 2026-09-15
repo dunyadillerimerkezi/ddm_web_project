@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node (ddm-web ve alt projeler)
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# env dosyaları (örnek dosyalar hariç)
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+
+# editor
+.vscode/
+.idea/

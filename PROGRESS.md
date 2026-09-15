@@ -1,0 +1,346 @@
+# Dünya Dilleri Merkezi — Web Sitesi Yenileme (Progress & Çalışma Dökümanı)
+
+> Bu döküman canlı bir yol haritasıdır. Her fazın altında amaç, çıktı, kontrol listesi
+> (`- [ ]`) ve kullanılacak AI prompt'ları vardır. Prompt'larda ilgili **skill**'ler
+> parantez içinde belirtilmiştir; o adımda Claude'a bu skill'i kullanmasını söyle.
+
+---
+
+## 0. Proje Kararları (sabit)
+
+- **Stack:** Next.js (App Router, statik/SSG öncelikli). *Not: düz client-side React (CRA/Vite-React tek başına) SEO için uygun değil — sunucu render / statik üretim şart. Next.js bunu verir.*
+- **URL kararı:** `.html` uzantısı kaldırılıyor, temiz URL'e geçiliyor.
+  Örn: `/yabanci-dil-egitimleri/ingilizce-kursu.html` → `/yabanci-dil-egitimleri/ingilizce-kursu`
+- **Slug'lar aynı kalıyor:** sadece uzantı düşüyor, path yapısı birebir korunuyor.
+- **Tasarım dili:** Educore (Webflow) şablonu **görsel referans**. Bilgi mimarisi ondan ALINMAYACAK.
+- **Ölçek:** ~300 sayfa → ~8-9 sayfa tipi.
+- **İçerik:** crawler'dan gelecek, metinler **birebir korunacak** (yeniden yazılmayacak).
+
+### Değişmez SEO ilkeleri (her fazda geçerli)
+- [ ] Her eski `.html` URL'inden yeni temiz URL'e **301 redirect** kurulacak
+- [ ] `title`, `meta description`, `canonical`, `H1` her sayfada eski siteden taşınacak
+- [ ] Gövde metinleri **birebir** korunacak, özetlenmeyecek/yeniden yazılmayacak
+- [ ] İç linkler kök-göreli (`/...`) yazılacak, absolute domain yazılmayacak
+- [ ] Trailing slash kararı tek olacak (öneri: slash'sız) ve tutarlı uygulanacak
+
+---
+
+## Faz 0 — Envanter & İçerik Çıkarımı
+
+**Amaç:** Sitenin tüm sayfalarını, metinlerini ve mevcut SEO verisini tek kaynağa toplamak.
+**Çıktı:** `site_content.md`, `site_content.json`, `urls.csv`
+
+- [ ] `site_crawler.py` çalıştırıldı (`pip install requests beautifulsoup4 lxml`)
+- [ ] `site_content.json` içerik kaynağı olarak elde
+- [ ] `urls.csv` (URL + title + meta + H1 + kelime sayısı) SEO referansı olarak elde
+- [ ] Çıktılar `/data` klasörüne kondu
+
+```bash
+python site_crawler.py https://www.dunyadillerimerkezi.com --max-pages 500 --delay 0.5
+```
+
+---
+
+## Faz 1 — Sayfa Tipi Haritası  ⬅️ SAYFA TİPLERİ BURADA BELİRLENİR
+
+**Amaç:** 300 sayfayı ~8-9 tekrar eden tipe indirgemek. Bu harita tüm projeyi yönetir.
+**Çıktı:** `page-types.md` (tip adı, URL deseni, hangi şablon, kaç sayfa, değişken alanlar)
+
+- [x] `urls.csv` URL desenlerine göre gruplandı
+- [x] Her tip için 1 temsili örnek URL seçildi
+- [x] Her tipin "değişken alanları" (şablonda içerikle değişecek yerler) çıkarıldı
+- [ ] `page-types.md` onaylandı ⬅️ **inceleyip onayını bekliyor** (bkz. `docs/page-types.md`)
+
+### Başlangıç hipotezi (crawl'a göre — Faz 1'de doğrulanacak)
+
+| # | Sayfa tipi | URL deseni (örnek) | ~Adet | Not |
+|---|---|---|---|---|
+| 1 | Ana sayfa | `/` | 1 | Zengin landing |
+| 2 | Kategori/hub | `/sinav-hazirlik-egitimleri` | ~6 | Üst menü açılış sayfaları |
+| 3 | Dil kursu sayfası | `/yabanci-dil-egitimleri/ingilizce-kursu` | ~10 | Diller arası aynı yapı |
+| 4 | Kurs alt/içerik sayfası | `.../ingilizce-kursu/ingilizce-ozel-ders` | çok | Program, Özel Ders, Nedir, Sistem |
+| 5 | Şube kurs tarihi | `.../kadikoy-subesi-...-kurs-tarihi` | çok | Neredeyse birebir tekrar |
+| 6 | Sınav hazırlık kursu | `/sinav-hazirlik-egitimleri/toefl-kursu` | ~15 | + alt sayfalar |
+| 7 | Üniversite proficiency | `.../proficiency-kursu/itu...` | ~30 | Aynı iskelet, farklı üniversite |
+| 8 | Şube tanıtım / iletişim | `/kadikoy-tanitim-sayfasi`, `/ddm-iletisim/...` | ~10 | Adres/harita/iletişim |
+| 9 | Liste sayfası | `/ogrenci-yorumlari`, `/duyurular` | ~birkaç | Kart listesi |
+
+### Prompt — Sayfa tiplerini çıkar
+```
+Ekteki urls.csv ve site_content.md dosyalarını incele. (file-reading skill'ini kullan.)
+Amacım ~300 sayfayı tekrar eden sayfa TİPLERİNE indirgemek.
+
+Yap:
+1. URL desenlerine göre sayfaları grupla, her grup bir "sayfa tipi" olsun.
+2. Her tip için: tip adı, URL deseni, tahmini sayfa sayısı, 1 temsili örnek URL.
+3. Her tipin "değişken alanları"nı çıkar (şablonda içerikle değişecek yerler:
+   ör. dil adı, program listesi, şube adı/tarih, üniversite adı).
+4. Sonucu page-types.md olarak tablo halinde üret.
+
+Uydurma tip ekleme; sadece verideki gerçek URL'lere dayan. Türkçe yaz.
+```
+
+---
+
+## Faz 2 — brand-context.md (Firma Kimliği)
+
+**Amaç:** Marka kimliğini, tonu ve sayfa tiplerini tek referans dosyada toplamak.
+**Çıktı:** `brand-context.md`
+
+- [x] Firma dökümanı + `site_content.md` Claude'a verildi *(firma dökümanı yok, `site_content.json` kullanıldı)*
+- [ ] `brand-context.md` üretildi ⬅️ **gözden geçirmeni bekliyor** (bkz. `docs/brand-context.md`)
+
+### Prompt
+```
+Ekteki firma dökümanını ve site_content.md'yi kullanarak brand-context.md üret.
+İçersin:
+- Firma kimliği: ne yaptığı, kaç yıldır, şubeler, sunulan diller/sınavlar
+- Hedef kitle ve marka tonu (akademik + sıcak/motive edici)
+- Sayfa tipleri listesi (Faz 1'deki page-types.md ile uyumlu) ve her birinin amacı
+- Tekrar eden bileşenler (header/mega menü, footer, kurs kartı, yorum kartı, akordeon)
+
+Uydurma bilgi ekleme; sadece dökümanlarda geçenleri kullan. Türkçe yaz.
+(Word/PDF isteniyorsa docx/pdf skill'ini kullan; md yeterli.)
+```
+
+---
+
+## Faz 3 — Stack Kurulumu + CLAUDE.md
+
+**Amaç:** Next.js iskeletini kurmak ve Claude Code'a operasyonel kuralları vermek.
+**Çıktı:** Çalışan Next.js repo + `CLAUDE.md`
+
+- [x] Next.js projesi kuruldu (App Router, TypeScript) — `ddm-web/`
+- [x] `/data` yapısı belirlendi (`ddm-web/data/site_content.json` + `urls.csv`);
+      ayrı bir `/content` klasörü açılmadı — içerik tek kaynaktan (`data/`) okunacak
+- [x] `CLAUDE.md` yazıldı ve `ddm-web/` köküne kondu
+- [x] `trailingSlash` kararı (`false`) `next.config.ts`'e işlendi
+
+### Prompt — CLAUDE.md üret
+```
+Bu proje mevcut bir Joomla sitesinin (Dünya Dilleri Merkezi) Next.js (App Router)
+ile yeniden yazımı. Bir CLAUDE.md üret; şu kurallar net ve maddeli olsun:
+
+- Stack: Next.js App Router, statik/SSG öncelikli, bileşen tabanlı.
+- URL kuralı: slug'lar eski siteyle birebir aynı, ama .html YOK (temiz URL).
+  Örn dosya yolu: app/yabanci-dil-egitimleri/ingilizce-kursu/page.tsx
+- Eski .html URL'lerinden yeni URL'lere 301 redirect zorunlu (next.config.js redirects).
+- İç linkler kök-göreli (/...) ve <Link> ile; absolute domain YAZMA.
+- İçerik: sayfa metinleri /data/*.json'dan gelecek; metinler ASLA yeniden
+  yazılmayacak/özetlenmeyecek — birebir korunacak (SEO).
+- Her sayfada metadata: title, meta description, canonical, H1 ilgili json'dan.
+- Klasör düzeni, içerik json şeması ve "yeni sayfa nasıl eklenir" akışını tanımla.
+- UI çalışırken frontend-design skill'i kullanılacak.
+```
+
+---
+
+## Faz 4 — Design System (Claude Design Onboarding)
+
+**Amaç:** Educore'un görsel dilinden DDM'ye özel bir tasarım sistemi kurmak.
+**Çıktı:** Claude Design'da kurulu tasarım sistemi (renk, tipografi, bileşenler, header/footer)
+
+- [ ] Educore kodu (satın alınıp export edildiyse) veya ekran görüntüleri hazırlandı
+- [ ] DDM logosu ve varsa fontlar toplandı
+- [ ] Ana renk / renk paleti belirlendi
+- [ ] Claude Design onboarding ekranı dolduruldu (aşağıdaki notlarla)
+
+### Onboarding "Any other notes" metni
+```
+- Görsel dil kaynağı: ekteki Educore Webflow şablonu (yuvarlak köşeli kartlar,
+  pill butonlar, yıldız puanlı yorum grid'i, akordeon, güçlü hero). Renk paleti,
+  tipografi, buton ve kart stilini buradan türet.
+- ÖNEMLİ: Educore tek sayfalık kurs landing page'i; benim sitem ~300 sayfalık,
+  çok kademeli menülü dizin sitesi. Bilgi mimarisini ALMA, sadece görsel dili al.
+- Header'da çok seviyeli mega menü: 7 ana başlık (Yabancı Dil Kursları, İngilizce
+  Kursları, Sınav Hazırlık, Yurtdışı Eğitim, Kurumsal, Diğer Programlar, İletişim),
+  her biri dropdown alt menülü.
+- Header ve footer tüm sayfalarda ortak; önce bunları ve tekrar eden kart/section
+  bileşenlerini oturt.
+- Site Türkçe. Metinler SEO için birebir korunacak.
+- ~8-9 sayfa tipi üreteceğim (page-types.md).
+```
+
+> Renk/font için sabit değer yazma; Claude Design bunları koddan/görselden çıkaracak.
+
+---
+
+## Faz 5 — Şablon Tasarımı (Claude Design'da, GERÇEK içerikle)
+
+**Amaç:** Ana sayfa + en çok tekrar eden 3-4 tipi tasarlamak. **İçeriği sen ver — Design uydurmasın.**
+**Çıktı:** Onaylı tasarımlar (ana sayfa + seçili tipler)
+
+- [ ] Ana sayfa tasarlandı (gerçic içerikle)
+- [ ] Dil kursu sayfası tipi tasarlandı
+- [ ] Şube kurs tarihi sayfası tipi tasarlandı
+- [ ] Üniversite proficiency sayfası tipi tasarlandı
+- [ ] (Gerekiyorsa) diğer tipler tasarlandı
+
+### Prompt — Ana sayfa
+```
+Kurduğumuz design system'i kullanarak Dünya Dilleri Merkezi ana sayfasını tasarla.
+(frontend-design skill'ini kullan.)
+
+İçeriği AŞAĞIDA veriyorum — bu metinleri BİREBİR kullan; metin uydurma, lorem ipsum
+KOYMA:
+[site_content.md'den ana sayfa bölümünü yapıştır: başlıklar, açıklamalar, CTA'lar,
+19 dil kartları, şubeler bölümü, öğrenci yorumları]
+
+Yapısal istekler:
+- Üstte çok seviyeli mega menü (7 ana başlık, dropdown alt menüler)
+- Educore'un görsel dili (kartlar, pill butonlar, section ritmi) ama içerik-yoğun
+  ana sayfaya uyarlanmış
+- Footer: dil kursları listesi, şube bilgileri, çalışma saatleri, sosyal linkler
+```
+
+### Prompt — Bir sayfa tipi şablonu (örnek: dil kursu)
+```
+Aynı design system'le "dil kursu sayfası" TİPİNİN şablonunu tasarla.
+(frontend-design skill'ini kullan.)
+
+Temsili içerik olarak İngilizce Kursu sayfasını kullan (metni ekte, birebir).
+Bu bir ŞABLON: Almanca/Fransızca vb. aynı yapıya farklı içerikle dökülecek.
+Değişken alanları net ayır (dil adı, açıklama, program listesi, şube tarihleri)
+ki koda çevirince veri-tabanlı üretebileyim.
+```
+
+---
+
+## Faz 6 — Koda Aktarım (Handoff) + İçerik Modeli
+
+**Amaç:** Tasarımları repoya almak ve içeriği veriden besleyen yapı kurmak.
+**Çıktı:** Şablonlar Next.js bileşeni; `/data/*.json` içerik şeması
+
+- [ ] Claude Design → **Share → Handoff to Claude Code** paketi alındı
+- [ ] Paket repoya entegre edildi
+- [ ] Şablonlar Next.js bileşenlerine çevrildi
+- [ ] İçerik json şeması kuruldu (`site_content.json`'dan beslenir)
+- [ ] (Opsiyonel) `/design-sync` ile canvas ↔ repo iterasyonu kuruldu
+
+### Prompt — Şablonu bileşene çevir
+```
+Handoff'tan gelen [sayfa tipi] tasarımını bir Next.js (App Router) bileşenine çevir.
+(frontend-design skill'ini kullan.)
+
+- İçeriği /data/[tip].json'dan alsın (props/veri ile).
+- Değişken alanları şablon dışına çıkar (Faz 5'te belirlediğimiz alanlar).
+- metadata (title, description, canonical, H1) json'dan gelsin.
+- İç linkler <Link> ve kök-göreli olsun.
+Önce sadece 1 örnek sayfa çalışsın; onaylayınca çoğaltacağız.
+```
+
+---
+
+## Faz 7 — Sayfaları Tip Tip Üretme
+
+**Amaç:** 300 sayfayı elle değil, şablon + veriden toplu üretmek.
+**Çıktı:** Tüm sayfalar temiz URL'de yayına hazır
+
+- [ ] En kalabalık tip önce (şube kurs tarihi + üniversite proficiency ≈ sayfaların yarısı)
+- [ ] Her tip sırayla üretildi ve gözden geçirildi
+- [ ] Tüm URL'ler eski slug ile eşleşiyor (uzantısız)
+- [ ] Her sayfada metadata + H1 doğru taşındı
+
+### Prompt — Bir tipi toplu üret
+```
+[sayfa tipi] bileşenini kullanarak site_content.json'daki tüm [tip] sayfalarını üret.
+(frontend-design skill'ini kullan.)
+
+Her sayfa için:
+- URL'yi eski path ile eşle ama .html OLMADAN
+  (ör. /yabanci-dil-egitimleri/ingilizce-kursu)
+- title / meta description / canonical / H1'i o sayfanın verisinden al
+- gövde metnini BİREBİR koru, yeniden yazma
+Önce 2-3 örnek üret, doğruluğunu kontrol edeyim, sonra kalanını toplu üret.
+```
+
+---
+
+## Faz 8 — 301 Redirect Haritası + SEO Taşıma
+
+**Amaç:** `.html` → temiz URL geçişinde SEO değerini korumak. **Bu fazın atlanması = trafik kaybı.**
+**Çıktı:** Çalışan 301'ler, taşınmış metadata, güncel sitemap
+
+- [ ] `next.config.js` içinde `.html` → temiz URL 301 kuralı eklendi
+- [ ] `urls.csv`'deki tüm eski URL'ler yeni URL'e eşleşiyor (istisnalar kontrol edildi)
+- [ ] title/meta/canonical/H1 taşındı ve doğrulandı
+- [ ] `sitemap.xml` (yeni temiz URL'lerle) üretildi
+- [ ] `robots.txt` doğru
+- [ ] Search Console'a yeni sitemap gönderildi
+
+### En elegan yol — tek kural (doğrula)
+```js
+// next.config.js
+module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/:path*.html',   // tüm .html'ler
+        destination: '/:path*',    // uzantısız haline
+        permanent: true,           // 301
+      },
+    ];
+  },
+};
+```
+> Bu tek kural slug'lar aynı kaldığı için çoğu URL'i kapsar. **Ama mutlaka test et**
+> ve slug'ı değişen/istisna URL'ler için `urls.csv`'den açık bir eşleme listesi
+> (old → new) tut. İstersen `urls.csv`'den otomatik redirect listesi üreten küçük
+> bir script yazılabilir.
+
+### Prompt — Redirect + metadata taşıma
+```
+Ekteki urls.csv'yi kullan. (file-reading skill'ini kullan.)
+1. Her eski .html URL'i için yeni temiz URL'i hesapla (aynı path, .html'siz).
+2. next.config.js için 301 redirect yapısını üret; genel kural + istisnalar ayrı.
+3. Her sayfanın title/meta/canonical/H1 değerlerini yeni sayfalara eşleyen bir
+   kontrol listesi çıkar (eksik/boş olanları işaretle).
+Türkçe açıklama ekle.
+```
+
+---
+
+## Faz 9 — Yayın Öncesi QA + Yayın + İzleme
+
+**Amaç:** Güvenli yayın ve erken hata yakalama.
+**Çıktı:** Canlı site + izleme
+
+- [ ] Staging'de `noindex` / robots disallow **kaldırıldığı** doğrulandı (en sık ölümcül hata)
+- [ ] Core Web Vitals eski siteden kötü değil (görsel boyutları, lazy-load)
+- [ ] Yeni site crawl edildi; eski/yeni `urls.csv` diff'i yapıldı (kaybolan URL yok)
+- [ ] 301'ler canlıda çalışıyor (birkaç eski `.html` linki elle test edildi)
+- [ ] Analytics + Search Console kodları yeni sitede
+- [ ] Yayın sonrası 2-4 hafta Search Console (Sayfalar + Performans) takibi
+
+### Prompt — Yayın öncesi denetim
+```
+Yeni siteyi (staging URL) denetlemek için bir kontrol yap:
+- noindex/robots durumunu kontrol et
+- birkaç eski .html URL'inin 301 ile doğru yeni URL'e gittiğini doğrula
+- title/meta/canonical/H1 örnek sayfalarda dolu mu bak
+- eski urls.csv ile yeni site URL listesini karşılaştır, eksikleri raporla
+Bulguları madde madde ver.
+```
+
+---
+
+## Faz Bağımlılık Sırası (özet)
+
+```
+Faz 0 (crawl)
+   └─> Faz 1 (sayfa tipleri)   ← tüm proje buna bağlı
+          ├─> Faz 2 (brand-context.md)
+          ├─> Faz 3 (stack + CLAUDE.md)
+          └─> Faz 4 (design system)
+                 └─> Faz 5 (şablon tasarımı, gerçek içerik)
+                        └─> Faz 6 (handoff + içerik modeli)
+                               └─> Faz 7 (sayfaları üret)
+                                      └─> Faz 8 (301 + SEO)
+                                             └─> Faz 9 (QA + yayın)
+```
+
+## En kritik 4 nokta (unutulursa iş bozulur)
+1. **Sayfa tipleri Faz 1'de** — tasarımdan önce.
+2. **İçeriği Claude Design'a uydurtma** — gerçek metni sen ver.
+3. **Her tip ayrı şablon** — "ana sayfaya bakarak yap" deme.
+4. **`.html` → temiz URL için 301 şart** — Faz 8 atlanamaz.
