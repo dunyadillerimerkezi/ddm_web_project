@@ -203,3 +203,18 @@ olduğu teyit edilemedi** — Faz 4'te ekran görüntüsüyle doğrulanmalı.
    Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca, Arapça,
    Farsça) için ayrı kurs sayfası crawl'da bulunamadı — bu diller gerçekten
    aktif mi sunuluyor yoksa sadece anasayfada mı anılıyor, teyit edilmeli.
+
+## Marka Renkleri
+
+Renkler:
+- Primary: Lacivert #2A2D7C  (ana buton/CTA rengi bu kalacak)
+- Zemin/nötr: Beyaz #FFFFFF
+- Aksan: Laciverte yakın, mavi ailesinden açık bir ton. İki yön
+  öneriyorum, ekranda deneyip finalize et:
+    * uyumlu/yumuşak yön: ~#6B6FD8 (laciverten türetilmiş menekşe-mavi)
+    * canlı/vurgu yönü: ~#2E9BD6 (açık gök mavisi)
+  Aksanı link, hover, rozet, küçük vurgular için kullan; beyaz yazılı
+  dolu butonlarda kontrast düşük kalabileceği için ana CTA lacivert olsun.
+- Bu üç renkten tam palet türet: gri skalası, arka plan tonları,
+  kenarlık ve metin renkleri, lacivert hover/koyu varyantları,
+  ve başarı/hata/uyarı için semantik renkler. Sarı KULLANMA.
