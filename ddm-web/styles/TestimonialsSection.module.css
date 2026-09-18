@@ -1,0 +1,29 @@
+/* ---------------------------------------------------------------
+ * TestimonialsSection — bölüm 9
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 9.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.inner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2);
+  line-height: 1.14;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}

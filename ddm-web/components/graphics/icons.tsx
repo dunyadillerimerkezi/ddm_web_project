@@ -88,6 +88,59 @@ export const ICONS = {
       <circle cx="15.5" cy="13.5" r="1" />
     </>
   ),
+  /* ---- Ana Sayfa (Faz 6.3) ekleri — geometriler kaynak şablondan birebir ---- */
+  dunya: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18" />
+    </>
+  ),
+  foto: (
+    <>
+      <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+      <circle cx="8" cy="10" r="2" />
+      <path d="M3 17l5-4 3.5 3 3-2.5 6 4.5" />
+    </>
+  ),
+  belge: (
+    <>
+      <path d="M6 3h9l4 4v14H6z" strokeLinejoin="round" />
+      <path d="M15 3v4h4M9.5 13.5l2 2 3.5-4" />
+    </>
+  ),
+  sohbet: (
+    <>
+      <path d="M3 6a2 2 0 012-2h9a2 2 0 012 2v5a2 2 0 01-2 2H8l-4 4v-4H5a2 2 0 01-2-2V6z" />
+      <path d="M19 8h1a2 2 0 012 2v5a2 2 0 01-2 2h-1v3l-3-3" />
+    </>
+  ),
+  kupa: (
+    <>
+      <circle cx="12" cy="9" r="5.5" />
+      <path d="M8.5 13.5L7 22l5-2.6L17 22l-1.5-8.5" strokeLinejoin="round" />
+    </>
+  ),
+  mezuniyet: (
+    <>
+      <path d="M3 7l9-4 9 4-9 4-9-4z" strokeLinejoin="round" />
+      <path d="M6 9.5v5c0 2 2.7 3.5 6 3.5s6-1.5 6-3.5v-5M21 7v6" />
+    </>
+  ),
+  aktivite: (
+    <>
+      <rect x="2.5" y="4.5" width="19" height="16" rx="2.5" />
+      <path d="M2.5 9.5h19M8 2.5v4M16 2.5v4" />
+      <circle cx="9" cy="14" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="14" r="1.4" fill="currentColor" stroke="none" />
+      <path d="M7.5 17.5c1-.9 2.2-1.3 4.5-1.3s3.5.4 4.5 1.3" />
+    </>
+  ),
+  duyuru: (
+    <>
+      <path d="M4 10v4a1 1 0 001 1h2.5l5.5 4V5L7.5 9H5a1 1 0 00-1 1z" strokeLinejoin="round" />
+      <path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" />
+    </>
+  ),
 } satisfies Record<string, ReactNode>;
 
 export type IconName = keyof typeof ICONS;

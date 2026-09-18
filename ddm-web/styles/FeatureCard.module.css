@@ -1,0 +1,70 @@
+/* ---------------------------------------------------------------
+ * FeatureCard — yatay kart, hero'nun iki küçük kartı
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 1.
+ * ------------------------------------------------------------- */
+.card {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
+  padding: clamp(20px, 2.2vw, 28px);
+  display: flex;
+  gap: 18px;
+  flex: 1;
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.media {
+  flex: none;
+  width: clamp(88px, 11vw, 132px);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h3);
+  line-height: 1.2;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+}
+
+.text {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  line-height: 1.65;
+  color: var(--ddm-gray-600);
+  flex: 1;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.link:hover {
+  color: var(--ddm-primary);
+}
+
+.linkInert {
+  display: inline-flex;
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-gray-500);
+}

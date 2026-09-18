@@ -1,0 +1,117 @@
+/* ---------------------------------------------------------------
+ * VideoPromo — bölüm 8
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 8.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.inner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: clamp(22px, 3vw, 32px);
+  text-align: center;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  max-width: 24ch;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2);
+  line-height: 1.14;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.cover {
+  display: block;
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  border-radius: clamp(16px, 2.2vw, 24px);
+  overflow: hidden;
+  background: var(--ddm-navy-900);
+  box-shadow: var(--shadow-lg);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+  transition: transform 0.5s ease;
+}
+
+.cover:hover .image {
+  transform: scale(1.05);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(22, 24, 74, 0.32) 0%, rgba(22, 24, 74, 0.74) 100%);
+}
+
+.playButton {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(62px, 8vw, 88px);
+  height: clamp(62px, 8vw, 88px);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-white);
+  color: var(--ddm-primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.pulseRing {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(62px, 8vw, 88px);
+  height: clamp(62px, 8vw, 88px);
+  margin-left: calc(clamp(62px, 8vw, 88px) / -2);
+  margin-top: calc(clamp(62px, 8vw, 88px) / -2);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--ddm-white);
+  animation: ddmPulse 2.6s ease-out infinite;
+  pointer-events: none;
+}
+
+.caption {
+  position: absolute;
+  left: clamp(20px, 3vw, 32px);
+  bottom: clamp(20px, 3vw, 32px);
+  right: clamp(20px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.captionTitle {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: clamp(17px, 2.2vw, 23px);
+  color: var(--ddm-white);
+}
+
+.captionSub {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-sky-100);
+}

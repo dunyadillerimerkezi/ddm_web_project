@@ -11,3 +11,4 @@ export {
   DAYS,
 } from "./Primitives";
 export type { BadgeVariant, DayKey } from "./Primitives";
+export { Carousel } from "./Carousel";

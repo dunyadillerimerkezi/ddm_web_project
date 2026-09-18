@@ -1,0 +1,81 @@
+/* ---------------------------------------------------------------
+ * CtaBand — alt CTA şeridi (paylaşılan bileşen)
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 11.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-gray-50);
+  padding: 0 var(--ddm-gutter) clamp(48px, 7vw, 88px);
+}
+
+.sectionLight {
+  composes: section;
+  background: var(--ddm-white);
+}
+
+.panel {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  background: var(--ddm-primary);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-cta);
+  padding: clamp(26px, 3.4vw, 42px) clamp(22px, 3vw, 40px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: clamp(20px, 2.4vw, 27px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--ddm-white);
+}
+
+.sub {
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-navy-cta-sub);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.secondary,
+.secondaryInert {
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+  padding: 15px 22px;
+}
+
+.secondary {
+  color: var(--ddm-white);
+  background: transparent;
+  border: 1.5px solid var(--ddm-navy-cta-border);
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.secondary:hover {
+  background: var(--ddm-navy-700);
+  border-color: var(--ddm-white);
+}
+
+.secondaryInert {
+  color: var(--ddm-navy-300);
+  border: 1.5px solid var(--ddm-navy-500);
+}

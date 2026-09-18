@@ -1,0 +1,140 @@
+/* ---------------------------------------------------------------
+ * MediaCard — hero büyük kart + "Diğer Programlar" kartı
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 1 ve bölüm 7.
+ * ------------------------------------------------------------- */
+
+/* --- hero varyantı --- */
+
+.cardHero {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+
+.cardHero:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hero-hover);
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-sky-ink);
+}
+
+.heroTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2-card);
+  line-height: 1.18;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.cta {
+  align-self: flex-start;
+}
+
+.ctaInert {
+  align-self: flex-start;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ddm-gray-500);
+}
+
+/* --- program varyantı --- */
+
+.cardProgram {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease,
+    border-color var(--duration-base) ease;
+}
+
+.cardProgram:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--ddm-sky-line);
+}
+
+.cardInert {
+  cursor: default;
+}
+
+.num {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--ddm-white);
+  background: var(--ddm-primary);
+  border-radius: var(--radius-sm);
+  padding: 5px 9px;
+}
+
+.progTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--ddm-navy-900);
+}
+
+.discover {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+/* --- ortak --- */
+
+.media {
+  position: relative;
+}
+
+.body {
+  padding: clamp(24px, 2.6vw, 34px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.cardProgram .body {
+  padding: 24px;
+  gap: 11px;
+}
+
+.text {
+  margin: 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-600);
+  flex: 1;
+}
+
+.cardProgram .text {
+  font-size: var(--ddm-text-body);
+}

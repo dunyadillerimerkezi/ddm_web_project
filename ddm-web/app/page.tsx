@@ -1,18 +1,70 @@
+import type { Metadata } from "next";
 import { SiteChrome } from "@/components/layout";
+import { HomeHero } from "@/components/sections/HomeHero";
+import { StatStrip } from "@/components/sections/StatStrip";
+import { ExamSection } from "@/components/sections/ExamSection";
+import { AbroadSection } from "@/components/sections/AbroadSection";
+import { LanguageGrid } from "@/components/sections/LanguageGrid";
+import { BranchSection } from "@/components/sections/BranchSection";
+import { OtherProgramsSection } from "@/components/sections/OtherProgramsSection";
+import { VideoPromo } from "@/components/sections/VideoPromo";
+import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { LettersSection } from "@/components/sections/LettersSection";
+import { CtaBand } from "@/components/sections/CtaBand";
+import { HOME_STATS, HOME_CTA_BAND } from "@/data/home";
+import { absoluteUrl } from "@/lib/site";
+import siteContent from "@/data/site_content.json";
 
 /**
- * Ana Sayfa — Faz 6 Aşama 6'da doldurulacak.
- * Şimdilik yalnız ortak çerçeveyi (üst bar, header, footer, mobil çubuk)
- * render ediyor; gövde Aşama 6'da HomeHero ve diğer bölümlerle gelecek.
+ * CLAUDE.md §6: title/description/canonical `data/site_content.json`'daki
+ * "/" kaydından — elle yazılmaz. Kayıtta `canonical` boş (eski sitede yoktu)
+ * → `absoluteUrl("/")` üretir.
+ */
+const HOME_RECORD = siteContent.find(
+  (record) => record.url.replace(/\/$/, "") === "https://www.dunyadillerimerkezi.com",
+);
+
+if (!HOME_RECORD) {
+  throw new Error("site_content.json içinde Ana Sayfa (\"/\") kaydı bulunamadı.");
+}
+
+export const metadata: Metadata = {
+  title: HOME_RECORD.title,
+  description: HOME_RECORD.meta_description,
+  alternates: { canonical: absoluteUrl("/") },
+};
+
+/**
+ * Ana Sayfa — Faz 6.3.
+ *
+ * Kaynak: `docs/design-refs/DDM_Tasarım_Sistemi_faz5/DDM Ana Sayfa.dc.html`.
+ *
+ * H1 kararı: sayfada tek h1 (`HomeHero`), metni tasarımın hero başlığı.
+ * `HOME_RECORD.headings`'teki dört ayrı h1 ("Yabancı Dil Programları",
+ * "Sınav Hazırlık Kursları", "Yurtdışı Dil Eğitimi", "Yurtdışı Eğitim")
+ * bilinçli olarak taşınmadı — CLAUDE.md §6'dan bu sapma PROGRESS.md'de not.
  *
  * Ana Sayfa'nın header CTA'sı tasarımda "İletişim" → #iletisim.
  */
 export default function Home() {
   return (
     <SiteChrome ctaLabel="İletişim" ctaHref="#iletisim">
-      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "64px 28px" }}>
-        <p>Ana sayfa gövdesi Aşama 6&apos;da eklenecek.</p>
-      </div>
+      <HomeHero />
+      <StatStrip items={HOME_STATS} />
+      <ExamSection />
+      <AbroadSection />
+      <LanguageGrid />
+      <BranchSection />
+      <OtherProgramsSection />
+      <VideoPromo />
+      <TestimonialsSection />
+      <LettersSection />
+      <CtaBand
+        title={HOME_CTA_BAND.title}
+        sub={HOME_CTA_BAND.sub}
+        primary={HOME_CTA_BAND.primary}
+        secondary={HOME_CTA_BAND.secondary}
+      />
     </SiteChrome>
   );
 }

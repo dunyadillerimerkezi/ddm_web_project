@@ -1,0 +1,141 @@
+/* ---------------------------------------------------------------
+ * LanguageCard — dil kursları ızgarası kartı
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 5.
+ * ------------------------------------------------------------- */
+.card {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease,
+    border-color var(--duration-base) ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--ddm-sky-line);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--ddm-sky-bg);
+  border-bottom: 1px solid var(--ddm-border-card);
+}
+
+.flagChip {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 40px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1.5px solid var(--ddm-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  animation: ddmFloat 5s ease-in-out infinite;
+  display: block;
+}
+
+.body {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.codeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-sky-ink);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 13px;
+  flex: none;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-h4);
+  line-height: 1.25;
+  color: var(--ddm-navy-900);
+}
+
+.details {
+  margin-top: auto;
+}
+
+.summary {
+  list-style: none;
+  font-family: var(--ddm-font-body);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+  background: var(--ddm-sky-table-head);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-md);
+  padding: 11px 13px;
+  cursor: pointer;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  background: var(--ddm-sky-bg);
+}
+
+.caret {
+  transition: transform var(--duration-fast) ease;
+}
+
+.details[open] .caret {
+  transform: rotate(180deg);
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+}
+
+.link,
+.linkInert {
+  font-size: var(--ddm-text-body-s);
+  padding: 9px 0;
+  border-top: 1px solid var(--ddm-gray-divider);
+}
+
+.link {
+  color: var(--ddm-gray-600);
+}
+
+.link:hover {
+  color: var(--ddm-sky-ink);
+}
+
+.linkInert {
+  color: var(--ddm-gray-400);
+}

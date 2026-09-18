@@ -57,6 +57,16 @@
   --ddm-sky-slot-text: #5f93b3; /* görsel yuvası etiketi */
   --ddm-sky-slot-line: #c3d9e8; /* görsel yuvası kesikli kenarlık */
   --ddm-sky-table-head: #f7fafc; /* tablo başlık zemini */
+  --ddm-sky-250: #d8edf9; /* Ana Sayfa: logosuz sınav rozeti kenarlığı */
+
+  /* Ana Sayfa (Faz 6.3) şablonundaki ek tonlar — yukarıdaki --ddm-sky-slot*
+   * ailesinden farklı, mevcut değerler değiştirilmedi. */
+  --ddm-sky-slot-dash: #bedcef; /* kesikli yuva kenarlığı — hero, yurtdışı, sınav logo */
+  --ddm-sky-slot-sub: #8ca9bb; /* yuva ikincil metni */
+  --ddm-sky-slot-icon: #7fa9c4; /* yuva ikon rengi */
+  --ddm-sky-veil: rgba(46, 155, 214, 0.18); /* sayaç ikon kutusu zemini */
+  --ddm-hero-glow: rgba(46, 155, 214, 0.3); /* hero arka plan glow */
+  --ddm-on-dark-veil: rgba(255, 255, 255, 0.08); /* koyu zeminde akreditasyon rozeti */
 
   /* ---------------------------------------------------------------
    * 3 · NÖTR — laciverte çalan soğuk gri
@@ -72,6 +82,13 @@
   --ddm-gray-200: #e4e5e9; /* kart kenarlığı */
   --ddm-gray-100: #efeff2; /* ayırıcı, ince zemin */
   --ddm-gray-50: #f7f7f9; /* sayfa zemini */
+
+  /* Ana Sayfa (Faz 6.3) ek tonlar */
+  --ddm-gray-25: #fcfcfd; /* yurtdışı program paneli zemini */
+  --ddm-gray-divider: #f2f2f5; /* dil kartı alt link ayırıcısı */
+  --ddm-slot-stripe-a: #e9edf2; /* şube kartı çizgili yer tutucu — zemin */
+  --ddm-slot-stripe-b: #edf2f6; /* şube kartı çizgili yer tutucu — açık şerit */
+  --ddm-slot-stripe-c: #e6edf3; /* şube kartı çizgili yer tutucu — koyu şerit */
 
   /* Sayfa şablonlarında ayrıca kullanılan iki ton */
   --ddm-border-card: #e8e9ed; /* kart kenarlığı (sayfalar) */
@@ -124,6 +141,8 @@
   --ddm-text-h2: clamp(26px, 3.6vw, 38px); /* ana bölüm başlığı */
   --ddm-text-h2-sm: clamp(24px, 3.2vw, 34px); /* alt bölüm başlığı */
   --ddm-text-h2-xs: clamp(20px, 2.4vw, 26px); /* iç link ağı başlığı */
+  --ddm-text-h2-card: clamp(24px, 2.6vw, 30px); /* Ana Sayfa: hero büyük kart başlığı */
+  --ddm-text-stat: clamp(30px, 3.6vw, 42px); /* Ana Sayfa: sayaç şeridi rakamı */
   --ddm-text-h3: clamp(19px, 2.2vw, 24px);
   --ddm-text-h4: 19px;
   --ddm-text-h5: 17.5px;
@@ -181,6 +200,7 @@
   --radius-md: 12px;
   --radius-lg: 14px;
   --radius-xl: 20px;
+  --radius-card: 22px; /* Ana Sayfa: en sık tekrar eden kart köşesi (dil/sınav/testimonial kartı) */
   --radius-2xl: 24px;
   --radius-3xl: 28px;
   --radius-pill: 999px;
@@ -193,6 +213,7 @@
   --shadow-card: 0 10px 30px rgba(22, 24, 74, 0.09); /* header, kart */
   --shadow-lift: 0 14px 40px rgba(22, 24, 74, 0.1); /* hero kart */
   --shadow-hover: 0 18px 44px rgba(22, 24, 74, 0.13); /* büyük kart hover */
+  --shadow-hero-hover: 0 24px 58px rgba(22, 24, 74, 0.16); /* hero kart hover */
   --shadow-lg: 0 18px 48px rgba(22, 24, 74, 0.14); /* drawer */
   --shadow-menu: 0 22px 54px rgba(22, 24, 74, 0.16); /* mega menü */
   --shadow-cta: 0 16px 44px rgba(42, 45, 124, 0.22); /* lacivert CTA bandı */

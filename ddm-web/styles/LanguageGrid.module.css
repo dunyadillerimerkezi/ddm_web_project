@@ -1,0 +1,104 @@
+/* ---------------------------------------------------------------
+ * LanguageGrid — bölüm 5
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 5.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.inner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 44px);
+  align-items: center;
+  margin-bottom: clamp(26px, 3vw, 40px);
+}
+
+@media (max-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  max-width: 62ch;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2);
+  line-height: 1.14;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--ddm-text-lead);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-600);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(276px, 1fr));
+  gap: var(--ddm-gap-card);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: clamp(24px, 3vw, 34px);
+}
+
+.toggle {
+  font-family: var(--ddm-font-body);
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ddm-primary);
+  background: var(--ddm-white);
+  border: 1.5px solid var(--ddm-border-button);
+  border-radius: var(--radius-lg);
+  padding: 15px 24px;
+  cursor: pointer;
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.toggle:hover {
+  background: var(--ddm-sky-bg);
+  border-color: var(--ddm-sky-line);
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.cta:hover {
+  color: var(--ddm-primary);
+}

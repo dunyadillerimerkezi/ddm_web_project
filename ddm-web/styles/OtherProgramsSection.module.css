@@ -1,0 +1,38 @@
+/* ---------------------------------------------------------------
+ * OtherProgramsSection — bölüm 7
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 7.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.inner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: clamp(26px, 3vw, 38px);
+  max-width: 70ch;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2);
+  line-height: 1.14;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--ddm-gap-card);
+  margin-bottom: clamp(26px, 3vw, 34px);
+}

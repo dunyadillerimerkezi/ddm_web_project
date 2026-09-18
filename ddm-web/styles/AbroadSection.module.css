@@ -1,0 +1,142 @@
+/* ---------------------------------------------------------------
+ * AbroadSection — bölüm 4
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 4.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.grid {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: clamp(28px, 3.5vw, 48px);
+  align-items: center;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2);
+  line-height: 1.14;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.panel {
+  background: var(--ddm-navy-900);
+  border-radius: var(--radius-card);
+  padding: clamp(22px, 2.6vw, 30px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.panelText {
+  margin: 0;
+  font-size: var(--ddm-text-lead);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-navy-body);
+}
+
+.badges {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 16px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-on-dark-veil);
+  border: 1px solid var(--ddm-navy-500);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  color: var(--ddm-white);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-base);
+  flex: none;
+}
+
+.note {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-navy-300);
+}
+
+.cta {
+  align-self: flex-start;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  background: var(--ddm-sky-bg);
+}
+
+.programs {
+  background: var(--ddm-gray-25);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+}
+
+.programList {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.programLink,
+.programLinkInert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ddm-gray-800);
+  padding: 13px 10px;
+  margin: 0 -10px;
+  border-radius: var(--radius-md);
+  border-bottom: 1px solid var(--ddm-gray-divider);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease,
+    padding-left var(--duration-fast) ease;
+}
+
+.programLink:hover {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-sky-ink);
+  padding-left: 14px;
+}
+
+.programLinkInert {
+  color: var(--ddm-gray-400);
+}

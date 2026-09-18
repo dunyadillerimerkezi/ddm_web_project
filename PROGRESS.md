@@ -242,10 +242,25 @@ ki koda çevirince veri-tabanlı üretebileyim.
       Button ailesi (5 varyant × 4 ölçü) · Kicker · SectionHeading · Badge ·
       DayBadge · IconButton · ImageSlot · DataMissingNotice · Icon kaydı ·
       Illustration
-- [ ] **6.3 · Ana Sayfa** (1 sayfa)
+- [x] **6.3 · Ana Sayfa** (1 sayfa)
       HomeHero · MediaCard · FeatureCard · StatStrip · Carousel ·
-      CourseChipCard · BranchCard · TestimonialCard · video bloğu ·
-      19 dilli ızgara + Flag seti · CtaBand
+      CourseChipCard · BranchCard · TestimonialCard · VideoPromo ·
+      LanguageGrid + LanguageGlobe + Flag seti (9 bayrak) · CtaBand.
+      `npm run build` / `lint` / `tsc --noEmit` temiz; `npm run dev`'de
+      1339px ve 999px altı elle doğrulandı.
+      **Not — CLAUDE.md §6'dan bilinçli sapma:** kaynak `site_content.json`
+      kaydında dört ayrı `h1` var ("Yabancı Dil Programları", "Sınav Hazırlık
+      Kursları", "Yurtdışı Dil Eğitimi", "Yurtdışı Eğitim" — eski sitenin
+      SEO kusuru). Tasarım tek h1 öngörüyordu; kullanıcı onayıyla hero'nun
+      büyük başlığı ("19 dilde eğitim, 2003'ten bugüne...") tek h1 yapıldı,
+      diğer dördü h2/h3'e indirgendi.
+      **Diğer düzeltmeler:** `lib/nav.ts`'te Mektuplar linki `/ogrenci-yorumlari`'na
+      bağlandı (kullanıcı onayı — canlı sitenin fiilî davranışı) ve "Yabancı
+      Dil" mega menü promoLink'i `/yabanci-dil` hub'ına düzeltildi (önceki
+      hedef `/yabanci-dil-egitimleri/...` bir sayfa değil, yalnız dizin öneki).
+      10 görsel dosya adı ASCII'ye çevrildi (`git mv`). `tokens.css`'e Ana
+      Sayfa'ya özel ~20 token, `globals.css`'e `ddmSpin`/`ddmChip` keyframe'leri,
+      ikon kaydına 8 yeni ikon eklendi.
 - [ ] **6.4 · Dil Kursu Ana** (10 sayfa)
       PageHero · Breadcrumb · ProgressTrack (CEFR seviyeleri) · FilterPills ·
       ScheduleTable · Accordion (SSS) · `data/languages.ts`

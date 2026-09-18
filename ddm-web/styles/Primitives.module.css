@@ -87,9 +87,9 @@
 /** Koyu hero üzerinde vurgulu rozet. */
 .badgeAccent {
   composes: badge;
-  background: rgba(46, 155, 214, 0.18);
+  background: var(--ddm-sky-veil);
   border: 1px solid var(--ddm-sky-base);
-  color: var(--ddm-white);
+  color: var(--ddm-sky-100);
 }
 
 /** Koyu hero üzerinde sakin rozet. */
@@ -195,6 +195,24 @@
 .slotSpec {
   font-size: var(--ddm-text-caption);
   color: var(--ddm-sky-slot-text);
+}
+
+.slot2xl {
+  composes: slot;
+  border-radius: var(--radius-2xl);
+}
+
+/** Gerçek görsel geldiğinde — next/image `fill`, üst öğe boyutu belirler. */
+.slotImage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--ddm-gray-100);
+}
+
+.slotImage2xl {
+  composes: slotImage;
+  border-radius: var(--radius-2xl);
 }
 
 /* ---------------------------------------------------------------

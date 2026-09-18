@@ -1,4 +1,5 @@
 import type { ComponentProps, ReactNode } from "react";
+import Image from "next/image";
 import type { ImageSlotData } from "@/lib/types";
 import { Icon } from "@/components/graphics/Icon";
 import styles from "@/styles/Primitives.module.css";
@@ -105,21 +106,49 @@ export function DataMissingNotice({
 
 /* ---------------------------------------------------------------
  * ImageSlot
+ *
+ * `slot.src` doluysa gerçek görsel `next/image` ile (radius/oran korunur);
+ * boşsa kesikli yer tutucu (CLAUDE.md §5: eksik veri uydurulmaz).
  * ------------------------------------------------------------- */
 export function ImageSlot({
   slot,
   name,
   minHeight,
+  radius = "xl",
+  sizes = "100vw",
+  priority,
 }: {
   slot: ImageSlotData;
   /** Yuvanın kod adı: "sube-foto", "sube-harita"... */
   name?: string;
   minHeight?: number;
+  /** Köşe yarıçapı — çağıran bileşenin kendi kart radius'una uyar. */
+  radius?: "xl" | "2xl";
+  /** `next/image` `sizes` — gerçek görsel varsa kullanılır. */
+  sizes?: string;
+  /** Hero gibi LCP adayı görseller için: `loading="eager"` + yüksek öncelik. */
+  priority?: boolean;
 }) {
-  // Gerçek görsel geldiğinde burada next/image render edilecek (Aşama 7).
+  const radiusCls = radius === "2xl" ? styles.slotImage2xl : styles.slotImage;
+
+  if (slot.src) {
+    return (
+      <div className={radiusCls} style={{ aspectRatio: slot.ratio.replace("/", " / "), minHeight }}>
+        <Image
+          src={slot.src}
+          alt={slot.alt}
+          fill
+          sizes={sizes}
+          style={{ objectFit: "cover" }}
+          {...(priority ? { loading: "eager" as const, fetchPriority: "high" as const } : {})}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
-      className={styles.slot}
+      className={radius === "2xl" ? styles.slot2xl : styles.slot}
       style={{ aspectRatio: slot.ratio.replace("/", " / "), minHeight }}
       role="img"
       aria-label={slot.alt}

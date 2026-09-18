@@ -25,7 +25,8 @@ export const NAV_ITEMS: NavItem[] = [
     short: "Yabancı Dil",
     label: "YABANCI DİL KURSLARI",
     promoTitle: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz.",
-    promoLink: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: `${YD}/ingilizce-kursu` },
+    // Hub sayfası "/yabanci-dil" — YD yalnız bir dizin öneki, sayfa değil.
+    promoLink: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "/yabanci-dil" },
     columns: [
       {
         title: "DİLLER",
@@ -169,8 +170,9 @@ export const NAV_ITEMS: NavItem[] = [
       {
         title: "İÇERİKLER",
         items: [
-          // "Mektuplar" eski sitede ayrı sayfa DEĞİL — link üretilmiyor.
-          { label: "Mektuplar", href: null },
+          // "Mektuplar" eski sitede ayrı sayfa DEĞİL; canlı sitede bu kart
+          // fiilen /ogrenci-yorumlari'na bağlanıyor — aynı hedef korunuyor.
+          { label: "Mektuplar", href: "/ogrenci-yorumlari" },
           { label: "Aktiviteler", href: "/aktivite-aktiviteler" },
           { label: "Duyurular", href: "/duyurular" },
         ],

@@ -124,6 +124,27 @@ textarea {
   }
 }
 
+@keyframes ddmSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ddmChip {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(3px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

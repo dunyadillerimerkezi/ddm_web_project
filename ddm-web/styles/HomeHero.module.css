@@ -1,0 +1,78 @@
+/* ---------------------------------------------------------------
+ * HomeHero — Ana Sayfa bölüm 1
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 1.
+ * ------------------------------------------------------------- */
+.section {
+  position: relative;
+  background: var(--ddm-navy-900);
+  padding: clamp(24px, 4vw, 48px) var(--ddm-gutter) clamp(40px, 5vw, 64px);
+  overflow: clip;
+}
+
+.glow {
+  position: absolute;
+  left: 50%;
+  top: -120px;
+  transform: translateX(-50%);
+  width: min(900px, 90vw);
+  height: 420px;
+  background: radial-gradient(ellipse at center, var(--ddm-hero-glow) 0%, rgba(46, 155, 214, 0) 70%);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.intro {
+  max-width: 64ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-base);
+  flex: none;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h1-home);
+  line-height: 1.07;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-white);
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--ddm-text-lead-lg);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-navy-200);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  gap: clamp(16px, 1.8vw, 22px);
+}
+
+.featureCol {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 1.8vw, 22px);
+}
+
+@media (max-width: 1180px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

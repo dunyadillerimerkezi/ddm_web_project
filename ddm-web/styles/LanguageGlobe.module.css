@@ -1,0 +1,146 @@
+/* ---------------------------------------------------------------
+ * LanguageGlobe — bölüm 5 dekoratif küre
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 5.
+ * ------------------------------------------------------------- */
+.wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  max-width: 420px;
+  width: 100%;
+  justify-self: center;
+}
+
+.glow {
+  position: absolute;
+  inset: -6%;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(46, 155, 214, 0.2) 0%,
+    rgba(46, 155, 214, 0.08) 45%,
+    rgba(46, 155, 214, 0) 72%
+  );
+}
+
+.ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 62%;
+  height: 62%;
+  margin: -31% 0 0 -31%;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--ddm-sky-line);
+  animation: ddmRing 4.6s ease-out infinite;
+}
+
+.ringDelayed {
+  animation-delay: 2.3s;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.spin {
+  transform-origin: 100px 100px;
+  animation: ddmSpin 48s linear infinite;
+}
+
+.chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  box-shadow: var(--shadow-md);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-navy-900);
+  animation: ddmChip 6s ease-in-out infinite;
+}
+
+.chipFlag {
+  border-radius: 3px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.chipEn {
+  left: 2%;
+  top: 18%;
+  animation-delay: 0s;
+}
+
+.chipDe {
+  right: 0%;
+  top: 8%;
+  animation-delay: 0.8s;
+}
+
+.chipFr {
+  right: -2%;
+  top: 46%;
+  animation-delay: 1.6s;
+}
+
+.chipRu {
+  left: -2%;
+  bottom: 26%;
+  animation-delay: 2.4s;
+}
+
+.chipEs {
+  right: 8%;
+  bottom: 8%;
+  animation-delay: 3.2s;
+}
+
+.chipTr {
+  left: 24%;
+  bottom: 0%;
+  background: var(--ddm-primary);
+  border: none;
+  color: var(--ddm-white);
+  animation-delay: 4s;
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.centerValue {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: clamp(26px, 3vw, 34px);
+  line-height: 1;
+  color: var(--ddm-navy-900);
+}
+
+.centerLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--ddm-sky-slot-text);
+}
+
+@media (max-width: 639px) {
+  .wrap {
+    display: none;
+  }
+}

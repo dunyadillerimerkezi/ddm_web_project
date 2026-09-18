@@ -1,0 +1,45 @@
+/* ---------------------------------------------------------------
+ * Carousel — yatay kaydırmalı kart şeridi
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 3 ve 9.
+ * ------------------------------------------------------------- */
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  margin-bottom: clamp(26px, 3vw, 38px);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.arrows {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.track {
+  display: flex;
+  gap: var(--ddm-gap-card);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 4px 4px 14px;
+  margin: 0 -4px;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    scroll-behavior: auto;
+  }
+}

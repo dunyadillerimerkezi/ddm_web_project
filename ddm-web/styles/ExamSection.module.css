@@ -1,0 +1,22 @@
+/* ---------------------------------------------------------------
+ * ExamSection — bölüm 3
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 3.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.inner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: clamp(20px, 2.4vw, 28px);
+  padding-top: clamp(20px, 2.4vw, 28px);
+  border-top: 1px solid var(--ddm-gray-100);
+}

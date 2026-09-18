@@ -1,0 +1,86 @@
+/* ---------------------------------------------------------------
+ * CourseChipCard — sınav hazırlık carousel'i slaytı
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 3.
+ * ------------------------------------------------------------- */
+.card {
+  scroll-snap-align: start;
+  flex: 0 0 clamp(230px, 24vw, 274px);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease,
+    border-color var(--duration-base) ease;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--ddm-sky-line);
+}
+
+.logoBox,
+.logoBoxText {
+  height: 76px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  text-align: center;
+}
+
+.logoBox {
+  background: var(--ddm-sky-table-head);
+  border: 1px dashed var(--ddm-sky-slot-dash);
+}
+
+.logoBoxText {
+  background: var(--ddm-sky-soft);
+  border: 1px solid var(--ddm-sky-250);
+}
+
+.logoImage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.code {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: 0.04em;
+  color: var(--ddm-primary);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.name {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 17.5px;
+  color: var(--ddm-navy-900);
+}
+
+.group {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+.discover {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}

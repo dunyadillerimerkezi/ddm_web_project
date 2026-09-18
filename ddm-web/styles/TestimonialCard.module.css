@@ -1,0 +1,76 @@
+/* ---------------------------------------------------------------
+ * TestimonialCard — paylaşılan bileşen (Ana Sayfa + Faz 6.4+)
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 9.
+ * ------------------------------------------------------------- */
+.card {
+  scroll-snap-align: start;
+  flex: 0 0 clamp(272px, 32vw, 400px);
+  margin: 0;
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  border-radius: var(--radius-2xl);
+  padding: clamp(24px, 2.6vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.quoteMark {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 0.8;
+  color: var(--ddm-sky-300);
+}
+
+.quote {
+  margin: 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.75;
+  color: var(--ddm-gray-800);
+  flex: 1;
+}
+
+.caption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-primary);
+  color: var(--ddm-white);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 15px;
+  flex: none;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ddm-navy-900);
+}
+
+.role {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-600);
+}

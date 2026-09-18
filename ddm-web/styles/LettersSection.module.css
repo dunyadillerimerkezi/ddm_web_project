@@ -1,0 +1,73 @@
+/* ---------------------------------------------------------------
+ * LettersSection — bölüm 10
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 10.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-section-y) var(--ddm-gutter) clamp(32px, 4vw, 44px);
+}
+
+.grid {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(276px, 1fr));
+  gap: var(--ddm-gap-card);
+}
+
+.card {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-card);
+  padding: clamp(26px, 3vw, 34px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-xl);
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-sky-ink);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 21px;
+  color: var(--ddm-navy-900);
+}
+
+.text {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-600);
+  flex: 1;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.link:hover {
+  color: var(--ddm-primary);
+}
