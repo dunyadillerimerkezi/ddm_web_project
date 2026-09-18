@@ -19,9 +19,17 @@ kullanıcıya danışın.**
 - **Statik üretim (SSG) öncelikli**: sayfalar veri build zamanında belli
   olduğu için mümkün olduğunca statik olarak render edilmeli
   (`generateStaticParams`, sunucu bileşenlerinde build-time veri okuma).
-- Tailwind YOK, CSS-in-JS YOK — Faz 4-5'te Claude Design'dan gelecek
-  tasarım sistemine göre karar verilecek. Şu an sadece `app/globals.css`
-  içinde minimal bir reset var.
+- **Tailwind YOK, CSS-in-JS YOK.** Stil katmanı **CSS Modules + token
+  katmanı** (Faz 5 sonunda karar verildi, kullanıcı onayı alındı):
+  - `styles/tokens.css` — tüm tasarım tokenları `:root` değişkeni olarak
+    (renk / tipografi / boşluk / radius / gölge). Tek kaynak.
+    Karşılığı: `../docs/design-refs/DDM_Tasarım_Sistemi_faz5/DDM Tasarım Sistemi.dc.html`
+  - `styles/<Bileşen>.module.css` — bileşen başına bir modül.
+  - `app/globals.css` — yalnız reset, temel eleman stilleri, keyframe'ler.
+  - **Ham hex/px değerini bileşene yazmayın**, tokendan geçirin. Token'da
+    karşılığı yoksa önce `tokens.css`'e ekleyin.
+  - Koyu tema YOK — site tek temalı. Koyu/açık ayrımı `prefers-color-scheme`
+    ile değil, bölüm ZEMİNİYLE yapılır (lacivert hero/footer vs beyaz gövde).
 
 ## 2. Statik Üretim ve 301 Redirect — ÖNEMLİ KARAR
 
@@ -100,17 +108,39 @@ yazılmaz:
 ```
 ddm-web/
 ├── app/            # Next.js route dosyaları — Faz 6-7'de sayfa tipi başına doldurulacak
-├── components/     # Paylaşılan UI bileşenleri (header, footer, kurs kartı, yorum kartı...) — Faz 6'da
+│   ├── layout.tsx  # <html lang="tr">, next/font (latin-ext!), globals.css
+│   └── globals.css # reset + temel eleman stilleri + keyframe'ler
+├── components/     # Paylaşılan UI bileşenleri — Faz 6'da doluyor
+│   ├── layout/     # TopBar, SiteHeader, MegaMenu, MobileDrawer, MobileBottomBar,
+│   │               # SiteFooter, Breadcrumb, StickyToc
+│   ├── ui/         # Button, Badge, Kicker, SectionHeading, Accordion, Carousel,
+│   │               # ProgressTrack, ImageSlot, DataMissingNotice...
+│   ├── cards/      # FeatureCard, TestimonialCard, ProgramScheduleCard...
+│   ├── sections/   # PageHero, StatStrip, CtaBand, ScheduleTable, WeekGrid...
+│   └── graphics/   # Icon + ikon kaydı, Illustration (200×200 set), Flag
+├── styles/
+│   ├── tokens.css  # TÜM tasarım tokenları (§1) — tek kaynak
+│   └── *.module.css # bileşen başına CSS Module
 ├── data/
 │   ├── site_content.json   # Crawl edilmiş TÜM sayfa içeriği (384 kayıt) — salt okunur kaynak
-│   └── urls.csv             # URL + title + meta + H1 + kelime sayısı (SEO referansı)
+│   ├── urls.csv             # URL + title + meta + H1 + kelime sayısı (SEO referansı)
+│   ├── branches.ts          # 5 şube — adres/telefon eksikse null (§5)
+│   ├── universities.ts      # 21 üniversite (proficiency şablonu)
+│   └── languages.ts         # 10 dil — illüstrasyon + bayrak eşlemesi
 ├── lib/
-│   └── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
-├── public/         # Statik varlıklar (logo, favicon...) — Faz 4-5 sonrası dolacak
+│   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
+│   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak
+│   └── types.ts    # paylaşılan sayfa ve bileşen tipleri
+├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
 ├── next.config.ts
 ├── .env.example
 └── CLAUDE.md
 ```
+
+> Tasarım şablonlarının kaynağı `../docs/design-refs/DDM_Tasarım_Sistemi_faz5/`
+> (`.dc.html` — Claude Design ara formatı, geçerli HTML DEĞİL). Bir bileşeni
+> değiştirmeden önce ilgili şablona bakın. İçerik genişliği **1320px**
+> (`--ddm-container`); tasarım sistemi dokümanındaki 1280 eskidir.
 
 `data/site_content.json` — her eleman:
 ```ts

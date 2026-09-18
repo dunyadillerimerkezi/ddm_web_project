@@ -1,0 +1,339 @@
+/*
+ * Header + mega menü + mobil çekmece.
+ *
+ * Breakpoint'ler TAMAMEN CSS'te. Tasarımın Ana Sayfa sürümü bunu
+ * window.innerWidth ölçüp state'e yazarak yapıyordu; o yöntem ilk
+ * boyamada yanlış render veriyor ve resize → setState → render
+ * döngüsü kuruyordu. Şablonun kendi yorumları bunu belgeliyor.
+ */
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  padding: clamp(10px, 1.4vw, 16px) var(--ddm-gutter);
+}
+
+.header {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  position: relative;
+}
+
+.bar {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  padding: 12px clamp(14px, 2vw, 22px);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.logo {
+  flex: none;
+}
+
+.logo img {
+  height: clamp(44px, 4.2vw, 58px);
+  width: auto;
+}
+
+/* --- masaüstü navigasyon --- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+.navButton {
+  font-family: var(--ddm-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ddm-gray-700);
+  background: transparent;
+  border: none;
+  border-radius: 11px;
+  padding: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.navButton:hover {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-primary);
+}
+
+.navButtonOpen {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-primary);
+}
+
+/* --- header CTA --- */
+.cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ddm-white);
+  background: var(--ddm-primary);
+  border-radius: 13px;
+  padding: 13px 19px;
+  transition: background var(--duration-fast) ease;
+}
+
+.cta:hover {
+  background: var(--ddm-primary-hover);
+  color: var(--ddm-white);
+}
+
+.ctaChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: var(--ddm-white);
+  color: var(--ddm-primary);
+}
+
+/* --- burger --- */
+.burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  border: 1.5px solid var(--ddm-border-button);
+  background: var(--ddm-white);
+  color: var(--ddm-primary);
+  cursor: pointer;
+  flex: none;
+}
+
+/* --- mega menü --- */
+.megaWrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  padding-top: 10px;
+  z-index: 5;
+}
+
+.mega {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-menu);
+  padding: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 26px;
+}
+
+.megaCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.megaColTitle {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-sky-400);
+}
+
+.megaLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.megaLink {
+  font-size: var(--ddm-text-body);
+  font-weight: 500;
+  color: var(--ddm-gray-700);
+  padding: 7px 10px;
+  margin: 0 -10px;
+  border-radius: 9px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.megaLink:hover {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-primary);
+}
+
+/* Eski sitede karşılığı olmayan başlık — link değil, düz metin. */
+.megaLinkInert {
+  composes: megaLink;
+  color: var(--ddm-gray-400);
+  cursor: default;
+}
+
+.megaPromo {
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  border-radius: 18px;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  justify-content: space-between;
+}
+
+.megaPromoHead {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.megaPromoTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--space-4);
+  line-height: 1.45;
+  color: var(--ddm-navy-900);
+}
+
+.megaPromoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.megaPromoLink:hover {
+  color: var(--ddm-primary);
+}
+
+/* --- mobil çekmece --- */
+.drawer {
+  margin-top: 10px;
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  max-height: 68vh;
+  overflow-y: auto;
+  padding: 8px 20px 24px;
+}
+
+.drawerGroup + .drawerGroup {
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.drawerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  font-family: var(--ddm-font-body);
+  font-size: var(--space-4);
+  font-weight: 600;
+  color: var(--ddm-gray-800);
+  background: transparent;
+  border: none;
+  padding: 15px 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.drawerTop:hover {
+  color: var(--ddm-primary);
+}
+
+.drawerCaret {
+  transition: transform var(--duration-base) ease;
+}
+
+.drawerCaretOpen {
+  transform: rotate(180deg);
+}
+
+.drawerPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 0 14px 10px;
+}
+
+.drawerLink {
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-gray-600);
+  padding: 9px 0;
+}
+
+.drawerLink:hover {
+  color: var(--ddm-primary);
+}
+
+.drawerLinkInert {
+  composes: drawerLink;
+  color: var(--ddm-gray-400);
+  cursor: default;
+}
+
+.drawerCta {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--space-4);
+  font-weight: 700;
+  color: var(--ddm-white);
+  background: var(--ddm-primary);
+  border-radius: 13px;
+  padding: var(--space-4);
+}
+
+.drawerCta:hover {
+  background: var(--ddm-primary-hover);
+  color: var(--ddm-white);
+}
+
+/* ---------------------------------------------------------------
+ * Breakpoint'ler — tasarımdaki değerler birebir
+ * ------------------------------------------------------------- */
+
+/* Nav sığmaya başlıyor: yazı ve yatay dolgu bir tık küçülür. */
+@media (min-width: 1340px) and (max-width: 1459px) {
+  .navButton {
+    font-size: 13.5px;
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
+}
+
+/* Masaüstü nav ve CTA düşer, burger gelir. */
+@media (max-width: 1339px) {
+  .nav,
+  .cta {
+    display: none;
+  }
+
+  .burger {
+    display: inline-flex;
+    margin-left: auto;
+  }
+}

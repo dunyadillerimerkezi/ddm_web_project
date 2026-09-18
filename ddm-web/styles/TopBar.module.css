@@ -1,0 +1,37 @@
+.bar {
+  background: var(--ddm-navy-900);
+  padding: 9px 0;
+}
+
+.inner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  padding: 0 var(--ddm-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.tagline {
+  font-size: 13px;
+  color: var(--ddm-navy-200);
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ddm-white);
+}
+
+.link:hover {
+  color: var(--ddm-sky-line);
+}

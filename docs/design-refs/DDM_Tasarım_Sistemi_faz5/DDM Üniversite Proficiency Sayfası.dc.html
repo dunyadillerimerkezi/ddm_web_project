@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ddm-navy: #2A2D7C;
+    --ddm-navy-900: #16184A;
+    --ddm-navy-700: #22256B;
+    --ddm-navy-500: #3B3F96;
+    --ddm-navy-400: #5A5EB4;
+    --ddm-sky: #2E9BD6;
+    --ddm-sky-300: #93CEEE;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #FFFFFF; color: #3F4049; font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; text-wrap: pretty; }
+  a { color: #2A2D7C; text-decoration: none; }
+  a:hover { color: #2384BB; }
+  ::selection { background: #E8F4FC; }
+  img { display: block; }
+  @keyframes ddmFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes ddmFloatSlow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+  @keyframes ddmChip { 0%,100% { opacity: .4; transform: translateY(3px); } 50% { opacity: 1; transform: translateY(-3px); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  /* Scroll reveal TAMAMEN CSS. JS'ten DOM'a yazim yok: editor DOM
+     gozlemcisi her mutasyonu yeniden render'a cevirdigi icin imperatif
+     yazim sonsuz donguye giriyordu. */
+  /* Scroll reveal animasyonu KULLANILMIYOR: bu boyuttaki sayfalarda
+     [data-reveal] uzerindeki CSS animasyonu sayfayi kilitliyor. Attribute'lar
+     ileride guvenli bir cozum icin yerinde duruyor. */
+  /* Breakpoint'ler CSS'te: JS ölçümünden bağımsız, ilk boyamada doğru. */
+  [data-ddm-nav] { display: flex; }
+  [data-ddm-cta] { display: inline-flex; }
+  [data-ddm-burger] { display: none; }
+  @media (min-width: 1340px) and (max-width: 1459px) {
+    [data-ddm-nav] button { font-size: 13.5px !important; padding-left: 8px !important; padding-right: 8px !important; }
+  }
+  [data-ddm-illo] { display: block; }
+  [data-ddm-thead] { display: grid; }
+  [data-ddm-row] { display: grid; grid-template-columns: 1.5fr 1fr 1fr auto; gap: 16px; padding: 18px 24px; }
+  [data-ddm-row] [data-ddm-rowcta] { justify-self: end; }
+  [data-ddm-rowlabel] { display: none; }
+  @media (max-width: 1339px) {
+    [data-ddm-nav] { display: none; }
+    [data-ddm-cta] { display: none; }
+    [data-ddm-burger] { display: inline-flex; margin-left: auto; }
+  }
+  @media (max-width: 759px) {
+    [data-ddm-thead] { display: none; }
+    [data-ddm-row] { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 20px; }
+    [data-ddm-row] [data-ddm-rowcta] { justify-self: start; }
+    [data-ddm-rowlabel] { display: block; }
+  }
+  @media (max-width: 619px) { [data-ddm-illo] { display: none; } }
+</style>
+</helmet>
+
+<div style="background: #FFFFFF; overflow-x: clip; padding-bottom: 1px">
+
+  <!-- ŞABLON ÖNİZLEME KONTROLÜ (yayında olmayacak) -->
+  <div style="background: #101126; padding: 10px clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+      <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: #8C8FD3">ŞABLON ÖNİZLEME</span>
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+        <span style="font-size: 12px; color: #BFC1E7">Örnek üniversite:</span>
+        <sc-for list="{{ uniOptions }}" as="o" hint-placeholder-count="4">
+          <button type="button" onClick="{{ o.onClick }}" style="font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; color: {{ o.color }}; background: {{ o.bg }}; border: 1px solid #2E3170; border-radius: 8px; padding: 6px 11px; cursor: pointer">{{ o.label }}</button>
+        </sc-for>
+      </div>
+      <span style="margin-left: auto; font-size: 11.5px; color: #6F72A8">{{ variantNote }}</span>
+    </div>
+  </div>
+
+  <!-- ÜST BAR -->
+  <div style="background: #16184A; padding: 9px 0">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 0 clamp(14px, 3.5vw, 28px); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+      <span style="font-size: 13px; color: #BFC1E7">19 dilde eğitim · 2003’ten bugüne · İstanbul’da 5 şube</span>
+      <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap">
+        <a href="tel:+902163301217" style="font-size: 13px; font-weight: 600; color: #FFFFFF" style-hover="color:#93CEEE">0216 330 12 17</a>
+        <a href="mailto:kadikoy@dunyadillerimerkezi.com" style="font-size: 13px; font-weight: 600; color: #FFFFFF" style-hover="color:#93CEEE">kadikoy@dunyadillerimerkezi.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div style="position: sticky; top: 0; z-index: 60; padding: clamp(10px, 1.4vw, 16px) clamp(14px, 3.5vw, 28px)">
+    <header style="max-width: 1320px; margin: 0 auto; position: relative">
+      <div style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 20px; box-shadow: 0 10px 30px rgba(22,24,74,0.09); padding: 12px clamp(14px, 2vw, 22px); display: flex; align-items: center; gap: 16px">
+        <a href="#" style="flex: none" aria-label="Dünya Dilleri Merkezi">
+          <img src="assets/ddm-logo-lacivert.png" alt="Dünya Dilleri Merkezi" style="height: clamp(44px, 4.2vw, 58px); width: auto" />
+        </a>
+        <nav data-ddm-nav="" style="align-items: center; gap: 2px; flex: 1; min-width: 0; justify-content: flex-end" onMouseEnter="{{ cancelClose }}" onMouseLeave="{{ scheduleClose }}">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+            <button type="button" onClick="{{ item.onClick }}" onMouseEnter="{{ item.onEnter }}" style="font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 600; color: {{ item.color }}; background: {{ item.bg }}; border: none; border-radius: 11px; padding: 11px 11px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; transition: background .18s ease, color .18s ease" style-hover="background:#F1F8FD;color:#2A2D7C">
+              {{ item.short }}
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </button>
+          </sc-for>
+        </nav>
+        <a href="#iletisim" data-ddm-cta="" style="flex: none; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border-radius: 13px; padding: 13px 19px; transition: background .18s ease" style-hover="background:#22256B;color:#FFFFFF">
+          İletişim
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 7px; background: #FFFFFF; color: #2A2D7C">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </span>
+        </a>
+        <button type="button" onClick="{{ toggleDrawer }}" data-ddm-burger="" style="align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 13px; border: 1.5px solid #D8DAE0; background: #FFFFFF; color: #2A2D7C; cursor: pointer; flex: none" aria-label="Menüyü aç">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true"><path d="M1 1h18M1 7h18M1 13h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        </button>
+      </div>
+
+      <sc-if value="{{ activeMenu }}" hint-placeholder-val="{{ false }}">
+        <div onMouseEnter="{{ cancelClose }}" onMouseLeave="{{ scheduleClose }}" style="position: absolute; left: 0; right: 0; top: 100%; padding-top: 10px; z-index: 5">
+          <div style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 22px; box-shadow: 0 22px 54px rgba(22,24,74,0.16); padding: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 26px">
+            <sc-for list="{{ activeMenu.columns }}" as="col" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; gap: 12px; min-width: 0">
+                <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">{{ col.title }}</span>
+                <div style="display: flex; flex-direction: column; gap: 2px">
+                  <sc-for list="{{ col.items }}" as="link" hint-placeholder-count="5">
+                    <a href="#" style="font-size: 14.5px; font-weight: 500; color: #3F4049; padding: 7px 10px; margin: 0 -10px; border-radius: 9px; transition: background .15s ease, color .15s ease" style-hover="background:#F1F8FD;color:#2A2D7C">{{ link }}</a>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+            <div style="background: #F1F8FD; border: 1px solid #DCEEF9; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px; justify-content: space-between">
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">{{ activeMenu.label }}</span>
+                <p style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; line-height: 1.45; color: #16184A">{{ activeMenu.promoTitle }}</p>
+              </div>
+              <a href="#" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #1A6D9C" style-hover="color:#2A2D7C">
+                {{ activeMenu.promoLink }}
+                <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top: 10px; background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 20px; box-shadow: 0 18px 44px rgba(22,24,74,0.14); max-height: 68vh; overflow-y: auto; padding: 8px 20px 24px">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+            <a href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 16px; font-weight: 600; color: #2A2B33; padding: 15px 0; border-bottom: 1px solid #EFEFF2" style-hover="color:#2A2D7C">
+              {{ item.short }}
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </a>
+          </sc-for>
+          <a href="#iletisim" style="margin-top: 18px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border-radius: 13px; padding: 16px" style-hover="background:#22256B;color:#FFFFFF">İletişim</a>
+        </div>
+      </sc-if>
+    </header>
+  </div>
+
+  <!-- 1 + 2 · BREADCRUMB & HERO (LACİVERT) -->
+  <section style="position: relative; background: #16184A; padding: clamp(16px, 2.4vw, 26px) clamp(14px, 3.5vw, 28px) clamp(40px, 5.5vw, 68px)">
+    <div style="position: absolute; left: 58%; top: -140px; width: min(780px, 85vw); height: 440px; background: radial-gradient(ellipse at center, rgba(46,155,214,0.28) 0%, rgba(46,155,214,0) 70%); pointer-events: none"></div>
+
+    <nav aria-label="Breadcrumb" style="position: relative; max-width: 1320px; margin: 0 auto clamp(24px, 3vw, 36px)">
+      <ol style="margin: 0; padding: 0; list-style: none; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px">
+        <li><a href="#" style="color: #BFC1E7" style-hover="color:#FFFFFF">Anasayfa</a></li>
+        <li aria-hidden="true" style="color: #5A5EB4">/</li>
+        <li><a href="#" style="color: #BFC1E7" style-hover="color:#FFFFFF">Sınav Hazırlık</a></li>
+        <li aria-hidden="true" style="color: #5A5EB4">/</li>
+        <li><a href="#" style="color: #BFC1E7" style-hover="color:#FFFFFF">Proficiency Kursu</a></li>
+        <li aria-hidden="true" style="color: #5A5EB4">/</li>
+        <li aria-current="page" style="color: #FFFFFF; font-weight: 600">{{ uniName }}</li>
+      </ol>
+    </nav>
+
+    <div style="position: relative; max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: {{ heroGrid }}; gap: clamp(28px, 4vw, 56px); align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 20px; min-width: 0">
+        <div data-reveal="" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+          <sc-if value="{{ hasCode }}" hint-placeholder-val="{{ true }}">
+            <span style="display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border-radius: 13px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.04em">{{ examCode }}</span>
+          </sc-if>
+          <span style="display: inline-flex; align-items: center; gap: 9px; padding: 9px 15px; border-radius: 999px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #C5E5F7; font-size: 12.5px; font-weight: 700">
+            <span style="width: 7px; height: 7px; border-radius: 999px; background: #2E9BD6"></span>
+            Hazırlık atlama · Proficiency
+          </span>
+          <span style="display: inline-flex; align-items: center; padding: 9px 15px; border-radius: 999px; border: 1px solid #3B3F96; color: #BFC1E7; font-size: 12.5px; font-weight: 700">{{ branchLabel }}</span>
+        </div>
+        <h1 data-reveal="" data-reveal-delay="70" style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(28px, 4.2vw, 48px); line-height: 1.1; letter-spacing: -0.03em; color: #FFFFFF">{{ h1 }}</h1>
+        <p data-reveal="" data-reveal-delay="140" style="margin: 0; font-size: clamp(15.5px, 1.8vw, 18px); line-height: 1.7; color: #BFC1E7; max-width: 62ch">{{ heroLead }}</p>
+        <div data-reveal="" data-reveal-delay="210" style="display: flex; gap: 12px; flex-wrap: wrap">
+          <a href="#iletisim" style="display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border-radius: 14px; padding: 15px 22px; transition: background .18s ease" style-hover="background:#E8F4FC;color:#2A2D7C">
+            Ücretsiz Seviye Tespit Sınavı
+            <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+          <a href="#kurs-takvimi" style="display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; color: #FFFFFF; background: transparent; border: 1.5px solid #5A5EB4; border-radius: 14px; padding: 15px 22px; transition: background .18s ease, border-color .18s ease" style-hover="background:#1E2163;border-color:#93CEEE;color:#FFFFFF">Bilgi Al</a>
+        </div>
+      </div>
+
+      <!-- universite-illustrasyon slotu -->
+      <div data-reveal="" data-reveal-delay="180" aria-hidden="true" data-ddm-illo="" style="position: relative; aspect-ratio: 1 / 1; width: 100%; max-width: 430px; justify-self: center">
+        <span style="position: absolute; inset: 4%; border-radius: 999px; background: radial-gradient(circle at 50% 50%, rgba(46,155,214,0.22) 0%, rgba(46,155,214,0.06) 55%, rgba(46,155,214,0) 74%)"></span>
+        <svg viewBox="0 0 200 200" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible" aria-hidden="true" dangerouslySetInnerHTML="{{ illoBody }}"></svg>
+        <span style="position: absolute; left: 4%; top: 14%; padding: 8px 12px; border-radius: 11px; background: #FFFFFF; box-shadow: 0 8px 22px rgba(0,0,0,0.25); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 12.5px; color: #16184A; animation: ddmChip 6s ease-in-out infinite">{{ illoChip1 }}</span>
+        <span style="position: absolute; right: 2%; top: 30%; padding: 8px 12px; border-radius: 11px; background: #2E9BD6; box-shadow: 0 8px 22px rgba(0,0,0,0.22); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 12.5px; color: #FFFFFF; animation: ddmChip 6s ease-in-out 2s infinite">{{ illoChip2 }}</span>
+        <span style="position: absolute; left: 18%; bottom: 4%; padding: 8px 12px; border-radius: 11px; background: #FFFFFF; box-shadow: 0 8px 22px rgba(0,0,0,0.22); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 12.5px; color: #16184A; animation: ddmChip 6s ease-in-out 4s infinite">Hazırlık atlama</span>
+      </div>
+    </div>
+
+    <!-- 3 · HIZLI BAKIŞ ŞERİDİ -->
+    <div data-reveal="" style="position: relative; max-width: 1320px; margin: clamp(36px, 4.5vw, 56px) auto 0; border-top: 1px solid #2E3170; padding: clamp(26px, 3.2vw, 38px) 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: clamp(20px, 2.6vw, 32px)">
+      <sc-for list="{{ quickFacts }}" as="q" hint-placeholder-count="4">
+        <div style="display: flex; align-items: center; gap: 14px">
+          <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 14px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #93CEEE">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" dangerouslySetInnerHTML="{{ q.icon }}"></svg>
+          </span>
+          <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+            <span data-count="{{ q.count }}" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(24px, 2.8vw, 34px); line-height: 1.05; color: #FFFFFF; font-variant-numeric: tabular-nums">{{ q.value }}</span>
+            <span style="font-size: 13px; line-height: 1.45; color: #BFC1E7">{{ q.label }}</span>
+          </span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- 4 · PROGRAMIN İŞLEYİŞİ -->
+  <section id="isleyis" style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(30px, 3.6vw, 44px); max-width: 74ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">PROGRAMIN İŞLEYİŞİ</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">Seviye tespitinden sınav tekniğine üç adım</h2>
+      </div>
+
+      <div data-step-track="" style="position: relative">
+        <div style="position: absolute; left: 0; right: 0; top: 27px; height: 3px; border-radius: 999px; background: #E4E5E9"></div>
+        <div data-step-fill="" style="position: absolute; left: 0; top: 27px; height: 3px; width: {{ stepFillWidth }}; border-radius: 999px; background: linear-gradient(90deg, #2A2D7C 0%, #2E9BD6 100%); transition: width 1.1s cubic-bezier(.22,.61,.36,1)"></div>
+        <div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(262px, 1fr)); gap: clamp(16px, 2vw, 26px)">
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+            <div data-reveal="" data-reveal-delay="{{ s.delay }}" style="display: flex; flex-direction: column; gap: 16px">
+              <span data-step-dot="" style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 999px; background: {{ s.dotBg }}; border: 3px solid {{ s.dotBorder }}; color: {{ s.dotColor }}; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 17px; transition: background .34s ease {{ s.dotDelay }}, border-color .34s ease {{ s.dotDelay }}, color .34s ease {{ s.dotDelay }}">{{ s.num }}</span>
+              <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 19px; line-height: 1.3; color: #16184A">{{ s.title }}</h3>
+              <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #5A5C66">{{ s.body }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · SINAV YAPISI -->
+  <section id="sinav-yapisi" style="background: #F7F7F9; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(26px, 3vw, 38px); max-width: 74ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">SINAV YAPISI</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ contentTitle }}</h2>
+        <p style="margin: 0; font-size: clamp(15px, 1.7vw, 17px); line-height: 1.72; color: #5A5C66">{{ sectionCountLine }}</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 292px), 1fr)); gap: clamp(14px, 1.6vw, 18px)">
+        <sc-for list="{{ examSections }}" as="s" hint-placeholder-count="3">
+          <article data-reveal="" data-reveal-delay="{{ s.delay }}" style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 16px; transition: transform .26s ease, box-shadow .26s ease, border-color .26s ease" style-hover="transform:translateY(-4px);box-shadow:0 16px 40px rgba(22,24,74,0.12);border-color:#93CEEE">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 16px; background: #E8F4FC; color: #1A6D9C">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" dangerouslySetInnerHTML="{{ s.icon }}"></svg>
+              </span>
+              <span style="font-family: ui-monospace, monospace; font-size: 11px; color: #A8AAB3">{{ s.iconName }}</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.1em; color: #5DB4E2">BÖLÜM {{ s.num }}</span>
+              <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 19.5px; line-height: 1.28; color: #16184A">{{ s.name }}</h3>
+              <span style="font-size: 13.5px; color: #7C7E88">{{ s.nameEn }}</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <sc-for list="{{ s.parts }}" as="p" hint-placeholder-count="2">
+                <div itemscope="" style="padding: 14px; border-radius: 14px; background: #F7FAFC; display: flex; flex-direction: column; gap: 9px">
+                  <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 14.5px; line-height: 1.35; color: #2A2B33">{{ p.title }}</span>
+                  <div style="display: flex; gap: 7px; flex-wrap: wrap">
+                    <sc-for list="{{ p.meta }}" as="m" hint-placeholder-count="2">
+                      <span data-meta-key="{{ m.key }}" data-meta-value="{{ m.raw }}" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: {{ m.bg }}; border: 1px solid {{ m.border }}; font-size: 12px; font-weight: 700; color: {{ m.color }}">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true" dangerouslySetInnerHTML="{{ m.icon }}"></svg>
+                        {{ m.text }}
+                      </span>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <a href="{{ s.anchor }}" style="margin-top: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #1A6D9C" style-hover="color:#2A2D7C">
+              Bölüm detayını oku
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </a>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · BÖLÜM DETAYLARI + STICKY İÇİNDEKİLER -->
+  <sc-if value="{{ hasDetails }}" hint-placeholder-val="{{ true }}">
+    <section id="bolum-detaylari" style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+      <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: {{ detailGrid }}; gap: clamp(24px, 3.4vw, 48px); align-items: start">
+        <div style="display: flex; flex-direction: column; gap: clamp(30px, 3.6vw, 44px); min-width: 0">
+          <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; max-width: 72ch">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">BÖLÜM DETAYLARI</span>
+            <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">Sınav bölümleri nasıl işliyor</h2>
+          </div>
+          <sc-for list="{{ details }}" as="d" hint-placeholder-count="3">
+            <div id="{{ d.id }}" data-detail-section="" data-reveal="" style="display: flex; flex-direction: column; gap: 16px; scroll-margin-top: 120px">
+              <div style="display: flex; align-items: center; gap: 13px">
+                <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 13px; background: #E8F4FC; color: #1A6D9C">
+                  <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true" dangerouslySetInnerHTML="{{ d.icon }}"></svg>
+                </span>
+                <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: clamp(19px, 2.2vw, 24px); line-height: 1.28; color: #16184A">{{ d.title }}</h3>
+              </div>
+              <sc-for list="{{ d.paras }}" as="t" hint-placeholder-count="3">
+                <p style="margin: 0; max-width: 72ch; font-size: 15.5px; line-height: 1.8; color: #3F4049">{{ t }}</p>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+
+        <aside data-reveal="" style="position: {{ tocPosition }}; top: 110px; display: flex; flex-direction: column; gap: 14px; min-width: 0">
+          <div style="background: #F7F7F9; border: 1px solid #EFEFF2; border-radius: 20px; padding: 22px">
+            <button type="button" onClick="{{ toggleToc }}" style="font-family: 'Manrope', sans-serif; width: 100%; background: transparent; border: none; padding: 0; cursor: {{ tocCursor }}; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">İÇİNDEKİLER</span>
+              <span style="display: {{ tocCaretDisplay }}; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 8px; background: #FFFFFF; border: 1px solid #E4E5E9; color: #2A2D7C; transform: {{ tocCaret }}; transition: transform .3s ease">
+                <svg width="11" height="7" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+            </button>
+            <div style="max-height: {{ tocMaxH }}; opacity: {{ tocOpacity }}; overflow: hidden; transition: max-height .36s cubic-bezier(.22,.61,.36,1), opacity .3s ease">
+              <div style="display: flex; flex-direction: column; gap: 2px; padding-top: 14px">
+                <sc-for list="{{ tocItems }}" as="t" hint-placeholder-count="4">
+                  <a href="{{ t.href }}" data-toc-link="{{ t.id }}" style="font-size: 14px; font-weight: {{ t.weight }}; color: {{ t.color }}; background: {{ t.bg }}; padding: 10px 12px; border-radius: 10px; border-left: 3px solid {{ t.bar }}; transition: background .22s ease, color .22s ease, border-color .22s ease" style-hover="background:#FFFFFF;color:#2A2D7C">{{ t.label }}</a>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #2A2D7C; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.38; color: #FFFFFF">Bizimle İletişime Geçin</span>
+            <p style="margin: 0; font-size: 14px; line-height: 1.65; color: #C9CAEC">{{ formLead }}</p>
+            <div style="display: flex; flex-direction: column; gap: 9px">
+              <input type="text" placeholder="Ad Soyad" aria-label="Ad Soyad" style="font-family: 'Manrope', sans-serif; font-size: 14.5px; color: #2A2B33; background: #FFFFFF; border: 1.5px solid #FFFFFF; border-radius: 11px; padding: 12px 14px; outline: none; width: 100%" style-focus="border-color:#93CEEE" />
+              <input type="text" placeholder="Telefon" aria-label="Telefon" style="font-family: 'Manrope', sans-serif; font-size: 14.5px; color: #2A2B33; background: #FFFFFF; border: 1.5px solid #FFFFFF; border-radius: 11px; padding: 12px 14px; outline: none; width: 100%" style-focus="border-color:#93CEEE" />
+              <select aria-label="Şube" style="font-family: 'Manrope', sans-serif; font-size: 14.5px; color: #2A2B33; background: #FFFFFF; border: 1.5px solid #FFFFFF; border-radius: 11px; padding: 12px 14px; outline: none; width: 100%; appearance: none" style-focus="border-color:#93CEEE">
+                <option>Kadıköy Merkez</option>
+                <option>Bağdat Caddesi</option>
+                <option>Levent / Etiler</option>
+                <option>Ataşehir</option>
+                <option>Ümraniye</option>
+              </select>
+              <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 14.5px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border: none; border-radius: 11px; padding: 13px 16px; cursor: pointer; transition: background .18s ease" style-hover="background:#E8F4FC">Ön Bilgi Formu Gönder</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </sc-if>
+
+  <!-- 7 · NEDEN DDM -->
+  <section style="background: #F7F7F9; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(26px, 3vw, 38px); max-width: 74ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">NEDEN DDM</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ whyTitle }}</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(272px, 1fr)); gap: clamp(14px, 1.6vw, 18px)">
+        <sc-for list="{{ why }}" as="w" hint-placeholder-count="3">
+          <div data-reveal="" data-reveal-delay="{{ w.delay }}" style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 14px; transition: transform .24s ease, box-shadow .24s ease" style-hover="transform:translateY(-3px);box-shadow:0 14px 34px rgba(22,24,74,0.1)">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 15px; background: #F1F8FD; border: 1px solid #DCEEF9; color: #1A6D9C">
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true" dangerouslySetInnerHTML="{{ w.icon }}"></svg>
+            </span>
+            <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.3; color: #16184A">{{ w.title }}</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.7; color: #5A5C66">{{ w.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · KURS TAKVİMİ & ŞUBELER -->
+  <section id="kurs-takvimi" style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(22px, 2.6vw, 30px); max-width: 74ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">KURS TAKVİMİ</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ scheduleTitle }}</h2>
+        <p style="margin: 0; font-size: clamp(15px, 1.7vw, 17px); line-height: 1.72; color: #5A5C66">{{ scheduleLead }}</p>
+      </div>
+
+      <div data-reveal="" style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 24px; overflow: hidden">
+        <div data-ddm-thead="" style="grid-template-columns: 1.5fr 1fr 1fr auto; gap: 16px; padding: 16px 24px; background: #F7FAFC; border-bottom: 1px solid #E8E9ED">
+          <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #5F93B3">ŞUBE</span>
+          <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #5F93B3">BAŞLANGIÇ TARİHİ</span>
+          <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #5F93B3">GÜN VE SAAT</span>
+          <span></span>
+        </div>
+        <sc-for list="{{ branchRows }}" as="r" hint-placeholder-count="5">
+          <div data-ddm-row="" style="align-items: center; border-bottom: 1px solid #F2F2F5; transition: background .2s ease" style-hover="background:#F7FAFC">
+            <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15.5px; color: #16184A">{{ r.branch }}</span>
+              <span style="font-size: 12.5px; color: #7C7E88">{{ r.note }}</span>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 3px">
+              <span data-ddm-rowlabel="" style="font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: #A8AAB3">BAŞLANGIÇ TARİHİ</span>
+              <span style="font-size: 14px; color: #5A5C66; font-style: italic">tarih bekleniyor</span>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 3px">
+              <span data-ddm-rowlabel="" style="font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: #A8AAB3">GÜN VE SAAT</span>
+              <span style="font-size: 14px; color: #5A5C66; font-style: italic">gün / saat bekleniyor</span>
+            </span>
+            <a href="#iletisim" data-ddm-rowcta="" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border-radius: 11px; padding: 11px 16px; white-space: nowrap; transition: background .18s ease" style-hover="background:#22256B;color:#FFFFFF">
+              Ön Bilgi Formu
+              <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </a>
+          </div>
+        </sc-for>
+        <div style="padding: 16px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #FAEFE5">
+          <span style="font-size: 13px; font-weight: 700; color: #7E3F09">VERİ EKSİK</span>
+          <span style="font-size: 13px; line-height: 1.6; color: #7E3F09">Proficiency programı kişiye özel olduğu için kaynak içerikte tarih/saat verisi yok; şube bazlı takvim müşteriden bekleniyor.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · SSS -->
+  <section id="sss" style="background: #F7F7F9; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: {{ faqGrid }}; gap: clamp(24px, 3vw, 44px); align-items: start">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">SIKÇA SORULAN SORULAR</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ faqTitle }}</h2>
+        <p style="margin: 0; font-size: 15px; line-height: 1.72; color: #5A5C66">Cevaplar {{ examLabel }} sınav içeriği ve program bilgilerimizden alınmıştır. Aradığınızı bulamazsanız şubelerimize yazabilirsiniz.</p>
+        <a href="#iletisim" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 11px; font-size: 14.5px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border: 1.5px solid #D8DAE0; border-radius: 13px; padding: 13px 19px; margin-top: 4px; transition: background .18s ease, border-color .18s ease" style-hover="background:#F1F8FD;border-color:#93CEEE;color:#2A2D7C">
+          Soru Sor
+          <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="5">
+          <div data-reveal="" data-reveal-delay="{{ q.delay }}" style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 18px; overflow: hidden; transition: border-color .22s ease" style-hover="border-color:#93CEEE">
+            <button type="button" onClick="{{ q.onClick }}" style="font-family: 'Manrope', sans-serif; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; background: transparent; border: none; padding: 20px 22px; cursor: pointer; font-size: 15.5px; font-weight: 700; color: #16184A">
+              {{ q.question }}
+              <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9px; background: #F1F8FD; color: #1A6D9C; transform: {{ q.caret }}; transition: transform .3s ease">
+                <svg width="12" height="8" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+            </button>
+            <div style="max-height: {{ q.maxH }}; opacity: {{ q.opacity }}; overflow: hidden; transition: max-height .36s cubic-bezier(.22,.61,.36,1), opacity .3s ease">
+              <p style="margin: 0; padding: 0 22px 22px; max-width: 72ch; font-size: 14.5px; line-height: 1.78; color: #3F4049">{{ q.answer }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · DİĞER ÜNİVERSİTELER -->
+  <section id="universiteler" style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: clamp(22px, 2.6vw, 32px)">
+        <div style="display: flex; flex-direction: column; gap: 12px; max-width: 64ch">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">DİĞER ÜNİVERSİTELER</span>
+          <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(24px, 3.2vw, 34px); line-height: 1.16; letter-spacing: -0.025em; color: #16184A">Üniversite Hazırlık Atlama Sınavları</h2>
+        </div>
+        <label style="display: flex; align-items: center; gap: 10px; background: #F7F7F9; border: 1.5px solid #E4E5E9; border-radius: 13px; padding: 12px 16px; min-width: min(100%, 300px); transition: border-color .2s ease" style-focus="border-color:#93CEEE">
+          <span style="display: inline-flex; color: #7C7E88" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"></circle><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          </span>
+          <input type="text" value="{{ uniQuery }}" onChange="{{ onQuery }}" placeholder="Üniversite veya sınav kodu ara" aria-label="Üniversite ara" style="font-family: 'Manrope', sans-serif; font-size: 14.5px; color: #2A2B33; background: transparent; border: none; outline: none; width: 100%" />
+        </label>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: clamp(12px, 1.4vw, 16px)">
+        <sc-for list="{{ uniCards }}" as="u" hint-placeholder-count="21">
+          <a href="#" data-reveal="" data-reveal-delay="{{ u.delay }}" style="background: {{ u.bg }}; border: 1px solid {{ u.border }}; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: background .24s ease, border-color .24s ease, transform .24s ease" style-hover="background:#F1F8FD;border-color:#93CEEE;transform:translateY(-3px)">
+            <span style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 10px; background: {{ u.badgeBg }}; color: {{ u.badgeColor }}; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 13px">{{ u.initials }}</span>
+              <span style="display: {{ u.codeDisplay }}; align-items: center; padding: 5px 9px; border-radius: 7px; background: {{ u.codeBg }}; color: {{ u.codeColor }}; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: 0.04em">{{ u.code }}</span>
+            </span>
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 14.5px; line-height: 1.32; color: #16184A">{{ u.name }}</span>
+          </a>
+        </sc-for>
+      </div>
+      <sc-if value="{{ noMatch }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 20px 0 0; padding: 18px 20px; border-radius: 16px; background: #F7F7F9; border: 1px solid #EFEFF2; font-size: 14.5px; color: #5A5C66">“{{ uniQuery }}” için sonuç bulunamadı. Aramayı temizleyip listeye göz atabilirsiniz.</p>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- 11 · İLGİLİ SAYFALAR -->
+  <section style="background: #F7F7F9; padding: clamp(40px, 6vw, 72px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: clamp(20px, 2.4vw, 28px)">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">İLGİLİ SAYFALAR</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(22px, 2.8vw, 30px); line-height: 1.18; letter-spacing: -0.02em; color: #16184A">Proficiency hakkında diğer sayfalar</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: clamp(12px, 1.4vw, 16px)">
+        <sc-for list="{{ related }}" as="r" hint-placeholder-count="4">
+          <a href="#" data-reveal="" data-reveal-delay="{{ r.delay }}" style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 18px; padding: 22px; display: flex; align-items: center; justify-content: space-between; gap: 14px; transition: border-color .22s ease, transform .22s ease, box-shadow .22s ease" style-hover="border-color:#93CEEE;transform:translateY(-3px);box-shadow:0 14px 34px rgba(22,24,74,0.1)">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15.5px; line-height: 1.34; color: #16184A">{{ r.label }}</span>
+            <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; background: #F1F8FD; color: #1A6D9C">
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · İKON AİLESİ (şablon dokümantasyonu) -->
+  <section id="ikon-ailesi" style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px); border-top: 1px solid #EFEFF2">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(24px, 3vw, 36px); max-width: 78ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">ŞABLON DOKÜMANTASYONU</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(24px, 3.2vw, 34px); line-height: 1.16; letter-spacing: -0.025em; color: #16184A">sinav-ikon ailesi ve universite-illustrasyon slotu</h2>
+        <p style="margin: 0; font-size: 15px; line-height: 1.72; color: #5A5C66">Sınav bölümü ikonları 24×24 viewBox, 1.7px çizgi, yuvarlatılmış uç — genişletilebilir aile. Başka üniversitede farklı bölüm çıkarsa aynı kurala göre yeni üye eklenir. İllüstrasyon slotu 200×200 viewBox ve dil kursu şablonuyla aynı üç katmanlı yapıyı kullanır; üniversite arması yok, tümü jenerik akademik motif.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: clamp(12px, 1.4vw, 16px); margin-bottom: clamp(22px, 2.6vw, 32px)">
+        <sc-for list="{{ iconFamily }}" as="i" hint-placeholder-count="8">
+          <div data-reveal="" data-reveal-delay="{{ i.delay }}" style="background: #F7F7F9; border: 1px solid #EFEFF2; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 14px; background: #FFFFFF; border: 1px solid #DCEEF9; color: #1A6D9C">
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true" dangerouslySetInnerHTML="{{ i.icon }}"></svg>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 3px">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 14px; color: #16184A">{{ i.label }}</span>
+              <span style="font-family: ui-monospace, monospace; font-size: 11px; color: #7C7E88">{{ i.name }}</span>
+            </span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: clamp(14px, 1.6vw, 18px)">
+        <sc-for list="{{ illoSet }}" as="s" hint-placeholder-count="3">
+          <figure data-reveal="" data-reveal-delay="{{ s.delay }}" style="margin: 0; background: #16184A; border: 1px solid #22256B; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column">
+            <div style="position: relative; aspect-ratio: 1 / 1; width: 100%">
+              <span style="position: absolute; inset: 6%; border-radius: 999px; background: radial-gradient(circle at 50% 50%, rgba(46,155,214,0.22) 0%, rgba(46,155,214,0.05) 58%, rgba(46,155,214,0) 76%)"></span>
+              <svg viewBox="0 0 200 200" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true" dangerouslySetInnerHTML="{{ s.body }}"></svg>
+            </div>
+            <figcaption style="padding: 14px 16px 16px; border-top: 1px solid #22256B; display: flex; flex-direction: column; gap: 4px">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 14.5px; color: #FFFFFF">{{ s.name }}</span>
+              <span style="font-family: ui-monospace, monospace; font-size: 11.5px; color: #8C8FD3">universite-illustrasyon-{{ s.slug }}</span>
+              <span style="font-size: 11.5px; color: #5DB4E2">{{ s.motifs }}</span>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · ALT CTA -->
+  <section style="background: #F7F7F9; padding: clamp(10px, 2vw, 20px) clamp(14px, 3.5vw, 28px) clamp(48px, 7vw, 88px)">
+    <div data-reveal="" style="max-width: 1320px; margin: 0 auto; background: #2A2D7C; border-radius: 26px; box-shadow: 0 16px 44px rgba(42,45,124,0.24); padding: clamp(26px, 3.4vw, 42px) clamp(22px, 3vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+      <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(19px, 2.2vw, 26px); line-height: 1.28; letter-spacing: -0.02em; color: #FFFFFF; max-width: 46ch">{{ ctaTitle }}</span>
+        <span style="font-size: 14.5px; color: #C9CAEC">0216 330 12 17 · kadikoy@dunyadillerimerkezi.com</span>
+      </div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap">
+        <a href="#iletisim" style="display: inline-flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border-radius: 13px; padding: 15px 22px; transition: background .18s ease" style-hover="background:#E8F4FC;color:#2A2D7C">
+          Bizimle İletişime Geçin
+          <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+        <a href="#" style="display: inline-flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 700; color: #FFFFFF; background: transparent; border: 1.5px solid #6D70C4; border-radius: 13px; padding: 15px 22px; transition: background .18s ease, border-color .18s ease" style-hover="background:#22256B;border-color:#FFFFFF;color:#FFFFFF">Şubelerimiz</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · FOOTER -->
+  <footer id="iletisim" style="background: #16184A; padding: clamp(44px, 6vw, 76px) clamp(14px, 3.5vw, 28px) 26px">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: clamp(28px, 4vw, 40px); padding-bottom: clamp(30px, 4vw, 44px)">
+        <div style="display: flex; flex-direction: column; gap: 18px">
+          <img src="assets/ddm-logo-beyaz.png" alt="Dünya Dilleri Merkezi" style="height: 48px; width: auto" />
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.7; color: #BFC1E7; max-width: 42ch">Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. 2003 yılından bugüne İstanbul’daki 5 şubemizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">KADIKÖY MERKEZ</span>
+            <span style="font-size: 13.5px; line-height: 1.7; color: #BFC1E7">Mühürdar Cad. Akmar Çarşısı No:70 Kat:3, Kadıköy</span>
+            <a href="tel:+902163301217" style="font-size: 13.5px; font-weight: 700; color: #FFFFFF" style-hover="color:#93CEEE">0216 330 12 17</a>
+            <a href="mailto:kadikoy@dunyadillerimerkezi.com" style="font-size: 13.5px; color: #BFC1E7" style-hover="color:#FFFFFF">kadikoy@dunyadillerimerkezi.com</a>
+          </div>
+        </div>
+        <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="4">
+          <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">{{ col.title }}</span>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <sc-for list="{{ col.items }}" as="l" hint-placeholder-count="5">
+                <a href="#" style="font-size: 14.5px; color: #BFC1E7" style-hover="color:#FFFFFF">{{ l }}</a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-top: 1px solid #2E3170; padding-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+        <span style="font-size: 13px; color: #8C8FD3">Dünya Dilleri Merkezi · Kadıköy · Bağdat Caddesi · Levent / Etiler · Ataşehir · Ümraniye</span>
+        <span style="font-size: 13px; color: #8C8FD3">KAPLAN INTERNATIONAL ve ILSC resmi kayıt ofisi</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1320}}">
+class Component extends DCLogic {
+  state = { open: null, drawer: false, w: 1280, stepsSeen: false, uni: "bogazici", faq: 0, query: "", toc: true, activeToc: "" };
+
+  componentDidMount() {
+    this.onScrollSafety = () => this.sync();
+    window.addEventListener("scroll", this.onScrollSafety, { passive: true });
+    this.sync();
+  }
+
+  /* Update yasam dongusu KULLANILMIYOR: runtime her DOM mutasyonunda
+     yeniden render edip dugumleri yeniden olusturdugu icin update
+     icinden yapilan imperatif yazim sonsuz donguye giriyordu. Senkron
+     sadece mount, scroll ve dusuk frekansli zamanlayicidan calisir. */
+  sync() {
+    this.fillSteps();
+  }
+
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScrollSafety);
+    clearTimeout(this.menuTimer);
+  }
+
+  /* Ayni HTML dizesi icin ayni {__html} nesnesini dondurur. Her renderda
+     yeni nesne uretilirse dangerouslySetInnerHTML surekli yeniden enjekte
+     edilir ve render firtinasi ana thread'i kilitler. */
+  htmlOf(s) {
+    if (!this._htmlCache) this._htmlCache = {};
+    const k = s || "";
+    if (!this._htmlCache[k]) this._htmlCache[k] = { __html: k };
+    return this._htmlCache[k];
+  }
+
+  memo(key, make) {
+    if (!this._memo) this._memo = {};
+    if (!(key in this._memo)) this._memo[key] = make();
+    return this._memo[key];
+  }
+
+  tween(dur, onStep, onDone) {
+    const t0 = Date.now();
+    const id = setInterval(() => {
+      const p = Math.min(1, (Date.now() - t0) / dur);
+      onStep(1 - Math.pow(1 - p, 3));
+      if (p >= 1) { clearInterval(id); if (onDone) onDone(); }
+    }, 16);
+    setTimeout(() => { clearInterval(id); onStep(1); if (onDone) onDone(); }, dur + 120);
+    return id;
+  }
+
+  /* Sayaclar statik. Count-up animasyonu, her adimda setState -> tam
+     yeniden render -> dugumlerin yeniden olusmasi zincirini tetikleyip
+     sayfayi kilitledigi icin kaldirildi. */
+  countVal(n) { return String(n); }
+  fillSteps() {
+    if (this.state.stepsSeen) return;
+    const track = document.querySelector("[data-step-track]");
+    if (!track) return;
+    const vh = window.innerHeight || 800;
+    if (track.getBoundingClientRect().top < vh * 0.88) this.setState({ stepsSeen: true });
+  }
+
+
+  syncToc() {
+    const secs = Array.prototype.slice.call(document.querySelectorAll("[data-detail-section]"));
+    if (!secs.length) return;
+    let current = secs[0].id;
+    secs.forEach((s) => { if (s.getBoundingClientRect().top < 180) current = s.id; });
+    if (current !== this.state.activeToc) this.setState({ activeToc: current });
+  }
+
+  /* --- sinav-ikon ailesi (genişletilebilir) ------------------------- */
+  examIcons() {
+    const I = (d) => (this.htmlOf('<g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + d + '</g>'));
+    return {
+      "sinav-ikon-dinleme": { label: "Dinleme", icon: I('<path d="M4 13a8 8 0 1116 0v4a3 3 0 01-3 3h-1v-7h4M4 13v4a3 3 0 003 3h1v-7H4"></path>') },
+      "sinav-ikon-okuma": { label: "Okuma", icon: I('<path d="M3.5 5.5h7a2 2 0 012 2v11a2 2 0 00-2-1.6h-7z"></path><path d="M20.5 5.5h-7a2 2 0 00-2 2v11a2 2 0 012-1.6h7z"></path>') },
+      "sinav-ikon-yazma": { label: "Yazma", icon: I('<path d="M6 3h8l4 4v14H6z"></path><path d="M14 3v4h4"></path><path d="M9.5 12h5M9.5 15.5h7M9.5 19h4"></path>') },
+      "sinav-ikon-konusma": { label: "Konuşma", icon: I('<path d="M4 6a2 2 0 012-2h9a2 2 0 012 2v5a2 2 0 01-2 2H9l-4 4v-4H6a2 2 0 01-2-2V6z"></path><path d="M19 9h1a2 2 0 012 2v5a2 2 0 01-2 2h-1v3l-3-3"></path>') },
+      "sinav-ikon-dilbilgisi": { label: "Dilbilgisi", icon: I('<path d="M5 18L11 5l6 13"></path><path d="M7.6 13.5h6.8"></path><path d="M4 21h16"></path>') },
+      "sinav-ikon-kelime": { label: "Kelime bilgisi", icon: I('<rect x="3.5" y="4.5" width="17" height="15" rx="2"></rect><path d="M7.5 9.5h5M7.5 13h9M7.5 16h4"></path><path d="M15 8.5l2.5 2.5"></path>') },
+      "sinav-ikon-kullanim": { label: "Use of English", icon: I('<circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 10.5c0-2 1.6-3 3.5-3s3.5 1 3.5 3c0 1.7-1.3 2.3-2.4 3-.8.5-1.1 1-1.1 1.8"></path><path d="M12 18.2v.3"></path>') },
+      "sinav-ikon-sure": { label: "Süre / oturum", icon: I('<circle cx="12" cy="13" r="8"></circle><path d="M12 8.5V13l3.4 2"></path><path d="M9 3h6"></path>') }
+    };
+  }
+
+  metaIcons() {
+    const I = (d) => (this.htmlOf('<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + d + '</g>'));
+    return {
+      sure: I('<circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3.5 2"></path>'),
+      soru: I('<path d="M5 4h14v16H5z"></path><path d="M9 9h6M9 13h6M9 17h3"></path>'),
+      kisim: I('<path d="M4 5h16M4 12h16M4 19h10"></path>')
+    };
+  }
+
+  /* --- universite-illustrasyon slotu -------------------------------- */
+  illoDefs() {
+    const L1 = (d) => '<g fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ddm-sky-300);animation:ddmFloatSlow 7s ease-in-out infinite">' + d + '</g>';
+    const L2 = (d) => '<g fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ddm-navy-400);animation:ddmFloat 6s ease-in-out .6s infinite">' + d + '</g>';
+    const L3 = (d) => '<g fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ddm-sky-300);animation:ddmFloat 5.4s ease-in-out 1.2s infinite">' + d + '</g>';
+    const GROUND = '<line x1="30" y1="168" x2="172" y2="168" stroke-width="1.6" style="stroke:var(--ddm-navy-500)"></line>';
+    const wrap = (a, b, c) => (this.htmlOf(L1(a) + L2(b) + L3(c) + GROUND));
+    return {
+      kampus: {
+        slug: "kampus", name: "Kampüs (varsayılan)", motifs: "Jenerik akademik bina · kep · yükselen seviye grafiği",
+        chip1: "Seviye tespiti", chip2: "Sınav tekniği",
+        body: wrap(
+          '<path d="M76 168V96h52v72"></path><path d="M72 96l30-18 30 18"></path><path d="M88 168v-30h12v30M108 168v-30h12v30"></path><path d="M88 112h12v14H88zM108 112h12v14h-12z"></path><path d="M102 78V66"></path><path d="M94 66h16"></path>',
+          '<path d="M38 128l20-9 20 9-20 9z"></path><path d="M46 132v10c0 3 5 5 12 5s12-2 12-5v-10"></path><path d="M74 133v12"></path><path d="M74 145a3 3 0 100 6 3 3 0 000-6z"></path>',
+          '<path d="M132 166v-18M148 166v-30M164 166v-44"></path><path d="M128 140l18-16 20-14"></path><path d="M160 106h8v8"></path>'
+        )
+      },
+      sinav: {
+        slug: "sinav-oturumu", name: "Sınav oturumu", motifs: "Optik form + kalem · kronometre · kulaklık",
+        chip1: "3 bölüm", chip2: "Sınav formatı",
+        body: wrap(
+          '<path d="M78 62h48v96H78z"></path><path d="M88 80h18M88 94h28M88 108h28M88 122h22"></path><circle cx="116" cy="80" r="4"></circle><path d="M132 58l10 10-38 38-12 2 2-12z"></path>',
+          '<circle cx="56" cy="134" r="18"></circle><path d="M56 122v12l8 5"></path><path d="M49 112l-4-6M63 112l4-6"></path><path d="M50 108h12"></path>',
+          '<path d="M134 142v-8a17 17 0 0134 0v8"></path><path d="M134 140h8v20h-8a4 4 0 01-4-4v-12a4 4 0 014-4z"></path><path d="M168 140h-8v20h8a4 4 0 004-4v-12a4 4 0 00-4-4z"></path>'
+        )
+      },
+      beceri: {
+        slug: "dort-beceri", name: "Dört beceri", motifs: "Açık kitap · kompozisyon kağıdı · ses dalgası",
+        chip1: "Okuma · Yazma", chip2: "Dinleme",
+        body: wrap(
+          '<path d="M64 80h34a6 6 0 016 6v66a6 6 0 00-6-5H64z"></path><path d="M140 80h-34a6 6 0 00-6 6v66a6 6 0 016-5h34z"></path><path d="M74 98h18M74 112h18M112 98h18M112 112h18"></path>',
+          '<path d="M38 116h30v44H38z"></path><path d="M44 126h18M44 136h18M44 146h11"></path><path d="M38 116l6-8h24l-6 8"></path>',
+          '<path d="M136 152v-12M146 158v-24M156 154v-16M166 160v-28"></path>'
+        )
+      }
+    };
+  }
+
+  universities() {
+    return [
+      { slug: "bogazici", name: "Boğaziçi Üniversitesi", code: "BUEPT" },
+      { slug: "odtu", name: "Orta Doğu Teknik Üniversitesi", code: "" },
+      { slug: "itu", name: "İstanbul Teknik Üniversitesi", code: "" },
+      { slug: "koc", name: "Koç Üniversitesi", code: "KUEPE" },
+      { slug: "sabanci", name: "Sabancı Üniversitesi", code: "ELAE" },
+      { slug: "marmara", name: "Marmara Üniversitesi", code: "" },
+      { slug: "yildiz", name: "Yıldız Teknik Üniversitesi", code: "" },
+      { slug: "bahcesehir", name: "Bahçeşehir Üniversitesi", code: "" },
+      { slug: "beykent", name: "Beykent Üniversitesi", code: "" },
+      { slug: "bilgi", name: "İstanbul Bilgi Üniversitesi", code: "BİLET" },
+      { slug: "acibadem", name: "Acıbadem Üniversitesi", code: "AYES" },
+      { slug: "dogus", name: "Doğuş Üniversitesi", code: "DÜİYES" },
+      { slug: "isik", name: "Işık Üniversitesi", code: "" },
+      { slug: "kadirhas", name: "Kadir Has Üniversitesi", code: "" },
+      { slug: "kocaeli", name: "Kocaeli Üniversitesi", code: "" },
+      { slug: "maltepe", name: "Maltepe Üniversitesi", code: "" },
+      { slug: "okan", name: "Okan Üniversitesi", code: "" },
+      { slug: "ozyegin", name: "Özyeğin Üniversitesi", code: "TRACE" },
+      { slug: "yeditepe", name: "Yeditepe Üniversitesi", code: "" },
+      { slug: "sehir", name: "İstanbul Şehir Üniversitesi", code: "STEP" },
+      { slug: "suleymansah", name: "Süleyman Şah Üniversitesi", code: "" }
+    ];
+  }
+
+  /* Sayfa verisi. Boğaziçi = gerçek içerik (543 kelime).
+     Diğer örnekler yalnızca şablon esnekliğini göstermek için:
+     içerik gelmediği sürece bölüm gövdeleri boş kalır ve gizlenir. */
+  pageData() {
+    const E = this.examIcons();
+    return {
+      bogazici: {
+        uni: "Boğaziçi Üniversitesi", code: "BUEPT", examLabel: "BÜYES/BUEPT",
+        h1: "Boğaziçi Üniversitesi BUEPT Proficiency Sınavı Hazırlık Atlama Kursu",
+        lead: "Boğaziçi Üniversitesi İngilizce yeterlik sınavı (BUEPT)’e yönelik hazırlık atlama Proficiency eğitimlerine katılacak olan öğrencilerimize başlıca seviye belirleme sınavı uygulamaktayız.",
+        contentTitle: "Boğaziçi Üniversitesi BUEPT Sınavının İçeriği",
+        countLine: "BÜYES/BUEPT üç bölümden oluşmaktadır.",
+        note: "Boğaziçi · 543 kelime · 3 bölüm — uzun içerik varyantı",
+        illo: "sinav",
+        sections: [
+          { name: "Duyduğunu Anlama", nameEn: "Dinleme", icon: "sinav-ikon-dinleme",
+            parts: [
+              { title: "Seçici Dinleme (Selective Listening)", meta: [{ key: "inceleme", raw: "3 dakika", text: "3 dk inceleme", icon: "sure" }, { key: "kontrol", raw: "3 dakika", text: "3 dk kontrol", icon: "sure" }] },
+              { title: "Ayrıntılı Dinleme (Careful Listening)", meta: [{ key: "cevaplama", raw: "15 dakika", text: "15 dk cevaplama", icon: "sure" }, { key: "kisim", raw: "not alma", text: "not alma serbest", icon: "kisim" }] }
+            ],
+            paras: [
+              "Duyduğunu Anlama bölümünde, Seçici Dinleme (Selective Listening) ve Ayrıntılı Dinleme (Careful Listening) şeklinde iki kısımdan oluşmaktadır.",
+              "Dinleme metinleri bir öğretim elemanı tarafından bir kez okunur. Seçici Dinleme kısmında, öğrenciler metin okunmadan önce soruları 3 dakika inceler ve sorulara metnin okunması esnasında cevap verirler. Metnin okunması sona erdiğinde öğrencilere cevaplarını kontrol etmeleri için 3 dakika süre verilir.",
+              "Ayrıntılı Dinleme kısmında ise öğrenciler soruları görmeden evvel metin okunurken not alabilirler. Öğrencilere metindeki ana fikirleri, düşünceler arası geçişleri, ifadeler arası anlam ilişkilerini (sebep-sonuç, zıtlık, çelişki, vb.), örneklendirmeleri ve tanımları not almaları tavsiye edilmektedir. Metnin okunması sona erdiğinde öğrencilere notlarından yararlanarak soruları cevaplamaları için 15 dakikalık süre tanınmaktadır."
+            ] },
+          { name: "Okuduğunu Anlama", nameEn: "Okuma", icon: "sinav-ikon-okuma",
+            parts: [
+              { title: "Arayarak Okuma (Search Reading)", meta: [{ key: "soruSayisi", raw: "8-10", text: "8–10 soru", icon: "soru" }, { key: "sure", raw: "30-35 dakika", text: "30–35 dk", icon: "sure" }] },
+              { title: "Ayrıntılı Okuma (Careful Reading)", meta: [{ key: "soruSayisi", raw: "9-11", text: "9–11 soru", icon: "soru" }, { key: "sure", raw: "40-50 dakika", text: "40–50 dk", icon: "sure" }] }
+            ],
+            paras: [
+              "Okuduğunu Anlama bölümü, Arayarak Okuma (Search Reading) ve Ayrıntılı Okuma (Careful Reading) olarak iki kısımdan oluşmaktadır.",
+              "Arayarak Okuma kısmında, öğrenciler önce soruyu okurlar. Ardından, soruda geçen anahtar kelime/kelimelerden yola çıkarak metinde konunun geçtiği ilgili paragrafı bulmalıdır. Soruyu cevaplayabilmek için o paragrafı dikkatlice okumaları gerekmektedir. Arayarak Okuma bölümü, 8-10 sorudan oluşur ve bu kısım için toplam süre 30-35 dakikadır.",
+              "Sorular metindeki bilgi sırasına göredir ve sorulara kısa cevap vermek gerekmektedir. Kısa cevap verirken dikkat edilmesi gereken husus, soru neyi soruyorsa sadece onu yazmak, gereksiz bilgi eklememektir. Ayrıca, cevabın uzun versiyonu düşünüldüğünde, yani bütün bir cümle şeklinde cevaplandığında nasıl bir dilbilgisi yapısı ve anlam bütünlüğü içinde olması gerekiyorsa kısa cevap, bu kıstas gözönünde bulundurularak oluşturulmalıdır.",
+              "İkinci kısım olan Ayrıntılı Okuma’da, öğrencilerin metni ayrıntılara dikkat ederek okuyup anlaması ve sorulan bilgiyi ilgili paragrafta bulduktan sonra hem paragrafın kendisi hem de öncesi ve sonrasındaki paragrafların anlam bütünlüğü içinde değerlendirmesi yoluyla soruları cevaplandırmaları beklenmektedir. Ayrıntılı Okuma bölümü 9-11 sorudan oluşur ve bu kısım için toplam süresi 40-50 dakikadır.",
+              "Soru tipleri Arayarak Okuma bölümündeki soru tiplerinden farklıdır. Bu sorular, metindeki ana fikirleri ve önemli detayları anlama, yorumlama, paragrafta tartışılan düşüncelerarası ilişki kurabilme ve bu düşünceler öncesi ve sonrasındaki paragraflar, hatta metnin bütünü ile ilişkilendirebilme becerilerini ölçmektedir. Soru tipleri kısa cevap, çoktan seçmeli ve eşleştirme şeklinde olabilmektedir."
+            ] },
+          { name: "Yazılı İfade", nameEn: "Yazma", icon: "sinav-ikon-yazma",
+            parts: [
+              { title: "İki kompozisyon", meta: [{ key: "soruSayisi", raw: "2", text: "2 kompozisyon", icon: "soru" }, { key: "uzunluk", raw: "~1 A4", text: "her biri ~1 A4", icon: "kisim" }] },
+              { title: "Süre kullanımı", meta: [{ key: "sure", raw: "40 dakika", text: "40 dk / kompozisyon", icon: "sure" }, { key: "toplamSure", raw: "80 dakika", text: "toplam 80 dk", icon: "sure" }] }
+            ],
+            paras: [
+              "Yazılı İfade bölümünde öğrencilerden iki farklı konu üzerine iki kompozisyon (her biri yaklaşık bir A4 sayfası uzunluğunda) yazmaları beklenmektedir. Kompozisyon konularında, öğrencinin tartışabileceği yardımcı fikirlere yer verilir.",
+              "Öğrenciler verilen yardımcı fikirler yerine kendi buldukları yardımcı fikirleri kullanarak da kompozisyonlarını yazabilirler. Her bir kompozisyon için ayrılan süre 40 dakika olup heriki konu öğrencilere yazma sınavı başında verilir. Öğrenciler, 80 dakikalık süre içinde diledikleri yazma konusundan başlayabilirler.",
+              "Değerlendirme aşamasında dilbilgisi ve anlam bakımından yetkin bir akademik İngilizce, ve düşüncelerin uyumlu bir biçimde ifadesi esas alınmaktadır. Düşüncelerarası geçişlerin sağlanması ve sunulan düşüncelerin açıklama, tanımlama, tasvir ve örneklendirme yoluyla detaylandırılması da akademik düzeydeki başarılı bir kompozisyonun vazgeçilmez unsurlarındandır."
+            ] }
+        ]
+      },
+      sabanci: {
+        uni: "Sabancı Üniversitesi", code: "ELAE", examLabel: "ELAE",
+        h1: "Sabancı Üniversitesi ELAE Proficiency Sınavı Hazırlık Atlama Kursu",
+        lead: "Sabancı Üniversitesi İngilizce yeterlik sınavı (ELAE)’e yönelik hazırlık atlama Proficiency eğitimlerine katılacak olan öğrencilerimize başlıca seviye belirleme sınavı uygulamaktayız.",
+        contentTitle: "Sabancı Üniversitesi ELAE Sınavının İçeriği",
+        countLine: "Sınav bölümleri müşteriden bekleniyor — bölüm verisi geldiğinde kartlar burada listelenir.",
+        note: "Sabancı · ~90 kelime · bölüm verisi yok — kısa içerik varyantı",
+        illo: "kampus",
+        sections: []
+      },
+      odtu: {
+        uni: "Orta Doğu Teknik Üniversitesi", code: "", examLabel: "Proficiency",
+        h1: "Orta Doğu Teknik Üniversitesi Proficiency Sınavı Hazırlık Atlama Kursu",
+        lead: "Orta Doğu Teknik Üniversitesi İngilizce yeterlik sınavına yönelik hazırlık atlama Proficiency eğitimlerine katılacak olan öğrencilerimize başlıca seviye belirleme sınavı uygulamaktayız.",
+        contentTitle: "Orta Doğu Teknik Üniversitesi Proficiency Sınavının İçeriği",
+        countLine: "Sınav iki bölümden oluşmaktadır. Bölüm gövde metinleri müşteriden bekleniyor.",
+        note: "ODTÜ · sınav kodu yok · 2 bölüm — orta uzunluk varyantı",
+        illo: "beceri",
+        sections: [
+          { name: "Okuduğunu Anlama", nameEn: "Okuma", icon: "sinav-ikon-okuma",
+            parts: [{ title: "Bölüm yapısı", meta: [{ key: "veri", raw: "", text: "veri bekleniyor", icon: "kisim" }] }], paras: [] },
+          { name: "Yazılı İfade", nameEn: "Yazma", icon: "sinav-ikon-yazma",
+            parts: [{ title: "Bölüm yapısı", meta: [{ key: "veri", raw: "", text: "veri bekleniyor", icon: "kisim" }] }], paras: [] }
+        ]
+      }
+    };
+  }
+
+  menus() {
+    return [
+      { key: "dil", short: "Yabancı Dil", label: "YABANCI DİL KURSLARI",
+        promoTitle: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz.",
+        promoLink: "Sana Uygun Yabancı Dil Kursunu Keşfet",
+        columns: [
+          { title: "DİLLER", items: ["İngilizce Kursu", "Almanca Kursu", "Fransızca Kursu", "Rusça Kursu", "İspanyolca Kursu"] },
+          { title: "DİĞER DİLLER", items: ["İtalyanca Kursu", "Çince Kursu", "Türkçe Kursu", "Flemenkçe Kursu", "İngilizce Konuşma"] },
+          { title: "KURS BİLGİLERİ", items: ["Eğitim Programı Seviyeleri", "Programı Gün ve Saatleri", "Kur Sınavları", "Dil Seviyeleri", "Sertifikalar ve Uluslararası Sınavlar"] }
+        ] },
+      { key: "ing", short: "İngilizce", label: "İNGİLİZCE KURSLARI",
+        promoTitle: "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar",
+        promoLink: "Diğer Eğitim Programlarını Keşfet",
+        columns: [
+          { title: "PROGRAM", items: ["İngilizce Eğitim Programı Seviyeleri", "İngilizce Programı Gün ve Saatleri", "İngilizce Kur Sınavları", "İngilizce Dil Seviyeleri", "İngilizce Sertifikaları ve Uluslararası Sınavlar"] },
+          { title: "ÖZEL PROGRAMLAR", items: ["İngilizce Konuşma", "Business English", "DDM Kids", "Online Dil Eğitimi", "Özel Dersler"] }
+        ] },
+      { key: "sinav", short: "Sınav Hazırlık", label: "SINAV HAZIRLIK",
+        promoTitle: "TOEFL, IELTS, YDS, GRE, SAT, GMAT, TESTDAF/DNDS ve Proficiency programlarımızla öğrencilerimize kapsamlı destek sunuyoruz.",
+        promoLink: "Sana Uygun Sınav Hazırlık Programını Keşfet",
+        columns: [
+          { title: "SINAV HAZIRLIK PROGRAMLARI", items: ["TOEFL Kursu", "IELTS Kursu", "Proficiency Kursu", "TESTDAF Kursu", "YDS Kursu", "GRE Kursu", "SAT Kursu", "GMAT Kursu"] },
+          { title: "PROFICIENCY", items: ["Proficiency Nedir", "Proficiency Sınavı", "Örnek Sınav Soruları", "Proficiency Özel Ders"] }
+        ] },
+      { key: "yurtdisi", short: "Yurtdışı Eğitim", label: "YURTDIŞI EĞİTİM",
+        promoTitle: "Dünya Dilleri Merkezi, KAPLAN INTERNATIONAL ve ILSC dil okullarının resmi kayıt ofisidir.",
+        promoLink: "Sana Uygun Yurtdışı Eğitimini Keşfet",
+        columns: [
+          { title: "PROGRAMLAR", items: ["Yurtdışı İngilizce", "Sınav Hazırlık", "Pathway Programı", "Yüksek Öğrenim", "Yaz Okulları", "Yurtdışı Dil Eğitimi"] }
+        ] },
+      { key: "diger", short: "Diğer Programlar", label: "DİĞER PROGRAMLAR",
+        promoTitle: "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar",
+        promoLink: "Diğer Eğitim Programlarını Keşfet",
+        columns: [
+          { title: "PROGRAMLAR", items: ["Özel Dersler", "Business English", "DDM Kids", "Yurtdışı Dil Eğitimi"] }
+        ] },
+      { key: "yorum", short: "Öğrenci Yorumları", label: "ÖĞRENCİ YORUMLARI",
+        promoTitle: "Sitemizde yayınlanması için bir yorum veya bir fikriniz mi var?",
+        promoLink: "Öğrenci Yorumlarını Oku",
+        columns: [{ title: "İÇERİKLER", items: ["Mektuplar", "Aktiviteler", "Duyurular"] }] },
+      { key: "subeler", short: "Şubeler", label: "ŞUBELERİMİZ",
+        promoTitle: "Kadıköy Merkez · Mühürdar Cad. Akmar Çarşısı No:70 Kat:3 · 0216 330 12 17",
+        promoLink: "Kadıköy Şubemizi Keşfet",
+        columns: [{ title: "ŞUBELER", items: ["Kadıköy Merkez", "Bağdat Caddesi", "Levent / Etiler", "Ataşehir", "Ümraniye"] }] }
+    ];
+  }
+
+  renderVals() {
+    const w = this.state.w;
+    const wide = w >= 1000;
+    const open = this.state.open;
+    const menus = this.menus();
+
+    const E = this.examIcons();
+    const M = this.metaIcons();
+    const illos = this.illoDefs();
+    const pages = this.pageData();
+    const page = pages[this.state.uni] || pages.bogazici;
+    const illo = illos[page.illo] || illos.kampus;
+
+    const cancelClose = () => { clearTimeout(this.menuTimer); };
+    const scheduleClose = () => {
+      clearTimeout(this.menuTimer);
+      this.menuTimer = setTimeout(() => this.setState({ open: null }), 260);
+    };
+
+    const secs = page.sections || [];
+    const detailSecs = secs.filter((s) => s.paras && s.paras.length);
+    const slugOf = (s) => "detay-" + s.icon.replace("sinav-ikon-", "");
+
+    const metaStyle = (key) => {
+      const empty = key === "veri";
+      return {
+        bg: empty ? "#FAEFE5" : "#E8F4FC",
+        border: empty ? "#E5C5A6" : "#DCEEF9",
+        color: empty ? "#7E3F09" : "#1A6D9C"
+      };
+    };
+
+    const quick = [];
+    if (secs.length) quick.push({ value: this.countVal(secs.length), count: String(secs.length), label: "sınav bölümü", icon: E["sinav-ikon-kullanim"].icon });
+    if (this.state.uni === "bogazici") quick.push({ value: this.countVal(80), count: "80", label: "dakika yazma oturumu", icon: E["sinav-ikon-sure"].icon });
+    quick.push({ value: this.countVal(5), count: "5", label: "İstanbul şubesi", icon: this.htmlOf('<g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"></path><circle cx="12" cy="10" r="2.6"></circle></g>') });
+    quick.push({ value: this.countVal(1), count: "1", label: "seviye tespit sınavıyla başlangıç", icon: this.htmlOf('<g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l4.5-5 3.5 3L20 6"></path><path d="M4 20h16"></path></g>') });
+
+    const q = this.state.query.trim().toLocaleLowerCase("tr");
+    const unis = this.universities();
+    const filtered = q ? unis.filter((u) => (u.name + " " + u.code).toLocaleLowerCase("tr").indexOf(q) !== -1) : unis;
+
+    const faqSrc = [
+      { q: "Programa nasıl başlanıyor?", a: "Hazırlık atlama Proficiency eğitimlerine katılacak olan öğrencilerimize başlıca seviye belirleme sınavı uygulamaktayız. Yapılacak olan seviye belirleme sınavı sonrasında katılımcının okuma, okuduğunu anlama, dinleme, duyduğunu anlama, yazma ve ifade yazabilme becerisi net bir şekilde belirlenir." },
+      { q: "Program kişiye göre mi hazırlanıyor?", a: "Bu test sonrasında katılımcının varolan İngilizce dilbilgisi, okuma, okuduğunu anlama, dinleme duyduğunu anlama, yazma, yazarak ifade edebilme ve anlamlı kompozisyon yazabilme becerisini geliştirecek programları hazırlamaktayız." },
+      { q: "Sınav formatına yönelik çalışma yapılıyor mu?", a: "Eğitim başlangıcından sonuna kadar sınav formatına yönelik teknikler öğrencilerimize aktarılmaktadır." },
+      { q: "Dersleri kimler veriyor?", a: page.examLabel + " hazırlık atlama sınavı Proficiency programlarımız konusunda uzmanlaşmış akademik başarısı tescilli öğretim üyelerimiz tarafından yürütülmektedir." },
+      { q: "Sınav kaç bölümden oluşuyor?", a: page.countLine },
+      { q: "Yazma bölümünde ne bekleniyor?", a: "Yazılı İfade bölümünde öğrencilerden iki farklı konu üzerine iki kompozisyon (her biri yaklaşık bir A4 sayfası uzunluğunda) yazmaları beklenmektedir. Her bir kompozisyon için ayrılan süre 40 dakika olup öğrenciler 80 dakikalık süre içinde diledikleri yazma konusundan başlayabilirler." },
+      { q: "Değerlendirmede nelere dikkat ediliyor?", a: "Değerlendirme aşamasında dilbilgisi ve anlam bakımından yetkin bir akademik İngilizce, ve düşüncelerin uyumlu bir biçimde ifadesi esas alınmaktadır." }
+    ];
+    const faqShown = this.state.uni === "bogazici" ? faqSrc : faqSrc.slice(0, 5);
+
+    const branches = ["Kadıköy Merkez", "Bağdat Caddesi", "Levent / Etiler", "Ataşehir", "Ümraniye"];
+
+    return {
+      uniName: page.uni,
+      h1: page.h1,
+      heroLead: page.lead,
+      examCode: page.code,
+      hasCode: !!page.code,
+      examLabel: page.examLabel,
+      branchLabel: "5 şubede",
+      contentTitle: page.contentTitle,
+      sectionCountLine: page.countLine,
+      variantNote: page.note,
+
+      uniOptions: [
+        { label: "Boğaziçi (uzun)", key: "bogazici" },
+        { label: "ODTÜ (orta)", key: "odtu" },
+        { label: "Sabancı (kısa)", key: "sabanci" }
+      ].map((o) => ({
+        label: o.label,
+        bg: this.state.uni === o.key ? "#2E9BD6" : "transparent",
+        color: this.state.uni === o.key ? "#FFFFFF" : "#BFC1E7",
+        onClick: () => this.setState({ uni: o.key, faq: 0, activeToc: "" })
+      })),
+
+      illoBody: illo.body,
+      illoChip1: illo.chip1,
+      illoChip2: illo.chip2,
+      illoDisplay: w < 620 ? "none" : "block",
+      illoSet: Object.keys(illos).map((k, i) => ({
+        slug: illos[k].slug, name: illos[k].name, motifs: illos[k].motifs,
+        body: illos[k].body, delay: String(i * 60)
+      })),
+      iconFamily: Object.keys(E).map((k, i) => ({
+        name: k, label: E[k].label, icon: E[k].icon, delay: String(i * 40)
+      })),
+
+      heroGrid: "repeat(auto-fit, minmax(min(100%, 380px), 1fr))",
+      detailGrid: wide ? "minmax(0, 1fr) minmax(0, 340px)" : "minmax(0, 1fr)",
+      faqGrid: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
+      drawerOpen: this.state.drawer,
+      toggleDrawer: () => this.setState({ drawer: !this.state.drawer, open: null }),
+      cancelClose, scheduleClose,
+      activeMenu: menus.find((m) => m.key === open) || null,
+      navItems: menus.map((m) => ({
+        short: m.short,
+        color: open === m.key ? "#2A2D7C" : "#3F4049",
+        bg: open === m.key ? "#F1F8FD" : "transparent",
+        onClick: () => { cancelClose(); this.setState({ open: open === m.key ? null : m.key }); },
+        onEnter: () => { cancelClose(); if (open !== m.key) this.setState({ open: m.key }); }
+      })),
+
+      quickFacts: quick,
+
+      stepFillWidth: this.state.stepsSeen ? "100%" : "0%",
+      steps: [
+        { num: "1", title: "Seviye belirleme sınavı", body: "Eğitime katılacak öğrencilerimize başlıca seviye belirleme sınavı uygulanır; okuma, dinleme, yazma ve ifade yazabilme becerisi net bir şekilde belirlenir.", delay: "0", ms: 0 },
+        { num: "2", title: "Kişiye özel program", body: "Test sonrasında katılımcının varolan dilbilgisi, okuma, dinleme, yazma ve anlamlı kompozisyon yazabilme becerisini geliştirecek programlar hazırlanır.", delay: "80", ms: 160 },
+        { num: "3", title: "Sınav formatına yönelik teknik çalışma", body: "Eğitim başlangıcından sonuna kadar sınav formatına yönelik teknikler öğrencilerimize aktarılmaktadır.", delay: "160", ms: 320 }
+      ].map((s) => ({
+        num: s.num, title: s.title, body: s.body, delay: s.delay,
+        dotBg: this.state.stepsSeen ? "#2A2D7C" : "#FFFFFF",
+        dotBorder: this.state.stepsSeen ? "#2A2D7C" : "#E4E5E9",
+        dotColor: this.state.stepsSeen ? "#FFFFFF" : "#A8AAB3",
+        dotDelay: (this.state.stepsSeen ? s.ms : 0) + "ms"
+      })),
+
+      examSections: secs.map((s, i) => ({
+        num: String(i + 1),
+        name: s.name,
+        nameEn: s.nameEn,
+        icon: E[s.icon].icon,
+        iconName: s.icon,
+        anchor: s.paras && s.paras.length ? "#" + slugOf(s) : "#iletisim",
+        delay: String(i * 70),
+        parts: (s.parts || []).map((p) => ({
+          title: p.title,
+          meta: (p.meta || []).map((m) => {
+            const st = metaStyle(m.key);
+            return { key: m.key, raw: m.raw, text: m.text, icon: M[m.icon] || M.kisim, bg: st.bg, border: st.border, color: st.color };
+          })
+        }))
+      })),
+
+      hasDetails: detailSecs.length > 0,
+      details: detailSecs.map((s) => ({
+        id: slugOf(s),
+        title: s.name + " Bölümü",
+        icon: E[s.icon].icon,
+        paras: s.paras
+      })),
+      tocItems: detailSecs.map((s) => {
+        const id = slugOf(s);
+        const on = this.state.activeToc === id;
+        return {
+          id, href: "#" + id, label: s.name,
+          weight: on ? "700" : "500",
+          color: on ? "#2A2D7C" : "#5A5C66",
+          bg: on ? "#FFFFFF" : "transparent",
+          bar: on ? "#2E9BD6" : "transparent"
+        };
+      }),
+      tocPosition: wide ? "sticky" : "static",
+      tocMaxH: wide || this.state.toc ? "620px" : "0px",
+      tocOpacity: wide || this.state.toc ? "1" : "0",
+      tocCaret: this.state.toc ? "rotate(180deg)" : "rotate(0deg)",
+      tocCaretDisplay: wide ? "none" : "inline-flex",
+      tocCursor: wide ? "default" : "pointer",
+      toggleToc: () => { if (!wide) this.setState({ toc: !this.state.toc }); },
+      formLead: "Size uygun şubenin ön bilgi formundan yazın, eğitim danışmanlarımız sorularınızı cevaplasın.",
+
+      whyTitle: "Konusunda uzmanlaşmış akademik kadro ile sınav odaklı hazırlık",
+      why: [
+        { title: "Akademik başarısı tescilli öğretim üyeleri", body: page.examLabel + " hazırlık atlama sınavı Proficiency programlarımız konusunda uzmanlaşmış akademik başarısı tescilli öğretim üyelerimiz tarafından yürütülmektedir.", icon: E["sinav-ikon-kullanim"].icon, delay: "0" },
+        { title: "Sınav formatına yönelik teknik", body: "Eğitim başlangıcından sonuna kadar sınav formatına yönelik teknikler öğrencilerimize aktarılmaktadır.", icon: E["sinav-ikon-sure"].icon, delay: "70" },
+        { title: "Seviye tespitine dayalı kişisel program", body: "Seviye belirleme sınavı sonrasında katılımcının okuma, dinleme, yazma ve ifade yazabilme becerisi net bir şekilde belirlenir ve program buna göre hazırlanır.", icon: E["sinav-ikon-yazma"].icon, delay: "140" }
+      ],
+
+      scheduleTitle: page.uni + " Proficiency Kursu Şube ve Takvimi",
+      scheduleLead: "Bu eğitim aşağıdaki şubelerimizde sunulmaktadır. Size uygun olan şubenin ön bilgi formundan ve şubelerin iletişim bölümünden bize yazın sorularınızı cevaplayalım.",
+      branchRows: branches.map((b) => ({
+        branch: b,
+        note: page.examLabel + " Proficiency hazırlık atlama"
+      })),
+
+      faqTitle: page.examLabel + " hazırlık atlama kursu hakkında sık sorulanlar",
+      faqs: faqShown.map((f, i) => ({
+        question: f.q,
+        answer: f.a,
+        delay: String(i * 60),
+        caret: this.state.faq === i ? "rotate(180deg)" : "rotate(0deg)",
+        maxH: this.state.faq === i ? "460px" : "0px",
+        opacity: this.state.faq === i ? "1" : "0",
+        onClick: () => this.setState({ faq: this.state.faq === i ? -1 : i })
+      })),
+
+      uniQuery: this.state.query,
+      onQuery: (e) => this.setState({ query: e.target.value }),
+      noMatch: q.length > 0 && filtered.length === 0,
+      uniCards: filtered.map((u, i) => {
+        const current = u.slug === this.state.uni;
+        const initials = u.name.split(" ").filter((x) => x.length > 2).slice(0, 2).map((x) => x[0]).join("");
+        return {
+          name: u.name,
+          code: u.code || "Proficiency",
+          codeDisplay: "inline-flex",
+          codeBg: u.code ? (current ? "#2A2D7C" : "#E8F4FC") : "#F2F2F5",
+          codeColor: u.code ? (current ? "#FFFFFF" : "#1A6D9C") : "#7C7E88",
+          initials,
+          badgeBg: current ? "#2A2D7C" : "#F1F8FD",
+          badgeColor: current ? "#FFFFFF" : "#2A2D7C",
+          bg: current ? "#F1F8FD" : "#FFFFFF",
+          border: current ? "#93CEEE" : "#E8E9ED",
+          delay: String(Math.min(i, 12) * 35)
+        };
+      }),
+
+      related: [
+        { label: "Proficiency Nedir", delay: "0" },
+        { label: "Proficiency Sınavı", delay: "60" },
+        { label: "Örnek Sınav Soruları", delay: "120" },
+        { label: "Proficiency Özel Ders", delay: "180" }
+      ],
+
+      ctaTitle: "Bizimle İletişime Geçin — seviye tespit sınavıyla programınızı belirleyelim.",
+
+      footerCols: [
+        { title: "SINAV HAZIRLIK", items: ["TOEFL Kursu", "IELTS Kursu", "Proficiency Kursu", "TESTDAF Kursu", "YDS Kursu", "GRE Kursu", "SAT Kursu", "GMAT Kursu"] },
+        { title: "PROFICIENCY", items: ["Proficiency Nedir", "Proficiency Sınavı", "Örnek Sınav Soruları", "Proficiency Özel Ders", "Üniversite Hazırlık Atlama"] },
+        { title: "YABANCI DİL KURSLARI", items: ["İngilizce Kursu", "Almanca Kursu", "Fransızca Kursu", "Rusça Kursu", "İspanyolca Kursu", "İtalyanca Kursu"] },
+        { title: "DİĞER PROGRAMLAR", items: ["Özel Dersler", "Business English", "DDM Kids", "Online Dil Eğitimi", "Tercüme Hizmetleri", "Öğrenci Yorumları"] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

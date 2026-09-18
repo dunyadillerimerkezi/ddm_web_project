@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ddm-navy: #2A2D7C;
+    --ddm-navy-900: #16184A;
+    --ddm-navy-500: #3B3F96;
+    --ddm-navy-400: #5A5EB4;
+    --ddm-sky: #2E9BD6;
+    --ddm-sky-300: #93CEEE;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #FFFFFF; color: #3F4049; font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; text-wrap: pretty; }
+  a { color: #2A2D7C; text-decoration: none; }
+  a:hover { color: #2384BB; }
+  ::selection { background: #E8F4FC; }
+  img { display: block; }
+  @keyframes ddmFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes ddmFloatSlow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+  @keyframes ddmChip { 0%,100% { opacity: .4; transform: translateY(3px); } 50% { opacity: 1; transform: translateY(-3px); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  /* Scroll reveal TAMAMEN CSS. JS'ten DOM'a yazim yok: editor DOM
+     gozlemcisi her mutasyonu yeniden render'a cevirdigi icin imperatif
+     yazim sonsuz donguye giriyordu. */
+  /* Scroll reveal animasyonu KULLANILMIYOR: bu boyuttaki sayfalarda
+     [data-reveal] uzerindeki CSS animasyonu sayfayi kilitliyor. Attribute'lar
+     ileride guvenli bir cozum icin yerinde duruyor. */
+  /* Breakpoint'ler CSS'te: JS ölçümünden bağımsız, ilk boyamada doğru. */
+  [data-ddm-nav] { display: flex; }
+  [data-ddm-cta] { display: inline-flex; }
+  [data-ddm-burger] { display: none; }
+  [data-ddm-illo] { display: block; }
+  [data-ddm-thead] { display: grid; }
+  [data-ddm-row] { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr auto; gap: 16px; padding: 18px 24px; }
+  [data-ddm-row] [data-ddm-rowcta] { justify-self: end; }
+  [data-ddm-rowlabel] { display: none; }
+  @media (max-width: 1339px) {
+    [data-ddm-nav] { display: none; }
+    [data-ddm-cta] { display: none; }
+    [data-ddm-burger] { display: inline-flex; margin-left: auto; }
+  }
+  @media (max-width: 759px) {
+    [data-ddm-thead] { display: none; }
+    [data-ddm-row] { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 20px; }
+    [data-ddm-row] [data-ddm-rowcta] { justify-self: start; }
+    [data-ddm-rowlabel] { display: block; }
+  }
+  @media (max-width: 619px) { [data-ddm-illo] { display: none; } }
+</style>
+</helmet>
+
+<div style="background: #FFFFFF; overflow-x: clip; padding-bottom: 1px">
+
+  <!-- ŞABLON ÖNİZLEME KONTROLÜ (yayında olmayacak) -->
+  <div style="background: #101126; padding: 10px clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+      <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: #8C8FD3">ŞABLON ÖNİZLEME</span>
+      <div style="display: flex; align-items: center; gap: 8px">
+        <span style="font-size: 12px; color: #BFC1E7">İçerik:</span>
+        <button type="button" onClick="{{ setLong }}" style="font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; color: {{ longColor }}; background: {{ longBg }}; border: 1px solid #2E3170; border-radius: 8px; padding: 6px 11px; cursor: pointer">Uzun (941 kelime)</button>
+        <button type="button" onClick="{{ setShort }}" style="font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; color: {{ shortColor }}; background: {{ shortBg }}; border: 1px solid #2E3170; border-radius: 8px; padding: 6px 11px; cursor: pointer">Kısa (74 kelime)</button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px">
+        <span style="font-size: 12px; color: #BFC1E7">dil-illustrasyon slotu:</span>
+        <sc-for list="{{ illoOptions }}" as="o" hint-placeholder-count="3">
+          <button type="button" onClick="{{ o.onClick }}" style="font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; color: {{ o.color }}; background: {{ o.bg }}; border: 1px solid #2E3170; border-radius: 8px; padding: 6px 11px; cursor: pointer">{{ o.label }}</button>
+        </sc-for>
+      </div>
+      <span style="margin-left: auto; font-size: 11.5px; color: #6F72A8">Bu şerit yalnızca şablonu göstermek için; canlı sayfada yer almaz.</span>
+    </div>
+  </div>
+
+  <!-- ÜST BAR -->
+  <div style="background: #16184A; padding: 9px 0">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 0 clamp(14px, 3.5vw, 28px); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+      <span style="font-size: 13px; color: #BFC1E7">19 dilde eğitim · 2003’ten bugüne · İstanbul’da 5 şube</span>
+      <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap">
+        <a href="tel:+902163301217" style="font-size: 13px; font-weight: 600; color: #FFFFFF" style-hover="color:#93CEEE">0216 330 12 17</a>
+        <a href="mailto:kadikoy@dunyadillerimerkezi.com" style="font-size: 13px; font-weight: 600; color: #FFFFFF" style-hover="color:#93CEEE">kadikoy@dunyadillerimerkezi.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div style="position: sticky; top: 0; z-index: 60; padding: clamp(10px, 1.4vw, 16px) clamp(14px, 3.5vw, 28px)">
+    <header style="max-width: 1320px; margin: 0 auto; position: relative">
+      <div style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 20px; box-shadow: 0 10px 30px rgba(22,24,74,0.09); padding: 12px clamp(14px, 2vw, 22px); display: flex; align-items: center; gap: 16px">
+        <a href="#" style="flex: none" aria-label="Dünya Dilleri Merkezi">
+          <img src="assets/ddm-logo-lacivert.png" alt="Dünya Dilleri Merkezi" style="height: clamp(44px, 4.2vw, 58px); width: auto" />
+        </a>
+        <nav data-ddm-nav="" style="align-items: center; gap: 2px; flex: 1; min-width: 0; justify-content: flex-end" onMouseEnter="{{ cancelClose }}" onMouseLeave="{{ scheduleClose }}">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+            <button type="button" onClick="{{ item.onClick }}" onMouseEnter="{{ item.onEnter }}" style="font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 600; color: {{ item.color }}; background: {{ item.bg }}; border: none; border-radius: 11px; padding: 11px 11px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px" style-hover="background:#F1F8FD;color:#2A2D7C">
+              {{ item.short }}
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </button>
+          </sc-for>
+        </nav>
+        <a href="#iletisim" data-ddm-cta="" style="flex: none; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border-radius: 13px; padding: 13px 19px; transition: background .18s ease" style-hover="background:#22256B;color:#FFFFFF">
+          İletişim
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 7px; background: #FFFFFF; color: #2A2D7C">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </span>
+        </a>
+        <button type="button" onClick="{{ toggleDrawer }}" data-ddm-burger="" style="align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 13px; border: 1.5px solid #D8DAE0; background: #FFFFFF; color: #2A2D7C; cursor: pointer; flex: none" aria-label="Menüyü aç">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true"><path d="M1 1h18M1 7h18M1 13h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        </button>
+      </div>
+
+      <sc-if value="{{ activeMenu }}" hint-placeholder-val="{{ false }}">
+        <div onMouseEnter="{{ cancelClose }}" onMouseLeave="{{ scheduleClose }}" style="position: absolute; left: 0; right: 0; top: 100%; padding-top: 10px; z-index: 5">
+          <div style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 22px; box-shadow: 0 22px 54px rgba(22,24,74,0.16); padding: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 26px">
+            <sc-for list="{{ activeMenu.columns }}" as="col" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; gap: 12px; min-width: 0">
+                <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">{{ col.title }}</span>
+                <div style="display: flex; flex-direction: column; gap: 2px">
+                  <sc-for list="{{ col.items }}" as="link" hint-placeholder-count="5">
+                    <a href="#" style="font-size: 14.5px; font-weight: 500; color: #3F4049; padding: 7px 10px; margin: 0 -10px; border-radius: 9px; transition: background .15s ease, color .15s ease" style-hover="background:#F1F8FD;color:#2A2D7C">{{ link }}</a>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+            <div style="background: #F1F8FD; border: 1px solid #DCEEF9; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px; justify-content: space-between">
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">{{ activeMenu.label }}</span>
+                <p style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; line-height: 1.45; color: #16184A">{{ activeMenu.promoTitle }}</p>
+              </div>
+              <a href="#" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #1A6D9C" style-hover="color:#2A2D7C">
+                {{ activeMenu.promoLink }}
+                <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top: 10px; background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 20px; box-shadow: 0 18px 44px rgba(22,24,74,0.14); max-height: 68vh; overflow-y: auto; padding: 8px 20px 24px">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+            <a href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 16px; font-weight: 600; color: #2A2B33; padding: 15px 0; border-bottom: 1px solid #EFEFF2" style-hover="color:#2A2D7C">
+              {{ item.short }}
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </a>
+          </sc-for>
+          <a href="#iletisim" style="margin-top: 18px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border-radius: 13px; padding: 16px" style-hover="background:#22256B;color:#FFFFFF">İletişim</a>
+        </div>
+      </sc-if>
+    </header>
+  </div>
+
+  <!-- 1 + 2 · BREADCRUMB & HERO (LACİVERT) -->
+  <section style="position: relative; background: #16184A; padding: clamp(16px, 2.4vw, 26px) clamp(14px, 3.5vw, 28px) clamp(40px, 5.5vw, 68px)">
+    <div style="position: absolute; left: 58%; top: -140px; width: min(780px, 85vw); height: 440px; background: radial-gradient(ellipse at center, rgba(46,155,214,0.28) 0%, rgba(46,155,214,0) 70%); pointer-events: none"></div>
+
+    <nav aria-label="Breadcrumb" style="position: relative; max-width: 1320px; margin: 0 auto clamp(24px, 3vw, 36px)">
+      <ol style="margin: 0; padding: 0; list-style: none; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px">
+        <li><a href="#" style="color: #BFC1E7" style-hover="color:#FFFFFF">Anasayfa</a></li>
+        <li aria-hidden="true" style="color: #5A5EB4">/</li>
+        <li><a href="#" style="color: #BFC1E7" style-hover="color:#FFFFFF">Yabancı Dil Eğitimleri</a></li>
+        <li aria-hidden="true" style="color: #5A5EB4">/</li>
+        <li aria-current="page" style="color: #FFFFFF; font-weight: 600">{{ dilKursuLabel }}</li>
+      </ol>
+    </nav>
+
+    <div style="position: relative; max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: {{ heroGrid }}; gap: clamp(28px, 4vw, 56px); align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 20px; min-width: 0">
+        <div data-reveal="" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 13px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 14px">{{ dilKodu }}</span>
+          <span style="display: inline-flex; align-items: center; gap: 9px; padding: 9px 15px; border-radius: 999px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #C5E5F7; font-size: 12.5px; font-weight: 700; letter-spacing: 0.03em">
+            <span style="width: 7px; height: 7px; border-radius: 999px; background: #2E9BD6"></span>
+            {{ subeLabel }}
+          </span>
+          <span style="display: inline-flex; align-items: center; padding: 9px 15px; border-radius: 999px; border: 1px solid #3B3F96; color: #BFC1E7; font-size: 12.5px; font-weight: 700">M.E.B onaylı sertifika</span>
+        </div>
+        <h1 data-reveal="" data-reveal-delay="70" style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.08; letter-spacing: -0.03em; color: #FFFFFF">{{ h1 }}</h1>
+        <p data-reveal="" data-reveal-delay="140" style="margin: 0; font-size: clamp(15.5px, 1.8vw, 18px); line-height: 1.7; color: #BFC1E7; max-width: 62ch">{{ heroLead }}</p>
+        <div data-reveal="" data-reveal-delay="210" style="display: flex; gap: 12px; flex-wrap: wrap">
+          <a href="#iletisim" style="display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border-radius: 14px; padding: 15px 22px; transition: background .18s ease" style-hover="background:#E8F4FC;color:#2A2D7C">
+            Ücretsiz Seviye Testi
+            <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+          <a href="#kurs-takvimi" style="display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; color: #FFFFFF; background: transparent; border: 1.5px solid #5A5EB4; border-radius: 14px; padding: 15px 22px; transition: background .18s ease, border-color .18s ease" style-hover="background:#1E2163;border-color:#93CEEE;color:#FFFFFF">Bilgi Al</a>
+        </div>
+      </div>
+
+      <!-- dil-illustrasyon slotu -->
+      <div data-reveal="" data-reveal-delay="180" aria-hidden="true" data-ddm-illo="" style="position: relative; aspect-ratio: 1 / 1; width: 100%; max-width: 430px; justify-self: center">
+        <span style="position: absolute; inset: 4%; border-radius: 999px; background: radial-gradient(circle at 50% 50%, rgba(46,155,214,0.22) 0%, rgba(46,155,214,0.06) 55%, rgba(46,155,214,0) 74%)"></span>
+
+        <div style="position: absolute; inset: 0">
+          <svg viewBox="0 0 200 200" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible" aria-hidden="true" dangerouslySetInnerHTML="{{ illoBody }}"></svg>
+          <span style="position: absolute; left: 4%; top: 14%; display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 11px; background: #FFFFFF; box-shadow: 0 8px 22px rgba(0,0,0,0.25); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 12.5px; color: #16184A; animation: ddmChip 6s ease-in-out infinite">
+            <sc-if value="{{ illoHasFlag }}" hint-placeholder-val="{{ true }}">
+              <span style="width: 18px; height: 13px; border-radius: 3px; overflow: hidden; display: inline-block; border: 1px solid rgba(22,24,74,0.12)"><svg width="18" height="13" viewBox="0 0 60 40" aria-hidden="true" dangerouslySetInnerHTML="{{ illoFlag }}"></svg></span>
+            </sc-if>
+            <sc-if value="{{ illoNoFlag }}" hint-placeholder-val="{{ false }}">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 13px; color: #2A2D7C">
+                <svg width="16" height="12" viewBox="0 0 26 20" fill="none" aria-hidden="true"><path d="M3 3h20a2 2 0 012 2v8a2 2 0 01-2 2H9l-4 4v-4H3a2 2 0 01-2-2V5a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path></svg>
+              </span>
+            </sc-if>
+            {{ illoGreeting }}
+          </span>
+          <span style="position: absolute; right: 2%; top: 30%; padding: 8px 12px; border-radius: 11px; background: #2E9BD6; box-shadow: 0 8px 22px rgba(0,0,0,0.22); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 12.5px; color: #FFFFFF; animation: ddmChip 6s ease-in-out 2s infinite">{{ illoSkill }}</span>
+          <span style="position: absolute; left: 18%; bottom: 4%; padding: 8px 12px; border-radius: 11px; background: #FFFFFF; box-shadow: 0 8px 22px rgba(0,0,0,0.22); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 12.5px; color: #16184A; animation: ddmChip 6s ease-in-out 4s infinite">A1 → C2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 · GÜVEN ŞERİDİ -->
+    <div data-reveal="" style="position: relative; max-width: 1320px; margin: clamp(36px, 4.5vw, 56px) auto 0; border-top: 1px solid #2E3170; padding: clamp(26px, 3.2vw, 38px) 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: clamp(20px, 2.6vw, 32px)">
+      <div style="display: flex; align-items: center; gap: 14px">
+        <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 14px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #93CEEE">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.6"></circle></svg>
+        </span>
+        <span style="display: flex; flex-direction: column; gap: 2px">
+          <span data-count="5" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 36px); line-height: 1; color: #FFFFFF; font-variant-numeric: tabular-nums">{{ qSube }}</span>
+          <span style="font-size: 13px; color: #BFC1E7">İstanbul şubesi</span>
+        </span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px">
+        <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 14px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #93CEEE">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5h16v13H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><path d="M4 9.5h16M9 5.5v13" stroke="currentColor" stroke-width="1.6"></path></svg>
+        </span>
+        <span style="display: flex; flex-direction: column; gap: 2px">
+          <span data-count="5" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 36px); line-height: 1; color: #FFFFFF; font-variant-numeric: tabular-nums">{{ qKur }}</span>
+          <span style="font-size: 13px; color: #BFC1E7">kurdan oluşan program</span>
+        </span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px">
+        <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 14px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #93CEEE">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"></circle><path d="M12 7v5.4l3.6 2.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        </span>
+        <span style="display: flex; flex-direction: column; gap: 2px">
+          <span data-count="60" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 36px); line-height: 1; color: #FFFFFF; font-variant-numeric: tabular-nums">{{ qSaat }}</span>
+          <span style="font-size: 13px; color: #BFC1E7">saat / kur (10 hafta)</span>
+        </span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px">
+        <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 14px; background: rgba(46,155,214,0.18); border: 1px solid #2E9BD6; color: #93CEEE">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="3.4" stroke="currentColor" stroke-width="1.6"></circle><path d="M3 19c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M16 6.2a3.4 3.4 0 010 5.6M18.5 14.4c1.6.9 2.5 2.4 2.5 4.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        </span>
+        <span style="display: flex; flex-direction: column; gap: 2px">
+          <span data-count="6" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 36px); line-height: 1; color: #FFFFFF; font-variant-numeric: tabular-nums">{{ qKisi }}</span>
+          <span style="font-size: 13px; color: #BFC1E7">kişilik akademik gruplar</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · PROGRAM TÜRLERİ -->
+  <section id="programlar" style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(26px, 3vw, 40px); max-width: 74ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">PROGRAM TÜRLERİ</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ h2Sistem }}</h2>
+        <sc-if value="{{ isLong }}" hint-placeholder-val="{{ true }}">
+          <p style="margin: 0; font-size: clamp(15px, 1.7vw, 17px); line-height: 1.72; color: #5A5C66">Programlarımız maksimum 6 kişilik gruplarda veya kişiye özel hazırlanmış olan birebir online ya da yüz yüze dersler şeklinde işlenmektedir.</p>
+        </sc-if>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: clamp(14px, 1.6vw, 18px)">
+        <sc-for list="{{ programs }}" as="p" hint-placeholder-count="5">
+          <a href="#" data-reveal="" data-reveal-delay="{{ p.delay }}" data-prog-card="" style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 14px; transition: transform .26s ease, box-shadow .26s ease, border-color .26s ease" style-hover="transform:translateY(-4px);box-shadow:0 16px 40px rgba(22,24,74,0.12);border-color:#93CEEE">
+            <span data-prog-icon="" style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 16px; background: #E8F4FC; color: #1A6D9C; transition: transform .3s ease, background .3s ease">
+              <sc-if value="{{ p.iconGenel }}" hint-placeholder-val="{{ true }}">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 5.5h7a2 2 0 012 2v11a2 2 0 00-2-1.6h-7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><path d="M20.5 5.5h-7a2 2 0 00-2 2v11a2 2 0 012-1.6h7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+              </sc-if>
+              <sc-if value="{{ p.iconKonusma }}" hint-placeholder-val="{{ false }}">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6a2 2 0 012-2h9a2 2 0 012 2v5a2 2 0 01-2 2H8l-4 4v-4H5a2 2 0 01-2-2V6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><path d="M19 8h1a2 2 0 012 2v5a2 2 0 01-2 2h-1v3l-3-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+              </sc-if>
+              <sc-if value="{{ p.iconSinav }}" hint-placeholder-val="{{ false }}">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3h9l4 4v14H6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><path d="M15 3v4h4M9.5 13.5l2 2 3.5-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </sc-if>
+              <sc-if value="{{ p.iconProf }}" hint-placeholder-val="{{ false }}">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="9" r="5.5" stroke="currentColor" stroke-width="1.6"></circle><path d="M8.5 13.5L7 22l5-2.6L17 22l-1.5-8.5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+              </sc-if>
+              <sc-if value="{{ p.iconBirebir }}" hint-placeholder-val="{{ false }}">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="12" rx="2" stroke="currentColor" stroke-width="1.6"></rect><path d="M8 20h8M12 16.5V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="9" cy="10.5" r="1.8" stroke="currentColor" stroke-width="1.5"></circle><circle cx="15" cy="10.5" r="1.8" stroke="currentColor" stroke-width="1.5"></circle></svg>
+              </sc-if>
+            </span>
+            <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 19px; line-height: 1.28; color: #16184A">{{ p.title }}</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.68; color: #5A5C66; flex: 1">{{ p.body }}</p>
+            <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #1A6D9C">
+              Keşfet
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · SEVİYELER -->
+  <section id="seviyeler" style="background: #F7F7F9; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(30px, 3.6vw, 44px); max-width: 78ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">SEVİYELER</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ h2Seviyeler }}</h2>
+        <sc-if value="{{ isLong }}" hint-placeholder-val="{{ true }}">
+          <p style="margin: 0; font-size: clamp(15px, 1.7vw, 17px); line-height: 1.72; color: #5A5C66">{{ seviyeGiris }}</p>
+        </sc-if>
+      </div>
+
+      <div data-level-track="" style="position: relative; margin-bottom: clamp(24px, 3vw, 34px)">
+        <div style="position: absolute; left: 0; right: 0; top: 21px; height: 4px; border-radius: 999px; background: #E4E5E9"></div>
+        <div data-level-fill="" style="position: absolute; left: 0; top: 21px; height: 4px; width: {{ levelFillWidth }}; border-radius: 999px; background: linear-gradient(90deg, #2A2D7C 0%, #2E9BD6 100%); transition: width .9s cubic-bezier(.22,.61,.36,1)"></div>
+        <div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(94px, 1fr)); gap: 10px">
+          <sc-for list="{{ levels }}" as="lv" hint-placeholder-count="6">
+            <button type="button" onClick="{{ lv.onClick }}" style="font-family: 'Manrope', sans-serif; background: transparent; border: none; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
+              <span data-level-dot="" style="display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 999px; background: {{ lv.dotBg }}; border: 2px solid {{ lv.dotBorder }}; color: {{ lv.dotColor }}; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 13.5px; transform: {{ lv.dotScale }}">{{ lv.cefr }}</span>
+              <span style="font-size: 12.5px; font-weight: 700; line-height: 1.35; color: {{ lv.labelColor }}">{{ lv.shortName }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 24px; padding: clamp(24px, 3vw, 34px); display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+          <span style="display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 10px; background: #2A2D7C; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 13px">{{ activeLevel.cefr }}</span>
+          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: clamp(19px, 2.2vw, 24px); line-height: 1.28; color: #16184A">{{ activeLevel.title }}</h3>
+        </div>
+        <sc-if value="{{ activeLevel.hasBody }}" hint-placeholder-val="{{ true }}">
+          <p style="margin: 0; font-size: 15.5px; line-height: 1.75; color: #3F4049">{{ activeLevel.body }}</p>
+        </sc-if>
+        <sc-if value="{{ activeLevel.hasExamples }}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; padding: 18px; border-radius: 16px; background: #F1F8FD; border: 1px solid #DCEEF9; font-size: 14.5px; line-height: 1.75; color: #2A2B33">{{ activeLevel.examples }}</p>
+        </sc-if>
+        <sc-if value="{{ activeLevel.missing }}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; padding: 16px 18px; border-radius: 14px; background: #FAEFE5; border: 1px solid #E5C5A6; font-size: 14px; line-height: 1.7; color: #7E3F09">İÇERİK EKSİK — bu seviye için kaynak metinde açıklama yok. Müşteriden metin bekleniyor.</p>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · METODOLOJİ -->
+  <section style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(26px, 3vw, 40px); max-width: 74ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">NEDEN DDM</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ h2Hakkinda }}</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: clamp(14px, 1.6vw, 18px)">
+        <sc-for list="{{ method }}" as="m" hint-placeholder-count="4">
+          <div data-reveal="" data-reveal-delay="{{ m.delay }}" style="background: #F7F7F9; border: 1px solid #EFEFF2; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 14px; transition: background .24s ease, transform .24s ease" style-hover="background:#FFFFFF;transform:translateY(-3px)">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 15px; background: #FFFFFF; border: 1px solid #DCEEF9; color: #1A6D9C">
+              <sc-if value="{{ m.iconSkills }}" hint-placeholder-val="{{ true }}">
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18V9M9 18V5M15 18v-7M20 18v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>
+              </sc-if>
+              <sc-if value="{{ m.iconTrack }}" hint-placeholder-val="{{ false }}">
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16l4.5-5 3.5 3L20 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 20h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>
+              </sc-if>
+              <sc-if value="{{ m.iconTeam }}" hint-placeholder-val="{{ false }}">
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.7"></circle><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>
+              </sc-if>
+              <sc-if value="{{ m.iconClass }}" hint-placeholder-val="{{ false }}">
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.7"></rect><path d="M7 20h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path><path d="M7.5 12.5l2.5-3 2 2.2 2.5-3.2 2 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </sc-if>
+            </span>
+            <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.3; color: #16184A">{{ m.title }}</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.68; color: #5A5C66">{{ m.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ isLong }}" hint-placeholder-val="{{ true }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(16px, 2vw, 22px); margin-top: clamp(20px, 2.4vw, 28px)">
+          <div data-reveal="" style="display: flex; flex-direction: column; gap: 14px">
+            <p style="margin: 0; font-size: 15.5px; line-height: 1.78; color: #3F4049">{{ aboutP1 }}</p>
+            <p style="margin: 0; font-size: 15.5px; line-height: 1.78; color: #3F4049">{{ aboutP2 }}</p>
+          </div>
+          <div data-reveal="" data-reveal-delay="80" style="display: flex; flex-direction: column; gap: 14px">
+            <p style="margin: 0; font-size: 15.5px; line-height: 1.78; color: #3F4049">{{ aboutP3 }}</p>
+            <p style="margin: 0; font-size: 15.5px; line-height: 1.78; color: #3F4049">{{ aboutP4 }}</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(14px, 1.6vw, 18px); margin-top: clamp(24px, 3vw, 34px)">
+        <div data-reveal="" style="background: #F1F8FD; border: 1px solid #DCEEF9; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px">
+          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 17.5px; line-height: 1.3; color: #16184A">{{ h3KurSinavi }}</h3>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.72; color: #3F4049">{{ kurSinavi }}</p>
+        </div>
+        <div data-reveal="" data-reveal-delay="70" style="background: #F1F8FD; border: 1px solid #DCEEF9; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px">
+          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 17.5px; line-height: 1.3; color: #16184A">M.E.B Onaylı {{ dilAdi }} Kursu Dünya Dilleri Merkezi</h3>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.72; color: #3F4049">{{ mebText }}</p>
+        </div>
+        <div data-reveal="" data-reveal-delay="140" style="background: #F1F8FD; border: 1px solid #DCEEF9; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px">
+          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 17.5px; line-height: 1.3; color: #16184A">Uluslararası {{ dilAdi }} Dil Sertifikası Sınav Programları</h3>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.72; color: #3F4049">{{ sertifikaText }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · KURS TAKVİMİ & ŞUBE TABLOSU -->
+  <section id="kurs-takvimi" style="background: #F7F7F9; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: clamp(22px, 2.6vw, 30px)">
+        <div style="display: flex; flex-direction: column; gap: 13px; max-width: 74ch">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">KURS TAKVİMİ</span>
+          <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ h2Takvim }}</h2>
+          <p style="margin: 0; font-size: clamp(15px, 1.7vw, 17px); line-height: 1.72; color: #5A5C66">{{ takvimLead }}</p>
+        </div>
+      </div>
+
+      <div data-reveal="" style="display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 18px">
+        <sc-for list="{{ branchFilters }}" as="f" hint-placeholder-count="5">
+          <button type="button" onClick="{{ f.onClick }}" style="font-family: 'Manrope', sans-serif; font-size: 13.5px; font-weight: 700; color: {{ f.color }}; background: {{ f.bg }}; border: 1.5px solid {{ f.border }}; border-radius: 999px; padding: 10px 16px; cursor: pointer">{{ f.label }}</button>
+        </sc-for>
+      </div>
+
+      <div data-reveal="" style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 24px; overflow: hidden">
+        <div data-ddm-thead="" style="grid-template-columns: 1.4fr 1fr 1fr 1fr auto; gap: 16px; padding: 16px 24px; background: #F7FAFC; border-bottom: 1px solid #E8E9ED">
+          <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #5F93B3">ŞUBE</span>
+          <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #5F93B3">BAŞLANGIÇ TARİHİ</span>
+          <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #5F93B3">GÜNLER</span>
+          <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #5F93B3">SAAT</span>
+          <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #5F93B3"></span>
+        </div>
+        <sc-for list="{{ visibleRows }}" as="r" hint-placeholder-count="4">
+          <div data-ddm-row="" style="align-items: center; border-bottom: 1px solid #F2F2F5; transition: background .2s ease, opacity .3s ease, transform .3s ease; opacity: 1" style-hover="background:#F7FAFC">
+            <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15.5px; color: #16184A">{{ r.branch }}</span>
+              <span style="font-size: 12.5px; color: #7C7E88">{{ r.note }}</span>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 3px">
+              <span data-ddm-rowlabel="" style="font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: #A8AAB3">BAŞLANGIÇ TARİHİ</span>
+              <span style="font-size: 14px; color: #5A5C66; font-style: italic">{{ r.date }}</span>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 3px">
+              <span data-ddm-rowlabel="" style="font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: #A8AAB3">GÜNLER</span>
+              <span style="font-size: 14px; color: #5A5C66; font-style: italic">{{ r.days }}</span>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 3px">
+              <span data-ddm-rowlabel="" style="font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: #A8AAB3">SAAT</span>
+              <span style="font-size: 14px; color: #5A5C66; font-style: italic">{{ r.hours }}</span>
+            </span>
+            <a href="#iletisim" data-ddm-rowcta="" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border-radius: 11px; padding: 11px 16px; white-space: nowrap; transition: background .18s ease" style-hover="background:#22256B;color:#FFFFFF">
+              Ön Bilgi Formu
+              <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </a>
+          </div>
+        </sc-for>
+        <div style="padding: 16px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #FAEFE5">
+          <span style="font-size: 13px; font-weight: 700; color: #7E3F09">VERİ EKSİK</span>
+          <span style="font-size: 13px; line-height: 1.6; color: #7E3F09">Tarih, gün ve saat bilgileri kaynak içerikte yok — şube bazlı kurs takvimi verisi müşteriden bekleniyor.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · ÖĞRENCİ YORUMLARI -->
+  <section style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: clamp(24px, 3vw, 34px)">
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">ÖĞRENCİ YORUMLARI</span>
+          <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(24px, 3.2vw, 34px); line-height: 1.16; letter-spacing: -0.025em; color: #16184A">Öğrenci Yorumları</h2>
+        </div>
+        <div style="display: flex; gap: 10px">
+          <button type="button" onClick="{{ testiPrev }}" aria-label="Önceki" style="display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 14px; border: 1.5px solid #D8DAE0; background: #FFFFFF; color: #2A2D7C; cursor: pointer; transition: background .18s ease, border-color .18s ease" style-hover="background:#F1F8FD;border-color:#93CEEE">
+            <svg width="17" height="17" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M10 6H2M5.5 2.5L2 6l3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <button type="button" onClick="{{ testiNext }}" aria-label="Sonraki" style="display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 14px; border: 1.5px solid #D8DAE0; background: #FFFFFF; color: #2A2D7C; cursor: pointer; transition: background .18s ease, border-color .18s ease" style-hover="background:#F1F8FD;border-color:#93CEEE">
+            <svg width="17" height="17" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+        </div>
+      </div>
+      <div ref="{{ testiRef }}" data-carousel="testiEl" style="display: flex; gap: clamp(14px, 1.6vw, 18px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 4px 4px 12px; margin: 0 -4px; cursor: grab">
+        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+          <figure style="scroll-snap-align: start; flex: 0 0 clamp(268px, 30vw, 380px); margin: 0; background: #F1F8FD; border: 1px solid #DCEEF9; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 16px; transition: transform .22s ease, box-shadow .22s ease" style-hover="transform:translateY(-4px);box-shadow:0 16px 40px rgba(22,24,74,0.1)">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 32px; line-height: 0.8; color: #93CEEE">“</span>
+            <blockquote style="margin: 0; font-size: 15px; line-height: 1.75; color: #2A2B33; flex: 1">{{ t.quote }}</blockquote>
+            <figcaption style="display: flex; align-items: center; gap: 13px">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 999px; background: #2A2D7C; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 14px; flex: none">{{ t.initials }}</span>
+              <span style="display: flex; flex-direction: column">
+                <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15.5px; color: #16184A">{{ t.name }}</span>
+                <span style="font-size: 13px; color: #5A5C66">{{ t.role }}</span>
+              </span>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · SSS -->
+  <section id="sss" style="background: #F7F7F9; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: {{ faqGrid }}; gap: clamp(24px, 3vw, 44px); align-items: start">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">SIKÇA SORULAN SORULAR</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.14; letter-spacing: -0.025em; color: #16184A">{{ h2Sss }}</h2>
+        <p style="margin: 0; font-size: 15px; line-height: 1.72; color: #5A5C66">Cevaplar {{ dilAdi }} eğitim programı bilgilerimizden alınmıştır. Aradığınızı bulamazsanız şubelerimize yazabilirsiniz.</p>
+        <a href="#iletisim" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 11px; font-size: 14.5px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border: 1.5px solid #D8DAE0; border-radius: 13px; padding: 13px 19px; margin-top: 4px; transition: background .18s ease, border-color .18s ease" style-hover="background:#F1F8FD;border-color:#93CEEE;color:#2A2D7C">
+          Soru Sor
+          <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
+          <div data-reveal="" data-reveal-delay="{{ q.delay }}" style="background: #FFFFFF; border: 1px solid #E8E9ED; border-radius: 18px; overflow: hidden; transition: border-color .22s ease" style-hover="border-color:#93CEEE">
+            <button type="button" onClick="{{ q.onClick }}" style="font-family: 'Manrope', sans-serif; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; background: transparent; border: none; padding: 20px 22px; cursor: pointer; font-size: 15.5px; font-weight: 700; color: #16184A">
+              {{ q.question }}
+              <span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9px; background: #F1F8FD; color: #1A6D9C; transform: {{ q.caret }}">
+                <svg width="12" height="8" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+            </button>
+            <div style="max-height: {{ q.maxH }}; opacity: {{ q.opacity }}; overflow: hidden">
+              <p style="margin: 0; padding: 0 22px 22px; font-size: 14.5px; line-height: 1.75; color: #3F4049">{{ q.answer }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · DİĞER DİLLER -->
+  <section style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px)">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: clamp(24px, 3vw, 34px); max-width: 70ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">DİĞER DİLLER</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(24px, 3.2vw, 34px); line-height: 1.16; letter-spacing: -0.025em; color: #16184A">Yabancı Dil Kursları</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: clamp(12px, 1.4vw, 16px)">
+        <sc-for list="{{ otherLangs }}" as="l" hint-placeholder-count="10">
+          <a href="#" data-reveal="" data-reveal-delay="{{ l.delay }}" data-lang-card="" style="background: {{ l.bg }}; border: 1px solid {{ l.border }}; border-radius: 18px; padding: 18px; display: flex; align-items: center; gap: 12px; transition: background .24s ease, border-color .24s ease, transform .24s ease" style-hover="background:#F1F8FD;border-color:#93CEEE;transform:translateY(-3px)">
+            <span data-lang-flag="" style="flex: none; width: 34px; height: 24px; border-radius: 5px; overflow: hidden; border: 1px solid #E4E5E9; transition: transform .26s ease">
+              <sc-if value="{{ l.isSpeak }}" hint-placeholder-val="{{ false }}">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 24px; background: #2A2D7C; color: #FFFFFF">
+                  <svg width="18" height="14" viewBox="0 0 26 20" fill="none" aria-hidden="true"><path d="M3 3h14a2 2 0 012 2v6a2 2 0 01-2 2H9l-4 4v-4H3a2 2 0 01-2-2V5a2 2 0 012-2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+                </span>
+              </sc-if>
+              <sc-if value="{{ l.hasFlag }}" hint-placeholder-val="{{ true }}">
+                <svg width="34" height="24" viewBox="0 0 60 40" aria-hidden="true" dangerouslySetInnerHTML="{{ l.flag }}"></svg>
+              </sc-if>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 14.5px; line-height: 1.3; color: #16184A">{{ l.name }}</span>
+              <span style="font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; color: #5F93B3">{{ l.code }}</span>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · ALT CTA -->
+  <section style="background: #F7F7F9; padding: clamp(40px, 6vw, 68px) clamp(14px, 3.5vw, 28px) clamp(48px, 7vw, 88px)">
+    <div data-reveal="" style="max-width: 1320px; margin: 0 auto; background: #2A2D7C; border-radius: 26px; box-shadow: 0 16px 44px rgba(42,45,124,0.24); padding: clamp(26px, 3.4vw, 42px) clamp(22px, 3vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+      <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(19px, 2.2vw, 26px); line-height: 1.28; letter-spacing: -0.02em; color: #FFFFFF; max-width: 46ch">{{ ctaTitle }}</span>
+        <span style="font-size: 14.5px; color: #C9CAEC">0216 330 12 17 · kadikoy@dunyadillerimerkezi.com</span>
+      </div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap">
+        <a href="#iletisim" style="display: inline-flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border-radius: 13px; padding: 15px 22px; transition: background .18s ease" style-hover="background:#E8F4FC;color:#2A2D7C">
+          Ön Bilgi Formu
+          <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+        <a href="#" style="display: inline-flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 700; color: #FFFFFF; background: transparent; border: 1.5px solid #6D70C4; border-radius: 13px; padding: 15px 22px; transition: background .18s ease, border-color .18s ease" style-hover="background:#22256B;border-color:#FFFFFF;color:#FFFFFF">Şubelerimiz</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11b · İLLÜSTRASYON SETİ (şablon dokümantasyonu) -->
+  <section id="illustrasyon-seti" style="background: #FFFFFF; padding: clamp(48px, 7vw, 88px) clamp(14px, 3.5vw, 28px); border-top: 1px solid #EFEFF2">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div data-reveal="" style="display: flex; flex-direction: column; gap: 13px; margin-bottom: clamp(26px, 3vw, 38px); max-width: 78ch">
+        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #2384BB">ŞABLON DOKÜMANTASYONU</span>
+        <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(24px, 3.2vw, 34px); line-height: 1.16; letter-spacing: -0.025em; color: #16184A">dil-illustrasyon slotu — 10 dilin tam seti</h2>
+        <p style="margin: 0; font-size: 15px; line-height: 1.72; color: #5A5C66">Hepsi aynı 200×200 viewBox, aynı üç katmanlı kompozisyon (merkez motif · sol yardımcı · sağ yardımcı · zemin çizgisi), aynı çizgi kalınlıkları (1.6 / 1.5) ve aynı float davranışı. Renkler <code style="font-family: ui-monospace, monospace; font-size: 13.5px; color: #2A2D7C">--ddm-sky-300</code>, <code style="font-family: ui-monospace, monospace; font-size: 13.5px; color: #2A2D7C">--ddm-navy-400</code>, <code style="font-family: ui-monospace, monospace; font-size: 13.5px; color: #2A2D7C">--ddm-navy-500</code> değişkenlerinden gelir.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: clamp(14px, 1.6vw, 18px)">
+        <sc-for list="{{ illoSet }}" as="s" hint-placeholder-count="10">
+          <figure data-reveal="" data-reveal-delay="{{ s.delay }}" style="margin: 0; background: #16184A; border: 1px solid #22256B; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column">
+            <div style="position: relative; aspect-ratio: 1 / 1; width: 100%">
+              <span style="position: absolute; inset: 6%; border-radius: 999px; background: radial-gradient(circle at 50% 50%, rgba(46,155,214,0.22) 0%, rgba(46,155,214,0.05) 58%, rgba(46,155,214,0) 76%)"></span>
+              <svg viewBox="0 0 200 200" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true" dangerouslySetInnerHTML="{{ s.body }}"></svg>
+              <span style="position: absolute; left: 8%; top: 8%; display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; border-radius: 9px; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 11px; color: #16184A">
+                <sc-if value="{{ s.hasFlag }}" hint-placeholder-val="{{ true }}">
+                  <span style="width: 15px; height: 11px; border-radius: 3px; overflow: hidden; display: inline-block; border: 1px solid rgba(22,24,74,0.12)"><svg width="15" height="11" viewBox="0 0 60 40" aria-hidden="true" dangerouslySetInnerHTML="{{ s.flag }}"></svg></span>
+                </sc-if>
+                {{ s.greeting }}
+              </span>
+            </div>
+            <figcaption style="padding: 14px 16px 16px; border-top: 1px solid #22256B; display: flex; flex-direction: column; gap: 4px">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 14.5px; color: #FFFFFF">{{ s.name }}</span>
+              <span style="font-family: ui-monospace, monospace; font-size: 11.5px; color: #8C8FD3">dil-illustrasyon-{{ s.slug }}</span>
+              <span style="font-size: 11.5px; color: #5DB4E2">{{ s.motifs }}</span>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · FOOTER -->
+  <footer id="iletisim" style="background: #16184A; padding: clamp(44px, 6vw, 76px) clamp(14px, 3.5vw, 28px) 26px">
+    <div style="max-width: 1320px; margin: 0 auto">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: clamp(28px, 4vw, 40px); padding-bottom: clamp(30px, 4vw, 44px)">
+        <div style="display: flex; flex-direction: column; gap: 18px">
+          <img src="assets/ddm-logo-beyaz.png" alt="Dünya Dilleri Merkezi" style="height: 48px; width: auto" />
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.7; color: #BFC1E7; max-width: 42ch">Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. 2003 yılından bugüne İstanbul’daki 5 şubemizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">ÜMRANİYE ŞUBESİ</span>
+            <span style="font-size: 13.5px; line-height: 1.7; color: #BFC1E7">Şerifali Mah. Çetin Cad. Kızkalesi Sok. Şua Elite Plaza. No:1 A - Blok. Kat: 6 Ümraniye</span>
+            <a href="tel:+902165481411" style="font-size: 13.5px; font-weight: 700; color: #FFFFFF" style-hover="color:#93CEEE">0216 548 14 11</a>
+            <a href="mailto:umraniye@dunyadillerimerkezi.com" style="font-size: 13.5px; color: #BFC1E7" style-hover="color:#FFFFFF">umraniye@dunyadillerimerkezi.com</a>
+          </div>
+        </div>
+        <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="4">
+          <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #5DB4E2">{{ col.title }}</span>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <sc-for list="{{ col.items }}" as="l" hint-placeholder-count="5">
+                <a href="#" style="font-size: 14.5px; color: #BFC1E7" style-hover="color:#FFFFFF">{{ l }}</a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-top: 1px solid #2E3170; padding-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+        <span style="font-size: 13px; color: #8C8FD3">Dünya Dilleri Merkezi · Kadıköy · Bağdat Caddesi · Levent / Etiler · Ataşehir · Ümraniye</span>
+        <span style="font-size: 13px; color: #8C8FD3">KAPLAN INTERNATIONAL ve ILSC resmi kayıt ofisi</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1320}}">
+class Component extends DCLogic {
+  state = { open: null, drawer: false, w: 1280, levelSeen: false, variant: "uzun", illo: "en", level: 0, branch: "Tümü", faq: 0 };
+
+  componentDidMount() {
+    this.onScrollSafety = () => this.sync();
+    window.addEventListener("scroll", this.onScrollSafety, { passive: true });
+    this.sync();
+  }
+
+  /* Update yasam dongusu KULLANILMIYOR: runtime her DOM mutasyonunda
+     yeniden render edip dugumleri yeniden olusturdugu icin update
+     icinden yapilan imperatif yazim sonsuz donguye giriyordu. Senkron
+     sadece mount, scroll ve dusuk frekansli zamanlayicidan calisir. */
+  sync() {
+    this.fillLevels();
+  }
+
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScrollSafety);
+    clearTimeout(this.menuTimer);
+  }
+
+  /* Ayni HTML dizesi icin ayni {__html} nesnesini dondurur. Her renderda
+     yeni nesne uretilirse dangerouslySetInnerHTML surekli yeniden enjekte
+     edilir ve render firtinasi ana thread'i kilitler. */
+  htmlOf(s) {
+    if (!this._htmlCache) this._htmlCache = {};
+    const k = s || "";
+    if (!this._htmlCache[k]) this._htmlCache[k] = { __html: k };
+    return this._htmlCache[k];
+  }
+
+  memo(key, make) {
+    if (!this._memo) this._memo = {};
+    if (!(key in this._memo)) this._memo[key] = make();
+    return this._memo[key];
+  }
+
+  tween(dur, onStep, onDone) {
+    const t0 = Date.now();
+    const id = setInterval(() => {
+      const p = Math.min(1, (Date.now() - t0) / dur);
+      onStep(1 - Math.pow(1 - p, 3));
+      if (p >= 1) { clearInterval(id); if (onDone) onDone(); }
+    }, 16);
+    setTimeout(() => { clearInterval(id); onStep(1); if (onDone) onDone(); }, dur + 120);
+    return id;
+  }
+
+  /* Sayaclar statik. Count-up animasyonu, her adimda setState -> tam
+     yeniden render -> dugumlerin yeniden olusmasi zincirini tetikleyip
+     sayfayi kilitledigi icin kaldirildi. */
+  countVal(n) { return String(n); }
+  fillLevels() {
+    if (this.state.levelSeen) return;
+    const track = document.querySelector("[data-level-track]");
+    if (!track) return;
+    const vh = window.innerHeight || 800;
+    if (track.getBoundingClientRect().top < vh * 0.92) this.setState({ levelSeen: true });
+  }
+
+
+  carouselRef(key) {
+    if (!this._refs) this._refs = {};
+    if (!this._refs[key]) {
+      this._refs[key] = (node) => {
+        if (node) this[key] = node;
+        if (!node || node.__ddmDrag) return;
+        node.__ddmDrag = true;
+        let down = false, sx = 0, sl = 0, moved = false;
+        node.addEventListener("pointerdown", (e) => {
+          down = true; moved = false; sx = e.clientX; sl = node.scrollLeft;
+          if (node.__tween) { clearInterval(node.__tween); node.__tween = null; }
+          node.style.cursor = "grabbing";
+        });
+        node.addEventListener("pointermove", (e) => {
+          if (!down) return;
+          const dx = e.clientX - sx;
+          if (Math.abs(dx) > 4) moved = true;
+          node.scrollLeft = sl - dx;
+        });
+        const up = () => { down = false; node.style.cursor = "grab"; };
+        node.addEventListener("pointerup", up);
+        node.addEventListener("pointerleave", up);
+        node.addEventListener("click", (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+      };
+    }
+    return this._refs[key];
+  }
+
+  nudge(key, dir) {
+    let n = this[key];
+    if (!n || !n.isConnected) { n = document.querySelector('[data-carousel="' + key + '"]'); this[key] = n; }
+    if (!n) return;
+    n.style.scrollBehavior = "auto";
+    const first = n.firstElementChild;
+    const step = first ? first.getBoundingClientRect().width + 16 : 300;
+    const delta = dir * step * (window.innerWidth < 700 ? 1 : 2);
+    const from = n.scrollLeft;
+    const max = n.scrollWidth - n.clientWidth;
+    const to = Math.max(0, Math.min(max, from + delta));
+    if (to === from) return;
+    if (n.__tween) { clearInterval(n.__tween); n.__tween = null; }
+    if (this.reduce) { n.scrollLeft = to; return; }
+    n.__tween = this.tween(440, (e) => { n.scrollLeft = from + (to - from) * e; }, () => { n.scrollLeft = to; n.__tween = null; });
+  }
+
+  levelData() {
+    const d = this.state.variant === "uzun";
+    return [
+      { cefr: "A1", shortName: "Beginner", title: "Başlangıç Seviyesi İngilizce | Beginner",
+        body: d ? "Başlangıç seviyesi ingilizce kursunda İngilizce eğitimi, yabancı dil eğitimini hiç almamış ya da çok az İngilizce bilgisi bulunan öğrencilere uygulanır. Kur sonunda öğrencilerin gramer bilgisi gelişir, hafif seviyede dil konuşabilir ve yazar. Temel dil eğitimini almış belli oranda yabancı dil konuşabilen ve gramer bilgisine sahip olurlar. Öğrenciler günlük üzerinde yabancılarla kolaylıkla iletişim kurabilir, karmaşık cümleler kurup anlamlı paragraflar içeren yazılar yazabilirler." : "",
+        examples: d ? "Örneğin, selamlaşma - vedalaşma, kendini tanıtabilme, zevklerinden bahsedebilme, bir kart postal yazabilme, planlarından bahsedebilme, öneri yapabilme, kabul veya reddedebilme, olumlu ya da olumsuz fikir verme, günlük tutabilme, geçmişteki bir olayı yazabilme-anlatabilme, sanat hakkındaki kısa bir makaleyi anlayabilme, bir reklam veya şarkıyı anlayabilme, bir değer yargısını ifade edebilme." : "" },
+      { cefr: "A2", shortName: "Elementary", title: "Başlangıç İleri Seviyesi | Elementary", body: "", examples: "" },
+      { cefr: "B1", shortName: "Pre-Int.", title: "Orta Seviye İngilizce | Pre-İntermediate",
+        body: d ? "Orta düzeyinin gerekli içeriğini tamamlayabilen ve İngilizceyi belli sınırda akıcı ve bilinçli konuşabilen öğrenciler içindir. Kur sonunda öğrenciler bir çok farklı konu üzerinde yabancılarla uzun konuşmalar yapabilir, karmaşık cümleler kullanarak yazılar yazabilir, okuduğunu kolaylıkla anlayabilirler." : "",
+        examples: d ? "Örneğin, sevinç, öfke, memnuniyetsizliğini, izlenimlerini belirtebilme, mimari bir projeyi anlayabilme, şikayet edebilme, teyit edebilme, gazete yazılarını anlayabilmek, kısa yazılar yazabilme, bir internet sitesindeki bilgileri anlayabilme, tartışmaları takip edebilme, açıklayıcı yorumları anlayabilme, telefonda konuşabilme, bir fikre karşı savunma yapabilme, şaşkınlığını gösterebilme, yazılı ya da sözlü bir söylem gerçekleştirebilme." : "" },
+      { cefr: "B2", shortName: "Upper-Int.", title: "Orta İleri Seviye İngilizce | Upper-İntermediate",
+        body: d ? "Orta düzeyinin gerekli içeriğini tamamlayabilen ve İngilizceyi iyi derecede kullanabilen öğrenciler içindir. Kur sonunda öğrenciler yabancılarla her konu üzerinde konuşabilir, tartışabilirler ve iletişimde problem yaşamazlar." : "",
+        examples: d ? "Örneğin, bir röportajı anlayabilme, güven ya da güvensizliğini gösterebilme, bir tabloyu tasvir edebilme, reklam metni yazabilme, söylenenleri aktarabilme, birinin kızgınlığına cevap verme, edebi bir metni anlayabilme, bir hikayenin devamını hayal edip yazabilme, bir şarkının neden bahsettiğini anlayabilme, mesleki bir karşılıklı konuşmayı anlama, günlük ifadelerle mini diyaloglar yazabilme, bir forum tartışmasında belirtilen fikirleri anlayabilme." : "" },
+      { cefr: "C1", shortName: "Proficiency", title: "Proficiency Seviyesi İngilizce | Yeterlik sınavı",
+        body: d ? "Proficiency İngilizce hazırlık atlama seviyesi üniversitelerin kendi formatında düzenlediği müfredata uygun olarak, aynı üniversite öğrencilerinin bulunduğu grup eğitimleri ya da kişiye özel eğitim teknikleri şeklinde düzenlenmektedir. Eğitimler Temmuz ayından itibaren başlamakta olup üniversitelerin Proficiency sınav tarihlerine kadar devam etmektedir." : "",
+        examples: d ? "Programlarımız kişiye özel olduğu için, öğrenciler istediği zaman kursa başlama imkanına sahip olmakla birlikte girecekleri sınavdan en az 2 ay önce bu eğitimlere başlamaları kesinlikle tavsiye edilir. Ayrıca ingilizce kursuna katılan öğrenciler istedikleri gün ve saatlerde ders alma imkanına sahiptirler. Bunun yanında öğrenciler hazırlık sürecinde sınırsız etüt imkanına sahiptirler." : "" },
+      { cefr: "C2", shortName: "Akademik", title: "Akademik İngilizce Sınavları Kursu | IELTS ve TOEFL",
+        body: d ? "Akademik düzeyde yerel ve uluslararası İngilizce dil sınavlarına yönelik eğitim programlarımız maksimum 6 kişilik gruplarda veya kişiye özel hazırlanmış olan birebir online veya yüz yüze dersler şeklinde işlenmektedir. Öğrencilerimizin talebi doğrultusunda TOEFL, IELTS, YDS gibi sınav sistemlerine yönelik eğitim modeli belirlenmektedir." : "",
+        examples: "" }
+    ];
+  }
+
+  /* --- dil-illustrasyon seti ---------------------------------------
+     Her illüstrasyon aynı 200x200 viewBox, aynı üç katman ve aynı float
+     davranışını paylaşır. L1 merkez motif, L2 sol yardımcı, L3 sağ
+     yardımcı, GROUND ortak zemin çizgisi. Renkler tema değişkeninden. */
+  illoLayers() {
+    const L1 = (d) => '<g fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ddm-sky-300);animation:ddmFloatSlow 7s ease-in-out infinite">' + d + '</g>';
+    const L2 = (d) => '<g fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ddm-navy-400);animation:ddmFloat 6s ease-in-out .6s infinite">' + d + '</g>';
+    const L3 = (d) => '<g fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ddm-sky-300);animation:ddmFloat 5.4s ease-in-out 1.2s infinite">' + d + '</g>';
+    const GROUND = '<line x1="30" y1="168" x2="172" y2="168" stroke-width="1.6" style="stroke:var(--ddm-navy-500)"></line>';
+    return { L1, L2, L3, GROUND };
+  }
+
+  illoDefs() {
+    const { L1, L2, L3, GROUND } = this.illoLayers();
+    const wrap = (a, b, c) => (this.htmlOf(L1(a) + L2(b) + L3(c) + GROUND));
+    return {
+      en: {
+        slug: "ingilizce", name: "İngilizce Kursu", flag: "en", greeting: "Hello", skill: "Speaking",
+        motifs: "Big Ben · çift katlı otobüs · çay fincanı",
+        body: wrap(
+          '<path d="M96 168V78h18v90"></path><path d="M93 78h24l-3-8H96z"></path><path d="M97.5 70V48h15v22"></path><path d="M105 34l9 12H96z"></path><circle cx="105" cy="58" r="5.6"></circle><path d="M105 55v3.4l2.4 1.6"></path>',
+          '<path d="M36 168v-34c0-3 2-5 5-5h32c3 0 5 2 5 5v34"></path><path d="M36 146h42M46 129v17M62 129v17"></path><circle cx="48" cy="164" r="5"></circle><circle cx="68" cy="164" r="5"></circle>',
+          '<path d="M132 150h26l-3 16h-20z"></path><path d="M158 154h6a5 5 0 010 9h-7"></path><path d="M136 144c0-3 3-3 3-6s-3-3-3-6M146 144c0-3 3-3 3-6s-3-3-3-6"></path>'
+        )
+      },
+      de: {
+        slug: "almanca", name: "Almanca Kursu", flag: "de", greeting: "Hallo", skill: "Sprechen",
+        motifs: "Brandenburg Kapısı · guguklu saat · bira maşrapası",
+        body: wrap(
+          '<path d="M80 168V88h44v80"></path><path d="M76 88h52l-4-10H80z"></path><path d="M90 168v-56h10v56M116 168v-56h-10"></path><path d="M90 78c0-6 4-10 12-10s12 4 12 10"></path><path d="M95 68v-8h14v8"></path><circle cx="102" cy="52" r="4"></circle>',
+          '<path d="M43 124h28v28H43z"></path><path d="M41 124l16-13 16 13"></path><circle cx="57" cy="138" r="8"></circle><path d="M57 134v4l3 2"></path><path d="M50 152v9M64 152v9"></path><circle cx="50" cy="164" r="3.4"></circle><circle cx="64" cy="164" r="3.4"></circle>',
+          '<path d="M136 124h24v42h-24z"></path><path d="M136 136h24"></path><path d="M160 130h7a6 6 0 010 12h-7"></path><path d="M134 124l4-8h20l4 8"></path><path d="M144 146v12M152 146v12"></path>'
+        )
+      },
+      fr: {
+        slug: "fransizca", name: "Fransızca Kursu", flag: "fr", greeting: "Bonjour", skill: "Parler",
+        motifs: "Eyfel Kulesi · kruvasan · kadeh",
+        body: wrap(
+          '<path d="M76 168L101 40l25 128"></path><path d="M84 128h34M89 98h24M94 74h14"></path><path d="M80 148h42"></path><path d="M101 40V28"></path><path d="M88 168c4-14 8-20 13-20s9 6 13 20"></path>',
+          '<path d="M38 160c0-13 9-23 22-23s22 10 22 23"></path><path d="M38 160l-5 6M82 160l5 6"></path><path d="M49 142l4 18M60 137v23M71 142l-4 18"></path>',
+          '<path d="M134 126h30c0 13-7 20-15 20s-15-7-15-20z"></path><path d="M149 146v18M138 164h22"></path><path d="M140 118c0-4 3-5 3-8M155 118c0-4 3-5 3-8"></path>'
+        )
+      },
+      es: {
+        slug: "ispanyolca", name: "İspanyolca Kursu", flag: "es", greeting: "¡Hola!", skill: "Hablar",
+        motifs: "Gitar · güneş · mozaik karo",
+        body: wrap(
+          '<path d="M105 74v42"></path><path d="M97 72h16"></path><path d="M101 116c-10 3-17 12-17 23 0 14 9 24 21 24s21-10 21-24c0-11-7-20-17-23"></path><circle cx="105" cy="140" r="7"></circle><path d="M84 134h42"></path><path d="M100 72v-8h10v8"></path>',
+          '<circle cx="56" cy="128" r="14"></circle><path d="M56 104v-8M56 158v-8M32 128h-8M88 128h-8"></path><path d="M39 111l-6-6M79 151l6 6M39 145l-6 6M79 105l6-6"></path>',
+          '<path d="M150 118l16 16-16 16-16-16z"></path><path d="M150 128l6 6-6 6-6-6z"></path><path d="M134 152l16 14 16-14"></path>'
+        )
+      },
+      it: {
+        slug: "italyanca", name: "İtalyanca Kursu", flag: "it", greeting: "Ciao!", skill: "Parlare",
+        motifs: "Pisa Kulesi · espresso · Vespa",
+        body: wrap(
+          '<path d="M94 166l6-92M118 166l-4-92"></path><path d="M98 74h18"></path><path d="M97 92h20M96 110h21M95 128h22M94 146h23"></path><path d="M101 74l1-10h10l1 10"></path>',
+          '<path d="M40 130h26l-3 22H43z"></path><path d="M66 134h6a5 5 0 010 10h-7"></path><path d="M36 158h34"></path><path d="M48 124c0-3 3-3 3-6s-3-3-3-6M58 124c0-3 3-3 3-6s-3-3-3-6"></path>',
+          '<path d="M136 152v-13h10l9 13"></path><path d="M146 139l-4-9h-8"></path><circle cx="138" cy="158" r="8"></circle><circle cx="164" cy="158" r="8"></circle><path d="M146 158h10M155 150l9-5v13"></path>'
+        )
+      },
+      ru: {
+        slug: "rusca", name: "Rusça Kursu", flag: "ru", greeting: "Привет!", skill: "Говорить",
+        motifs: "Soğan kubbe · matruşka · çay bardağı",
+        body: wrap(
+          '<path d="M88 168v-62h34v62"></path><path d="M105 64c11 11 17 19 17 28 0 9-8 14-17 14s-17-5-17-14c0-9 6-17 17-28z"></path><path d="M105 64V52"></path><path d="M99 58h12"></path><path d="M88 106h34"></path><path d="M99 168v-30h12v30"></path>',
+          '<path d="M57 116c8 0 13 7 13 16 0 6-2 10-2 16 0 8 3 12 3 20H43c0-8 3-12 3-20 0-6-2-10-2-16 0-9 5-16 13-16z"></path><path d="M46 142h22"></path><circle cx="52" cy="128" r="2"></circle><circle cx="62" cy="128" r="2"></circle><path d="M51 160c3-6 9-6 12 0"></path>',
+          '<path d="M138 128h24l-3 30h-18z"></path><path d="M162 134h6a6 6 0 010 12h-7"></path><path d="M134 164h32"></path><path d="M146 122c0-3 3-4 3-7M155 122c0-3 3-4 3-7"></path>'
+        )
+      },
+      zh: {
+        slug: "cince", name: "Çince Kursu", flag: "zh", greeting: "你好", skill: "说话",
+        motifs: "Pagoda · fener · kaligrafi fırçası",
+        body: wrap(
+          '<path d="M105 46l-24 16h48z"></path><path d="M85 62l20-6 20 6"></path><path d="M91 72v14M119 72v14"></path><path d="M83 86l22-8 22 8"></path><path d="M93 96v12M117 96v12"></path><path d="M87 108l18-6 18 6"></path><path d="M95 118v50h20v-50"></path><path d="M101 168v-26h8v26"></path>',
+          '<path d="M57 112v-8"></path><path d="M57 112c-12 0-19 8-19 18s7 18 19 18 19-8 19-18-7-18-19-18z"></path><path d="M44 118h26M44 142h26"></path><path d="M57 148v10M51 158h12"></path>',
+          '<path d="M155 104v26"></path><path d="M149 130h12l-1 9c0 5-2 9-5 9s-5-4-5-9z"></path><path d="M147 102h16"></path><path d="M155 148c-3 8-9 14-19 18"></path><path d="M162 156c4 4 7 7 8 12"></path>'
+        )
+      },
+      nl: {
+        slug: "flemenkce", name: "Flemenkçe Kursu", flag: "nl", greeting: "Hallo!", skill: "Spreken",
+        motifs: "Yel değirmeni · bisiklet · kanal köprüsü",
+        body: wrap(
+          '<path d="M92 168v-62h26v62"></path><path d="M88 106l17-14 17 14"></path><path d="M105 92v-6"></path><path d="M105 78l-21-13M105 78l21 13M105 78l-13 21M105 78l13-21"></path><circle cx="105" cy="78" r="4"></circle><path d="M100 168v-22h10v22"></path>',
+          '<circle cx="44" cy="152" r="12"></circle><circle cx="72" cy="152" r="12"></circle><path d="M44 152l10-22h12l10 22M54 130h16M58 152l8-22"></path><path d="M64 124h8"></path>',
+          '<path d="M132 156c0-12 8-21 18-21s18 9 18 21"></path><path d="M128 156h44"></path><path d="M136 156v10M150 152v14M164 156v10"></path>'
+        )
+      },
+      tr: {
+        slug: "turkce", name: "Yabancılar İçin Türkçe", flag: "tr", greeting: "Merhaba!", skill: "Konuşma",
+        motifs: "Kız Kulesi · çay bardağı · lale",
+        body: wrap(
+          '<path d="M90 168v-44h30v44"></path><path d="M86 124h38"></path><path d="M96 124V88h18v36"></path><path d="M105 88V76"></path><path d="M105 58l11 18H94z"></path><path d="M105 58V48"></path><path d="M100 150v18M110 150v18"></path>',
+          '<path d="M56 118c-9 0-11 9-11 18 0 13 5 24 13 24s13-11 13-24c0-9-3-18-11-18z"></path><path d="M45 160h26"></path><path d="M50 112c0-3 3-4 3-7M62 112c0-3 3-4 3-7"></path>',
+          '<path d="M152 168v-30"></path><path d="M152 138c-11 0-17-8-17-19 4 4 9 4 12 0 2 4 4 7 5 7s3-3 5-7c3 4 8 4 12 0 0 11-6 19-17 19z"></path><path d="M152 152c-8 0-13-4-15-10M152 158c8 0 13-5 15-11"></path>'
+        )
+      },
+      speak: {
+        slug: "ingilizce-konusma", name: "İngilizce Konuşma", flag: "", greeting: "Let’s talk!", skill: "Speaking",
+        motifs: "İç içe konuşma balonları · mikrofon · dalga formu",
+        body: wrap(
+          '<path d="M70 58h58a9 9 0 019 9v34a9 9 0 01-9 9H98l-17 17v-17h-11a9 9 0 01-9-9V67a9 9 0 019-9z"></path><path d="M87 78h26M87 91h17"></path><path d="M117 122h26a8 8 0 018 8v16a8 8 0 01-8 8h-9l-11 11v-11h-6a8 8 0 01-8-8v-16a8 8 0 018-8z"></path>',
+          '<path d="M48 112h18v32H48z"></path><path d="M48 121a9 9 0 0118 0v14a9 9 0 01-18 0z"></path><path d="M40 134a17 17 0 0034 0"></path><path d="M57 151v13M46 164h22"></path>',
+          '<path d="M128 150v-14M138 156v-26M148 152v-18M158 158v-30M168 150v-14"></path>'
+        )
+      }
+    };
+  }
+
+  menus() {
+    return [
+      { key: "dil", short: "Yabancı Dil", label: "YABANCI DİL KURSLARI",
+        promoTitle: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz.",
+        promoLink: "Sana Uygun Yabancı Dil Kursunu Keşfet",
+        columns: [
+          { title: "DİLLER", items: ["İngilizce Kursu", "Almanca Kursu", "Fransızca Kursu", "Rusça Kursu", "İspanyolca Kursu"] },
+          { title: "DİĞER DİLLER", items: ["İtalyanca Kursu", "Çince Kursu", "Türkçe Kursu", "Flemenkçe Kursu", "İngilizce Konuşma"] },
+          { title: "KURS BİLGİLERİ", items: ["Eğitim Programı Seviyeleri", "Programı Gün ve Saatleri", "Kur Sınavları", "Dil Seviyeleri", "Sertifikalar ve Uluslararası Sınavlar"] }
+        ] },
+      { key: "ing", short: "İngilizce", label: "İNGİLİZCE KURSLARI",
+        promoTitle: "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar",
+        promoLink: "Diğer Eğitim Programlarını Keşfet",
+        columns: [
+          { title: "PROGRAM", items: ["İngilizce Eğitim Programı Seviyeleri", "İngilizce Programı Gün ve Saatleri", "İngilizce Kur Sınavları", "İngilizce Dil Seviyeleri", "İngilizce Sertifikaları ve Uluslararası Sınavlar"] },
+          { title: "ÖZEL PROGRAMLAR", items: ["İngilizce Konuşma", "Business English", "DDM Kids", "Online Dil Eğitimi", "Özel Dersler"] }
+        ] },
+      { key: "sinav", short: "Sınav Hazırlık", label: "SINAV HAZIRLIK",
+        promoTitle: "TOEFL, IELTS, YDS, GRE, SAT, GMAT, TESTDAF/DNDS ve Proficiency programlarımızla öğrencilerimize kapsamlı destek sunuyoruz.",
+        promoLink: "Sana Uygun Sınav Hazırlık Programını Keşfet",
+        columns: [
+          { title: "SINAV HAZIRLIK PROGRAMLARI", items: ["TOEFL Kursu", "IELTS Kursu", "Proficiency Kursu", "TESTDAF Kursu", "YDS Kursu", "GRE Kursu", "SAT Kursu", "GMAT Kursu"] },
+          { title: "DİL YETERLİLİĞİ ÇÖZÜMLERİ", items: ["Sınav Hazırlık Programları", "Dil Yeterliliği Çözümleri"] }
+        ] },
+      { key: "yurtdisi", short: "Yurtdışı Eğitim", label: "YURTDIŞI EĞİTİM",
+        promoTitle: "Dünya Dilleri Merkezi, KAPLAN INTERNATIONAL ve ILSC dil okullarının resmi kayıt ofisidir.",
+        promoLink: "Sana Uygun Yurtdışı Eğitimini Keşfet",
+        columns: [
+          { title: "PROGRAMLAR", items: ["Yurtdışı İngilizce", "Sınav Hazırlık", "Pathway Programı", "Yüksek Öğrenim", "Yaz Okulları", "Yurtdışı Dil Eğitimi"] }
+        ] },
+      { key: "diger", short: "Diğer Programlar", label: "DİĞER PROGRAMLAR",
+        promoTitle: "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar",
+        promoLink: "Diğer Eğitim Programlarını Keşfet",
+        columns: [
+          { title: "PROGRAMLAR", items: ["Özel Dersler", "Business English", "DDM Kids", "Yurtdışı Dil Eğitimi"] }
+        ] },
+      { key: "yorum", short: "Öğrenci Yorumları", label: "ÖĞRENCİ YORUMLARI",
+        promoTitle: "Sitemizde yayınlanması için bir yorum veya bir fikriniz mi var?",
+        promoLink: "Öğrenci Yorumlarını Oku",
+        columns: [{ title: "İÇERİKLER", items: ["Mektuplar", "Aktiviteler", "Duyurular"] }] },
+      { key: "subeler", short: "Şubeler", label: "ŞUBELERİMİZ",
+        promoTitle: "Kadıköy Merkez · Mühürdar Cad. Akmar Çarşısı No:70 Kat:3 · 0216 330 12 17",
+        promoLink: "Kadıköy Şubemizi Keşfet",
+        columns: [{ title: "ŞUBELER", items: ["Kadıköy Merkez", "Bağdat Caddesi", "Levent / Etiler", "Ataşehir", "Ümraniye"] }] }
+    ];
+  }
+
+  renderVals() {
+    const w = this.state.w;
+    const long = this.state.variant === "uzun";
+    const open = this.state.open;
+    const menus = this.menus();
+    const dilAdi = "İngilizce";
+
+    const cancelClose = () => { clearTimeout(this.menuTimer); };
+    const scheduleClose = () => {
+      clearTimeout(this.menuTimer);
+      this.menuTimer = setTimeout(() => this.setState({ open: null }), 260);
+    };
+
+    const levels = this.levelData();
+    const activeIdx = Math.min(this.state.level, levels.length - 1);
+    const active = levels[activeIdx];
+
+    const allRows = [
+      { branch: "Kadıköy Şubesi", note: "Kadıköy Şubesi İngilizce Kurs Tarihi" },
+      { branch: "Bağdat Caddesi Şubesi", note: "Bağdat Caddesi Şubesi İngilizce Kurs Tarihi" },
+      { branch: "Etiler Şubesi", note: "Etiler Şubesi İngilizce Kurs Tarihi" },
+      { branch: "Ataşehir Şubesi", note: "Ataşehir Şubesi İngilizce Kurs Tarihi" }
+    ];
+    const filters = ["Tümü", "Kadıköy Şubesi", "Bağdat Caddesi Şubesi", "Etiler Şubesi", "Ataşehir Şubesi"];
+    const sel = this.state.branch;
+
+    const flags = {
+      en: '<rect width="60" height="40" fill="#012169"></rect><path d="M0 0l60 40M60 0L0 40" stroke="#FFF" stroke-width="8"></path><path d="M30 0v40M0 20h60" stroke="#FFF" stroke-width="13"></path><path d="M30 0v40M0 20h60" stroke="#C8102E" stroke-width="8"></path>',
+      de: '<rect width="60" height="13.34" fill="#000"></rect><rect y="13.34" width="60" height="13.33" fill="#DD0000"></rect><rect y="26.67" width="60" height="13.33" fill="#FFCE00"></rect>',
+      fr: '<rect width="20" height="40" fill="#002395"></rect><rect x="20" width="20" height="40" fill="#FFFFFF"></rect><rect x="40" width="20" height="40" fill="#ED2939"></rect>',
+      es: '<rect width="60" height="40" fill="#AA151B"></rect><rect y="10" width="60" height="20" fill="#F1BF00"></rect>',
+      it: '<rect width="20" height="40" fill="#008C45"></rect><rect x="20" width="20" height="40" fill="#F4F5F0"></rect><rect x="40" width="20" height="40" fill="#CD212A"></rect>',
+      ru: '<rect width="60" height="13.34" fill="#FFFFFF"></rect><rect y="13.34" width="60" height="13.33" fill="#0039A6"></rect><rect y="26.67" width="60" height="13.33" fill="#D52B1E"></rect>',
+      zh: '<rect width="60" height="40" fill="#DE2910"></rect><circle cx="12" cy="10" r="5" fill="#FFDE00"></circle><circle cx="22" cy="5" r="1.8" fill="#FFDE00"></circle><circle cx="26" cy="10" r="1.8" fill="#FFDE00"></circle><circle cx="26" cy="16" r="1.8" fill="#FFDE00"></circle><circle cx="22" cy="20" r="1.8" fill="#FFDE00"></circle>',
+      nl: '<rect width="60" height="13.34" fill="#AE1C28"></rect><rect y="13.34" width="60" height="13.33" fill="#FFFFFF"></rect><rect y="26.67" width="60" height="13.33" fill="#21468B"></rect>',
+      tr: '<rect width="60" height="40" fill="#E30A17"></rect><circle cx="24" cy="20" r="8.5" fill="#FFFFFF"></circle><circle cx="27" cy="20" r="6.8" fill="#E30A17"></circle><path d="M36 20l6.4-2.1-4 5.5v-6.8l4 5.5z" fill="#FFFFFF"></path>'
+    };
+    const langList = [
+      { name: "İngilizce Kursu", code: "EN", key: "en", current: true },
+      { name: "Almanca Kursu", code: "DE", key: "de" },
+      { name: "Fransızca Kursu", code: "FR", key: "fr" },
+      { name: "İspanyolca Kursu", code: "ES", key: "es" },
+      { name: "İtalyanca Kursu", code: "IT", key: "it" },
+      { name: "Rusça Kursu", code: "RU", key: "ru" },
+      { name: "Çince Kursu", code: "ZH", key: "zh" },
+      { name: "Flemenkçe Kursu", code: "NL", key: "nl" },
+      { name: "Yabancılar İçin Türkçe", code: "TR", key: "tr" },
+      { name: "İngilizce Konuşma", code: "EN", key: "speak" }
+    ];
+
+    const illoDefs = this.illoDefs();
+    const illoKeys = ["en", "de", "fr", "es", "it", "ru", "zh", "nl", "tr", "speak"];
+    const illoShort = { en: "İngilizce", de: "Almanca", fr: "Fransızca", es: "İspanyolca", it: "İtalyanca", ru: "Rusça", zh: "Çince", nl: "Flemenkçe", tr: "Türkçe", speak: "İng. Konuşma" };
+    const activeIllo = illoDefs[this.state.illo] || illoDefs.en;
+
+    const faqSrc = [
+      { q: "İngilizce kursu kaç kurdan oluşuyor, bir kur ne kadar sürüyor?",
+        a: "İngilizce kursları A1 / A2 / B1 / B2 / C1 seviyelerinde her dönem açılmaktadır. Eğitimlerimiz toplam 5 kurdan oluşmaktadır. 1 kur 10 Hafta 2,5 ay olup 60 saat sürmektedir. Her bir ders süresi 50 dakikadır." },
+      { q: "Kur sonunda sınav var mı, bir sonraki kura nasıl geçilir?",
+        a: "Her kur sonunda İngilizce kur bitirme sınavı yapılmaktadır. Bir sonraki kura devam için başarı notunun en az 60 olması gerekmektedir." },
+      { q: "Kur sınavında başarılı olamazsam ne oluyor?",
+        a: "Kur sınavında başarılı olamayan öğrencilerin kursa olan devamsızlıkları %10 geçmemesi şartıyla ücretsiz olarak kur tekrar hakkı elde etmiş olurlar." },
+      { q: "Verilen sertifika M.E.B onaylı mı?",
+        a: "Dünya Dilleri Merkezi tarafından başarılı olan öğrencilere ulaşılan İngilizce seviyesini belirtir “Sertifika” verilmektedir. Sertifikalarımız Milli Eğitim Bakanlığı onaylıdır." },
+      { q: "Uluslararası sınavlara girebilir miyim?",
+        a: "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde uluslararası ve yerel geçerliliğe sahip TOEFL, IELTS, E-TEP, YDS, YÖKDİL ve üniversite hazırlık atlama sınavlarına ücret karşılığında girebilir, İngilizce seviyesini belirleyen Sertifika elde edebilirler." },
+      { q: "Eğitmen kadrosu kimlerden oluşuyor?",
+        a: "İngilizce eğitimlerimiz alanında uzman en az 5 yıllık deneyim ve tecrübeye sahip Türk ve Yabancı öğretmen kadromuz tarafından düzenlenmektedir. Eğitimler dil öğretimi için gerekli tüm teknik donanımlara sahip sınıflarda verilmektedir." },
+      { q: "Akademik sınav hazırlık dersleri kaç kişilik gruplarda işleniyor?",
+        a: "Akademik düzeyde yerel ve uluslararası İngilizce dil sınavlarına yönelik eğitim programlarımız maksimum 6 kişilik gruplarda veya kişiye özel hazırlanmış olan birebir online veya yüz yüze dersler şeklinde işlenmektedir." },
+      { q: "Proficiency hazırlık eğitimine ne zaman başlamalıyım?",
+        a: "Programlarımız kişiye özel olduğu için, öğrenciler istediği zaman kursa başlama imkanına sahip olmakla birlikte girecekleri sınavdan en az 2 ay önce bu eğitimlere başlamaları kesinlikle tavsiye edilir." }
+    ];
+    const faqShown = long ? faqSrc : faqSrc.slice(0, 4);
+
+    return {
+      dilAdi,
+      dilKodu: "EN",
+      subeSayisi: "5",
+      levelFillWidth: this.state.levelSeen ? (((activeIdx + 0.5) / levels.length) * 100).toFixed(1) + "%" : "0%",
+      qSube: this.countVal(5),
+      qKur: this.countVal(5),
+      qSaat: this.countVal(60),
+      qKisi: this.countVal(6),
+      dilKursuLabel: dilAdi + " Kursu",
+      subeLabel: "5 şubemizde",
+      h2Sistem: dilAdi + " Öğrenme Eğitim Sistemi",
+      h2Seviyeler: dilAdi + " Eğitim Programı Kur Seviyeleri",
+      h2Hakkinda: dilAdi + " Eğitim Programı Hakkında Bilgi",
+      h3KurSinavi: dilAdi + " Düzeyi Seviye Kur Sınavları",
+      h2Takvim: dilAdi + " Eğitim Plan Tablosu ve Kurs Tarihleri",
+      h2Sss: dilAdi + " kursu hakkında sık sorulanlar",
+      h1: long ? "İngilizce Kursu Dil Eğitim Sistemi ve Fiyatları" : "İngilizce Kursu",
+      heroLead: long
+        ? "Dünya Dilleri Merkezi öğrenci merkezli yaklaşımı ve modern yöntemlerle işlenen İngilizce dersleriyle (okuma-anlama, dinleme-anlama, yazılı-anlatım, sözlü anlatım ve konuşma) dört dil yetisinin geliştirilmesini hedeflemektedir. Başlangıç, orta, ileri, Proficiency ve Akademik dil seviyesi İngilizce kursları."
+        : "5 şubemizde başlangıçtan ileriye tüm seviyelerde İngilizce programları.",
+      isLong: long,
+      setLong: () => this.setState({ variant: "uzun" }),
+      setShort: () => this.setState({ variant: "kisa" }),
+      longBg: long ? "#2A2D7C" : "transparent",
+      longColor: long ? "#FFFFFF" : "#BFC1E7",
+      shortBg: long ? "transparent" : "#2A2D7C",
+      shortColor: long ? "#BFC1E7" : "#FFFFFF",
+
+      illoOptions: illoKeys.map((k) => ({
+        label: illoShort[k],
+        bg: this.state.illo === k ? "#2E9BD6" : "transparent",
+        color: this.state.illo === k ? "#FFFFFF" : "#BFC1E7",
+        onClick: () => this.setState({ illo: k })
+      })),
+      illoBody: activeIllo.body,
+      illoGreeting: activeIllo.greeting,
+      illoSkill: activeIllo.skill,
+      illoHasFlag: !!activeIllo.flag,
+      illoNoFlag: !activeIllo.flag,
+      illoFlag: activeIllo.flag ? this.htmlOf(flags[activeIllo.flag]) : this.htmlOf(""),
+      illoSet: illoKeys.map((k, i) => ({
+        slug: illoDefs[k].slug,
+        name: illoDefs[k].name,
+        motifs: illoDefs[k].motifs,
+        greeting: illoDefs[k].greeting,
+        body: illoDefs[k].body,
+        hasFlag: !!illoDefs[k].flag,
+        flag: illoDefs[k].flag ? this.htmlOf(flags[illoDefs[k].flag]) : this.htmlOf(""),
+        delay: String(i * 45)
+      })),
+      illoDisplay: w < 620 ? "none" : "block",
+
+      heroGrid: "repeat(auto-fit, minmax(min(100%, 380px), 1fr))",
+      faqGrid: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
+      drawerOpen: this.state.drawer,
+      toggleDrawer: () => this.setState({ drawer: !this.state.drawer, open: null }),
+      cancelClose, scheduleClose,
+      activeMenu: menus.find((m) => m.key === open) || null,
+      navItems: menus.map((m) => ({
+        short: m.short,
+        color: open === m.key ? "#2A2D7C" : "#3F4049",
+        bg: open === m.key ? "#F1F8FD" : "transparent",
+        onClick: () => { cancelClose(); this.setState({ open: open === m.key ? null : m.key }); },
+        onEnter: () => { cancelClose(); if (open !== m.key) this.setState({ open: m.key }); }
+      })),
+
+      programs: [
+        { title: "Genel İngilizce Programı", body: "Okuma-anlama, dinleme-anlama, yazılı anlatım, sözlü anlatım ve konuşma — dört dil yetisinin birlikte geliştirildiği ana program.", iconGenel: true, iconKonusma: false, iconSinav: false, iconProf: false, iconBirebir: false, delay: "0" },
+        { title: "İngilizce Konuşma Kursu / English Speaking", body: "Anlıyor ama konuşamıyor diyen öğrenciler için konuşma odaklı program; güvenilir metod ile uygulanır.", iconGenel: false, iconKonusma: true, iconSinav: false, iconProf: false, iconBirebir: false, delay: "70" },
+        { title: "Akademik Sınav Hazırlık | IELTS ve TOEFL", body: "Maksimum 6 kişilik gruplarda; öğrencilerimizin talebi doğrultusunda TOEFL, IELTS, YDS gibi sınav sistemlerine yönelik eğitim modeli belirlenmektedir.", iconGenel: false, iconKonusma: false, iconSinav: true, iconProf: false, iconBirebir: false, delay: "140" },
+        { title: "Proficiency | Hazırlık Atlama", body: "Üniversitelerin kendi formatındaki müfredata uygun grup eğitimleri ya da kişiye özel teknikler; Temmuz’dan sınav tarihlerine kadar sürer.", iconGenel: false, iconKonusma: false, iconSinav: false, iconProf: true, iconBirebir: false, delay: "210" },
+        { title: "Birebir ve Online Dersler", body: "Kişiye özel hazırlanmış birebir online veya yüz yüze dersler; istenen gün ve saatlerde ders alma imkanı.", iconGenel: false, iconKonusma: false, iconSinav: false, iconProf: false, iconBirebir: true, delay: "280" }
+      ],
+
+      seviyeGiris: "İngilizce eğitim seviyeleri ortak Avrupa Dil Referans Çerçevesi (CEFR), dil yeteneğini tanımlayan uluslararası bir standart | eğitim seviyeleri, A1, A2, B1, B2, C1 ve C2 şeklindedir.",
+      levels: levels.map((lv, i) => ({
+        cefr: lv.cefr,
+        shortName: lv.shortName,
+        onClick: () => this.setState({ level: i }),
+        dotBg: i === activeIdx ? "#2A2D7C" : (i < activeIdx ? "#E8F4FC" : "#FFFFFF"),
+        dotBorder: i === activeIdx ? "#2A2D7C" : (i < activeIdx ? "#93CEEE" : "#D8DAE0"),
+        dotColor: i === activeIdx ? "#FFFFFF" : (i < activeIdx ? "#1A6D9C" : "#7C7E88"),
+        dotScale: i === activeIdx ? "scale(1.1)" : "scale(1)",
+        labelColor: i === activeIdx ? "#16184A" : "#7C7E88"
+      })),
+      activeLevel: {
+        cefr: active.cefr,
+        title: active.title,
+        body: active.body,
+        examples: active.examples,
+        hasBody: !!active.body,
+        hasExamples: !!active.examples,
+        missing: !active.body
+      },
+
+      method: [
+        { title: "Dört dil yetisi birlikte", body: "Okuma-anlama, dinleme-anlama, yazılı anlatım, sözlü anlatım ve konuşma becerilerinin birlikte geliştirilmesi hedeflenir.", iconSkills: true, iconTrack: false, iconTeam: false, iconClass: false, delay: "0" },
+        { title: "Bireysel gelişim takibi", body: "Öğrencilerimizin bireysel gelişimleri takip edilerek geri bildirim yapılmakta, ihtiyaç halinde destekleyici ek materyaller sunulmaktadır.", iconSkills: false, iconTrack: true, iconTeam: false, iconClass: false, delay: "70" },
+        { title: "Uzman Türk ve yabancı kadro", body: "Eğitimlerimiz alanında uzman, en az 5 yıllık deneyim ve tecrübeye sahip Türk ve Yabancı öğretmen kadromuz tarafından düzenlenir.", iconSkills: false, iconTrack: false, iconTeam: true, iconClass: false, delay: "140" },
+        { title: "Donanımlı sınıflar", body: "Eğitimler dil öğretimi için gerekli tüm teknik donanımlara sahip sınıflarda verilmektedir.", iconSkills: false, iconTrack: false, iconTeam: false, iconClass: true, delay: "210" }
+      ],
+      aboutP1: "İngilizce öğrenmek istiyorsunuz ama yoğun temponuz arasında aylarca sürecek rutin bir eğitim istemiyorsunuz ya da, öğrencilik yıllarınızda hazırlık eğitimi aldınız, ingilizce kursu’na gittiniz, şu anda anlıyorsunuz ama konuşamıyorsunuz.",
+      aboutP2: "Bu noktada yaşanan en büyük sorun uzayıp giden kurlar ve sonunda yarıda bırakılan eğitim oluyor. Dünya Dilleri Merkezi işte bu noktadan hareketle sizlere özel bir ingilizce eğitim program hazırladı.",
+      aboutP3: "İngilizce Kursu programlarımıza katılan öğrencilerimizin bireysel gelişimleri takip edilerek bu konuda geri bildirim yapılmakta, ihtiyaç duyulması halinde bireysel çalışmaları destekleyici ek materyaller sunulmaktadır.",
+      aboutP4: "İngilizce kursunda eğitimler İstanbul’da Kadıköy, Bağdat Caddesi, Etiler, Ataşehir ve Ümraniye şubelerimizde akademik başarısı tescilli öğretim üyelerimiz tarafından verilmektedir.",
+      kurSinavi: "Her kur sonunda İngilizce kur bitirme sınavı yapılmaktadır. Bir sonraki kura devam için başarı notunun en az 60 olması gerekmektedir. Kur sınavında başarılı olamayan öğrencilerin kursa olan devamsızlıkları %10 geçmemesi şartıyla ücretsiz olarak kur tekrar hakkı elde etmiş olurlar.",
+      mebText: "Dünya Dilleri Merkezi tarafından başarılı olan öğrencilere ulaşılan İngilizce seviyesini belirtir “Sertifika” verilmektedir. Sertifikalarımız Milli Eğitim Bakanlığı onaylıdır.",
+      sertifikaText: "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde uluslararası ve yerel geçerliliğe sahip TOEFL, IELTS, E-TEP, YDS, YÖKDİL ve üniversite hazırlık atlama sınavlarına ücret karşılığında girebilir, İngilizce seviyesini belirleyen Sertifika elde edebilirler.",
+
+      takvimLead: "Dünya Dilleri Merkezi şubelerinin detaylı kurs tarihlerini inceleyin ve size uygun olan şubenin ön bilgi formundan ve şubelerin iletişim bölümünden bize yazın sorularınızı cevaplayalım.",
+      branchFilters: filters.map((f) => ({
+        label: f,
+        onClick: () => this.setState({ branch: f }),
+        bg: sel === f ? "#2A2D7C" : "#FFFFFF",
+        color: sel === f ? "#FFFFFF" : "#2A2D7C",
+        border: sel === f ? "#2A2D7C" : "#D8DAE0"
+      })),
+      visibleRows: allRows.filter((r) => sel === "Tümü" || r.branch === sel).map((r) => ({
+        branch: r.branch,
+        note: r.note,
+        date: "tarih bekleniyor",
+        days: "gün bekleniyor",
+        hours: "saat bekleniyor"
+      })),
+
+      testiRef: this.carouselRef("testiEl"),
+      testiPrev: () => this.nudge("testiEl", -1),
+      testiNext: () => this.nudge("testiEl", 1),
+      testimonials: [
+        { initials: "OS", name: "Onur Saygın", role: "IELTS Öğrencisi", quote: "İyi eğitimli, deneyimli ve güler yüzlü, Türk ve yabancı hocalarım ile çok kısa bir sürede eksiklerimi tespit edip, ve bu eksiklerimi tamamlayıp kısa sürede İngilizce seviyemi akademik düzeyde geliştirmeme..." },
+        { initials: "HO", name: "Hülya Osmanoğlu", role: "İngilizce Öğrencisi", quote: "İngilizce öğrenmedeki zorlu mücadelem, dil seviyemin ölçüldüğü ilk sınavlardaki başarısızlığımdan sonra 5 yıl kadar uzunca bir süre âdeta küsmüştüm İngilizce'ye. Bu vazgeçiş dönemimden sonra..." },
+        { initials: "ÇY", name: "Çağla Yorulmaz", role: "IELTS Öğrencisi", quote: "Arkadaşımın tavsiyesi üzerine Dünya Dilleri Merkezi’ne IELTS sınavına yönelik eğitim almak için görüşmeye gittiğimde IELTS sınavı hakkında detaylı bütün bilgileri benimle paylaştılar." }
+      ],
+
+      faqs: faqShown.map((f, i) => ({
+        question: f.q,
+        answer: f.a,
+        delay: String(i * 60),
+        caret: this.state.faq === i ? "rotate(180deg)" : "rotate(0deg)",
+        maxH: this.state.faq === i ? "460px" : "0px",
+        opacity: this.state.faq === i ? "1" : "0",
+        onClick: () => this.setState((s) => ({ faq: s.faq === i ? -1 : i }))
+      })),
+
+      otherLangs: langList.map((l, i) => ({
+        name: l.name,
+        code: l.code,
+        delay: String(i * 45),
+        bg: l.current ? "#F1F8FD" : "#FFFFFF",
+        border: l.current ? "#93CEEE" : "#E8E9ED",
+        isSpeak: l.key === "speak",
+        hasFlag: l.key !== "speak",
+        flag: l.key === "speak" ? "" : this.htmlOf(flags[l.key])
+      })),
+
+      ctaTitle: "Dünya Dilleri Merkezi şubelerinin detaylı kurs tarihlerini inceleyin, size uygun şubeye yazın.",
+
+      footerCols: [
+        { title: "YABANCI DİL KURSLARI", items: ["İngilizce Kursu", "Almanca Kursu", "Fransızca Kursu", "Rusça Kursu", "İspanyolca Kursu", "İtalyanca Kursu", "Çince Kursu", "Flemenkçe Kursu"] },
+        { title: "SINAV HAZIRLIK", items: ["TOEFL Kursu", "IELTS Kursu", "Proficiency Kursu", "TESTDAF Kursu", "YDS Kursu", "GRE Kursu", "SAT Kursu", "GMAT Kursu"] },
+        { title: "YURTDIŞI EĞİTİM", items: ["Yurtdışı İngilizce", "Sınav Hazırlık", "Pathway Programı", "Yüksek Öğrenim", "Yaz Okulları", "Yurtdışı Dil Eğitimi"] },
+        { title: "DİĞER PROGRAMLAR", items: ["Özel Dersler", "Business English", "DDM Kids", "Online Dil Eğitimi", "Tercüme Hizmetleri", "Öğrenci Yorumları", "Mektuplar", "Aktiviteler", "Duyurular"] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

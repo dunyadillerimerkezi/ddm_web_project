@@ -1,0 +1,60 @@
+/*
+ * Mobil alt sabit çubuk — tasarımda yalnız Şube şablonunda vardı,
+ * karar gereği tüm sayfalara yayıldı (≤999px).
+ *
+ * body'nin alt dolgusu globals.css'te değil burada verilemez; çubuk
+ * sabit konumlu olduğu için sayfanın son içeriğini örtmemesi adına
+ * :global(body) kuralı aynı breakpoint'te uygulanır.
+ */
+.bar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px 14px;
+  background: var(--ddm-white);
+  border-top: 1px solid var(--ddm-gray-200);
+  box-shadow: var(--shadow-bar);
+}
+
+.action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ddm-primary);
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  border-radius: var(--radius-md);
+  padding: 13px 10px;
+  min-height: 46px;
+}
+
+.primary {
+  composes: action;
+  flex: 1.2;
+  color: var(--ddm-white);
+  background: var(--ddm-primary);
+  border-color: var(--ddm-primary);
+}
+
+.primary:hover {
+  color: var(--ddm-white);
+}
+
+@media (max-width: 999px) {
+  .bar {
+    display: flex;
+  }
+
+  :global(body) {
+    padding-bottom: 76px;
+  }
+}

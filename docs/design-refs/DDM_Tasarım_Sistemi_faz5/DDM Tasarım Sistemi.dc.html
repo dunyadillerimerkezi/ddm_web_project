@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #F7F7F9; color: #3F4049; font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #2A2D7C; text-decoration: none; }
+  a:hover { color: #2384BB; }
+  ::selection { background: #E0E1F4; }
+</style>
+</helmet>
+
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 32px 120px">
+
+  <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; padding: 64px 0 40px; border-bottom: 1px solid #E4E5E9">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <img src="assets/ddm-logo-lacivert.png" alt="Dünya Dilleri Merkezi" style="height: 54px; width: auto; display: block" />
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <h1 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 52px; line-height: 1.06; letter-spacing: -0.025em; color: #16184A; text-wrap: pretty">Tasarım Sistemi</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #5A5C66; max-width: 56ch; text-wrap: pretty">384 sayfalık dizin sitesi için renk, tipografi, boşluk ve temel bileşen katmanı. Sayfa şablonları bir sonraki adımda bu temel üzerine kurulacak.</p>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+      <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: #E0E1F4; color: #2A2D7C; font-size: 13px; font-weight: 700; letter-spacing: 0.02em">Faz 3 · Temel katman</span>
+      <span style="font-size: 13px; color: #7C7E88">19 dilde eğitim · 2003’ten bugüne · 5 şube</span>
+    </div>
+  </header>
+
+  <!-- 01 RENKLER -->
+  <section style="padding: 80px 0 0">
+    <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px">
+      <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; color: #8C8FD3">01</span>
+      <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 36px; line-height: 1.15; letter-spacing: -0.02em; color: #16184A">Renk Paleti</h2>
+    </div>
+    <p style="margin: 0 0 32px; font-size: 16px; line-height: 1.7; color: #5A5C66; max-width: 72ch">Lacivert #2A2D7C ana kimlik ve tüm dolu CTA’ların rengi. Beyaz zemin, laciverte çalan soğuk gri skalası ve tek bir aksan ailesi. Sarı kullanılmıyor.</p>
+
+    <div style="display: grid; gap: 20px">
+      <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px">
+          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #16184A">Lacivert — Primary</h3>
+          <span style="font-size: 13px; color: #7C7E88">Buton/CTA: 600 · Hover: 700 · Koyu zemin: 900</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 12px">
+          <sc-for list="{{ navyRamp }}" as="c" hint-placeholder-count="11">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <div style="height: 84px; border-radius: 14px; border: 1px solid rgba(16,17,22,0.06); background: {{ c.hex }}"></div>
+              <div style="display: flex; flex-direction: column; gap: 2px">
+                <span style="font-size: 13px; font-weight: 700; color: #2A2B33">{{ c.step }}</span>
+                <span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">{{ c.hex }}</span>
+                <sc-if value="{{ showNames }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size: 11px; color: #A8AAB3; word-break: break-all">{{ c.token }}</span>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 4px">
+          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #16184A">Aksan — kilitli: B · Gök mavisi #2E9BD6</h3>
+          <span style="font-size: 13px; color: #7C7E88">Link · hover · rozet · ikon · odak halkası</span>
+        </div>
+        <p style="margin: 0 0 24px; font-size: 15px; line-height: 1.7; color: #5A5C66; max-width: 78ch">Aksan yalnızca link, hover, rozet ve küçük vurgularda. Dolu butonlarda beyaz yazı kontrastı düştüğü için ana CTA lacivert kalıyor. <strong>Karar: B · Gök mavisi (#2E9BD6) kilitlendi.</strong> A yönü referans olarak bırakıldı; butonlarla önizlemeye devam edebilirsin.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px">
+
+          <div style="border: 1px solid #E4E5E9; border-radius: 20px; padding: 24px; background: #FCFCFD">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px">
+              <div style="display: flex; flex-direction: column; gap: 2px">
+                <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 17px; color: #16184A">A · Menekşe-mavi (alternatif)</span>
+                <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">#6B6FD8 · laciverten türetilmiş</span>
+              </div>
+              <sc-if value="{{ isIndigo }}" hint-placeholder-val="{{ true }}">
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #ECEDFC; color: #4448B0; font-size: 12px; font-weight: 700">Seçili yön</span>
+              </sc-if>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px">
+              <div style="height: 40px; border-radius: 8px; background: #ECEDFC"></div>
+              <div style="height: 40px; border-radius: 8px; background: #D2D3F7"></div>
+              <div style="height: 40px; border-radius: 8px; background: #ACAEEE"></div>
+              <div style="height: 40px; border-radius: 8px; background: #8A8DE3"></div>
+              <div style="height: 40px; border-radius: 8px; background: #6B6FD8"></div>
+              <div style="height: 40px; border-radius: 8px; background: #575BC7"></div>
+              <div style="height: 40px; border-radius: 8px; background: #4448B0"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 14px">
+              <span style="font-size: 15px; color: #3F4049">Bağlantı örneği: <a href="#" style="color: #4448B0; font-weight: 600; text-decoration: underline; text-decoration-color: #ACAEEE; text-underline-offset: 3px">Sana Uygun Sınav Hazırlık Programını Keşfet</a></span>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+                <span style="display: inline-flex; padding: 6px 12px; border-radius: 999px; background: #ECEDFC; color: #4448B0; font-size: 12px; font-weight: 700">IELTS</span>
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 12px; background: #ECEDFC; color: #4448B0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 13px">EN</span>
+                <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: #4448B0; background: #FFFFFF; border: 1.5px solid #ACAEEE; border-radius: 12px; padding: 10px 16px; cursor: pointer" style-hover="background:#ECEDFC">Keşfet</button>
+                <span style="display: inline-flex; padding: 10px 14px; border-radius: 12px; background: #FFFFFF; border: 1.5px solid #6B6FD8; box-shadow: 0 0 0 3px #E2E3FA; font-size: 13px; color: #5A5C66">odak halkası</span>
+              </div>
+              <button type="button" onClick="{{ pickIndigo }}" style="align-self: flex-start; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: #2A2D7C; background: transparent; border: none; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px">Bu yönü seç</button>
+            </div>
+          </div>
+
+          <div style="border: 1px solid #E4E5E9; border-radius: 20px; padding: 24px; background: #FCFCFD">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px">
+              <div style="display: flex; flex-direction: column; gap: 2px">
+                <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 17px; color: #16184A">B · Gök mavisi (kilitli)</span>
+                <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">#2E9BD6 · canlı vurgu</span>
+              </div>
+              <sc-if value="{{ isSky }}" hint-placeholder-val="{{ true }}">
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #E8F4FC; color: #1A6D9C; font-size: 12px; font-weight: 700">Seçili yön</span>
+              </sc-if>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px">
+              <div style="height: 40px; border-radius: 8px; background: #E8F4FC"></div>
+              <div style="height: 40px; border-radius: 8px; background: #C5E5F7"></div>
+              <div style="height: 40px; border-radius: 8px; background: #93CEEE"></div>
+              <div style="height: 40px; border-radius: 8px; background: #5DB4E2"></div>
+              <div style="height: 40px; border-radius: 8px; background: #2E9BD6"></div>
+              <div style="height: 40px; border-radius: 8px; background: #2384BB"></div>
+              <div style="height: 40px; border-radius: 8px; background: #1A6D9C"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 14px">
+              <span style="font-size: 15px; color: #3F4049">Bağlantı örneği: <a href="#" style="color: #1A6D9C; font-weight: 600; text-decoration: underline; text-decoration-color: #93CEEE; text-underline-offset: 3px">Sana Uygun Sınav Hazırlık Programını Keşfet</a></span>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+                <span style="display: inline-flex; padding: 6px 12px; border-radius: 999px; background: #E8F4FC; color: #1A6D9C; font-size: 12px; font-weight: 700">IELTS</span>
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 12px; background: #E8F4FC; color: #1A6D9C; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 13px">EN</span>
+                <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: #1A6D9C; background: #FFFFFF; border: 1.5px solid #93CEEE; border-radius: 12px; padding: 10px 16px; cursor: pointer" style-hover="background:#E8F4FC">Keşfet</button>
+                <span style="display: inline-flex; padding: 10px 14px; border-radius: 12px; background: #FFFFFF; border: 1.5px solid #2E9BD6; box-shadow: 0 0 0 3px #D8EDF9; font-size: 13px; color: #5A5C66">odak halkası</span>
+              </div>
+              <button type="button" onClick="{{ pickSky }}" style="align-self: flex-start; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: #2A2D7C; background: transparent; border: none; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px">Bu yönü seç</button>
+            </div>
+          </div>
+        </div>
+        <p style="margin: 20px 0 0; padding: 14px 18px; border-radius: 14px; background: #F2F2FB; font-size: 14px; line-height: 1.6; color: #2A2D7C">Sistemin kalıcı aksanı <strong>B · Gök mavisi (#2E9BD6)</strong>; sayfa her açılışta bu renkle başlar. Şu an render edilen: <strong>{{ accentLabel }}</strong> — butonlar yalnızca önizleme içindir.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px">
+        <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+          <h3 style="margin: 0 0 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #16184A">Nötr / Gri Skalası</h3>
+          <p style="margin: 0 0 20px; font-size: 14px; color: #7C7E88">Metin, kenarlık ve arka plan tonları — laciverte çalan soğuk gri.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <sc-for list="{{ grayRamp }}" as="c" hint-placeholder-count="11">
+              <div style="display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 14px">
+                <div style="height: 34px; border-radius: 10px; border: 1px solid rgba(16,17,22,0.08); background: {{ c.hex }}"></div>
+                <div style="display: flex; flex-direction: column; gap: 1px; min-width: 0">
+                  <span style="font-size: 13px; font-weight: 700; color: #2A2B33">{{ c.step }}</span>
+                  <span style="font-size: 12px; color: #7C7E88">{{ c.use }}</span>
+                </div>
+                <span style="font-size: 12px; color: #A8AAB3; font-variant-numeric: tabular-nums">{{ c.hex }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+            <h3 style="margin: 0 0 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #16184A">Semantik Renkler</h3>
+            <p style="margin: 0 0 20px; font-size: 14px; color: #7C7E88">Form geri bildirimi ve durum mesajları. Sarı yok — uyarı için toprak turuncusu.</p>
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: #E7F5EF; border: 1px solid #A9DCC6">
+                <span style="width: 10px; height: 10px; border-radius: 999px; background: #1C8A5B; flex: none"></span>
+                <span style="font-size: 14px; font-weight: 600; color: #146845">Başarılı — Kayıt talebiniz alındı</span>
+                <span style="margin-left: auto; font-size: 12px; color: #146845; font-variant-numeric: tabular-nums">#1C8A5B</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: #FCECEB; border: 1px solid #F1B7B3">
+                <span style="width: 10px; height: 10px; border-radius: 999px; background: #C8362F; flex: none"></span>
+                <span style="font-size: 14px; font-weight: 600; color: #93241E">Hata — Lütfen şube seçin</span>
+                <span style="margin-left: auto; font-size: 12px; color: #93241E; font-variant-numeric: tabular-nums">#C8362F</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: #FAEFE5; border: 1px solid #E5C5A6">
+                <span style="width: 10px; height: 10px; border-radius: 999px; background: #A8550E; flex: none"></span>
+                <span style="font-size: 14px; font-weight: 600; color: #7E3F09">Uyarı — Kur sınavı tarihi yaklaşıyor</span>
+                <span style="margin-left: auto; font-size: 12px; color: #7E3F09; font-variant-numeric: tabular-nums">#A8550E</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: {{ accent.soft }}; border: 1px solid {{ accent.line }}">
+                <span style="width: 10px; height: 10px; border-radius: 999px; background: {{ accent.ink }}; flex: none"></span>
+                <span style="font-size: 14px; font-weight: 600; color: {{ accent.deep }}">Bilgi — Maksimum 6 kişilik gruplar</span>
+                <span style="margin-left: auto; font-size: 12px; color: {{ accent.deep }}; font-variant-numeric: tabular-nums">{{ accent.ink }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #16184A; border-radius: 24px; padding: 32px">
+            <h3 style="margin: 0 0 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #FFFFFF">Koyu Zemin Kuralı</h3>
+            <p style="margin: 0 0 20px; font-size: 14px; line-height: 1.7; color: #BFC1E7">Koyu zeminde logo beyaz, metin beyaz, ikincil metin #BFC1E7, CTA beyaz dolgu + lacivert yazı.</p>
+            <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+              <img src="assets/ddm-logo-beyaz.png" alt="Dünya Dilleri Merkezi" style="height: 34px; width: auto; display: block" />
+              <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border: none; border-radius: 12px; padding: 12px 20px; cursor: pointer" style-hover="background:#E0E1F4">İletişim</button>
+              <span style="font-size: 13px; color: #BFC1E7">#16184A · #1E2163</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 TİPOGRAFİ -->
+  <section style="padding: 80px 0 0">
+    <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px">
+      <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; color: #8C8FD3">02</span>
+      <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 36px; line-height: 1.15; letter-spacing: -0.02em; color: #16184A">Tipografi</h2>
+    </div>
+    <p style="margin: 0 0 32px; font-size: 16px; line-height: 1.7; color: #5A5C66; max-width: 72ch">Başlıklar Plus Jakarta Sans (800/700), gövde Manrope (400/600). İkisi de tam Latin-Extended kapsamıyla Türkçe ğ, ü, ş, ı, İ, ö, ç karakterlerini eksiksiz destekliyor.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 20px">
+      <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #8C8FD3">BAŞLIK AİLESİ</span>
+        <h3 style="margin: 10px 0 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em; color: #16184A">Plus Jakarta Sans</h3>
+        <p style="margin: 0 0 18px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.25; color: #2A2B33; text-wrap: pretty">Yabancı Dil Programları — ĞÜŞİÖÇ ğüşıöç</p>
+        <span style="font-size: 13px; color: #7C7E88">400 · 500 · 600 · 700 · 800 · başlık, rozet, sayı vurguları</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #8C8FD3">GÖVDE AİLESİ</span>
+        <h3 style="margin: 10px 0 14px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.015em; color: #16184A">Manrope</h3>
+        <p style="margin: 0 0 18px; font-size: 17px; line-height: 1.7; color: #3F4049; text-wrap: pretty">Eğitim felsefemiz; disiplinli çalışma, ölçülebilir gelişim ve sürdürülebilir başarı üzerine kuruludur.</p>
+        <span style="font-size: 13px; color: #7C7E88">400 · 500 · 600 · 700 · paragraf, liste, form, tablo</span>
+      </div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px">
+        <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #16184A">Ölçek</h3>
+        <span style="font-size: 13px; color: #7C7E88">Masaüstü değerleri · mobilde Display/H1 bir kademe iner</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 64px; line-height: 1.05; letter-spacing: -0.03em; color: #16184A">Yurtdışı Eğitim</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">Display · 64 / 1.05 / -0.03em / 800</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.1; letter-spacing: -0.025em; color: #16184A">Sınav Hazırlık Kursları</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">H1 · 44 / 1.1 / -0.025em / 800</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 34px; line-height: 1.18; letter-spacing: -0.02em; color: #16184A">Dünya Dilleri Merkezi Şubeler</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">H2 · 34 / 1.18 / -0.02em / 800</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.25; letter-spacing: -0.015em; color: #16184A">Dünya Dilleri Merkezi Kadıköy Şubesi</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">H3 · 26 / 1.25 / -0.015em / 700</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; line-height: 1.3; color: #16184A">Sınav Hazırlık Programları</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">H4 · 20 / 1.3 / 700</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.4; color: #16184A">İngilizce Kursu</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">H5 · 17 / 1.4 / 700</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-size: 18px; line-height: 1.65; color: #3F4049">Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz.</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">Gövde L · 18 / 1.65 / 400</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-size: 16px; line-height: 1.7; color: #3F4049">Uluslararası eğitim kurumları tarafından akredite edilmiş kurslar arasından seçim yapabilirsiniz.</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">Gövde M · 16 / 1.7 / 400</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-size: 14px; line-height: 1.6; color: #5A5C66">İngilizce Kur Sınavları · Programı Gün ve Saatleri</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">Gövde S · 14 / 1.6 / 400</span>
+        </div>
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; align-items: end; padding: 18px 0; border-top: 1px solid #EFEFF2">
+          <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; color: #2A2D7C">KADIKÖY MERKEZ</span>
+          <span style="font-size: 13px; color: #7C7E88; font-variant-numeric: tabular-nums">Etiket · 12 / 0.12em / 800 / caps</span>
+        </div>
+      </div>
+      <div style="margin-top: 28px; padding: 24px; border-radius: 18px; background: #F7F7F9; border: 1px solid #EFEFF2">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #8C8FD3">TÜRKÇE KARAKTER TESTİ</span>
+        <p style="margin: 12px 0 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.35; color: #2A2B33; word-spacing: 0.06em">AÂBCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ<br />aâbcçdefgğhıijklmnoöprsştuüvyz<br />0123456789 · İstanbul ışıltı · Çağla Yorulmaz</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 BOŞLUK & YUVARLAKLIK -->
+  <section style="padding: 80px 0 0">
+    <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px">
+      <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; color: #8C8FD3">03</span>
+      <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 36px; line-height: 1.15; letter-spacing: -0.02em; color: #16184A">Boşluk, Yuvarlaklık, Gölge</h2>
+    </div>
+    <p style="margin: 0 0 32px; font-size: 16px; line-height: 1.7; color: #5A5C66; max-width: 72ch">4px tabanlı ölçek. Bileşen içi 16–32, bileşenler arası 24–48, bölüm arası 80–120. İçerik genişliği 1280px, yan boşluk masaüstünde 32px, mobilde 20px.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px">
+      <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px; position: relative; overflow: hidden">
+        <sc-if value="{{ showGrid }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(to bottom, rgba(42,45,124,0.07) 0, rgba(42,45,124,0.07) 1px, transparent 1px, transparent 8px)"></div>
+        </sc-if>
+        <h3 style="margin: 0 0 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #16184A; position: relative">Boşluk Ölçeği</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px; position: relative">
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-1 · 4</span><div style="height: 14px; width: 4px; border-radius: 3px; background: #8C8FD3"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-2 · 8</span><div style="height: 14px; width: 8px; border-radius: 3px; background: #8C8FD3"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-3 · 12</span><div style="height: 14px; width: 12px; border-radius: 3px; background: #8C8FD3"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-4 · 16</span><div style="height: 14px; width: 16px; border-radius: 3px; background: {{ accent.base }}"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-5 · 20</span><div style="height: 14px; width: 20px; border-radius: 3px; background: {{ accent.base }}"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-6 · 24</span><div style="height: 14px; width: 24px; border-radius: 3px; background: {{ accent.base }}"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-8 · 32</span><div style="height: 14px; width: 32px; border-radius: 3px; background: {{ accent.mid }}"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-10 · 40</span><div style="height: 14px; width: 40px; border-radius: 3px; background: {{ accent.mid }}"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-12 · 48</span><div style="height: 14px; width: 48px; border-radius: 3px; background: {{ accent.mid }}"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-16 · 64</span><div style="height: 14px; width: 64px; border-radius: 3px; background: #2A2D7C"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-20 · 80</span><div style="height: 14px; width: 80px; border-radius: 3px; background: #2A2D7C"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-24 · 96</span><div style="height: 14px; width: 96px; border-radius: 3px; background: #22256B"></div></div>
+          <div style="display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 14px"><span style="font-size: 12px; color: #7C7E88; font-variant-numeric: tabular-nums">space-30 · 120</span><div style="height: 14px; width: 120px; border-radius: 3px; background: #22256B"></div></div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 20px">
+        <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+          <h3 style="margin: 0 0 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #16184A">Köşe Yuvarlaklığı</h3>
+          <p style="margin: 0 0 20px; font-size: 14px; color: #7C7E88">Form ve butonlar 12–14, kartlar 20–24, büyük paneller 28, rozetler tam yuvarlak.</p>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap">
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 68px; height: 68px; background: #E0E1F4; border: 1px solid #BFC1E7; border-radius: 8px"></div><span style="font-size: 12px; color: #7C7E88">sm · 8</span></div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 68px; height: 68px; background: #E0E1F4; border: 1px solid #BFC1E7; border-radius: 12px"></div><span style="font-size: 12px; color: #7C7E88">md · 12</span></div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 68px; height: 68px; background: #E0E1F4; border: 1px solid #BFC1E7; border-radius: 14px"></div><span style="font-size: 12px; color: #7C7E88">lg · 14</span></div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 68px; height: 68px; background: #E0E1F4; border: 1px solid #BFC1E7; border-radius: 20px"></div><span style="font-size: 12px; color: #7C7E88">xl · 20</span></div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 68px; height: 68px; background: #E0E1F4; border: 1px solid #BFC1E7; border-radius: 24px"></div><span style="font-size: 12px; color: #7C7E88">2xl · 24</span></div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 68px; height: 68px; background: #E0E1F4; border: 1px solid #BFC1E7; border-radius: 28px"></div><span style="font-size: 12px; color: #7C7E88">3xl · 28</span></div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 68px; height: 68px; background: #E0E1F4; border: 1px solid #BFC1E7; border-radius: 999px"></div><span style="font-size: 12px; color: #7C7E88">pill</span></div>
+          </div>
+        </div>
+        <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px">
+          <h3 style="margin: 0 0 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 20px; color: #16184A">Gölge</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 18px">
+            <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 72px; border-radius: 16px; background: #FFFFFF; border: 1px solid #EFEFF2; box-shadow: 0 1px 2px rgba(16,17,22,0.05)"></div><span style="font-size: 12px; color: #7C7E88">sm · kart durgun</span></div>
+            <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 72px; border-radius: 16px; background: #FFFFFF; box-shadow: 0 6px 20px rgba(22,24,74,0.08)"></div><span style="font-size: 12px; color: #7C7E88">md · kart hover</span></div>
+            <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 72px; border-radius: 16px; background: #FFFFFF; box-shadow: 0 18px 48px rgba(22,24,74,0.14)"></div><span style="font-size: 12px; color: #7C7E88">lg · mega menü</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 BİLEŞENLER -->
+  <section style="padding: 80px 0 0">
+    <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px">
+      <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; color: #8C8FD3">04</span>
+      <h2 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 36px; line-height: 1.15; letter-spacing: -0.02em; color: #16184A">Temel Bileşenler</h2>
+    </div>
+    <p style="margin: 0 0 32px; font-size: 16px; line-height: 1.7; color: #5A5C66; max-width: 72ch">Tüm örnek metinler gerçek DDM içeriğinden. Mega menü 7 ana başlıkla çalışıyor — üzerine gelerek (veya tıklayarak) açabilirsin.</p>
+
+    <!-- 4.1 HEADER -->
+    <div style="margin-bottom: 20px">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px">
+        <span style="font-size: 13px; font-weight: 700; color: #8C8FD3">4.1</span>
+        <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 22px; color: #16184A">Header + Mega Menü</h3>
+      </div>
+      <div style="background: #EFEFF2; border: 1px solid #E4E5E9; border-radius: 28px; padding: 24px; display: flex; flex-direction: column">
+        <div style="background: #16184A; border-radius: 20px 20px 0 0; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+          <span style="font-size: 13px; color: #BFC1E7">2003’ten bugüne 19 dilde eğitim · 5 şube</span>
+          <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap">
+            <a href="#" style="font-size: 13px; font-weight: 600; color: #FFFFFF" style-hover="color:#BFC1E7">0216 330 12 17</a>
+            <a href="#" style="font-size: 13px; font-weight: 600; color: #FFFFFF" style-hover="color:#BFC1E7">kadikoy@dunyadillerimerkezi.com</a>
+          </div>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 0 0 20px 20px; box-shadow: 0 6px 20px rgba(22,24,74,0.08); padding: 14px 18px; display: flex; align-items: center; gap: 14px; position: relative; z-index: 2">
+          <img src="assets/ddm-logo-lacivert.png" alt="Dünya Dilleri Merkezi" style="height: 34px; width: auto; display: block; flex: none" />
+          <nav style="display: flex; align-items: center; gap: 0; flex: 1; flex-wrap: wrap; min-width: 0" onMouseLeave="{{ closeMenu }}">
+            <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+              <div style="position: relative">
+                <button type="button" onClick="{{ item.onClick }}" onMouseEnter="{{ item.onEnter }}" style="font-family: 'Manrope', sans-serif; font-size: 13.5px; font-weight: 600; color: {{ item.color }}; background: {{ item.bg }}; border: none; border-radius: 10px; padding: 9px 9px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px" style-hover="background:#F2F2FB;color:#2A2D7C">
+                  {{ item.short }}
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+              </div>
+            </sc-for>
+          </nav>
+          <a href="#" style="flex: none; display: inline-flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border-radius: 12px; padding: 12px 18px" style-hover="background:#22256B;color:#FFFFFF">
+            İletişim
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 7px; background: #FFFFFF; color: #2A2D7C">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+          </a>
+        </div>
+
+        <sc-if value="{{ activeMenu }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top: 10px; background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; box-shadow: 0 18px 48px rgba(22,24,74,0.14); padding: 28px; position: relative; z-index: 1" onMouseLeave="{{ closeMenu }}">
+            <div style="display: grid; grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr); gap: 32px">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 28px">
+                <sc-for list="{{ activeMenu.columns }}" as="col" hint-placeholder-count="3">
+                  <div style="display: flex; flex-direction: column; gap: 12px; min-width: 0">
+                    <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #8C8FD3">{{ col.title }}</span>
+                    <div style="display: flex; flex-direction: column; gap: 2px">
+                      <sc-for list="{{ col.items }}" as="link" hint-placeholder-count="5">
+                        <a href="#" style="font-size: 14.5px; font-weight: 500; color: #3F4049; padding: 7px 10px; margin: 0 -10px; border-radius: 9px; display: block" style-hover="background:#F2F2FB;color:#2A2D7C">{{ link }}</a>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="background: #F2F2FB; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 16px; justify-content: space-between">
+                <div style="display: flex; flex-direction: column; gap: 10px">
+                  <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #8C8FD3">{{ activeMenu.label }}</span>
+                  <p style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.4; color: #16184A; text-wrap: pretty">{{ activeMenu.promoTitle }}</p>
+                </div>
+                <a href="#" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: {{ accent.ink }}" style-hover="color:#2A2D7C">
+                  {{ activeMenu.promoLink }}
+                  <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- 4.2 BUTONLAR -->
+    <div style="margin-bottom: 20px">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px">
+        <span style="font-size: 13px; font-weight: 700; color: #8C8FD3">4.2</span>
+        <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 22px; color: #16184A">Butonlar</h3>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px; display: grid; gap: 28px">
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #8C8FD3">BİRİNCİL · LACİVERT DOLGU</span>
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+            <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border: none; border-radius: 14px; padding: 17px 26px; cursor: pointer; display: inline-flex; align-items: center; gap: 12px" style-hover="background:#22256B">
+              Sana Uygun Yabancı Dil Kursunu Keşfet
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 8px; background: #FFFFFF; color: #2A2D7C"><svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            </button>
+            <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border: none; border-radius: 12px; padding: 13px 20px; cursor: pointer" style-hover="background:#22256B">Keşfet</button>
+            <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 13.5px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border: none; border-radius: 10px; padding: 9px 14px; cursor: pointer" style-hover="background:#22256B">Gönder</button>
+            <button type="button" disabled="disabled" style="font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #A8AAB3; background: #EFEFF2; border: none; border-radius: 12px; padding: 13px 20px; cursor: not-allowed">Keşfet</button>
+          </div>
+          <span style="font-size: 13px; color: #7C7E88">lg 17/26 · md 13/20 · sm 9/14 · hover #22256B · pasif #EFEFF2</span>
+        </div>
+        <div style="height: 1px; background: #EFEFF2"></div>
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #8C8FD3">İKİNCİL · ÇERÇEVE VE METİN</span>
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+            <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border: 1.5px solid #CDCED4; border-radius: 12px; padding: 13px 20px; cursor: pointer" style-hover="background:#F2F2FB;border-color:#8C8FD3">Şubelerimiz</button>
+            <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #2A2D7C; background: #E0E1F4; border: none; border-radius: 12px; padding: 13px 20px; cursor: pointer" style-hover="background:#BFC1E7">Öğrenci Yorumlarını Oku</button>
+            <a href="#" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: {{ accent.ink }}" style-hover="color:#2A2D7C">
+              Diğer Eğitim Programlarını Keşfet
+              <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </a>
+          </div>
+        </div>
+        <div style="height: 1px; background: #EFEFF2"></div>
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #8C8FD3">KOYU ZEMİN ÜZERİ</span>
+          <div style="background: #16184A; border-radius: 18px; padding: 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+            <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #2A2D7C; background: #FFFFFF; border: none; border-radius: 12px; padding: 13px 20px; cursor: pointer" style-hover="background:#E0E1F4">Sana Uygun Yurtdışı Eğitimini Keşfet</button>
+            <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #FFFFFF; background: transparent; border: 1.5px solid #5A5EB4; border-radius: 12px; padding: 13px 20px; cursor: pointer" style-hover="background:#1E2163;border-color:#8C8FD3">Şubelerimiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.3 KARTLAR -->
+    <div style="margin-bottom: 20px">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px">
+        <span style="font-size: 13px; font-weight: 700; color: #8C8FD3">4.3</span>
+        <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 22px; color: #16184A">Kartlar</h3>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px">
+
+        <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 18px; transition: transform .18s ease, box-shadow .18s ease" style-hover="box-shadow:0 6px 20px rgba(22,24,74,0.08);border-color:#D2D3F7">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 14px; background: {{ accent.soft }}; color: {{ accent.ink }}; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px">EN</span>
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #A8AAB3">DİL KURSU KARTI</span>
+          </div>
+          <h4 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 22px; color: #16184A">İngilizce Kursu</h4>
+          <div style="display: flex; flex-direction: column; gap: 2px">
+            <sc-for list="{{ courseLinks }}" as="l" hint-placeholder-count="5">
+              <a href="#" style="font-size: 14.5px; color: #5A5C66; padding: 8px 0; border-bottom: 1px solid #F2F2FB; display: flex; align-items: center; justify-content: space-between; gap: 12px" style-hover="color:#2A2D7C">
+                {{ l }}
+                <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 14px" style-hover="box-shadow:0 6px 20px rgba(22,24,74,0.08);border-color:#D2D3F7">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.1em; color: #8C8FD3">01</span>
+                <h4 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 22px; color: #16184A">Özel Dersler</h4>
+                <span style="font-size: 14.5px; color: #5A5C66">Kişiye Özel Ders Programları</span>
+              </div>
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px; background: #2A2D7C; color: #FFFFFF; flex: none"><svg width="16" height="16" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            </div>
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #A8AAB3">PROGRAM KARTI</span>
+          </div>
+          <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #A8AAB3">SINAV ROZETLERİ</span>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <span style="padding: 8px 14px; border-radius: 999px; background: {{ accent.soft }}; color: {{ accent.ink }}; font-size: 13px; font-weight: 700">TOEFL</span>
+              <span style="padding: 8px 14px; border-radius: 999px; background: {{ accent.soft }}; color: {{ accent.ink }}; font-size: 13px; font-weight: 700">IELTS</span>
+              <span style="padding: 8px 14px; border-radius: 999px; background: {{ accent.soft }}; color: {{ accent.ink }}; font-size: 13px; font-weight: 700">Proficiency</span>
+              <span style="padding: 8px 14px; border-radius: 999px; background: {{ accent.soft }}; color: {{ accent.ink }}; font-size: 13px; font-weight: 700">YDS</span>
+              <span style="padding: 8px 14px; border-radius: 999px; background: #E0E1F4; color: #2A2D7C; font-size: 13px; font-weight: 700">GRE</span>
+              <span style="padding: 8px 14px; border-radius: 999px; background: #E0E1F4; color: #2A2D7C; font-size: 13px; font-weight: 700">SAT</span>
+              <span style="padding: 8px 14px; border-radius: 999px; background: #E0E1F4; color: #2A2D7C; font-size: 13px; font-weight: 700">GMAT</span>
+              <span style="padding: 8px 14px; border-radius: 999px; background: #E0E1F4; color: #2A2D7C; font-size: 13px; font-weight: 700">TESTDAF</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 16px" style-hover="box-shadow:0 6px 20px rgba(22,24,74,0.08);border-color:#D2D3F7">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; color: #2A2D7C">KADIKÖY MERKEZ</span>
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #A8AAB3">ŞUBE KARTI</span>
+          </div>
+          <h4 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.3; color: #16184A; text-wrap: pretty">Dünya Dilleri Merkezi Kadıköy Şubesi</h4>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.7; color: #5A5C66; text-wrap: pretty">Dünya Dilleri Merkezi Kadıköy, yabancı dil eğitimi ve uluslararası sınav hazırlığında akademik kaliteyi esas alan seçkin bir kurumdur.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 14px; background: #F7F7F9">
+            <span style="font-size: 13.5px; color: #5A5C66">Mühürdar Cad. Akmar Çarşısı No:70 Kat:3, Kadıköy</span>
+            <span style="font-size: 13.5px; font-weight: 600; color: #2A2B33">0216 330 12 17 · 0216 330 12 19</span>
+            <span style="font-size: 13.5px; color: #5A5C66">kadikoy@dunyadillerimerkezi.com</span>
+          </div>
+          <a href="#" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 700; color: {{ accent.ink }}" style-hover="color:#2A2D7C">
+            Kadıköy Şubemizi Keşfet
+            <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+        </div>
+
+        <div style="background: #F2F2FB; border: 1px solid #E0E1F4; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+            <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 30px; line-height: 1; color: #BFC1E7">“</span>
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #8C8FD3">ÖĞRENCİ YORUMU KARTI</span>
+          </div>
+          <p style="margin: 0; font-size: 15.5px; line-height: 1.75; color: #2A2B33; text-wrap: pretty">İyi eğitimli, deneyimli ve güler yüzlü, Türk ve yabancı hocalarım ile çok kısa bir sürede eksiklerimi tespit edip, bu eksiklerimi tamamlayıp kısa sürede İngilizce seviyemi akademik düzeyde geliştirmeme yardımcı oldular.</p>
+          <div style="display: flex; align-items: center; gap: 14px; margin-top: auto">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: #2A2D7C; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px">OS</span>
+            <div style="display: flex; flex-direction: column">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; color: #16184A">Onur Saygın</span>
+              <span style="font-size: 13.5px; color: #5A5C66">IELTS Öğrencisi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.4 FORM -->
+    <div style="margin-bottom: 20px">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px">
+        <span style="font-size: 13px; font-weight: 700; color: #8C8FD3">4.4</span>
+        <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 22px; color: #16184A">Form Elemanları</h3>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E4E5E9; border-radius: 24px; padding: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px">
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="ddm-ad" style="font-size: 13.5px; font-weight: 700; color: #3F4049">Ad Soyad</label>
+            <input id="ddm-ad" type="text" placeholder="Adınızı yazın" style="font-family: 'Manrope', sans-serif; font-size: 15px; color: #2A2B33; background: #FFFFFF; border: 1.5px solid #CDCED4; border-radius: 12px; padding: 14px 16px; outline: none; width: 100%" style-focus="border-color:#2A2D7C;box-shadow:0 0 0 3px #E0E1F4" />
+            <span style="font-size: 12.5px; color: #7C7E88">Boş durum · yükseklik 52 · yuvarlaklık 12</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="ddm-mail" style="font-size: 13.5px; font-weight: 700; color: #3F4049">E-posta</label>
+            <input id="ddm-mail" type="text" value="kadikoy@dunyadillerimerkezi.com" readOnly="{{ true }}" style="font-family: 'Manrope', sans-serif; font-size: 15px; color: #2A2B33; background: #FFFFFF; border: 1.5px solid #2A2D7C; border-radius: 12px; padding: 14px 16px; outline: none; width: 100%; box-shadow: 0 0 0 3px #E0E1F4" />
+            <span style="font-size: 12.5px; color: #7C7E88">Odak / dolu durum</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="ddm-sube" style="font-size: 13.5px; font-weight: 700; color: #3F4049">Şube</label>
+            <select id="ddm-sube" style="font-family: 'Manrope', sans-serif; font-size: 15px; color: #2A2B33; background: #FFFFFF; border: 1.5px solid #CDCED4; border-radius: 12px; padding: 14px 16px; outline: none; width: 100%; appearance: none" style-focus="border-color:#2A2D7C;box-shadow:0 0 0 3px #E0E1F4">
+              <option>Kadıköy Merkez</option>
+              <option>Bağdat Caddesi</option>
+              <option>Etiler / Levent</option>
+              <option>Ataşehir</option>
+              <option>Ümraniye</option>
+            </select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="ddm-hata" style="font-size: 13.5px; font-weight: 700; color: #93241E">Telefon</label>
+            <input id="ddm-hata" type="text" placeholder="0216 000 00 00" style="font-family: 'Manrope', sans-serif; font-size: 15px; color: #2A2B33; background: #FFFFFF; border: 1.5px solid #C8362F; border-radius: 12px; padding: 14px 16px; outline: none; width: 100%; box-shadow: 0 0 0 3px #FCECEB" />
+            <span style="font-size: 12.5px; font-weight: 600; color: #93241E">Hata durumu — Lütfen şube seçin</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="ddm-pasif" style="font-size: 13.5px; font-weight: 700; color: #A8AAB3">Kur Sınavı Tarihi</label>
+            <input id="ddm-pasif" type="text" value="Şube seçildikten sonra açılır" disabled="disabled" style="font-family: 'Manrope', sans-serif; font-size: 15px; color: #A8AAB3; background: #F7F7F9; border: 1.5px solid #E4E5E9; border-radius: 12px; padding: 14px 16px; width: 100%" />
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="ddm-mesaj" style="font-size: 13.5px; font-weight: 700; color: #3F4049">Mesajınız</label>
+            <textarea id="ddm-mesaj" rows="5" placeholder="Hangi kurs ve seviye ile ilgilendiğinizi yazın" style="font-family: 'Manrope', sans-serif; font-size: 15px; line-height: 1.6; color: #2A2B33; background: #FFFFFF; border: 1.5px solid #CDCED4; border-radius: 12px; padding: 14px 16px; outline: none; width: 100%; resize: vertical" style-focus="border-color:#2A2D7C;box-shadow:0 0 0 3px #E0E1F4"></textarea>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 16px; background: #F7F7F9">
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #8C8FD3">SEÇİM ELEMANLARI</span>
+            <label style="display: flex; align-items: center; gap: 12px; font-size: 14.5px; color: #3F4049; cursor: pointer">
+              <input type="checkbox" checked="{{ true }}" style="width: 20px; height: 20px; accent-color: #2A2D7C; margin: 0" />
+              Duyurulardan haberdar olmak istiyorum
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; font-size: 14.5px; color: #3F4049; cursor: pointer">
+              <input type="checkbox" style="width: 20px; height: 20px; accent-color: #2A2D7C; margin: 0" />
+              Aktivitelerden haberdar olmak istiyorum
+            </label>
+            <div style="height: 1px; background: #E4E5E9"></div>
+            <label style="display: flex; align-items: center; gap: 12px; font-size: 14.5px; color: #3F4049; cursor: pointer">
+              <input type="radio" name="ddm-tercih" checked="{{ true }}" style="width: 20px; height: 20px; accent-color: #2A2D7C; margin: 0" />
+              Yüz yüze eğitim
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; font-size: 14.5px; color: #3F4049; cursor: pointer">
+              <input type="radio" name="ddm-tercih" style="width: 20px; height: 20px; accent-color: #2A2D7C; margin: 0" />
+              Online Dil Eğitimi
+            </label>
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+            <button type="button" style="font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #FFFFFF; background: #2A2D7C; border: none; border-radius: 12px; padding: 14px 24px; cursor: pointer" style-hover="background:#22256B">Gönder</button>
+            <span style="font-size: 13px; color: #7C7E88">Maksimum 6 kişilik özel gruplar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.5 FOOTER -->
+    <div>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px">
+        <span style="font-size: 13px; font-weight: 700; color: #8C8FD3">4.5</span>
+        <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 22px; color: #16184A">Footer</h3>
+      </div>
+      <div style="background: #16184A; border-radius: 28px; padding: 48px 40px 28px">
+        <div style="display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(auto-fit, minmax(160px, 1fr)); gap: 40px; padding-bottom: 40px">
+          <div style="display: flex; flex-direction: column; gap: 18px">
+            <img src="assets/ddm-logo-beyaz.png" alt="Dünya Dilleri Merkezi" style="height: 44px; width: auto; display: block" />
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.7; color: #BFC1E7; max-width: 42ch; text-wrap: pretty">Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. 2003 yılından bugüne İstanbul’daki 5 şubemizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.</p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap">
+              <a href="#" style="font-size: 13.5px; font-weight: 600; color: #FFFFFF; padding: 9px 14px; border: 1px solid #3B3F96; border-radius: 999px" style-hover="background:#1E2163;color:#FFFFFF">Mektuplar</a>
+              <a href="#" style="font-size: 13.5px; font-weight: 600; color: #FFFFFF; padding: 9px 14px; border: 1px solid #3B3F96; border-radius: 999px" style-hover="background:#1E2163;color:#FFFFFF">Aktiviteler</a>
+              <a href="#" style="font-size: 13.5px; font-weight: 600; color: #FFFFFF; padding: 9px 14px; border: 1px solid #3B3F96; border-radius: 999px" style-hover="background:#1E2163;color:#FFFFFF">Duyurular</a>
+            </div>
+          </div>
+          <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0">
+              <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #8C8FD3">{{ col.title }}</span>
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <sc-for list="{{ col.items }}" as="l" hint-placeholder-count="5">
+                  <a href="#" style="font-size: 14.5px; color: #BFC1E7" style-hover="color:#FFFFFF">{{ l }}</a>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="border-top: 1px solid #2E3170; padding-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+          <span style="font-size: 13px; color: #8C8FD3">Dünya Dilleri Merkezi · Kadıköy · Bağdat Caddesi · Etiler / Levent · Ataşehir · Ümraniye</span>
+          <span style="font-size: 13px; color: #8C8FD3">KAPLAN INTERNATIONAL ve ILSC resmi kayıt ofisi</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showTokenNames&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Dokümantasyon&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Dokümantasyon&quot;},&quot;megaMenuMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;hover&quot;,&quot;click&quot;],&quot;default&quot;:&quot;hover&quot;,&quot;tsType&quot;:&quot;\&quot;hover\&quot; | \&quot;click\&quot;&quot;,&quot;section&quot;:&quot;Davranış&quot;}}">
+class Component extends DCLogic {
+  state = { open: null, accent: "sky" };
+
+  menus() {
+    return [
+      {
+        key: "dil", short: "Yabancı Dil", label: "Yabancı Dil Kursları",
+        promoTitle: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz.",
+        promoLink: "Sana Uygun Yabancı Dil Kursunu Keşfet",
+        columns: [
+          { title: "DİLLER", items: ["İngilizce Kursu", "Almanca Kursu", "Fransızca Kursu", "Rusça Kursu", "İspanyolca Kursu"] },
+          { title: "DİĞER DİLLER", items: ["İtalyanca Kursu", "Çince Kursu", "Türkçe Kursu", "Flemenkçe Kursu", "İngilizce Konuşma"] },
+          { title: "KURS BİLGİLERİ", items: ["Eğitim Programı Seviyeleri", "Programı Gün ve Saatleri", "Kur Sınavları", "Dil Seviyeleri", "Sertifikalar ve Uluslararası Sınavlar"] }
+        ]
+      },
+      {
+        key: "ing", short: "İngilizce", label: "İngilizce Kursları",
+        promoTitle: "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar",
+        promoLink: "Diğer Eğitim Programlarını Keşfet",
+        columns: [
+          { title: "SEVİYELER", items: ["Elementary", "Pre-Intermediate", "Intermediate", "Upper-Intermediate", "Advanced"] },
+          { title: "PROGRAM", items: ["İngilizce Eğitim Programı Seviyeleri", "İngilizce Programı Gün ve Saatleri", "İngilizce Kur Sınavları", "İngilizce Dil Seviyeleri", "İngilizce Sertifikaları ve Uluslararası Sınavlar"] },
+          { title: "ÖZEL PROGRAMLAR", items: ["İngilizce Konuşma", "Çocuklar İçin İngilizce Kursu", "Business English", "Online Dil Eğitimi"] }
+        ]
+      },
+      {
+        key: "sinav", short: "Sınav Hazırlık", label: "Sınav Hazırlık",
+        promoTitle: "TOEFL, IELTS, YDS, GRE, SAT, GMAT, TESTDAF/DNDS ve Proficiency programlarımızla öğrencilerimize kapsamlı destek sunuyoruz.",
+        promoLink: "Sana Uygun Sınav Hazırlık Programını Keşfet",
+        columns: [
+          { title: "SINAV HAZIRLIK PROGRAMLARI", items: ["TOEFL Kursu", "IELTS Kursu", "Proficiency Kursu", "TESTDAF Kursu", "YDS Kursu", "GRE Kursu", "SAT Kursu", "GMAT Kursu"] },
+          { title: "ÜNİVERSİTE HAZIRLIK ATLAMA", items: ["Marmara", "Boğaziçi (BUEPT)", "İTÜ", "ODTÜ", "Sabancı (ELAE)", "Koç (KUEPE)", "Yeditepe", "Bilgi (BİLET)"] },
+          { title: "DİL YETERLİLİĞİ ÇÖZÜMLERİ", items: ["YÖKDİL", "TOEIC", "PTE Akademik", "Aile Birleşimi (A1)", "İngiltere Vize Sınavı"] }
+        ]
+      },
+      {
+        key: "yurtdisi", short: "Yurtdışı Eğitim", label: "Yurtdışı Eğitim",
+        promoTitle: "Dünya Dilleri Merkezi, KAPLAN INTERNATIONAL ve ILSC dil okullarının resmi kayıt ofisidir.",
+        promoLink: "Sana Uygun Yurtdışı Eğitimini Keşfet",
+        columns: [
+          { title: "PROGRAMLAR", items: ["Yurtdışı İngilizce", "Sınav Hazırlık", "Pathway Programı", "Yüksek Öğrenim", "Yaz Okulları", "Yurtdışı Dil Eğitimi"] }
+        ]
+      },
+      {
+        key: "kurumsal", short: "Kurumsal", label: "Kurumsal",
+        promoTitle: "İş Hayatına Özel Çözümler DDM’de",
+        promoLink: "Diğer Eğitim Programlarını Keşfet",
+        columns: [
+          { title: "KURUMSAL", items: ["Kurumsal Dil Eğitimi", "Business English", "Tercüme Hizmetleri", "Pegasus Pilotlarına Özel Türkçe Kursu"] }
+        ]
+      },
+      {
+        key: "diger", short: "Diğer Programlar", label: "Diğer Programlar",
+        promoTitle: "Çocuklarınızın Geleceğine Yer Ayırtın",
+        promoLink: "Diğer Eğitim Programlarını Keşfet",
+        columns: [
+          { title: "PROGRAMLAR", items: ["Özel Dersler", "Business English", "DDM Kids", "Yurtdışı Dil Eğitimi", "Tercüme Hizmetleri", "Online Dil Eğitimi", "Çocuklar İçin İngilizce Kursu"] }
+        ]
+      },
+      {
+        key: "iletisim", short: "İletişim", label: "İletişim",
+        promoTitle: "Kadıköy Merkez · Mühürdar Cad. Akmar Çarşısı No:70 Kat:3 · 0216 330 12 17",
+        promoLink: "Kadıköy Şubemizi Keşfet",
+        columns: [
+          { title: "ŞUBELER", items: ["Kadıköy Merkez", "Bağdat Caddesi", "Etiler / Levent", "Ataşehir", "Ümraniye"] }
+        ]
+      }
+    ];
+  }
+
+  renderVals() {
+    const p = this.props || {};
+    const mode = p.megaMenuMode ?? "hover";
+    const open = this.state.open;
+    const menus = this.menus();
+
+    const navItems = menus.map((m) => ({
+      short: m.short,
+      color: open === m.key ? "#2A2D7C" : "#3F4049",
+      bg: open === m.key ? "#F2F2FB" : "transparent",
+      onClick: () => this.setState({ open: open === m.key ? null : m.key }),
+      onEnter: () => { if (mode === "hover") this.setState({ open: m.key }); }
+    }));
+
+    return {
+      showNames: p.showTokenNames ?? true,
+      showGrid: p.showGrid ?? false,
+      navItems,
+      activeMenu: menus.find((m) => m.key === open) || null,
+      closeMenu: () => this.setState({ open: null }),
+      accent: this.state.accent === "indigo"
+        ? { soft: "#ECEDFC", line: "#ACAEEE", base: "#6B6FD8", mid: "#575BC7", ink: "#4448B0", deep: "#37398F" }
+        : { soft: "#E8F4FC", line: "#93CEEE", base: "#2E9BD6", mid: "#2384BB", ink: "#1A6D9C", deep: "#145878" },
+      isIndigo: this.state.accent === "indigo",
+      isSky: this.state.accent === "sky",
+      accentLabel: this.state.accent === "indigo" ? "A · Menekşe-mavi (#6B6FD8)" : "B · Gök mavisi (#2E9BD6)",
+      pickIndigo: () => this.setState({ accent: "indigo" }),
+      pickSky: () => this.setState({ accent: "sky" }),
+      courseLinks: [
+        "İngilizce Eğitim Programı Seviyeleri",
+        "İngilizce Programı Gün ve Saatleri",
+        "İngilizce Kur Sınavları",
+        "İngilizce Dil Seviyeleri",
+        "İngilizce Sertifikaları ve Uluslararası Sınavlar"
+      ],
+      footerCols: [
+        { title: "YABANCI DİL KURSLARI", items: ["İngilizce Kursu", "Almanca Kursu", "Fransızca Kursu", "Rusça Kursu", "İspanyolca Kursu", "İtalyanca Kursu"] },
+        { title: "SINAV HAZIRLIK", items: ["TOEFL Kursu", "IELTS Kursu", "Proficiency Kursu", "YDS Kursu", "GRE Kursu", "SAT Kursu"] },
+        { title: "YURTDIŞI EĞİTİM", items: ["Yurtdışı İngilizce", "Pathway Programı", "Yüksek Öğrenim", "Yaz Okulları"] },
+        { title: "DİĞER PROGRAMLAR", items: ["Özel Dersler", "Business English", "DDM Kids", "Online Dil Eğitimi", "Tercüme Hizmetleri"] }
+      ],
+      navyRamp: [
+        { step: "950", hex: "#0E0F2B", token: "--ddm-navy-950" },
+        { step: "900", hex: "#16184A", token: "--ddm-navy-900" },
+        { step: "800", hex: "#1E2163", token: "--ddm-navy-800" },
+        { step: "700", hex: "#22256B", token: "--ddm-navy-700" },
+        { step: "600", hex: "#2A2D7C", token: "--ddm-primary" },
+        { step: "500", hex: "#3B3F96", token: "--ddm-navy-500" },
+        { step: "400", hex: "#5A5EB4", token: "--ddm-navy-400" },
+        { step: "300", hex: "#8C8FD3", token: "--ddm-navy-300" },
+        { step: "200", hex: "#BFC1E7", token: "--ddm-navy-200" },
+        { step: "100", hex: "#E0E1F4", token: "--ddm-navy-100" },
+        { step: "50", hex: "#F2F2FB", token: "--ddm-navy-50" }
+      ],
+      grayRamp: [
+        { step: "gray-950", hex: "#101116", use: "En koyu metin" },
+        { step: "gray-900", hex: "#1A1B21", use: "Başlık alternatifi" },
+        { step: "gray-800", hex: "#2A2B33", use: "Güçlü gövde metni" },
+        { step: "gray-700", hex: "#3F4049", use: "Gövde metni (varsayılan)" },
+        { step: "gray-600", hex: "#5A5C66", use: "İkincil metin" },
+        { step: "gray-500", hex: "#7C7E88", use: "Yardımcı metin / placeholder" },
+        { step: "gray-400", hex: "#A8AAB3", use: "Pasif metin, ikon" },
+        { step: "gray-300", hex: "#CDCED4", use: "Form kenarlığı" },
+        { step: "gray-200", hex: "#E4E5E9", use: "Kart kenarlığı" },
+        { step: "gray-100", hex: "#EFEFF2", use: "Ayırıcı, ince zemin" },
+        { step: "gray-50", hex: "#F7F7F9", use: "Sayfa zemini" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

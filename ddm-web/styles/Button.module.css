@@ -1,0 +1,133 @@
+/*
+ * Buton varyantları — Tasarım Sistemi §4.2 + dört şablondaki fiili kullanım.
+ * Dolu CTA DAİMA lacivert: aksan (gök mavisi) üzerinde beyaz yazı
+ * kontrastı yetersiz olduğu için tasarım sistemi bunu kurala bağlamış.
+ */
+
+.base {
+  font-family: var(--ddm-font-body);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  border: none;
+  border-radius: 13px;
+  cursor: pointer;
+  text-align: center;
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+/* --- varyantlar --- */
+
+/** Birincil: lacivert dolgu, beyaz yazı. Açık zeminde ana eylem. */
+.primary {
+  color: var(--ddm-white);
+  background: var(--ddm-primary);
+}
+
+.primary:hover {
+  background: var(--ddm-primary-hover);
+  color: var(--ddm-white);
+}
+
+/** Koyu zeminde birincil: beyaz dolgu, lacivert yazı. */
+.onDark {
+  color: var(--ddm-primary);
+  background: var(--ddm-white);
+}
+
+.onDark:hover {
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-primary);
+}
+
+/** Koyu zeminde ikincil: saydam + açık lacivert kenarlık. */
+.outlineDark {
+  color: var(--ddm-white);
+  background: transparent;
+  border: 1.5px solid var(--ddm-navy-400);
+}
+
+.outlineDark:hover {
+  background: var(--ddm-navy-800);
+  border-color: var(--ddm-sky-line);
+  color: var(--ddm-white);
+}
+
+/** Açık zeminde ikincil: beyaz + gri kenarlık. */
+.outlineLight {
+  color: var(--ddm-primary);
+  background: var(--ddm-white);
+  border: 1.5px solid var(--ddm-border-button);
+}
+
+.outlineLight:hover {
+  background: var(--ddm-sky-bg);
+  border-color: var(--ddm-sky-line);
+  color: var(--ddm-primary);
+}
+
+/** Metin bağlantısı — aksan rengi, ok ikonlu. */
+.link {
+  color: var(--ddm-sky-ink);
+  background: transparent;
+  padding: 0;
+  gap: var(--space-2);
+  font-size: var(--ddm-text-body);
+}
+
+.link:hover {
+  color: var(--ddm-primary);
+}
+
+/* --- ölçüler --- */
+
+.sm {
+  font-size: var(--ddm-text-body-s);
+  padding: 11px 16px;
+  border-radius: 11px;
+}
+
+.md {
+  font-size: 14.5px;
+  padding: 13px 18px;
+}
+
+.lg {
+  font-size: 15px;
+  padding: 15px 22px;
+  border-radius: var(--radius-lg);
+}
+
+.xl {
+  font-size: var(--space-4);
+  padding: 17px 26px;
+  border-radius: var(--radius-lg);
+}
+
+/* Metin varyantında ölçü dolgusu uygulanmaz. */
+.link.sm,
+.link.md,
+.link.lg,
+.link.xl {
+  padding: 0;
+}
+
+.block {
+  width: 100%;
+  justify-content: center;
+}
+
+/** Beyaz kare içinde ok — birincil CTA'ların sonundaki rozet. */
+.arrowChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  background: var(--ddm-white);
+  color: var(--ddm-primary);
+  flex: none;
+}

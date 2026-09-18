@@ -211,11 +211,65 @@ ki koda çevirince veri-tabanlı üretebileyim.
 **Amaç:** Tasarımları repoya almak ve içeriği veriden besleyen yapı kurmak.
 **Çıktı:** Şablonlar Next.js bileşeni; `/data/*.json` içerik şeması
 
-- [ ] Claude Design → **Share → Handoff to Claude Code** paketi alındı
-- [ ] Paket repoya entegre edildi
-- [ ] Şablonlar Next.js bileşenlerine çevrildi
+- [x] Claude Design → export paketi alındı (`docs/design-refs/DDM_Tasarım_Sistemi_faz5/`)
+- [x] Paket repoya entegre edildi + 4 şablon incelendi (rapor: bileşen/token/veri modeli)
+- [ ] Şablonlar Next.js bileşenlerine çevrildi → **alt aşamalar aşağıda**
 - [ ] İçerik json şeması kuruldu (`site_content.json`'dan beslenir)
 - [ ] (Opsiyonel) `/design-sync` ile canvas ↔ repo iterasyonu kuruldu
+
+### Faz 6 alt aşamaları
+
+> Numaralandırma: **Faz 6.N**. "Faz" ile karıştırmamak için alt adımlara
+> ayrı isim verilmiyor — hepsi Faz 6'nın içinde.
+>
+> **Stil kararı (alındı):** CSS Modules + `styles/tokens.css` token katmanı.
+> Tailwind ve CSS-in-JS yok. Ayrıntı: `ddm-web/CLAUDE.md` §1.
+>
+> **Sayfa sırası kullanıcı tercihidir:** Ana Sayfa → Dil Kursu → Üniversite
+> → Şube Kurs Tarihi. (Teknik öneri sayfa adedine göre tersiydi — Şube 88
+> sayfayla en yüksek getirili ve en olgun şablondu — ama önce sitenin yüzünü
+> görmek tercih edildi.)
+
+- [x] **6.0 · Token + layout**
+      `styles/tokens.css` (renk/tipografi/boşluk/radius/gölge), `app/layout.tsx`
+      + `next/font` (latin-ext — Türkçe ğ ş ı İ için zorunlu), `globals.css`
+      reset, `public/assets/` varlık normalizasyonu, CLAUDE.md §1/§7 güncellendi
+- [x] **6.1 · Chrome**
+      TopBar · SiteHeader + mega menü + mobil çekmece · SiteFooter ·
+      MobileBottomBar · SiteChrome · `lib/nav.ts` (menü tek kaynak) ·
+      `data/branches.ts`. Breakpoint'ler tamamen CSS'te.
+- [x] **6.2 · UI atomları**
+      Button ailesi (5 varyant × 4 ölçü) · Kicker · SectionHeading · Badge ·
+      DayBadge · IconButton · ImageSlot · DataMissingNotice · Icon kaydı ·
+      Illustration
+- [ ] **6.3 · Ana Sayfa** (1 sayfa)
+      HomeHero · MediaCard · FeatureCard · StatStrip · Carousel ·
+      CourseChipCard · BranchCard · TestimonialCard · video bloğu ·
+      19 dilli ızgara + Flag seti · CtaBand
+- [ ] **6.4 · Dil Kursu Ana** (10 sayfa)
+      PageHero · Breadcrumb · ProgressTrack (CEFR seviyeleri) · FilterPills ·
+      ScheduleTable · Accordion (SSS) · `data/languages.ts`
+- [ ] **6.5 · Üniversite Proficiency** (21 üniversite / 42 URL)
+      ExamSectionCard · StickyToc · ProgressTrack (3 adım) · ContactForm ·
+      ScheduleTable (yeniden kullanım) · `data/universities.ts`
+- [ ] **6.6 · Şube Kurs Tarihi** (88 sayfa)
+      ProgramScheduleCard · WeekGrid (haftalık ızgara) · InfoTile · LinkRow ·
+      iç link ağı
+- [ ] **6.7 · Temizlik**
+      Ölü `data-reveal`/`data-count` atılır · metadata + canonical (§6) ·
+      `next/image` · (opsiyonel) IntersectionObserver ile reveal
+
+**Bağımlılık notu:** paylaşılan bileşenler ilk ihtiyaç duyulan aşamada doğar,
+sonrakiler yeniden kullanır. Bu sırayla: Carousel + TestimonialCard 6.3'te,
+ScheduleTable + Accordion + PageHero + Breadcrumb 6.4'te, ProgressTrack 6.4'te
+doğup 6.5'te tekrar kullanılıyor. 6.3 en uzun aşama — Ana Sayfa tek sayfa ama
+en çok kendine özel bileşeni içeriyor.
+
+**Şablon önizleme şeritleri koda GİRMEYECEK:** `ŞABLON ÖNİZLEME` kontrol çubuğu
+(dil/üniversite/şube seçici, uzun-kısa içerik toggle'ı, ücret göster-gizle) ve
+`ŞABLON DOKÜMANTASYONU` galerileri. Ama altlarındaki davranış üretim mantığıdır:
+ücret verisi yoksa "Güncel ücret için bilgi alın" gösterilir — bu bir toggle
+değil, verinin varlığından türer.
 
 ### Prompt — Şablonu bileşene çevir
 ```

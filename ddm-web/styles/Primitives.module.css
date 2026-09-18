@@ -1,0 +1,267 @@
+/* ---------------------------------------------------------------
+ * Kicker — bölüm üstü büyük harf etiket. ~30 kullanım.
+ * İki renk: açık zeminde sky-mid, koyu zemin/kartta sky-400.
+ * ------------------------------------------------------------- */
+.kicker {
+  font-family: var(--ddm-font-heading);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-kicker);
+  color: var(--ddm-sky-mid);
+}
+
+.kickerOnDark {
+  composes: kicker;
+  color: var(--ddm-sky-400);
+}
+
+.kickerMuted {
+  composes: kicker;
+  font-family: var(--ddm-font-body);
+  font-size: var(--ddm-text-label);
+  letter-spacing: 0.09em;
+  color: var(--ddm-gray-400);
+}
+
+/* ---------------------------------------------------------------
+ * SectionHeading — kicker + H2 + opsiyonel lead. ~20 kullanım.
+ * ------------------------------------------------------------- */
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  max-width: 74ch;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2);
+  line-height: 1.14;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.titleSm {
+  composes: title;
+  font-size: var(--ddm-text-h2-sm);
+  line-height: 1.16;
+}
+
+.titleXs {
+  composes: title;
+  font-size: var(--ddm-text-h2-xs);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.titleOnDark {
+  color: var(--ddm-white);
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.72;
+  color: var(--ddm-gray-600);
+}
+
+.leadOnDark {
+  color: var(--ddm-navy-200);
+}
+
+/* ---------------------------------------------------------------
+ * Badge — 5 varyant
+ * ------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+}
+
+/** Koyu hero üzerinde vurgulu rozet. */
+.badgeAccent {
+  composes: badge;
+  background: rgba(46, 155, 214, 0.18);
+  border: 1px solid var(--ddm-sky-base);
+  color: var(--ddm-white);
+}
+
+/** Koyu hero üzerinde sakin rozet. */
+.badgeOutline {
+  composes: badge;
+  border: 1px solid var(--ddm-navy-500);
+  color: var(--ddm-navy-200);
+}
+
+/** Açık zeminde bilgi çipi (program detayları). */
+.badgeSoft {
+  composes: badge;
+  gap: 6px;
+  padding: 7px 11px;
+  background: var(--ddm-sky-soft);
+  border: 1px solid var(--ddm-sky-200);
+  color: var(--ddm-sky-ink);
+}
+
+/** "BU SAYFA" işareti. */
+.badgeSolid {
+  composes: badge;
+  padding: 5px 10px;
+  background: var(--ddm-primary);
+  color: var(--ddm-white);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+/** Nötr etiket (etütler). */
+.badgeNeutral {
+  composes: badge;
+  padding: 6px 11px;
+  border-radius: var(--radius-sm);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  color: var(--ddm-gray-700);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------
+ * DataMissingNotice — "VERİ EKSİK" / "İÇERİK EKSİK"
+ * Tasarımda 4 yerde, 3 farklı yazımla duruyordu.
+ * ------------------------------------------------------------- */
+.missing {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: clamp(22px, 2.6vw, 30px);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-warn-bg);
+  border: 1px solid var(--ddm-warn-line);
+}
+
+.missingCompact {
+  composes: missing;
+  gap: var(--space-2);
+  padding: 16px 18px;
+  border-radius: var(--radius-lg);
+}
+
+.missingLabel {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  color: var(--ddm-warn-ink);
+}
+
+.missingText {
+  margin: 0;
+  max-width: 64ch;
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--ddm-warn-ink);
+}
+
+/* ---------------------------------------------------------------
+ * ImageSlot — gerçek görsel gelene kadar duran yuva
+ * ------------------------------------------------------------- */
+.slot {
+  border: 1.5px dashed var(--ddm-sky-slot-line);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-sky-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  text-align: center;
+  color: var(--ddm-sky-slot);
+}
+
+.slotName {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ddm-primary);
+}
+
+.slotSpec {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-sky-slot-text);
+}
+
+/* ---------------------------------------------------------------
+ * IconButton — carousel ok tuşları, 46/48px kare
+ * ------------------------------------------------------------- */
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--ddm-border-button);
+  background: var(--ddm-white);
+  color: var(--ddm-primary);
+  cursor: pointer;
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.iconButton:hover:not(:disabled) {
+  background: var(--ddm-sky-bg);
+  border-color: var(--ddm-sky-line);
+}
+
+.iconButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.iconButtonSm {
+  composes: iconButton;
+  width: 46px;
+  height: 46px;
+}
+
+/* ---------------------------------------------------------------
+ * DayBadge — haftanın günü rozeti (Şube programları)
+ * ------------------------------------------------------------- */
+.day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  padding: 7px 9px;
+  border-radius: 10px;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-gray-200);
+  color: var(--ddm-gray-400);
+  transition: background var(--duration-base) ease, color var(--duration-base) ease;
+}
+
+/** Hafta içi grubu — lacivert. */
+.dayOnWeekday {
+  composes: day;
+  background: var(--ddm-primary);
+  border-color: var(--ddm-primary);
+  color: var(--ddm-white);
+}
+
+/** Hafta sonu grubu — aksan. */
+.dayOnWeekend {
+  composes: day;
+  background: var(--ddm-sky-base);
+  border-color: var(--ddm-sky-base);
+  color: var(--ddm-white);
+}

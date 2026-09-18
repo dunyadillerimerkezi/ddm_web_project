@@ -1,0 +1,221 @@
+/*
+ * DDM Tasarım Sistemi — token katmanı
+ *
+ * Kaynak: docs/design-refs/DDM_Tasarım_Sistemi_faz5/DDM Tasarım Sistemi.dc.html
+ * Bu dosya o dokümanın koddaki karşılığıdır. Değer değiştirmeden önce
+ * kaynağa bakın; tasarım kararları Claude Design'da alınır (CLAUDE.md §9).
+ *
+ * Renk kullanılmayan tek aile: SARI. Uyarı için toprak turuncusu var.
+ */
+
+:root {
+  /* ---------------------------------------------------------------
+   * 1 · LACİVERT — primary
+   * Buton/CTA: 600 · Hover: 700 · Koyu zemin: 900
+   * ------------------------------------------------------------- */
+  --ddm-navy-950: #0e0f2b;
+  --ddm-navy-900: #16184a; /* koyu zemin bölümleri, footer */
+  --ddm-navy-800: #1e2163;
+  --ddm-navy-700: #22256b; /* birincil buton hover */
+  --ddm-navy-600: #2a2d7c; /* = --ddm-primary */
+  --ddm-navy-500: #3b3f96;
+  --ddm-navy-400: #5a5eb4;
+  --ddm-navy-300: #8c8fd3;
+  --ddm-navy-200: #bfc1e7; /* koyu zeminde ikincil metin */
+  --ddm-navy-100: #e0e1f4;
+  --ddm-navy-50: #f2f2fb;
+
+  --ddm-primary: var(--ddm-navy-600);
+  --ddm-primary-hover: var(--ddm-navy-700);
+
+  /* Koyu zeminde kullanılan ara tonlar (şablonlarda inline geçiyordu) */
+  --ddm-navy-line: #2e3170; /* koyu zemin ayırıcı çizgi */
+  --ddm-navy-cta-border: #6d70c4; /* koyu CTA bandında outline buton */
+  --ddm-navy-cta-sub: #c9caec; /* koyu CTA bandında alt satır */
+  --ddm-navy-body: #d6d7f0;
+  --ddm-navy-soft: #e3e4f5;
+
+  /* ---------------------------------------------------------------
+   * 2 · AKSAN — gök mavisi (Tasarım Sistemi kararı: B, kilitli)
+   * Yalnız link · hover · rozet · ikon · odak halkası.
+   * Dolu butonlarda beyaz yazı kontrastı düştüğü için ana CTA lacivert kalır.
+   * ------------------------------------------------------------- */
+  --ddm-sky-soft: #e8f4fc;
+  --ddm-sky-line: #93ceee;
+  --ddm-sky-base: #2e9bd6;
+  --ddm-sky-mid: #2384bb;
+  --ddm-sky-ink: #1a6d9c;
+  --ddm-sky-deep: #145878;
+
+  /* Fiilen kullanılan ara tonlar */
+  --ddm-sky-100: #c5e5f7;
+  --ddm-sky-200: #dceef9; /* açık kart kenarlığı */
+  --ddm-sky-300: #93ceee; /* = line — illüstrasyonlar bu adı kullanıyor */
+  --ddm-sky-400: #5db4e2; /* koyu zeminde kicker */
+  --ddm-sky-bg: #f1f8fd; /* açık aksan zemini (hover, ikon kutusu) */
+  --ddm-sky-slot: #7fb4d4; /* görsel yuvası ikonu */
+  --ddm-sky-slot-text: #5f93b3; /* görsel yuvası etiketi */
+  --ddm-sky-slot-line: #c3d9e8; /* görsel yuvası kesikli kenarlık */
+  --ddm-sky-table-head: #f7fafc; /* tablo başlık zemini */
+
+  /* ---------------------------------------------------------------
+   * 3 · NÖTR — laciverte çalan soğuk gri
+   * ------------------------------------------------------------- */
+  --ddm-gray-950: #101116; /* en koyu metin */
+  --ddm-gray-900: #1a1b21;
+  --ddm-gray-800: #2a2b33; /* güçlü gövde metni */
+  --ddm-gray-700: #3f4049; /* gövde metni — varsayılan */
+  --ddm-gray-600: #5a5c66; /* ikincil metin */
+  --ddm-gray-500: #7c7e88; /* yardımcı metin / placeholder */
+  --ddm-gray-400: #a8aab3; /* pasif metin, ikon, küçük etiket */
+  --ddm-gray-300: #cdced4; /* form kenarlığı */
+  --ddm-gray-200: #e4e5e9; /* kart kenarlığı */
+  --ddm-gray-100: #efeff2; /* ayırıcı, ince zemin */
+  --ddm-gray-50: #f7f7f9; /* sayfa zemini */
+
+  /* Sayfa şablonlarında ayrıca kullanılan iki ton */
+  --ddm-border-card: #e8e9ed; /* kart kenarlığı (sayfalar) */
+  --ddm-border-button: #d8dae0; /* outline buton kenarlığı */
+
+  --ddm-white: #ffffff;
+
+  /* ---------------------------------------------------------------
+   * 4 · SEMANTİK — sarı YOK
+   * ------------------------------------------------------------- */
+  --ddm-success: #1c8a5b;
+  --ddm-success-bg: #e7f5ef;
+  --ddm-success-line: #a9dcc6;
+  --ddm-success-ink: #146845;
+
+  --ddm-error: #c8362f;
+  --ddm-error-bg: #fceceb;
+  --ddm-error-line: #f1b7b3;
+  --ddm-error-ink: #93241e;
+
+  /* Uyarı = "VERİ EKSİK" / "İÇERİK EKSİK" blokları */
+  --ddm-warn: #a8550e;
+  --ddm-warn-bg: #faefe5;
+  --ddm-warn-line: #e5c5a6;
+  --ddm-warn-ink: #7e3f09;
+
+  /* ---------------------------------------------------------------
+   * 5 · TİPOGRAFİ
+   * Aileler app/layout.tsx'te next/font ile yüklenir; burada yalnız
+   * yığın (stack) tanımlanır. latin-ext zorunlu — Türkçe ğ ş ı İ ö ç.
+   * ------------------------------------------------------------- */
+  --ddm-font-heading: var(--font-plus-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+  --ddm-font-body: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  --ddm-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /*
+   * Ölçek — iki katman.
+   *
+   * (a) Tasarım Sistemi dokümanındaki masaüstü hedefleri (referans):
+   *     Display 64/1.05/-0.03em/800 · H1 44/1.1/-0.025em/800
+   *     H2 34/1.18/-0.02em/800 · H3 26/1.25/-0.015em/700
+   *     H4 20/1.3/700 · H5 17/1.4/700
+   *     Gövde L 18/1.65 · M 16/1.7 · S 14/1.6 · Etiket 12/0.12em/800 caps
+   *
+   * (b) Sayfa şablonlarının fiilen kullandığı clamp()'ler — KANON.
+   *     Şablonlar dokümanla birebir örtüşmüyor; kodda şablonlar esas alınır.
+   */
+  --ddm-text-h1-home: clamp(32px, 5.4vw, 56px); /* Ana Sayfa hero */
+  --ddm-text-h1: clamp(27px, 3.8vw, 44px); /* iç sayfa hero */
+  --ddm-text-h2: clamp(26px, 3.6vw, 38px); /* ana bölüm başlığı */
+  --ddm-text-h2-sm: clamp(24px, 3.2vw, 34px); /* alt bölüm başlığı */
+  --ddm-text-h2-xs: clamp(20px, 2.4vw, 26px); /* iç link ağı başlığı */
+  --ddm-text-h3: clamp(19px, 2.2vw, 24px);
+  --ddm-text-h4: 19px;
+  --ddm-text-h5: 17.5px;
+
+  --ddm-text-lead: clamp(15.5px, 1.8vw, 17.5px); /* giriş paragrafı */
+  --ddm-text-lead-lg: clamp(16px, 1.9vw, 19px); /* hero alt metni */
+  --ddm-text-body-l: 15.5px;
+  --ddm-text-body: 14.5px;
+  --ddm-text-body-s: 13.5px;
+  --ddm-text-caption: 12.5px;
+  --ddm-text-label: 11.5px;
+
+  --ddm-leading-tight: 1.1;
+  --ddm-leading-heading: 1.28;
+  --ddm-leading-body: 1.7;
+  --ddm-leading-relaxed: 1.8;
+
+  --ddm-tracking-h1: -0.03em;
+  --ddm-tracking-h2: -0.025em;
+  --ddm-tracking-h3: -0.015em;
+  --ddm-tracking-label: 0.12em;
+  --ddm-tracking-kicker: 0.14em;
+
+  /* ---------------------------------------------------------------
+   * 6 · BOŞLUK — 4px tabanlı
+   * ------------------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-30: 120px;
+
+  /* Sayfa düzeni — şablonlardaki fiili değerler */
+  --ddm-container: 1320px; /* NOT: sistem dokümanı 1280 diyor, şablonlar 1320 — 1320 kanon */
+  --ddm-gutter: clamp(14px, 3.5vw, 28px); /* sayfa yan boşluğu */
+  --ddm-section-y: clamp(48px, 7vw, 88px); /* ana bölüm dolgusu */
+  --ddm-section-y-sm: clamp(44px, 6vw, 80px);
+  --ddm-section-y-xs: clamp(40px, 6vw, 76px);
+  --ddm-gap-card: clamp(14px, 1.6vw, 18px); /* kart ızgarası */
+  --ddm-gap-col: clamp(24px, 3.4vw, 48px); /* kolon arası */
+
+  /* ---------------------------------------------------------------
+   * 7 · KÖŞE YUVARLAKLIĞI
+   * Form/buton 12–14 · kart 20–24 · büyük panel 28 · rozet pill
+   * ------------------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 28px;
+  --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------
+   * 8 · GÖLGE
+   * ------------------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(16, 17, 22, 0.05); /* kart durgun */
+  --shadow-md: 0 6px 20px rgba(22, 24, 74, 0.08); /* kart hover */
+  --shadow-card: 0 10px 30px rgba(22, 24, 74, 0.09); /* header, kart */
+  --shadow-lift: 0 14px 40px rgba(22, 24, 74, 0.1); /* hero kart */
+  --shadow-hover: 0 18px 44px rgba(22, 24, 74, 0.13); /* büyük kart hover */
+  --shadow-lg: 0 18px 48px rgba(22, 24, 74, 0.14); /* drawer */
+  --shadow-menu: 0 22px 54px rgba(22, 24, 74, 0.16); /* mega menü */
+  --shadow-cta: 0 16px 44px rgba(42, 45, 124, 0.22); /* lacivert CTA bandı */
+  --shadow-bar: 0 -6px 24px rgba(22, 24, 74, 0.12); /* mobil alt çubuk */
+
+  /* ---------------------------------------------------------------
+   * 9 · HAREKET
+   * ------------------------------------------------------------- */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 0.18s;
+  --duration-base: 0.24s;
+  --duration-slow: 0.34s;
+}
+
+/*
+ * BREAKPOINT'LER — CSS'te, JS ölçümünden bağımsız.
+ * Custom property media query'de kullanılamadığı için burada yalnız
+ * belgelenir; modüller bu değerleri birebir yazar.
+ *
+ *   min 1340 / max 1459  nav butonu 13.5px + yatay dolgu 8px
+ *   max 1339             nav + header CTA gizlenir, burger görünür
+ *   max  999             mobil alt sabit çubuk açılır, body alt dolgusu 76px
+ *   max  859             haftalık ızgara kolonu 120→96px, gap 6→4
+ *   max  759             tablo başlığı gizlenir, satır → kart
+ *   max  619             hero illüstrasyonu gizlenir
+ */

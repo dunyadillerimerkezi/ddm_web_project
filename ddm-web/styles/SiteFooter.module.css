@@ -1,0 +1,125 @@
+.footer {
+  background: var(--ddm-navy-900);
+  padding: var(--ddm-section-y-xs) var(--ddm-gutter) 26px;
+}
+
+.inner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: clamp(28px, 4vw, 40px);
+  padding-bottom: clamp(28px, 3.6vw, 42px);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.brand img {
+  height: 46px;
+  width: auto;
+}
+
+.blurb {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-navy-200);
+  max-width: 42ch;
+}
+
+.branchBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.kicker {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-sky-400);
+}
+
+.address {
+  font-size: var(--ddm-text-body-s);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-navy-200);
+}
+
+.phone {
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-white);
+}
+
+.phone:hover {
+  color: var(--ddm-sky-line);
+}
+
+.mail {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-navy-200);
+}
+
+.mail:hover {
+  color: var(--ddm-white);
+}
+
+/* Kaynak içerikte olmayan alan — "bekleniyor" durumu. */
+.pending {
+  font-size: var(--ddm-text-body-s);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-navy-300);
+  font-style: italic;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.colLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.colLink {
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-navy-200);
+}
+
+.colLink:hover {
+  color: var(--ddm-white);
+}
+
+.colLinkInert {
+  composes: colLink;
+  color: var(--ddm-navy-300);
+  cursor: default;
+}
+
+.legal {
+  border-top: 1px solid var(--ddm-navy-line);
+  padding-top: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.legalText {
+  font-size: 13px;
+  color: var(--ddm-navy-300);
+}

@@ -1,0 +1,56 @@
+/*
+ * İllüstrasyon slotu — üç katmanlı çizgi kompozisyonu.
+ *
+ * Kural (Tasarım Sistemi dokümantasyon bölümü): aynı viewBox, aynı üç
+ * katman (merkez motif · yardımcı · zemin çizgisi), aynı çizgi kalınlıkları
+ * (1.6 / 1.5) ve aynı float davranışı. Renkler token'dan gelir.
+ *
+ * ≤619px'te gizlenir — dört şablonda da böyleydi.
+ */
+.wrap {
+  position: relative;
+  width: 100%;
+  justify-self: center;
+}
+
+.glow {
+  position: absolute;
+  inset: 6%;
+  border-radius: 28px;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(46, 155, 214, 0.2) 0%,
+    rgba(46, 155, 214, 0.05) 58%,
+    rgba(46, 155, 214, 0) 76%
+  );
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/** Ana motif — yavaş süzülür. */
+.layerPrimary {
+  stroke: var(--ddm-sky-300);
+  animation: ddmFloatSlow 7s ease-in-out infinite;
+}
+
+/** Yardımcı motif — hafif gecikmeli. */
+.layerSecondary {
+  stroke: var(--ddm-navy-400);
+  animation: ddmFloat 6s ease-in-out 0.6s infinite;
+}
+
+/** Zemin çizgisi — sabit. */
+.ground {
+  stroke: var(--ddm-navy-500);
+}
+
+@media (max-width: 619px) {
+  .wrap {
+    display: none;
+  }
+}
