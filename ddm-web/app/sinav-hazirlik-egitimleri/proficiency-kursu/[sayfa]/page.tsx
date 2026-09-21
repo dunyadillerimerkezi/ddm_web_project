@@ -17,7 +17,7 @@ import type { HomeStat } from "@/data/home";
 import { BRANCH_LIST, DEFAULT_BRANCH } from "@/data/branches";
 import { getUniversityPage, type UniversityPage, type UniversityDef } from "@/lib/universityContent";
 import { getCourseDatePage } from "@/lib/courseDateContent";
-import { COURSE_DATES, byBranch, byCourse, findCourseDateEntry } from "@/data/courseDates";
+import { COURSE_DATES, findCourseDateEntry } from "@/data/courseDates";
 import { absoluteUrl } from "@/lib/site";
 import type { Crumb, LinkRowItem, ScheduleColumn, ScheduleTableRow } from "@/lib/types";
 import { DataMissingNotice } from "@/components/ui";
@@ -212,19 +212,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const entry = findCourseDateEntry("sinav-hazirlik-egitimleri", "proficiency-kursu", sayfa);
   if (entry) {
     const page = getCourseDatePage(entry);
-    const otherBranches: LinkRowItem[] = byCourse(entry.courseSlug).map((e) => ({
-      label: `${e.branchLabel} Şubesi`,
-      sub: `${e.courseName} Kursu kurs tarihi`,
-      href: e.pageSlug === entry.pageSlug ? null : `/${e.category}/${e.courseSlug}/${e.pageSlug}`,
-      icon: "konum",
-      current: e.pageSlug === entry.pageSlug,
-    }));
-    const otherCourses: LinkRowItem[] = byBranch(entry.branch).map((e) => ({
-      label: `${e.courseName} Kursu`,
-      href: e.pageSlug === entry.pageSlug ? null : `/${e.category}/${e.courseSlug}/${e.pageSlug}`,
-      current: e.pageSlug === entry.pageSlug,
-    }));
-    return <CourseDatePage page={page} otherBranches={otherBranches} otherCourses={otherCourses} />;
+    return <CourseDatePage page={page} />;
   }
 
   notFound();

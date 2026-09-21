@@ -1,14 +1,11 @@
 import { SiteChrome } from "@/components/layout";
 import { PageHero } from "./PageHero";
-import { PageSection } from "./PageSection";
-import { LinkRow } from "./LinkRow";
 import { CtaBand } from "./CtaBand";
 import { WeekGrid } from "./WeekGrid";
-import { BranchInfoPanel } from "./BranchInfoPanel";
 import { ProgramCard } from "@/components/cards/ProgramCard";
 import { SectionHeading, DataMissingNotice, ButtonLink } from "@/components/ui";
-import { BRANCHES, telHref, waHref } from "@/data/branches";
-import type { CourseDatePage as CourseDatePageData, LinkRowItem } from "@/lib/types";
+import { BRANCHES, telHref } from "@/data/branches";
+import type { CourseDatePage as CourseDatePageData } from "@/lib/types";
 import { weekGridRows } from "@/lib/courseDateContent";
 import pageSection from "@/styles/PageSection.module.css";
 import styles from "@/styles/CourseDatePage.module.css";
@@ -33,21 +30,13 @@ import styles from "@/styles/CourseDatePage.module.css";
  * koruyoruz. Kart yapısı/boşluklar birebir, yalnız bu iki bölümün yan yana
  * mı stacked mi duracağı şablon-dışı bir mimari tercih.
  */
-export function CourseDatePage({
-  page,
-  otherBranches,
-  otherCourses,
-}: {
-  page: CourseDatePageData;
-  otherBranches: LinkRowItem[];
-  otherCourses: LinkRowItem[];
-}) {
+export function CourseDatePage({ page }: { page: CourseDatePageData }) {
   const branch = BRANCHES[page.branch];
   const rows = weekGridRows(page);
   const hasPrograms = page.programs.length > 0;
 
   return (
-    <SiteChrome branch={branch} ctaLabel="Kayıt Ol" ctaHref="#kayit">
+    <SiteChrome branch={branch} ctaLabel="Bilgi Al" ctaHref={branch.href}>
       <PageHero
         crumbs={page.crumbs}
         code={null}
@@ -58,8 +47,8 @@ export function CourseDatePage({
         titleSize="sube"
         h1={page.h1}
         lead={null}
-        primary={{ label: "Kayıt Ol", href: "#kayit" }}
-        secondary={{ label: "Bilgi Al", href: "#programlar" }}
+        primary={{ label: "Bilgi Al", href: branch.href }}
+        secondary={{ label: "Programları Gör", href: "#programlar" }}
         art={{ mode: "sube", name: "sube" }}
         stats={page.quickFacts}
       />
@@ -80,7 +69,7 @@ export function CourseDatePage({
                 </div>
                 <div className={styles.programGrid}>
                   {page.programs.map((block) => (
-                    <ProgramCard block={block} key={block.kind} />
+                    <ProgramCard block={block} href={branch.href} key={block.kind} />
                   ))}
                 </div>
               </div>
@@ -111,39 +100,12 @@ export function CourseDatePage({
         </div>
       </section>
 
-      <PageSection
-        id="sube"
-        ground="light"
-        kicker="ŞUBE BİLGİLERİ"
-        title={`Dünya Dilleri Merkezi ${branch.name} Şubesi`}
-      >
-        <BranchInfoPanel branch={branch} />
-      </PageSection>
-
-      <LinkRow
-        ground="gray"
-        kicker="DİĞER ŞUBELER"
-        title={`${page.courseName} Kursu diğer şubelerimizde`}
-        items={otherBranches}
-        density="compact"
-        icon="konum"
-      />
-
-      <LinkRow
-        ground="gray"
-        kicker="BU ŞUBEDEKİ DİĞER KURSLAR"
-        title={`${branch.name} şubesinin diğer kurs programları`}
-        items={otherCourses}
-        density="cards"
-      />
-
       <CtaBand
         id="kayit"
         ground="gray"
-        title={`${page.courseName} Kursu ${branch.name} programına kayıt olun veya güncel bilgi alın.`}
+        title={`${page.courseName} Kursu ${branch.name} programı için güncel bilgi alın.`}
         sub={branch.phone ? `${branch.phone} · ${branch.mail}` : branch.mail}
-        primary={{ label: "Kayıt Ol", href: "#kayit" }}
-        secondary={{ label: "WhatsApp", href: waHref(branch) }}
+        primary={{ label: "Bilgi Al", href: branch.href }}
       />
     </SiteChrome>
   );

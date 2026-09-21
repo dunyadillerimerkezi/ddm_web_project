@@ -39,6 +39,27 @@ const UNIVERSITY_SLUGS = [
   "beykent-universitesi",
 ];
 
+/**
+ * Faz 6.6 — 12 eski Joomla kurs-tarihi URL'i (`{kurs}.html?view=article&id=...`).
+ * İçerikleri temiz URL'lerin birebir kopyası, ayrı sayfa üretilmez; 301 ile
+ * yeni nested sayfaya gider. Faz 8'in genel `.html` kuralı bunları kapsamaz
+ * (query string'e bakar). [kurs, id, hedef pageSlug].
+ */
+const JOOMLA_COURSE_DATES: [string, string, string][] = [
+  ["gmat-kursu", "319:kadikoy-merkez-kurs-tarihi", "kadikoy-subesi-gmat-kurs-tarihi"],
+  ["gmat-kursu", "320:bagdat-caddesi-kurs-tarihi", "bagdat-caddesi-gmat-subesi-kurs-tarihi"],
+  ["gmat-kursu", "321:levent-kurs-tarihi-4", "besiktas-subesi-gmat-kurs-tarihi"],
+  ["proficiency-kursu", "303:kadikoy-merkez-kurs-tarihi", "kadikoy-subesi-proficiency-kurs-tarihi"],
+  ["proficiency-kursu", "304:bagdat-caddesi-kurs-tarihi", "bagdat-caddesi-proficiency-subesi-kurs-tarihi"],
+  ["proficiency-kursu", "305:levent-kurs-tarihi-4", "besiktas-subesi-proficiency-kurs-tarihi"],
+  ["sat-kursu", "315:kadikoy-merkez-kurs-tarihi", "kadikoy-subesi-sat-kurs-tarihi"],
+  ["sat-kursu", "316:bagdat-caddesi-kurs-tarihi", "bagdat-caddesi-subesi-sat-kurs-tarihi"],
+  ["sat-kursu", "317:levent-kurs-tarihi-4", "besiktas-subesi-sat-kurs-tarihi"],
+  ["toeic-kursu", "295:kadikoy-merkez-kurs-tarihi", "kadikoy-subesi-toeic-kurs-tarihi"],
+  ["toeic-kursu", "296:bagdat-caddesi-kurs-tarihi", "bagdat-caddesi-subesi-toeic-kurs-tarihi"],
+  ["toeic-kursu", "297:levent-kurs-tarihi-4", "besiktas-subesi-toeic-kurs-tarihi"],
+];
+
 const nextConfig: NextConfig = {
   // Trailing slash kararı: URL'lerin sonunda "/" YOK, tutarlı biçimde
   // uygulanıyor (bkz. CLAUDE.md). Next.js varsayılanı zaten bu; kararı
@@ -58,13 +79,20 @@ const nextConfig: NextConfig = {
   // `redirects()` altında tanımlanacak. Şimdi (Faz 3) boş bırakılıyor —
   // TEK istisna: Faz 6.5 üniversite kök URL'leri (yukarı bkz).
   async redirects() {
-    return UNIVERSITY_SLUGS.flatMap((slug) => {
+    const university = UNIVERSITY_SLUGS.flatMap((slug) => {
       const destination = `/sinav-hazirlik-egitimleri/proficiency-kursu/${slug}`;
       return [
         { source: `/${slug}`, destination, permanent: true },
         { source: `/${slug}.html`, destination, permanent: true },
       ];
     });
+    const courseDates = JOOMLA_COURSE_DATES.map(([kurs, id, pageSlug]) => ({
+      source: `/sinav-hazirlik-egitimleri/${kurs}.html`,
+      has: [{ type: "query" as const, key: "id", value: id }],
+      destination: `/sinav-hazirlik-egitimleri/${kurs}/${pageSlug}`,
+      permanent: true,
+    }));
+    return [...university, ...courseDates];
   },
 };
 

@@ -50,8 +50,8 @@ const KIND_ICON: Record<ProgramKind, ProgramBlock["icon"]> = {
 };
 
 const KIND_CTA: Record<ProgramKind, string> = {
-  haftaici: "Hafta İçi Grubuna Kayıt",
-  haftasonu: "Hafta Sonu Grubuna Kayıt",
+  haftaici: "Hafta İçi Grubu İçin Bilgi Al",
+  haftasonu: "Hafta Sonu Grubu İçin Bilgi Al",
   birebir: "Özel Ders İçin Bilgi Al",
 };
 
@@ -119,8 +119,8 @@ function quickFacts(
   hours: number | null,
 ): Stat[] {
   const facts: Stat[] = [];
-  if (groupSize) facts.push({ icon: "grup", value: String(groupSize), label: "kişilik özel gruplar" });
-  if (months) facts.push({ icon: "sure", value: String(months), label: "ay program süresi" });
+  if (groupSize) facts.push({ icon: "grup", value: String(groupSize), label: "kişilik grup" });
+  if (months) facts.push({ icon: "sure", value: String(months).replace(".", ","), label: "ay program süresi" });
   if (hours) facts.push({ icon: "saat", value: String(hours), label: "saat toplam ders" });
   if (programs.length > 0) {
     facts.push({ icon: "takvim", value: String(programs.length), label: "program seçeneği" });

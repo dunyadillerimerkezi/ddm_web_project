@@ -16,7 +16,7 @@ import styles from "@/styles/ProgramCard.module.css";
  * da yok. Kartın kendi kayıt CTA'sı (`block.ctaLabel`) bu karardan ayrı,
  * yerinde kalıyor (o fiyat CTA'sı değil, kartın eylemi).
  */
-export function ProgramCard({ block }: { block: ProgramBlock }) {
+export function ProgramCard({ block, href }: { block: ProgramBlock; href: string }) {
   const special = block.kind === "birebir";
 
   return (
@@ -105,7 +105,7 @@ export function ProgramCard({ block }: { block: ProgramBlock }) {
       {block.note && <p className={styles.note}>{block.note}</p>}
 
       <div className={styles.footer}>
-        <ButtonLink href="#kayit" variant="primary" size="sm" arrow>
+        <ButtonLink href={href} variant="primary" size="sm" arrow>
           {block.ctaLabel}
         </ButtonLink>
       </div>
