@@ -33,8 +33,7 @@ import type { Crumb, Faq, LinkRowItem, ScheduleColumn, ScheduleTableRow } from "
  * ADIM 5: Bölüm 9 (şube/kurs tarihleri LinkRow, K) + Bölüm 10 (öğrenci
  * yorumları carousel, site geneli) + Bölüm 11 (SSS Accordion, E+H) dolduruldu.
  * ADIM 6: Bölüm 12 (diğer diller LinkRow) + Bölüm 13 (alt CTA `#kayit`)
- * dolduruldu — İTALYANCA (pilot dil) UÇTAN UCA TAMAM, kalan 9 dil için onay
- * bekleniyor (plan §11 checkpoint).
+ * dolduruldu — İTALYANCA pilot dil olarak tamamlandı, sonra 10 dile genişletildi.
  */
 
 /**

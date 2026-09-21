@@ -40,7 +40,7 @@ const UNIVERSITY_SLUGS = [
 ];
 
 /**
- * Faz 6.6 — 12 eski Joomla kurs-tarihi URL'i (`{kurs}.html?view=article&id=...`).
+ * Faz 6.6 — 16 eski Joomla kurs-tarihi URL'i (`{kurs}.html?view=article&id=...`).
  * İçerikleri temiz URL'lerin birebir kopyası, ayrı sayfa üretilmez; 301 ile
  * yeni nested sayfaya gider. Faz 8'in genel `.html` kuralı bunları kapsamaz
  * (query string'e bakar). [kurs, id, hedef pageSlug].
@@ -58,6 +58,12 @@ const JOOMLA_COURSE_DATES: [string, string, string][] = [
   ["toeic-kursu", "295:kadikoy-merkez-kurs-tarihi", "kadikoy-subesi-toeic-kurs-tarihi"],
   ["toeic-kursu", "296:bagdat-caddesi-kurs-tarihi", "bagdat-caddesi-subesi-toeic-kurs-tarihi"],
   ["toeic-kursu", "297:levent-kurs-tarihi-4", "besiktas-subesi-toeic-kurs-tarihi"],
+  // P0 — Ataşehir'in 4 Joomla URL'i 6.6'da atlanmıştı (toplam 16). Gövde metinleri
+  // temiz sayfalarla birebir aynı (site_content.json'da doğrulandı).
+  ["proficiency-kursu", "306:atasehir-kurs-tarihleri", "atasehir-subesi-proficiency-kurs-tarihi"],
+  ["gmat-kursu", "322:atasehir-kurs-tarihleri", "atasehir-subesi-gmat-kurs-tarihi"],
+  ["sat-kursu", "318:atasehir-kurs-tarihleri", "atasehir-subesi-sat-kurs-tarihi"],
+  ["toeic-kursu", "298:atasehir-kurs-tarihleri", "atasehir-subesi-toeic-kurs-tarihi"],
 ];
 
 const nextConfig: NextConfig = {
