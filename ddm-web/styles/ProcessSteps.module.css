@@ -1,0 +1,81 @@
+/* ---------------------------------------------------------------
+ * ProcessSteps — "PROGRAMIN İŞLEYİŞİ" 3 adımlı şerit
+ * Kaynak: DDM Üniversite Proficiency Sayfası.dc.html bölüm 5.
+ * ------------------------------------------------------------- */
+.track {
+  position: relative;
+}
+
+.rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 27px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-gray-200);
+}
+
+.fill {
+  position: absolute;
+  left: 0;
+  top: 27px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--ddm-primary) 0%, var(--ddm-sky-base) 100%);
+  transition: width 1.1s var(--ease-out-soft);
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(262px, 1fr));
+  gap: clamp(16px, 2vw, 26px);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-white);
+  border: 3px solid var(--ddm-gray-200);
+  color: var(--ddm-gray-400);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 17px;
+  transition:
+    background var(--duration-slow) ease,
+    border-color var(--duration-slow) ease,
+    color var(--duration-slow) ease;
+}
+
+.dotFilled {
+  background: var(--ddm-primary);
+  border-color: var(--ddm-primary);
+  color: var(--ddm-white);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.3;
+  color: var(--ddm-navy-900);
+}
+
+.body {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-600);
+}

@@ -1,0 +1,143 @@
+/* ---------------------------------------------------------------
+ * WeekGrid — haftalık ders programı ızgarası (gün × slot matrisi).
+ * Kaynak: DDM Şube Kurs Tarihi Sayfası.dc.html bölüm 6 (satır 381-412).
+ * ------------------------------------------------------------- */
+.wrap {
+  background: var(--ddm-gray-50);
+  border: 1px solid var(--ddm-gray-100);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+}
+
+/* ui-ux-pro-max horizontal-scroll: yatay kaydırma yalnız bu kapta. */
+.scroller {
+  overflow-x: auto;
+}
+
+.grid {
+  min-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.headerRow,
+.row {
+  display: grid;
+  grid-template-columns: 120px repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.dayHead,
+.dayHeadActive {
+  text-align: center;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.dayHead {
+  color: var(--ddm-gray-400);
+}
+
+.dayHeadActive {
+  color: var(--ddm-navy-900);
+}
+
+.rowLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: var(--space-2);
+}
+
+.rowName {
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-gray-800);
+}
+
+.rowRange {
+  font-size: var(--ddm-text-label);
+  color: var(--ddm-gray-500);
+  font-variant-numeric: tabular-nums;
+}
+
+.cellOff,
+.cellWeekday,
+.cellWeekend {
+  height: 34px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 800;
+  transition: background var(--duration-base) ease;
+}
+
+.cellOff {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-gray-200);
+  color: transparent;
+}
+
+.cellWeekday {
+  background: var(--ddm-primary);
+  border: 1px solid var(--ddm-primary);
+  color: var(--ddm-white);
+}
+
+.cellWeekend {
+  background: var(--ddm-sky-base);
+  border: 1px solid var(--ddm-sky-base);
+  color: var(--ddm-white);
+}
+
+.legend {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--ddm-gray-200);
+  margin-top: 4px;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-600);
+}
+
+.legendDotWeekday,
+.legendDotWeekend,
+.legendDotOff {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex: none;
+}
+
+.legendDotWeekday {
+  background: var(--ddm-primary);
+}
+
+.legendDotWeekend {
+  background: var(--ddm-sky-base);
+}
+
+.legendDotOff {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-gray-200);
+}
+
+@media (max-width: 859px) {
+  .headerRow,
+  .row {
+    grid-template-columns: 96px repeat(7, minmax(0, 1fr));
+    gap: 4px;
+  }
+}

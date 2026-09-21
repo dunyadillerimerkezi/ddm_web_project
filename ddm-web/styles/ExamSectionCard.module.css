@@ -1,0 +1,135 @@
+/* ---------------------------------------------------------------
+ * ExamSectionCard — "SINAV YAPISI" bölüm kartı
+ * Kaynak: DDM Üniversite Proficiency Sayfası.dc.html bölüm 6.
+ * ------------------------------------------------------------- */
+.card {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition:
+    transform var(--duration-base) ease,
+    box-shadow var(--duration-base) ease,
+    border-color var(--duration-base) ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--ddm-sky-line);
+}
+
+.headRow {
+  display: flex;
+  align-items: center;
+}
+
+.iconTile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-sky-ink);
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.kicker {
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-sky-400);
+}
+
+.name {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 19.5px;
+  line-height: 1.28;
+  color: var(--ddm-navy-900);
+}
+
+.skill {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+.parts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.part {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-table-head);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.partTitle {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 14.5px;
+  line-height: 1.35;
+  color: var(--ddm-gray-800);
+}
+
+.metaRow {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.metaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.metaChipMissing {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-warn-bg);
+  border: 1px solid var(--ddm-warn-line);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-warn-ink);
+}
+
+.footerLink {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.footerLink:hover {
+  color: var(--ddm-primary);
+}

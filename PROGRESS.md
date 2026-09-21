@@ -264,9 +264,47 @@ ki koda çevirince veri-tabanlı üretebileyim.
 - [ ] **6.4 · Dil Kursu Ana** (10 sayfa)
       PageHero · Breadcrumb · ProgressTrack (CEFR seviyeleri) · FilterPills ·
       ScheduleTable · Accordion (SSS) · `data/languages.ts`
-- [ ] **6.5 · Üniversite Proficiency** (21 üniversite / 42 URL)
-      ExamSectionCard · StickyToc · ProgressTrack (3 adım) · ContactForm ·
-      ScheduleTable (yeniden kullanım) · `data/universities.ts`
+- [x] **6.5 · Üniversite Proficiency** (21 üniversite, 42 URL — 21 sayfa + 21 kök 301)
+      `app/sinav-hazirlik-egitimleri/proficiency-kursu/[universite]/page.tsx` ·
+      ExamSectionCard · ExamStructure · DetailSections · StickyToc (scroll-spy,
+      gerçek IntersectionObserver) · ProcessSteps (3 adım, scroll ile dolan
+      çizgi) · ContactFormCard · UniversityGrid (21 kart + TR-duyarlı arama) ·
+      ScheduleTable `uni4` (yeniden kullanım) · `data/universities.ts` ·
+      `lib/universityContent.ts`. `PageHero` genişletildi (`code: string|null`,
+      `codeVariant="pill"`, `titleSize="uni"`, `art.mode="uni"`) — dil kursu
+      çağrısı değişmedi. 3 yeni illüstrasyon motifi (`kampus`/`sinav-oturumu`/
+      `dort-beceri`) + 9 yeni ikon (`sinav-ikon-*` ailesi + `soru`/`kisim`/`puan`).
+      `next.config.ts`'te `redirects()` İLK KEZ dolduruldu — 21 üniversite kök
+      URL'i (`.html`'li/`.html`siz) nested URL'e 301 (Faz 8'in genel kuralından
+      önce, kullanıcı kararıyla).
+      **Aşama 0 denetimi** ilk keyword-taramasını düzeltti: gerçek katmanlama
+      A (6, ayrı başlıklı: Boğaziçi/Özyeğin/Bilgi/Doğuş/Sabancı/İstanbul Şehir),
+      B-zengin (10, başlık yok ama kaynak cümlesinde sayısal olgu var: İTÜ/ODTÜ/
+      YTÜ/Kadir Has/Işık/Kocaeli/Marmara/Bahçeşehir/Okan/Yeditepe), B-boş (2,
+      gerçek "veri bekleniyor": Maltepe/Beykent), C (3, bölüm ayrımı hiç yok,
+      SINAV YAPISI tamamen gizli: Koç/Acıbadem/Süleyman Şah).
+      **Kullanıcı kararları:** (1) hero lead = kaydın `meta_description`'ı,
+      3 adımlı şerit = giriş paragrafları (P1/P2/P3), hiçbir paragraf iki
+      slotta tekrar etmiyor; (2) SINAV YAPISI yalnız kaynağın açıkça bölüm
+      SAYDIĞI sayfalarda kart üretiyor; (3) 21 üniversite kök URL 301'i bu
+      fazda eklendi. **"NEDEN DDM" ve "SSS" bölümleri kasıtlı olarak koda
+      GİRMEDİ** — kaynak proficiency kayıtlarının hiçbirinde karşılığı yok,
+      tasarımın kendi kart metinleri giriş paragraflarını tekrar ediyor ya da
+      yeniden yazıyordu (§5 ihlali).
+      **HTML referansının 3 kusuru düzeltilerek taşındı:** `syncToc()` yazılmış
+      ama hiç çağrılmıyordu → gerçek scroll-spy kuruldu; `state.w` sabit
+      kaldığı için sticky/ızgara kararları JS'te donmuştu → gerçek CSS media
+      query (eşik 1000px); `hasDetails===false` iken iletişim formu da
+      kayboluyordu → artık her zaman render ediliyor.
+      **SEO düzeltmeleri:** 21 kaydın 17'sinde `h1` yok → kaydın İLK başlığına
+      düşüldü (title'a değil — title SEO alanı, sayfa başlığı çoğu kayıtta
+      ondan farklı), her düşüş `console.warn` ile loglanıyor; Okan'ın kaynakta
+      birebir aynı iki başlığı (`h1`+`h2`) `SectionResolver`'ın occurrence
+      birleştirmesiyle kendiliğinden tek noktaya toplandı.
+      `npx tsc --noEmit` / `npm run lint` / `npm run build` temiz — build'de
+      21 üniversitenin `SectionResolver.assertCoverage()` kontrolü de dahil
+      (kaynağın HER satırı ya tüketildi ya gerekçeli `ignored[]`'da). Üretimde
+      21/21 sayfa 200, 42/42 redirect 308 doğrulandı (`npm run start` + curl).
 - [ ] **6.6 · Şube Kurs Tarihi** (88 sayfa)
       ProgramScheduleCard · WeekGrid (haftalık ızgara) · InfoTile · LinkRow ·
       iç link ağı

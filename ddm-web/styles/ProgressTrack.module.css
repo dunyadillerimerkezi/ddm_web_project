@@ -1,0 +1,84 @@
+/* ---------------------------------------------------------------
+ * ProgressTrack — 6 nokta / 3 grup seviye çubuğu.
+ * Kaynak: DDM Dil Kursu Sayfası.dc.html bölüm 5.
+ * ------------------------------------------------------------- */
+.track {
+  position: relative;
+}
+
+.rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 21px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-gray-200);
+}
+
+.fill {
+  position: absolute;
+  left: 0;
+  top: 21px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--ddm-navy-600) 0%, var(--ddm-sky-base) 100%);
+  transition: width 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.dots {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(94px, 1fr));
+  gap: var(--space-2);
+}
+
+.step {
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+button.step {
+  cursor: pointer;
+}
+
+.dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-pill);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 13.5px;
+  border: 2px solid transparent;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.dot_done {
+  background: var(--ddm-sky-bg);
+  border-color: var(--ddm-sky-200);
+  color: var(--ddm-sky-ink);
+}
+
+.dot_active {
+  background: var(--ddm-navy-600);
+  border-color: var(--ddm-navy-600);
+  color: var(--ddm-white);
+  transform: scale(1.08);
+}
+
+.dot_upcoming {
+  background: var(--ddm-white);
+  border-color: var(--ddm-gray-300);
+  color: var(--ddm-gray-500);
+}

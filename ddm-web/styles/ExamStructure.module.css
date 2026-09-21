@@ -1,0 +1,9 @@
+/* ---------------------------------------------------------------
+ * ExamStructure — "SINAV YAPISI" ızgara kabuğu
+ * Kaynak: DDM Üniversite Proficiency Sayfası.dc.html bölüm 6.
+ * ------------------------------------------------------------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 292px), 1fr));
+  gap: var(--ddm-gap-card);
+}

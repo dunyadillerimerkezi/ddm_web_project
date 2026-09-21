@@ -1,0 +1,122 @@
+/* ---------------------------------------------------------------
+ * StickyToc — "BÖLÜM DETAYLARI" sağ aside içindekiler kartı
+ * Kaynak: DDM Üniversite Proficiency Sayfası.dc.html bölüm 7.
+ *
+ * ≥1000px: sticky, daima açık, caret gizli, tıklanamaz başlık.
+ * <1000px: statik, kapalı başlar, caret döner akordeon.
+ * ------------------------------------------------------------- */
+.aside {
+  background: var(--ddm-gray-50);
+  border: 1px solid var(--ddm-gray-100);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.header {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  text-align: left;
+  cursor: pointer;
+}
+
+.label {
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-sky-400);
+}
+
+.caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-gray-200);
+  color: var(--ddm-primary);
+  transition: transform var(--duration-slow) ease;
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+.body {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.36s var(--ease-out-soft),
+    opacity 0.3s ease;
+}
+
+.bodyOpen {
+  max-height: 620px;
+  opacity: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 14px;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.link,
+.linkActive {
+  font-size: var(--ddm-text-body);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid transparent;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+.link {
+  font-weight: 500;
+  color: var(--ddm-gray-600);
+}
+
+.link:hover {
+  background: var(--ddm-white);
+  color: var(--ddm-primary);
+}
+
+.linkActive {
+  font-weight: 700;
+  color: var(--ddm-primary);
+  background: var(--ddm-white);
+  border-left-color: var(--ddm-sky-base);
+}
+
+@media (min-width: 1000px) {
+  .header {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .caret {
+    display: none;
+  }
+
+  .body {
+    max-height: none !important;
+    opacity: 1 !important;
+    overflow: visible;
+  }
+}

@@ -1,0 +1,56 @@
+/* ---------------------------------------------------------------
+ * BulletPanel — ikon + metin kart ızgarası (F "Neden DDM" / I "Eğitim Modelimiz").
+ * Kaynak: DDM Dil Kursu Sayfası.dc.html bölüm 6 METODOLOJİ kart ızgarası.
+ * ------------------------------------------------------------- */
+.gridOnLight,
+.gridOnGray {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  gap: var(--ddm-gap-card);
+}
+
+.card {
+  border-radius: var(--radius-card);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: transform 0.24s ease, background 0.24s ease;
+}
+
+.gridOnLight .card {
+  background: var(--ddm-gray-50);
+  border: 1px solid var(--ddm-gray-100);
+}
+
+.gridOnGray .card {
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-sky-200);
+  color: var(--ddm-sky-ink);
+}
+
+.gridOnGray .iconWrap {
+  background: var(--ddm-sky-bg);
+}
+
+.text {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-600);
+}

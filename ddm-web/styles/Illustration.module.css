@@ -25,6 +25,20 @@
   );
 }
 
+/** Dil Kursu hero'sundaki dairesel glow — `DDM Dil Kursu Sayfası.dc.html`
+ *  bölüm 1+2 dil-illüstrasyon slotu (`inset: 4%`, dairesel gradient). */
+.glowCircle {
+  position: absolute;
+  inset: 4%;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--ddm-hero-glow) 0%,
+    rgba(46, 155, 214, 0.06) 55%,
+    rgba(46, 155, 214, 0) 74%
+  );
+}
+
 .svg {
   position: absolute;
   inset: 0;
@@ -42,6 +56,12 @@
 .layerSecondary {
   stroke: var(--ddm-navy-400);
   animation: ddmFloat 6s ease-in-out 0.6s infinite;
+}
+
+/** Üçüncü motif (Dil Kursu 10 dil illüstrasyonu) — en hızlı, en gecikmeli. */
+.layerTertiary {
+  stroke: var(--ddm-sky-300);
+  animation: ddmFloat 5.4s ease-in-out 1.2s infinite;
 }
 
 /** Zemin çizgisi — sabit. */

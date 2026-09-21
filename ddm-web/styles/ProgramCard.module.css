@@ -1,0 +1,217 @@
+/* ---------------------------------------------------------------
+ * ProgramCard — hafta içi / hafta sonu / birebir özel ders bloğu.
+ * Kaynak: DDM Şube Kurs Tarihi Sayfası.dc.html bölüm 5 (satır 251-368).
+ * ------------------------------------------------------------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  border-left: 4px solid transparent;
+  transition:
+    transform var(--duration-base) ease,
+    box-shadow var(--duration-base) ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.cardGroup {
+  background: var(--ddm-gray-50);
+  border: 1px solid var(--ddm-gray-100);
+  border-left-color: var(--ddm-primary);
+}
+
+.cardBirebir {
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  border-left-color: var(--ddm-sky-base);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.kicker {
+  font-family: var(--ddm-font-heading);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  color: var(--ddm-sky-400);
+}
+
+.kickerBirebir {
+  font-family: var(--ddm-font-heading);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  color: var(--ddm-sky-mid);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.28;
+  color: var(--ddm-navy-900);
+}
+
+.iconTile {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-primary);
+}
+
+.iconTileBirebir {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-sky-ink);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.fieldLabel {
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label-sm);
+  color: var(--ddm-gray-400);
+}
+
+.dayRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.slotList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 11px 13px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+}
+
+.slotName {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  color: var(--ddm-gray-700);
+}
+
+.slotIcon {
+  color: var(--ddm-sky-400);
+}
+
+.slotRange {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-navy-900);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.hoursNote {
+  margin: 0;
+  padding: 13px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.65;
+  color: var(--ddm-gray-700);
+}
+
+.chipRow {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-soft);
+  border: 1px solid var(--ddm-sky-200);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.studyRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.studyTag {
+  display: inline-flex;
+  padding: 6px 11px;
+  border-radius: var(--radius-sm);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  font-size: var(--ddm-text-caption);
+  font-weight: 600;
+  color: var(--ddm-gray-700);
+}
+
+.note {
+  margin: 0;
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.6;
+  color: var(--ddm-gray-600);
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--ddm-border-button);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+

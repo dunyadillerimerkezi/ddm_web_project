@@ -1,0 +1,141 @@
+/* ---------------------------------------------------------------
+ * UniversityGrid — "DİĞER ÜNİVERSİTELER" ızgara + arama
+ * Kaynak: DDM Üniversite Proficiency Sayfası.dc.html bölüm 11.
+ * ------------------------------------------------------------- */
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--ddm-gray-50);
+  border: 1.5px solid var(--ddm-gray-200);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  min-width: min(100%, 300px);
+  color: var(--ddm-gray-500);
+  transition: border-color var(--duration-fast) ease;
+}
+
+.search:focus-within {
+  border-color: var(--ddm-sky-line);
+}
+
+.searchInput {
+  font-family: var(--ddm-font-body);
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-gray-800);
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: clamp(12px, 1.4vw, 16px);
+}
+
+.card,
+.cardCurrent {
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border: 1px solid var(--ddm-border-card);
+  transition:
+    background var(--duration-base) ease,
+    border-color var(--duration-base) ease,
+    transform var(--duration-base) ease;
+}
+
+.card {
+  background: var(--ddm-white);
+}
+
+.card:hover {
+  background: var(--ddm-sky-bg);
+  border-color: var(--ddm-sky-line);
+  transform: translateY(-3px);
+}
+
+.cardCurrent {
+  background: var(--ddm-sky-bg);
+  border-color: var(--ddm-sky-line);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.badge,
+.badgeCurrent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.badge {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-primary);
+}
+
+.badgeCurrent {
+  background: var(--ddm-primary);
+  color: var(--ddm-white);
+}
+
+.code,
+.codeCurrent,
+.codeMuted {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-label);
+  letter-spacing: 0.04em;
+}
+
+.code {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-sky-ink);
+}
+
+.codeCurrent {
+  background: var(--ddm-primary);
+  color: var(--ddm-white);
+}
+
+.codeMuted {
+  background: var(--ddm-gray-100);
+  color: var(--ddm-gray-500);
+}
+
+.name {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 14.5px;
+  line-height: 1.32;
+  color: var(--ddm-navy-900);
+}
+
+.noMatch {
+  margin: 20px 0 0;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-gray-50);
+  border: 1px solid var(--ddm-gray-100);
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-gray-600);
+}

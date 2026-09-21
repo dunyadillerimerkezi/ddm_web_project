@@ -172,6 +172,7 @@
  * ImageSlot — gerçek görsel gelene kadar duran yuva
  * ------------------------------------------------------------- */
 .slot {
+  width: 100%;
   border: 1.5px dashed var(--ddm-sky-slot-line);
   border-radius: var(--radius-xl);
   background: var(--ddm-sky-bg);

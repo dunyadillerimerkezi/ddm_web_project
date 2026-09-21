@@ -10,6 +10,7 @@ import styles from "@/styles/CtaBand.module.css";
  * Kaynak: `DDM Ana Sayfa.dc.html` bölüm 11.
  */
 type CtaBandProps = {
+  id?: string;
   title: string;
   sub?: string;
   primary: NavLink;
@@ -18,9 +19,9 @@ type CtaBandProps = {
   ground?: "light" | "gray";
 };
 
-export function CtaBand({ title, sub, primary, secondary, ground = "gray" }: CtaBandProps) {
+export function CtaBand({ id, title, sub, primary, secondary, ground = "gray" }: CtaBandProps) {
   return (
-    <section className={ground === "light" ? styles.sectionLight : styles.section}>
+    <section id={id} className={ground === "light" ? styles.sectionLight : styles.section}>
       <div className={styles.panel}>
         <div className={styles.copy}>
           <span className={styles.title}>{title}</span>

@@ -56,3 +56,50 @@
   font-size: var(--ddm-text-body-s);
   color: var(--ddm-navy-200);
 }
+
+/* ---------------------------------------------------------------
+ * inset varyantı — PageHero'nun içine gömülü güven şeridi (Faz 6.4).
+ * Kendi zemini/section'ı yok; üst çizgi ve boşluk PageHero'nun kapsayıcısı
+ * içinde oturur. Daha küçük ikon kutusu ve rakam ölçeği.
+ * ------------------------------------------------------------- */
+.stripInset {
+  border-top: 1px solid var(--ddm-navy-line);
+  padding: clamp(26px, 3.2vw, 38px) 0 0;
+  margin-top: clamp(36px, 4.5vw, 56px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: clamp(20px, 2.6vw, 32px);
+}
+
+.itemInset {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.iconBoxInset {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-veil);
+  border: 1px solid var(--ddm-sky-base);
+  color: var(--ddm-sky-300);
+}
+
+.valueInset {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-stat-hero);
+  line-height: 1;
+  color: var(--ddm-white);
+  font-variant-numeric: tabular-nums;
+}
+
+.labelInset {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-navy-200);
+}

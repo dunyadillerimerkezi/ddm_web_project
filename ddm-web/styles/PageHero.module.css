@@ -1,0 +1,207 @@
+/* ---------------------------------------------------------------
+ * PageHero — iç sayfa hero'su (lacivert zemin)
+ * Kaynak: DDM Dil Kursu Sayfası.dc.html bölüm 1+2+3.
+ * ------------------------------------------------------------- */
+.section {
+  position: relative;
+  background: var(--ddm-navy-900);
+  padding: clamp(16px, 2.4vw, 26px) var(--ddm-gutter) clamp(40px, 5.5vw, 68px);
+  overflow: clip;
+}
+
+.glow {
+  position: absolute;
+  left: 58%;
+  top: -140px;
+  transform: translateX(-50%);
+  width: min(780px, 85vw);
+  height: 440px;
+  background: radial-gradient(ellipse at center, var(--ddm-hero-glow) 0%, rgba(46, 155, 214, 0) 70%);
+  pointer-events: none;
+}
+
+.crumbWrap {
+  position: relative;
+  max-width: var(--ddm-container);
+  margin: 0 auto clamp(24px, 3vw, 36px);
+}
+
+.grid {
+  position: relative;
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 430px);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.codeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-veil);
+  border: 1px solid var(--ddm-sky-base);
+  color: var(--ddm-white);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-body);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-base);
+  flex: none;
+}
+
+/* Faz 6.5: sınav kodu rozeti — yatay dolgulu pill (5-6 karakterli kodlar için) */
+.codePill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: var(--radius-code-pill);
+  background: var(--ddm-sky-veil);
+  border: 1px solid var(--ddm-sky-base);
+  color: var(--ddm-white);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-body);
+  letter-spacing: 0.04em;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h1);
+  line-height: 1.08;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-white);
+}
+
+/* Faz 6.5: üniversite hero başlığı — daha küçük ölçek, uzun başlıklar için */
+.titleUni {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h1-uni);
+  line-height: 1.1;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-white);
+}
+
+/* Faz 6.6: şube kurs tarihi hero başlığı — şablonun kendi ölçeği */
+.titleSube {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h1-sube);
+  line-height: 1.1;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-white);
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--ddm-text-lead);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-navy-200);
+  max-width: 62ch;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* --- dil illüstrasyon slotu ------------------------------------ */
+
+.art {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 430px;
+  justify-self: center;
+}
+
+.chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: var(--radius-chip);
+  box-shadow: var(--shadow-chip);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-navy-900);
+  background: var(--ddm-white);
+  animation: ddmChip 6s ease-in-out infinite;
+}
+
+.chipGreeting {
+  left: 4%;
+  top: 14%;
+}
+
+.chipFlag {
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(22, 24, 74, 0.12);
+}
+
+.chipBubble {
+  color: var(--ddm-primary);
+}
+
+.chipSkill {
+  right: 2%;
+  top: 30%;
+  background: var(--ddm-sky-base);
+  color: var(--ddm-white);
+  animation-delay: 2s;
+}
+
+.chipScale {
+  left: 18%;
+  bottom: 4%;
+  animation-delay: 4s;
+}
+
+/* Faz 6.6: şube illüstrasyonu — tek motif, 4/3 oran (dil/uni'nin 1/1'inden farklı) */
+.artSube {
+  aspect-ratio: 4 / 3;
+  max-width: 340px;
+}
+
+@media (max-width: 619px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .art {
+    display: none;
+  }
+}

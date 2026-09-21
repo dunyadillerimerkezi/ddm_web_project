@@ -220,8 +220,12 @@ export function DayBadge({
       ? styles.dayOnWeekend
       : styles.dayOnWeekday;
 
+  /* ui-ux-pro-max color-not-only: aktif/pasif gün bilgiyi yalnız RENKLE
+   *  taşımasın — durum aria-label'de de açıkça geçsin. */
+  const label = active ? `${day.long}: aktif gün` : `${day.long}: ders yok`;
+
   return (
-    <span className={cls} title={day.long}>
+    <span className={cls} title={day.long} aria-label={label}>
       {day.short}
     </span>
   );

@@ -1,0 +1,31 @@
+/* ---------------------------------------------------------------
+ * PageSection — iç sayfa bölüm iskeleti (zemin + kapsayıcı + başlık satırı)
+ * Kaynak: DDM Dil Kursu Sayfası.dc.html — tüm bölümlerin ortak dış kabuğu.
+ * ------------------------------------------------------------- */
+.sectionLight {
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.sectionGray {
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.container {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.headRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(26px, 3vw, 40px);
+}
+
+.aside {
+  flex: none;
+}

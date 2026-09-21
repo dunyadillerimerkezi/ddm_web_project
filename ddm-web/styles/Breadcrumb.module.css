@@ -1,0 +1,43 @@
+/* ---------------------------------------------------------------
+ * Breadcrumb — iç sayfa hero'sunun üstündeki kırıntı yolu.
+ * Kaynak: DDM Dil Kursu Sayfası.dc.html bölüm 1+2. 6.5/6.6 aynı bileşeni
+ * kullanacak; "onDark" varsayılan (üç şablon da lacivert hero üstünde).
+ * ------------------------------------------------------------- */
+.nav {
+  position: relative;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: var(--ddm-text-caption);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sep {
+  color: var(--ddm-navy-400);
+}
+
+.link {
+  color: var(--ddm-navy-200);
+  transition: color var(--duration-fast) ease;
+}
+
+.link:hover {
+  color: var(--ddm-white);
+}
+
+.current {
+  color: var(--ddm-white);
+  font-weight: 600;
+}

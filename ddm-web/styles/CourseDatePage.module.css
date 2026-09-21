@@ -1,0 +1,39 @@
+/* ---------------------------------------------------------------
+ * CourseDatePage — sayfa gövdesinin kendi düzen tutkalı.
+ * Kaynak: DDM Şube Kurs Tarihi Sayfası.dc.html bölüm 4+5+6 (satır 244-416).
+ * Zemin/kapsayıcı PageSection.module.css'ten yeniden kullanılıyor.
+ * ------------------------------------------------------------- */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(26px, 3.2vw, 38px);
+}
+
+.intro {
+  margin: 0;
+  max-width: 72ch;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.8;
+  color: var(--ddm-gray-700);
+}
+
+.programsBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.programsHead {
+  margin-bottom: clamp(18px, 2.2vw, 24px);
+}
+
+.programGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: clamp(14px, 1.6vw, 18px);
+}
+
+.weekGridBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}

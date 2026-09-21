@@ -8,6 +8,9 @@
  * gösterilir. Bu yüzden pek çok alan `string | null`.
  */
 
+import type { IconName } from "@/components/graphics/icons";
+import type { DayKey } from "@/components/ui/Primitives";
+
 /* ---------------------------------------------------------------
  * Navigasyon
  * ------------------------------------------------------------- */
@@ -88,9 +91,13 @@ export type Testimonial = {
   initials: string;
 };
 
+/** Bölüm 11 SSS — soru kaynak başlığın birebir kendisi, cevap kaynak
+ *  paragraflarının/maddelerinin listesi (bkz. plan §3 "E+H'den SSS"). */
 export type Faq = {
   question: string;
-  answer: string;
+  answer: string[];
+  /** "prose" (varsayılan) → ayrı `<p>` paragrafları. "list" → `<ul><li>` madde listesi (H). */
+  format?: "prose" | "list";
 };
 
 /** Kurs takvimi satırı — tarih/gün/saat kaynak içerikte YOK, hepsi null gelir. */
@@ -111,4 +118,235 @@ export type ImageSlotData = {
   height: number;
   /** Yuvada gösterilecek açıklama: "Çok dilli grup dersi / konuşan öğrenciler" */
   hint: string;
+};
+
+/* ---------------------------------------------------------------
+ * Faz 6.4 — İçerik boru hattı (site_content.json → sayfa modeli)
+ *
+ * Bu bölüm dile özgü değil: `lib/contentSections.ts` (jenerik parser) ve
+ * `lib/languageContent.ts` (Dil Kursu sözleşmesi) burayı paylaşır; Faz 6.5/6.6
+ * aynı `SectionRef` dilini kullanacak.
+ * ------------------------------------------------------------- */
+
+/**
+ * Bir içerik slotunun kaynak metindeki yeri. Yalnız `headings[]` içinde
+ * BİREBİR eşleşen bir başlık bölüm sınırı sayılır (bkz. CLAUDE.md §5 —
+ * uydurma yok, kaynağa sadık kal). `heading: null` → ilk başlıktan önceki
+ * giriş bloğu.
+ */
+export type SectionRef = {
+  heading: string | null;
+  /** Hangi paragraflar alınacak — varsayılan "all". */
+  take?: "all" | "first" | "rest" | number[];
+  /** false (varsayılan) → 0 paragraf çözerse build DÜŞER. true → dilde o
+   *  bölümün hiç olmadığı bilinçli durumlarda `null` döner, bölüm düşer. */
+  allowEmpty?: boolean;
+};
+
+/* ---------------------------------------------------------------
+ * Hero / güven şeridi
+ * ------------------------------------------------------------- */
+
+/** Güven şeridi öğesi — `data/home.ts`'teki `HomeStat` bunun alias'ıdır. */
+export type Stat = {
+  icon: IconName;
+  value: string;
+  label: string;
+};
+
+/* ---------------------------------------------------------------
+ * Tablo (ScheduleTable) — Faz 6.5/6.6 aynı şemayı yeniden kullanacak
+ * ------------------------------------------------------------- */
+
+export type ScheduleColumn = {
+  key: string;
+  /** Masaüstü başlık hücresi metni. "" → görsel başlık yok (CTA kolonu). */
+  head: string;
+  /** ≤759px kart görünümünde satır içi etiket. null → etiket basılmaz
+   *  (ör. şube adı sütunu zaten kendini anlatıyor). */
+  rowLabel: string | null;
+};
+
+export type ScheduleCell =
+  | { kind: "title"; title: string; note: string | null }
+  | { kind: "text"; value: string | null; pending: string }
+  | { kind: "link"; label: string; href: string | null }
+  | { kind: "cta"; label: string; href: string };
+
+export type ScheduleTableRow = {
+  key: string;
+  /** FilterPills eşleşme anahtarı (şube adı). null → filtreden muaf, hep görünür. */
+  group: string | null;
+  /** `columns` ile aynı uzunlukta olmalı — build-time assert edilir. */
+  cells: ScheduleCell[];
+};
+
+/* ---------------------------------------------------------------
+ * İç link ağı (LinkRow)
+ * ------------------------------------------------------------- */
+
+export type LinkRowItem = {
+  label: string;
+  sub?: string | null;
+  /** null → §4: link üretilmez, düz metin gösterilir. */
+  href: string | null;
+  flag?: string | null;
+  icon?: string | null;
+  /** true → aktif sayfa vurgusu (açık mavi zemin, aria-current). */
+  current?: boolean;
+};
+
+/* ---------------------------------------------------------------
+ * Faz 6.4 — Dil Kursu içerik blokları (10 dilin de ortak şablonu — 2026-09
+ * yeniden yazımından sonra tekdüze bir bölüm iskeletine oturdu, bkz. plan §1).
+ * ------------------------------------------------------------- */
+
+/** Madde listeli, opsiyonel giriş cümleli bir metin bloğu (F/H bölümleri). */
+export type BulletBlock = {
+  title: string;
+  intro: string | null;
+  items: string[];
+};
+
+/** Seviye grubu: CEFR aralığı + giriş + madde listesi (G bölümü — 6 dilde
+ *  3 grup: Beginner/Intermediate/Advanced tarzı, her biri 2 CEFR seviyesini
+ *  kapsıyor; 4 dilde bölümün kendisi yok). */
+export type LevelGroup = {
+  name: string;
+  /** "A1 – A2" */
+  range: string;
+  intro: string;
+  items: string[];
+};
+
+export type PricingPlan = {
+  /** "1 Kur 2,5 Ay 60 Saat 8 Kişilik Sınıflarda İngilizce Kursu" */
+  label: string;
+  /** "25.000 TL'dir." — birebir kaynaktan, para birimi/biçim UYDURULMAZ. */
+  price: string;
+};
+
+export type PricingBlock = {
+  title: string;
+  plans: PricingPlan[];
+  /** KDV/şube notu gibi tek satırlık ek bilgiler. */
+  notes: string[];
+};
+
+/* ---------------------------------------------------------------
+ * Faz 6.6 — Şube Kurs Tarihi içerik blokları
+ *
+ * Kaynak: `DDM Şube Kurs Tarihi Sayfası.dc.html` `pageData()`/`branchData()`.
+ * Kritik değişkenlik: program blokları SAYISI 1-3 arası değişir (0 da olabilir,
+ * "VERİ EKSİK" varyantı) — bu yüzden ayrı alan değil, `ProgramBlock[]` dizisi.
+ * ------------------------------------------------------------- */
+
+export type ProgramKind = "haftaici" | "haftasonu" | "birebir";
+
+/** "Sabah Programı 10:00 / 13:00" satırının bir slotu. */
+export type TimeSlot = {
+  /** "Sabah Programı" — kaynaktan birebir. */
+  name: string;
+  /** "10:00" */
+  start: string;
+  end: string;
+};
+
+/** `Program Detayları:` satırının bir parçası — rozet olarak basılır. */
+export type ProgramSpec = {
+  key: "grupBuyuklugu" | "programSuresi" | "toplamSaat" | "yogunluk" | "diger";
+  /** Rozet metni — kaynaktaki parçanın BİREBİR kendisi ("6 Kişilik Özel Gruplar"). */
+  text: string;
+  icon: IconName;
+};
+
+export type ProgramBlock = {
+  kind: ProgramKind;
+  /** "HAFTA İÇİ" — `kind`'dan türeyen etiket, bileşene sabitlenmez. */
+  kicker: string;
+  /** Kaynaktaki BAŞLIK, birebir (headings[1..3]). */
+  title: string;
+  icon: IconName;
+  /** Kaynakta gün adı geçmiyorsa boş dizi → gün rozeti şeridi hiç basılmaz. */
+  days: DayKey[];
+  /** Kaynakta saat aralığı yoksa boş dizi. */
+  slots: TimeSlot[];
+  /** Birebir blokta gün/saat serbest metin. null → basılmaz. */
+  hoursNote: string | null;
+  specs: ProgramSpec[];
+  /** Etütler: "Speaking", "Listening & Writing"... Boş → bölüm basılmaz. */
+  study: string[];
+  /** CEFR seviye sistemi / "kur hediye" gibi kapalı etiket kümesine girmeyen
+   *  ama gerçek bir ek cümle. null → basılmaz. Kaynaktan birebir. */
+  note: string | null;
+  /** Yalnız 13 satırda var (84 kayıtta). null → satır basılmaz, UYDURULMAZ. */
+  startDate: string | null;
+  /** Kayıt CTA etiketi — veriden, şablona sabitlenmez. */
+  ctaLabel: string;
+  /* KARAR (kullanıcı onayı): fiyat tamamen kaldırılır, "bilgi alın" CTA'sı da
+   * yok — price/priceRaw/priceNote alanları modelde bilinçli olarak YOK. */
+};
+
+/** Haftalık ders programı ızgarasının bir satırı — `WeekGrid` girdisi. */
+export type WeekGridRow = {
+  name: string;
+  range: string;
+  kind: ProgramKind;
+  days: DayKey[];
+};
+
+/** schema.org hazırlığı — bu fazda JSON-LD basılmaz, alanlar Faz 8 için durur. */
+export type CourseSchemaFields = {
+  courseName: string;
+  courseCode: string | null;
+  branchName: string;
+  /** null → 84 kaydın büyük kısmında dönem başlangıç tarihi yok. */
+  startDates: string[];
+};
+
+export type ContentDiagnostic = {
+  kind: "h1-fallback";
+  detail: string;
+};
+
+export type CourseDatePage = {
+  /* --- kimlik --- */
+  branch: BranchSlug;
+  /** Kaynak başlıkta geçen şube adı, birebir ("Etiler" / "Beşiktaş"). */
+  branchLabel: string;
+  courseSlug: string;
+  /** "PROFICIENCY" — kaynaktaki yazımıyla. */
+  courseName: string;
+  category: "yabanci-dil-egitimleri" | "sinav-hazirlik-egitimleri";
+  pageSlug: string;
+  href: string;
+
+  /* --- metadata (CLAUDE.md §6) --- */
+  title: string;
+  metaDescription: string;
+  h1: string;
+  h1Fallback: boolean;
+
+  /* --- gövde --- */
+  crumbs: Crumb[];
+  intro: string[];
+  programsTitle: string;
+  programs: ProgramBlock[];
+  /** Hero groupBadge + hızlı bakış şeridi kaynağı — kaynaktan ELLE çıkarılmış
+   *  sayısal olgular. Çelişkili/parçalı kaynakta (ör. Aile Birleşimi'nin
+   *  giriş metninde "4", program bloğunda "6" demesi) null — UYDURULMAZ. */
+  groupSize: number | null;
+  months: number | null;
+  hours: number | null;
+  quickFacts: Stat[];
+
+  /* --- çapraz linkler --- */
+  otherBranches: LinkRowItem[];
+  otherCourses: LinkRowItem[];
+
+  /* --- SEO yardımcı alanları --- */
+  schema: CourseSchemaFields;
+
+  /* --- denetim --- */
+  diagnostics: ContentDiagnostic[];
 };

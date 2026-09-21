@@ -141,6 +141,74 @@ export const ICONS = {
       <path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" />
     </>
   ),
+  /* ---- Sınav bölümü ikonları (Faz 6.5, "sinav-ikon-*" ailesi) — 24×24,
+   * genişletilebilir aile: başka üniversitede farklı bölüm çıkarsa aynı
+   * kurala göre yeni üye eklenir. ---- */
+  dinleme: (
+    <>
+      <path d="M4 14a8 8 0 0116 0" />
+      <rect x="3" y="14" width="4" height="6" rx="2" />
+      <rect x="17" y="14" width="4" height="6" rx="2" />
+    </>
+  ),
+  okuma: (
+    <>
+      <path d="M12 6.5c-2-1.6-5-2.1-8-1.6v12.6c3-.5 6 0 8 1.6c2-1.6 5-2.1 8-1.6V4.9c-3-.5-6 0-8 1.6z" strokeLinejoin="round" />
+      <path d="M12 6.5v12.6" />
+    </>
+  ),
+  yazma: (
+    <>
+      <path d="M6 3h9l4 4v14H6z" strokeLinejoin="round" />
+      <path d="M15 3v4h4" />
+      <path d="M9 14.5l5-5 2 2-5 5H9v-2z" strokeLinejoin="round" />
+    </>
+  ),
+  konusma: (
+    <>
+      <path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2h-6l-5 4v-4H6a2 2 0 01-2-2V6z" />
+      <path d="M8 9h8M8 13h5" />
+    </>
+  ),
+  dilbilgisi: (
+    <>
+      <path d="M5 17l4-11h1.5l4 11" />
+      <path d="M6.3 13h6.4" />
+      <path d="M17 8v7M17 18v.01" />
+    </>
+  ),
+  kelime: (
+    <>
+      <path d="M11 4h6a2 2 0 012 2v6l-9 9a2 2 0 01-2.8 0l-5.2-5.2a2 2 0 010-2.8l9-9z" strokeLinejoin="round" />
+      <circle cx="15.5" cy="8.5" r="1.4" fill="currentColor" stroke="none" />
+    </>
+  ),
+  kullanim: (
+    <>
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 4.5v2.8M12 16.7v2.8M4.5 12h2.8M16.7 12h2.8M7 7l2 2M15 15l2 2M7 17l2-2M15 9l2-2" />
+    </>
+  ),
+  /* ---- Rozet (chip) meta ikonları — 24×24 ama küçük render edilir. ---- */
+  soru: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M9.3 9.5a2.7 2.7 0 015.2.9c0 1.6-1.6 2.1-2.5 3.2" />
+      <path d="M12 17v.01" />
+    </>
+  ),
+  kisim: (
+    <>
+      <path d="M4 7h16M4 12h11M4 17h7" />
+    </>
+  ),
+  puan: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="12" cy="12" r="0.6" fill="currentColor" stroke="none" />
+    </>
+  ),
 } satisfies Record<string, ReactNode>;
 
 export type IconName = keyof typeof ICONS;
