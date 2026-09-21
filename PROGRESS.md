@@ -1,5 +1,8 @@
 # Dünya Dilleri Merkezi — Web Sitesi Yenileme (Progress & Çalışma Dökümanı)
 
+> **Nerede kaldık → [`docs/SESSION-HANDOFF.md`](docs/SESSION-HANDOFF.md) §A** (her chat önce onu okur, sonunda günceller).
+> Kalan işlerin ayrıntılı planı → [`docs/remaining-pages-plan.md`](docs/remaining-pages-plan.md).
+>
 > Bu döküman canlı bir yol haritasıdır. Her fazın altında amaç, çıktı, kontrol listesi
 > (`- [ ]`) ve kullanılacak AI prompt'ları vardır. Prompt'larda ilgili **skill**'ler
 > parantez içinde belirtilmiştir; o adımda Claude'a bu skill'i kullanmasını söyle.
@@ -325,7 +328,9 @@ ki koda çevirince veri-tabanlı üretebileyim.
       tüm butonlar "Bilgi Al" → şubenin `/ddm-iletisim/...` sayfası. 12 Joomla
       URL'i `next.config.ts`'te 308 (query string hedefe taşınıyor; canonical temiz).
       Doğrulama: tsc/lint/build temiz, 72/72 sayfa 200 + tek H1, 21/21 üniversite
-      200, 12/12 redirect 308. Bilinen: Türkçe kayıtlarında başlangıç tarihi
+      200, 12/12 redirect 308. **Sonradan bulunan açık (2026-09-21):** kaynakta 4
+      Ataşehir Joomla URL'i daha var (`id=306/322/318/298:atasehir-kurs-tarihleri`,
+      proficiency/gmat/sat/toeic) — redirect'leri eksik, 6.7a/P0'da eklenecek (toplam 16). Bilinen: Türkçe kayıtlarında başlangıç tarihi
       kaynakta 2022 (bayat, birebir basılıyor).
 - [ ] **6.7 · Temizlik** *(artık P8 ile birlikte, tüm tipler bittikten sonra)*
       Ölü `data-reveal`/`data-count` atılır · metadata + canonical (§6) ·
@@ -341,6 +346,7 @@ ki koda çevirince veri-tabanlı üretebileyim.
 >
 > Sıra ölçütü: ölü link/CTA → SEO değeri → bileşen yeniden kullanımı → adet/efor.
 
+- [ ] **6.7a · P0 Borç + altyapı** (4 Ataşehir Joomla 301 · `scripts/check-links.mjs` ölü link baz çizgisi · bayat yorum · opsiyonel `pageRegistry`/`not-found`/`sitemap` iskeleti)
 - [ ] **6.8 · P1 Şube İletişim** (~13 kayıt → `/ddm-iletisim/*` + hub; 72 kurs-tarihi CTA'sının hedefi)
 - [ ] **6.9 · P2 Sınav Hazırlık Kursu Ana** (~16; TOEFL/IELTS/GRE/GMAT/SAT/TOEIC/PTE…)
 - [ ] **6.10 · P3 Kategori Hub'ları** (6–7; `/yabanci-dil`, `/ingilizce-kurslari`, `/yurtdisi-egitim`, `/diger-program`…)
@@ -348,7 +354,8 @@ ki koda çevirince veri-tabanlı üretebileyim.
 - [ ] **6.12 · P5 İngilizce Seviye Kursu** (11)
 - [ ] **6.13 · P6 Şube Tanıtım** (4; galeri görselleri eksik)
 - [ ] **6.14 · P7 Öğrenci Yorumu + Duyuru** (~75; karar #2 bekliyor)
-- [ ] **6.15 · P8 Faz 8/9 + Temizlik** (genel `.html` 301, sitemap/robots, QA — aşağıdaki Faz 8–9)
+- [ ] **6.15 · P8 Faz 8 SEO taşıma + 6.7 Temizlik** (genel `.html` 301, 384 URL taraması, metadata denetimi)
+- [ ] **6.16 · P9 Kesişen işler + Faz 9 QA** (JSON-LD, OG, analytics, a11y, CWV)
 
 **Açık kararlar (kullanıcıdan):** yeni şablonların tasarım kaynağı (Claude Design turu
 mu, mevcut atomlarla kod mu) · yorum/duyuru tekil sayfa mı 301 mi · iletişim/ön kayıt formu

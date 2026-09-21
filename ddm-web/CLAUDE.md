@@ -11,6 +11,17 @@ sayfa tipi haritası için `../docs/page-types.md`'ye, marka bağlamı için
 **Bu dosya bir kurallar sözleşmesidir. Aşağıdaki kurallardan sapmadan önce
 kullanıcıya danışın.**
 
+## 0. Oturum Protokolü (her chat)
+
+- **Başlarken:** önce `../docs/SESSION-HANDOFF.md` §A'yı (nerede kaldık), sonra bu
+  dosyayı, sonra `../docs/remaining-pages-plan.md`'deki aktif P bölümünü oku.
+  `git status` / `git log -5` ile §A'yı teyit et.
+- **Bitirirken:** `../docs/SESSION-HANDOFF.md` §C kapanış protokolünü uygula (§A'yı üzerine
+  yaz, §D'ye günlük kaydı ekle, PROGRESS/page-types'ı güncelle). Kod ve döküman **ayrı
+  commit**; push yok.
+- Her aktif P bölümünde o fazın **başlangıç prompt'u** ve **skill hatırlatmaları** var —
+  UI işinde `frontend-design:frontend-design`, commit öncesi `code-review` her zaman.
+
 ---
 
 ## 1. Stack
@@ -60,7 +71,9 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
   (`next.config.ts` → `redirects()`). Genel `.html` → temiz URL kuralı **Faz 8'de**
   gelecek; ondan önce her tip kendi özel redirect'lerini **o tipin fazında**
   ekler (şu an dolu: 6.5 → 21 üniversite kök URL'i × `.html`/`.html`siz = 42;
-  6.6 → 12 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla). Yeni tip
+  6.6 → 12 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla — **4 Ataşehir
+  URL'i eksik, P0'da eklenecek**; kaynaktaki 61 query'li URL'in tam envanteri:
+  `../docs/remaining-pages-plan.md` §4). Yeni tip
   eklerken kalıp: tip fazında ilgili eski URL'leri `redirects()`'e ekle, Faz 8'de
   genel kurala bırakma.
 

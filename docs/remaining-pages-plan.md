@@ -1,168 +1,513 @@
 # Kalan Sayfa Tipleri — Öncelik Sırası ve Uygulama Planı
 
-> Faz 6.8+ / Faz 7'nin devamı. Kaynak: `docs/page-types.md` (tip haritası),
-> `PROGRESS.md` (faz durumu), `ddm-web/CLAUDE.md` (kurallar).
-> Adetler `site_content.json`'daki 384 kayda ve `page-types.md`'ye dayanır; **kesin
-> sayı her tipin "Aşama 0 denetimi"nde çıkarılır** (Faz 6.5'te keyword taraması
-> gerçek katmanlamayı yanlış vermişti — tahmine güvenilmez).
+> Faz 6.7a+ / Faz 7'nin devamı. **Her oturum önce [`SESSION-HANDOFF.md`](SESSION-HANDOFF.md) §A'yı okur.**
+> Kaynaklar: [`page-types.md`](page-types.md) (tip haritası), [`../PROGRESS.md`](../PROGRESS.md) (faz
+> durumu), [`../ddm-web/CLAUDE.md`](../ddm-web/CLAUDE.md) (kurallar sözleşmesi).
+> Adetler `data/site_content.json`'dan (384 kayıt) betikle çıkarıldı (2026-09-21). Yine de
+> **her tip kendi "Aşama 0 denetimi"yle kesinleştirilir.** Faz 6.5'te keyword taraması
+> gerçek katmanlamayı yanlış vermişti.
+
+**İçindekiler:**
+- §1 Durum
+- §2 Önceliklendirme
+- §3 Route mimarisi
+- §4 Joomla query URL envanteri
+- §5 P0–P9
+- §6 Skill matrisi + "Yapma" listesi
+- §7 Açık kararlar
+- §8 Ortak Definition of Done
 
 ---
 
 ## 1. Şu an nerede duruyoruz
 
-`npm run build` temiz, **106 statik sayfa** üretiliyor. Tamamlananlar:
+`npm run build` temiz, **106 statik sayfa** üretiliyor.
 
-| Tip | Sayfa | Redirect | Faz |
-|---|---|---|---|
-| Ana Sayfa | 1 | — | 6.3 |
-| Dil Kursu Ana | 10 | — | 6.4 |
-| Üniversite Proficiency | 21 | 42 (21 kök × `.html`/`.html`siz) | 6.5 |
-| Şube Kurs Tarihi | 72 | 12 (Joomla `?id=`) | 6.6 |
+| Tip | Sayfa | Redirect | Faz | Route |
+|---|---|---|---|---|
+| Ana Sayfa | 1 | — | 6.3 | `app/page.tsx` |
+| Dil Kursu Ana | 10 | — | 6.4 | `app/yabanci-dil-egitimleri/[kurs]/page.tsx` |
+| Üniversite Proficiency | 21 | 42 (21 kök × `.html`/`.html`siz) | 6.5 | `app/sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/page.tsx` |
+| Şube Kurs Tarihi | 72 | 12 Joomla (**+4 eksik → P0**) | 6.6 | iki `[kurs]/[sayfa]` + proficiency dağıtıcısı |
 
-**Paylaşılan altyapı (yeniden kullanılacak):** `PageHero` (modlar: dil / uni / sube),
-`Breadcrumb`, `StickyToc`, `ScheduleTable`, `WeekGrid`, `Accordion`, `ProgressTrack`,
-`LevelExplorer`, `LinkRow`, `PricingPanel`, `CtaBand`, `ContactFormCard`,
-`BranchInfoPanel` (kodda var, henüz hiçbir sayfada kullanılmıyor), `UniversityGrid`,
-`LanguageGrid`, `TestimonialsCarousel`, `DetailSections`, `ProcessSteps`;
-veri: `data/branches.ts`, `languages.ts`, `universities.ts`, `courseDates.ts`;
-içerik çözücüler: `lib/languageContent.ts`, `universityContent.ts`,
-`courseDateContent.ts` (`SectionResolver` + `assertCoverage` = "kaynağın her satırı
-ya tüketildi ya gerekçeli `ignored[]`'da" garantisi).
+**Paylaşılan altyapı (yeniden kullan, kopyalama):**
+- Bileşenler: `PageHero` (modlar dil / uni / sube), `Breadcrumb`, `StickyToc`, `ScheduleTable`,
+  `WeekGrid`, `Accordion`, `ProgressTrack`, `LevelExplorer`, `LinkRow`, `PricingPanel`, `CtaBand`,
+  `ContactFormCard`, `BranchInfoPanel` (kodda var, kullanılmıyor), `UniversityGrid`, `LanguageGrid`,
+  `TestimonialsCarousel`, `DetailSections`, `ProcessSteps`, `ExamStructure`, `BulletPanel`,
+  `AboutCertification`, `PageSection`.
+- Veri: `data/branches.ts`, `languages.ts`, `universities.ts`, `courseDates.ts`, `home.ts`.
+- İçerik çözücüler: `lib/contentSections.ts` → `SectionResolver` + `assertCoverage` ("kaynağın
+  her satırı ya tüketildi ya gerekçeli `ignored[]`'da" garantisi); `lib/languageContent.ts`,
+  `universityContent.ts`, `courseDateContent.ts`.
+- Veri çekme betiği: `scripts/pull-ddmcadde.mjs` (ddmcadde.com'dan gövde metni tazeleme, 6.4).
 
-**Bilinen açık uçlar (bugün canlı sitede ölü olacak linkler):**
-- 72 kurs-tarihi sayfasındaki **tüm "Bilgi Al" butonları** → `/ddm-iletisim/...` (yok).
-- Kurs tarihi ve üniversite sayfaları → `/sinav-hazirlik-egitimleri/{sinav}-kursu` (yok).
-- Dil kursu sayfalarının alt linkleri (özel ders / online / nedir) → yok.
-- Mega menü ve footer'daki hub'lar (`/yabanci-dil`, `/ingilizce-kurslari`, `/yurtdisi-egitim`,
-  `/diger-program`, `/kurumsal-dil-egitim`, `/ddm-iletisim`) → yok.
+**Bugün ölü olan iç linkler (P0'daki `check-links` bunları sayacak):**
+- 72 kurs-tarihi sayfasının "Bilgi Al" butonları → `/ddm-iletisim/*`
+- sınav sayfalarına giden linkler → `/sinav-hazirlik-egitimleri/{sinav}-kursu`
+- mega menüdeki hub'lar, nedir, özel ders, online sayfaları
+- `/ogrenci-yorumlari`, `/duyurular`, `/aktivite-aktiviteler`
 
 ---
 
 ## 2. Önceliklendirme ölçütü
 
 1. **Ölü link / bozuk CTA** üretiyor mu? (dönüşüm ve UX)
-2. **SEO değeri** (eski sitede sıralaması olan, arama hacmi yüksek sayfalar)
-3. **Yeniden kullanım oranı** (hazır bileşen → düşük efor)
-4. **Adet / efor** (tek şablon çok sayfa = yüksek getiri)
+2. **SEO değeri:** eski sitede sıralaması olan, arama hacmi yüksek sayfalar
+3. **Yeniden kullanım oranı:** hazır bileşen varsa efor düşük
+4. **Adet / efor:** tek şablonla çok sayfa üretmek en yüksek getiriyi verir
+
+| # | Tip | Temiz sayfa | + Redirect | Efor | Bağımlılık |
+|---|---|---|---|---|---|
+| **P0** | Borç + altyapı | — | 4 | S | — |
+| **P1** | Şube İletişim | 6 + hub | 6 | M | **Karar #4** |
+| **P2** | Sınav Hazırlık Kursu Ana | 16 | — (Faz 8 genel kural) | M | P1 (CTA), §3 |
+| **P3** | Kategori Hub'ları | 6–7 | — | S | P2 / P4 ile birlikte |
+| **P4** | Zengin İçerik Alt Sayfa | ~78 | 29 (`has: query`) | L | §3 route işi, karar #1 |
+| **P5** | İngilizce Seviye Kursu | 11 | — | S–M | Dil Kursu şablonu |
+| **P6** | Şube Tanıtım | 4 | — | M | P1, karar #5 |
+| **P7** | Öğrenci Yorumu + Duyuru | 51 + 12 + 2 liste | 10 (`?start=`) | M | Karar #2 |
+| **P8** | Faz 8 SEO taşıma + 6.7 Temizlik | — | genel kural | L | Hepsi |
+| **P9** | Kesişen işler (JSON-LD, OG, analytics, a11y, CWV) + Faz 9 QA | — | — | M | Karar #6 |
 
 ---
 
-## 3. Sıralı plan
+## 3. Route mimarisi — ÖNEMLİ (P2 ve P4'ten önce oku)
 
-| # | Tip | ~Sayfa | Efor | Bağımlılık |
-|---|---|---|---|---|
-| **P1** | Şube İletişim | ~13 → ~7 sayfa + 6 Joomla 301 | M | — |
-| **P2** | Sınav Hazırlık Kursu Ana | ~16 | M | P1 (CTA hedefi) |
-| **P3** | Kategori Hub'ları | 6–7 | S | P2, P4 ile birlikte anlamlı |
-| **P4** | Zengin İçerik Alt Sayfa | ~85–108 | L | Karar #1 |
-| **P5** | İngilizce Seviye Kursu | 11 | S–M | Dil Kursu şablonu |
-| **P6** | Şube Tanıtım | 4 | M | P1 (şube verisi) |
-| **P7** | Öğrenci Yorumu + Duyuru (tekil + liste) | ~75 | M | Karar #2 |
-| **P8** | Faz 8/9 + 6.7 Temizlik | — | L | Hepsi |
+**Next.js kuralı:** statik segment dinamiği ezer. Mevcut ağaç:
 
-### P1 — Şube İletişim  ⏳
-- **URL:** `/ddm-iletisim/{sube}` — `1-kadikoy`, `4-atasehir`, `3-levent`,
-  `iletisim-2-bagdat-caddesi`, `umraniye`, `is-basvurusu-kariyer` + hub `/ddm-iletisim`.
-  Eski Joomla: `/component/content/article/{id}-iletisim-sayfasi-{sube}` (6 kayıt, ~30 kelime,
-  yalnız yönlendirme hedefi) + `65-levent-subesi-on-kayit-formu`.
-- **Neden ilk:** 72 kurs-tarihi sayfasının ve footer/TopBar'ın CTA hedefi. Dönüşümün kalbi.
-- **Şablon:** `PageHero` (sube modu) + `BranchInfoPanel` + `ContactFormCard` + harita bloğu +
-  `data/branches.ts`. Şube sayfalarının kelime sayısı ~1300 — büyük olasılıkla gömülü
-  harita/yol tarifi metni; **Aşama 0'da gövdenin gerçek yapısı çıkarılmalı**.
-- **Veri riski:** adres/telefon eksikse `null` (CLAUDE.md §5) — uydurulmaz,
-  `DataMissingNotice` gösterilir. Ön kayıt formu (Levent) ayrı karar: form backend'i yok.
-- **Redirect:** 6 Joomla `component/content/article/...` → yeni `/ddm-iletisim/...`.
-- **Kabul:** N/N sayfa 200, tek H1, `assertCoverage`, 72 kurs-tarihi sayfasındaki "Bilgi Al"
-  linkleri artık 200'e gidiyor (link denetimi betiği).
+```
+app/
+├── page.tsx                                       # Ana Sayfa
+├── yabanci-dil-egitimleri/[kurs]/page.tsx         # Dil Kursu Ana (10)
+├── yabanci-dil-egitimleri/[kurs]/[sayfa]/page.tsx # ŞU AN yalnız kurs-tarihi
+├── sinav-hazirlik-egitimleri/[kurs]/[sayfa]/      # ŞU AN yalnız kurs-tarihi
+└── sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/  # üniversite + proficiency kurs-tarihi DAĞITICI
+```
 
-### P2 — Sınav Hazırlık Kursu Ana  ⏳
-- **URL:** `/sinav-hazirlik-egitimleri/{sinav}-kursu` — Proficiency, GRE, GMAT, SAT, YDS,
-  YÖKDİL, TOEFL (+ Essentials, Primary), TESTDAF, TOEIC, IELTS, PTE Akademik, Almanca/Fransızca
-  Aile Birleşimi, İngiltere Vize/IELTS Life Skills (≈16; `[kurs]` route'u `[sayfa]` ile
-  yan yana yaşayacak — `app/sinav-hazirlik-egitimleri/[kurs]/page.tsx`).
-- **Şablon:** Dil Kursu şablonunun kardeşi (`getLanguagePage` deseni → `lib/examContent.ts`
-  + `data/exams.ts`). Proficiency ana sayfası, üniversite grid'ini (`UniversityGrid`) içerecek.
-- **Dikkat:** kaynak kelime sayısı 86–1327, yapı heterojen → önce **Aşama 0 denetimi**
-  (hangi sınavda hangi bölüm var), sonra tek pilot (TOEFL), onay, toplu.
-- **Bağlantılar:** her sınav sayfası kendi kurs-tarihi sayfalarına (`LinkRow`) çıkar
-  (72 sayfa bu tipe zaten link veriyor).
+**Sonuçlar:**
+1. **P2:** `/sinav-hazirlik-egitimleri/{sinav}-kursu` için `sinav-hazirlik-egitimleri/[kurs]/page.tsx`
+   eklenir. Ama `proficiency-kursu` statik klasör olduğu için `/proficiency-kursu` ana sayfası
+   ona düşmez. **Ayrı bir `proficiency-kursu/page.tsx` gerekir.** Bu dosya aynı bileşeni
+   `slug="proficiency-kursu"` ile çağırır.
+2. **P4:** alt sayfalar (`-nedir`, `-ozel-ders`, `online-*`, `-2`, …) aynı `[kurs]/[sayfa]`
+   segmentine düşer. Mevcut iki `[sayfa]` route'u ile proficiency dağıtıcısı, **tür bazlı
+   dağıtıcıya** genişletilir: slug kurs-tarihi ise `CourseDatePage`, zengin içerik ise
+   `RichContentPage`. Proficiency tarafında 5 alt sayfa var: `proficiency-kursu-2`,
+   `-ozel-ders`, `-nedir`, `-ornek-sinav-sorulari`, `-sinavi`.
+3. **Önerilen `lib/pageRegistry.ts`** (karar #7): tüm üretilen sayfaların tek listesi, her
+   biri `{ href, kind, sourceUrl, ... }`. Şunlar hep bu listeden beslenir:
+   - her route'un `generateStaticParams`'ı
+   - dağıtıcıların `kind` kararı
+   - `app/sitemap.ts`
+   - `scripts/check-links.mjs`
 
-### P3 — Kategori Hub'ları  ⏳
-- **URL:** `/yabanci-dil`, `/sinav-hazirlik-egitimleri`, `/ingilizce-kurslari`,
-  `/yurtdisi-egitim`, `/diger-program`, `/kurumsal-dil-egitim` (+ `/ddm-iletisim` P1'de).
-- **Şablon:** `PageHero` + kart grid'i (`LanguageGrid` / `MediaCard` deseni), alt sayfa
-  linkleri `lib/nav.ts`'ten (tek kaynak). Metin birebir.
-- **Sıra:** hub, alt sayfaları var olduktan sonra tamamlanır; iskelet P2 ile aynı anda
-  kurulabilir.
-
-### P4 — Zengin İçerik Alt Sayfa  ⏳ (en büyük kalan grup)
-- **Kapsam:** Kurs alt içerik (`nedir`, `-2`, `egitim-sistemi`, `seviyeleri`, `ornek-sinav-sorulari`;
-  ≈32–42), Özel Ders (16 konu; hepsi eski `?id=` Joomla + kısmen yeni path — çift URL),
-  Online Eğitim (8), Yurtdışı Eğitim alt (11), Diğer Program alt (5), Kurumsal alt (Pegasus, 1).
-- **Neden tek şablon:** yapı sabit değil, gövde "başlık + zengin metin". Faz 6.5'te
-  kurulan başlık-tabanlı `SectionResolver` bu tipin omurgası olacak → `RichContentPage`
-  + `lib/richContent.ts`; sağ/üst `StickyToc` (uzun sayfalar), `CtaBand` (bilgi al).
-- **En riskli tip:** birebir-metin kuralı (CLAUDE.md §5) burada en kolay bozulur.
-  `assertCoverage` zorunlu; hiçbir satır sessizce atılmaz.
-- **Veri riskleri (belgeli):** "Online Çince Eğitimi" meta description'ı "İtalyanca..." diye
-  başlıyor (bariz hata → düzeltilebilir, kullanıcıya bildirilir); Özel Ders'te aynı içerik
-  iki URL'de → tek kanonik + 301 (Faz 8 kuralına girmeden tip fazında karar).
-- **Redirect:** Özel Ders `?id=` 301'leri (query'li → tekil `has` kuralı, 6.6'daki
-  `JOMLA_COURSE_DATES` deseni).
-
-### P5 — İngilizce Seviye Kursu  ⏳
-- **URL:** `/ingilizce-kurslari/{seviye}-ingilizce-kursu` (Elementary, Pre-Intermediate,
-  Intermediate, Upper-Intermediate, Advanced; İlköğretim, Üniversite, YKS Dil, Yaz Okulu,
-  Konuşma) + `ingilizce-egitim-sistemi` (yapı: P4 tipine daha yakın).
-- **Şablon:** Dil Kursu bileşenleri (`PageHero`, `LevelExplorer`, `ProgressTrack`) — görsel şablon
-  aynı, **veri modeli ayrı** (seviye ekseni): `data/englishLevels.ts`.
-
-### P6 — Şube Tanıtım  ⏳
-- **URL:** `/kadikoy-tanitim-sayfasi`, `/atasehir-tanitim-sayfasi`,
-  `/cadde-tanitim-sayfasi`, `/levent-tanitim-sayfasi` (kök dizin; eski `.html` → temiz
-  URL tekil 301 tip fazında).
-- **Şablon:** uzun içerik (1500–1900 kelime) + galeri. **Görsel verisi yok**
-  (`ImageSlot` + `DataMissingNotice`); galeri alanı kullanıcıdan görsel gelene kadar boş kalır.
-
-### P7 — Öğrenci Yorumu + Duyuru  ⏳
-- **URL:** `/ogrenci-yorumlari` (+ `?start=N` sayfalama → 301), `/ogrenci-yorumlari/{id}-{ad}`
-  (51), `/duyurular` (+ 12 tekil `/duyurular/{id}-{slug}`).
-- **Şablon:** kart grid + sayfalama (`TestimonialCard` var) + basit detay kartı.
-- **Not:** meta description çoğu yorumda jenerik/aynı — metadata denetimi gerekir (Faz 8).
-- **Karar #2** (aşağıda).
-
-### P8 — Faz 8/9 + 6.7 Temizlik  ⏳
-- Genel `.html → temiz URL` 301 kuralı + `urls.csv` ile kalan eşleme (istisnalar açık liste).
-- Taşınmayacaklar: `component/tags/*` (2, ilgili kursa 301), `star-media` (ajans kredisi),
-  `tanitim-icerik/*` (6 parça, ana sayfa bölümlerine zaten beslenmiş mi kontrol),
-  `aktivite-aktiviteler` (tek seferlik — karar bekliyor).
-- `sitemap.xml`, `robots.txt`, `next/image`, ölü `data-reveal`/`data-count` temizliği,
-  metadata + canonical denetimi (CLAUDE.md §6), `h1-fallback` uyarılarının kapatılması
-  (17 üniversite + aile birleşimi kayıtlarında kaynakta H1 yok — şu an ilk başlığa düşülüyor),
-  Core Web Vitals, Search Console.
+   Böylece "sayfa var ama sitemap'te yok" ya da "link var ama sayfa yok" durumları
+   yapısal olarak önlenir.
+4. Her route'ta `export const dynamicParams = false` kalır.
+5. Kökte yaşayan tipler (şube tanıtım `/kadikoy-tanitim-sayfasi`, hub'lar `/yabanci-dil` vb.)
+   **tek tek statik klasör** olarak açılır, kökte `[slug]` catch-all KULLANILMAZ. Kök
+   catch-all, üniversite kök 301'leriyle ve gelecekteki genel `.html` kuralıyla çakışır.
 
 ---
 
-## 4. Çalışma kuralları (her tip için)
+## 4. Joomla `?view=article` / query URL envanteri (61)
 
-1. **Aşama 0 — denetim:** `site_content.json` kayıtlarını çıkar, gerçek yapı/katmanı çıkar,
-   tahmini sayıyı kesinleştir. (Keyword taramasına güvenme.)
-2. **1 pilot sayfa → kullanıcı onayı → toplu üretim.**
-3. Route: `generateStaticParams` + `dynamicParams = false`; `metadata` 4 alanı veriden.
-4. `assertCoverage` build'de geçmeli (kaynağın her satırı tüketildi / gerekçeli ignore).
-5. Redirect'ler o tipin fazında `next.config.ts`'e girer.
-6. Kabul: `tsc --noEmit` + `lint` + `build` temiz, N/N sayfa 200, tek H1,
-   redirect'ler 308, bir link denetimi (ölü iç link yok).
-7. `PROGRESS.md` kutucuğu + `page-types.md` Durum kolonu güncellenir.
+Kaynakta query-string'li 61 URL var. Genel `.html → temiz` kuralı (Faz 8) query'ye bakmaz,
+bu yüzden **hepsi açık `has: query` kuralı ister** (6.6'daki `JOOMLA_COURSE_DATES` deseni).
+
+| Grup | Adet | Örnek | Hedef | Sahip | Durum |
+|---|---|---|---|---|---|
+| Kurs tarihi (Kadıköy/Bağdat/Levent) | 12 | `gmat-kursu.html?view=article&id=319:kadikoy-merkez-kurs-tarihi` | `.../{kurs}/{sube}-...-kurs-tarihi` | 6.6 | ✅ |
+| Kurs tarihi **Ataşehir** | **4** | `proficiency\|gmat\|sat\|toeic-kursu.html?...id=306\|322\|318\|298:atasehir-kurs-tarihleri` | `.../atasehir-subesi-{kurs}-kurs-tarihi` (sayfalar VAR) | **P0** | ❌ eksik |
+| Özel ders (`diger-program/ozel-dersler.html?id=368..383`) | 16 | `...id=370:fransizca-ozel-ders&catid=48` | `/{kategori}/{kurs}/{kurs}-ozel-ders` | P4 | ⏳ |
+| Özel ders (kurs sayfası üstünden) | 5 | `almanca-kursu.html?...id=369:almanca-ozel-ders`, `gmat/sat/toeic/proficiency-kursu.html?...ozel-ders` | aynı özel ders sayfası | P4 | ⏳ |
+| Nedir / sınav / örnek soru | 6 | `gmat-kursu.html?...id=165:gmat-nedir`, `proficiency-kursu.html?...id=364:proficiency-sinavi`, `...id=323:proficiency-sinav-sorulari`, `...id=136:proficiency-nedir`, `sat-nedir`, `toeic-nedir` | ilgili P4 alt sayfası | P4 | ⏳ |
+| Almanca seviyeleri | 2 | `almanca-konusma-kurslari.html?...id=67:almanca-egitim-seviyeleri`, `hizlandirilmis-almanca-kursu.html?...id=67` | Aşama 0'da karar (tek kanonik) | P4 | ⏳ |
+| İletişim (`component/content/article/...`) | 6 | `337-iletisim-sayfasi-kadikoy.html?Itemid=401`, `65-levent-subesi-on-kayit-formu` (×2, URL-encoded varyant) | `/ddm-iletisim/{sube}` | P1 | ⏳ |
+| Öğrenci yorumları sayfalama | 10 | `ogrenci-yorumlari.html?start=4..40` | `/ogrenci-yorumlari?page=N` ya da `/ogrenci-yorumlari` | P7 | ⏳ |
+| **Toplam** | **61** | | | | 12 ✅ · 49 ⏳ |
+
+> Not: `component/content/article/...` URL'lerinde query yalnız `Itemid`/`catid` bilgisi taşıyor.
+> Yol kısmı ayırt edici, bu yüzden `has` gerekmeyebilir. Aşama 0'da test et.
 
 ---
 
-## 5. Açık kararlar (kullanıcıya)
+## 5. Tip tip plan
 
-| # | Konu | Öneri |
+Her P bölümünün formatı: Kapsam → Aşama 0 → Şablon/yeniden kullanım → Riskler → Redirect →
+Kabul → **Başlangıç prompt'u** → **Skill hatırlatmaları**.
+
+### P0 — Borç ve altyapı  ⏳ (S, ~1 oturum)
+Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriteri buna dayanıyor.
+
+1. **4 Ataşehir Joomla 301'i:** `ddm-web/next.config.ts` → `JOOMLA_COURSE_DATES`'e ekle:
+   - `["proficiency-kursu","306:atasehir-kurs-tarihleri","atasehir-subesi-proficiency-kurs-tarihi"]`
+   - `["gmat-kursu","322:atasehir-kurs-tarihleri","atasehir-subesi-gmat-kurs-tarihi"]`
+   - `["sat-kursu","318:atasehir-kurs-tarihleri","atasehir-subesi-sat-kurs-tarihi"]`
+   - `["toeic-kursu","298:atasehir-kurs-tarihleri","atasehir-subesi-toeic-kurs-tarihi"]`
+
+   Hedef slug'larını `data/courseDates.ts`'ten teyit et. Kaynak içeriğin temiz sayfayla
+   aynı olduğunu diff'le.
+2. **`ddm-web/scripts/check-links.mjs`:** `.next` build çıktısındaki (ya da
+   `npm run start` + tarama) tüm iç `href`'leri topla. Her birini üretilen route'lar ve
+   `redirects()` listesiyle karşılaştır. Çıktı: ölü link sayısı + kaynak sayfa → hedef
+   listesi. `package.json`'a `"check-links"` script'i ekle. Bugünkü sayıyı SESSION-HANDOFF'a
+   **baz çizgi** olarak yaz. Her P bu sayıyı düşürmeli.
+3. **Bayat yorum:** `app/yabanci-dil-egitimleri/[kurs]/page.tsx` başındaki "kalan 9 dil için
+   onay bekliyor" notunu sil (10 dil üretiliyor).
+4. **(Karar #7 evet ise) `lib/pageRegistry.ts` iskeleti:** mevcut 4 tipi kaydet. Route'ların
+   `generateStaticParams`'ını ona bağla. Davranış değişmemeli; build'de sayfa sayısı yine 106.
+5. **(Opsiyonel) `app/not-found.tsx`** (SiteChrome ile) ve `app/sitemap.ts` + `app/robots.ts`
+   iskeleti. Sitemap registry'den üretilir. `robots.ts` staging için `noindex` durumunu
+   env'den okur (Faz 9 uyarısı).
+
+- **Kabul:**
+  - build'de 106 sayfa
+  - 12 + 4 = 16 Joomla redirect → 308 (curl)
+  - `npm run check-links` çalışıyor, baz çizgi yazıldı
+- **Başlangıç prompt'u:**
+  ```
+  docs/SESSION-HANDOFF.md §A'yı ve ddm-web/CLAUDE.md'yi oku. docs/remaining-pages-plan.md
+  §5 P0'ı uygula (madde 1-3 zorunlu, 4-5 için önce bana sor). Next.js API'si kullanmadan
+  önce ddm-web/node_modules/next/dist/docs/ altını oku. Bitince tsc/lint/build +
+  check-links çalıştır, 4 Ataşehir redirect'ini npm run start + curl ile doğrula,
+  SESSION-HANDOFF'u güncelle, kod ve dökümanı ayrı commit'le.
+  ```
+- **Skill:** `code-review` (commit öncesi), `run` (redirect doğrulama).
+
+### P1 — Şube İletişim  ⏳ (M) — **Engel: karar #4**
+- **Kapsam (6 temiz + hub):**
+  - `/ddm-iletisim` (hub, 119 kelime)
+  - `/ddm-iletisim/1-kadikoy`, `/ddm-iletisim/3-levent`, `/ddm-iletisim/4-atasehir`,
+    `/ddm-iletisim/iletisim-2-bagdat-caddesi`, `/ddm-iletisim/umraniye` (her biri ~1300 kelime)
+  - `/ddm-iletisim/is-basvurusu-kariyer` (1652 kelime, **farklı varyant**: iş başvurusu)
+  - 6 Joomla `component/content/article/...` → 301 (§4)
+- **Neden ilk:** 72 kurs-tarihi sayfasının, footer'ın, TopBar'ın ve mega menü "İletişim"
+  bölümünün hedefi. Dönüşümün kalbi.
+- **Aşama 0:**
+  1. 6 kaydın `text`'ini satır satır dök. ~1300 kelimenin ne olduğunu bul (5 sayfa aynı
+     boyutta, büyük olasılıkla ortak bir blok var: tüm şubeler listesi, form metni).
+     Şubeye özel ile ortak blokları ayır.
+  2. **Adres, telefon ve çalışma saatlerini kaynaktan çıkar.** `data/branches.ts`'te Bağdat,
+     Etiler ve Ataşehir için `null` duruyor. Kaynakta yazıyorsa oradan doldur (uydurma
+     değil, taşıma). Yoksa `null` kalır, `DataMissingNotice` gösterilir.
+  3. Şube slug eşlemesini doğrula: `3-levent` = Levent–Etiler (`etiler`), `cadde` = Bağdat.
+- **Şablon:**
+  - `PageHero` (sube modu), `BranchInfoPanel` (hazır), `ContactFormCard`, harita bloğu
+  - harita: statik görsel ya da `iframe`. Harici domain CLAUDE.md §4'ün dışında bir
+    istisna gerektirir, kullanıcıya sor.
+  - hub için 5 şube kartı (`BranchCard` mevcut)
+- **Riskler:**
+  - form gönderimi (karar #4)
+  - harita iframe'i CWV'yi kötüleştirebilir (lazy yükle)
+  - Levent ön kayıt formu ayrı bir URL
+- **Redirect:** 6 Joomla iletişim URL'i (§4).
+- **Kabul:**
+  - 7/7 sayfa 200, tek H1, `assertCoverage` geçer
+  - 72 kurs-tarihi sayfasının "Bilgi Al" linkleri artık 200 dönüyor (check-links ölü sayısı düşer)
+  - 6 redirect → 308
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §5 P1 (Şube İletişim).
+  Karar #4 (form gönderimi) verilmediyse ÖNCE bana sor. Aşama 0: 6 /ddm-iletisim kaydını
+  site_content.json'dan dök, ortak/şubeye özel blokları ve adres/telefon bilgisini çıkar,
+  bana rapor et, kod yazma. Onaydan sonra pilot: 1-kadikoy. frontend-design skill'ini kullan,
+  mevcut BranchInfoPanel/ContactFormCard/BranchCard'ı yeniden kullan.
+  ```
+- **Skill:** `frontend-design:frontend-design`, `schema` (LocalBusiness/EducationalOrganization,
+  karar #6 evet ise), `run` (mobil/masaüstü görsel kontrol), `code-review`.
+
+### P2 — Sınav Hazırlık Kursu Ana  ⏳ (M)
+- **Kapsam (16 slug, kesin):**
+
+  | slug | kelime | slug | kelime |
+  |---|---|---|---|
+  | `proficiency-kursu` ⚠️ statik klasör | 353 | `toeic-kursu` | 796 |
+  | `gre-kursu` | 998 | `ielts-kursu` | 819 |
+  | `gmat-kursu` | 1649 | `academic-pte` | 354 |
+  | `sat-kursu` | 2595 | `aile-birlesimi-egitimi` | 1201 |
+  | `yds-kursu` | 1327 | `fransizca-aile-birlesimi-kursu` | 661 |
+  | `yokdil-sinavi-kursu` | 175 | `ingiltere-vize-sinavi-ingilizce-a1kursu` | 136 |
+  | `toefl-kursu` | 513 | `testdaf-kursu` | 281 |
+  | `toefl-essentials-kursu` | 110 | `cocuklar-icin-toefl-primary-egitimi` | 205 |
+
+- **Route:** `app/sinav-hazirlik-egitimleri/[kurs]/page.tsx` (15 slug) +
+  `app/sinav-hazirlik-egitimleri/proficiency-kursu/page.tsx` (1). Bkz. §3.
+- **Aşama 0:** 16 kaydı bölüm bölüm dök. Hangi sınavda program, ücret, SSS ya da seviye
+  bölümü var? Faz 6.5'teki gibi katmanlama tablosu çıkar (A zengin / B orta / C düz metin).
+  SAT (2595) ve GMAT (1649) çok uzun; `StickyToc` gerekir mi bak.
+- **Şablon:**
+  - Dil Kursu şablonunun kardeşi: `lib/examContent.ts` + `data/exams.ts`, `getLanguagePage`
+    desenini izle.
+  - `PageHero`, `ScheduleTable`, `Accordion`, `LinkRow` (bu sınavın 4 şube kurs-tarihi
+    sayfası), `CtaBand`.
+  - Proficiency ana sayfası ayrıca `UniversityGrid`'i içerir (21 üniversiteye link).
+- **Riskler:**
+  - Heterojen yapı: tasarım yok (karar #1). Dil Kursu tasarımına en yakın tip, yeni tasarım
+    gerekmeyebilir.
+  - 6.6'daki fiyat kararı (ücret satırları yayınlanmıyor) burada da geçerli mi? Kaynakta
+    ücret varsa kullanıcıya sor.
+- **Redirect:** 6 `?id=` nedir/sınav URL'i P4 sayfalarına gider. P4'te eklenir, P2'de değil.
+  (P2 sayfalarının kendi `.html` 301'i Faz 8 genel kuralında.)
+- **Kabul:** 16/16 sayfa 200, tek H1, `assertCoverage`; kurs-tarihi ve üniversite
+  sayfalarından gelen ölü linkler kapanır.
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §3 (route mimarisi) ve §5 P2.
+  Aşama 0: 16 sınav kaydının bölüm yapısını site_content.json'dan çıkar, A/B/C katman
+  tablosu yap, bana rapor et. Onaydan sonra pilot: toefl-kursu (orta uzunluk), sonra
+  proficiency-kursu (statik klasör + UniversityGrid). Dil Kursu route'unu ve
+  lib/languageContent.ts desenini örnek al. frontend-design skill'ini kullan.
+  ```
+- **Skill:** `frontend-design:frontend-design`, `programmatic-seo` (şablon × 16),
+  `schema` (Course), `run`, `code-review`.
+
+### P3 — Kategori Hub'ları  ⏳ (S)
+- **Kapsam:**
+  - `/yabanci-dil`, `/sinav-hazirlik-egitimleri`, `/ingilizce-kurslari` (715 kelime),
+    `/yurtdisi-egitim` (1173 kelime, hub'dan çok içerik sayfası; Aşama 0'da bak),
+    `/diger-program` (300), `/kurumsal-dil-egitim` (559)
+  - `/diger-program/ozel-dersler` (330 kelime): 16 özel dersin hub'ı, P4 ile birlikte yapılır
+  - `/ddm-iletisim` P1'de
+- **Şablon:** `PageHero` + kart grid'i (`LanguageGrid` / `MediaCard` / `CourseChipCard`
+  deseni). Alt linkler `lib/nav.ts`'ten gelir (tek kaynak). Metin birebir.
+- **Sıra:** iskelet P2 ile aynı anda kurulabilir. Kart hedefleri var oldukça tamamlanır,
+  ölü karta link verilmez.
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §5 P3. 6 hub kaydını dök,
+  her hub'ın alt sayfa listesini lib/nav.ts ile karşılaştır (hangi kart hedefi henüz yok?).
+  Kökte catch-all KULLANMA, her hub ayrı statik klasör (§3 madde 5).
+  site-architecture ve frontend-design skill'lerini kullan.
+  ```
+- **Skill:** `site-architecture` (iç link ağı, breadcrumb), `frontend-design:frontend-design`.
+
+### P4 — Zengin İçerik Alt Sayfa  ⏳ (L, en büyük kalan grup, 2–4 oturum)
+**Kapsam (~78 temiz sayfa, kesin liste):**
+
+| Alt tür | Adet | Slug'lar |
 |---|---|---|
-| 1 | P1/P3/P4/P6/P7 şablonları için tasarım kaynağı: Claude Design turu mu (CLAUDE.md §9'un mevcut kuralı), yoksa mevcut atomlarla doğrudan kodda mı? | P1 ve P4 için kısa Design turu (gerçek içerikle); P3/P5/P7 mevcut atomlarla kodda |
-| 2 | 51 yorum + 12 duyuru: tekil sayfa üretilsin mi, yoksa liste sayfasına 301 mi? | Tekil sayfalar üretilir (URL/SEO korunur, şablon ucuz) |
-| 3 | Kurs tarihi sayfalarında ~170 ücret satırı yayınlanmıyor (6.6 kararı) — kalıcı mı? | Faz 9 öncesi bir kez daha teyit |
-| 4 | Ön kayıt formu / iletişim formu: gönderim backend'i yok. Statik form mu, `mailto`/WhatsApp/harici form servisi mi? | P1 başlamadan karar |
-| 5 | Şube galeri görselleri (P6) ve şube adres/telefon eksikleri kim sağlayacak? | Kullanıcı; gelene kadar `DataMissingNotice` |
+| Özel ders | 19 | yab: `almanca/cince/fransizca/ingilizce/ispanyolca/italyanca/rusca-ozel-ders`, `ingilizce-konusma-ozel-ders`, `turkce-ozel-ders` · sin: `gmat/gre/ielts/proficiency/sat/toefl/toeic/yds-ozel-ders`, `yds-ozel-ders-2`, `academic-pte/pte-akademik-ozel-ders` |
+| "-2" devam sayfası | 18 | her dil/sınav için `{kurs}-2` (yab 9, sin 9: academic-pte, gmat, gre, ielts, proficiency, sat, toefl, toeic, yds) |
+| Online eğitim | 8 | `online-{almanca,cince,fransizca,ingilizce,ispanyolca,italyanca,rusca,turkce}-egitimi` |
+| Nedir | 8 | `{gmat,gre,ielts,proficiency,sat,toefl,toeic,yds}-nedir` |
+| Tekil içerik | 8 | `almanca-konusma-kurslari`, `hizlandirilmis-almanca-kursu`, `cince-ogrenmek-zor-mu`, `ingilizce-egitim-sistemi` (yab), `turkce-egitim-seviyeleri`, `proficiency-ornek-sinav-sorulari`, `proficiency-sinavi`, `aile-birlesimi-egitimi/a1-sinav-ornegi` |
+| Yurtdışı alt | 11 | `pathway-programi`, `sinav-hazirlik`, `tercih`, `tercih/italyadauniversite`, `work-and-travel`, `yaz-okullari`, `yuksek-ogrenim`, `yurtdisi-dil-egitimi`, `yurtdisi-ingilizce-egitimi`, `.../kanada-vancouver`, `.../kanada-vancouver-2` |
+| Diğer program alt | 5 | `business-english`, `cocuklar-icin-ingilizce-kursu`, `online-dil-egitimi`, `tercume-hizmetleri`, `yurtdisinda-egitim` |
+| Kurumsal alt | 1 | `kurumsal-dil-egitim/turkish-course-pegasus-pilots` |
+
+- **Route:** §3 madde 2. İki `[kurs]/[sayfa]` + proficiency dağıtıcısı tür bazlı hale gelir.
+  `yurtdisi-egitim/`, `diger-program/`, `kurumsal-dil-egitim/` için yeni klasörler açılır
+  (`[sayfa]` ya da 2 seviye için `[...sayfa]`, yalnız o prefix altında).
+- **Aşama 0:**
+  1. alt türlere göre ortak yapı var mı? (özel derslerin hepsi aynı iskelet mi?)
+  2. "-2" sayfaları ne? Bir kısmı 74 kelime, ana sayfanın kopyası olabilir. Duplikasyon
+     kontrolü yap, kopyaysa kullanıcıya 301 öner.
+  3. Özel ders çift URL'leri (§4): hangi versiyon kanonik?
+- **Şablon:** tek `RichContentPage` + `lib/richContent.ts` (`SectionResolver` omurga).
+  Uzun sayfalarda `StickyToc`, sonda `CtaBand` ("Bilgi Al"). Alt türe göre küçük varyasyon
+  (özel dersler için format rozetleri).
+- **Riskler:**
+  - **Birebir-metin kuralı en kolay burada bozulur.** `assertCoverage` zorunlu.
+  - Bilinen meta hatası: "Online Çince Eğitimi" meta description'ı "Online İtalyanca..."
+    diye başlıyor. Bu bariz bir hata, düzeltilebilir ama kullanıcıya bildirilir
+    (CLAUDE.md §5). Online sayfaların hepsi ~91–93 kelime; kopyala-yapıştır izine bak.
+- **Redirect:** 16 + 5 özel ders, 6 nedir/sınav, 2 Almanca seviye → toplam 29 `has: query`
+  kuralı (§4).
+- **Pilot sırası:**
+  1. özel ders (en homojen, 19)
+  2. online (8)
+  3. nedir (8)
+  4. -2 (18)
+  5. tekil (8)
+  6. yurtdışı (11)
+  7. diğer program + kurumsal (6)
+
+  Her alt tür için 1 pilot → onay → toplu.
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §3 ve §5 P4. Bu oturumun alt
+  türü: <ÖZEL DERS | ONLINE | ...>. Aşama 0: o alt türün kayıtlarını dök, ortak iskeleti ve
+  duplikasyonları çıkar, rapor et. Onaydan sonra RichContentPage + lib/richContent.ts
+  (SectionResolver + assertCoverage) kur, mevcut [kurs]/[sayfa] dağıtıcılarını tür bazlı
+  genişlet (kurs-tarihi sayfaları BOZULMAMALI, 72/72 kontrol et). frontend-design ve
+  programmatic-seo skill'lerini kullan.
+  ```
+- **Skill:** `frontend-design:frontend-design`, `programmatic-seo`, `code-review`
+  (dağıtıcı değişikliği riskli), `run`.
+
+### P5 — İngilizce Seviye Kursu  ⏳ (S–M)
+- **Kapsam (11):**
+  - seviye: `elementary`, `pre-intermediate`, `intermediate`, `upper-intermediate`, `advanced`
+    (`-ingilizce-kursu` ekiyle)
+  - hedef kitle: `ilkogretim-`, `universite-`, `yaz-okulu-ingilizce-kursu`, `yks-dil-ingilizce`,
+    `ingilizce-konusma-kursu`
+  - `ingilizce-egitim-sistemi` (527 kelime, yapısı P4'e yakın)
+  - hepsi `/ingilizce-kurslari/` altında
+- **Şablon:** Dil Kursu bileşenleri (`PageHero`, `LevelExplorer`, `ProgressTrack`). Veri
+  modeli ayrı: `data/englishLevels.ts`, seviye ekseni. `ProgressTrack` üzerinde aktif
+  seviye vurgulanır.
+- **Dikkat:** `/ingilizce-kurslari/ingilizce-konusma-kursu` ile
+  `/yabanci-dil-egitimleri/ingilizce-konusma-kursu` farklı URL'ler. İçerik aynı mı? Aşama
+  0'da diff'le. Aynıysa canonical kararı kullanıcıya bırakılır.
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §5 P5. 11 /ingilizce-kurslari
+  kaydını dök; yabanci-dil-egitimleri/ingilizce-konusma-kursu ile duplikasyonu kontrol et.
+  Dil Kursu bileşenlerini yeniden kullan, pilot: intermediate-ingilizce-kursu.
+  frontend-design skill'ini kullan.
+  ```
+- **Skill:** `frontend-design:frontend-design`, `run`.
+
+### P6 — Şube Tanıtım  ⏳ (M) — karar #5
+- **Kapsam (4, kök dizin):** `/kadikoy-tanitim-sayfasi` (1912 kelime),
+  `/atasehir-tanitim-sayfasi` (1582), `/cadde-tanitim-sayfasi` (1630),
+  `/levent-tanitim-sayfasi` (1871). Her biri ayrı statik klasör (§3 madde 5).
+- **Aşama 0:** kelime sayısının ne kadarı ortak blok (menü/footer/şube listesi kalıntısı),
+  ne kadarı gerçek tanıtım metni?
+- **Şablon:** uzun içerik + galeri + P1'in `BranchInfoPanel`'i. Galeri görseli yok:
+  `ImageSlot` + `DataMissingNotice` kullanılır, görsel gelene kadar boş kalır.
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §5 P6. 4 tanıtım kaydını dök,
+  ortak blok / gerçek metin ayrımını rapor et. Görsel yoksa ImageSlot+DataMissingNotice.
+  frontend-design skill'ini kullan.
+  ```
+- **Skill:** `frontend-design:frontend-design`, `run`.
+
+### P7 — Öğrenci Yorumu + Duyuru  ⏳ (M) — karar #2
+- **Kapsam:**
+  - `/ogrenci-yorumlari` liste + 10 `?start=N` sayfalama varyantı
+  - 51 tekil `/ogrenci-yorumlari/{id}-{ad}`
+  - `/duyurular` liste
+  - 12 tekil `/duyurular/{id}-{slug}`, `id` 22–31, 391 ve 425
+- **Şablon:** kart grid + sayfalama (`TestimonialCard` var) + basit detay kartı. Liste
+  sayfalaması `/ogrenci-yorumlari?page=N` ya da statik `/ogrenci-yorumlari/sayfa/N`.
+  SSG'de query okunamaz, **statik yol önerilir**.
+- **Riskler:**
+  - Yorumların meta description'ı çoğunlukla jenerik ve aynı. Faz 8 metadata denetiminde
+    işaretlenir, metin uydurulmaz.
+  - Duyuruların bazıları eskimiş olabilir (ör. `391-ddm-kar-tatili`). Yayından kaldırma
+    kararı kullanıcıya ait.
+- **Redirect:** 10 `?start=` URL'i → yeni sayfalama yolu.
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §5 P7. Karar #2 verildiyse uygula.
+  51 yorum + 12 duyuru kaydını dök; ad/metin/tarih alanlarını çıkar. Mevcut TestimonialCard'ı
+  yeniden kullan. Sayfalama statik yol olsun (SSG). programmatic-seo + frontend-design kullan.
+  ```
+- **Skill:** `programmatic-seo`, `frontend-design:frontend-design`, `schema` (Review, karar #6).
+
+### P8 — Faz 8 SEO taşıma + 6.7 Temizlik  ⏳ (L)
+- **Genel `.html → temiz` kuralı** (`/:path*.html → /:path*`). Sırası önemli: özel
+  kurallardan (üniversite kök, Joomla) SONRA gelir. `urls.csv`'deki 384 URL'in her biri için
+  bir betik "eski URL → beklenen hedef → gerçek HTTP sonucu" tablosunu çıkarır. Hedef: 0
+  kayıp.
+- **Taşınmayacaklar ve kararları:**
+  - `component/tags/tag/{almanca,toeic}-kursu` → ilgili kursa 301
+  - `star-media` → 410 ya da ana sayfaya 301 (kullanıcıya sor)
+  - `tanitim-icerik/*` (6) → ana sayfaya 301 (ana sayfa bölümlerinde içerik kullanılmış mı teyit et)
+  - `aktivite-aktiviteler` → karar
+- **Metadata denetimi (CLAUDE.md §6):** tüm sayfalarda title, description, canonical ve tek
+  H1 var mı? `h1-fallback` uyarı listesini çıkar ve kullanıcıya sun.
+- **6.7 temizlik:**
+  - ölü `data-reveal`/`data-count` temizliği
+  - `next/image` geçişi (boyut, lazy)
+  - (opsiyonel) IntersectionObserver ile reveal
+- `app/sitemap.ts` (registry'den) + `app/robots.ts` son hali.
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §5 P8 ve PROGRESS.md Faz 8.
+  urls.csv'deki 384 eski URL'i npm run start'a karşı tarayan bir betik yaz; her biri için
+  beklenen/gerçek sonucu tabloya dök. Genel .html kuralını özel kurallardan SONRA ekle.
+  seo-audit skill'ini kullan.
+  ```
+- **Skill:** `seo-audit`, `code-review`, `simplify` (temizlik).
+
+### P9 — Kesişen işler + Faz 9 QA  ⏳ (M) — karar #6
+- **JSON-LD** (metin değiştirmez, eklemedir):
+  - `EducationalOrganization` (site geneli)
+  - `LocalBusiness` (5 şube, adresler P1'den)
+  - `Course` (dil ve sınav sayfaları)
+  - `BreadcrumbList` (`Breadcrumb` bileşeninden)
+- **OG/Twitter varsayılanları:** `app/layout.tsx` metadata'sı, OG görseli.
+- **Analytics + Search Console** (PROGRESS Faz 9).
+- **Erişilebilirlik:** klavye ile mega menü, kontrast, form etiketleri.
+  **Core Web Vitals:** eski siteden kötü olmamalı.
+- **Faz 9 kontrol listesi:** staging `noindex`'inin kaldırıldığını doğrula, canlıda 301
+  testleri, eski ve yeni `urls.csv` diff'i.
+- **Başlangıç prompt'u:**
+  ```
+  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §5 P9. schema skill'iyle JSON-LD
+  bileşenini kur (lib/site.ts absoluteUrl'den geç, domain yazma). Sonra PROGRESS Faz 9
+  kontrol listesini sırayla uygula; seo-audit ile rapor çıkar.
+  ```
+- **Skill:** `schema`, `seo-audit`, `analytics`, `anthropic-skills:chrome-browser`
+  (canlı eski siteyle karşılaştırma), `run`.
+
+---
+
+## 6. Skill matrisi ve "Yapma" listesi
+
+| Skill | Ne zaman | Not |
+|---|---|---|
+| `frontend-design:frontend-design` | **Her** UI işi (P1–P7) | CLAUDE.md'nin kuralı. Mevcut token/atomlardan sapma |
+| `ui-ux-pro-max` | Tasarımı olmayan yeni şablon kararı (karar #1 "kodda" çıkarsa) | Yalnız öneri; görsel dil `tokens.css`'te sabit |
+| Claude Design / `DesignSync` | Karar #1 "Design turu" çıkarsa (P1, P4) | Gerçek içeriği ver: `docs/design-refs/faz5-icerik/0N-*.md` deseniyle yeni içerik dosyası hazırla |
+| `run` | Her pilot sayfadan sonra, tarayıcıda gerçek sayfa (1339px ve <999px) | 6.3'teki elle doğrulama pratiği |
+| `anthropic-skills:chrome-browser` | Eski canlı siteyle görsel/metin karşılaştırma | Metin birebir mi? |
+| `code-review` | Her faz sonu, **commit öncesi** | Özellikle dağıtıcı ve redirect değişiklikleri |
+| `simplify` | P8 temizlik; büyük faz sonrası | |
+| `programmatic-seo` | P2, P4, P7 (şablon × çok sayfa) | |
+| `site-architecture` | P3 hub'lar, iç link ağı, breadcrumb | |
+| `seo-audit` | Her tip sonrası metadata; P8 | |
+| `schema` | P1 (LocalBusiness), P2 (Course), P7 (Review), P9 | Karar #6 |
+| `analytics` | P9 | |
+
+**Yapma (CLAUDE.md'den özet; bu hataların hepsi yapılmaya çok yakındı):**
+- Gövde metnini yeniden yazma, özetleme, "düzeltme" (§5). İstisna yalnız bariz metadata
+  hatası ve o da bildirilir.
+- `output: "export"` ekleme (§2). Tailwind veya CSS-in-JS kullanma. Ham hex/px yazma, token
+  kullan (§1).
+- Absolute domain yazma, `absoluteUrl()` kullan (§4). Slug'ı "iyileştirme" (§3).
+- Tahmini adetle kod yazma. Önce Aşama 0.
+- Kökte `[slug]` catch-all açma (§3 madde 5).
+- Kaynakta karşılığı olmayan bölüm ekleme ("Neden DDM", SSS vb.; 6.5 emsali).
+- Şube adresi, telefonu ya da tarihi uydurma. `null` + `DataMissingNotice`.
+- Push etme, kod ve dökümanı aynı commit'e koyma.
+
+---
+
+## 7. Açık kararlar (kullanıcıya)
+
+| # | Konu | Öneri | Engellediği |
+|---|---|---|---|
+| 1 | Yeni şablonların tasarım kaynağı: Claude Design turu mu, mevcut atomlarla doğrudan kod mu? | P1 ve P4 için kısa Design turu (gerçek içerikle); P2/P3/P5/P7 mevcut atomlarla kodda | P1, P4 |
+| 2 | 51 yorum + 12 duyuru: tekil sayfa mı, liste sayfasına 301 mi? | Tekil sayfalar (URL/SEO korunur, şablon ucuz) | P7 |
+| 3 | Kurs tarihi ücret satırları (~170) yayınlanmıyor. Kalıcı mı? P2'de sınav ücretleri için de geçerli mi? | Faz 9 öncesi teyit; P2'de kaynakta ücret varsa sor | P2 |
+| 4 | **İletişim/ön kayıt formu gönderimi:** `ContactFormCard` hiçbir yere göndermiyor. Seçenekler: Next.js Route Handler + e-posta servisi, harici form servisi, `mailto:`/WhatsApp | Route Handler + e-posta servisi (SSG'yi bozmaz) | **P1 (engelleyici)** |
+| 5 | Şube galeri görselleri ve eksik adres/telefon verisini kim sağlayacak? | Önce P1 Aşama 0'da kaynaktan çıkar; kalanları kullanıcı sağlar | P1, P6 |
+| 6 | JSON-LD yapısal veri eklensin mi? | Evet; metin değişmez, SEO artısı | P9 (ve P1/P2'de erken) |
+| 7 | `lib/pageRegistry.ts` refactor'u ne zaman? | P0'da iskelet (davranış değişmeden) | P2, P4 |
+| 8 | Harita: Google Maps iframe'i (harici domain) mi, statik görsel + "yol tarifi" linki mi? | Statik görsel + dış link (CWV ve §4 açısından temiz) | P1 |
+
+Kararlar verildikçe bu tabloda **"Karar:"** sütunu gibi işaretle ve SESSION-HANDOFF §D'ye yaz.
+
+---
+
+## 8. Ortak Definition of Done (her P için)
+
+1. Aşama 0 raporu kullanıcıya sunuldu ve onaylandı.
+2. 1 pilot sayfa onaylandı, sonra toplu üretim yapıldı.
+3. `generateStaticParams` + `dynamicParams = false`; `generateMetadata` §6'daki 4 alanı
+   veriden dolduruyor.
+4. Build'de `assertCoverage` geçiyor (sessiz satır kaybı yok).
+5. `npx tsc --noEmit` + `npm run lint` + `npm run build` temiz. Build'in sayfa sayısı
+   beklenen artışı gösteriyor.
+6. N/N sayfa 200 ve tek H1 (`npm run start` + curl/betik). Yeni redirect'ler 308.
+7. `npm run check-links`: ölü link sayısı önceki baz çizgiden düşük, yeni ölü link yok.
+8. Mevcut tipler bozulmadı: 72 kurs-tarihi, 21 üniversite ve 10 dil hâlâ 200.
+9. `code-review` skill'i çalıştırıldı ve bulgular çözüldü.
+10. `PROGRESS.md`, `page-types.md` Durum kolonu ve `SESSION-HANDOFF.md` (§A + §D)
+    güncellendi. Kod ve döküman ayrı commit'lendi.
