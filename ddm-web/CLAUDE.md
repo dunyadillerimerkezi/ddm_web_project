@@ -57,8 +57,12 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
 - `trailingSlash: false` — URL sonunda `/` OLMAYACAK, tutarlı uygulanacak
   (`next.config.ts`'te ayarlı).
 - Eski `.html` URL'lerinden yeni URL'lere **301 redirect zorunlu**
-  (`next.config.ts` → `redirects()`), ama bu eşleme **Faz 8'de** doldurulacak.
-  Şimdi (Faz 3) boş.
+  (`next.config.ts` → `redirects()`). Genel `.html` → temiz URL kuralı **Faz 8'de**
+  gelecek; ondan önce her tip kendi özel redirect'lerini **o tipin fazında**
+  ekler (şu an dolu: 6.5 → 21 üniversite kök URL'i × `.html`/`.html`siz = 42;
+  6.6 → 12 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla). Yeni tip
+  eklerken kalıp: tip fazında ilgili eski URL'leri `redirects()`'e ekle, Faz 8'de
+  genel kurala bırakma.
 
 ## 4. Domain Bağımsızlığı — Mutlak Kural
 
@@ -89,6 +93,14 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
   hatalarını düzeltmek serbest, ama **her düzeltme kullanıcıya bildirilir**
   ve hangi alanın neden değiştirildiği not edilir. Gövde metni (`text` alanı)
   bu istisnaya girmez, o her zaman birebir kalır.
+- **Onaylı sapmalar (kullanıcı kararıyla, tekrar sormaya gerek yok):**
+  - Ana Sayfa tek H1: kaynakta 4 ayrı `h1` var (eski sitenin SEO kusuru); hero başlığı
+    tek H1 yapıldı, diğerleri h2/h3'e indi (Faz 6.3).
+  - Şube Kurs Tarihi sayfalarında kaynaktaki ~170 **ücret satırı yayınlanmıyor**;
+    fiyat CTA'sı yok, tüm butonlar "Bilgi Al" → şube iletişim sayfası (Faz 6.6).
+  - Üniversite proficiency'de "NEDEN DDM" ve "SSS" bölümleri kaynakta karşılığı
+    olmadığı için koda girmedi (Faz 6.5).
+  Bunların dışında yeni bir sapma gerekirse önce kullanıcıya danış.
 - Belirsiz/çelişkili firma bilgisi (ör. "kaç yıldır faaliyette" — bkz.
   `../docs/brand-context.md` [doğrula] bölümü) sayfa içeriğine **uydurma bir
   değerle** yazılmaz; kaynağında ne yazıyorsa o taşınır.
@@ -107,17 +119,26 @@ yazılmaz:
 
 ```
 ddm-web/
-├── app/            # Next.js route dosyaları — Faz 6-7'de sayfa tipi başına doldurulacak
+├── app/            # Next.js route dosyaları (tip başına dinamik segment)
 │   ├── layout.tsx  # <html lang="tr">, next/font (latin-ext!), globals.css
-│   └── globals.css # reset + temel eleman stilleri + keyframe'ler
+│   ├── globals.css # reset + temel eleman stilleri + keyframe'ler
+│   ├── page.tsx                                   # Ana Sayfa (6.3)
+│   ├── yabanci-dil-egitimleri/[kurs]/page.tsx     # Dil Kursu Ana, 10 dil (6.4)
+│   ├── yabanci-dil-egitimleri/[kurs]/[sayfa]/     # Şube Kurs Tarihi — dil tarafı (6.6)
+│   ├── sinav-hazirlik-egitimleri/[kurs]/[sayfa]/  # Şube Kurs Tarihi — sınav tarafı (6.6)
+│   └── sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/  # 21 üniversite + tarih dağıtıcısı (6.5/6.6)
 ├── components/     # Paylaşılan UI bileşenleri — Faz 6'da doluyor
-│   ├── layout/     # TopBar, SiteHeader, MegaMenu, MobileDrawer, MobileBottomBar,
-│   │               # SiteFooter, Breadcrumb, StickyToc
-│   ├── ui/         # Button, Badge, Kicker, SectionHeading, Accordion, Carousel,
-│   │               # ProgressTrack, ImageSlot, DataMissingNotice...
-│   ├── cards/      # FeatureCard, TestimonialCard, ProgramScheduleCard...
-│   ├── sections/   # PageHero, StatStrip, CtaBand, ScheduleTable, WeekGrid...
-│   └── graphics/   # Icon + ikon kaydı, Illustration (200×200 set), Flag
+│   ├── layout/     # TopBar, SiteHeader, MobileBottomBar, SiteFooter, SiteChrome,
+│   │               # Breadcrumb, StickyToc
+│   ├── ui/         # Button, Primitives (Kicker/Badge/…), Accordion, Carousel,
+│   │               # ProgressTrack (barrel: index.ts)
+│   ├── cards/      # BranchCard, CourseChipCard, ExamSectionCard, FeatureCard,
+│   │               # LanguageCard, MediaCard, ProgramCard, TestimonialCard
+│   ├── sections/   # Sayfa bölümleri: PageHero (modlar dil/uni/sube), ScheduleTable,
+│   │               # WeekGrid, CourseDatePage, DetailSections, ProcessSteps,
+│   │               # ContactFormCard, BranchInfoPanel, UniversityGrid, LanguageGrid,
+│   │               # LevelExplorer, PricingPanel, CtaBand, TestimonialsCarousel…
+│   └── graphics/   # Icon + ikon kaydı, Illustration (200×200 set), Flag, LanguageGlobe
 ├── styles/
 │   ├── tokens.css  # TÜM tasarım tokenları (§1) — tek kaynak
 │   └── *.module.css # bileşen başına CSS Module
@@ -126,11 +147,15 @@ ddm-web/
 │   ├── urls.csv             # URL + title + meta + H1 + kelime sayısı (SEO referansı)
 │   ├── branches.ts          # 5 şube — adres/telefon eksikse null (§5)
 │   ├── universities.ts      # 21 üniversite (proficiency şablonu)
-│   └── languages.ts         # 10 dil — illüstrasyon + bayrak eşlemesi
+│   ├── languages.ts         # 10 dil — illüstrasyon + bayrak eşlemesi
+│   ├── courseDates.ts       # 72 şube×kurs kaydı (üretim betiğiyle çıkarıldı)
+│   └── home.ts              # Ana Sayfa verisi
 ├── lib/
 │   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
 │   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak
-│   └── types.ts    # paylaşılan sayfa ve bileşen tipleri
+│   ├── types.ts    # paylaşılan sayfa ve bileşen tipleri
+│   ├── contentSections.ts   # SectionResolver — kaynağı başlık-tabanlı bölümler; assertCoverage
+│   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
 ├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
 ├── next.config.ts
 ├── .env.example
@@ -177,7 +202,19 @@ ddm-web/
 4. Gövdeyi ilgili `components/` bileşenine (Faz 5'te tasarlanan şablona göre)
    veri olarak geçir — JSX içine metni elle yapıştırma.
 5. Tüm iç linkleri `<Link href="/...">` ile, kök-göreli yaz (§4).
-6. `../PROGRESS.md`'deki ilgili faz kutucuğunu işaretle.
+6. **Birebir-metin garantisi:** yeni tipin içerik çözücüsü (`lib/*Content.ts`)
+   `SectionResolver` kullanır ve build'de `assertCoverage()` ile kaynağın HER
+   satırının ya tüketildiğini ya gerekçeli `ignored[]`'da olduğunu doğrular.
+   Hiçbir satır sessizce atılmaz. H1 yoksa ilk başlığa düşülür ve `console.warn` ile loglanır.
+7. **Dinamik route deseni:** `generateStaticParams` + `export const dynamicParams = false`;
+   `generateMetadata` içinde §6'daki 4 alan. Aynı segmentte iki tip yan yana
+   yaşayacaksa (ör. `proficiency-kursu/[sayfa]` hem üniversite hem kurs-tarihi) tek
+   `[sayfa]` route'u dağıtıcı olarak çalışır.
+8. **Önce 1 pilot sayfa, onay, sonra toplu** (Faz 6.4/6.5 pratiği). Tipin "Aşama 0
+   denetimi" ile kesin adet/yapı çıkarılmadan kod yazılmaz.
+9. `../PROGRESS.md`'deki ilgili faz kutucuğunu ve `../docs/page-types.md` Durum
+   kolonunu güncelle. **Kalan tiplerin sırası ve ayrıntısı:**
+   `../docs/remaining-pages-plan.md`.
 
 ## 9. Tasarım
 
@@ -185,3 +222,10 @@ Tasarım **Claude Design**'da yapılır (Faz 4-5). Bu repo ve bu dosya sadece
 onaylanmış tasarımı **koda uygular** — burada UI/görsel karar alınmaz. Bir
 şablon/bileşen tasarlamadan önce ilgili Faz 5 handoff'unun onaylandığından
 emin olun.
+
+**Kalan tipler (Şube İletişim, Sınav Hazırlık Ana, Hub, Zengin İçerik, Seviye,
+Şube Tanıtım, Yorum/Duyuru):** Faz 5'te tasarlanmadılar. Tasarım kaynağı (Claude
+Design turu mu, mevcut atomlarla doğrudan kod mu) **kullanıcı kararı bekliyor** —
+bkz. `../docs/remaining-pages-plan.md` §5 karar #1. O karar verilene kadar bu
+tipler için yeni görsel dil icat etme; mevcut `components/` atomlarını ve
+`tokens.css`'i kullan.

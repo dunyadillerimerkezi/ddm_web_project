@@ -170,11 +170,11 @@ ile yeniden yazımı. Bir CLAUDE.md üret; şu kurallar net ve maddeli olsun:
 **Amaç:** Ana sayfa + en çok tekrar eden 3-4 tipi tasarlamak. **İçeriği sen ver — Design uydurmasın.**
 **Çıktı:** Onaylı tasarımlar (ana sayfa + seçili tipler)
 
-- [ ] Ana sayfa tasarlandı (gerçic içerikle)
-- [ ] Dil kursu sayfası tipi tasarlandı
-- [ ] Şube kurs tarihi sayfası tipi tasarlandı
-- [ ] Üniversite proficiency sayfası tipi tasarlandı
-- [ ] (Gerekiyorsa) diğer tipler tasarlandı
+- [x] Ana sayfa tasarlandı (gerçek içerikle)
+- [x] Dil kursu sayfası tipi tasarlandı
+- [x] Şube kurs tarihi sayfası tipi tasarlandı
+- [x] Üniversite proficiency sayfası tipi tasarlandı
+- [ ] (Gerekiyorsa) diğer tipler tasarlandı *(kalan tipler: `docs/remaining-pages-plan.md` karar #1)*
 
 ### Prompt — Ana sayfa
 ```
@@ -213,7 +213,7 @@ ki koda çevirince veri-tabanlı üretebileyim.
 
 - [x] Claude Design → export paketi alındı (`docs/design-refs/DDM_Tasarım_Sistemi_faz5/`)
 - [x] Paket repoya entegre edildi + 4 şablon incelendi (rapor: bileşen/token/veri modeli)
-- [ ] Şablonlar Next.js bileşenlerine çevrildi → **alt aşamalar aşağıda**
+- [x] Faz 5'te tasarlanan 4 şablon Next.js bileşenlerine çevrildi (6.3–6.6) → **alt aşamalar aşağıda**; tasarımı olmayan kalan tipler için bkz. Faz 6.8+
 - [ ] İçerik json şeması kuruldu (`site_content.json`'dan beslenir)
 - [ ] (Opsiyonel) `/design-sync` ile canvas ↔ repo iterasyonu kuruldu
 
@@ -261,9 +261,15 @@ ki koda çevirince veri-tabanlı üretebileyim.
       10 görsel dosya adı ASCII'ye çevrildi (`git mv`). `tokens.css`'e Ana
       Sayfa'ya özel ~20 token, `globals.css`'e `ddmSpin`/`ddmChip` keyframe'leri,
       ikon kaydına 8 yeni ikon eklendi.
-- [ ] **6.4 · Dil Kursu Ana** (10 sayfa)
-      PageHero · Breadcrumb · ProgressTrack (CEFR seviyeleri) · FilterPills ·
-      ScheduleTable · Accordion (SSS) · `data/languages.ts`
+- [x] **6.4 · Dil Kursu Ana** (10 sayfa)
+      `app/yabanci-dil-egitimleri/[kurs]/page.tsx` (tek dinamik route, 10 dil,
+      `generateStaticParams`). PageHero · Breadcrumb · ProgressTrack (CEFR) ·
+      ScheduleTable · AboutCertification · LevelExplorer (yalnız seviye bölümü
+      olan dillerde) · BulletPanel · PricingPanel · LinkRow · TestimonialsCarousel ·
+      Accordion (SSS) · CtaBand · `data/languages.ts` · `lib/languageContent.ts`.
+      Pilot dil İtalyanca'ydı, sonra 10 dile genişletildi; `npm run build`'de
+      10/10 dil üretiliyor. (Not: sayfa dosyasının üst yorumundaki "kalan 9 dil
+      için onay bekliyor" notu bayat — bir sonraki dokunuşta silinecek.)
 - [x] **6.5 · Üniversite Proficiency** (21 üniversite, 42 URL — 21 sayfa + 21 kök 301)
       `app/sinav-hazirlik-egitimleri/proficiency-kursu/[universite]/page.tsx` ·
       ExamSectionCard · ExamStructure · DetailSections · StickyToc (scroll-spy,
@@ -305,12 +311,48 @@ ki koda çevirince veri-tabanlı üretebileyim.
       21 üniversitenin `SectionResolver.assertCoverage()` kontrolü de dahil
       (kaynağın HER satırı ya tüketildi ya gerekçeli `ignored[]`'da). Üretimde
       21/21 sayfa 200, 42/42 redirect 308 doğrulandı (`npm run start` + curl).
-- [ ] **6.6 · Şube Kurs Tarihi** (88 sayfa)
-      ProgramScheduleCard · WeekGrid (haftalık ızgara) · InfoTile · LinkRow ·
-      iç link ağı
-- [ ] **6.7 · Temizlik**
+- [x] **6.6 · Şube Kurs Tarihi** (84 sayfa: 72 temiz URL + 12 Joomla 301)
+      Sayı düzeltmesi: 88 değil 84; şube 4 (Ümraniye'nin bu tipte sayfası yok),
+      kurs 18, matris 72/72 dolu. Bileşenler: ProgramCard · WeekGrid ·
+      BranchInfoPanel (kodda duruyor, sayfada kullanılmıyor) · CourseDatePage;
+      PageHero'ya `mode:"sube"`. Veri: `data/courseDates.ts` (72 kayıt, üretim
+      betiğiyle çıkarıldı) + `lib/courseDateContent.ts` (`rawLines` round-trip
+      + `assertCoverage`). Route: 2 yeni `[kurs]/[sayfa]` + `proficiency-kursu/[sayfa]`
+      dağıtıcısı (21 üniversite sayfası etkilenmedi). Kullanıcı kararları:
+      SSS yok; fiyat/ücret ve fiyat CTA'sı yok (CLAUDE.md §5'ten onaylı sapma —
+      kaynaktaki ~170 ücret satırı yayınlanmıyor); "Şube Bilgileri", "Diğer
+      Şubeler", "Bu Şubedeki Diğer Kurslar" bölümleri ve WhatsApp butonu yok;
+      tüm butonlar "Bilgi Al" → şubenin `/ddm-iletisim/...` sayfası. 12 Joomla
+      URL'i `next.config.ts`'te 308 (query string hedefe taşınıyor; canonical temiz).
+      Doğrulama: tsc/lint/build temiz, 72/72 sayfa 200 + tek H1, 21/21 üniversite
+      200, 12/12 redirect 308. Bilinen: Türkçe kayıtlarında başlangıç tarihi
+      kaynakta 2022 (bayat, birebir basılıyor).
+- [ ] **6.7 · Temizlik** *(artık P8 ile birlikte, tüm tipler bittikten sonra)*
       Ölü `data-reveal`/`data-count` atılır · metadata + canonical (§6) ·
       `next/image` · (opsiyonel) IntersectionObserver ile reveal
+
+### Faz 6.8+ — Kalan sayfa tipleri (öncelik sırası)
+
+> **Durum (2026-09-21):** 4 ana şablon bitti — Ana Sayfa (1) · Dil Kursu (10) ·
+> Üniversite Proficiency (21 + 42 redirect) · Şube Kurs Tarihi (72 + 12 redirect)
+> = **106 statik sayfa, build temiz**. Kalan ≈ 280 URL.
+> **Ayrıntılı plan, gerekçe, kabul kriterleri ve açık kararlar:
+> [`docs/remaining-pages-plan.md`](docs/remaining-pages-plan.md).**
+>
+> Sıra ölçütü: ölü link/CTA → SEO değeri → bileşen yeniden kullanımı → adet/efor.
+
+- [ ] **6.8 · P1 Şube İletişim** (~13 kayıt → `/ddm-iletisim/*` + hub; 72 kurs-tarihi CTA'sının hedefi)
+- [ ] **6.9 · P2 Sınav Hazırlık Kursu Ana** (~16; TOEFL/IELTS/GRE/GMAT/SAT/TOEIC/PTE…)
+- [ ] **6.10 · P3 Kategori Hub'ları** (6–7; `/yabanci-dil`, `/ingilizce-kurslari`, `/yurtdisi-egitim`, `/diger-program`…)
+- [ ] **6.11 · P4 Zengin İçerik Alt Sayfa** (~85–108; nedir/özel ders/online/yurtdışı/diğer program — en büyük kalan grup)
+- [ ] **6.12 · P5 İngilizce Seviye Kursu** (11)
+- [ ] **6.13 · P6 Şube Tanıtım** (4; galeri görselleri eksik)
+- [ ] **6.14 · P7 Öğrenci Yorumu + Duyuru** (~75; karar #2 bekliyor)
+- [ ] **6.15 · P8 Faz 8/9 + Temizlik** (genel `.html` 301, sitemap/robots, QA — aşağıdaki Faz 8–9)
+
+**Açık kararlar (kullanıcıdan):** yeni şablonların tasarım kaynağı (Claude Design turu
+mu, mevcut atomlarla kod mu) · yorum/duyuru tekil sayfa mı 301 mi · iletişim/ön kayıt formu
+gönderim yöntemi · şube galeri görselleri ve eksik adres/telefon verisi. Detay: plan §5.
 
 **Bağımlılık notu:** paylaşılan bileşenler ilk ihtiyaç duyulan aşamada doğar,
 sonrakiler yeniden kullanır. Bu sırayla: Carousel + TestimonialCard 6.3'te,
@@ -343,8 +385,8 @@ Handoff'tan gelen [sayfa tipi] tasarımını bir Next.js (App Router) bileşenin
 **Amaç:** 300 sayfayı elle değil, şablon + veriden toplu üretmek.
 **Çıktı:** Tüm sayfalar temiz URL'de yayına hazır
 
-- [ ] En kalabalık tip önce (şube kurs tarihi + üniversite proficiency ≈ sayfaların yarısı)
-- [ ] Her tip sırayla üretildi ve gözden geçirildi
+- [x] En kalabalık tip önce (şube kurs tarihi + üniversite proficiency ≈ sayfaların yarısı) — 6.5 + 6.6 ile yapıldı
+- [ ] Her tip sırayla üretildi ve gözden geçirildi *(4/17 tip tamam; sıra: Faz 6.8+ bölümü ve `docs/remaining-pages-plan.md`)*
 - [ ] Tüm URL'ler eski slug ile eşleşiyor (uzantısız)
 - [ ] Her sayfada metadata + H1 doğru taşındı
 

@@ -14,31 +14,33 @@
 
 ## Özet Tablo
 
-| # | Sayfa Tipi | URL Deseni (örnek) | ~Adet | Temsili Örnek URL |
-|---|---|---|---|---|
-| 1 | Şube Kurs Tarihi Sayfası | `/{kategori}/{kurs}/{sube}-subesi-kurs-tarihi.html` | **88** | `/yabanci-dil-egitimleri/ingilizce-kursu/besiktas-subesi-kurs-tarihi.html` |
-| 2 | Öğrenci Yorumu (Tekil) | `/ogrenci-yorumlari/{id}-{ad-soyad}.html` | **51** | `/ogrenci-yorumlari/16-sibiya-sayeste.html` |
-| 3 | Üniversite Proficiency Sayfası | `/sinav-hazirlik-egitimleri/proficiency-kursu/{universite}.html` (+ kök dizin eş kopyası) | **42** (21 üniversite × 2 URL) | `/sinav-hazirlik-egitimleri/proficiency-kursu/bogazici-universitesi.html` |
-| 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` |
-| 5 | Özel Ders Sayfası | `/{kategori}/{kurs}/{kurs}-ozel-ders.html` (+ eski Joomla `?id=` varyantı) | **39** | `/yabanci-dil-egitimleri/fransizca-kursu/fransizca-ozel-ders.html` |
-| 6 | Sınav Hazırlık Kursu Ana Sayfası | `/sinav-hazirlik-egitimleri/{sinav}-kursu.html` | **16** | `/sinav-hazirlik-egitimleri/toefl-kursu.html` |
-| 7 | Şube İletişim Sayfası | `/ddm-iletisim/{sube}.html` (+ eski `/component/content/article/...`) | **13** | `/ddm-iletisim/1-kadikoy.html` |
-| 8 | Liste Sayfası | `/ogrenci-yorumlari.html?start=N`, `/duyurular.html` | **12** | `/ogrenci-yorumlari.html?start=12` |
-| 9 | Duyuru Detay Sayfası | `/duyurular/{id}-{slug}.html` | **12** | `/duyurular/31-konusma-siniflari-speaking.html` |
-| 10 | Dil Kursu Ana Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu.html` | **10** | `/yabanci-dil-egitimleri/ingilizce-kursu.html` |
-| 11 | İngilizce Seviye Kursu Sayfası | `/ingilizce-kurslari/{seviye}-ingilizce-kursu.html` | **11** | `/ingilizce-kurslari/elementary-ingilizce-kursu.html` |
-| 12 | Yurtdışı Eğitim Alt Sayfası | `/yurtdisi-egitim/{konu}.html` | **11** | `/yurtdisi-egitim/yaz-okullari.html` |
-| 13 | Online Eğitim Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu/online-{dil}-egitimi.html` | **8** | `/yabanci-dil-egitimleri/rusca-kursu/online-rusca-egitimi.html` |
-| 14 | Kategori Hub Sayfası | `/{kategori}.html` (alt sayfa yok, kart listesi) | **6** | `/diger-program.html` |
-| 15 | Diğer Program Alt Sayfası | `/diger-program/{konu}.html` | **6** | `/diger-program/tercume-hizmetleri.html` |
-| 16 | Şube Tanıtım Sayfası | `/{sube}-tanitim-sayfasi.html` | **4** | `/kadikoy-tanitim-sayfasi.html` |
-| 17 | Ana Sayfa | `/` | **1** | `/` |
-| — | Tanıtım İçerik Parçası (fragment) | `/tanitim-icerik/{id}-{slug}.html` | 6 | `/tanitim-icerik/10-sistem.html` |
-| — | Kurumsal / Özel İçerik Sayfası | `/kurumsal-dil-egitim.html`, `.../turkish-course-pegasus-pilots.html` | 2 | `/kurumsal-dil-egitim.html` |
-| — | Etiket (Tag) Sayfası — muhtemelen taşınmayacak | `/component/tags/tag/{slug}.html` | 2 | `/component/tags/tag/almanca-kursu.html` |
-| — | Diğer / Tekil Sayfalar — şablon gerektirmez | — | 2 | `/aktivite-aktiviteler.html`, `/star-media.html` |
+| # | Sayfa Tipi | URL Deseni (örnek) | ~Adet | Temsili Örnek URL | Durum |
+|---|---|---|---|---|---|
+| 1 | Şube Kurs Tarihi Sayfası | `/{kategori}/{kurs}/{sube}-subesi-kurs-tarihi.html` | **84** | `/yabanci-dil-egitimleri/ingilizce-kursu/besiktas-subesi-kurs-tarihi.html` | ✅ 6.6 — 72 sayfa + 12 Joomla 301 |
+| 2 | Öğrenci Yorumu (Tekil) | `/ogrenci-yorumlari/{id}-{ad-soyad}.html` | **51** | `/ogrenci-yorumlari/16-sibiya-sayeste.html` | ⏳ P7 |
+| 3 | Üniversite Proficiency Sayfası | `/sinav-hazirlik-egitimleri/proficiency-kursu/{universite}.html` (+ kök dizin eş kopyası) | **42** (21 üniversite × 2 URL) | `/sinav-hazirlik-egitimleri/proficiency-kursu/bogazici-universitesi.html` | ✅ 6.5 — 21 sayfa + 42 redirect |
+| 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` | ⏳ P4 |
+| 5 | Özel Ders Sayfası | `/{kategori}/{kurs}/{kurs}-ozel-ders.html` (+ eski Joomla `?id=` varyantı) | **39** | `/yabanci-dil-egitimleri/fransizca-kursu/fransizca-ozel-ders.html` | ⏳ P4 |
+| 6 | Sınav Hazırlık Kursu Ana Sayfası | `/sinav-hazirlik-egitimleri/{sinav}-kursu.html` | **16** | `/sinav-hazirlik-egitimleri/toefl-kursu.html` | ⏳ P2 |
+| 7 | Şube İletişim Sayfası | `/ddm-iletisim/{sube}.html` (+ eski `/component/content/article/...`) | **13** | `/ddm-iletisim/1-kadikoy.html` | ⏳ P1 |
+| 8 | Liste Sayfası | `/ogrenci-yorumlari.html?start=N`, `/duyurular.html` | **12** | `/ogrenci-yorumlari.html?start=12` | ⏳ P7 |
+| 9 | Duyuru Detay Sayfası | `/duyurular/{id}-{slug}.html` | **12** | `/duyurular/31-konusma-siniflari-speaking.html` | ⏳ P7 |
+| 10 | Dil Kursu Ana Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu.html` | **10** | `/yabanci-dil-egitimleri/ingilizce-kursu.html` | ✅ 6.4 — 10 sayfa |
+| 11 | İngilizce Seviye Kursu Sayfası | `/ingilizce-kurslari/{seviye}-ingilizce-kursu.html` | **11** | `/ingilizce-kurslari/elementary-ingilizce-kursu.html` | ⏳ P5 |
+| 12 | Yurtdışı Eğitim Alt Sayfası | `/yurtdisi-egitim/{konu}.html` | **11** | `/yurtdisi-egitim/yaz-okullari.html` | ⏳ P4 |
+| 13 | Online Eğitim Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu/online-{dil}-egitimi.html` | **8** | `/yabanci-dil-egitimleri/rusca-kursu/online-rusca-egitimi.html` | ⏳ P4 |
+| 14 | Kategori Hub Sayfası | `/{kategori}.html` (alt sayfa yok, kart listesi) | **6** | `/diger-program.html` | ⏳ P3 |
+| 15 | Diğer Program Alt Sayfası | `/diger-program/{konu}.html` | **6** | `/diger-program/tercume-hizmetleri.html` | ⏳ P4 |
+| 16 | Şube Tanıtım Sayfası | `/{sube}-tanitim-sayfasi.html` | **4** | `/kadikoy-tanitim-sayfasi.html` | ⏳ P6 |
+| 17 | Ana Sayfa | `/` | **1** | `/` | ✅ 6.3 |
+| — | Tanıtım İçerik Parçası (fragment) | `/tanitim-icerik/{id}-{slug}.html` | 6 | `/tanitim-icerik/10-sistem.html` | ⛔ P8 kararı (ana sayfa bölümü olarak beslenmiş mi kontrol) |
+| — | Kurumsal / Özel İçerik Sayfası | `/kurumsal-dil-egitim.html`, `.../turkish-course-pegasus-pilots.html` | 2 | `/kurumsal-dil-egitim.html` | ⏳ P3 (hub) / P4 (Pegasus) |
+| — | Etiket (Tag) Sayfası — muhtemelen taşınmayacak | `/component/tags/tag/{slug}.html` | 2 | `/component/tags/tag/almanca-kursu.html` | ⛔ Taşınmaz — 301 |
+| — | Diğer / Tekil Sayfalar — şablon gerektirmez | — | 2 | `/aktivite-aktiviteler.html`, `/star-media.html` | ⛔ Taşınmaz / P8 kararı |
 
 **Toplam: 384 / 384 URL sınıflandırıldı.**
+
+> **Durum (2026-09-21):** ✅ 4 tip kodda (Ana Sayfa, Dil Kursu, Üniversite Proficiency, Şube Kurs Tarihi — 106 statik sayfa). Kalanın önceliği (P1–P8), gerekçesi ve kabul kriterleri: [`remaining-pages-plan.md`](remaining-pages-plan.md). Not: bu dosyadaki adetler Faz 1 tahminidir; her tipin kesin sayısı o tipin "Aşama 0 denetimi"nde çıkarılır.
 
 ## Tasarım Şablonu Eşleştirmesi (Faz 4-5 için)
 
@@ -51,18 +53,18 @@
 | 2 | Kategori / Hub (kart listesi) | 14 | 6 |
 | 3 | Kurs / Program landing | 6, 10, 11 | ~37 |
 | 4 | Zengin içerik alt sayfa (esnek gövde) | 4, 5, 12, 13, 15, kurumsal | ~108 |
-| 5 | Kurs tarihi (tablo/kısa sayfa) | 1 | 88 |
+| 5 | Kurs tarihi (tablo/kısa sayfa) | 1 | 84 |
 | 6 | Şube iletişim | 7 | 13 |
 | 7 | Şube tanıtım (galeri) | 16 | 4 |
 | 8 | Liste / grid (sayfalamalı) | 8 + yorum/duyuru index | ~12 |
 | 9 | Basit detay kartı | 2, 9 | ~63 |
-| 10 | (opsiyonel) Üniversite proficiency | 3 | 42 |
+| 10 | Üniversite proficiency (ayrı şablon olarak yapıldı) | 3 | 42 |
 
 **Not:** Tip 3 (proficiency) sınırda — şablon 4'e opsiyonel "sınav bilgi bloğu"yla
-girebilir VEYA 42 sayfa olduğu için ayrı şablon yapılabilir. Faz 5'te karar verilecek.
+girebilir VEYA 42 sayfa olduğu için ayrı şablon yapılabilir. **Karar verildi: ayrı şablon** (Faz 6.5, `proficiency-kursu/[sayfa]`).
 ---
 
-## 1. Şube Kurs Tarihi Sayfası — 88 sayfa
+## 1. Şube Kurs Tarihi Sayfası — 84 sayfa (72 temiz URL + 12 eski Joomla URL'i; 4 şube × 18 kurs)
 
 **URL deseni:** `/yabanci-dil-egitimleri/{dil}-kursu/{sube}-subesi-kurs-tarihi.html`
 ve aynı şablon sınav taraf: `/sinav-hazirlik-egitimleri/{sinav}-kursu/{sube}-subesi-kurs-tarihi.html`
