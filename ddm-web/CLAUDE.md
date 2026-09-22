@@ -71,8 +71,7 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
   (`next.config.ts` → `redirects()`). Genel `.html` → temiz URL kuralı **Faz 8'de**
   gelecek; ondan önce her tip kendi özel redirect'lerini **o tipin fazında**
   ekler (şu an dolu: 6.5 → 21 üniversite kök URL'i × `.html`/`.html`siz = 42;
-  6.6 → 12 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla — **4 Ataşehir
-  URL'i eksik, P0'da eklenecek**; kaynaktaki 61 query'li URL'in tam envanteri:
+  6.6 + P0 → 16 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla; kaynaktaki 61 query'li URL'in tam envanteri:
   `../docs/remaining-pages-plan.md` §4). Yeni tip
   eklerken kalıp: tip fazında ilgili eski URL'leri `redirects()`'e ekle, Faz 8'de
   genel kurala bırakma.
@@ -169,6 +168,7 @@ ddm-web/
 │   ├── types.ts    # paylaşılan sayfa ve bileşen tipleri
 │   ├── contentSections.ts   # SectionResolver — kaynağı başlık-tabanlı bölümler; assertCoverage
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
+├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
 ├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
 ├── next.config.ts
 ├── .env.example

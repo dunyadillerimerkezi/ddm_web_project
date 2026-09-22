@@ -329,8 +329,8 @@ ki koda çevirince veri-tabanlı üretebileyim.
       URL'i `next.config.ts`'te 308 (query string hedefe taşınıyor; canonical temiz).
       Doğrulama: tsc/lint/build temiz, 72/72 sayfa 200 + tek H1, 21/21 üniversite
       200, 12/12 redirect 308. **Sonradan bulunan açık (2026-09-21):** kaynakta 4
-      Ataşehir Joomla URL'i daha var (`id=306/322/318/298:atasehir-kurs-tarihleri`,
-      proficiency/gmat/sat/toeic) — redirect'leri eksik, 6.7a/P0'da eklenecek (toplam 16). Bilinen: Türkçe kayıtlarında başlangıç tarihi
+      Ataşehir Joomla URL'i daha vardı (`id=306/322/318/298:atasehir-kurs-tarihleri`,
+      proficiency/gmat/sat/toeic) — P0'da eklendi (`7b68a73`), toplam 16/16. Bilinen: Türkçe kayıtlarında başlangıç tarihi
       kaynakta 2022 (bayat, birebir basılıyor).
 - [ ] **6.7 · Temizlik** *(artık P8 ile birlikte, tüm tipler bittikten sonra)*
       Ölü `data-reveal`/`data-count` atılır · metadata + canonical (§6) ·
@@ -346,7 +346,7 @@ ki koda çevirince veri-tabanlı üretebileyim.
 >
 > Sıra ölçütü: ölü link/CTA → SEO değeri → bileşen yeniden kullanımı → adet/efor.
 
-- [ ] **6.7a · P0 Borç + altyapı** (4 Ataşehir Joomla 301 · `scripts/check-links.mjs` ölü link baz çizgisi · bayat yorum · opsiyonel `pageRegistry`/`not-found`/`sitemap` iskeleti)
+- [~] **6.7a · P0 Borç + altyapı** — madde 1–3 ✅ (`7b68a73`): 4 Ataşehir Joomla 301 (toplam 16, curl ile doğrulandı) · `npm run check-links` (baz çizgi **46 ölü hedef**) · bayat yorum silindi. Madde 4–5 (opsiyonel `pageRegistry`/`not-found`/`sitemap` iskeleti) **kullanıcı kararı bekliyor**.
 - [ ] **6.8 · P1 Şube İletişim** (~13 kayıt → `/ddm-iletisim/*` + hub; 72 kurs-tarihi CTA'sının hedefi)
 - [ ] **6.9 · P2 Sınav Hazırlık Kursu Ana** (~16; TOEFL/IELTS/GRE/GMAT/SAT/TOEIC/PTE…)
 - [ ] **6.10 · P3 Kategori Hub'ları** (6–7; `/yabanci-dil`, `/ingilizce-kurslari`, `/yurtdisi-egitim`, `/diger-program`…)

@@ -28,7 +28,7 @@
 | Ana Sayfa | 1 | — | 6.3 | `app/page.tsx` |
 | Dil Kursu Ana | 10 | — | 6.4 | `app/yabanci-dil-egitimleri/[kurs]/page.tsx` |
 | Üniversite Proficiency | 21 | 42 (21 kök × `.html`/`.html`siz) | 6.5 | `app/sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/page.tsx` |
-| Şube Kurs Tarihi | 72 | 12 Joomla (**+4 eksik → P0**) | 6.6 | iki `[kurs]/[sayfa]` + proficiency dağıtıcısı |
+| Şube Kurs Tarihi | 72 | 16 Joomla (12 in 6.6 + 4 in P0) | 6.6 | iki `[kurs]/[sayfa]` + proficiency dağıtıcısı |
 
 **Paylaşılan altyapı (yeniden kullan, kopyalama):**
 - Bileşenler: `PageHero` (modlar dil / uni / sube), `Breadcrumb`, `StickyToc`, `ScheduleTable`,
@@ -119,14 +119,14 @@ bu yüzden **hepsi açık `has: query` kuralı ister** (6.6'daki `JOOMLA_COURSE_
 | Grup | Adet | Örnek | Hedef | Sahip | Durum |
 |---|---|---|---|---|---|
 | Kurs tarihi (Kadıköy/Bağdat/Levent) | 12 | `gmat-kursu.html?view=article&id=319:kadikoy-merkez-kurs-tarihi` | `.../{kurs}/{sube}-...-kurs-tarihi` | 6.6 | ✅ |
-| Kurs tarihi **Ataşehir** | **4** | `proficiency\|gmat\|sat\|toeic-kursu.html?...id=306\|322\|318\|298:atasehir-kurs-tarihleri` | `.../atasehir-subesi-{kurs}-kurs-tarihi` (sayfalar VAR) | **P0** | ❌ eksik |
+| Kurs tarihi **Ataşehir** | **4** | `proficiency\|gmat\|sat\|toeic-kursu.html?...id=306\|322\|318\|298:atasehir-kurs-tarihleri` | `.../atasehir-subesi-{kurs}-kurs-tarihi` | P0 | ✅ `7b68a73` |
 | Özel ders (`diger-program/ozel-dersler.html?id=368..383`) | 16 | `...id=370:fransizca-ozel-ders&catid=48` | `/{kategori}/{kurs}/{kurs}-ozel-ders` | P4 | ⏳ |
 | Özel ders (kurs sayfası üstünden) | 5 | `almanca-kursu.html?...id=369:almanca-ozel-ders`, `gmat/sat/toeic/proficiency-kursu.html?...ozel-ders` | aynı özel ders sayfası | P4 | ⏳ |
 | Nedir / sınav / örnek soru | 6 | `gmat-kursu.html?...id=165:gmat-nedir`, `proficiency-kursu.html?...id=364:proficiency-sinavi`, `...id=323:proficiency-sinav-sorulari`, `...id=136:proficiency-nedir`, `sat-nedir`, `toeic-nedir` | ilgili P4 alt sayfası | P4 | ⏳ |
 | Almanca seviyeleri | 2 | `almanca-konusma-kurslari.html?...id=67:almanca-egitim-seviyeleri`, `hizlandirilmis-almanca-kursu.html?...id=67` | Aşama 0'da karar (tek kanonik) | P4 | ⏳ |
 | İletişim (`component/content/article/...`) | 6 | `337-iletisim-sayfasi-kadikoy.html?Itemid=401`, `65-levent-subesi-on-kayit-formu` (×2, URL-encoded varyant) | `/ddm-iletisim/{sube}` | P1 | ⏳ |
 | Öğrenci yorumları sayfalama | 10 | `ogrenci-yorumlari.html?start=4..40` | `/ogrenci-yorumlari?page=N` ya da `/ogrenci-yorumlari` | P7 | ⏳ |
-| **Toplam** | **61** | | | | 12 ✅ · 49 ⏳ |
+| **Toplam** | **61** | | | | 16 ✅ · 45 ⏳ |
 
 > Not: `component/content/article/...` URL'lerinde query yalnız `Itemid`/`catid` bilgisi taşıyor.
 > Yol kısmı ayırt edici, bu yüzden `has` gerekmeyebilir. Aşama 0'da test et.
@@ -138,7 +138,7 @@ bu yüzden **hepsi açık `has: query` kuralı ister** (6.6'daki `JOOMLA_COURSE_
 Her P bölümünün formatı: Kapsam → Aşama 0 → Şablon/yeniden kullanım → Riskler → Redirect →
 Kabul → **Başlangıç prompt'u** → **Skill hatırlatmaları**.
 
-### P0 — Borç ve altyapı  ⏳ (S, ~1 oturum)
+### P0 — Borç ve altyapı  🟡 madde 1–3 ✅ (`7b68a73`), madde 4–5 kullanıcı kararı bekliyor (S)
 Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriteri buna dayanıyor.
 
 1. **4 Ataşehir Joomla 301'i:** `ddm-web/next.config.ts` → `JOOMLA_COURSE_DATES`'e ekle:

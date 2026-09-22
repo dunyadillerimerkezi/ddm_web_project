@@ -7,18 +7,18 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-21)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-21, P0 sonrası)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `4d1d92a` — Faz 6.6 Şube Kurs Tarihi (72 sayfa + 12 Joomla 301) |
+| **Son kod commit'i** | `7b68a73` — P0: 4 Ataşehir Joomla 301 + `check-links` betiği + bayat yorum temizliği |
 | **Son döküman commit'i** | bu oturumun commit'i (`git log -1` ile teyit et) |
-| **Build durumu** | `tsc --noEmit` ✅ · `npm run build` ✅ (106 statik sayfa) · `lint` son 6.6'da ✅ · `check-links` ❌ henüz betik yok |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (106 statik sayfa) · `check-links` **baz çizgi: 46 ölü hedef / 2194 (sayfa→hedef) çifti** (104 sayfa, 4277 iç link) · 16/16 Joomla kurs-tarihi redirect'i 308→200 (curl) |
 | **Tamamlanan tipler** | Ana Sayfa (6.3) · Dil Kursu 10 (6.4) · Üniversite Proficiency 21 (6.5) · Şube Kurs Tarihi 72 (6.6) |
-| **Aktif faz** | Yok. Sıradaki: **P0 · Borç ve altyapı** |
-| **Bir sonraki somut adım** | P0-1: `next.config.ts` → `JOOMLA_COURSE_DATES`'e 4 eksik Ataşehir satırını ekle (plan §P0) |
-| **Yarım kalan iş** | Yok (çalışma ağacı temiz) |
-| **Engeller** | P1 başlamadan **karar #4 (iletişim formu nasıl gönderilecek)** gerekiyor |
+| **Aktif faz** | P0 **çekirdek kısmı bitti** (madde 1–3). Sıradaki: P0 madde 4–5 kararı, sonra **P1 Şube İletişim** |
+| **Bir sonraki somut adım** | Kullanıcıdan P0 madde 4–5 (opsiyonel: `pageRegistry`, `not-found`, `sitemap`/`robots` iskeleti) kararını al; sonra P1 Aşama 0 için karar #4'ü (form) iste |
+| **Yarım kalan iş** | Yok (çalışma ağacı temiz; P0-4/5 kullanıcı kararı bekliyor, başlanmadı) |
+| **Engeller** | P1 başlamadan **karar #4 (iletişim formu nasıl gönderilecek)** gerekiyor. `check-links` ölü hedef listesi: 19 hedef her sayfadan (104×) — ağırlıkla `/ddm-iletisim/*`, `/sinav-hazirlik-egitimleri/{sinav}-kursu`, `/diger-program/*`, `/ogrenci-yorumlari` (nav/footer kaynaklı) |
 | **Bekleyen kullanıcı kararları** | #1 yeni şablonlar için tasarım kaynağı · #2 yorum/duyuru tekil mi · #4 form backend'i (**engelleyici**) · #5 şube görselleri · #6 JSON-LD · #7 pageRegistry zamanlaması (bkz. plan §7) |
 | **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 (bayat, birebir basılıyor) · 3 şubede adres/telefon `null` (P1'de kaynaktan çıkarılacak) · 17 üniversite ve aile birleşimi kayıtlarında H1 yok (ilk başlığa düşülüyor) |
 
@@ -68,6 +68,24 @@
 - Doğrulama: tsc ✅/❌ · lint · build (N sayfa) · check-links (N ölü)
 - Commit'ler:
 ```
+
+### 2026-09-21 · Sonnet 5 · P0 Borç + altyapı (madde 1–3)
+- **Yapılanlar:**
+  - `next.config.ts` `JOOMLA_COURSE_DATES`'e 4 Ataşehir satırı eklendi (id 306/322/318/298).
+    Gövde metinleri temiz sayfalarla `site_content.json`'da birebir aynı doğrulandı. Toplam 16
+    Joomla redirect; `npm run start` + curl ile **16/16 → 308 → 200**.
+  - `scripts/check-links.mjs` + `npm run check-links` (`--list`, `--strict`): `.next/server/app`
+    prerender HTML'lerinden iç `href`'leri toplar, üretilen sayfalar + `routes-manifest.json`
+    redirect kaynaklarıyla karşılaştırır.
+  - Dil Kursu sayfa başlığındaki bayat "kalan 9 dil onay bekliyor" yorumu silindi.
+- **Baz çizgi (check-links):** 46 ölü hedef / 2194 çift. En kalabalık: `/ddm-iletisim/*` (5 şube),
+  `/diger-program/*`, `/sinav-hazirlik-egitimleri/{gmat,gre,ielts,proficiency,sat,testdaf,toefl,yds}-kursu`,
+  `/ogrenci-yorumlari` (her biri 104×), `/sinav-hazirlik-egitimleri` (58×), `/yabanci-dil` (47×).
+  Her faz bu sayıyı düşürmeli; yeni ölü link eklememeli.
+- **Alınan kararlar:** yok (P0-4/5 opsiyonel, kullanıcıya sorulmadı: `pageRegistry`, `not-found`, `sitemap`/`robots`).
+- **Açık kalanlar / sonraki adım:** P0-4/5 kararı; karar #4 (form) → P1.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (106) · check-links 46 hedef · redirect 16/16.
+- **Commit'ler:** `7b68a73` (kod) · + bu oturumun döküman commit'i.
 
 ### 2026-09-21 · Sonnet 5 → Opus 5 · Döküman turu + plan gözden geçirme
 - **Yapılanlar:**

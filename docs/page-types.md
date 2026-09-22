@@ -16,7 +16,7 @@
 
 | # | Sayfa Tipi | URL Deseni (örnek) | ~Adet | Temsili Örnek URL | Durum |
 |---|---|---|---|---|---|
-| 1 | Şube Kurs Tarihi Sayfası | `/{kategori}/{kurs}/{sube}-subesi-kurs-tarihi.html` | **84** | `/yabanci-dil-egitimleri/ingilizce-kursu/besiktas-subesi-kurs-tarihi.html` | ✅ 6.6 — 72 sayfa + 12 Joomla 301 (**+4 Ataşehir Joomla eksik → P0**) |
+| 1 | Şube Kurs Tarihi Sayfası | `/{kategori}/{kurs}/{sube}-subesi-kurs-tarihi.html` | **84** | `/yabanci-dil-egitimleri/ingilizce-kursu/besiktas-subesi-kurs-tarihi.html` | ✅ 6.6 — 72 sayfa + 16 Joomla 301 |
 | 2 | Öğrenci Yorumu (Tekil) | `/ogrenci-yorumlari/{id}-{ad-soyad}.html` | **51** | `/ogrenci-yorumlari/16-sibiya-sayeste.html` | ⏳ P7 |
 | 3 | Üniversite Proficiency Sayfası | `/sinav-hazirlik-egitimleri/proficiency-kursu/{universite}.html` (+ kök dizin eş kopyası) | **42** (21 üniversite × 2 URL) | `/sinav-hazirlik-egitimleri/proficiency-kursu/bogazici-universitesi.html` | ✅ 6.5 — 21 sayfa + 42 redirect |
 | 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` | ⏳ P4 |
