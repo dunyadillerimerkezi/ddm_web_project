@@ -66,6 +66,22 @@ const JOOMLA_COURSE_DATES: [string, string, string][] = [
   ["toeic-kursu", "298:atasehir-kurs-tarihleri", "atasehir-subesi-toeic-kurs-tarihi"],
 ];
 
+/**
+ * P1 (Faz 6.8) — 6 eski Joomla iletişim URL'i. Kurs-tarihi'nin aksine her
+ * biri KENDİ path'inde (aynı path'i paylaşan `?id=` varyantı yok), bu yüzden
+ * `has: query` GEREKMİYOR — path'in kendisi zaten ayırt edici.
+ * `65-levent-subesi-on-kayit-formu` iki farklı `%`-encode ile crawl'da
+ * yakalanmış (aynı sayfa) — ikisi de aynı hedefe gider.
+ */
+const JOOMLA_CONTACT: [string, string][] = [
+  ["/component/content/article/337-iletisim-sayfasi-kadikoy.html", "/ddm-iletisim/1-kadikoy"],
+  ["/component/content/article/338-iletisim-sayfasi-cadde.html", "/ddm-iletisim/iletisim-2-bagdat-caddesi"],
+  ["/component/content/article/339-iletisim-sayfasi-levent.html", "/ddm-iletisim/3-levent"],
+  ["/component/content/article/61-iletisim-sayfasi.html", "/ddm-iletisim/4-atasehir"],
+  ["/component/content/article/65-levent-subesi-on-kay%C4%B1t-formu.html", "/ddm-iletisim/3-levent"],
+  ["/component/content/article/65-levent-subesi-on-kayıt-formu.html", "/ddm-iletisim/3-levent"],
+];
+
 const nextConfig: NextConfig = {
   // Trailing slash kararı: URL'lerin sonunda "/" YOK, tutarlı biçimde
   // uygulanıyor (bkz. CLAUDE.md). Next.js varsayılanı zaten bu; kararı
@@ -98,7 +114,12 @@ const nextConfig: NextConfig = {
       destination: `/sinav-hazirlik-egitimleri/${kurs}/${pageSlug}`,
       permanent: true,
     }));
-    return [...university, ...courseDates];
+    const contact = JOOMLA_CONTACT.map(([source, destination]) => ({
+      source,
+      destination,
+      permanent: true,
+    }));
+    return [...university, ...courseDates, ...contact];
   },
 };
 

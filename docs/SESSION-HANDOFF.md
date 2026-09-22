@@ -7,20 +7,20 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-21, P0 sonrası)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-22, P1 sonrası — henüz commit'lenmedi)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `7b68a73` — P0: 4 Ataşehir Joomla 301 + `check-links` betiği + bayat yorum temizliği |
+| **Son kod commit'i** | `4869cb6` — P0 madde 4-5 (pageRegistry/sitemap/robots/not-found, kullanıcı kendi commit'ledi). **P1 (Şube İletişim) çalışma ağacında, commit'lenmedi.** |
 | **Son döküman commit'i** | bu oturumun commit'i (`git log -1` ile teyit et) |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (106 statik sayfa) · `check-links` **baz çizgi: 46 ölü hedef / 2194 (sayfa→hedef) çifti** (104 sayfa, 4277 iç link) · 16/16 Joomla kurs-tarihi redirect'i 308→200 (curl) |
-| **Tamamlanan tipler** | Ana Sayfa (6.3) · Dil Kursu 10 (6.4) · Üniversite Proficiency 21 (6.5) · Şube Kurs Tarihi 72 (6.6) |
-| **Aktif faz** | P0 **çekirdek kısmı bitti** (madde 1–3). Sıradaki: P0 madde 4–5 kararı, sonra **P1 Şube İletişim** |
-| **Bir sonraki somut adım** | Kullanıcıdan P0 madde 4–5 (opsiyonel: `pageRegistry`, `not-found`, `sitemap`/`robots` iskeleti) kararını al; sonra P1 Aşama 0 için karar #4'ü (form) iste |
-| **Yarım kalan iş** | Yok (çalışma ağacı temiz; P0-4/5 kullanıcı kararı bekliyor, başlanmadı) |
-| **Engeller** | P1 başlamadan **karar #4 (iletişim formu nasıl gönderilecek)** gerekiyor. `check-links` ölü hedef listesi: 19 hedef her sayfadan (104×) — ağırlıkla `/ddm-iletisim/*`, `/sinav-hazirlik-egitimleri/{sinav}-kursu`, `/diger-program/*`, `/ogrenci-yorumlari` (nav/footer kaynaklı) |
-| **Bekleyen kullanıcı kararları** | #1 yeni şablonlar için tasarım kaynağı · #2 yorum/duyuru tekil mi · #4 form backend'i (**engelleyici**) · #5 şube görselleri · #6 JSON-LD · #7 pageRegistry zamanlaması (bkz. plan §7) |
-| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 (bayat, birebir basılıyor) · 3 şubede adres/telefon `null` (P1'de kaynaktan çıkarılacak) · 17 üniversite ve aile birleşimi kayıtlarında H1 yok (ilk başlığa düşülüyor) |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**110 statik sayfa**, +6 şube) · `check-links` **46 → 40 ölü hedef** · 16/16 kurs-tarihi + 6/6 iletişim Joomla redirect'i 308→200 (curl) · sitemap 110/110 |
+| **Tamamlanan tipler** | Ana Sayfa (6.3) · Dil Kursu 10 (6.4) · Üniversite Proficiency 21 (6.5) · Şube Kurs Tarihi 72 (6.6) · **Şube İletişim hub+5 (P1, form hariç)** |
+| **Aktif faz** | P0 **tamam**. P1 **kod tamam (form hariç), henüz commit'lenmedi** — kullanıcı onayı bekliyor. |
+| **Bir sonraki somut adım** | Kullanıcı P1'i onaylarsa commit'le (kod + döküman ayrı), sonra **P2 Sınav Hazırlık Kursu Ana**'ya geç (Aşama 0'la başla) |
+| **Yarım kalan iş** | P1'in 9 dosyası (`data/branches.ts`, `lib/branchContent.ts`, `lib/pageRegistry.ts`, `next.config.ts`, `components/sections/BranchHero.tsx`, `components/cards/BranchTile.tsx`, `styles/BranchTile.module.css`, `app/ddm-iletisim/page.tsx`, `app/ddm-iletisim/[sube]/page.tsx`) test edildi ama commit'lenmedi — kullanıcı onayı bekleniyor, sonra kod+döküman ayrı commit |
+| **Engeller** | P1'in FORM/KVKK kısmı hâlâ karar #4'e bağlı (sona bırakıldı, adres/telefon kısmı formsuz tamamlandı). `check-links` kalan 40 ölü hedef: `/sinav-hazirlik-egitimleri/{sinav}-kursu` (P2), `/diger-program/*` (P4), `/ogrenci-yorumlari` (P7), `/sinav-hazirlik-egitimleri` ve `/yabanci-dil` hub'ları (P3) |
+| **Bekleyen kullanıcı kararları** | #1 yeni şablonlar için tasarım kaynağı · #2 yorum/duyuru tekil mi · #4 form backend'i (P1'in form kısmını engelliyor, gerisini değil) · #5 şube fotoğrafları/haritası · #6 JSON-LD (bkz. plan §7) |
+| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 (bayat, birebir basılıyor) · 17 üniversite ve aile birleşimi kayıtlarında H1 yok (ilk başlığa düşülüyor) · 5 şube iletişim kaydının hiçbirinde `headings` yok (title'a düşülüyor) · Ümraniye'nin telefonu Ataşehir'in 2. hattıyla aynı (kaynak hatası değil, tutarlı) |
 
 ---
 
@@ -58,6 +58,31 @@
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-22 · Sonnet 5 · P1 Şube İletişim (form hariç) — commit bekliyor
+- **Yapılanlar:**
+  - Aşama 0: 6 `/ddm-iletisim/*` kaydı + hub kaydı incelendi. ~1300 kelimelik sayfaların
+    %95'i form alanı + KVKK yasal metni (5 şube arası %99,7 birebir aynı — yalnız şube adı
+    değişiyor); gerçek şubeye özel içerik yalnız adres/telefon/e-posta/WhatsApp, hub
+    kaydından (temiz liste) çıkarıldı.
+  - 3 kullanıcı kararı alındı: Etiler e-postası kaynağa göre düzeltilsin · Kariyer sayfası
+    P1 dışı · form/KVKK metni şimdilik hiç render edilmesin.
+  - `data/branches.ts`: Bağdat/Etiler/Ataşehir adres+telefon+e-posta+WhatsApp dolduruldu;
+    Etiler e-postası düzeltildi. **Kod hatası bulundu+düzeltildi:** `telHref()` `wa`
+    yerine `phone`'dan türüyor artık (önceden WhatsApp'ı olmayan Etiler'de "Ara" butonu
+    hiç çıkmıyordu).
+  - Yeni: `lib/branchContent.ts` (title/meta/H1 çözücü, Ümraniye title/meta kopyala-yapıştır
+    hatası düzeltildi), `components/sections/BranchHero.tsx`, `components/cards/BranchTile.tsx`
+    + CSS, `app/ddm-iletisim/page.tsx` (hub), `app/ddm-iletisim/[sube]/page.tsx` (5 şube).
+  - `next.config.ts`: 6 Joomla iletişim redirect'i (`component/content/article/...`).
+  - `lib/pageRegistry.ts` + sitemap: 104 → 110.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (110 sayfa) · check-links 46→40 ölü hedef ·
+  6/6 Joomla redirect 308→200 (curl) · Ümraniye title/H1 düzeltmesi canlıda doğrulandı ·
+  Etiler'de artık "Ara" butonu var, "WhatsApp" butonu yok (gerçek render kontrol edildi,
+  RSC flight payload'daki yanıltıcı "WhatsApp" eşleşmesi false positive çıktı).
+- **Açık kalanlar / sonraki adım:** kullanıcı onayı → commit (kod+döküman ayrı) → P2.
+- **Commit'ler:** henüz yok (bu oturumun kodu commit'lenmeyi bekliyor).
+
 
 ### Şablon
 ```

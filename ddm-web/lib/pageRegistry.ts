@@ -21,8 +21,9 @@
 import { LANGUAGES } from "@/data/languages";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 import { COURSE_DATES } from "@/data/courseDates";
+import { BRANCH_LIST } from "@/data/branches";
 
-export type PageKind = "home" | "language" | "university" | "course-date";
+export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact";
 
 export type PageRecord = {
   href: string;
@@ -54,7 +55,21 @@ function courseDatePages(): PageRecord[] {
   }));
 }
 
-/** Üretilen tüm sayfaların düz listesi (şu an 1 + 10 + 21 + 72 = 104). */
+/** P1 (Faz 6.8) — `/ddm-iletisim` hub + 5 şube sayfası. */
+function branchContactPages(): PageRecord[] {
+  return [
+    { href: "/ddm-iletisim", kind: "branch-contact" },
+    ...BRANCH_LIST.map((b) => ({ href: b.href, kind: "branch-contact" as const })),
+  ];
+}
+
+/** Üretilen tüm sayfaların düz listesi (şu an 1 + 10 + 21 + 72 + 6 = 110). */
 export function getPageRegistry(): PageRecord[] {
-  return [...homePages(), ...languagePages(), ...universityPages(), ...courseDatePages()];
+  return [
+    ...homePages(),
+    ...languagePages(),
+    ...universityPages(),
+    ...courseDatePages(),
+    ...branchContactPages(),
+  ];
 }

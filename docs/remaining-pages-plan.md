@@ -60,7 +60,7 @@
 | # | Tip | Temiz sayfa | + Redirect | Efor | Bağımlılık |
 |---|---|---|---|---|---|
 | **P0** | Borç + altyapı | — | 4 | S | — |
-| **P1** | Şube İletişim | 6 + hub | 6 | M | **Karar #4** |
+| **P1** | Şube İletişim | 6 + hub | 6 | M | ✅ tamam (form hariç) |
 | **P2** | Sınav Hazırlık Kursu Ana | 16 | — (Faz 8 genel kural) | M | P1 (CTA), §3 |
 | **P3** | Kategori Hub'ları | 6–7 | — | S | P2 / P4 ile birlikte |
 | **P4** | Zengin İçerik Alt Sayfa | ~78 | 29 (`has: query`) | L | §3 route işi, karar #1 |
@@ -176,7 +176,7 @@ Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriter
   ```
 - **Skill:** `code-review` (commit öncesi), `run` (redirect doğrulama).
 
-### P1 — Şube İletişim  ⏳ (M) — **Engel: karar #4**
+### P1 — Şube İletişim  ✅ tamam (form gövdesi hariç, karar #4 bekliyor)
 - **Kapsam (6 temiz + hub):**
   - `/ddm-iletisim` (hub, 119 kelime)
   - `/ddm-iletisim/1-kadikoy`, `/ddm-iletisim/3-levent`, `/ddm-iletisim/4-atasehir`,
@@ -217,6 +217,30 @@ Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriter
   ```
 - **Skill:** `frontend-design:frontend-design`, `schema` (LocalBusiness/EducationalOrganization,
   karar #6 evet ise), `run` (mobil/masaüstü görsel kontrol), `code-review`.
+
+- **Sonuç (2026-09-22):** Hub + 5 şube sayfası üretildi (`app/ddm-iletisim/`,
+  `app/ddm-iletisim/[sube]/`), `lib/branchContent.ts`, `components/sections/BranchHero.tsx`,
+  `components/cards/BranchTile.tsx`. 6/6 Joomla redirect 308. `check-links` ölü hedef 46 → 40.
+  **Plandan sapmalar (kullanıcı onayıyla):**
+  - `ContactFormCard`/form/KVKK gövdesi **render edilmedi** — form işi sona bırakıldığı için.
+    Aşama 0: sayfaların ~1300 kelimesinin %95'i (form alanları + KVKK metni) 5 şubede
+    birebir aynı, gerçek şubeye özel içerik sadece adres/telefon/e-posta/WhatsApp — bunlar
+    `branches.ts`'e taşındı, form kısmı boş bırakıldı.
+  - `is-basvurusu-kariyer` **kapsam dışı** — şube sayfası değil, ayrı bir iş başvuru formu tipi.
+  - Harita **eklenmedi** (görsel/iframe verisi yok, `ImageSlot` zaten `BranchInfoPanel`de var).
+  - `PageHero` yerine yeni `BranchHero` yazıldı — `PageHero`nun `stats` (zorunlu) ve kurs-odaklı
+    rozet alanları bu tipe uymuyordu, uydurma veri istemedik.
+  - `BranchCard` (Ana Sayfa'ya özel, `HomeBranchCard` marka metni ister) yerine yeni,
+    daha hafif `BranchTile` yazıldı.
+  - Yatay eksik bilgi tamamlandı: Bağdat/Etiler/Ataşehir adres+telefon+e-posta+WhatsApp
+    `/ddm-iletisim.html` hub kaydından (temiz, yapılandırılmış liste) çıkarıldı, şubenin
+    kendi sayfasıyla çapraz doğrulandı. Etiler'in e-postası (`etiler@`→`levent@`) ve
+    Ümraniye'nin title/meta'sındaki "Ataşehir" kopyala-yapıştır hatası düzeltildi.
+  - **Kod hatası bulundu ve düzeltildi:** `telHref()` `branch.wa`'dan türüyordu — WhatsApp'ı
+    olmayan ama telefonu olan bir şube (Etiler) "Ara" butonunu hiç gösteremiyordu. Artık
+    `branch.phone`'dan türüyor (`data/branches.ts`).
+  - H1: kayıtların hiçbirinde `headings` yok → CLAUDE.md §6 gereği `title`'a düşüldü
+    (`[h1-fallback] branchContent[...]` loglanıyor).
 
 ### P2 — Sınav Hazırlık Kursu Ana  ⏳ (M)
 - **Kapsam (16 slug, kesin):**
@@ -486,7 +510,7 @@ Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriter
 | 1 | Yeni şablonların tasarım kaynağı: Claude Design turu mu, mevcut atomlarla doğrudan kod mu? | P1 ve P4 için kısa Design turu (gerçek içerikle); P2/P3/P5/P7 mevcut atomlarla kodda | P1, P4 |
 | 2 | 51 yorum + 12 duyuru: tekil sayfa mı, liste sayfasına 301 mi? | Tekil sayfalar (URL/SEO korunur, şablon ucuz) | P7 |
 | 3 | Kurs tarihi ücret satırları (~170) yayınlanmıyor. Kalıcı mı? P2'de sınav ücretleri için de geçerli mi? | Faz 9 öncesi teyit; P2'de kaynakta ücret varsa sor | P2 |
-| 4 | **İletişim/ön kayıt formu gönderimi:** `ContactFormCard` hiçbir yere göndermiyor. Seçenekler: Next.js Route Handler + e-posta servisi, harici form servisi, `mailto:`/WhatsApp | Route Handler + e-posta servisi (SSG'yi bozmaz) | **P1 (engelleyici)** |
+| 4 | **İletişim/ön kayıt formu gönderimi:** `ContactFormCard` hiçbir yere göndermiyor. Seçenekler: Next.js Route Handler + e-posta servisi, harici form servisi, `mailto:`/WhatsApp | Route Handler + e-posta servisi (SSG'yi bozmaz) | P1'in adres/telefon kısmı formsuz tamamlandı (2026-09-22) — form/KVKK gövdesi hâlâ bu karara bağlı, sona bırakıldı |
 | 5 | Şube galeri görselleri ve eksik adres/telefon verisini kim sağlayacak? | Önce P1 Aşama 0'da kaynaktan çıkar; kalanları kullanıcı sağlar | P1, P6 |
 | 6 | JSON-LD yapısal veri eklensin mi? | Evet; metin değişmez, SEO artısı | P9 (ve P1/P2'de erken) |
 | 7 | `lib/pageRegistry.ts` refactor'u ne zaman? | P0'da iskelet (davranış değişmeden) | P2, P4 |
