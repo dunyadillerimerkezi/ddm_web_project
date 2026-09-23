@@ -81,3 +81,23 @@ export function getPageRegistry(): PageRecord[] {
     ...examPages(),
   ];
 }
+
+/**
+ * Üretilmiş sayfaların href kümesi — menü süzgecinin (`lib/navTree.ts`)
+ * kaynağı. Modül düzeyinde bir kez kurulur.
+ *
+ * DİKKAT: bu modül `data/courseDates.ts` (~320 KB) ve `data/exams.ts` gibi
+ * ağır veri dosyalarını içe aktarır. Yalnız SUNUCU tarafında kullanın;
+ * bir istemci bileşenine (`"use client"`) import edilirse tüm bu veri
+ * tarayıcı paketine girer.
+ */
+const PRODUCED_HREFS: Set<string> = new Set(getPageRegistry().map((p) => p.href));
+
+/**
+ * `href` üretilmiş bir sayfaya mı gidiyor? Çapa (`#universiteler`) ve sorgu
+ * kısmı atılır — hedef sayfa aynıdır.
+ */
+export function isProducedPage(href: string): boolean {
+  const path = href.split("#")[0].split("?")[0];
+  return PRODUCED_HREFS.has(path);
+}

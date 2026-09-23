@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Branch } from "@/lib/types";
+import { assertNavSoonFlags } from "@/lib/navAudit";
 import { TopBar } from "./TopBar";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
@@ -22,6 +23,11 @@ type SiteChromeProps = {
  * içerik + footer + mobil alt çubuk.
  */
 export function SiteChrome({ children, branch, ctaLabel, ctaHref }: SiteChromeProps) {
+  // Menü ağacını `SiteHeader` kendisi süzüyor (istemci); burada yalnız
+  // `soon` bayraklarının üretilmiş sayfa listesiyle tutarlılığı doğrulanıyor.
+  // Sapma varsa build düşer — bkz. lib/navAudit.ts.
+  assertNavSoonFlags();
+
   return (
     <>
       <TopBar branch={branch} />

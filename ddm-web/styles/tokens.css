@@ -197,6 +197,23 @@
   --ddm-gap-card: clamp(14px, 1.6vw, 18px); /* kart ızgarası */
   --ddm-gap-col: clamp(24px, 3.4vw, 48px); /* kolon arası */
 
+  /* Menü (PM, 2026-09-23) — mega panel ve mobil çekmece kendi içinde kayar,
+   * ekrandan taşmaz. Ölçüler sticky header'ın yüksekliğinden türer:
+   * sticky dolgusu clamp(10,16) + bar (2×12 dolgu + logo clamp(44,58) + 2 kenarlık)
+   * + megaWrap/çekmece üst payı 10 → 90px…110px. */
+  --ddm-header-bottom: 110px; /* masaüstünde header'ın alt kenarı */
+  --ddm-header-bottom-sm: 185px; /* ≤1339px yedek: üst bar 2 satır + header */
+  --ddm-bottom-bar: 76px; /* ≤999px mobil alt sabit çubuk (MobileBottomBar) */
+  /* Mega panel üst barın altında açılır; sayfa kaydırılmamışken üst bar da
+   * (~57px) yüksekliği yer, o yüzden pay geniş tutuldu. Üst sınır 620px:
+   * daha uzun panel ekranı kaplıyor, göz listeyi takip edemiyor. */
+  --ddm-menu-max-h: min(calc(100dvh - var(--ddm-header-bottom) - 70px), 620px);
+  /* Sol bölme kendi içinde kayar: 16 sınavlık liste panel yüksekliğini aşıyor. */
+  --ddm-rail-max-h: min(calc(100dvh - var(--ddm-header-bottom) - 170px), 500px);
+  /* Çekmecenin üst kenarı JS ile ölçülür (SiteHeader.tsx `--drawer-top`);
+   * bu değer yalnız ölçüm yapılamazsa devreye giren yedek. Üst barın mobilde
+   * iki satıra düştüğü en kötü durumu varsayar. */
+
   /* ---------------------------------------------------------------
    * 7 · KÖŞE YUVARLAKLIĞI
    * Form/buton 12–14 · kart 20–24 · büyük panel 28 · rozet pill

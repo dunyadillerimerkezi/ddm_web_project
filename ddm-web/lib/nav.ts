@@ -4,59 +4,264 @@ import { BRANCH_LIST } from "@/data/branches";
 /**
  * Mega menü + footer link ağacı — TEK KAYNAK.
  *
- * Tasarımda bu ağaç dört şablonun her birinde ayrı ayrı kopyalanmıştı
- * (`menus()` / `footerCols`); burada bir kez duruyor.
+ * Ağaç, canlı sitenin 2026-09-23'te çıkarılmış TAM mega menüsüdür
+ * (`../docs/live-menu-2026-09-23.md`), üç kullanıcı düzeltmesiyle:
+ *   1. 21 üniversite proficiency sayfası menüden çıktı; yerine tek giriş
+ *      ("Üniversite Proficiency Kursları" → proficiency sayfasının
+ *      `#universiteler` çapası). Üniversitelere yalnız o listeden gidilir.
+ *   2. "Exclusive For Pegasus Pilots" ve `/kurumsal-dil-egitim` hub'ı ayrı
+ *      sekme değil, Diğer Programlar altında.
+ *   3. "Öğrenci Yorumları" sekmesi (Mektuplar/Aktiviteler/Duyurular dahil)
+ *      menüden tamamen kalktı. Footer'daki link duruyor.
  *
- * URL'ler `data/urls.csv`'deki gerçek eski site adreslerinden türetildi
- * (CLAUDE.md §3: slug birebir korunur, yalnız `.html` düşer).
+ * BU DOSYA AĞACIN TAMAMINI TARİF EDER — henüz ÜRETİLMEMİŞ sayfalar dahil
+ * (P4/P5: `-2`, `özel ders`, `nedir`, `online-*`, `/ingilizce-kurslari/*`,
+ * `/yurtdisi-egitim/*`). Ölü link basılmaması `lib/navTree.ts`'in işi: orası
+ * `lib/pageRegistry.ts`'e bakıp üretilmemiş hedeflerin href'ini düşürür.
+ * Yeni faz bittiğinde menü kendiliğinden dolar — burada bir şey değişmez.
  *
- * `href: null` olan başlıkların eski sitede karşılığı YOK. Link
- * üretilmez, düz metin gösterilir. Bu bilinçli — uydurma URL yazmayın.
+ * URL'ler eski site adreslerinden türetildi (CLAUDE.md §3: slug birebir
+ * korunur, yalnız `.html` düşer). Uydurma URL yazmayın.
+ *
+ * Şube kurs tarihi kalemlerinin etiketi menüde ŞUBE ADINA kısaltıldı
+ * ("Kadıköy Şubesi TOEFL Kurs Tarihi" → "Kadıköy"); bağlamı öbek başlığı
+ * ("ŞUBE KURS TARİHLERİ") veriyor, 390px'te satır taşmıyor. Sayfa içeriği
+ * değil arayüz etiketi olduğu için CLAUDE.md §5 kapsamı dışında.
  */
 
 const YD = "/yabanci-dil-egitimleri";
 const SH = "/sinav-hazirlik-egitimleri";
 const YE = "/yurtdisi-egitim";
 const DP = "/diger-program";
+const IK = "/ingilizce-kurslari";
+const KD = "/kurumsal-dil-egitim";
+const IL = "/ddm-iletisim";
 
 export const NAV_ITEMS: NavItem[] = [
   {
     key: "dil",
     short: "Yabancı Dil",
     label: "YABANCI DİL KURSLARI",
-    promoTitle: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz.",
-    // Hub sayfası "/yabanci-dil" — YD yalnız bir dizin öneki, sayfa değil.
-    promoLink: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "/yabanci-dil" },
+    layout: "rail",
+    promoTitle:
+      "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz.",
+    promoLink: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "/yabanci-dil", soon: true },
     columns: [
       {
         title: "DİLLER",
         items: [
-          { label: "İngilizce Kursu", href: `${YD}/ingilizce-kursu` },
-          { label: "Almanca Kursu", href: `${YD}/almanca-kursu` },
-          { label: "Fransızca Kursu", href: `${YD}/fransizca-kursu` },
-          { label: "Rusça Kursu", href: `${YD}/rusca-kursu` },
-          { label: "İspanyolca Kursu", href: `${YD}/ispanyolca-kursu` },
-        ],
-      },
-      {
-        title: "DİĞER DİLLER",
-        items: [
-          { label: "İtalyanca Kursu", href: `${YD}/italyanca-kursu` },
-          { label: "Çince Kursu", href: `${YD}/cince-kursu` },
-          { label: "Türkçe Kursu", href: `${YD}/yabancila-icin-turkce-kurs` },
-          { label: "Flemenkçe Kursu", href: `${YD}/flemenkce-kursu` },
-          { label: "İngilizce Konuşma", href: `${YD}/ingilizce-konusma-kursu` },
-        ],
-      },
-      {
-        title: "KURS BİLGİLERİ",
-        items: [
-          // Bu dördü ayrı sayfa DEĞİL — dil kursu sayfasının bölümleri.
-          { label: "Eğitim Programı Seviyeleri", href: `${YD}/ingilizce-kursu#seviyeler` },
-          { label: "Programı Gün ve Saatleri", href: `${YD}/ingilizce-kursu#kurs-takvimi` },
-          { label: "Kur Sınavları", href: `${YD}/ingilizce-kursu#kur-sinavi` },
-          { label: "Dil Seviyeleri", href: "/ingilizce-kurslari" },
-          { label: "Sertifikalar ve Uluslararası Sınavlar", href: `${YD}/ingilizce-kursu#sertifika` },
+          {
+            label: "İngilizce Kursu",
+            href: `${YD}/ingilizce-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "İngilizce Programı", href: `${YD}/ingilizce-kursu/ingilizce-kursu-2`, soon: true },
+                  { label: "İngilizce Özel Ders", href: `${YD}/ingilizce-kursu/ingilizce-ozel-ders`, soon: true },
+                  { label: "İngilizce Eğitim Sistemi", href: `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi`, soon: true },
+                  { label: "Online İngilizce Eğitimi", href: `${YD}/ingilizce-kursu/online-ingilizce-egitimi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${YD}/ingilizce-kursu/kadikoy-subesi-ingilizce-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${YD}/ingilizce-kursu/bagdat-caddesi-subesi-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/ingilizce-kursu/besiktas-subesi-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/ingilizce-kursu/atasehir-subesi-ingilizce-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Almanca Kursu",
+            href: `${YD}/almanca-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "Almanca Programı", href: `${YD}/almanca-kursu/almanca-kursu-2`, soon: true },
+                  { label: "Hızlandırılmış Almanca Kursu", href: `${YD}/almanca-kursu/hizlandirilmis-almanca-kursu`, soon: true },
+                  { label: "Almanca Özel Ders", href: `${YD}/almanca-kursu/almanca-ozel-ders`, soon: true },
+                  { label: "Almanca Konuşma Kursları", href: `${YD}/almanca-kursu/almanca-konusma-kurslari`, soon: true },
+                  { label: "Online Almanca Eğitimi", href: `${YD}/almanca-kursu/online-almanca-egitimi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${YD}/almanca-kursu/kadikoy-subesi-almanca-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${YD}/almanca-kursu/bagdat-caddesi-subesi-almanca-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/almanca-kursu/besiktas-subesi-almanca-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/almanca-kursu/atasehir-subesi-almanca-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Fransızca Kursu",
+            href: `${YD}/fransizca-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "Fransızca Programı", href: `${YD}/fransizca-kursu/fransizca-kursu-2`, soon: true },
+                  { label: "Fransızca Özel Ders", href: `${YD}/fransizca-kursu/fransizca-ozel-ders`, soon: true },
+                  { label: "Online Fransızca Eğitimi", href: `${YD}/fransizca-kursu/online-fransizca-egitimi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Bağdat Caddesi", href: `${YD}/fransizca-kursu/bagdat-caddesi-subesi-fransizca-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/fransizca-kursu/besiktas-subesi-fransizca-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/fransizca-kursu/atasehir-subesi-fransizca-kurs-tarihi` },
+                  { label: "Kadıköy", href: `${YD}/fransizca-kursu/kadikoy-subesi-fransizca-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Rusça Kursu",
+            href: `${YD}/rusca-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "Rusça Programı", href: `${YD}/rusca-kursu/rusca-kursu-2`, soon: true },
+                  { label: "Rusça Özel Ders", href: `${YD}/rusca-kursu/rusca-ozel-ders`, soon: true },
+                  { label: "Online Rusça Eğitimi", href: `${YD}/rusca-kursu/online-rusca-egitimi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${YD}/rusca-kursu/kadikoy-subesi-rusca-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${YD}/rusca-kursu/bagdat-caddesi-subesi-rusca-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/rusca-kursu/besiktas-subesi-rusca-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/rusca-kursu/atasehir-subesi-rusca-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "İspanyolca Kursu",
+            href: `${YD}/ispanyolca-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "İspanyolca Programı", href: `${YD}/ispanyolca-kursu/ispanyolca-kursu-2`, soon: true },
+                  { label: "İspanyolca Özel Ders", href: `${YD}/ispanyolca-kursu/ispanyolca-ozel-ders`, soon: true },
+                  { label: "Online İspanyolca Eğitimi", href: `${YD}/ispanyolca-kursu/online-ispanyolca-egitimi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${YD}/ispanyolca-kursu/kadikoy-subesi-ispanyolca-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${YD}/ispanyolca-kursu/bagdat-caddesi-subesi-ispanyolca-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/ispanyolca-kursu/besiktas-subesi-ispanyolca-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/ispanyolca-kursu/atasehir-subesi-ispanyolca-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "İtalyanca Kursu",
+            href: `${YD}/italyanca-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "İtalyanca Programı", href: `${YD}/italyanca-kursu/italyanca-kursu-2`, soon: true },
+                  { label: "İtalyanca Özel Ders", href: `${YD}/italyanca-kursu/italyanca-ozel-ders`, soon: true },
+                  { label: "Online İtalyanca Eğitimi", href: `${YD}/italyanca-kursu/online-italyanca-egitimi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${YD}/italyanca-kursu/kadikoy-subesi-italyanca-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${YD}/italyanca-kursu/bagdat-caddesi-subesi-italyanca-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/italyanca-kursu/besiktas-subesi-italyanca-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/italyanca-kursu/atasehir-subesi-italyanca-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Çince Kursu",
+            href: `${YD}/cince-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "Çince Programı", href: `${YD}/cince-kursu/cince-kursu-2`, soon: true },
+                  { label: "Çince Özel Ders", href: `${YD}/cince-kursu/cince-ozel-ders`, soon: true },
+                  { label: "Çince Öğrenmek Zor mu?", href: `${YD}/cince-kursu/cince-ogrenmek-zor-mu`, soon: true },
+                  { label: "Online Çince Eğitimi", href: `${YD}/cince-kursu/online-cince-egitimi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${YD}/cince-kursu/kadikoy-subesi-cince-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${YD}/cince-kursu/bagdat-caddesi-subesi-cince-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/cince-kursu/besiktas-subesi-cince-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/cince-kursu/atasehir-subesi-cince-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Türkçe Kursu",
+            href: `${YD}/yabancila-icin-turkce-kurs`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "Türkçe Programı", href: `${YD}/yabancila-icin-turkce-kurs/yabancila-icin-turkce-kurs-2`, soon: true },
+                  { label: "Yabancılar İçin Türkçe Özel Ders", href: `${YD}/yabancila-icin-turkce-kurs/turkce-ozel-ders`, soon: true },
+                  { label: "Türkçe Eğitim Seviyeleri", href: `${YD}/yabancila-icin-turkce-kurs/turkce-egitim-seviyeleri`, soon: true },
+                  { label: "Online Türkçe Eğitimi", href: `${YD}/yabancila-icin-turkce-kurs/online-turkce-egitimi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${YD}/yabancila-icin-turkce-kurs/kadikoy-subesi-turkce-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${YD}/yabancila-icin-turkce-kurs/bagdat-caddesi-subesi-turkce-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/yabancila-icin-turkce-kurs/besiktas-subesi-turkce-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/yabancila-icin-turkce-kurs/atasehir-subesi-turkce-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "İngilizce Konuşma Kursu",
+            href: `${YD}/ingilizce-konusma-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "İngilizce Konuşma Programı", href: `${YD}/ingilizce-konusma-kursu/ingilizce-konusma-kursu-2`, soon: true },
+                  { label: "İngilizce Konuşma Özel Ders", href: `${YD}/ingilizce-konusma-kursu/ingilizce-konusma-ozel-ders`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${YD}/ingilizce-konusma-kursu/kadikoy-subesi-ingilizce-konusma-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${YD}/ingilizce-konusma-kursu/bagdat-caddesi-subesi-ingilizce-konusma-kurs-tarihi` },
+                  { label: "Etiler", href: `${YD}/ingilizce-konusma-kursu/besiktas-subesi-ingilizce-konusma-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${YD}/ingilizce-konusma-kursu/atasehir-subesi-ingilizce-konusma-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          { label: "Hollandaca | Flemenkçe Kursu", href: `${YD}/flemenkce-kursu` },
         ],
       },
     ],
@@ -65,27 +270,30 @@ export const NAV_ITEMS: NavItem[] = [
     key: "ing",
     short: "İngilizce",
     label: "İNGİLİZCE KURSLARI",
-    promoTitle: "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar",
-    promoLink: { label: "Diğer Eğitim Programlarını Keşfet", href: DP },
+    layout: "columns",
+    promoTitle:
+      "Başlangıçtan ileri seviyeye, sınıf seviyene göre İngilizce programları.",
+    promoLink: { label: "İngilizce Kurslarını Keşfet", href: IK, soon: true },
     columns: [
       {
-        title: "PROGRAM",
+        title: "SEVİYELER",
         items: [
-          { label: "İngilizce Eğitim Programı Seviyeleri", href: "/ingilizce-kurslari/ingilizce-egitim-sistemi" },
-          { label: "İngilizce Programı Gün ve Saatleri", href: `${YD}/ingilizce-kursu#kurs-takvimi` },
-          { label: "İngilizce Kur Sınavları", href: `${YD}/ingilizce-kursu#kur-sinavi` },
-          { label: "İngilizce Dil Seviyeleri", href: "/ingilizce-kurslari" },
+          { label: "Advanced İngilizce Kursu", href: `${IK}/advanced-ingilizce-kursu`, soon: true },
+          { label: "Upper-Intermediate İngilizce Kursu", href: `${IK}/upper-intermediate-ingilizce-kursu`, soon: true },
+          { label: "Intermediate İngilizce Kursu", href: `${IK}/intermediate-ingilizce-kursu`, soon: true },
+          { label: "Pre-Intermediate İngilizce Kursu", href: `${IK}/pre-intermediate-ingilizce-kursu`, soon: true },
+          { label: "Elementary İngilizce Kursu", href: `${IK}/elementary-ingilizce-kursu`, soon: true },
         ],
       },
       {
         title: "ÖZEL PROGRAMLAR",
         items: [
-          { label: "İngilizce Konuşma", href: `${YD}/ingilizce-konusma-kursu` },
-          { label: "Business English", href: `${DP}/business-english` },
-          // Tasarımdaki "DDM Kids" etiketi; eski sitedeki karşılığı bu sayfa.
-          { label: "DDM Kids", href: `${DP}/cocuklar-icin-ingilizce-kursu` },
-          { label: "Online Dil Eğitimi", href: `${DP}/online-dil-egitimi` },
-          { label: "Özel Dersler", href: `${DP}/ozel-dersler` },
+          { label: "Üniversite Hazırlık İngilizcesi", href: `${IK}/universite-ingilizce-kursu`, soon: true },
+          { label: "YKS Dil İngilizce", href: `${IK}/yks-dil-ingilizce`, soon: true },
+          { label: "İlköğretim İngilizcesi", href: `${IK}/ilkogretim-ingilizce-kursu`, soon: true },
+          { label: "Yaz Okulu İngilizce Programları", href: `${IK}/yaz-okulu-ingilizce-kursu`, soon: true },
+          { label: "İngilizce Konuşma Kursu", href: `${IK}/ingilizce-konusma-kursu`, soon: true },
+          { label: "İngilizce Eğitim Sistemi", href: `${IK}/ingilizce-egitim-sistemi`, soon: true },
         ],
       },
     ],
@@ -94,30 +302,242 @@ export const NAV_ITEMS: NavItem[] = [
     key: "sinav",
     short: "Sınav Hazırlık",
     label: "SINAV HAZIRLIK",
+    layout: "rail",
     promoTitle:
       "TOEFL, IELTS, YDS, GRE, SAT, GMAT, TESTDAF/DNDS ve Proficiency programlarımızla öğrencilerimize kapsamlı destek sunuyoruz.",
-    promoLink: { label: "Sana Uygun Sınav Hazırlık Programını Keşfet", href: SH },
+    promoLink: { label: "Sana Uygun Sınav Hazırlık Programını Keşfet", href: SH, soon: true },
     columns: [
       {
-        title: "SINAV HAZIRLIK PROGRAMLARI",
+        title: "SINAV PROGRAMLARI",
         items: [
-          { label: "TOEFL Kursu", href: `${SH}/toefl-kursu` },
-          { label: "IELTS Kursu", href: `${SH}/ielts-kursu` },
-          { label: "Proficiency Kursu", href: `${SH}/proficiency-kursu` },
+          {
+            label: "TOEFL Kursu",
+            href: `${SH}/toefl-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "TOEFL Programı", href: `${SH}/toefl-kursu/toefl-kursu-2`, soon: true },
+                  { label: "TOEFL Özel Ders", href: `${SH}/toefl-kursu/toefl-ozel-ders`, soon: true },
+                  { label: "TOEFL Nedir?", href: `${SH}/toefl-kursu/toefl-nedir`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/toefl-kursu/kadikoy-subesi-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/toefl-kursu/bagdat-caddesi-subesi-toefl-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/toefl-kursu/besiktas-subesi-toefl-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/toefl-kursu/atasehir-subesi-toefl-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "IELTS Kursu",
+            href: `${SH}/ielts-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "IELTS Programı", href: `${SH}/ielts-kursu/ielts-kursu-2`, soon: true },
+                  { label: "IELTS Özel Ders", href: `${SH}/ielts-kursu/ielts-ozel-ders`, soon: true },
+                  { label: "IELTS Nedir?", href: `${SH}/ielts-kursu/ielts-nedir`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/ielts-kursu/kadikoy-subesi-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/ielts-kursu/bagdat-caddesi-subesi-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/ielts-kursu/besiktas-subesi-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/ielts-kursu/atasehir-subesi-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "TOEIC Kursu",
+            href: `${SH}/toeic-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "TOEIC Programı", href: `${SH}/toeic-kursu/toeic-kursu-2`, soon: true },
+                  { label: "TOEIC Özel Ders", href: `${SH}/toeic-kursu/toeic-ozel-ders`, soon: true },
+                  { label: "TOEIC Nedir?", href: `${SH}/toeic-kursu/toeic-nedir`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/toeic-kursu/kadikoy-subesi-toeic-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/toeic-kursu/bagdat-caddesi-subesi-toeic-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/toeic-kursu/besiktas-subesi-toeic-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/toeic-kursu/atasehir-subesi-toeic-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "YDS Kursu",
+            href: `${SH}/yds-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "YDS Programı", href: `${SH}/yds-kursu/yds-kursu-2`, soon: true },
+                  { label: "YDS Nedir?", href: `${SH}/yds-kursu/yds-nedir`, soon: true },
+                  { label: "YDS Özel Ders", href: `${SH}/yds-kursu/yds-ozel-ders`, soon: true },
+                  { label: "YDS Kurs Dönemi", href: `${SH}/yds-kursu/yds-ozel-ders-2`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/yds-kursu/kadikoy-subesi-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/yds-kursu/bagdat-caddesi-subesi-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/yds-kursu/besiktas-subesi-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/yds-kursu/atasehir-subesi-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "Proficiency Kursu",
+            href: `${SH}/proficiency-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "Proficiency Programı", href: `${SH}/proficiency-kursu/proficiency-kursu-2`, soon: true },
+                  { label: "Proficiency Özel Ders", href: `${SH}/proficiency-kursu/proficiency-ozel-ders`, soon: true },
+                  { label: "Proficiency Nedir?", href: `${SH}/proficiency-kursu/proficiency-nedir`, soon: true },
+                  { label: "Proficiency Sınavı", href: `${SH}/proficiency-kursu/proficiency-sinavi`, soon: true },
+                  { label: "Proficiency Örnek Sınav Soruları", href: `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari`, soon: true },
+                  { label: "Üniversite Proficiency Kursları", href: `${SH}/proficiency-kursu#universiteler` },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/proficiency-kursu/kadikoy-subesi-proficiency-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/proficiency-kursu/bagdat-caddesi-proficiency-subesi-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/proficiency-kursu/besiktas-subesi-proficiency-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/proficiency-kursu/atasehir-subesi-proficiency-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "GRE Kursu",
+            href: `${SH}/gre-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "GRE Programı", href: `${SH}/gre-kursu/gre-kursu-2`, soon: true },
+                  { label: "GRE Özel Ders", href: `${SH}/gre-kursu/gre-ozel-ders`, soon: true },
+                  { label: "GRE Nedir?", href: `${SH}/gre-kursu/gre-nedir`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/gre-kursu/kadikoy-subesi-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/gre-kursu/bagdat-caddesi-subesi-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/gre-kursu/besiktas-subesi-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/gre-kursu/atasehir-subesi-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "SAT Kursu",
+            href: `${SH}/sat-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "SAT Programı", href: `${SH}/sat-kursu/sat-kursu-2`, soon: true },
+                  { label: "SAT Özel Ders", href: `${SH}/sat-kursu/sat-ozel-ders`, soon: true },
+                  { label: "SAT Nedir?", href: `${SH}/sat-kursu/sat-nedir`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/sat-kursu/kadikoy-subesi-sat-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/sat-kursu/bagdat-caddesi-subesi-sat-kurs-tarihi` },
+                  { label: "Beşiktaş", href: `${SH}/sat-kursu/besiktas-subesi-sat-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/sat-kursu/atasehir-subesi-sat-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "GMAT Kursu",
+            href: `${SH}/gmat-kursu`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "GMAT Programı", href: `${SH}/gmat-kursu/gmat-kursu-2`, soon: true },
+                  { label: "GMAT Özel Ders", href: `${SH}/gmat-kursu/gmat-ozel-ders`, soon: true },
+                  { label: "GMAT Nedir ?", href: `${SH}/gmat-kursu/gmat-nedir`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/gmat-kursu/kadikoy-subesi-gmat-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/gmat-kursu/bagdat-caddesi-gmat-subesi-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/gmat-kursu/besiktas-subesi-gmat-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/gmat-kursu/atasehir-subesi-gmat-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          {
+            label: "PTE Kursu",
+            href: `${SH}/academic-pte`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "PTE Akademik Özel Ders", href: `${SH}/academic-pte/pte-akademik-ozel-ders`, soon: true },
+                  { label: "PTE Programı", href: `${SH}/academic-pte/academic-pte-2`, soon: true },
+                ],
+              },
+            ],
+          },
+          { label: "IELTS Life Skills A1", href: `${SH}/ingiltere-vize-sinavi-ingilizce-a1kursu` },
+          {
+            label: "Almanca Aile Birleşimi Kursu",
+            href: `${SH}/aile-birlesimi-egitimi`,
+            children: [
+              {
+                title: "PROGRAM",
+                items: [
+                  { label: "A1 Sınav Örneği", href: `${SH}/aile-birlesimi-egitimi/a1-sinav-ornegi`, soon: true },
+                ],
+              },
+              {
+                title: "ŞUBE KURS TARİHLERİ",
+                items: [
+                  { label: "Kadıköy", href: `${SH}/aile-birlesimi-egitimi/kadikoy-subesi-aile-birlesimi-kurs-tarihi` },
+                  { label: "Bağdat Caddesi", href: `${SH}/aile-birlesimi-egitimi/bagdat-caddesi-subesi-aile-birlesimi-kurs-tarihi` },
+                  { label: "Beşiktaş", href: `${SH}/aile-birlesimi-egitimi/besiktas-subesi-aile-birlesimi-kurs-tarihi` },
+                  { label: "Ataşehir", href: `${SH}/aile-birlesimi-egitimi/atasehir-subesi-aile-birlesimi-kurs-tarihi` },
+                ],
+              },
+            ],
+          },
+          { label: "YÖKDİL Kursu", href: `${SH}/yokdil-sinavi-kursu` },
+          { label: "TOEFL Primary", href: `${SH}/cocuklar-icin-toefl-primary-egitimi` },
           { label: "TESTDAF Kursu", href: `${SH}/testdaf-kursu` },
-          { label: "YDS Kursu", href: `${SH}/yds-kursu` },
-          { label: "GRE Kursu", href: `${SH}/gre-kursu` },
-          { label: "SAT Kursu", href: `${SH}/sat-kursu` },
-          { label: "GMAT Kursu", href: `${SH}/gmat-kursu` },
-        ],
-      },
-      {
-        title: "PROFICIENCY",
-        items: [
-          { label: "Proficiency Nedir", href: `${SH}/proficiency-kursu/proficiency-nedir` },
-          { label: "Proficiency Sınavı", href: `${SH}/proficiency-kursu` },
-          { label: "Örnek Sınav Soruları", href: `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari` },
-          { label: "Üniversite Hazırlık Atlama", href: `${SH}/proficiency-kursu/bogazici-universitesi` },
+          { label: "TOEFL Essentials Kursu", href: `${SH}/toefl-essentials-kursu` },
+          { label: "Fransızca Aile Birleşimi Kursu", href: `${SH}/fransizca-aile-birlesimi-kursu` },
         ],
       },
     ],
@@ -126,18 +546,50 @@ export const NAV_ITEMS: NavItem[] = [
     key: "yurtdisi",
     short: "Yurtdışı Eğitim",
     label: "YURTDIŞI EĞİTİM",
+    layout: "columns",
     promoTitle:
       "Dünya Dilleri Merkezi, KAPLAN INTERNATIONAL ve ILSC dil okullarının resmi kayıt ofisidir.",
-    promoLink: { label: "Sana Uygun Yurtdışı Eğitimini Keşfet", href: YE },
+    promoLink: { label: "Sana Uygun Yurtdışı Eğitimini Keşfet", href: YE, soon: true },
     columns: [
       {
-        title: "PROGRAMLAR",
+        title: "EĞİTİM PROGRAMLARI",
         items: [
-          { label: "Yurtdışı İngilizce", href: `${YE}/yurtdisi-ingilizce-egitimi` },
-          { label: "Sınav Hazırlık", href: `${YE}/sinav-hazirlik` },
-          { label: "Pathway Programı", href: `${YE}/pathway-programi` },
-          { label: "Yüksek Öğrenim", href: `${YE}/yuksek-ogrenim` },
-          { label: "Yaz Okulları", href: `${YE}/yaz-okullari` },
+          {
+            label: "Yurtdışı İngilizce Eğitimi",
+            href: `${YE}/yurtdisi-ingilizce-egitimi`, soon: true,
+            children: [
+              {
+                title: null,
+                items: [
+                  { label: "Kanada Vancouver", href: `${YE}/yurtdisi-ingilizce-egitimi/kanada-vancouver`, soon: true },
+                  { label: "İngiltere", href: `${YE}/yurtdisi-ingilizce-egitimi/kanada-vancouver-2`, soon: true },
+                ],
+              },
+            ],
+          },
+          { label: "Yüksek Öğrenim", href: `${YE}/yuksek-ogrenim`, soon: true },
+          { label: "Sınav Hazırlık", href: `${YE}/sinav-hazirlik`, soon: true },
+          { label: "Yaz Okulları", href: `${YE}/yaz-okullari`, soon: true },
+        ],
+      },
+      {
+        title: "FIRSATLAR VE ÜLKELER",
+        items: [
+          { label: "Pathway Programı", href: `${YE}/pathway-programi`, soon: true },
+          { label: "Yurtdışı Dil Eğitimi", href: `${YE}/yurtdisi-dil-egitimi`, soon: true },
+          { label: "Work and Travel", href: `${YE}/work-and-travel`, soon: true },
+          {
+            label: "Yurtdışı Tercih Edilen Ülkeler",
+            href: `${YE}/tercih`, soon: true,
+            children: [
+              {
+                title: null,
+                items: [
+                  { label: "İtalya'da Üniversite", href: `${YE}/tercih/italyadauniversite`, soon: true },
+                ],
+              },
+            ],
+          },
         ],
       },
     ],
@@ -146,52 +598,65 @@ export const NAV_ITEMS: NavItem[] = [
     key: "diger",
     short: "Diğer Programlar",
     label: "DİĞER PROGRAMLAR",
-    promoTitle: "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar",
-    promoLink: { label: "Diğer Eğitim Programlarını Keşfet", href: DP },
+    layout: "columns",
+    promoTitle:
+      "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar.",
+    promoLink: { label: "Diğer Eğitim Programlarını Keşfet", href: DP, soon: true },
     columns: [
       {
         title: "PROGRAMLAR",
         items: [
-          { label: "Özel Dersler", href: `${DP}/ozel-dersler` },
-          { label: "Business English", href: `${DP}/business-english` },
-          { label: "DDM Kids", href: `${DP}/cocuklar-icin-ingilizce-kursu` },
-          { label: "Yurtdışı Dil Eğitimi", href: `${YE}/yurtdisi-dil-egitimi` },
+          { label: "Yurtdışı Eğitim", href: `${DP}/yurtdisinda-egitim`, soon: true },
+          { label: "Business English", href: `${DP}/business-english`, soon: true },
+          { label: "Özel Dersler", href: `${DP}/ozel-dersler`, soon: true },
+          { label: "Çocuklar İçin İngilizce Kursu", href: `${DP}/cocuklar-icin-ingilizce-kursu`, soon: true },
+          { label: "Online Dil Eğitimi", href: `${DP}/online-dil-egitimi`, soon: true },
+          { label: "Tercüme Hizmetleri", href: `${DP}/tercume-hizmetleri`, soon: true },
         ],
       },
-    ],
-  },
-  {
-    key: "yorum",
-    short: "Öğrenci Yorumları",
-    label: "ÖĞRENCİ YORUMLARI",
-    promoTitle: "Sitemizde yayınlanması için bir yorum veya bir fikriniz mi var?",
-    promoLink: { label: "Öğrenci Yorumlarını Oku", href: "/ogrenci-yorumlari" },
-    columns: [
       {
-        title: "İÇERİKLER",
+        title: "KURUMSAL",
         items: [
-          // "Mektuplar" eski sitede ayrı sayfa DEĞİL; canlı sitede bu kart
-          // fiilen /ogrenci-yorumlari'na bağlanıyor — aynı hedef korunuyor.
-          { label: "Mektuplar", href: "/ogrenci-yorumlari" },
-          { label: "Aktiviteler", href: "/aktivite-aktiviteler" },
-          { label: "Duyurular", href: "/duyurular" },
+          {
+            label: "Kurumsal Dil Eğitimi",
+            href: KD, soon: true,
+            children: [
+              {
+                title: null,
+                items: [
+                  { label: "Exclusive For Pegasus Pilots", href: `${KD}/turkish-course-pegasus-pilots`, soon: true },
+                ],
+              },
+            ],
+          },
         ],
       },
     ],
   },
   {
-    key: "subeler",
-    short: "Şubeler",
-    label: "ŞUBELERİMİZ",
-    promoTitle: "Kadıköy Merkez · Mühürdar Cad. Akmar Çarşısı No:70 Kat:3 · 0216 330 12 17",
-    promoLink: { label: "Kadıköy Şubemizi Keşfet", href: "/ddm-iletisim/1-kadikoy" },
+    key: "iletisim",
+    short: "İletişim",
+    label: "İLETİŞİM",
+    layout: "columns",
+    promoTitle:
+      "Kadıköy Merkez · Mühürdar Cad. Akmar Çarşısı No:70 Kat:3 · 0216 330 12 17",
+    promoLink: { label: "Tüm Şubelerimizi Gör", href: IL },
     columns: [
       {
         title: "ŞUBELER",
-        items: BRANCH_LIST.map((b) => ({
-          label: b.slug === "kadikoy" ? "Kadıköy Merkez" : b.name,
-          href: b.href,
-        })),
+        items: [
+          { label: "Bağdat Caddesi Şubesi", href: `${IL}/iletisim-2-bagdat-caddesi` },
+          { label: "Ataşehir Şubesi", href: `${IL}/4-atasehir` },
+          { label: "Ümraniye Şubesi", href: `${IL}/umraniye` },
+          { label: "Etiler Şubesi", href: `${IL}/3-levent` },
+          { label: "Kadıköy Şubesi", href: `${IL}/1-kadikoy` },
+        ],
+      },
+      {
+        title: "KURUMSAL",
+        items: [
+          { label: "İş Başvurusu / Kariyer", href: `${IL}/is-basvurusu-kariyer`, soon: true },
+        ],
       },
     ],
   },

@@ -171,7 +171,9 @@ ddm-web/
 │   └── home.ts              # Ana Sayfa verisi
 ├── lib/
 │   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
-│   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak
+│   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak (§10)
+│   ├── navTree.ts  # menü süzgeci — `soon` bayrağına göre (saf, istemci-güvenli)
+│   ├── navAudit.ts # `soon` bayraklarını pageRegistry'ye karşı build'de doğrular
 │   ├── types.ts    # paylaşılan sayfa ve bileşen tipleri
 │   ├── contentSections.ts   # SectionResolver — kaynağı başlık-tabanlı bölümler; assertCoverage
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
@@ -249,3 +251,26 @@ Design turu mu, mevcut atomlarla doğrudan kod mu) **kullanıcı kararı bekliyo
 bkz. `../docs/remaining-pages-plan.md` §5 karar #1. O karar verilene kadar bu
 tipler için yeni görsel dil icat etme; mevcut `components/` atomlarını ve
 `tokens.css`'i kullan.
+
+## 10. Menü Ağacı — `lib/nav.ts` ve `soon` Bayrağı  (PM, 2026-09-23)
+
+`lib/nav.ts` canlı sitenin mega menüsünün **tamamını** tarif eder — henüz
+üretilmemiş sayfalar dahil. Ölü link basılmaması şu düzenle sağlanır:
+
+- Üretilmemiş hedef taşıyan kalem `soon: true` alır. `lib/navTree.ts` (saf,
+  istemci-güvenli) onun href'ini düşürür; menüde **soluk düz metin** görünür.
+- Bayrağın doğruluğu build'de `lib/navAudit.ts` ile `lib/pageRegistry.ts`'e
+  karşı kanıtlanır (`SiteChrome` çağırır). Sapma varsa **build düşer** ve
+  hangi satırın düzeltileceğini tek tek yazar.
+
+**Yeni faz sayfa ürettiğinde yapılacak tek şey:** build'in saydığı satırlardan
+`soon: true` ifadesini silmek. Menü kendiliğinden dolar.
+
+**Bayrak neden elle tutuluyor:** süzgecin `pageRegistry`'ye ihtiyacı var, o da
+`data/courseDates.ts`'i (~320 KB) içeri alıyor — istemci paketine giremez.
+Ağacı sunucuda süzüp prop geçmek denendi, ağaç 126 sayfanın her birinin
+HTML'ine iki kez kopyalandı (+40 KB/sayfa). **`lib/nav.ts`'i veya
+`lib/navTree.ts`'i `pageRegistry`'ye bağlamayın.**
+
+Menüdeki **arayüz etiketleri** (ör. şube kurs tarihi satırlarının "Kadıköy"e
+kısaltılması) §5'in birebir-metin kuralına girmez; sayfa içeriği değildir.

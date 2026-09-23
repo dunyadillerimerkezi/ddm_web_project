@@ -241,6 +241,12 @@ ki koda çevirince veri-tabanlı üretebileyim.
       TopBar · SiteHeader + mega menü + mobil çekmece · SiteFooter ·
       MobileBottomBar · SiteChrome · `lib/nav.ts` (menü tek kaynak) ·
       `data/branches.ts`. Breakpoint'ler tamamen CSS'te.
+      **PM (2026-09-23) ile yenilendi:** `lib/nav.ts` canlı menünün tamamına
+      çıktı (6 sekme, 201 hedef); üretilmemiş hedefler `soon: true` ile soluk
+      düz metin (`lib/navTree.ts` süzer, `lib/navAudit.ts` build'de doğrular).
+      Mega menü kalabalık sekmelerde iki bölmeli, mobil çekmece 3 katlı
+      akordeon (kendi kaydırması + gövde kilidi + odak tuzağı). Bkz.
+      `ddm-web/CLAUDE.md` §10 ve `docs/remaining-pages-plan.md` §5 PM.
 - [x] **6.2 · UI atomları**
       Button ailesi (5 varyant × 4 ölçü) · Kicker · SectionHeading · Badge ·
       DayBadge · IconButton · ImageSlot · DataMissingNotice · Icon kaydı ·

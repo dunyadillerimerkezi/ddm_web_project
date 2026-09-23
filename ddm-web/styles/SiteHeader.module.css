@@ -5,6 +5,11 @@
  * window.innerWidth ölçüp state'e yazarak yapıyordu; o yöntem ilk
  * boyamada yanlış render veriyor ve resize → setState → render
  * döngüsü kuruyordu. Şablonun kendi yorumları bunu belgeliyor.
+ *
+ * PM (2026-09-23): menü canlı sitenin tam ağacına çıktı (10 dil × ~9,
+ * 16 sınav × ~8 alt sayfa). İki yapısal ekleme:
+ *   - masaüstünde kalabalık sekmeler için iki bölmeli panel (`megaRail`),
+ *   - mobilde 3 katlı akordeon + kendi kaydırma alanı olan çekmece.
  */
 
 .sticky {
@@ -29,6 +34,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-4);
+  position: relative;
+  z-index: 2;
 }
 
 .logo {
@@ -123,7 +130,10 @@
   flex: none;
 }
 
-/* --- mega menü --- */
+/* ---------------------------------------------------------------
+ * Mega menü — ortak kabuk
+ * ------------------------------------------------------------- */
+
 .megaWrap {
   position: absolute;
   left: 0;
@@ -133,15 +143,29 @@
   z-index: 5;
 }
 
-.mega {
+.mega,
+.megaRail {
   background: var(--ddm-white);
   border: 1px solid var(--ddm-border-card);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-menu);
   padding: 28px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 26px;
+  /* Panel ekrandan taşmasın: uzun sekmelerde panelin kendisi kayar. */
+  max-height: var(--ddm-menu-max-h);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.mega {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* Kolon listesi + promo: promo kolonu sabit, kurs listesi esner. */
+.megaRail {
+  grid-template-columns: minmax(220px, 250px) minmax(0, 1fr) minmax(260px, 320px);
+  align-items: start;
 }
 
 .megaCol {
@@ -165,6 +189,12 @@
   gap: 2px;
 }
 
+.megaNode {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .megaLink {
   font-size: var(--ddm-text-body);
   font-weight: 500;
@@ -172,7 +202,8 @@
   padding: 7px 10px;
   margin: 0 -10px;
   border-radius: 9px;
-  transition: background 0.15s ease, color 0.15s ease;
+  overflow-wrap: anywhere;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
 }
 
 .megaLink:hover {
@@ -180,13 +211,188 @@
   color: var(--ddm-primary);
 }
 
-/* Eski sitede karşılığı olmayan başlık — link değil, düz metin. */
-.megaLinkInert {
-  composes: megaLink;
-  color: var(--ddm-gray-400);
-  cursor: default;
+/* "columns" düzenindeki az sayıdaki iç içe kalem (Yurtdışı, Kurumsal). */
+.megaSub {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 2px 0 6px var(--space-3);
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--ddm-gray-100);
 }
 
+.megaSubLink {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-600);
+  padding: 5px 8px;
+  margin: 0 -8px;
+  border-radius: var(--radius-sm);
+  overflow-wrap: anywhere;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.megaSubLink:hover {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-primary);
+}
+
+/* ---------------------------------------------------------------
+ * Mega menü — iki bölmeli düzen (Yabancı Dil, Sınav Hazırlık)
+ * ------------------------------------------------------------- */
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.railList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: var(--ddm-rail-max-h);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Kaydırma çubuğu listeyi daraltmasın diye küçük bir sağ pay. */
+  padding-right: var(--space-1);
+}
+
+.railItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-width: 0;
+  font-family: var(--ddm-font-body);
+  font-size: var(--ddm-text-body);
+  font-weight: 600;
+  color: var(--ddm-gray-700);
+  background: transparent;
+  border: none;
+  border-left: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 9px var(--space-3);
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+.railItem svg {
+  flex: none;
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.railItem:hover,
+.railItem:focus-visible {
+  color: var(--ddm-primary);
+}
+
+/* Panelin "şu an hangi kursa bakıyorsun" göstergesi — menünün tek vurgusu. */
+.railItemOn {
+  background: var(--ddm-sky-bg);
+  border-left-color: var(--ddm-primary);
+  color: var(--ddm-primary);
+}
+
+.railItemOn svg {
+  opacity: 1;
+}
+
+.railItemInert {
+  color: var(--ddm-gray-400);
+}
+
+.railPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+  padding-left: var(--ddm-gap-card);
+  border-left: 1px solid var(--ddm-gray-100);
+}
+
+.railPanelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--ddm-gray-100);
+}
+
+.railPanelTitle {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h5);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.railPanelLink {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.railPanelLink:hover {
+  color: var(--ddm-primary);
+}
+
+.railEmpty {
+  margin: 0;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+.childGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.childGroupTitle {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-gray-500);
+}
+
+/*
+ * En fazla 2 kolon. 3-4 kolona yayılınca panel yatayda genişleyip dikeyde
+ * boş kalıyordu; kullanıcı kararı: doluluk aşağı doğru dizilsin.
+ */
+.childLinks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px var(--space-5);
+}
+
+.childLink {
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-gray-700);
+  padding: 6px 9px;
+  margin: 0 -9px;
+  border-radius: var(--radius-sm);
+  overflow-wrap: anywhere;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.childLink:hover {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-primary);
+}
+
+/* --- promo kartı --- */
 .megaPromo {
   background: var(--ddm-sky-bg);
   border: 1px solid var(--ddm-sky-200);
@@ -196,6 +402,7 @@
   flex-direction: column;
   gap: var(--space-4);
   justify-content: space-between;
+  min-width: 0;
 }
 
 .megaPromoHead {
@@ -226,16 +433,78 @@
   color: var(--ddm-primary);
 }
 
-/* --- mobil çekmece --- */
+/* ---------------------------------------------------------------
+ * Mobil çekmece — 3 kat (sekme → kurs → alt sayfa)
+ * ------------------------------------------------------------- */
+
+/* Dışarı dokunma alanı. `button` çünkü tıklanabilir; klavyeye girmez. */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  border: none;
+  padding: 0;
+  background: rgba(22, 24, 74, 0.32);
+  cursor: pointer;
+}
+
 .drawer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 5;
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
   background: var(--ddm-white);
   border: 1px solid var(--ddm-border-card);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
-  max-height: 68vh;
+  /* Çekmecenin kendi kaydırması var; sayfa gövdesi JS ile kilitleniyor.
+   * `--drawer-top` açılışta ölçülür (SiteHeader.tsx); ölçülemezse yedek değer. */
+  max-height: calc(100dvh - var(--drawer-top, var(--ddm-header-bottom-sm)) - var(--space-3));
+  overflow: hidden;
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--ddm-gray-100);
+}
+
+.drawerHeadTitle {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-gray-500);
+}
+
+.drawerClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--ddm-border-button);
+  background: var(--ddm-white);
+  color: var(--ddm-gray-700);
+  cursor: pointer;
+}
+
+.drawerScroll {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  padding: 8px 20px 24px;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--space-1) var(--space-5) var(--space-4);
 }
 
 .drawerGroup + .drawerGroup {
@@ -248,22 +517,22 @@
   justify-content: space-between;
   gap: var(--space-3);
   width: 100%;
+  min-height: 52px;
   font-family: var(--ddm-font-body);
   font-size: var(--space-4);
   font-weight: 600;
   color: var(--ddm-gray-800);
   background: transparent;
   border: none;
-  padding: 15px 0;
+  padding: var(--space-3) 0;
   cursor: pointer;
   text-align: left;
 }
 
-.drawerTop:hover {
-  color: var(--ddm-primary);
-}
-
 .drawerCaret {
+  display: inline-flex;
+  flex: none;
+  color: var(--ddm-gray-500);
   transition: transform var(--duration-base) ease;
 }
 
@@ -274,31 +543,146 @@
 .drawerPanel {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 0 0 14px 10px;
+  gap: var(--space-4);
+  padding: 0 0 var(--space-4);
 }
 
+.drawerCol {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.drawerColTitle {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-sky-400);
+  padding-bottom: var(--space-1);
+}
+
+/* 2. kat — alt sayfası OLMAYAN kalem: tek satır, tam genişlik link. */
 .drawerLink {
-  font-size: var(--ddm-text-body);
-  color: var(--ddm-gray-600);
-  padding: 9px 0;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--ddm-text-body-l);
+  color: var(--ddm-gray-700);
+  padding: var(--space-2) 0;
+  overflow-wrap: anywhere;
 }
 
 .drawerLink:hover {
   color: var(--ddm-primary);
 }
 
-.drawerLinkInert {
-  composes: drawerLink;
-  color: var(--ddm-gray-400);
-  cursor: default;
+/* 2. kat — alt sayfası OLAN kalem: solda kurs linki, sağda ayrı aç/kapa. */
+.drawerNode {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.drawerNodeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.drawerNodeLink {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  font-size: var(--ddm-text-body-l);
+  font-weight: 600;
+  color: var(--ddm-gray-800);
+  padding: var(--space-2) 0;
+  overflow-wrap: anywhere;
+}
+
+.drawerNodeLink:hover {
+  color: var(--ddm-primary);
+}
+
+.drawerNodeToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--ddm-gray-50);
+  cursor: pointer;
+}
+
+.drawerSubPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-1) 0 var(--space-3) var(--space-2);
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--ddm-sky-200);
+}
+
+.drawerSubGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.drawerSubTitle {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-label);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-gray-500);
+  padding-bottom: var(--space-1);
+}
+
+.drawerSubLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Kısa etiketli öbek (şube adları) 390px'te de iki kolona sığar. */
+.drawerSubLinksDense {
+  composes: drawerSubLinks;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-3);
+}
+
+.drawerSubLink {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-gray-600);
+  padding: var(--space-2) 0;
+  overflow-wrap: anywhere;
+}
+
+.drawerSubLink:hover {
+  color: var(--ddm-primary);
+}
+
+.drawerFoot {
+  flex: none;
+  padding: var(--space-3) var(--space-5) var(--space-5);
+  border-top: 1px solid var(--ddm-gray-100);
 }
 
 .drawerCta {
-  margin-top: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 52px;
   font-size: var(--space-4);
   font-weight: 700;
   color: var(--ddm-white);
@@ -310,6 +694,29 @@
 .drawerCta:hover {
   background: var(--ddm-primary-hover);
   color: var(--ddm-white);
+}
+
+/*
+ * Üretilmemiş hedef: link değil düz metin. Tek yerde tanımlı, hem mega
+ * menüde hem çekmecede aynı görünür (soluk + imleç değişmez).
+ *
+ * KONUM ÖNEMLİ: birlikte kullanıldığı link sınıflarından (`megaLink`,
+ * `childLink`, `megaPromoLink`, `drawerSubLink`…) SONRA gelmeli — aynı
+ * özgüllükte kaynak sırası kazanıyor. Yukarı taşınırsa `megaPromoLink`'in
+ * mavi rengi soluk griyi eziyor ve düz metin link gibi görünüyor.
+ */
+.inert {
+  color: var(--ddm-gray-400);
+  cursor: default;
+  background: none;
+  border: none;
+  text-align: left;
+  font: inherit;
+}
+
+.inert:hover {
+  background: none;
+  color: var(--ddm-gray-400);
 }
 
 /* ---------------------------------------------------------------
@@ -335,5 +742,47 @@
   .burger {
     display: inline-flex;
     margin-left: auto;
+  }
+}
+
+/* Masaüstünde çekmece hiç görünmez. State'i JS kapatıyor (SiteHeader.tsx
+ * matchMedia), bu kural araya giren tek karelik durumu da kapatır. */
+@media (min-width: 1340px) {
+  .drawer,
+  .scrim {
+    display: none;
+  }
+}
+
+/* Tablet/küçük masaüstü (620–1339px): çekmece tam genişlikte açılınca satırlar
+ * 900px'e uzuyor ve okunmuyor — sağ kenara yaslı, dar bir panel olarak durur. */
+@media (min-width: 620px) {
+  .drawer {
+    max-width: 440px;
+    left: auto;
+  }
+}
+
+/* Mobil alt sabit çubuk devreye girdiği yer: çekmece onun üstünde bitsin ve
+ * kendi CTA'sını basmasın — `MobileBottomBar` zaten aynı düğmeyi taşıyor,
+ * kazanılan ~90px doğrudan menü listesine gidiyor. */
+@media (max-width: 999px) {
+  .drawerFoot {
+    display: none;
+  }
+
+  .drawer {
+    max-height: calc(
+      100dvh - var(--drawer-top, var(--ddm-header-bottom-sm)) - var(--ddm-bottom-bar) -
+        var(--space-3)
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawerCaret,
+  .railItem,
+  .railItem svg {
+    transition: none;
   }
 }

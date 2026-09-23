@@ -7,20 +7,21 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-23, P2 sonrası — kod commit'lenmedi, kullanıcı inceleyecek)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-23, PM sonrası — kod commit'lenmedi, kullanıcı inceleyecek)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `6bf3786` — P1 Şube İletişim (kullanıcı commit'ledi). **P2 (Sınav Hazırlık Kursu Ana, 16 sayfa) çalışma ağacında, commit'lenmedi — kullanıcı "en son ben inceleyeceğim" dedi.** |
-| **Son döküman commit'i** | `028f9aa` (P0 dökümanları); bu oturumun döküman değişiklikleri de commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**126 statik sayfa**, +16 sınav) · `check-links` **40 → 28 ölü hedef** · 16/16 sınav sayfası 200 ve tek H1 (curl) · regresyon: dil/üniversite/kurs-tarihi/iletişim sayfaları 200 · sitemap 126/126 |
-| **Tamamlanan tipler** | Ana Sayfa (6.3) · Dil Kursu 10 (6.4) · Üniversite Proficiency 21 (6.5) · Şube Kurs Tarihi 72 (6.6) · Şube İletişim hub+5 (P1, form hariç) · **Sınav Hazırlık Kursu Ana 16 (P2)** |
-| **Aktif faz** | P2 **tamam** (kod + döküman yazıldı, commit bekliyor). Sıradaki: **P3 Kategori Hub'ları** — `/sinav-hazirlik-egitimleri` ve `/yabanci-dil` kırıntıdan 74+47 kez link alıyor ve hâlâ ölü; `/diger-program/ozel-dersler` de (126 link) P4 kararıyla çatı sayfa olacak |
-| **Bir sonraki somut adım** | Kullanıcı P2'yi onaylarsa commit (kod + döküman ayrı), sonra P3 Aşama 0: `/yabanci-dil`, `/sinav-hazirlik-egitimleri`, `/diger-program`, `/ingilizce-kurslari`, `/yurtdisi-egitim` hub kayıtlarını `site_content.json`'dan çıkar |
-| **Yarım kalan iş** | Yok (P2 tamam). Kullanıcıdan bekleniyor: **güncel TOEFL sınav ücreti** (kaynaktaki "185 dolar" duruyor, yanına güncellik uyarısı kondu) ve Search Console'da sınav **özel ders** sayfalarının tıklanma listesi (P4 kararını kesinleştirmek için) |
-| **Engeller** | P1'in FORM/KVKK kısmı karar #4'e bağlı (sona bırakıldı). Kalan 28 ölü hedef: `/diger-program/*` (5×126) ve `/ogrenci-yorumlari` (126×) → P7/P4 · `/sinav-hazirlik-egitimleri` (74×) ve `/yabanci-dil` (47×) → P3 · proficiency `nedir/ozel-ders/ornek-sinav-sorulari` (21'er) → P4 |
-| **Bekleyen kullanıcı kararları** | #2 yorum/duyuru tekil mi · #4 form backend'i · #5 şube fotoğrafları/haritası (izlenmeyen şube foto'ları `public/assets/` altında duruyor, P6) · #6 JSON-LD (P2'de eklenmedi, P9'a bırakıldı) · sınav **özel ders** sayfalarının kalıcı olup olmayacağı (P4 sonunda) |
-| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 (bayat, birebir basılıyor — yerel SEO için güncellenmeli) · TOEFL kaydında h1 yok, ilk başlığa düşülüyor (loglanıyor) · Fransızca aile birleşiminde 2 aynı h1, biri basılıyor · Proficiency başlığında kırılmayan boşluk var (eşleme normalleştiriliyor) · 17 üniversite ve aile birleşimi kayıtlarında H1 yok · 5 şube iletişim kaydında `headings` yok |
+| **Son kod commit'i** | `fadb754` — P2 Sınav Hazırlık (kullanıcı commit'ledi; §A'nın önceki hâli "commit bekliyor" diyordu, teyit edildi). **PM (menü ağacı + mega menü/çekmece UI) çalışma ağacında, commit'lenmedi.** |
+| **Son döküman commit'i** | `028f9aa`; `remaining-pages-plan.md`'nin PM bölümü ve bu dosya commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**126 statik sayfa — değişmedi**) · `check-links` **28 ölü hedef — değişmedi** · 1440/1339/999/390/360 px'te yatay taşma yok · sayfa HTML'i 175 KB → 135 KB |
+| **Tamamlanan tipler** | Ana Sayfa (6.3) · Dil Kursu 10 (6.4) · Üniversite Proficiency 21 (6.5) · Şube Kurs Tarihi 72 (6.6) · Şube İletişim hub+5 (P1, form hariç) · Sınav Hazırlık Kursu Ana 16 (P2) · **Menü/gezinme + mega menü/çekmece UI (PM)** |
+| **Aktif faz** | PM **tamam** (kod + döküman yazıldı, commit bekliyor). Sıradaki: **P3 Kategori Hub'ları** — `/sinav-hazirlik-egitimleri` (74×) ve `/yabanci-dil` (47×) hâlâ ölü |
+| **Bir sonraki somut adım** | Kullanıcı PM'i onaylarsa commit (kod + döküman ayrı), sonra P3 Aşama 0: `/yabanci-dil`, `/sinav-hazirlik-egitimleri`, `/diger-program`, `/ingilizce-kurslari`, `/yurtdisi-egitim`, `/kurumsal-dil-egitim` hub kayıtlarını `site_content.json`'dan çıkar |
+| **Yarım kalan iş** | Yok. Kullanıcıdan bekleniyor: güncel **TOEFL sınav ücreti** · sınav **özel ders** sayfalarının Search Console tıklanma listesi (P4 kararı) |
+| **Engeller** | P1'in FORM/KVKK kısmı karar #4'e bağlı. 28 ölü hedefin dağılımı değişmedi: `/diger-program/*` (5×126) ve `/ogrenci-yorumlari` (126×) → P7/P4 · `/sinav-hazirlik-egitimleri` (74×) ve `/yabanci-dil` (47×) → P3 · proficiency `nedir/ozel-ders/ornek-sinav-sorulari` (21'er) → P4 |
+| **Bekleyen kullanıcı kararları** | #2 yorum/duyuru tekil mi · #4 form backend'i · #5 şube fotoğrafları/haritası (izlenmeyen şube foto'ları + `ilsc_logo.jpg`/`kaplan_int.jpg` `public/assets/` altında duruyor, P6) · #6 JSON-LD (P9) · sınav özel ders sayfalarının kalıcılığı (P4 sonunda) |
+| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 (bayat) · TOEFL kaydında h1 yok · Fransızca aile birleşiminde 2 aynı h1 · Proficiency başlığında kırılmayan boşluk · 17 üniversite ve aile birleşimi kayıtlarında H1 yok · 5 şube iletişim kaydında `headings` yok |
+| **PM'den gelen kalıcı kural** | `lib/nav.ts`'te üretilmemiş hedefler `soon: true` taşır. Yeni faz sayfa üretince o satırlardan `soon: true` **silinir**; unutulursa `lib/navAudit.ts` build'i düşürüp hangi satır olduğunu yazar. Bkz. `ddm-web/CLAUDE.md` §10. |
 
 ---
 
@@ -58,6 +59,43 @@
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-23 · Opus 5 · PM — Menü ağacı + mega menü / mobil menü UI — commit bekliyor
+- **Yapılanlar:**
+  - **Aşama 0:** `live-menu-2026-09-23.md` (222 satır) ile `lib/pageRegistry.ts` (126 sayfa)
+    karşılaştırıldı: canlı menü üretilmiş 126 sayfanın TAMAMINI kapsıyor, 96'sı henüz yok.
+  - `lib/nav.ts` canlı ağacın tamamına çıktı (6 sekme, 201 hedef) — betikle üretildi.
+    Üç düzeltme: 21 üniversite tek girişe indi (`proficiency-kursu#universiteler`),
+    Kurumsal Dil Eğitimi + Pegasus → Diğer Programlar altına, Öğrenci Yorumları sekmesi
+    (Mektuplar/Aktiviteler/Duyurular dahil) kalktı. Footer'daki link duruyor.
+  - Şube kurs tarihi etiketleri menüde şube adına kısaltıldı ("Kadıköy Şubesi TOEFL Kurs
+    Tarihi" → "Kadıköy"); bağlamı öbek başlığı veriyor, 360px'te taşma yok. Arayüz
+    etiketi olduğu için CLAUDE.md §5 kapsamı dışında.
+  - **Süzme:** `lib/navTree.ts` (saf, istemci-güvenli) + `lib/navAudit.ts` (sunucu, build
+    doğrulaması) + `lib/pageRegistry.ts`'e `isProducedPage()`. Üretilmemiş hedef
+    `nav.ts`'te `soon: true` taşır → menüde soluk düz metin.
+  - **UI:** `SiteHeader.tsx` yeniden yazıldı. Masaüstünde kalabalık sekmeler için iki
+    bölmeli panel (`layout: "rail"`), mobilde 3 katlı akordeon, çekmece içi kaydırma +
+    gövde kilidi + odak tuzağı + Esc/perde/kapat düğmesi, ≥1340px'e dönünce çekmece
+    kapanıyor. `tokens.css`'e menü yükseklik tokenları, ikon kaydına `close`.
+- **Alınan kararlar (kullanıcı):**
+  - Üretilmemiş hedefler **gizlenmez, düz metin gösterilir** ("hide" modu kodda duruyor
+    ama seçilmedi — seçilseydi hiç sayfası olmayan 3 sekme menüden tümüyle düşüyordu).
+  - Mega menü düzeni "kullanımı en rahat olan" olsun; panel ne boş ne karmaşık görünsün,
+    **doluluk aşağı doğru dizilsin** → alt sayfalar en fazla 2 kolon.
+- **Açık kalanlar / sonraki adım:** kullanıcı onayı → commit (kod + döküman ayrı) → P3.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (126 sayfa, değişmedi) · check-links 28 ölü
+  (değişmedi) · yatay taşma yok (1440/1339/999/390/360) · klavye/odak/kapatma yolları
+  gerçek tarayıcıda test edildi · sayfa HTML'i 175 KB → 135 KB.
+- **`code-review` (high, 2 tur):** 12 bulgunun 11'i düzeltildi. En önemlisi: ağaç sunucuda
+  süzülüp prop geçilince 126 sayfanın her birine iki kez kopyalanıyordu (+40 KB/sayfa) →
+  `soon` bayrağı + build doğrulaması desenine geçildi. Ayrıca: odak tuzağı gizli elemanı
+  "son" sanıyordu, `assertNavSoonFlags` hatadan sonra kendini susturuyordu, `aria-current`
+  hover önizlemesini "aktif sayfa" diye okutuyordu, `.inert` CSS'i kaynak sırası yüzünden
+  promo linkinde ezilmişti. Düzeltilmeyen tek bulgu: footer `soon` denetimine girmiyor —
+  footer'daki ölü hedefler kullanıcı kararıyla duruyor, P3/P4 açacak.
+- **Commit'ler:** henüz yok.
+
 
 ### 2026-09-22 · Sonnet 5 · P1 Şube İletişim (form hariç) — commit bekliyor
 - **Yapılanlar:**

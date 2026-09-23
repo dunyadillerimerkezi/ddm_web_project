@@ -16,17 +16,38 @@ import type { DayKey } from "@/components/ui/Primitives";
  * ------------------------------------------------------------- */
 
 /**
- * `href: null` → eski sitede karşılığı OLMAYAN menü başlığı.
- * Link olarak değil, düz metin olarak render edilir. Uydurma URL üretmeyin.
+ * `href: null` → eski sitede de karşılığı olmayan menü kalemi. Link değil,
+ * düz metin render edilir. Uydurma URL üretmeyin.
+ *
+ * `soon: true` → hedef eski sitede VAR ama bizde henüz ÜRETİLMEDİ (P4/P5).
+ * `lib/navTree.ts` bu kalemleri düz metne indirir ya da hiç basmaz; hangisi
+ * olduğu `NavRenderMode`'a bağlı. Bayrağın doğruluğunu `lib/navAudit.ts`
+ * build sırasında `lib/pageRegistry.ts`'e karşı doğrular — elle tutulan bir
+ * bayrak ama sapması build'i düşürür.
  */
 export type NavLink = {
   label: string;
   href: string | null;
+  soon?: true;
+};
+
+/**
+ * Menünün 3. katı — bir kursun alt sayfaları, öbeklenmiş hâlde
+ * ("PROGRAM" / "ŞUBE KURS TARİHLERİ"). `title: null` → öbek başlığı basılmaz.
+ */
+export type NavChildGroup = {
+  title: string | null;
+  items: NavLink[];
+};
+
+/** Menünün 2. katı. `children` varsa altında 3. kat açılır. */
+export type NavNode = NavLink & {
+  children?: NavChildGroup[];
 };
 
 export type NavColumn = {
   title: string;
-  items: NavLink[];
+  items: NavNode[];
 };
 
 export type NavItem = {
@@ -35,6 +56,14 @@ export type NavItem = {
   short: string;
   /** Mega menü panelindeki büyük etiket */
   label: string;
+  /**
+   * Masaüstü panelinin düzeni:
+   *   "rail"    → iki bölme (solda kurs listesi, sağda seçili kursun alt sayfaları).
+   *               10 dil × ~9 ve 16 sınav × ~8 kalem tek panele sığmadığı için.
+   *   "columns" → klasik kolonlu liste; az kalemli sekmeler.
+   * Mobil çekmece her iki düzende de aynı 3 katlı akordeonu kullanır.
+   */
+  layout: "rail" | "columns";
   promoTitle: string;
   promoLink: NavLink;
   columns: NavColumn[];

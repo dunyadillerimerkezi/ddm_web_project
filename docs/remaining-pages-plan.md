@@ -62,7 +62,7 @@
 | **P0** | Borç + altyapı | — | 4 | S | — |
 | **P1** | Şube İletişim | 6 + hub | 6 | M | ✅ tamam (form hariç) |
 | **P2** | Sınav Hazırlık Kursu Ana | 16 | — (Faz 8 genel kural) | M | P1 (CTA), §3 |
-| **PM** | Menü / gezinme düzeltmesi (`lib/nav.ts`) | — | — | S | P2 (üretilen sayfalar) |
+| **PM** | Menü / gezinme düzeltmesi (`lib/nav.ts`) | — | — | S | ✅ tamam (2026-09-23) |
 | **P3** | Kategori Hub'ları | 6–7 | — | S | P2 / P4 ile birlikte |
 | **P4** | Zengin İçerik Alt Sayfa | ~78 | 29 (`has: query`) | L | §3 route işi, karar #1 |
 | **P5** | İngilizce Seviye Kursu | 11 | — | S–M | Dil Kursu şablonu |
@@ -310,7 +310,7 @@ Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriter
     HEDEF değil, kurs-tarihi sayfaları zaten oraya link veriyordu).
 
 
-### PM — Menü ve gezinme düzeltmesi  ⏳ (S) — kullanıcı isteği 2026-09-23
+### PM — Menü ve gezinme düzeltmesi  ✅ (S) — kullanıcı isteği 2026-09-23
 Tek dosyalık iş: `ddm-web/lib/nav.ts` (+ gerekiyorsa `components/layout/SiteHeader.tsx`).
 Yeni sayfa üretilmez. **Amaç:** üretilen sayfalara URL yazmadan, menüden gidilebilsin.
 
@@ -356,14 +356,67 @@ tarif etsin, ama **link yalnız sayfa gerçekten üretilmişse basılsın**:
 dolar, `check-links` ölü sayısı **artmaz**. Hangisi (düz metin mi, gizle mi) — pilot menüde
 göster, kullanıcı seçsin.
 
+**UI işi (kullanıcı isteği):** menü 3 kat büyüyor (10 dil × ~9 alt kalem, 16 sınav × ~8),
+mevcut mega menü ve mobil çekmece bu hacme göre tasarlanmadı. Bu yüzden PM salt veri işi
+değil, **arayüz işi**:
+- Mega menü: kolon dengesi, taşma/kaydırma, uzun listelerde 2–3 kolona bölme, panel yüksekliği.
+- Mobil çekmece (`SiteHeader.tsx` `drawer*`): şimdi 2 kat; canlı ağaç 3 kat (sekme → kurs →
+  alt sayfa). Üçüncü katı akordeon olarak çöz, dokunma hedefi ≥44px, çekmece içi kaydırma,
+  açıkken gövde kaydırmasını kilitle.
+- `drawerLinkInert` (henüz üretilmemiş sayfa) görsel olarak tıklanamaz görünmeli.
+- Kırılımlar mevcut düzene uysun: 1339 (nav→burger), 999, 619. Yeni kırılım gerekiyorsa
+  `tokens.css` üzerinden, ham px yazmadan.
+- Klavye ve a11y: Esc ile kapanma, `aria-expanded`, odak tuzağı — mevcut desen korunur.
+
 - **Kabul:**
   - `npm run build` temiz, sayfa sayısı değişmez; `npm run check-links` ölü hedef sayısı
     **artmamış** olmalı
+  - menü 1339 / 999 / 390px'te gerçekten açılıp gezilebiliyor; mobilde yatay kaydırma yok
   - menüden 126 üretilmiş sayfanın tamamına (üniversiteler hariç, düzeltme 1) erişilebiliyor
   - 21 üniversite linki menüde yok, proficiency sayfasında var
   - Öğrenci Yorumları sekmesi yok; mobil menü ve footer da kontrol edildi
 - **Skill:** `site-architecture` (menü ağacı/iç link), `frontend-design:frontend-design`
   (mega menü kolon dengesi), `run` (1339 / 999 / 390px'te menüyü gerçekten aç), `code-review`.
+
+#### Sonuç (2026-09-23, Opus 5)
+
+**Ağaç.** `lib/nav.ts` canlı menünün TAMAMI oldu: 6 sekme, **201 hedef** (222 satırlık
+canlı ağaçtan 7 sekme kökü çıktı, 21 üniversite tek girişe indi, Kurumsal sekmesi Diğer
+Programlar'ın altına taşındı). Üç düzeltme de uygulandı. Ağaç `live-menu-2026-09-23.md`'den
+betikle üretildi, elle yazılmadı — slug hatası riski yok.
+
+**Süzme (kullanıcı kararı: "düz metin").** Üretilmemiş hedefler `nav.ts`'te `soon: true`
+taşır; `lib/navTree.ts` (saf, istemci-güvenli) bunların href'ini düşürüp **soluk düz metin**
+basar. 201 hedefin **104'ü link, 97'si düz metin**. `hide` modu da kodda duruyor ama
+seçilmedi: hiçbir sayfası üretilmemiş üç sekme (İngilizce Kursları, Yurtdışı Eğitim, Diğer
+Programlar) menüden tamamen düşüyordu.
+
+**`soon` bayrağı neden elle?** Süzgecin `lib/pageRegistry.ts`'e ihtiyacı var, o da
+`data/courseDates.ts`'i (~320 KB) içeri alıyor — istemci paketine giremez. Ağacı sunucuda
+süzüp prop geçmek denendi: ağaç 126 sayfanın HER BİRİNİN HTML'ine **iki kez** kopyalandı
+(sayfa başına +40 KB). Çözüm: bayrak `nav.ts`'te dursun, doğruluğu **build'de**
+`lib/navAudit.ts` kanıtlasın. Bayrak sapınca build düşer ve hangi kalemin düzeltileceğini
+tek tek yazar. **P3/P4/P5'i yapan:** sayfa üretince build sana `soon: true` silinecek
+satırları söyleyecek, başka iş yok.
+
+**UI.** Masaüstünde kalabalık sekmeler (Yabancı Dil 10 dil, Sınav Hazırlık 16 sınav) **iki
+bölmeli panel**: solda kurs listesi (kendi içinde kayan), sağda seçili kursun alt sayfaları
+en fazla 2 kolonda, aşağı doğru dizili. Diğer 4 sekme klasik kolonlu. Mobil çekmece **3 kat**
+(sekme → kurs → alt sayfa), her katta tek dal açık; kendi kaydırma alanı var, gövde
+kaydırması kilitli, tavanı açılışta ölçülüyor (üst bar mobilde 2 satıra düşüyor, CSS'te
+sabitlenemiyor). ≤999px'te çekmecenin kendi CTA'sı basılmıyor (MobileBottomBar aynı düğmeyi
+taşıyor), 620px+ sağa yaslı 440px panel.
+
+**Doğrulama:** tsc ✅ · lint ✅ · build ✅ **126 sayfa (değişmedi)** · check-links **28 ölü
+hedef (değişmedi)** — menü linkleri prerender HTML'ine girmiyor, panel yalnız açılınca
+render ediliyor · 1440/1339/999/390/360px'te yatay taşma **yok** · odak tuzağı, Esc, perdeye
+dokunma, kapat düğmesi, klavyeyle mega menü gezme gerçek tarayıcıda test edildi ·
+sayfa HTML'i 175 KB → **135 KB** (ağaç artık paylaşılan JS parçasında).
+
+**Menüden erişim:** üretilmiş 126 sayfanın 105'i menüde (21 üniversite kararla dışarıda,
+ana sayfa logodan). `code-review` (high) iki tur çalıştı, 12 bulgunun 11'i düzeltildi;
+düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki ölü hedefler
+(`/ogrenci-yorumlari`, `/diger-program/*`) kullanıcı kararıyla duruyor, P3/P4 açacak.
 
 ### P3 — Kategori Hub'ları  ⏳ (S)
 - **Kapsam:**

@@ -225,6 +225,8 @@ export const UI_ICONS = {
   caretDown: { viewBox: "0 0 10 6", d: "M1 1l4 4 4-4" },
   /** Hamburger — her sayfada bir kez. */
   burger: { viewBox: "0 0 20 14", d: "M1 1h18M1 7h18M1 13h18" },
+  /** Çarpı — mobil çekmecenin kapat düğmesi (PM, 2026-09-23). */
+  close: { viewBox: "0 0 14 14", d: "M2 2l10 10M12 2L2 12" },
 } as const;
 
 export type UiIconName = keyof typeof UI_ICONS;
