@@ -7,20 +7,20 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-22, P1 sonrası — henüz commit'lenmedi)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-23, P2 sonrası — kod commit'lenmedi, kullanıcı inceleyecek)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `4869cb6` — P0 madde 4-5 (pageRegistry/sitemap/robots/not-found, kullanıcı kendi commit'ledi). **P1 (Şube İletişim) çalışma ağacında, commit'lenmedi.** |
-| **Son döküman commit'i** | bu oturumun commit'i (`git log -1` ile teyit et) |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**110 statik sayfa**, +6 şube) · `check-links` **46 → 40 ölü hedef** · 16/16 kurs-tarihi + 6/6 iletişim Joomla redirect'i 308→200 (curl) · sitemap 110/110 |
-| **Tamamlanan tipler** | Ana Sayfa (6.3) · Dil Kursu 10 (6.4) · Üniversite Proficiency 21 (6.5) · Şube Kurs Tarihi 72 (6.6) · **Şube İletişim hub+5 (P1, form hariç)** |
-| **Aktif faz** | P0 **tamam**. P1 **kod tamam (form hariç), henüz commit'lenmedi** — kullanıcı onayı bekliyor. |
-| **Bir sonraki somut adım** | Kullanıcı P1'i onaylarsa commit'le (kod + döküman ayrı), sonra **P2 Sınav Hazırlık Kursu Ana**'ya geç (Aşama 0'la başla) |
-| **Yarım kalan iş** | P1'in 9 dosyası (`data/branches.ts`, `lib/branchContent.ts`, `lib/pageRegistry.ts`, `next.config.ts`, `components/sections/BranchHero.tsx`, `components/cards/BranchTile.tsx`, `styles/BranchTile.module.css`, `app/ddm-iletisim/page.tsx`, `app/ddm-iletisim/[sube]/page.tsx`) test edildi ama commit'lenmedi — kullanıcı onayı bekleniyor, sonra kod+döküman ayrı commit |
-| **Engeller** | P1'in FORM/KVKK kısmı hâlâ karar #4'e bağlı (sona bırakıldı, adres/telefon kısmı formsuz tamamlandı). `check-links` kalan 40 ölü hedef: `/sinav-hazirlik-egitimleri/{sinav}-kursu` (P2), `/diger-program/*` (P4), `/ogrenci-yorumlari` (P7), `/sinav-hazirlik-egitimleri` ve `/yabanci-dil` hub'ları (P3) |
-| **Bekleyen kullanıcı kararları** | #1 yeni şablonlar için tasarım kaynağı · #2 yorum/duyuru tekil mi · #4 form backend'i (P1'in form kısmını engelliyor, gerisini değil) · #5 şube fotoğrafları/haritası · #6 JSON-LD (bkz. plan §7) |
-| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 (bayat, birebir basılıyor) · 17 üniversite ve aile birleşimi kayıtlarında H1 yok (ilk başlığa düşülüyor) · 5 şube iletişim kaydının hiçbirinde `headings` yok (title'a düşülüyor) · Ümraniye'nin telefonu Ataşehir'in 2. hattıyla aynı (kaynak hatası değil, tutarlı) |
+| **Son kod commit'i** | `6bf3786` — P1 Şube İletişim (kullanıcı commit'ledi). **P2 (Sınav Hazırlık Kursu Ana, 16 sayfa) çalışma ağacında, commit'lenmedi — kullanıcı "en son ben inceleyeceğim" dedi.** |
+| **Son döküman commit'i** | `028f9aa` (P0 dökümanları); bu oturumun döküman değişiklikleri de commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**126 statik sayfa**, +16 sınav) · `check-links` **40 → 28 ölü hedef** · 16/16 sınav sayfası 200 ve tek H1 (curl) · regresyon: dil/üniversite/kurs-tarihi/iletişim sayfaları 200 · sitemap 126/126 |
+| **Tamamlanan tipler** | Ana Sayfa (6.3) · Dil Kursu 10 (6.4) · Üniversite Proficiency 21 (6.5) · Şube Kurs Tarihi 72 (6.6) · Şube İletişim hub+5 (P1, form hariç) · **Sınav Hazırlık Kursu Ana 16 (P2)** |
+| **Aktif faz** | P2 **tamam** (kod + döküman yazıldı, commit bekliyor). Sıradaki: **P3 Kategori Hub'ları** — `/sinav-hazirlik-egitimleri` ve `/yabanci-dil` kırıntıdan 74+47 kez link alıyor ve hâlâ ölü; `/diger-program/ozel-dersler` de (126 link) P4 kararıyla çatı sayfa olacak |
+| **Bir sonraki somut adım** | Kullanıcı P2'yi onaylarsa commit (kod + döküman ayrı), sonra P3 Aşama 0: `/yabanci-dil`, `/sinav-hazirlik-egitimleri`, `/diger-program`, `/ingilizce-kurslari`, `/yurtdisi-egitim` hub kayıtlarını `site_content.json`'dan çıkar |
+| **Yarım kalan iş** | Yok (P2 tamam). Kullanıcıdan bekleniyor: **güncel TOEFL sınav ücreti** (kaynaktaki "185 dolar" duruyor, yanına güncellik uyarısı kondu) ve Search Console'da sınav **özel ders** sayfalarının tıklanma listesi (P4 kararını kesinleştirmek için) |
+| **Engeller** | P1'in FORM/KVKK kısmı karar #4'e bağlı (sona bırakıldı). Kalan 28 ölü hedef: `/diger-program/*` (5×126) ve `/ogrenci-yorumlari` (126×) → P7/P4 · `/sinav-hazirlik-egitimleri` (74×) ve `/yabanci-dil` (47×) → P3 · proficiency `nedir/ozel-ders/ornek-sinav-sorulari` (21'er) → P4 |
+| **Bekleyen kullanıcı kararları** | #2 yorum/duyuru tekil mi · #4 form backend'i · #5 şube fotoğrafları/haritası (izlenmeyen şube foto'ları `public/assets/` altında duruyor, P6) · #6 JSON-LD (P2'de eklenmedi, P9'a bırakıldı) · sınav **özel ders** sayfalarının kalıcı olup olmayacağı (P4 sonunda) |
+| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 (bayat, birebir basılıyor — yerel SEO için güncellenmeli) · TOEFL kaydında h1 yok, ilk başlığa düşülüyor (loglanıyor) · Fransızca aile birleşiminde 2 aynı h1, biri basılıyor · Proficiency başlığında kırılmayan boşluk var (eşleme normalleştiriliyor) · 17 üniversite ve aile birleşimi kayıtlarında H1 yok · 5 şube iletişim kaydında `headings` yok |
 
 ---
 
@@ -83,6 +83,40 @@
 - **Açık kalanlar / sonraki adım:** kullanıcı onayı → commit (kod+döküman ayrı) → P2.
 - **Commit'ler:** henüz yok (bu oturumun kodu commit'lenmeyi bekliyor).
 
+
+### 2026-09-23 · Opus 5 · P2 Sınav Hazırlık Kursu Ana (16 sayfa) — commit bekliyor
+- **Yapılanlar:**
+  - Aşama 0: 16 kaydın A/B/C katman tablosu çıkarıldı (A 9 / B 2 / C 5), kurs-tarihi
+    eşlemesi (9 sınav × 4 şube = 36) ve ölü link etkisi ölçüldü.
+  - `data/exams.ts` + `lib/examContent.ts`: sabit rol alanları yerine SIRALI blok listesi
+    (`prose`/`facts`/`structure`/`branchLinks`/`merged`/`stats`/`universities`/
+    `headingList`/`faq`/`drop`). `SectionResolver` + `assertCoverage` korunuyor.
+  - Route: `[kurs]/page.tsx` (15) + statik `proficiency-kursu/page.tsx` (1).
+    `lib/pageRegistry.ts`'e `exam` kind'ı eklendi → sitemap 126.
+  - Yeni bileşenler: `ExamCoursePage`, `BranchDateRows` (alt alta, tam satır link,
+    kalıcı "Tarihleri gör" düğmesi + hover/odak ipuçları), `FactCards`, `ProseSection`.
+    Genişletilenler: `BranchHero` (illüstrasyon + kod rozeti), `ExamStructure` (zemin),
+    `ExamSectionCard` (boş parça başlığı basılmıyor).
+  - `code-review` (high) çalıştırıldı, 6 bulgunun 4'ü düzeltildi (zemin ritmi `drop`
+    bloklarını sayıyordu · PTE'de görev listesi sınav bölümü kartı olarak basılıyordu ·
+    şube satırı ortak bilgisi `extraHrefs` satırları yüzünden satırda tekrar ediyordu ·
+    `CtaBand id="iletisim"` footer'la çakışıyordu). Kalan 2'si bilinçli plan kararı
+    (`.html` 301'leri Faz 8, `/sinav-hazirlik-egitimleri` hub'ı P3).
+- **Alınan kararlar (kullanıcı):**
+  - Kaynak **başlıkları silinmez**; gövde metni konudan sapmadan **SEO için
+    geliştirilebilir** (CLAUDE.md §5'e onaylı sapma). Düzenlemeler `edits`/`additions`
+    ile izlenebilir; kaynakta karşılığı olmayan `edits` anahtarı build'i düşürür.
+  - Video bölümleri (TOEFL, IELTS) yayınlanmıyor.
+  - **"Kurs Programı" (`-kursu-2`) sayfaları yayınlanmayacak**; kayda değer program
+    seçenekleri ana sayfaya taşındı (çelişen "8 kişilik grup" satırı alınmadı).
+  - **Özel ders sayfaları şimdilik kalıyor** (3 ayda 5-6 tıklama almalarına rağmen);
+    P4'te metinleri güçlendirilecek, karar sonra kesinleşecek.
+  - Ana sayfaya katma yok; "nedir" sayfaları kalıcı ve GEO yatırımının merkezi.
+- **Açık kalanlar / sonraki adım:** kullanıcı onayı → commit (kod + döküman ayrı) → P3.
+  Kullanıcıdan: güncel TOEFL sınav ücreti, özel ders sayfalarının Search Console verisi.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (126 sayfa) · 16/16 sayfa 200 + tek H1 ·
+  check-links 40 → 28 · 1339/759/390 px'te yatay taşma yok · regresyon 200.
+- **Commit'ler:** henüz yok.
 
 ### Şablon
 ```

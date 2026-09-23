@@ -12,6 +12,7 @@ export type ExamMeta = {
   missing?: boolean;
 };
 
+/** `title: ""` → parça başlığı basılmaz, yalnız rozetler (P2 sınav kartları). */
 export type ExamPart = { title: string; meta: ExamMeta[] };
 
 export type ExamSection = {
@@ -55,9 +56,9 @@ export function ExamSectionCard({
       </div>
 
       <div className={styles.parts}>
-        {section.parts.map((part) => (
-          <div className={styles.part} key={part.title}>
-            <span className={styles.partTitle}>{part.title}</span>
+        {section.parts.map((part, i) => (
+          <div className={styles.part} key={part.title || i}>
+            {part.title && <span className={styles.partTitle}>{part.title}</span>}
             <div className={styles.metaRow}>
               {part.meta.map((m) => (
                 <span

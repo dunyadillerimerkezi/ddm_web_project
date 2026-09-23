@@ -1,0 +1,47 @@
+/* ---------------------------------------------------------------
+ * FactCards — "etiket: değer" olgu kartları (P2 sınav sayfaları)
+ * Kart kabuğu AboutCertification kutularıyla aynı dili konuşur.
+ * ------------------------------------------------------------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--ddm-gap-card);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: clamp(24px, 3vw, 32px);
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  border-radius: var(--radius-card);
+}
+
+.iconTile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-sky-200);
+  color: var(--ddm-primary);
+}
+
+.label {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-h5);
+  line-height: 1.25;
+  color: var(--ddm-navy-900);
+}
+
+.value {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-700);
+}

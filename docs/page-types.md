@@ -21,7 +21,7 @@
 | 3 | Üniversite Proficiency Sayfası | `/sinav-hazirlik-egitimleri/proficiency-kursu/{universite}.html` (+ kök dizin eş kopyası) | **42** (21 üniversite × 2 URL) | `/sinav-hazirlik-egitimleri/proficiency-kursu/bogazici-universitesi.html` | ✅ 6.5 — 21 sayfa + 42 redirect |
 | 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` | ⏳ P4 |
 | 5 | Özel Ders Sayfası | `/{kategori}/{kurs}/{kurs}-ozel-ders.html` (+ eski Joomla `?id=` varyantı) | **39** | `/yabanci-dil-egitimleri/fransizca-kursu/fransizca-ozel-ders.html` | ⏳ P4 |
-| 6 | Sınav Hazırlık Kursu Ana Sayfası | `/sinav-hazirlik-egitimleri/{sinav}-kursu.html` | **16** | `/sinav-hazirlik-egitimleri/toefl-kursu.html` | ⏳ P2 |
+| 6 | Sınav Hazırlık Kursu Ana Sayfası | `/sinav-hazirlik-egitimleri/{sinav}-kursu.html` | **16** | `/sinav-hazirlik-egitimleri/toefl-kursu.html` | ✅ 6.9 (P2) |
 | 7 | Şube İletişim Sayfası | `/ddm-iletisim/{sube}.html` (+ eski `/component/content/article/...`) | **13** | `/ddm-iletisim/1-kadikoy.html` | ✅ P1 — hub + 5 sayfa + 6 Joomla 301 (form gövdesi sona bırakıldı) |
 | 8 | Liste Sayfası | `/ogrenci-yorumlari.html?start=N`, `/duyurular.html` | **12** | `/ogrenci-yorumlari.html?start=12` | ⏳ P7 |
 | 9 | Duyuru Detay Sayfası | `/duyurular/{id}-{slug}.html` | **12** | `/duyurular/31-konusma-siniflari-speaking.html` | ⏳ P7 |

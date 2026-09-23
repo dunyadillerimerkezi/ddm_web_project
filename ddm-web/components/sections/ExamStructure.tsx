@@ -15,6 +15,7 @@ export function ExamStructure({
   lead,
   sections,
   detailIds,
+  ground = "gray",
 }: {
   title: string;
   /** "BÜYES/BUEPT üç bölümden oluşmaktadır." — kaynakta birebir geçiyorsa;
@@ -24,9 +25,11 @@ export function ExamStructure({
   /** Her kartın "Bölüm detayını oku" linkinin hedefi — index'e göre eşlenir;
    *  o index'te detay bloğu yoksa null → `#iletisim`e düşer. */
   detailIds: (string | null)[];
+  /** Varsayılan gri (6.5). P2 sınav sayfaları zemin ritmine göre verir. */
+  ground?: "light" | "gray";
 }) {
   return (
-    <PageSection id="sinav-yapisi" ground="gray" kicker="SINAV YAPISI" title={title} lead={lead}>
+    <PageSection id="sinav-yapisi" ground={ground} kicker="SINAV YAPISI" title={title} lead={lead}>
       <div className={styles.grid}>
         {sections.map((section, i) => (
           <ExamSectionCard

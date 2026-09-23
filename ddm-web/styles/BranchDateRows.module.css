@@ -1,0 +1,165 @@
+/* ---------------------------------------------------------------
+ * BranchDateRows — şube kurs tarihi satırları (P2)
+ * Alt alta, tam genişlik, satırın tamamı link.
+ * ------------------------------------------------------------- */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 72px;
+  padding: var(--space-4) var(--space-5);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+/* Sol aksan çizgisi — hover/odakta belirir, kutu ölçüsünü DEĞİŞTİRMEZ. */
+.rail {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--ddm-sky-base);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.row:hover,
+.row:focus-visible {
+  background: var(--ddm-sky-bg);
+  border-color: var(--ddm-sky-200);
+}
+
+.row:hover .rail,
+.row:focus-visible .rail {
+  opacity: 1;
+}
+
+.iconTile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  color: var(--ddm-primary);
+}
+
+.row:hover .iconTile,
+.row:focus-visible .iconTile {
+  background: var(--ddm-white);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.label {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body);
+  line-height: 1.35;
+  color: var(--ddm-navy-900);
+}
+
+.row:hover .label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.meta {
+  font-size: var(--ddm-text-caption);
+  line-height: 1.4;
+  color: var(--ddm-gray-500);
+}
+
+/* Kalıcı eylem düğmesi — hover'a bağlı değil, her zaman görünür. */
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-primary);
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.row:hover .action,
+.row:focus-visible .action {
+  background: var(--ddm-primary);
+  border-color: var(--ddm-primary);
+  color: var(--ddm-white);
+}
+
+/* Hedefi henüz olmayan satır: tıklanabilir GÖRÜNMEZ. */
+.rowPending {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 60px;
+  padding: var(--space-4) var(--space-5);
+  border: 1px dashed var(--ddm-gray-200);
+  border-radius: var(--radius-card);
+  color: var(--ddm-gray-500);
+}
+
+.rowPending .label {
+  color: var(--ddm-gray-500);
+  font-weight: 600;
+}
+
+.pendingNote {
+  flex: none;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+@media (max-width: 619px) {
+  .row {
+    grid-template-columns: auto 1fr;
+    row-gap: var(--space-3);
+  }
+
+  .action {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .rowPending {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}

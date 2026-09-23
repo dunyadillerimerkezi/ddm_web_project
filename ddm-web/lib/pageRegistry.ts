@@ -22,8 +22,10 @@ import { LANGUAGES } from "@/data/languages";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 import { COURSE_DATES } from "@/data/courseDates";
 import { BRANCH_LIST } from "@/data/branches";
+import { EXAMS } from "@/data/exams";
+import { examHref } from "@/lib/examContent";
 
-export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact";
+export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam";
 
 export type PageRecord = {
   href: string;
@@ -63,6 +65,11 @@ function branchContactPages(): PageRecord[] {
   ];
 }
 
+/** P2 — Sınav Hazırlık Kursu Ana sayfaları (`data/exams.ts`; proficiency dahil). */
+function examPages(): PageRecord[] {
+  return EXAMS.map((e) => ({ href: examHref(e.slug), kind: "exam" as const }));
+}
+
 /** Üretilen tüm sayfaların düz listesi (şu an 1 + 10 + 21 + 72 + 6 = 110). */
 export function getPageRegistry(): PageRecord[] {
   return [
@@ -71,5 +78,6 @@ export function getPageRegistry(): PageRecord[] {
     ...universityPages(),
     ...courseDatePages(),
     ...branchContactPages(),
+    ...examPages(),
   ];
 }

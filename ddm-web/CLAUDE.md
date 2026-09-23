@@ -112,6 +112,13 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     fiyat CTA'sı yok, tüm butonlar "Bilgi Al" → şube iletişim sayfası (Faz 6.6).
   - Üniversite proficiency'de "NEDEN DDM" ve "SSS" bölümleri kaynakta karşılığı
     olmadığı için koda girmedi (Faz 6.5).
+  - **Sınav Hazırlık sayfaları (P2, 2026-09-22/23):** kaynak **başlıkları silinmez**,
+    ama gövde metni **konudan sapmadan SEO için geliştirilebilir** — bu tip için
+    "birebir" kuralının yerini alır. Şart: her düzenleme `data/exams.ts`'te
+    `edits` (orijinal satır → yeni satır) ve `additions` olarak İZLENEBİLİR durur,
+    kaynakta karşılığı kalmayan bir `edits` anahtarı build'i düşürür; sayısal/güncel
+    olgular resmi kaynaktan doğrulanmadan yazılmaz. "Kurs Programı" (`-kursu-2`)
+    sayfaları yayınlanmıyor, kayda değer içerikleri ana sayfaya taşındı.
   Bunların dışında yeni bir sapma gerekirse önce kullanıcıya danış.
 - Belirsiz/çelişkili firma bilgisi (ör. "kaç yıldır faaliyette" — bkz.
   `../docs/brand-context.md` [doğrula] bölümü) sayfa içeriğine **uydurma bir

@@ -62,6 +62,7 @@
 | **P0** | Borç + altyapı | — | 4 | S | — |
 | **P1** | Şube İletişim | 6 + hub | 6 | M | ✅ tamam (form hariç) |
 | **P2** | Sınav Hazırlık Kursu Ana | 16 | — (Faz 8 genel kural) | M | P1 (CTA), §3 |
+| **PM** | Menü / gezinme düzeltmesi (`lib/nav.ts`) | — | — | S | P2 (üretilen sayfalar) |
 | **P3** | Kategori Hub'ları | 6–7 | — | S | P2 / P4 ile birlikte |
 | **P4** | Zengin İçerik Alt Sayfa | ~78 | 29 (`has: query`) | L | §3 route işi, karar #1 |
 | **P5** | İngilizce Seviye Kursu | 11 | — | S–M | Dil Kursu şablonu |
@@ -242,7 +243,7 @@ Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriter
   - H1: kayıtların hiçbirinde `headings` yok → CLAUDE.md §6 gereği `title`'a düşüldü
     (`[h1-fallback] branchContent[...]` loglanıyor).
 
-### P2 — Sınav Hazırlık Kursu Ana  ⏳ (M)
+### P2 — Sınav Hazırlık Kursu Ana  ✅ tamam (2026-09-23)
 - **Kapsam (16 slug, kesin):**
 
   | slug | kelime | slug | kelime |
@@ -286,6 +287,83 @@ Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriter
   ```
 - **Skill:** `frontend-design:frontend-design`, `programmatic-seo` (şablon × 16),
   `schema` (Course), `run`, `code-review`.
+- **Sonuç (2026-09-23):** 16/16 sayfa üretildi, **126 statik sayfa**. `check-links` ölü
+  hedef 40 → **28** (12 sınav hedefi kapandı, yeni ölü link yok). Plandan sapmalar:
+  - **İçerik kuralı değişti (kullanıcı kararı):** kaynak başlıkları silinmez, ama gövde
+    metni konudan sapmadan SEO için geliştirilebilir (CLAUDE.md §5'e onaylı sapma).
+    Düzenlemeler `data/exams.ts`'te `edits` (orijinal → yeni satır) + `additions` olarak
+    izlenebilir; kaynakta karşılığı kalmayan bir `edits` anahtarı build'i düşürür.
+    Güncellenen bayat olgular resmi kaynaktan doğrulandı (TOEFL 1–6 ölçeği, GMAT Focus,
+    dijital SAT, kısaltılmış GRE, YDS/YÖKDİL takvim+ücret, PTE ve SAT'taki iç çelişkiler).
+  - **Hero:** yeni `ExamHero` yazılmadı; P1'in `BranchHero`'su `illustration` + `code`
+    proplarıyla genişletildi (sayaç uydurma riski yok, `PageHero`'nun 103 sayfası riske
+    girmedi). İllüstrasyon: akademik sınavlar `kampus`, TestDaF/Almanca aile `de`,
+    Fransızca aile `fr`, İngiltere vize `en`.
+  - **Şablon:** sabit rol alanları yerine SIRALI blok listesi (`prose`/`facts`/`structure`/
+    `branchLinks`/`merged`/`stats`/`universities`/`headingList`/`faq`/`drop`) — 16 sınavın
+    kaynak yapısı birbirine benzemiyor.
+  - **Video bölümleri** (TOEFL, IELTS) yayınlanmıyor (kullanıcı kararı).
+  - **`StickyToc` eklenmedi:** SAT ve Aile Birleşimi'nde tekrar eden bölümler akordiyona
+    alınınca sayfa kısaldı; TOC gerekmedi (P8'de yeniden değerlendirilebilir).
+  - **Redirect eklenmedi** (plan gereği): `.html` genel kuralı Faz 8, `?id=` URL'leri P4.
+  - Kırıntıdaki `/sinav-hazirlik-egitimleri` hâlâ ölü — P3 hub'ı açacak (yeni bir ölü
+    HEDEF değil, kurs-tarihi sayfaları zaten oraya link veriyordu).
+
+
+### PM — Menü ve gezinme düzeltmesi  ⏳ (S) — kullanıcı isteği 2026-09-23
+Tek dosyalık iş: `ddm-web/lib/nav.ts` (+ gerekiyorsa `components/layout/SiteHeader.tsx`).
+Yeni sayfa üretilmez. **Amaç:** üretilen sayfalara URL yazmadan, menüden gidilebilsin.
+
+**Kaynak — canlı sitenin gerçek mega menüsü:** tam ağaç
+[`live-menu-2026-09-23.md`](live-menu-2026-09-23.md)'de (2026-09-23'te
+`dunyadillerimerkezi.com` ana sayfasının HTML'inden çıkarıldı). Özeti: 7 ana sekme →
+1. **Yabancı Dil Kursları** — 10 dil; her dilin altında `{dil} Programı` (`-2`),
+   `{dil} Özel Ders`, 4 şube kurs tarihi, `Online {dil} Eğitimi` (+ Almanca'da
+   `Hızlandırılmış`/`Konuşma Kursları`, Çince'de `Öğrenmek Zor mu?`, Türkçe'de
+   `Eğitim Seviyeleri`, İngilizce'de `Eğitim Sistemi`). Flemenkçe'nin alt kırılımı yok.
+2. **İngilizce Kursları** — 11 kalem (5 seviye, Üniversite Hazırlık, YKS Dil, İlköğretim,
+   Yaz Okulu, İngilizce Konuşma, İngilizce Eğitim Sistemi) → P5 kapsamı.
+3. **Sınav Hazırlık** — 16 sınav; her birinin altında `Programı` (`-2`), `Özel Ders`,
+   `Nedir`, 4 şube kurs tarihi. Proficiency'de ayrıca `Sınavı`, `Örnek Sınav Soruları`
+   ve **21 üniversite** (aşağıdaki düzeltme 1'e bak).
+4. **Yurtdışı Eğitim** — 11 kalem (Kanada Vancouver, İngiltere, Work and Travel,
+   Tercih, İtalya'da Üniversite dahil).
+5. **Kurumsal Dil Eğitimi** — + `Exclusive For Pegasus Pilots` (düzeltme 2).
+6. **Diğer Programlar** — Yurtdışı Eğitim (`/diger-program/yurtdisinda-egitim`),
+   Business English, Özel Dersler, Çocuklar İçin İngilizce, Online Dil Eğitimi,
+   Tercüme Hizmetleri.
+7. **İletişim** — 5 şube + `İş Başvurusu / Kariyer`.
+
+> Canlı menüde **Öğrenci Yorumları sekmesi YOK**; bizim `nav.ts`'te var (düzeltme 3).
+
+**Kullanıcının 3 düzeltmesi (karar verildi, tartışmaya kapalı):**
+1. **21 üniversite proficiency sayfası menüden çıkar.** Menüde yalnız tek bir giriş kalır
+   (ör. "Üniversite Proficiency Kursları" → `/sinav-hazirlik-egitimleri/proficiency-kursu`,
+   gerekiyorsa `#universiteler` çapası). Üniversitelere **yalnız Proficiency kursu
+   sayfasındaki listeden** gidilir (P2'de `UniversityGrid` bu sayfada).
+2. **`Exclusive For Pegasus Pilots` → Diğer Programlar** sekmesine taşınır. Ayrı bir
+   "Kurumsal Dil Eğitimi" sekmesi açılmaz; `/kurumsal-dil-egitim` hub linki de Diğer
+   Programlar altında durur. *(Varsayım — kullanıcı aksini söylerse düzelt.)*
+3. **Öğrenci Yorumları sekmesi tamamen kalkar**; içindeki `Mektuplar`, `Aktiviteler` ve
+   `Duyurular` da menüde görünmez. Bu sayfalara ana sayfadan (ve footer'dan) gidilir.
+   Footer'daki "Öğrenci Yorumları" linki **kalır**.
+
+**Ölü link kuralı (en önemli teknik nokta):** canlı menüdeki kalemlerin büyük kısmı
+(`-2`, `özel ders`, `nedir`, `online-*`) henüz üretilmedi — P4/P5 işi. `nav.ts` tam ağacı
+tarif etsin, ama **link yalnız sayfa gerçekten üretilmişse basılsın**:
+`lib/pageRegistry.ts`'teki href kümesine göre süzülür, olmayan hedef düz metin olur
+(`href: null` deseni) ya da hiç render edilmez. Böylece her faz bittiğinde menü kendiliğinden
+dolar, `check-links` ölü sayısı **artmaz**. Hangisi (düz metin mi, gizle mi) — pilot menüde
+göster, kullanıcı seçsin.
+
+- **Kabul:**
+  - `npm run build` temiz, sayfa sayısı değişmez; `npm run check-links` ölü hedef sayısı
+    **artmamış** olmalı
+  - menüden 126 üretilmiş sayfanın tamamına (üniversiteler hariç, düzeltme 1) erişilebiliyor
+  - 21 üniversite linki menüde yok, proficiency sayfasında var
+  - Öğrenci Yorumları sekmesi yok; mobil menü ve footer da kontrol edildi
+- **Skill:** `site-architecture` (menü ağacı/iç link), `frontend-design:frontend-design`
+  (mega menü kolon dengesi), `run` (1339 / 999 / 390px'te menüyü gerçekten aç), `code-review`.
 
 ### P3 — Kategori Hub'ları  ⏳ (S)
 - **Kapsam:**
@@ -307,8 +385,26 @@ Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriter
   ```
 - **Skill:** `site-architecture` (iç link ağı, breadcrumb), `frontend-design:frontend-design`.
 
-### P4 — Zengin İçerik Alt Sayfa  ⏳ (L, en büyük kalan grup, 2–4 oturum)
-**Kapsam (~78 temiz sayfa, kesin liste):**
+### P4 — Zengin İçerik Alt Sayfa  ⏳ (L, en büyük kalan grup)
+
+> **KAPSAM KARARI (kullanıcı, 2026-09-23) — aşağıdaki tabloyu ezer:**
+> - **"-2" (Kurs Programı) sayfaları yayınlanmayacak** (18 sayfa düşer). Sınav tarafındaki
+>   9'unun kayda değer içeriği (online grup / birebir / beceri sınıfları / sınav
+>   stratejileri) P2'de ana sayfalara taşındı; alınmayanlar: şube satırları (zaten link
+>   listesinde) ve "8 kişilik grup" satırı (ana sayfalar "en fazla 6 kişi" diyor, çelişki).
+>   Proficiency'ninkinden kayda değer bir şey çıkmadı. Dil tarafındaki 9'u P4'te aynı
+>   ölçütle değerlendirilecek. **301:** her `-2` URL'i kendi ana sayfasına (P4'te eklenir).
+> - **Özel ders sayfaları KALIYOR** (19 sayfa). Sınav tarafındakiler 3 ayda 5-6 tıklama
+>   alıyor ve 130-195 kelime; yine de kullanıcı şimdilik tutmayı seçti, P4'te metinleri
+>   güçlendirilecek. Dil tarafındakiler (İspanyolca/İtalyanca başta) daha çok tıklanıyor —
+>   500-700 kelimeye çıkarılacak. Karar P4 sonunda yeniden gözden geçirilecek.
+> - **"Nedir" sayfaları GEO'nun ana yatırımı:** 8 sayfa, bugün 119-604 kelime; soru
+>   başlıkları, tanım cümlesi, karşılaştırma tablosu ve güncelleme tarihiyle 600-900
+>   kelimeye çıkarılacak.
+> - **`/diger-program/ozel-dersler` çatı sayfası açılacak** (siteden 126 link alıyor,
+>   şu an ölü): 9 dil özel ders sayfasına + sınav sayfalarına link.
+
+**Kapsam (~78 temiz sayfa, kesin liste — yukarıdaki kararla "-2" satırı düşer):**
 
 | Alt tür | Adet | Slug'lar |
 |---|---|---|
@@ -509,7 +605,7 @@ Küçük işler; P1'den önce yapılır çünkü her sonraki fazın kabul kriter
 |---|---|---|---|
 | 1 | Yeni şablonların tasarım kaynağı: Claude Design turu mu, mevcut atomlarla doğrudan kod mu? | P1 ve P4 için kısa Design turu (gerçek içerikle); P2/P3/P5/P7 mevcut atomlarla kodda | P1, P4 |
 | 2 | 51 yorum + 12 duyuru: tekil sayfa mı, liste sayfasına 301 mi? | Tekil sayfalar (URL/SEO korunur, şablon ucuz) | P7 |
-| 3 | Kurs tarihi ücret satırları (~170) yayınlanmıyor. Kalıcı mı? P2'de sınav ücretleri için de geçerli mi? | Faz 9 öncesi teyit; P2'de kaynakta ücret varsa sor | P2 |
+| 3 | Kurs tarihi ücret satırları (~170) yayınlanmıyor. Kalıcı mı? | **Karar (2026-09-23):** DDM'nin kendi kurs ücretleri yayınlanmıyor; **sınavların resmî ücretleri** (TOEFL 185 USD, YÖKDİL 1.200 TL vb.) bilgi amaçlı yayınlanıyor, yanına güncellik uyarısı konuyor. TOEFL'un güncel tutarı kullanıcıdan bekleniyor | — |
 | 4 | **İletişim/ön kayıt formu gönderimi:** `ContactFormCard` hiçbir yere göndermiyor. Seçenekler: Next.js Route Handler + e-posta servisi, harici form servisi, `mailto:`/WhatsApp | Route Handler + e-posta servisi (SSG'yi bozmaz) | P1'in adres/telefon kısmı formsuz tamamlandı (2026-09-22) — form/KVKK gövdesi hâlâ bu karara bağlı, sona bırakıldı |
 | 5 | Şube galeri görselleri ve eksik adres/telefon verisini kim sağlayacak? | Önce P1 Aşama 0'da kaynaktan çıkar; kalanları kullanıcı sağlar | P1, P6 |
 | 6 | JSON-LD yapısal veri eklensin mi? | Evet; metin değişmez, SEO artısı | P9 (ve P1/P2'de erken) |

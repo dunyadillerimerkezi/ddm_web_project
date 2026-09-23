@@ -1,6 +1,6 @@
 import { Breadcrumb } from "@/components/layout";
 import { ButtonLink } from "@/components/ui";
-import { Illustration } from "@/components/graphics/Illustration";
+import { Illustration, type IllustrationName } from "@/components/graphics/Illustration";
 import type { Crumb, NavLink } from "@/lib/types";
 import styles from "@/styles/PageHero.module.css";
 
@@ -12,6 +12,11 @@ import styles from "@/styles/PageHero.module.css";
  * (`stats: HomeStat[]` zorunlu, kod/rozet mantığı kurs odaklı). Bu sayfa
  * tipinde gerçek bir "sayaç" verisi yok — uydurmamak için ayrı, sade bir
  * bileşen (CLAUDE.md §9: tasarım turu kararı verilene kadar mevcut token/atom).
+ *
+ * P2 (Sınav Hazırlık Kursu Ana) aynı sayaçsız hero'yu kullanıyor: `illustration`
+ * ile motif (sınavın diline göre `en`/`de`/`fr` ya da akademik sınavlar için
+ * `kampus`), `code` ile sınav kodu rozeti ("TOEFL iBT") eklenir. İkisi de
+ * verilmezse davranış P1'dekiyle birebir aynı.
  */
 export function BranchHero({
   crumbs,
@@ -19,13 +24,21 @@ export function BranchHero({
   lead,
   primary,
   secondary,
+  illustration = "sube",
+  code = null,
 }: {
   crumbs: Crumb[];
   h1: string;
   lead?: string | null;
   primary?: NavLink;
   secondary?: NavLink;
+  /** "sube" (varsayılan) 4/3 takvim motifi; diğerleri 1/1 dil/kampüs motifi. */
+  illustration?: IllustrationName;
+  /** Sınav kodu rozeti — null → basılmaz. */
+  code?: string | null;
 }) {
+  const isSube = illustration === "sube";
+
   return (
     <section className={styles.section}>
       <div className={styles.glow} aria-hidden="true" />
@@ -36,6 +49,11 @@ export function BranchHero({
 
       <div className={styles.grid}>
         <div className={styles.intro}>
+          {code && (
+            <div className={styles.badgeRow}>
+              <span className={styles.codePill}>{code}</span>
+            </div>
+          )}
           <h1 className={styles.titleSube}>{h1}</h1>
           {lead && <p className={styles.lead}>{lead}</p>}
 
@@ -55,8 +73,8 @@ export function BranchHero({
           )}
         </div>
 
-        <div className={`${styles.art} ${styles.artSube}`} aria-hidden="true">
-          <Illustration name="sube" glow="circle" maxWidth={340} />
+        <div className={isSube ? `${styles.art} ${styles.artSube}` : styles.art} aria-hidden="true">
+          <Illustration name={illustration} glow="circle" maxWidth={isSube ? 340 : 430} />
         </div>
       </div>
     </section>
