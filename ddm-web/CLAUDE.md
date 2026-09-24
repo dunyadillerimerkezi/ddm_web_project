@@ -158,7 +158,7 @@ ddm-web/
 │   ├── sinav-hazirlik-egitimleri/[kurs]/[sayfa]/  # Şube Kurs Tarihi — sınav tarafı (6.6)
 │   └── sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/  # 21 üniversite + tarih dağıtıcısı (6.5/6.6)
 ├── components/     # Paylaşılan UI bileşenleri — Faz 6'da doluyor
-│   ├── layout/     # TopBar, SiteHeader, MobileBottomBar, SiteFooter, SiteChrome,
+│   ├── layout/     # SiteHeader, MobileBottomBar, SiteFooter, SiteChrome,
 │   │               # Breadcrumb, StickyToc
 │   ├── ui/         # Button, Primitives (Kicker/Badge/…), Accordion, Carousel,
 │   │               # ProgressTrack (barrel: index.ts)
@@ -257,6 +257,20 @@ ddm-web/
 > kısa CTA/ilgili sayfalar. **Sırayla gri/beyaz zemin dizmek yok** (P2'nin
 > `blockGrounds()` deseni hub'larda bilinçli olarak tekrarlanmadı). Yeni referanssız
 > tiplerde aynı akış: önce taslak yönler, kullanıcı seçimi, sonra kod.
+
+> **UI turu notu (2026-09-24, kullanıcı kararları):** mevcut sayfaların görünümü ayrı
+> "UI iyileştirme" oturumlarında düzeltiliyor — akış: ekran görüntüsü (1440 + 390) → teşhis →
+> scratchpad'de 2-3 taslak → kullanıcı seçimi → kod. Bu oturumlarda görsel karar alınabilir;
+> metin değişmez. Kalıcı kararlar:
+> - **Lacivert üst bar (TopBar) tüm siteden kaldırıldı.** Telefon mobil alt çubukta ve footer'da.
+> - **Header'ın altında şerit yok:** her sayfanın ilk bölümü header'ın arkasından başlar —
+>   `app/globals.css` `main > :first-child` (negatif margin + saydam üst kenarlık,
+>   `--ddm-header-flow-h`). Yeni hero yazarken üst dolguya header payı EKLEMEYİN, kural veriyor.
+> - Ana Sayfa: hero "büyük fotoğraflı kart + iki yatay kart", sınav kartı "logo tüm kart + alt
+>   katman", dil kursları "5×2 fotoğraf kutusu + tek detay paneli" (bağlantılar HTML'de kalır),
+>   şubeler "3+2", video "fotoğrafsız kapak, tıklayınca sayfa içi oynatıcı".
+> - Ortam hareketleri yalnız transform + token (`--duration-kenburns/-float/-marquee`);
+>   globals.css reduced-motion kuralı hepsini durdurur.
 
 Tasarım **Claude Design**'da yapılır (Faz 4-5). Bu repo ve bu dosya sadece
 onaylanmış tasarımı **koda uygular** — burada UI/görsel karar alınmaz. Bir

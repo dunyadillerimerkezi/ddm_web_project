@@ -219,9 +219,9 @@
   /* Çekmecenin üst kenarı JS ile ölçülür (SiteHeader.tsx `--drawer-top`);
    * `--ddm-header-bottom-sm` yalnız ölçüm yapılamazsa devreye giren yedek. */
   /* UI turu (2026-09-24): header'ın sayfa akışında kapladığı yükseklik
-   * (sticky dolgusu ×2 + bar dolgusu 2×12 + kenarlık 2 + logo). Ana Sayfa
-   * hero'su bu kadar yukarı çekilip header'ın ARKASINDAN başlar — menü
-   * lacivertin üstünde durur, altında beyaz şerit kalmaz. */
+   * (sticky dolgusu ×2 + bar dolgusu 2×12 + kenarlık 2 + logo; ölçüldü:
+   * 1440→116). Her sayfanın ilk bölümü bu kadar yukarı çekilip header'ın
+   * ARKASINDAN başlar (globals.css) — menünün altında beyaz şerit kalmaz. */
   --ddm-header-flow-h: calc(2 * clamp(10px, 1.4vw, 16px) + 26px + clamp(44px, 4.2vw, 58px));
 
   /* ---------------------------------------------------------------

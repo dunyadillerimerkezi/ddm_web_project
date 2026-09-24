@@ -117,19 +117,20 @@ export const EXAM_SECTION = {
   title: "Sınav Hazırlık ve Yabancı Dil Eğitimleri",
   lead: "TOEFL, IELTS, YDS, GRE, SAT, GMAT, TESTDAF/DNDS ve Proficiency programlarımızla öğrencilerimize kapsamlı destek sunuyoruz. DDM, sınav başarısını ve yurtdışı eğitim hedeflerini kültürel bir deneyime dönüştürür.",
   cta: { label: "Sana Uygun Sınav Hazırlık Programını Keşfet", href: SH },
+  // UI turu (2026-09-24): TOEIC (eski dosyada dama deseni gömülüydü) ve GRE
+  // logoları yenilendi; YDS ve YÖKDİL ÖSYM sınavı — ÖSYM logosu.
   courses: [
     { code: "TOEFL", name: "TOEFL Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/toefl-kursu`, logo: "toefl-logo.png" },
     { code: "IELTS", name: "IELTS Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/ielts-kursu`, logo: "IELTS_logo.png" },
-    { code: "TOEIC", name: "TOEIC", group: "Dil Yeterliliği Çözümleri", href: `${SH}/toeic-kursu`, logo: "toeic-logo.png" },
-    // GRE: şablonda hasLogo:true ama dosya gelmedi — metin rozetine düşürüldü.
-    { code: "GRE", name: "GRE Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/gre-kursu`, logo: null },
+    { code: "TOEIC", name: "TOEIC", group: "Dil Yeterliliği Çözümleri", href: `${SH}/toeic-kursu`, logo: "toeic_logo.jpg" },
+    { code: "GRE", name: "GRE Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/gre-kursu`, logo: "gre_logo.png" },
     { code: "SAT", name: "SAT Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/sat-kursu`, logo: "SAT_logo.png" },
     { code: "GMAT", name: "GMAT Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/gmat-kursu`, logo: "GMAT_logo.png" },
     { code: "PTE", name: "PTE Akademik", group: "Dil Yeterliliği Çözümleri", href: `${SH}/academic-pte`, logo: "pte-logo.png" },
     { code: "TESTDAF", name: "TESTDAF Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/testdaf-kursu`, logo: "TestDaF-logo.png" },
     { code: "PROFICIENCY", name: "Proficiency Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/proficiency-kursu`, logo: null },
-    { code: "YDS", name: "YDS Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/yds-kursu`, logo: null },
-    { code: "YÖKDİL", name: "YÖKDİL", group: "Dil Yeterliliği Çözümleri", href: `${SH}/yokdil-sinavi-kursu`, logo: null },
+    { code: "YDS", name: "YDS Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/yds-kursu`, logo: "osym_logo.png" },
+    { code: "YÖKDİL", name: "YÖKDİL", group: "Dil Yeterliliği Çözümleri", href: `${SH}/yokdil-sinavi-kursu`, logo: "osym_logo.png" },
     { code: "A1", name: "Aile Birleşimi (A1)", group: "Dil Yeterliliği Çözümleri", href: `${SH}/aile-birlesimi-egitimi`, logo: null },
   ] satisfies ExamCourse[],
 };

@@ -27,7 +27,10 @@ export function CourseChipCard({ course }: { course: ExamCourse }) {
             />
           </div>
         ) : (
-          <span className={styles.code} aria-hidden="true">
+          <span
+            className={course.code.length > 6 ? `${styles.code} ${styles.codeLong}` : styles.code}
+            aria-hidden="true"
+          >
             {course.code}
           </span>
         )}

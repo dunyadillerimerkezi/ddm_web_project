@@ -7,12 +7,12 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-23, P3 sonrası — commit bekliyor, kullanıcıya sorulacak)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-24, UI turu — Ana Sayfa + header şeridi)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `7a737c0` (PM — kod + döküman tek commit'te gitmişti). **P3 kodu çalışma ağacında, commit'lenmedi.** |
-| **Son döküman commit'i** | `7a737c0`; P3 döküman güncellemeleri (bu dosya, PROGRESS, page-types, plan, CLAUDE.md) commit'lenmedi |
+| **Son kod commit'i** | `507e3e4` (UI turu 1. kısım, kullanıcı commit'ledi; P3 `3715727` ile gitti). **Çalışma ağacında commit bekleyen:** site geneli header şeridi kuralı (`globals.css`) + sınav logoları (`data/home.ts`, `CourseChipCard`) — kullanıcı kendisi commit'leyecek. Yeni logo dosyaları (`gre_logo.png`, `osym_logo.png`, `toeic_logo.jpg`) izlenmiyor ama kod onlara bağlı → kodla birlikte eklenmeli. |
+| **Son döküman commit'i** | bkz. `git log`; UI turu notu (CLAUDE.md §9 + §7) ve bu dosya commit'lenmedi |
 | **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**133 statik sayfa**) · `check-links` **22 benzersiz / 742 çift** (28/957'den) · 7 hub 1440/999/390/360 px'te yatay taşma yok, tek H1 |
 | **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · **Kategori Hub'ları 7 (P3)** |
 | **Aktif faz** | P3 **tamam** (kod + döküman yazıldı, commit bekliyor). Sıradaki: **P4 Zengin İçerik** — ilk alt tür özel ders (17 sayfa, `/diger-program/ozel-dersler` hub'ı hazır bekliyor) |
@@ -21,7 +21,7 @@
 | **Engeller** | Kalan 22 ölü hedef: footer'daki `/diger-program/{business-english,cocuklar-icin-ingilizce-kursu,online-dil-egitimi,tercume-hizmetleri}` ve `/ogrenci-yorumlari` (133'er) → P4/P7 · proficiency `nedir/ornek-sinav-sorulari/ozel-ders` (21'er) → P4 · ana sayfadaki yurtdışı alt sayfaları + birkaç dil alt sayfası (1'er) → P4. Bunlar Next.js önbelleğinde 404 prefetch olarak da görünüyor (P3 öncesinden beri). |
 | **Bekleyen kullanıcı kararları** | #2 yorum/duyuru tekil mi · #4 form backend'i · #5 şube fotoğrafları/haritası · #6 JSON-LD (hub SSS'leri FAQPage için hazır) · sınav özel ders sayfalarının kalıcılığı (P4 sonunda) |
 | **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 · TOEFL kaydında h1 yok · Fransızca aile birleşiminde 2 h1 · 17 üniversite kaydında H1 yok · YÖKDİL 5 yıl geçerliliği yalnız ikincil kaynakta (hub tablosunda dipnotlu) · 10 dil sayfasındaki **fiyat bölümü kaldırıldı** (kullanıcı kararı 2026-09-24; satırlar kaynakta duruyor, basılmıyor) — H1/title'daki "…ve Ders Fiyatları" ifadesi için karar bekleniyor · YÖKDİL sayfasındaki ÖSYM başvuru ücreti (1.200/1.800 TL) sınav ücreti olarak duruyor |
-| **Kalıcı kurallar** | `lib/nav.ts` `soon` bayrağı (CLAUDE.md §10) · hub içerik kuralı ve tasarım akışı (CLAUDE.md §5, §9 P3 notu) · hub'larda her link `lib/hubLinks.ts` → `isProducedPage()` süzgecinden geçer |
+| **Kalıcı kurallar** | UI turu: TopBar yok, her sayfanın ilk bölümü header'ın arkasından başlar (CLAUDE.md §9 UI notu) · `lib/nav.ts` `soon` bayrağı (CLAUDE.md §10) · hub içerik kuralı ve tasarım akışı (CLAUDE.md §5, §9 P3 notu) · hub'larda her link `lib/hubLinks.ts` → `isProducedPage()` süzgecinden geçer |
 
 ---
 
@@ -59,6 +59,23 @@
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-24 · Opus 5.5 · UI turu — Ana Sayfa + site geneli header
+- **Akış:** 1440/390 ekran görüntüsü → teşhis → 6 bölüm için scratchpad taslakları (A/B/C) → kullanıcı seçimi
+  "1B 2A 3A(logolar CTA üstünde) 4A 5B 6A" → kod → tekrar ekran görüntüsü.
+- **Yapılanlar:** TopBar tüm siteden kalktı (dosyası silindi, `BRAND_TAGLINE` kaldırıldı, menü yükseklik tokenları
+  üst barsız hesaplandı) · hero parlaması kalktı, hero kartları gerçek fotoğraflı · sınav kartı logo-tam-kart ·
+  yurtdışı hap programlar + Kaplan/ILSC logoları + ken-burns · dil kursları 5×2 kutu + tek panel (eski `<details>`
+  satır uzaması hatası giderildi; tüm bağlantılar HTML'de) · şubeler 3+2 semt fotoğraflı · video fotoğrafsız kapak,
+  sayfa içi `youtube-nocookie` oynatıcı (tıklayınca yüklenir) · footer logosu oranı düzeltildi · header altındaki
+  beyaz şerit tüm siteden kalktı (`globals.css` `main > :first-child`) · TOEIC/GRE logoları yenilendi, YDS/YÖKDİL'e
+  ÖSYM logosu. `MediaCard` hero varyantı kaldırıldı; `FeatureCard` tam-boy fotoğraf destekliyor.
+- **Yeni tokenlar:** `--ddm-header-flow-h`, `--duration-kenburns/-float/-marquee(-alt)/-zoom`, `--float-shift`,
+  `--ddm-scrim-photo/-logo`, `--ddm-greet-ink(-sky)`, `--ddm-panel-chip(-line)`.
+- **Bekleyen (kullanıcı):** video başlığı "tanıtım filmi" ama video Londra Aktüel haberi — "şimdilik kalsın" dedi.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (137) · check-links 22/742 (değişmedi) · 1440/390 yatay taşma yok ·
+  dil paneli ve video oynatıcı tıklanarak test edildi.
+- **Commit'ler:** 1. kısım kullanıcı tarafından `507e3e4`; kalanını kullanıcı atacak.
 
 ### 2026-09-23 · Opus 5.5 · P3 — Kategori Hub'ları (7 sayfa) — commit bekliyor
 - **Yapılanlar:**

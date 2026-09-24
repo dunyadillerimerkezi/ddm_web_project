@@ -2,17 +2,14 @@
  * HomeHero — Ana Sayfa bölüm 1
  * Kaynak: DDM Ana Sayfa.dc.html bölüm 1.
  *
- * UI turu (2026-09-24): açık mavi parlama kaldırıldı; bölüm header'ın
- * arkasından başlar (negatif margin = header'ın akıştaki yüksekliği), böylece
- * beyaz menü kartı lacivertin üstünde durur. Kartlar "1B": büyük fotoğraflı
- * kart + iki yatay kart.
+ * UI turu (2026-09-24): açık mavi parlama kaldırıldı. Header'ın arkasından
+ * başlama tüm sitede ortak (globals.css `main > :first-child`). Kartlar
+ * "1B": büyük fotoğraflı kart + iki yatay kart.
  * ------------------------------------------------------------- */
 .section {
   position: relative;
   background: var(--ddm-navy-900);
-  margin-top: calc(-1 * var(--ddm-header-flow-h));
-  padding: calc(var(--ddm-header-flow-h) + clamp(24px, 4vw, 48px)) var(--ddm-gutter)
-    clamp(40px, 5vw, 64px);
+  padding: clamp(24px, 4vw, 48px) var(--ddm-gutter) clamp(40px, 5vw, 64px);
   overflow: clip;
 }
 

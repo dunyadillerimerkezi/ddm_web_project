@@ -12,8 +12,8 @@ import styles from "@/styles/HomeHero.module.css";
  *
  * UI turu (2026-09-24, kullanıcı seçimi "1B"): büyük kart tam fotoğraf +
  * alt katman üstünde yazı; sağda iki yatay kart (fotoğraf solda, kart
- * yüksekliğini doldurur). Bölüm header'ın arkasından başlar
- * (`--ddm-header-flow-h`) — menü lacivertin üstünde durur.
+ * yüksekliğini doldurur). Header'ın arkasından başlaması tüm sitede ortak
+ * kural (globals.css `main > :first-child`).
  */
 export function HomeHero() {
   const { badge, h1, lead, primaryCard, featureCards } = HOME_HERO;

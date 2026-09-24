@@ -67,6 +67,12 @@
   transition: transform var(--duration-zoom) var(--ease-out-soft);
 }
 
+/* "PROFICIENCY" gibi uzun kodlar kelime ortasından kırılmasın. */
+.codeLong {
+  font-size: clamp(20px, 1.9vw, 26px);
+  letter-spacing: 0;
+}
+
 .card:hover .code {
   transform: scale(1.08);
 }

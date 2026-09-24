@@ -19,6 +19,21 @@ html {
   color-scheme: light;
 }
 
+/*
+ * UI turu (2026-09-24, kullanıcı kararı): header'ın altında beyaz şerit
+ * kalmasın — sayfanın İLK bölümü header'ın arkasından başlar, kendi zemini
+ * (lacivert hero, beyaz hub…) menünün altına kadar uzanır.
+ *
+ * Nasıl: bölüm header'ın akıştaki yüksekliği kadar yukarı çekilir ve aynı
+ * yükseklikte SAYDAM üst kenarlık alır. Zemin kenarlığın altına da boyanır
+ * (background-clip: border-box varsayılanı), içerik ise kenarlık kadar
+ * aşağıda kalır — hiçbir hero'nun kendi dolgusuna dokunmak gerekmez.
+ */
+main > :first-child {
+  margin-top: calc(-1 * var(--ddm-header-flow-h));
+  border-top: var(--ddm-header-flow-h) solid transparent;
+}
+
 body {
   min-height: 100%;
   background: var(--ddm-white);
