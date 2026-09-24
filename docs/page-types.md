@@ -29,12 +29,12 @@
 | 11 | İngilizce Seviye Kursu Sayfası | `/ingilizce-kurslari/{seviye}-ingilizce-kursu.html` | **11** | `/ingilizce-kurslari/elementary-ingilizce-kursu.html` | ⏳ P5 |
 | 12 | Yurtdışı Eğitim Alt Sayfası | `/yurtdisi-egitim/{konu}.html` | **11** | `/yurtdisi-egitim/yaz-okullari.html` | ⏳ P4 |
 | 13 | Online Eğitim Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu/online-{dil}-egitimi.html` | **8** | `/yabanci-dil-egitimleri/rusca-kursu/online-rusca-egitimi.html` | ⏳ P4 |
-| 14 | Kategori Hub Sayfası | `/{kategori}.html` (alt sayfa yok, kart listesi) | **6** | `/diger-program.html` | ⏳ P3 |
+| 14 | Kategori Hub Sayfası | `/{kategori}.html` (alt sayfa yok, kart listesi) | **6** | `/diger-program.html` | ✅ P3 — 7 hub (özel dersler dahil), `data/hubs.ts` + `lib/hubContent.ts` |
 | 15 | Diğer Program Alt Sayfası | `/diger-program/{konu}.html` | **6** | `/diger-program/tercume-hizmetleri.html` | ⏳ P4 |
 | 16 | Şube Tanıtım Sayfası | `/{sube}-tanitim-sayfasi.html` | **4** | `/kadikoy-tanitim-sayfasi.html` | ⏳ P6 |
 | 17 | Ana Sayfa | `/` | **1** | `/` | ✅ 6.3 |
 | — | Tanıtım İçerik Parçası (fragment) | `/tanitim-icerik/{id}-{slug}.html` | 6 | `/tanitim-icerik/10-sistem.html` | ⛔ P8 kararı (ana sayfa bölümü olarak beslenmiş mi kontrol) |
-| — | Kurumsal / Özel İçerik Sayfası | `/kurumsal-dil-egitim.html`, `.../turkish-course-pegasus-pilots.html` | 2 | `/kurumsal-dil-egitim.html` | ⏳ P3 (hub) / P4 (Pegasus) |
+| — | Kurumsal / Özel İçerik Sayfası | `/kurumsal-dil-egitim.html`, `.../turkish-course-pegasus-pilots.html` | 2 | `/kurumsal-dil-egitim.html` | ✅ P3 (hub) / ⏳ P4 (Pegasus) |
 | — | Etiket (Tag) Sayfası — muhtemelen taşınmayacak | `/component/tags/tag/{slug}.html` | 2 | `/component/tags/tag/almanca-kursu.html` | ⛔ Taşınmaz — 301 |
 | — | Diğer / Tekil Sayfalar — şablon gerektirmez | — | 2 | `/aktivite-aktiviteler.html`, `/star-media.html` | ⛔ Taşınmaz / P8 kararı |
 

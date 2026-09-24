@@ -1,0 +1,512 @@
+/* ---------------------------------------------------------------
+ * HubBlocks — P3 hub'lara özgü küçük bloklar.
+ * ------------------------------------------------------------- */
+
+/* SplitColumns ------------------------------------------------- */
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ddm-gap-wide);
+}
+
+.splitCol {
+  min-width: 0;
+}
+
+.splitTitle {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-2);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--ddm-navy-600);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+}
+
+.splitCount {
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-gray-400);
+}
+
+.splitIntro {
+  margin: var(--space-3) 0 var(--space-4);
+  font-size: var(--ddm-text-body);
+  line-height: 1.7;
+  color: var(--ddm-gray-600);
+}
+
+.splitList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.splitRow,
+.splitRowSoon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 52px;
+  border-bottom: 1px solid var(--ddm-gray-200);
+}
+
+.splitLink {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-height: 52px;
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.splitLink:hover {
+  color: var(--ddm-sky-ink);
+}
+
+.splitLabel {
+  font-weight: 600;
+  color: var(--ddm-gray-500);
+}
+
+.splitParent {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+  white-space: nowrap;
+}
+
+.splitParent:hover {
+  text-decoration: underline;
+}
+
+/* LevelRail ---------------------------------------------------- */
+.rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--ddm-gap-card);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Yatay ray: grupların noktalarını birleştirir */
+.rail::before {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--ddm-sky-line) 0%, var(--ddm-primary) 100%);
+}
+
+.railGroup {
+  position: relative;
+  min-width: 0;
+}
+
+.railHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.railDot {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  flex: none;
+  align-self: center;
+  border: 4px solid var(--ddm-white);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-primary);
+  box-shadow: 0 0 0 2px var(--ddm-sky-line);
+}
+
+.railRange {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.railLabel {
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-gray-500);
+}
+
+.railLevels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.railLevel,
+.railLevelSoon {
+  position: relative;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-white);
+}
+
+.railLevel {
+  transition:
+    border-color var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft);
+}
+
+.railLevel:hover {
+  border-color: var(--ddm-sky-line);
+  box-shadow: var(--shadow-md);
+}
+
+.railLevelSoon {
+  background: var(--ddm-gray-25);
+}
+
+.railTitle {
+  margin: 0 0 var(--space-1);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ddm-navy-900);
+}
+
+.railLevelSoon .railTitle {
+  color: var(--ddm-gray-600);
+}
+
+.railLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.railText {
+  margin: 0;
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.6;
+  color: var(--ddm-gray-600);
+}
+
+/* StatementRow ------------------------------------------------- */
+.statements,
+.statementsGray {
+  padding: var(--ddm-section-y-xs) var(--ddm-gutter);
+  background: var(--ddm-white);
+}
+
+.statementsGray {
+  background: var(--ddm-gray-50);
+}
+
+.statementsInner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  gap: var(--ddm-gap-wide);
+}
+
+.statement {
+  min-width: 0;
+  padding-top: var(--space-5);
+  border-top: 2px solid var(--ddm-navy-600);
+}
+
+.statementTitle {
+  margin: 0 0 var(--space-3);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+}
+
+.statementText {
+  margin: 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.75;
+  color: var(--ddm-gray-700);
+}
+
+/* CheckList ---------------------------------------------------- */
+.checks,
+.checks2 {
+  display: grid;
+  gap: var(--space-3) var(--ddm-gap-col);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checks2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.check {
+  position: relative;
+  padding-left: var(--space-8);
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.65;
+  color: var(--ddm-gray-700);
+}
+
+/* Onay işareti: iki kenarlıklı döndürülmüş kutu (ikon kaydında "check" yok) */
+.check::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-success-bg);
+}
+
+.check::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: calc(0.2em + 5px);
+  width: 6px;
+  height: 10px;
+  border: solid var(--ddm-success);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* PartnerLogos ------------------------------------------------- */
+.partners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.partnerList {
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partnerItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-md);
+  background: var(--ddm-white);
+}
+
+.partnerImg {
+  width: auto;
+  max-width: 120px;
+  height: 100%;
+  object-fit: contain;
+}
+
+.partnerNote {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+/* AttributedFacts ---------------------------------------------- */
+.facts {
+  margin: var(--space-5) 0 0;
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-sky-bg);
+}
+
+.factList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ddm-navy-900);
+}
+
+.factSource {
+  margin-top: var(--space-3);
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+/* Diğer diller (Yabancı Dil) — sayfası olmayan diller: link değil, etiket */
+.otherLangs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.otherLang {
+  padding: var(--space-2) var(--space-4);
+  border: 1px dashed var(--ddm-gray-300);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-white);
+  font-weight: 600;
+  color: var(--ddm-gray-600);
+}
+
+/* Duyarlı ------------------------------------------------------ */
+@media (max-width: 899px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rail {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+    padding-left: var(--space-8);
+  }
+
+  /* Dikey ray */
+  .rail::before {
+    top: 12px;
+    bottom: 12px;
+    left: 11px;
+    right: auto;
+    width: 3px;
+    height: auto;
+    background: linear-gradient(180deg, var(--ddm-sky-line) 0%, var(--ddm-primary) 100%);
+  }
+
+  .railDot {
+    position: absolute;
+    left: calc(var(--space-8) * -1);
+  }
+
+  .statementsInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+
+  .checks2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 619px) {
+  .factList {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .splitRow,
+  .splitRowSoon {
+    flex-wrap: wrap;
+    gap: 0 var(--space-3);
+    padding: var(--space-1) 0;
+  }
+}
+
+/* IndexCard ---------------------------------------------------- */
+.index {
+  padding: clamp(20px, 3vw, 32px);
+  border-radius: var(--radius-3xl);
+  background: var(--ddm-navy-900);
+  color: var(--ddm-white);
+}
+
+.indexTitle {
+  margin: 0 0 var(--space-3);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-navy-200);
+}
+
+.indexList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.indexLink,
+.indexSoon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  border-bottom: 1px solid var(--ddm-navy-line);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 700;
+}
+
+.indexLink {
+  color: var(--ddm-white);
+  transition: color var(--duration-fast) var(--ease-out-soft), padding var(--duration-base) var(--ease-out-soft);
+}
+
+.indexLink::after {
+  content: "›";
+  color: var(--ddm-sky-400);
+}
+
+.indexLink:hover {
+  padding-left: var(--space-2);
+  color: var(--ddm-sky-100);
+}
+
+.indexSoon {
+  color: var(--ddm-navy-400);
+  font-weight: 600;
+}
+
+.indexSoon::after {
+  content: "Yakında";
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-on-dark-veil);
+  font-family: var(--ddm-font-body);
+  font-size: var(--ddm-text-caption);
+  font-weight: 600;
+  color: var(--ddm-navy-300);
+}
+
+/* Yurtdışı dil blokları: okul listesi alt başlığı (kaynak h3 → h4 düzeyi) */
+.subTitle {
+  margin: var(--space-5) 0 var(--space-3);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h5);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}

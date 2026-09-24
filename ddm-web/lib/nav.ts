@@ -45,7 +45,7 @@ export const NAV_ITEMS: NavItem[] = [
     layout: "rail",
     promoTitle:
       "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz.",
-    promoLink: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "/yabanci-dil", soon: true },
+    promoLink: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "/yabanci-dil" },
     columns: [
       {
         title: "DİLLER",
@@ -273,7 +273,7 @@ export const NAV_ITEMS: NavItem[] = [
     layout: "columns",
     promoTitle:
       "Başlangıçtan ileri seviyeye, sınıf seviyene göre İngilizce programları.",
-    promoLink: { label: "İngilizce Kurslarını Keşfet", href: IK, soon: true },
+    promoLink: { label: "İngilizce Kurslarını Keşfet", href: IK },
     columns: [
       {
         title: "SEVİYELER",
@@ -305,7 +305,7 @@ export const NAV_ITEMS: NavItem[] = [
     layout: "rail",
     promoTitle:
       "TOEFL, IELTS, YDS, GRE, SAT, GMAT, TESTDAF/DNDS ve Proficiency programlarımızla öğrencilerimize kapsamlı destek sunuyoruz.",
-    promoLink: { label: "Sana Uygun Sınav Hazırlık Programını Keşfet", href: SH, soon: true },
+    promoLink: { label: "Sana Uygun Sınav Hazırlık Programını Keşfet", href: SH },
     columns: [
       {
         title: "SINAV PROGRAMLARI",
@@ -549,7 +549,7 @@ export const NAV_ITEMS: NavItem[] = [
     layout: "columns",
     promoTitle:
       "Dünya Dilleri Merkezi, KAPLAN INTERNATIONAL ve ILSC dil okullarının resmi kayıt ofisidir.",
-    promoLink: { label: "Sana Uygun Yurtdışı Eğitimini Keşfet", href: YE, soon: true },
+    promoLink: { label: "Sana Uygun Yurtdışı Eğitimini Keşfet", href: YE },
     columns: [
       {
         title: "EĞİTİM PROGRAMLARI",
@@ -601,14 +601,14 @@ export const NAV_ITEMS: NavItem[] = [
     layout: "columns",
     promoTitle:
       "Yurt dışı eğitimden iş İngilizcesine, çocuklara ve çevrim içi programlar.",
-    promoLink: { label: "Diğer Eğitim Programlarını Keşfet", href: DP, soon: true },
+    promoLink: { label: "Diğer Eğitim Programlarını Keşfet", href: DP },
     columns: [
       {
         title: "PROGRAMLAR",
         items: [
           { label: "Yurtdışı Eğitim", href: `${DP}/yurtdisinda-egitim`, soon: true },
           { label: "Business English", href: `${DP}/business-english`, soon: true },
-          { label: "Özel Dersler", href: `${DP}/ozel-dersler`, soon: true },
+          { label: "Özel Dersler", href: `${DP}/ozel-dersler` },
           { label: "Çocuklar İçin İngilizce Kursu", href: `${DP}/cocuklar-icin-ingilizce-kursu`, soon: true },
           { label: "Online Dil Eğitimi", href: `${DP}/online-dil-egitimi`, soon: true },
           { label: "Tercüme Hizmetleri", href: `${DP}/tercume-hizmetleri`, soon: true },
@@ -619,7 +619,7 @@ export const NAV_ITEMS: NavItem[] = [
         items: [
           {
             label: "Kurumsal Dil Eğitimi",
-            href: KD, soon: true,
+            href: KD,
             children: [
               {
                 title: null,

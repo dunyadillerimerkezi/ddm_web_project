@@ -7,21 +7,21 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-23, PM sonrası — kod commit'lenmedi, kullanıcı inceleyecek)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-23, P3 sonrası — commit bekliyor, kullanıcıya sorulacak)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `fadb754` — P2 Sınav Hazırlık (kullanıcı commit'ledi; §A'nın önceki hâli "commit bekliyor" diyordu, teyit edildi). **PM (menü ağacı + mega menü/çekmece UI) çalışma ağacında, commit'lenmedi.** |
-| **Son döküman commit'i** | `028f9aa`; `remaining-pages-plan.md`'nin PM bölümü ve bu dosya commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**126 statik sayfa — değişmedi**) · `check-links` **28 ölü hedef — değişmedi** · 1440/1339/999/390/360 px'te yatay taşma yok · sayfa HTML'i 175 KB → 135 KB |
-| **Tamamlanan tipler** | Ana Sayfa (6.3) · Dil Kursu 10 (6.4) · Üniversite Proficiency 21 (6.5) · Şube Kurs Tarihi 72 (6.6) · Şube İletişim hub+5 (P1, form hariç) · Sınav Hazırlık Kursu Ana 16 (P2) · **Menü/gezinme + mega menü/çekmece UI (PM)** |
-| **Aktif faz** | PM **tamam** (kod + döküman yazıldı, commit bekliyor). Sıradaki: **P3 Kategori Hub'ları** — `/sinav-hazirlik-egitimleri` (74×) ve `/yabanci-dil` (47×) hâlâ ölü |
-| **Bir sonraki somut adım** | Kullanıcı PM'i onaylarsa commit (kod + döküman ayrı), sonra P3 Aşama 0: `/yabanci-dil`, `/sinav-hazirlik-egitimleri`, `/diger-program`, `/ingilizce-kurslari`, `/yurtdisi-egitim`, `/kurumsal-dil-egitim` hub kayıtlarını `site_content.json`'dan çıkar |
-| **Yarım kalan iş** | Yok. Kullanıcıdan bekleniyor: güncel **TOEFL sınav ücreti** · sınav **özel ders** sayfalarının Search Console tıklanma listesi (P4 kararı) |
-| **Engeller** | P1'in FORM/KVKK kısmı karar #4'e bağlı. 28 ölü hedefin dağılımı değişmedi: `/diger-program/*` (5×126) ve `/ogrenci-yorumlari` (126×) → P7/P4 · `/sinav-hazirlik-egitimleri` (74×) ve `/yabanci-dil` (47×) → P3 · proficiency `nedir/ozel-ders/ornek-sinav-sorulari` (21'er) → P4 |
-| **Bekleyen kullanıcı kararları** | #2 yorum/duyuru tekil mi · #4 form backend'i · #5 şube fotoğrafları/haritası (izlenmeyen şube foto'ları + `ilsc_logo.jpg`/`kaplan_int.jpg` `public/assets/` altında duruyor, P6) · #6 JSON-LD (P9) · sınav özel ders sayfalarının kalıcılığı (P4 sonunda) |
-| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 (bayat) · TOEFL kaydında h1 yok · Fransızca aile birleşiminde 2 aynı h1 · Proficiency başlığında kırılmayan boşluk · 17 üniversite ve aile birleşimi kayıtlarında H1 yok · 5 şube iletişim kaydında `headings` yok |
-| **PM'den gelen kalıcı kural** | `lib/nav.ts`'te üretilmemiş hedefler `soon: true` taşır. Yeni faz sayfa üretince o satırlardan `soon: true` **silinir**; unutulursa `lib/navAudit.ts` build'i düşürüp hangi satır olduğunu yazar. Bkz. `ddm-web/CLAUDE.md` §10. |
+| **Son kod commit'i** | `7a737c0` (PM — kod + döküman tek commit'te gitmişti). **P3 kodu çalışma ağacında, commit'lenmedi.** |
+| **Son döküman commit'i** | `7a737c0`; P3 döküman güncellemeleri (bu dosya, PROGRESS, page-types, plan, CLAUDE.md) commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**133 statik sayfa**) · `check-links` **22 benzersiz / 742 çift** (28/957'den) · 7 hub 1440/999/390/360 px'te yatay taşma yok, tek H1 |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · **Kategori Hub'ları 7 (P3)** |
+| **Aktif faz** | P3 **tamam** (kod + döküman yazıldı, commit bekliyor). Sıradaki: **P4 Zengin İçerik** — ilk alt tür özel ders (17 sayfa, `/diger-program/ozel-dersler` hub'ı hazır bekliyor) |
+| **Bir sonraki somut adım** | Kullanıcı onayı → P3 commit'i (kod + döküman ayrı); sonra P4 Aşama 0: özel ders kayıtlarını `site_content.json`'dan dök, ortak iskeleti çıkar |
+| **Yarım kalan iş** | Yok. Kullanıcıdan bekleniyor: güncel TOEFL sınav ücreti · sınav özel ders sayfalarının Search Console tıklama verisi (P4 kararı) |
+| **Engeller** | Kalan 22 ölü hedef: footer'daki `/diger-program/{business-english,cocuklar-icin-ingilizce-kursu,online-dil-egitimi,tercume-hizmetleri}` ve `/ogrenci-yorumlari` (133'er) → P4/P7 · proficiency `nedir/ornek-sinav-sorulari/ozel-ders` (21'er) → P4 · ana sayfadaki yurtdışı alt sayfaları + birkaç dil alt sayfası (1'er) → P4. Bunlar Next.js önbelleğinde 404 prefetch olarak da görünüyor (P3 öncesinden beri). |
+| **Bekleyen kullanıcı kararları** | #2 yorum/duyuru tekil mi · #4 form backend'i · #5 şube fotoğrafları/haritası · #6 JSON-LD (hub SSS'leri FAQPage için hazır) · sınav özel ders sayfalarının kalıcılığı (P4 sonunda) |
+| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 · TOEFL kaydında h1 yok · Fransızca aile birleşiminde 2 h1 · 17 üniversite kaydında H1 yok · YÖKDİL 5 yıl geçerliliği yalnız ikincil kaynakta (hub tablosunda dipnotlu) · 10 dil sayfasındaki **fiyat bölümü kaldırıldı** (kullanıcı kararı 2026-09-24; satırlar kaynakta duruyor, basılmıyor) — H1/title'daki "…ve Ders Fiyatları" ifadesi için karar bekleniyor · YÖKDİL sayfasındaki ÖSYM başvuru ücreti (1.200/1.800 TL) sınav ücreti olarak duruyor |
+| **Kalıcı kurallar** | `lib/nav.ts` `soon` bayrağı (CLAUDE.md §10) · hub içerik kuralı ve tasarım akışı (CLAUDE.md §5, §9 P3 notu) · hub'larda her link `lib/hubLinks.ts` → `isProducedPage()` süzgecinden geçer |
 
 ---
 
@@ -59,6 +59,34 @@
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-23 · Opus 5.5 · P3 — Kategori Hub'ları (7 sayfa) — commit bekliyor
+- **Yapılanlar:**
+  - **Aşama 0:** 7 kaydın gerçek özgün metni ölçüldü (şablon blokları/kopyalar hariç 0–488 kelime), kaynak hataları
+    doğrulandı + yenileri bulundu (Suadiye, 4 şube, İstanbul Şehir Üni., uzun Kurumsal title), özel ders farkı 17 vs 19,
+    hub başına `soon` kart sayıları çıkarıldı. §A'daki "PM commit'lenmedi" bilgisinin yanlış olduğu görüldü (`7a737c0`).
+  - **Tasarım:** 3 tek dosyalık taslak (A hedef seçici · B karşılaştırma önce · C editoryal) 1440/390 ekran görüntüsüyle
+    sunuldu; kullanıcı "C + B'nin tablosu"nu seçti. Pilot onaylandı, sistem 6 hub'a uygulandı.
+  - Yeni: `data/hubs.ts`, `lib/hubContent.ts`, `lib/hubLinks.ts`, `components/sections/{HubHero,HubGuide,HubToc,
+    ComparisonTable,HubAbout,HubCards,HubLanguages,HubBlocks,RelatedLinks}.tsx`, `components/ui/Reveal.tsx` + CSS modülleri.
+    Genişletilen: `Breadcrumb` (açık ton), `ProcessSteps` (başlık/çapa parametreli), `PageSection` (çapa payı).
+    `tokens.css`: hub H1 ölçeği, yapışkan header payı (ölçüldü), kademeli görünme süresi, bayrak köşesi vb.
+  - `PageKind` → `hub`; `lib/nav.ts`'te 7 satırdan `soon: true` silindi.
+  - Geçerlilik süreleri resmi kaynaklardan doğrulandı (ETS, mba.com, Pearson, IELTS; YDS/YÖKDİL ÖSYM kuralı).
+- **Alınan kararlar (kullanıcı):** `/yurtdisi-egitim` içerikli hub · Kaplan rakamları Kaplan adıyla, Kaplan/ILSC logoları
+  kullanılabilir · "başarı garantisi" yumuşatılır · örnek site yok · tasarım C + B tablosu · yanıtlar Türkçe.
+- **Kendi kararlarım (kullanıcıya bildirildi):** İstanbul Şehir Üniversitesi (kapalı) listeden çıkarıldı · "%30 indirim" ve
+  üstünlük iddiaları çıkarıldı · üretilmemiş kart "Yakında" etiketiyle soluk (gizlenmedi).
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (133) · check-links 28/957 → 22/742 · 7 hub × 4 genişlik taşma yok, tek H1 ·
+  çapa hedefleri header altında kalmıyor (ölçüldü).
+- **`code-review` (high):** 10 bulgu, 10'u düzeltildi — sessizce tüketilen 6 satır gerekçeli `ignored`'a · çapa payı ·
+  ilgili linklerde tekrar · dizin kartında sihirli indeks · pilotun ortak yardımcıya geçmesi · Reveal stilleri modüle ·
+  JSX'teki gövde metni veriye · CLAUDE.md §5'e hub kuralı · yinelenen sabitler · `getHubPage` ad çakışması
+  (`lib/branchContent.ts` ile) → `getCategoryHubPage`.
+- **Ek (2026-09-24, kullanıcı isteği):** 10 dil kursu sayfasından (6.4) Fiyatlandırma bölümü kaldırıldı; alttaki
+  bölümlerin zemin sırası yeniden hesaplanıyor. `/yabanci-dil` tablosunun hücreleri tek tek kaynakla doğrulandı.
+  §A'da kalmış eski PM tablosu artığı silindi.
+- **Commit'ler:** henüz yok.
 
 ### 2026-09-23 · Opus 5 · PM — Menü ağacı + mega menü / mobil menü UI — commit bekliyor
 - **Yapılanlar:**

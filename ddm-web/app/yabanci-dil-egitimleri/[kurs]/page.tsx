@@ -8,7 +8,6 @@ import { ScheduleTable } from "@/components/sections/ScheduleTable";
 import { AboutCertification, type CertBox } from "@/components/sections/AboutCertification";
 import { LevelExplorer } from "@/components/sections/LevelExplorer";
 import { BulletPanel } from "@/components/sections/BulletPanel";
-import { PricingPanel } from "@/components/sections/PricingPanel";
 import { LinkRow } from "@/components/sections/LinkRow";
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
 import { CtaBand } from "@/components/sections/CtaBand";
@@ -29,7 +28,9 @@ import type { Crumb, Faq, LinkRowItem, ScheduleColumn, ScheduleTableRow } from "
  * ADIM 3: Bölüm 5 (seviyeler, `#seviyeler`) dolduruldu — yalnız G bölümü
  * olan 6 dilde render edilir.
  * ADIM 4: Bölüm 6 (Neden DDM/F) + Bölüm 7 (Eğitim Modelimiz/I) + Bölüm 8
- * (Fiyatlandırma/J) dolduruldu.
+ * (Fiyatlandırma/J) dolduruldu. KARAR (kullanıcı, 2026-09-24): Bölüm 8
+ * yayından kaldırıldı — fiyat basılmaz. Satırlar `languageContent` içinde
+ * okunmaya devam eder (kapsam denetimi), yalnız render edilmez.
  * ADIM 5: Bölüm 9 (şube/kurs tarihleri LinkRow, K) + Bölüm 10 (öğrenci
  * yorumları carousel, site geneli) + Bölüm 11 (SSS Accordion, E+H) dolduruldu.
  * ADIM 6: Bölüm 12 (diğer diller LinkRow) + Bölüm 13 (alt CTA `#kayit`)
@@ -166,6 +167,13 @@ export default async function DilKursuPage({
   const page = getLanguagePage(def);
   const faqs = buildFaqs(def, page);
 
+  // Eğitim Modelimiz (gray) sonrası bölümler — var olanlar sırayla light/gray
+  // alternatif; isteğe bağlı bölüm (şube linkleri, SSS) yoksa sıra kaymaz.
+  const tail = [page.branchLinks ? "branches" : null, "testimonials", faqs.length > 0 ? "faq" : null, "others", "cta"].filter(
+    (k): k is string => k !== null,
+  );
+  const ground = (key: string): "light" | "gray" => (tail.indexOf(key) % 2 === 0 ? "light" : "gray");
+
   const crumbs: Crumb[] = [
     { label: "Anasayfa", href: "/" },
     { label: "Yabancı Dil Kursları", href: "/yabanci-dil" },
@@ -230,18 +238,10 @@ export default async function DilKursuPage({
         items={page.teachingModel.items}
       />
 
-      <PricingPanel
-        ground="light"
-        kicker="FİYATLANDIRMA"
-        pricing={page.pricing}
-        ctaLabel="Kayıt Ol"
-        ctaHref="#kayit"
-      />
-
       {page.branchLinks && (
         <LinkRow
           id="sube-kurs-tarihleri"
-          ground="gray"
+          ground={ground("branches")}
           kicker="ŞUBE VE KURS TARİHLERİ"
           title={def.content.branchLinks?.heading ?? page.h1}
           items={[...page.branchLinks.branch, ...page.branchLinks.extra]}
@@ -250,12 +250,12 @@ export default async function DilKursuPage({
         />
       )}
 
-      <TestimonialsCarousel ground="light" />
+      <TestimonialsCarousel ground={ground("testimonials")} />
 
       {faqs.length > 0 && (
         <PageSection
           id="sss"
-          ground="gray"
+          ground={ground("faq")}
           kicker="SIKÇA SORULAN SORULAR"
           title={`${def.name} kursu hakkında sık sorulanlar`}
         >
@@ -264,7 +264,7 @@ export default async function DilKursuPage({
       )}
 
       <LinkRow
-        ground="light"
+        ground={ground("others")}
         kicker="DİĞER DİLLER"
         title="Yabancı Dil Kursları"
         items={otherLanguageItems(def)}
@@ -273,7 +273,7 @@ export default async function DilKursuPage({
 
       <CtaBand
         id="kayit"
-        ground="gray"
+        ground={ground("cta")}
         title={page.teachingModel.closingCta}
         sub={[DEFAULT_BRANCH.phone, DEFAULT_BRANCH.mail].filter(Boolean).join(" · ")}
         primary={{ label: "İletişime Geçin", href: DEFAULT_BRANCH.href }}

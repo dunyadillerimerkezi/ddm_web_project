@@ -3,11 +3,13 @@
  * Kaynak: DDM Dil Kursu Sayfası.dc.html — tüm bölümlerin ortak dış kabuğu.
  * ------------------------------------------------------------- */
 .sectionLight {
+  scroll-margin-top: var(--ddm-sticky-top);
   background: var(--ddm-white);
   padding: var(--ddm-section-y) var(--ddm-gutter);
 }
 
 .sectionGray {
+  scroll-margin-top: var(--ddm-sticky-top);
   background: var(--ddm-gray-50);
   padding: var(--ddm-section-y) var(--ddm-gutter);
 }

@@ -1,0 +1,42 @@
+/* ---------------------------------------------------------------
+ * P3 — Sınav hub'ında "Hazırlık atlama" grubunun altındaki üniversite
+ * proficiency çipleri (kaynaktaki üniversite listesi → mevcut sayfalar).
+ * ------------------------------------------------------------- */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--ddm-gray-200);
+  border-radius: var(--radius-pill);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  color: var(--ddm-navy-700);
+  transition:
+    border-color var(--duration-fast) var(--ease-out-soft),
+    background var(--duration-fast) var(--ease-out-soft);
+}
+
+.chip:hover {
+  border-color: var(--ddm-sky-line);
+  background: var(--ddm-sky-bg);
+}
+
+.chip:active {
+  background: var(--ddm-sky-soft);
+}
+
+.chipAll {
+  composes: chip;
+  border-color: var(--ddm-navy-100);
+  background: var(--ddm-navy-50);
+}

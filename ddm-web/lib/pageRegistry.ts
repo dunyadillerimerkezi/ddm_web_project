@@ -24,8 +24,9 @@ import { COURSE_DATES } from "@/data/courseDates";
 import { BRANCH_LIST } from "@/data/branches";
 import { EXAMS } from "@/data/exams";
 import { examHref } from "@/lib/examContent";
+import { HUBS } from "@/data/hubs";
 
-export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam";
+export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub";
 
 export type PageRecord = {
   href: string;
@@ -70,6 +71,11 @@ function examPages(): PageRecord[] {
   return EXAMS.map((e) => ({ href: examHref(e.slug), kind: "exam" as const }));
 }
 
+/** P3 — Kategori hub sayfaları (`data/hubs.ts`). */
+function hubPages(): PageRecord[] {
+  return HUBS.map((h) => ({ href: h.path, kind: "hub" as const }));
+}
+
 /** Üretilen tüm sayfaların düz listesi (şu an 1 + 10 + 21 + 72 + 6 = 110). */
 export function getPageRegistry(): PageRecord[] {
   return [
@@ -79,6 +85,7 @@ export function getPageRegistry(): PageRecord[] {
     ...courseDatePages(),
     ...branchContactPages(),
     ...examPages(),
+    ...hubPages(),
   ];
 }
 

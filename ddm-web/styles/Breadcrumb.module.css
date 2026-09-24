@@ -41,3 +41,24 @@
   color: var(--ddm-white);
   font-weight: 600;
 }
+
+/* P3 — açık zemin (hub hero'su beyaz) */
+.navLight {
+  composes: nav;
+}
+
+.navLight .sep {
+  color: var(--ddm-gray-300);
+}
+
+.navLight .link {
+  color: var(--ddm-gray-500);
+}
+
+.navLight .link:hover {
+  color: var(--ddm-navy-700);
+}
+
+.navLight .current {
+  color: var(--ddm-navy-900);
+}

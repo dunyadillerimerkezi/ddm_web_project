@@ -1,0 +1,25 @@
+/* ---------------------------------------------------------------
+ * Reveal — P3 kademeli görünme (`components/ui/Reveal.tsx`).
+ * Yalnız ekranın altında kalan `[data-reveal]` öğeleri "pending" alır;
+ * opacity + transform — yerleşim kaymaz (CLS yok).
+ * ------------------------------------------------------------- */
+.root [data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(var(--reveal-shift));
+}
+
+.root [data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--duration-reveal) var(--ease-out-soft) var(--reveal-delay, 0ms),
+    transform var(--duration-reveal) var(--ease-out-soft) var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -67,6 +67,8 @@
   --ddm-sky-veil: rgba(46, 155, 214, 0.18); /* sayaç ikon kutusu zemini */
   --ddm-hero-glow: rgba(46, 155, 214, 0.3); /* hero arka plan glow */
   --ddm-on-dark-veil: rgba(255, 255, 255, 0.08); /* koyu zeminde akreditasyon rozeti */
+  --ddm-navy-veil: rgba(22, 24, 74, 0.84); /* P3: fotoğraf üstü alt yazı rozeti */
+  --ddm-white-glass: rgba(255, 255, 255, 0.94); /* P3: yapışkan dizin şeridi (mobil) */
 
   /* ---------------------------------------------------------------
    * 3 · NÖTR — laciverte çalan soğuk gri
@@ -140,6 +142,7 @@
   --ddm-text-h1: clamp(30px, 4.6vw, 52px); /* iç sayfa hero (Faz 6.4: DDM Dil Kursu Sayfası.dc.html değeriyle düzeltildi — henüz tüketen olmadığı için önceki clamp bir yer tutucuydu) */
   --ddm-text-h1-uni: clamp(28px, 4.2vw, 48px); /* Faz 6.5: Üniversite hero'su — başlıklar dil kursundan uzun, ölçek küçültüldü */
   --ddm-text-h1-sube: clamp(27px, 3.8vw, 44px); /* Faz 6.6: Şube Kurs Tarihi hero'su — şablonun kendi ölçeği */
+  --ddm-text-h1-hub: clamp(34px, 5.2vw, 64px); /* P3: kategori hub hero'su — Tasarım Sistemi "Display 64" */
   --ddm-text-h2: clamp(26px, 3.6vw, 38px); /* ana bölüm başlığı */
   --ddm-text-h2-sm: clamp(24px, 3.2vw, 34px); /* alt bölüm başlığı */
   --ddm-text-h2-xs: clamp(20px, 2.4vw, 26px); /* iç link ağı başlığı */
@@ -196,6 +199,9 @@
   --ddm-section-y-xs: clamp(40px, 6vw, 76px);
   --ddm-gap-card: clamp(14px, 1.6vw, 18px); /* kart ızgarası */
   --ddm-gap-col: clamp(24px, 3.4vw, 48px); /* kolon arası */
+  --ddm-gap-wide: clamp(28px, 5vw, 72px); /* P3: hub iki kolon arası (dizin | içerik) */
+  --ddm-toc-width: 260px; /* P3: hub yapışkan dizin kolonu */
+  --ddm-sticky-top: clamp(96px, calc(2.8vw + 78px), 120px); /* P3: yapışkan header'ın alt kenarı + 2px (ölçüldü: 390→94, 999→102, 1440→116) */
 
   /* Menü (PM, 2026-09-23) — mega panel ve mobil çekmece kendi içinde kayar,
    * ekrandan taşmaz. Ölçüler sticky header'ın yüksekliğinden türer:
@@ -227,6 +233,7 @@
   --radius-3xl: 28px;
   --radius-pill: 999px;
   --radius-chip: 11px; /* Faz 6.4: PageHero illüstrasyon slotundaki yüzen sohbet çipleri */
+  --radius-flag: 3px; /* P3: küçük bayrak SVG köşesi */
   --radius-code-pill: 13px; /* Faz 6.5: sınav kodu rozeti (44×44 kareden yatay dolgulu pill'e) */
 
   /* ---------------------------------------------------------------
@@ -251,6 +258,8 @@
   --duration-fast: 0.18s;
   --duration-base: 0.24s;
   --duration-slow: 0.34s;
+  --duration-reveal: 0.5s; /* P3: kart/satır kademeli görünme */
+  --reveal-shift: 12px; /* P3: kademeli görünmede dikey kayma (yalnız transform — CLS yok) */
 }
 
 /*

@@ -1,0 +1,203 @@
+/* ---------------------------------------------------------------
+ * HubHero — P3 kategori hub hero'su (beyaz zemin + gerçek fotoğraf).
+ * Onaylanan yön: "C — Editoryal rehber" taslağı (2026-09-23).
+ * LCP öğesi (başlık + fotoğraf) — burada animasyon yok.
+ * `.sectionDark`: Kurumsal (B2B) — lacivert zemin, diğer hub'lardan bilinçli farklı.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-white);
+  padding: clamp(8px, 1.5vw, 20px) var(--ddm-gutter) clamp(40px, 5vw, 72px);
+}
+
+/* Diğer iç sayfa hero'larıyla (PageHero) aynı: header'ın altından başlar. */
+.sectionDark {
+  composes: section;
+  position: relative;
+  overflow: clip;
+  padding-top: clamp(16px, 2.4vw, 26px);
+  background: var(--ddm-navy-900);
+}
+
+.sectionDark::before {
+  content: "";
+  position: absolute;
+  inset: auto -10% -40% 40%;
+  height: 120%;
+  background: radial-gradient(closest-side, var(--ddm-hero-glow), transparent);
+  pointer-events: none;
+}
+
+.container {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: var(--ddm-gap-wide);
+  align-items: center;
+}
+
+.copy {
+  position: relative;
+  min-width: 0;
+}
+
+.media {
+  position: relative;
+  min-width: 0;
+}
+
+.title {
+  margin: var(--space-5) 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h1-hub);
+  font-weight: 800;
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+  color: var(--ddm-navy-900);
+}
+
+.lead {
+  margin: 0;
+  max-width: 52ch;
+  font-size: var(--ddm-text-lead-lg);
+  line-height: 1.65;
+  color: var(--ddm-gray-700);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.links {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.linksLabel {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+.linkList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--ddm-gray-200);
+  border-radius: var(--radius-pill);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  color: var(--ddm-navy-700);
+  transition:
+    border-color var(--duration-fast) var(--ease-out-soft),
+    background var(--duration-fast) var(--ease-out-soft);
+}
+
+.link:hover {
+  border-color: var(--ddm-sky-line);
+  background: var(--ddm-sky-bg);
+}
+
+.link:active {
+  background: var(--ddm-sky-soft);
+}
+
+/* Fotoğraf */
+.figure {
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius-3xl);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--ddm-gray-100);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stats {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-md);
+  line-height: 1.2;
+}
+
+.statValue {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.statLabel {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-600);
+}
+
+.caption {
+  position: absolute;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  max-width: calc(100% - var(--space-8));
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-navy-veil);
+  color: var(--ddm-white);
+  font-size: var(--ddm-text-caption);
+}
+
+@media (max-width: 899px) {
+  .container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 619px) {
+  .stats {
+    display: none;
+  }
+}
+
+/* Koyu ton */
+.sectionDark .title {
+  color: var(--ddm-white);
+}
+
+.sectionDark .lead {
+  color: var(--ddm-navy-200);
+}
+
+.sectionDark .links {
+  border-top-color: var(--ddm-navy-line);
+}

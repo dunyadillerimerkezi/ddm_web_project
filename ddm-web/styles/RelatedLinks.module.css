@@ -1,0 +1,65 @@
+/* ---------------------------------------------------------------
+ * RelatedLinks — P3 sayfa sonu iç link ağı. Kısa, sakin, beyaz zemin.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-white);
+  padding: clamp(36px, 5vw, 56px) var(--ddm-gutter);
+}
+
+.container {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0 0 var(--space-5);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2-xs);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-6) var(--space-8);
+}
+
+.groupTitle {
+  margin: 0 0 var(--space-2);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-gray-500);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  border-bottom: 1px solid var(--ddm-gray-100);
+  font-weight: 600;
+  color: var(--ddm-navy-800);
+  transition: color var(--duration-fast) var(--ease-out-soft);
+}
+
+.link::after {
+  content: "›";
+  font-size: var(--ddm-text-h4);
+  color: var(--ddm-sky-ink);
+  transition: transform var(--duration-fast) var(--ease-out-soft);
+}
+
+.link:hover {
+  color: var(--ddm-sky-ink);
+}
+
+.link:hover::after {
+  transform: translateX(3px);
+}

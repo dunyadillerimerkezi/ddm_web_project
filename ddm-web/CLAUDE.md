@@ -119,6 +119,17 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     kaynakta karşılığı kalmayan bir `edits` anahtarı build'i düşürür; sayısal/güncel
     olgular resmi kaynaktan doğrulanmadan yazılmaz. "Kurs Programı" (`-kursu-2`)
     sayfaları yayınlanmıyor, kayda değer içerikleri ana sayfaya taşındı.
+  - **Kategori hub'ları (P3, 2026-09-23):** P2 kuralı aynen geçerli. Düzenlemeler
+    `data/hubs.ts`'te `edits` / `headingEdits` / `meta.reasons` / gerekçeli `ignored`
+    olarak durur; kaynakta hiç olmayan içerik (amaç grupları, tablolar, SSS) ayrı
+    `*_HUB_ADDED` nesnelerindedir — sayfa dosyasına (JSX) gövde metni yazılmaz.
+    `lib/hubContent.ts` kullanılmayan `edits`'i, kaynakta başlık olmayan
+    `headingEdits` anahtarını ve title >60 / description >155 karakteri build'de
+    düşürür. Ek kararlar: "başarı garantisi" ifadeleri yumuşatılır; doğrulanamayan
+    üstünlük iddiaları ("Türkiye'nin en çok tercih edilen…", "lider konum") ve
+    güncelliği bilinmeyen kampanya ("%30'a varan indirim") çıkarılır; iş ortağına ait
+    rakamlar (Kaplan) ortağın adıyla atfedilir; bayat şube adları `data/branches.ts`
+    ile değiştirilir.
   Bunların dışında yeni bir sapma gerekirse önce kullanıcıya danış.
 - Belirsiz/çelişkili firma bilgisi (ör. "kaç yıldır faaliyette" — bkz.
   `../docs/brand-context.md` [doğrula] bölümü) sayfa içeriğine **uydurma bir
@@ -239,6 +250,13 @@ ddm-web/
    `../docs/remaining-pages-plan.md`.
 
 ## 9. Tasarım
+
+> **P3 notu (2026-09-23):** hub tipi için referans yoktu; önce 3 görsel yön taslağı
+> hazırlandı, kullanıcı "C — editoryal rehber + B'nin karşılaştırma tablosu"nu seçti.
+> Hub sistemi: hero (sağda karakter görseli) → 1 baskın bölüm → 2-3 destekleyici →
+> kısa CTA/ilgili sayfalar. **Sırayla gri/beyaz zemin dizmek yok** (P2'nin
+> `blockGrounds()` deseni hub'larda bilinçli olarak tekrarlanmadı). Yeni referanssız
+> tiplerde aynı akış: önce taslak yönler, kullanıcı seçimi, sonra kod.
 
 Tasarım **Claude Design**'da yapılır (Faz 4-5). Bu repo ve bu dosya sadece
 onaylanmış tasarımı **koda uygular** — burada UI/görsel karar alınmaz. Bir

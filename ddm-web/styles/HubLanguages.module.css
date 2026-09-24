@@ -1,0 +1,309 @@
+/* ---------------------------------------------------------------
+ * HubLanguages — P3 selam duvarı (Yabancı Dil hero'su), dil kartları,
+ * "19 dilde eğitim" şeridi.
+ * ------------------------------------------------------------- */
+
+/* Selam duvarı — hero görseli. İlk karo (İngilizce) 2×2 kaplar: 1 büyük +
+ * 8 küçük = 3 kolonda boşluksuz 4 satır. */
+.wall {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-3);
+  list-style: none;
+  border-radius: var(--radius-3xl);
+  background: var(--ddm-navy-900);
+}
+
+.wallTile,
+.wallTileLead {
+  min-width: 0;
+}
+
+.wallTileLead {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.wallLink {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-3);
+  height: 100%;
+  min-height: 96px;
+  padding: var(--space-4);
+  border: 1px solid var(--ddm-navy-line);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-navy-800);
+  color: var(--ddm-white);
+  transition:
+    background var(--duration-base) var(--ease-out-soft),
+    border-color var(--duration-base) var(--ease-out-soft);
+}
+
+.wallLink:hover {
+  border-color: var(--ddm-sky-400);
+  background: var(--ddm-navy-700);
+}
+
+.wallLink:active {
+  background: var(--ddm-navy-600);
+}
+
+.wallGreeting {
+  font-family: var(--ddm-font-heading);
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.wallTileLead .wallGreeting {
+  font-size: clamp(30px, 3.6vw, 48px);
+}
+
+.wallName {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  color: var(--ddm-navy-200);
+}
+
+.wallFlag {
+  flex: none;
+  border-radius: var(--radius-flag);
+}
+
+/* Dil kartları */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--ddm-gap-card);
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  background: var(--ddm-white);
+  transition:
+    transform var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    border-color var(--duration-base) var(--ease-out-soft);
+}
+
+.tile:hover {
+  transform: translateY(-4px);
+  border-color: var(--ddm-sky-line);
+  box-shadow: var(--shadow-hover);
+}
+
+.tileMedia {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--ddm-gray-100);
+}
+
+.tileImg {
+  object-fit: cover;
+}
+
+.tileGreeting {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-navy-veil);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 800;
+  color: var(--ddm-white);
+}
+
+.tileBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.tileTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.tileFlag {
+  flex: none;
+  border-radius: var(--radius-flag);
+}
+
+/* Tüm kart dil sayfasına gider; alt linkler (z-index: 1) bu katmanın üstünde. */
+.tileLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.tile:hover .tileLink {
+  color: var(--ddm-sky-ink);
+}
+
+.tileLinks {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ddm-gray-divider);
+}
+
+.tileSub {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  border-bottom: 1px solid var(--ddm-gray-divider);
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-600);
+  transition: color var(--duration-fast) var(--ease-out-soft);
+}
+
+.tileSub:hover {
+  color: var(--ddm-sky-ink);
+}
+
+/* "19 dilde eğitim" şeridi */
+.strip {
+  scroll-margin-top: var(--ddm-sticky-top);
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-section-y-xs) var(--ddm-gutter);
+}
+
+.stripInner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.stripHead {
+  max-width: 72ch;
+  margin-bottom: var(--space-6);
+}
+
+.stripLabel {
+  margin: 0 0 var(--space-2);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-gray-500);
+}
+
+.stripTitle {
+  margin: 0 0 var(--space-3);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2-sm);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.stripLead {
+  margin: 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.7;
+  color: var(--ddm-gray-700);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--ddm-gray-200);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-white);
+  font-weight: 600;
+  color: var(--ddm-navy-800);
+  transition:
+    border-color var(--duration-fast) var(--ease-out-soft),
+    background var(--duration-fast) var(--ease-out-soft);
+}
+
+.chip svg {
+  border-radius: var(--radius-flag);
+}
+
+.chip:hover {
+  border-color: var(--ddm-sky-line);
+  background: var(--ddm-sky-bg);
+}
+
+.chip:active {
+  background: var(--ddm-sky-soft);
+}
+
+.stripCta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: var(--space-4);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.stripCta:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1099px) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 619px) {
+  .tiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wall {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wallTileLead {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+
+  .wallLink {
+    min-height: 84px;
+    padding: var(--space-3);
+  }
+}

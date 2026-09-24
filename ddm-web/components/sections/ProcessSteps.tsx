@@ -18,7 +18,22 @@ export type ProcessStep = { title: string; body: string };
  * (3 veya 4) fark etmeksizin `lib/universityContent.ts` bunları 3 sabit
  * başlığa gruplar (bkz. plan §7 "Giriş paragraflarının dağılımı").
  */
-export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
+export function ProcessSteps({
+  steps,
+  id = "isleyis",
+  kicker = "PROGRAMIN İŞLEYİŞİ",
+  title = "Seviye tespitinden sınav tekniğine üç adım",
+  lead,
+  ground = "light",
+}: {
+  steps: ProcessStep[];
+  /** P3: hub'lar kendi başlığını/çapasını verir; varsayılanlar 6.5 üniversite şablonu. */
+  id?: string;
+  kicker?: string;
+  title?: string;
+  lead?: string;
+  ground?: "light" | "gray";
+}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [filled, setFilled] = useState(false);
 
@@ -39,12 +54,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
   }, []);
 
   return (
-    <PageSection
-      id="isleyis"
-      ground="light"
-      kicker="PROGRAMIN İŞLEYİŞİ"
-      title="Seviye tespitinden sınav tekniğine üç adım"
-    >
+    <PageSection id={id} ground={ground} kicker={kicker} title={title} lead={lead}>
       <div className={styles.track} ref={trackRef}>
         <div className={styles.rail} />
         <div className={styles.fill} style={{ width: filled ? "100%" : "0%" }} />

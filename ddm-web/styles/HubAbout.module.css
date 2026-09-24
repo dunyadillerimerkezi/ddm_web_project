@@ -1,0 +1,95 @@
+/* ---------------------------------------------------------------
+ * HubAbout — P3 kurum bölümü (lacivert zemin + beyaz SSS kutusu).
+ * ------------------------------------------------------------- */
+.section {
+  scroll-margin-top: var(--ddm-sticky-top);
+  background: var(--ddm-navy-900);
+  color: var(--ddm-navy-200);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.container {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--ddm-gap-wide);
+  align-items: start;
+}
+
+.title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2-sm);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-white);
+}
+
+.p {
+  max-width: 62ch;
+  margin: 0 0 var(--space-4);
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.75;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--ddm-navy-line);
+}
+
+.feature {
+  padding: var(--space-4) var(--space-5);
+  background: var(--ddm-navy-900);
+}
+
+.featureTitle {
+  margin: 0 0 var(--space-1);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  color: var(--ddm-white);
+}
+
+.featureBody {
+  margin: 0;
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.6;
+}
+
+.aside {
+  scroll-margin-top: var(--ddm-sticky-top);
+  padding: clamp(20px, 3vw, 32px);
+  border-radius: var(--radius-3xl);
+  background: var(--ddm-white);
+  color: var(--ddm-gray-700);
+}
+
+.asideTitle {
+  margin: 0 0 var(--space-4);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+}
+
+@media (max-width: 899px) {
+  .container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 619px) {
+  .features {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

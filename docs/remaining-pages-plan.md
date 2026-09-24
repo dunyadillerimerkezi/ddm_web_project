@@ -418,7 +418,23 @@ ana sayfa logodan). `code-review` (high) iki tur çalıştı, 12 bulgunun 11'i d
 düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki ölü hedefler
 (`/ogrenci-yorumlari`, `/diger-program/*`) kullanıcı kararıyla duruyor, P3/P4 açacak.
 
-### P3 — Kategori Hub'ları  ⏳ (S)
+### P3 — Kategori Hub'ları  ✅ tamam (2026-09-23)
+
+> **Sonuç (2026-09-23):**
+> - 7 hub üretildi (plan 6 + `/diger-program/ozel-dersler`); her biri ayrı statik klasör, kökte catch-all yok.
+> - **Aşama 0:** gerçek özgün metin 0–488 kelimeydi (şablon blokları + kopyalar ayıklandı); hepsi ~650–1180 kelimeye çıktı.
+>   Kaynak hataları düzeltildi ve `data/hubs.ts`'te izleniyor: yanlış/eksik H1'ler (İngilizce C1, Sınav, Kurumsal "Kurumsal"),
+>   IT kartında "İspanyolca Kursu", "Programalrımız", "İ Kurumsal", bozuk/uzun meta'lar, bayat şubeler (Beşiktaş, Suadiye), 4→5 şube,
+>   kapalı İstanbul Şehir Üniversitesi, "%30 indirim", "başarı garantisi", üstünlük iddiaları.
+> - Özel ders listesi kaynakta 17 (plan 19): fark `ingilizce-konusma-ozel-ders` ve `yds-ozel-ders-2`.
+> - `/yurtdisi-egitim` → **içerikli hub** (kullanıcı): Kaplan/Alpadia/Enforex blokları başlıklarıyla duruyor, rakamlar Kaplan'a atfedildi.
+> - **Tasarım:** 3 yön taslağı → kullanıcı "C + B'nin tablosu"nu seçti; bkz. `ddm-web/CLAUDE.md` §9 P3 notu.
+> - **Ölü link:** 28 benzersiz / 957 çift → **22 / 742** (beklenen: düşen 6 hedef 250 çift; yeni 7 sayfanın footer'ı hâlâ ölü 5 hedefe +35).
+>   Hub'lardaki üretilmemiş hedefler (özel ders 17, İngilizce seviye 11, yurtdışı alt 6, diğer program 4, Pegasus) soluk "Yakında".
+> - **133 statik sayfa.** `code-review` (high): 10 bulgunun 10'u düzeltildi.
+> - P4/P5'te o sayfalar üretilince hub'larda ek iş yok: kartlar `isProducedPage()` ile kendiliğinden link olur
+>   (yalnız `lib/nav.ts`'teki `soon: true` silinir).
+
 - **Kapsam:**
   - `/yabanci-dil`, `/sinav-hazirlik-egitimleri`, `/ingilizce-kurslari` (715 kelime),
     `/yurtdisi-egitim` (1173 kelime, hub'dan çok içerik sayfası; Aşama 0'da bak),
