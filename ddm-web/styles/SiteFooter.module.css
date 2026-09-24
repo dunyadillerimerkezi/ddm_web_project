@@ -21,8 +21,11 @@
   gap: 18px;
 }
 
-.brand img {
-  height: 46px;
+/* Flex kolonu çocuğu yatayda gerer (align-items: stretch) — logo kendi
+ * genişliğinde kalsın. */
+.logo {
+  align-self: flex-start;
+  height: 56px;
   width: auto;
 }
 

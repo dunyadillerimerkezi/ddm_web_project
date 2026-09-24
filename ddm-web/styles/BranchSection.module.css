@@ -29,8 +29,43 @@
   color: var(--ddm-white);
 }
 
+/* UI turu (2026-09-24, "5B"): masaüstünde üstte 3, altta 2 geniş kart;
+ * tablette 2 kolon (son kart geniş); mobilde tek kolon. Oranları ızgara
+ * hücresi verir — kart kendi oranını taşımaz. */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--ddm-gap-card);
+}
+
+.grid > * {
+  aspect-ratio: 4 / 4.2;
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid > *:last-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 7;
+  }
+}
+
+@media (min-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .grid > * {
+    grid-column: span 2;
+    aspect-ratio: 4 / 4.3;
+  }
+
+  .grid > *:nth-child(n + 4),
+  .grid > *:last-child {
+    grid-column: span 3;
+    aspect-ratio: 16 / 9;
+  }
 }

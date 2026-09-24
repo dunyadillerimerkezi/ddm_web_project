@@ -1,57 +1,7 @@
 /* ---------------------------------------------------------------
- * MediaCard — hero büyük kart + "Diğer Programlar" kartı
- * Kaynak: DDM Ana Sayfa.dc.html bölüm 1 ve bölüm 7.
+ * MediaCard — "Diğer Programlar" kartı
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 7.
  * ------------------------------------------------------------- */
-
-/* --- hero varyantı --- */
-
-.cardHero {
-  background: var(--ddm-white);
-  border: 1px solid var(--ddm-border-card);
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-lift);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
-}
-
-.cardHero:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hero-hover);
-}
-
-.iconBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: var(--radius-lg);
-  background: var(--ddm-sky-soft);
-  color: var(--ddm-sky-ink);
-}
-
-.heroTitle {
-  margin: 0;
-  font-family: var(--ddm-font-heading);
-  font-weight: 800;
-  font-size: var(--ddm-text-h2-card);
-  line-height: 1.18;
-  letter-spacing: var(--ddm-tracking-h2);
-  color: var(--ddm-navy-900);
-}
-
-.cta {
-  align-self: flex-start;
-}
-
-.ctaInert {
-  align-self: flex-start;
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--ddm-gray-500);
-}
 
 /* --- program varyantı --- */
 
@@ -115,26 +65,17 @@
 }
 
 .body {
-  padding: clamp(24px, 2.6vw, 34px);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  flex: 1;
-}
-
-.cardProgram .body {
-  padding: 24px;
   gap: 11px;
+  flex: 1;
 }
 
 .text {
   margin: 0;
-  font-size: var(--ddm-text-body-l);
+  font-size: var(--ddm-text-body);
   line-height: var(--ddm-leading-body);
   color: var(--ddm-gray-600);
   flex: 1;
-}
-
-.cardProgram .text {
-  font-size: var(--ddm-text-body);
 }

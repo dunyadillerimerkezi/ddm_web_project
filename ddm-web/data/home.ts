@@ -39,11 +39,11 @@ export const HOME_HERO = {
     text: "Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca, Arapça ve Farsça dil eğitimleri vermektedir.",
     cta: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "#dil-kurslari" },
     slot: {
-      src: null,
-      alt: "Çok dilli grup dersi / konuşan öğrenciler",
+      src: `${IMG}/yabancı-dil2.jpg`,
+      alt: "Masada bayraklarla çok dilli grup dersi yapan öğrenciler",
       ratio: "16/9",
-      width: 880,
-      height: 495,
+      width: 735,
+      height: 490,
       hint: "Çok dilli grup dersi / konuşan öğrenciler",
     },
   } satisfies HeroCard,
@@ -54,11 +54,11 @@ export const HOME_HERO = {
       text: "2003 yılından bugüne öğrencileri akademik sınavlara hazırlayan Dünya Dilleri Merkezi, İngilizce ve diğer yabancı dil sınav hazırlık kursları ile istediğiniz sonucu almanızda gerekli olan desteği size sağlayacaktır.",
       cta: { label: "Sana Uygun Sınav Hazırlık Programını Keşfet", href: "#sinav-hazirlik" },
       slot: {
-        src: null,
-        alt: "Sınav/çalışma masası",
+        src: `${IMG}/exam_preparation.jpg`,
+        alt: "Dizüstü bilgisayar ve notlarla sınava çalışan öğrenci",
         ratio: "1/1",
-        width: 600,
-        height: 600,
+        width: 736,
+        height: 1104,
         hint: "Sınav/çalışma masası",
       },
     },
@@ -68,11 +68,11 @@ export const HOME_HERO = {
       text: "İngilizce konuşulan bir ülkede dil eğitimi alman isteyen öğrenciler için geniş çapta İngilizce dil kursları sunuyoruz. Uluslararası eğitim kurumları tarafından akredite edilmiş Genel İngilizce Kursları, Sınav Hazırlık Kursları, İş İngilizcesi Kursları veya Uzun Dönem kurslar arasından seçim yapabilirsiniz.",
       cta: { label: "Sana Uygun Yurtdışı Dil Eğitimini Keşfet", href: "#yurtdisi" },
       slot: {
-        src: null,
-        alt: "Pasaport / kampüs",
+        src: `${IMG}/yurtdısı_egitim.jpg`,
+        alt: "Londra'da Big Ben önünde bir arada öğrenciler",
         ratio: "1/1",
-        width: 600,
-        height: 600,
+        width: 736,
+        height: 1104,
         hint: "Pasaport / kampüs",
       },
     },
@@ -145,7 +145,11 @@ export const ABROAD_SECTION = {
   title: "Yurt dışı eğitim serüveninizin önemli bir parçası olmak istiyoruz",
   panelText:
     "Dünya Dilleri Merkezi, KAPLAN INTERNATIONAL ve ILSC dil okullarının resmi kayıt ofisidir. Yurtdışı eğitim sürecinizde size ücretsiz danışmanlık dahil, konaklama, vize, ulaşım gibi her konuda destek vermekteyiz.",
-  accreditations: ["KAPLAN INTERNATIONAL", "ILSC"],
+  /** UI turu (2026-09-24): metin rozetleri yerine partner logoları; `name` alt metni. */
+  accreditations: [
+    { name: "KAPLAN INTERNATIONAL", logo: "/assets/kaplan_int.jpg", width: 600, height: 400, crop: true },
+    { name: "ILSC", logo: "/assets/ilsc_logo.jpg", width: 400, height: 250, crop: false },
+  ],
   accreditationNote: "resmi kayıt ofisi",
   cta: { label: "Sana Uygun Yurtdışı Eğitimini Keşfet", href: YE },
   image: { src: `${IMG}/yurtdisi-egitim.jpg`, hint: "Yurtdışı kampüs / danışmanlık görüşmesi" },
@@ -185,10 +189,6 @@ export const LANGUAGE_SECTION = {
   title: "19 dilde eğitim, 2003’ten bugüne Dünya Dilleri Merkezi farkıyla yabancı dil eğitimleri",
   lead: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca, Arapça ve Farsça dil eğitimleri vermektedir.",
   cta: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "/yabanci-dil" },
-  showAllLabel: "Tüm dilleri göster (10 kurs)",
-  showLessLabel: "Daha az göster",
-  /** İlk 6 her zaman görünür; kalan 4 "Tüm dilleri göster" ile açılır. */
-  alwaysVisibleCount: 6,
   cards: [
     {
       key: "en", code: "EN", title: "İngilizce Kursu", href: `${YD}/ingilizce-kursu`, flag: "gb",
@@ -321,6 +321,8 @@ const BRANCH_PROMO = [
     short: "Yabancı dil eğitimi ve uluslararası sınav hazırlığında akademik kaliteyi esas alan seçkin bir kurumdur.",
     cta: "Kadıköy Şubemizi Keşfet",
     slotHint: "Kadıköy şube binası",
+    photo: "/assets/kadıköy.jpg",
+    photoAlt: "Kadıköy iskelesi ve vapur, gün batımı",
   },
   {
     tag: "BAĞDAT CADDESİ AKADEMİK",
@@ -328,6 +330,8 @@ const BRANCH_PROMO = [
     short: "Geniş bir dil yelpazesi ve uluslararası sınavlara yönelik yoğun hazırlık programlarıyla öne çıkar.",
     cta: "Bağdat Caddesi Şubemizi Keşfet",
     slotHint: "Bağdat Caddesi şubesi",
+    photo: "/assets/bağdat_caddesi.jpg",
+    photoAlt: "Ağaçlı Bağdat Caddesi",
   },
   {
     // Kaynakta başlık "Beşiktaş Şubesi" ama slug/şube "levent" — birebir korundu (§5).
@@ -336,6 +340,8 @@ const BRANCH_PROMO = [
     short: "25 yılı aşkın deneyimiyle bireysel ve kurumsal dil eğitimlerinde güvenilir bir adres.",
     cta: "Levent Şubemizi Keşfet",
     slotHint: "Levent / Etiler şubesi",
+    photo: "/assets/levent.jpg",
+    photoAlt: "Levent gökdelenleri",
   },
   {
     tag: "ATAŞEHİR",
@@ -343,6 +349,8 @@ const BRANCH_PROMO = [
     short: "MEB onaylı yapısıyla birçok dilde eğitim sunan, deneyimli Türk ve yabancı eğitmen kadrosu.",
     cta: "Ataşehir Şubemizi Keşfet",
     slotHint: "Ataşehir şubesi",
+    photo: "/assets/ataşehir.jpg",
+    photoAlt: "Gece Ataşehir silueti",
   },
   {
     tag: "ÜMRANİYE",
@@ -350,6 +358,8 @@ const BRANCH_PROMO = [
     short: "15 yıllık tecrübe deneyimli eğitmen kadromuzla sizlere dünyanın kapılarını aralıyoruz.",
     cta: "Ümraniye Şubesi",
     slotHint: "Ümraniye şubesi",
+    photo: "/assets/ümraniye.jpg",
+    photoAlt: "Ümraniye saat kulesi",
   },
 ];
 
@@ -366,8 +376,8 @@ export const BRANCH_SECTION = {
       cta: promo.cta,
       href: branch.href,
       slot: {
-        src: null,
-        alt: promo.slotHint,
+        src: promo.photo,
+        alt: promo.photoAlt,
         ratio: "4/5",
         width: 800,
         height: 1000,
@@ -427,7 +437,17 @@ export const VIDEO_SECTION = {
   kicker: "TANITIM VİDEOSU",
   title: "Keşif alanınızı genişletin, videomuzu izleyin",
   youtubeUrl: "https://www.youtube.com/watch?v=plKWRTzefC8",
-  coverSrc: "/assets/foto-5.jpg",
+  /** Sayfa içi oynatıcı — gizlilik modlu alan; iframe yalnız tıklanınca yüklenir. */
+  embedUrl: "https://www.youtube-nocookie.com/embed/plKWRTzefC8?autoplay=1&rel=0",
+  /**
+   * Kapaktaki kayan "merhaba" şeridi — DEKORATİF (aria-hidden), sayfa içeriği
+   * değil. UI turu (2026-09-24, "6A"): kapaktaki şube fotoğrafı kullanıcı
+   * isteğiyle kaldırıldı, yerine DDM'nin dilleri.
+   */
+  greetings: [
+    ["Hello", "Hallo", "Bonjour", "Hola", "Ciao", "Привет", "你好", "Merhaba", "Hej", "Olá"],
+    ["Γειά σου", "안녕하세요", "مرحبا", "سلام", "Dobrý deň", "Здравей", "Bok", "こんにちは", "Hallo"],
+  ],
   caption: "Dünya Dilleri Merkezi tanıtım filmi",
   sub: "YouTube’da izle · youtube.com/watch?v=plKWRTzefC8",
 };

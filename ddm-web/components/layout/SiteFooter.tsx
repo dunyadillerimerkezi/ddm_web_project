@@ -27,11 +27,14 @@ export function SiteFooter({ branch = DEFAULT_BRANCH }: { branch?: Branch }) {
       <div className={styles.inner}>
         <div className={styles.cols}>
           <div className={styles.brand}>
+            {/* Oran dosyanınkiyle aynı olmalı (1927×816 ≈ 2.36:1) — eski
+                175×46 logoyu yana geriyordu (UI turu 2026-09-24). */}
             <Image
               src="/assets/ddm-logo-beyaz.png"
               alt="Dünya Dilleri Merkezi"
-              width={175}
-              height={46}
+              width={1927}
+              height={816}
+              className={styles.logo}
             />
             <p className={styles.blurb}>{BRAND_BLURB}</p>
 

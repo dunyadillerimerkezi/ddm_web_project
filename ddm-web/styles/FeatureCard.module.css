@@ -24,6 +24,45 @@
   width: clamp(88px, 11vw, 132px);
 }
 
+/* UI turu: gerçek fotoğraf kartın sol kolonunu dolgusuz, tam boy kaplar. */
+.card:has(.photo) {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.photo {
+  position: relative;
+  flex: none;
+  width: 38%;
+  overflow: hidden;
+  background: var(--ddm-navy-800);
+}
+
+.photoImage {
+  object-fit: cover;
+  transition: transform var(--duration-zoom) var(--ease-out-soft);
+}
+
+.card:hover .photoImage {
+  transform: scale(1.05);
+}
+
+.card:has(.photo) .body {
+  padding: clamp(20px, 2.2vw, 28px);
+}
+
+@media (max-width: 619px) {
+  .card:has(.photo) {
+    flex-direction: column;
+  }
+
+  .photo {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+}
+
 .body {
   display: flex;
   flex-direction: column;

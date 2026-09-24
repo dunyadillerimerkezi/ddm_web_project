@@ -1,16 +1,16 @@
 /* ---------------------------------------------------------------
  * BranchCard — şube kartı (bölüm 6)
- * Kaynak: DDM Ana Sayfa.dc.html bölüm 6. Görsel yuvası şablondaki bir
+ * Kaynak: DDM Ana Sayfa.dc.html bölüm 6. UI turu (2026-09-24): kartın
+ * oranını artık ızgara verir (BranchSection 3+2), fotoğraf kartı doldurur. Görsel yuvası şablondaki bir
  * kereye mahsus çizgili desen yerine paylaşılan `ImageSlot` kullanıyor
  * (Faz 6.2'de kurulan tek yer tutucu sözleşmesi, CLAUDE.md §7).
  * ------------------------------------------------------------- */
 .card {
   position: relative;
-  aspect-ratio: 4 / 5;
+  isolation: isolate;
   border-radius: var(--radius-2xl);
   overflow: hidden;
   background: var(--ddm-slot-stripe-a);
-  border: 1px solid var(--ddm-border-card);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -27,15 +27,24 @@
   inset: 0;
 }
 
+.image {
+  object-fit: cover;
+  transition: transform var(--duration-zoom) var(--ease-out-soft);
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
 .scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(22, 24, 74, 0) 28%, rgba(22, 24, 74, 0.55) 55%, rgba(22, 24, 74, 0.94) 100%);
+  background: var(--ddm-scrim-photo);
 }
 
 .body {
   position: relative;
-  padding: 22px;
+  padding: clamp(20px, 2vw, 26px);
   display: flex;
   flex-direction: column;
   gap: 10px;

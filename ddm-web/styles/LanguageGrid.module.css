@@ -50,50 +50,50 @@
   color: var(--ddm-gray-600);
 }
 
+/* UI turu (2026-09-24): 5 / 3 / 2 kolon — LanguageGrid.tsx `COLUMNS` ile birebir. */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(276px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--ddm-gap-card);
+}
+
+.panelSlot {
+  grid-column: 1 / -1;
+  order: var(--order-sm);
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .panelSlot {
+    order: var(--order-md);
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .panelSlot {
+    order: var(--order-lg);
+  }
 }
 
 .footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-4);
-  flex-wrap: wrap;
   margin-top: clamp(24px, 3vw, 34px);
-}
-
-.toggle {
-  font-family: var(--ddm-font-body);
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ddm-primary);
-  background: var(--ddm-white);
-  border: 1.5px solid var(--ddm-border-button);
-  border-radius: var(--radius-lg);
-  padding: 15px 24px;
-  cursor: pointer;
-  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
-}
-
-.toggle:hover {
-  background: var(--ddm-sky-bg);
-  border-color: var(--ddm-sky-line);
-}
-
-.caretOpen {
-  transform: rotate(180deg);
 }
 
 .cta {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  min-height: 44px;
   font-size: 15px;
   font-weight: 700;
   color: var(--ddm-sky-ink);

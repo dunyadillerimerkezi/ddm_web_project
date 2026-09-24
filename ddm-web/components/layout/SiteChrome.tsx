@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import type { Branch } from "@/lib/types";
 import { assertNavSoonFlags } from "@/lib/navAudit";
-import { TopBar } from "./TopBar";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
 import { MobileBottomBar } from "./MobileBottomBar";
@@ -9,7 +8,7 @@ import { MobileBottomBar } from "./MobileBottomBar";
 type SiteChromeProps = {
   children: ReactNode;
   /**
-   * Sayfanın bağlı olduğu şube. Üst bar, footer ve mobil çubuk buradan
+   * Sayfanın bağlı olduğu şube. Footer ve mobil çubuk buradan
    * beslenir. Verilmezse merkez (Kadıköy) kullanılır.
    */
   branch?: Branch;
@@ -19,8 +18,10 @@ type SiteChromeProps = {
 };
 
 /**
- * Her sayfayı saran ortak çerçeve: üst bar + header/mega menü +
- * içerik + footer + mobil alt çubuk.
+ * Her sayfayı saran ortak çerçeve: header/mega menü + içerik + footer +
+ * mobil alt çubuk. Lacivert üst bar (tagline + telefon/e-posta) UI turunda
+ * (2026-09-24) kullanıcı kararıyla tüm siteden kaldırıldı; telefon mobil alt
+ * çubukta ve footer'da duruyor.
  */
 export function SiteChrome({ children, branch, ctaLabel, ctaHref }: SiteChromeProps) {
   // Menü ağacını `SiteHeader` kendisi süzüyor (istemci); burada yalnız
@@ -30,7 +31,6 @@ export function SiteChrome({ children, branch, ctaLabel, ctaHref }: SiteChromePr
 
   return (
     <>
-      <TopBar branch={branch} />
       <SiteHeader ctaLabel={ctaLabel} ctaHref={ctaHref} />
       <main>{children}</main>
       <SiteFooter branch={branch} />

@@ -42,6 +42,12 @@
   color: var(--ddm-primary);
 }
 
+/* Beyaz butonda beyaz ok rozeti kaybolmasın (UI turu: hero büyük kart). */
+.onDark .arrowChip {
+  background: var(--ddm-primary);
+  color: var(--ddm-white);
+}
+
 /** Koyu zeminde ikincil: saydam + açık lacivert kenarlık. */
 .outlineDark {
   color: var(--ddm-white);

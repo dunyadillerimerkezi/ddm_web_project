@@ -1,6 +1,8 @@
 /* ---------------------------------------------------------------
  * VideoPromo — bölüm 8
  * Kaynak: DDM Ana Sayfa.dc.html bölüm 8.
+ * UI turu (2026-09-24, "6A"): fotoğrafsız lacivert kapak + kayan
+ * "merhaba" şeridi; oynatıcı sayfa içinde açılır.
  * ------------------------------------------------------------- */
 .section {
   background: var(--ddm-gray-50);
@@ -32,8 +34,7 @@
   color: var(--ddm-navy-900);
 }
 
-.cover {
-  display: block;
+.frame {
   position: relative;
   max-width: 1000px;
   margin: 0 auto;
@@ -44,26 +45,65 @@
   box-shadow: var(--shadow-lg);
 }
 
-.image {
+.player {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  opacity: 0.55;
-  transition: transform 0.5s ease;
+  border: 0;
 }
 
-.cover:hover .image {
-  transform: scale(1.05);
-}
-
-.scrim {
+.cover {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(22, 24, 74, 0.32) 0%, rgba(22, 24, 74, 0.74) 100%);
+  display: block;
+  isolation: isolate;
 }
 
+.cover:focus-visible {
+  outline: 3px solid var(--ddm-sky-base);
+  outline-offset: -3px;
+}
+
+/* --- kayan "merhaba" şeridi --- */
+.greetings {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  overflow: hidden;
+}
+
+.marquee {
+  display: block;
+  width: max-content;
+  white-space: nowrap;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: clamp(34px, 6vw, 78px);
+  line-height: 1;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-greet-ink);
+  animation: ddmMarquee var(--duration-marquee) linear infinite;
+}
+
+.marquee:nth-child(2) {
+  color: var(--ddm-greet-ink-sky);
+  animation-duration: var(--duration-marquee-alt);
+  animation-direction: reverse;
+}
+
+.logo {
+  position: absolute;
+  left: clamp(18px, 3vw, 32px);
+  top: clamp(16px, 3vw, 28px);
+  width: auto;
+  height: clamp(28px, 4vw, 48px);
+}
+
+/* --- oynat düğmesi --- */
 .playButton {
   position: absolute;
   left: 50%;
@@ -77,7 +117,12 @@
   border-radius: var(--radius-pill);
   background: var(--ddm-white);
   color: var(--ddm-primary);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-chip);
+  transition: transform var(--duration-base) var(--ease-out-soft);
+}
+
+.cover:hover .playButton {
+  transform: translate(-50%, -50%) scale(1.08);
 }
 
 .pulseRing {
@@ -114,4 +159,18 @@
 .captionSub {
   font-size: var(--ddm-text-body-s);
   color: var(--ddm-sky-100);
+  overflow-wrap: anywhere;
+}
+
+/* Mobilde 16:9 kapak oynat düğmesiyle alt yazıyı üst üste bindiriyordu —
+ * kapak 4:3'e uzar, düğme biraz yukarı çıkar. Oynatıcı açılınca 16:9. */
+@media (max-width: 599px) {
+  .frame:has(.cover) {
+    aspect-ratio: 4 / 3;
+  }
+
+  .playButton,
+  .pulseRing {
+    top: 38%;
+  }
 }

@@ -1,86 +1,110 @@
 /* ---------------------------------------------------------------
  * CourseChipCard — sınav hazırlık carousel'i slaytı
  * Kaynak: DDM Ana Sayfa.dc.html bölüm 3.
+ * UI turu (2026-09-24): logo tüm kart, alt yarıda koyu katman + yazı.
  * ------------------------------------------------------------- */
 .card {
   scroll-snap-align: start;
-  flex: 0 0 clamp(230px, 24vw, 274px);
-  background: var(--ddm-white);
-  border: 1px solid var(--ddm-border-card);
+  flex: 0 0 clamp(220px, 21vw, 262px);
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 4 / 5;
   border-radius: var(--radius-card);
-  padding: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease,
-    border-color var(--duration-base) ease;
+  border: 1px solid var(--ddm-border-card);
+  background: var(--ddm-white);
+  overflow: hidden;
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--ddm-scrim-logo);
+  transition: opacity var(--duration-base) ease;
 }
 
 .card:hover {
-  transform: translateY(-6px) scale(1.015);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-hover);
-  border-color: var(--ddm-sky-line);
 }
 
-.logoBox,
-.logoBoxText {
-  height: 76px;
-  border-radius: var(--radius-lg);
+.noLogo {
+  background: var(--ddm-sky-soft);
+}
+
+/* Logo kartın üst yarısında, katmanın açık kalan bölgesinde. */
+.logoArea {
+  position: absolute;
+  inset: 0;
+  padding: 12% 11% 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-3);
-  text-align: center;
-}
-
-.logoBox {
-  background: var(--ddm-sky-table-head);
-  border: 1px dashed var(--ddm-sky-slot-dash);
-}
-
-.logoBoxText {
-  background: var(--ddm-sky-soft);
-  border: 1px solid var(--ddm-sky-250);
 }
 
 .logoImage {
   position: relative;
   width: 100%;
   height: 100%;
+  transition: transform var(--duration-zoom) var(--ease-out-soft);
+}
+
+.card:hover .logoImage {
+  transform: scale(1.08);
 }
 
 .code {
   font-family: var(--ddm-font-heading);
   font-weight: 800;
-  font-size: 19px;
-  letter-spacing: 0.04em;
-  color: var(--ddm-primary);
+  font-size: clamp(30px, 3.2vw, 42px);
+  line-height: 1;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-600);
+  text-align: center;
+  overflow-wrap: anywhere;
+  transition: transform var(--duration-zoom) var(--ease-out-soft);
+}
+
+.card:hover .code {
+  transform: scale(1.08);
 }
 
 .body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  flex: 1;
 }
 
 .name {
   font-family: var(--ddm-font-heading);
   font-weight: 700;
-  font-size: 17.5px;
-  color: var(--ddm-navy-900);
+  font-size: 18px;
+  color: var(--ddm-white);
 }
 
 .group {
   font-size: var(--ddm-text-body-s);
-  color: var(--ddm-gray-500);
+  color: var(--ddm-navy-200);
 }
 
 .discover {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  margin-top: var(--space-2);
   font-size: var(--ddm-text-body-s);
   font-weight: 700;
-  color: var(--ddm-sky-ink);
+  color: var(--ddm-sky-300);
+}
+
+.card:hover .discover {
+  color: var(--ddm-white);
 }

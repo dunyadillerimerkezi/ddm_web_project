@@ -208,17 +208,21 @@
    * sticky dolgusu clamp(10,16) + bar (2×12 dolgu + logo clamp(44,58) + 2 kenarlık)
    * + megaWrap/çekmece üst payı 10 → 90px…110px. */
   --ddm-header-bottom: 110px; /* masaüstünde header'ın alt kenarı */
-  --ddm-header-bottom-sm: 185px; /* ≤1339px yedek: üst bar 2 satır + header */
+  --ddm-header-bottom-sm: 110px; /* ≤1339px yedek (UI turu: üst bar kalktı, 185 → 110) */
   --ddm-bottom-bar: 76px; /* ≤999px mobil alt sabit çubuk (MobileBottomBar) */
-  /* Mega panel üst barın altında açılır; sayfa kaydırılmamışken üst bar da
-   * (~57px) yüksekliği yer, o yüzden pay geniş tutuldu. Üst sınır 620px:
-   * daha uzun panel ekranı kaplıyor, göz listeyi takip edemiyor. */
-  --ddm-menu-max-h: min(calc(100dvh - var(--ddm-header-bottom) - 70px), 620px);
+  /* Üst sınır 620px: daha uzun panel ekranı kaplıyor, göz listeyi takip
+   * edemiyor. Alt pay 16px (UI turu 2026-09-24: lacivert üst bar kalktı,
+   * onun ~57px'lik payı düşüldü — 70 → 16). */
+  --ddm-menu-max-h: min(calc(100dvh - var(--ddm-header-bottom) - 16px), 620px);
   /* Sol bölme kendi içinde kayar: 16 sınavlık liste panel yüksekliğini aşıyor. */
-  --ddm-rail-max-h: min(calc(100dvh - var(--ddm-header-bottom) - 170px), 500px);
+  --ddm-rail-max-h: min(calc(100dvh - var(--ddm-header-bottom) - 116px), 500px);
   /* Çekmecenin üst kenarı JS ile ölçülür (SiteHeader.tsx `--drawer-top`);
-   * bu değer yalnız ölçüm yapılamazsa devreye giren yedek. Üst barın mobilde
-   * iki satıra düştüğü en kötü durumu varsayar. */
+   * `--ddm-header-bottom-sm` yalnız ölçüm yapılamazsa devreye giren yedek. */
+  /* UI turu (2026-09-24): header'ın sayfa akışında kapladığı yükseklik
+   * (sticky dolgusu ×2 + bar dolgusu 2×12 + kenarlık 2 + logo). Ana Sayfa
+   * hero'su bu kadar yukarı çekilip header'ın ARKASINDAN başlar — menü
+   * lacivertin üstünde durur, altında beyaz şerit kalmaz. */
+  --ddm-header-flow-h: calc(2 * clamp(10px, 1.4vw, 16px) + 26px + clamp(44px, 4.2vw, 58px));
 
   /* ---------------------------------------------------------------
    * 7 · KÖŞE YUVARLAKLIĞI
@@ -260,6 +264,32 @@
   --duration-slow: 0.34s;
   --duration-reveal: 0.5s; /* P3: kart/satır kademeli görünme */
   --reveal-shift: 12px; /* P3: kademeli görünmede dikey kayma (yalnız transform — CLS yok) */
+  /* UI turu (2026-09-24) — Ana Sayfa ortam hareketleri. Hepsi yalnız
+   * transform; globals.css'teki reduced-motion kuralı hepsini durdurur. */
+  --duration-kenburns: 18s; /* yurtdışı fotoğrafının yavaş yakınlaşması */
+  --duration-float: 6s; /* partner logolarının süzülmesi */
+  --duration-marquee: 60s; /* video kapağındaki "merhaba" şeridi */
+  --duration-marquee-alt: 75s; /* ikinci şerit — ters yönde, farklı hızda */
+  --duration-zoom: 0.6s; /* fotoğraflı kartta hover yakınlaşması */
+  --float-shift: 8px; /* süzülme genliği */
+
+  /* UI turu — fotoğraf/logo üstü okunabilirlik katmanları */
+  --ddm-scrim-photo: linear-gradient(
+    180deg,
+    rgba(22, 24, 74, 0) 22%,
+    rgba(22, 24, 74, 0.72) 55%,
+    rgba(22, 24, 74, 0.96) 100%
+  ); /* fotoğraf üstü yazı: hero büyük kart, şube kartı, dil kutusu */
+  --ddm-scrim-logo: linear-gradient(
+    180deg,
+    rgba(14, 15, 43, 0) 50%,
+    rgba(14, 15, 43, 0.8) 68%,
+    rgba(14, 15, 43, 0.95) 100%
+  ); /* sınav kartı: logo üst yarıda açık kalır, yazı alt yarıda */
+  --ddm-greet-ink: rgba(255, 255, 255, 0.07); /* video kapağı kayan yazı */
+  --ddm-greet-ink-sky: rgba(93, 180, 226, 0.13);
+  --ddm-panel-chip: rgba(255, 255, 255, 0.06); /* lacivert panelde hap bağlantı zemini */
+  --ddm-panel-chip-line: rgba(255, 255, 255, 0.16);
 }
 
 /*

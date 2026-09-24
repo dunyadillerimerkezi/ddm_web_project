@@ -1,141 +1,205 @@
 /* ---------------------------------------------------------------
- * LanguageCard — dil kursları ızgarası kartı
+ * LanguageCard — dil kutusu + detay paneli (Ana Sayfa bölüm 5)
  * Kaynak: DDM Ana Sayfa.dc.html bölüm 5.
+ * UI turu (2026-09-24, "4A"): tam fotoğraf kutu; bağlantılar ortak panelde.
  * ------------------------------------------------------------- */
-.card {
-  background: var(--ddm-white);
-  border: 1px solid var(--ddm-border-card);
-  border-radius: var(--radius-card);
+
+/* --- kutu --- */
+.tile {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-xl);
   overflow: hidden;
+  background: var(--ddm-navy-800);
   display: flex;
-  flex-direction: column;
-  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease,
-    border-color var(--duration-base) ease;
+  align-items: flex-end;
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+  transition: outline-color var(--duration-fast) ease, transform var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ddm-scrim-photo);
+}
+
+.tile:hover {
+  transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
-  border-color: var(--ddm-sky-line);
+}
+
+.tileActive {
+  outline-color: var(--ddm-sky-base);
+}
+
+.tile:has(.trigger:focus-visible) {
+  outline-color: var(--ddm-primary);
 }
 
 .media {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  background: var(--ddm-sky-bg);
-  border-bottom: 1px solid var(--ddm-border-card);
+  position: absolute;
+  inset: 0;
+  z-index: -2;
 }
 
-.flagChip {
-  position: absolute;
-  left: 14px;
-  top: 14px;
-  width: 40px;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  border: 1.5px solid var(--ddm-white);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  animation: ddmFloat 5s ease-in-out infinite;
-  display: block;
+.image {
+  object-fit: cover;
+  transition: transform var(--duration-zoom) var(--ease-out-soft);
+}
+
+.tile:hover .image {
+  transform: scale(1.06);
 }
 
 .body {
-  padding: var(--space-5);
+  width: 100%;
+  padding: clamp(14px, 1.4vw, 18px);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  flex: 1;
+  align-items: flex-start;
+  gap: 6px;
 }
 
-.head {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-}
-
-.codeBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-md);
-  background: var(--ddm-sky-soft);
-  color: var(--ddm-sky-ink);
-  font-family: var(--ddm-font-heading);
-  font-weight: 800;
-  font-size: 13px;
-  flex: none;
+.flag {
+  display: block;
+  line-height: 0;
+  border-radius: var(--radius-flag);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .title {
   margin: 0;
   font-family: var(--ddm-font-heading);
   font-weight: 700;
-  font-size: var(--ddm-text-h4);
+  font-size: clamp(16px, 1.3vw, 18px);
   line-height: 1.25;
-  color: var(--ddm-navy-900);
+  color: var(--ddm-white);
 }
 
-.details {
-  margin-top: auto;
-}
-
-.summary {
-  list-style: none;
-  font-family: var(--ddm-font-body);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  width: 100%;
-  font-size: var(--ddm-text-body-s);
-  font-weight: 700;
-  color: var(--ddm-sky-ink);
-  background: var(--ddm-sky-table-head);
-  border: 1px solid var(--ddm-border-card);
-  border-radius: var(--radius-md);
-  padding: 11px 13px;
+/* Düğme başlığın metnini taşır, dokunma alanı kutunun tamamı. */
+.trigger {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
   cursor: pointer;
 }
 
-.summary::-webkit-details-marker {
-  display: none;
+.trigger::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
-.summary:hover {
-  background: var(--ddm-sky-bg);
+.trigger:focus-visible {
+  outline: none;
+}
+
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--ddm-text-caption);
+  font-weight: 600;
+  color: var(--ddm-navy-200);
 }
 
 .caret {
   transition: transform var(--duration-fast) ease;
 }
 
-.details[open] .caret {
+.tileActive .caret {
   transform: rotate(180deg);
 }
 
+/* --- panel --- */
+.panel {
+  background: var(--ddm-navy-900);
+  border-radius: var(--radius-xl);
+  padding: clamp(18px, 2vw, 24px) clamp(18px, 2.2vw, 28px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-3) clamp(18px, 2.4vw, 32px);
+  align-items: center;
+  animation: ddmPanelIn var(--duration-base) var(--ease-out-soft);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.panelTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--ddm-white);
+  white-space: nowrap;
+}
+
+.panelTitle:hover {
+  color: var(--ddm-sky-300);
+}
+
+.panelFlag {
+  border-radius: var(--radius-flag);
+}
+
 .linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .link,
 .linkInert {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 15px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--ddm-panel-chip-line);
+  background: var(--ddm-panel-chip);
   font-size: var(--ddm-text-body-s);
-  padding: 9px 0;
-  border-top: 1px solid var(--ddm-gray-divider);
-}
-
-.link {
-  color: var(--ddm-gray-600);
+  color: var(--ddm-navy-soft);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
 }
 
 .link:hover {
-  color: var(--ddm-sky-ink);
+  background: var(--ddm-white);
+  color: var(--ddm-navy-900);
 }
 
 .linkInert {
-  color: var(--ddm-gray-400);
+  color: var(--ddm-navy-300);
+}
+
+@media (max-width: 899px) {
+  .panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panelTitle {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 599px) {
+  .tile {
+    aspect-ratio: 4 / 5;
+  }
 }

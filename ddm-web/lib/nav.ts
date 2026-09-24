@@ -707,9 +707,6 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   },
 ];
 
-/** Üst barda ve footer'da geçen sabit marka satırı. */
-export const BRAND_TAGLINE = "19 dilde eğitim · 2003’ten bugüne · İstanbul’da 5 şube";
-
 export const BRAND_BLURB =
   "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. 2003 yılından bugüne İstanbul’daki 5 şubemizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.";
 
