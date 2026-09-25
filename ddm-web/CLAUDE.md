@@ -130,6 +130,13 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     güncelliği bilinmeyen kampanya ("%30'a varan indirim") çıkarılır; iş ortağına ait
     rakamlar (Kaplan) ortağın adıyla atfedilir; bayat şube adları `data/branches.ts`
     ile değiştirilir.
+  - **Zengin İçerik (P4, 2026-09-24/25):** iki tür bilgi AYRI tutulur. **Firmaya ait metin** (DDM'in cümleleri,
+    iddiaları, öğretmen/şube/sınıf bilgisi) kaynaktan birebir gelir; yeri değişebilir, silinmez, güçlendirilmez —
+    yalnız bariz yazım/kopyala-yapıştır hatası `edits` / `headingEdits` ile düzeltilir. Üstünlük iddialarına
+    dokunulmaz (P3'teki yumuşatma kuralı burada uygulanmaz). **Genel bilgi** (sınav formatı, CEFR, dilin yapısı)
+    `data/privateLessons*.ts`'te `feature` / `faq[].answer.added` alanlarında durur; her olgu resmi kaynaktan
+    doğrulanır ve kaynak yorumda yazar; emin olunmayan rakam yazılmaz. Sayfada "Son güncelleme" tarihi gösterilir.
+    Hero'daki kısa "facts" etiketleri firma cümlesinin arayüz kısaltmasıdır, dayandığı cümle yorumda.
   Bunların dışında yeni bir sapma gerekirse önce kullanıcıya danış.
 - Belirsiz/çelişkili firma bilgisi (ör. "kaç yıldır faaliyette" — bkz.
   `../docs/brand-context.md` [doğrula] bölümü) sayfa içeriğine **uydurma bir
@@ -180,6 +187,7 @@ ddm-web/
 │   ├── languages.ts         # 10 dil — illüstrasyon + bayrak eşlemesi
 │   ├── courseDates.ts       # 72 şube×kurs kaydı (üretim betiğiyle çıkarıldı)
 │   └── home.ts              # Ana Sayfa verisi
+│   ├── privateLessons.ts    # P4 özel ders birleşik listesi (+ Shared / Language / Exam tanımları)
 ├── lib/
 │   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
 │   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak (§10)
@@ -187,6 +195,7 @@ ddm-web/
 │   ├── navAudit.ts # `soon` bayraklarını pageRegistry'ye karşı build'de doğrular
 │   ├── types.ts    # paylaşılan sayfa ve bileşen tipleri
 │   ├── contentSections.ts   # SectionResolver — kaynağı başlık-tabanlı bölümler; assertCoverage
+│   ├── richContent.ts       # P4 Zengin İçerik çözücü + dağıtıcı yardımcıları (richPathsUnder, richMetadata, çakışma denetimi)
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
 ├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
 ├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
@@ -271,6 +280,14 @@ ddm-web/
 >   şubeler "3+2", video "fotoğrafsız kapak, tıklayınca sayfa içi oynatıcı".
 > - Ortam hareketleri yalnız transform + token (`--duration-kenburns/-float/-marquee`);
 >   globals.css reduced-motion kuralı hepsini durdurur.
+
+> **P4 notu (2026-09-25):** Zengin İçerik için 3 taslak yön sunuldu, kullanıcı **"B · seviye merdiveni"**ni seçti.
+> Sistem: lacivert hero (sağda dilin şehri / sınav fotoğrafı, header'ın arkasından) → **1 baskın bölüm** (dilde
+> tıklanabilir seviye merdiveni `LevelStairs`, sınavda `FormatCards`) → firma metni + ikonlu alan kartları →
+> tek gri bölüm (karşılaştırma tablosu) → SSS + son güncelleme → CTA → ilgili sayfalar. Tek hareket: merdiven
+> basamakları / format kartları ilk görünüşte bir kez; reduced-motion'da sabit. Sonraki alt türler (online,
+> nedir…) aynı `RichContentPage`'e yeni blok türü ekler; her yeni alt türde "bu tür neden farklı görünmeli"
+> kullanıcıya bir kez sorulur.
 
 Tasarım **Claude Design**'da yapılır (Faz 4-5). Bu repo ve bu dosya sadece
 onaylanmış tasarımı **koda uygular** — burada UI/görsel karar alınmaz. Bir

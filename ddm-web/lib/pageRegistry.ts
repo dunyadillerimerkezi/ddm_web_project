@@ -25,8 +25,9 @@ import { BRANCH_LIST } from "@/data/branches";
 import { EXAMS } from "@/data/exams";
 import { examHref } from "@/lib/examContent";
 import { HUBS } from "@/data/hubs";
+import { PRIVATE_LESSONS } from "@/data/privateLessons";
 
-export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub";
+export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub" | "rich";
 
 export type PageRecord = {
   href: string;
@@ -76,7 +77,12 @@ function hubPages(): PageRecord[] {
   return HUBS.map((h) => ({ href: h.path, kind: "hub" as const }));
 }
 
-/** Üretilen tüm sayfaların düz listesi (şu an 1 + 10 + 21 + 72 + 6 = 110). */
+/** P4 — Zengin İçerik alt sayfaları (özel ders; `data/privateLessons.ts`). */
+function richPages(): PageRecord[] {
+  return PRIVATE_LESSONS.map((d) => ({ href: d.path, kind: "rich" as const }));
+}
+
+/** Üretilen tüm sayfaların düz listesi (güncel sayı: `npm run build` çıktısı — burada elle tutulmaz). */
 export function getPageRegistry(): PageRecord[] {
   return [
     ...homePages(),
@@ -86,6 +92,7 @@ export function getPageRegistry(): PageRecord[] {
     ...branchContactPages(),
     ...examPages(),
     ...hubPages(),
+    ...richPages(),
   ];
 }
 

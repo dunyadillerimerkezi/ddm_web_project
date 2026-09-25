@@ -1,0 +1,149 @@
+/* ---------------------------------------------------------------
+ * RichAbout — P4 firma metni + alan listesi (solda fotoğraf).
+ * Alanlar kaynakta uzun satırlar ("… Sektörüne Yönelik Almanca Ders
+ * Programları") — hap değil, iki kolonlu ikonlu satır kartı.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-white);
+  padding: 0 var(--ddm-gutter) var(--ddm-section-y);
+}
+
+.container {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--ddm-gap-wide);
+  align-items: start;
+}
+
+.media {
+  position: sticky;
+  top: var(--ddm-sticky-top);
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3.4;
+  object-fit: cover;
+  border-radius: var(--radius-2xl);
+}
+
+.title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2-sm);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+  text-wrap: balance;
+}
+
+.p {
+  margin: 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-700);
+}
+
+.h3 + .p {
+  margin-top: var(--space-3);
+}
+
+.p + .p {
+  margin-top: var(--space-4);
+}
+
+/* Kaynak alt başlığı (Materyaller, Öğretmenler…) — paragraflar arasında ince ayraç. */
+.h3 {
+  margin: var(--space-8) 0 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--ddm-gray-100);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ddm-navy-900);
+}
+
+.areas {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-8) 0 0;
+  padding: 0;
+}
+
+.area {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-lg);
+  background: var(--ddm-white);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--ddm-navy-900);
+}
+
+/* Alt maddeli alan (ör. Fransızca okul dersleri) iki kolonu kaplar. */
+.areaWide {
+  composes: area;
+  grid-column: 1 / -1;
+}
+
+.areaBody {
+  min-width: 0;
+}
+
+.children {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.child {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-bg);
+  font-family: var(--ddm-font-body);
+  font-size: var(--ddm-text-caption);
+  font-weight: 600;
+  color: var(--ddm-sky-ink);
+}
+
+.areaIcon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-sky-mid);
+}
+
+@media (max-width: 999px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .media {
+    position: static;
+  }
+}
+
+@media (max-width: 559px) {
+  .areas {
+    grid-template-columns: 1fr;
+  }
+}

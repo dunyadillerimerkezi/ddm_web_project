@@ -454,7 +454,14 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `site-architecture` (iç link ağı, breadcrumb), `frontend-design:frontend-design`.
 
-### P4 — Zengin İçerik Alt Sayfa  ⏳ (L, en büyük kalan grup)
+### P4 — Zengin İçerik Alt Sayfa  🟡 özel ders ✅ (2026-09-25) · kalan: online, nedir, tekil, yurtdışı, diğer+kurumsal, dil -2 301
+
+> **Sonuç — Özel ders (2026-09-25, Opus 5.5):** 18 sayfa. Tasarım turu: 3 yön (A alan mozaiği · B seviye merdiveni ·
+> C rehber + özet kartı), kullanıcı **B**'yi seçti; sınav sayfalarında merdiven yerine **sınav formatı kartları**.
+> Şablon: `RichContentPage` blok listesi (`levels | format | about | compare | faq`) — sonraki alt türler yeni blok
+> türü ekler. İçerik kuralı: firma metni birebir (yalnız yazım düzeltmesi `edits`), genel bilgi `feature` / `faq.added`
+> alanlarında, resmi kaynak yorumda, sayfada "Son güncelleme". YDS Kurs Dönemi yayınlanmadı (iki cümlesi YDS Kursu'na).
+> Açık: GMAT/GRE "2-3 kişilik grup" ↔ P3 tablosu "en fazla 2" çelişkisi (satır gizli) · sınav hero fotoğrafları.
 
 > **KAPSAM KARARI (kullanıcı, 2026-09-23) — aşağıdaki tabloyu ezer:**
 > - **"-2" (Kurs Programı) sayfaları yayınlanmayacak** (18 sayfa düşer). Sınav tarafındaki

@@ -1,0 +1,125 @@
+/* ---------------------------------------------------------------
+ * RichHero — P4 Zengin İçerik hero'su ("B · seviye merdiveni", 2026-09-24).
+ * Lacivert zemin + sağda kenara taşan fotoğraf. Sayfanın ilk bölümü olduğu
+ * için globals.css onu header'ın arkasına çeker (saydam üst kenarlık);
+ * fotoğraf mutlak konumlu olduğundan kenarlık payı kadar yukarı ayrıca uzatılır.
+ * ------------------------------------------------------------- */
+.section {
+  position: relative;
+  overflow: clip;
+  background: var(--ddm-navy-900);
+  color: var(--ddm-white);
+  padding: var(--ddm-rich-hero-pt) var(--ddm-gutter) var(--ddm-rich-hero-pb);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.copy {
+  max-width: var(--ddm-rich-hero-copy);
+}
+
+.title {
+  margin: var(--space-5) 0 var(--space-4);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h1);
+  font-weight: 800;
+  line-height: 1.07;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-white);
+  text-wrap: balance;
+}
+
+.lead {
+  margin: 0;
+  max-width: 54ch;
+  font-size: var(--ddm-text-lead-lg);
+  line-height: 1.65;
+  color: var(--ddm-navy-200);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+.facts {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-8);
+  margin: var(--space-10) 0 0;
+  padding: 0;
+}
+
+.fact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-navy-200);
+}
+
+.factIcon {
+  flex: none;
+  color: var(--ddm-sky-400);
+}
+
+/* Fotoğraf: sağ kenara taşar, soldan lacivert zemine erir. */
+.photo {
+  position: absolute;
+  top: calc(-1 * var(--ddm-header-flow-h));
+  right: 0;
+  bottom: 0;
+  width: 42%;
+}
+
+.photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--ddm-navy-900) 0%, var(--ddm-navy-veil-35) 40%, var(--ddm-navy-veil-05) 100%);
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ≤999px: fotoğraf metnin altında, kenardan kenara şerit. */
+@media (max-width: 999px) {
+  .section {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .copy {
+    max-width: none;
+  }
+
+  .photo {
+    position: relative;
+    order: 2;
+    top: auto;
+    width: auto;
+    height: var(--ddm-rich-hero-photo-h);
+    margin: var(--space-10) calc(-1 * var(--ddm-gutter)) 0;
+  }
+
+  .photo::after {
+    background: linear-gradient(180deg, var(--ddm-navy-900) 0%, var(--ddm-navy-veil-05) 55%);
+  }
+
+  .facts {
+    flex-direction: column;
+    margin-top: var(--space-8);
+  }
+}

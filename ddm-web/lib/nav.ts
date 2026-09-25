@@ -58,7 +58,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "İngilizce Programı", href: `${YD}/ingilizce-kursu/ingilizce-kursu-2`, soon: true },
-                  { label: "İngilizce Özel Ders", href: `${YD}/ingilizce-kursu/ingilizce-ozel-ders`, soon: true },
+                  { label: "İngilizce Özel Ders", href: `${YD}/ingilizce-kursu/ingilizce-ozel-ders` },
                   { label: "İngilizce Eğitim Sistemi", href: `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi`, soon: true },
                   { label: "Online İngilizce Eğitimi", href: `${YD}/ingilizce-kursu/online-ingilizce-egitimi`, soon: true },
                 ],
@@ -83,7 +83,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "Almanca Programı", href: `${YD}/almanca-kursu/almanca-kursu-2`, soon: true },
                   { label: "Hızlandırılmış Almanca Kursu", href: `${YD}/almanca-kursu/hizlandirilmis-almanca-kursu`, soon: true },
-                  { label: "Almanca Özel Ders", href: `${YD}/almanca-kursu/almanca-ozel-ders`, soon: true },
+                  { label: "Almanca Özel Ders", href: `${YD}/almanca-kursu/almanca-ozel-ders` },
                   { label: "Almanca Konuşma Kursları", href: `${YD}/almanca-kursu/almanca-konusma-kurslari`, soon: true },
                   { label: "Online Almanca Eğitimi", href: `${YD}/almanca-kursu/online-almanca-egitimi`, soon: true },
                 ],
@@ -107,7 +107,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "Fransızca Programı", href: `${YD}/fransizca-kursu/fransizca-kursu-2`, soon: true },
-                  { label: "Fransızca Özel Ders", href: `${YD}/fransizca-kursu/fransizca-ozel-ders`, soon: true },
+                  { label: "Fransızca Özel Ders", href: `${YD}/fransizca-kursu/fransizca-ozel-ders` },
                   { label: "Online Fransızca Eğitimi", href: `${YD}/fransizca-kursu/online-fransizca-egitimi`, soon: true },
                 ],
               },
@@ -130,7 +130,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "Rusça Programı", href: `${YD}/rusca-kursu/rusca-kursu-2`, soon: true },
-                  { label: "Rusça Özel Ders", href: `${YD}/rusca-kursu/rusca-ozel-ders`, soon: true },
+                  { label: "Rusça Özel Ders", href: `${YD}/rusca-kursu/rusca-ozel-ders` },
                   { label: "Online Rusça Eğitimi", href: `${YD}/rusca-kursu/online-rusca-egitimi`, soon: true },
                 ],
               },
@@ -153,7 +153,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "İspanyolca Programı", href: `${YD}/ispanyolca-kursu/ispanyolca-kursu-2`, soon: true },
-                  { label: "İspanyolca Özel Ders", href: `${YD}/ispanyolca-kursu/ispanyolca-ozel-ders`, soon: true },
+                  { label: "İspanyolca Özel Ders", href: `${YD}/ispanyolca-kursu/ispanyolca-ozel-ders` },
                   { label: "Online İspanyolca Eğitimi", href: `${YD}/ispanyolca-kursu/online-ispanyolca-egitimi`, soon: true },
                 ],
               },
@@ -176,7 +176,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "İtalyanca Programı", href: `${YD}/italyanca-kursu/italyanca-kursu-2`, soon: true },
-                  { label: "İtalyanca Özel Ders", href: `${YD}/italyanca-kursu/italyanca-ozel-ders`, soon: true },
+                  { label: "İtalyanca Özel Ders", href: `${YD}/italyanca-kursu/italyanca-ozel-ders` },
                   { label: "Online İtalyanca Eğitimi", href: `${YD}/italyanca-kursu/online-italyanca-egitimi`, soon: true },
                 ],
               },
@@ -199,7 +199,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "Çince Programı", href: `${YD}/cince-kursu/cince-kursu-2`, soon: true },
-                  { label: "Çince Özel Ders", href: `${YD}/cince-kursu/cince-ozel-ders`, soon: true },
+                  { label: "Çince Özel Ders", href: `${YD}/cince-kursu/cince-ozel-ders` },
                   { label: "Çince Öğrenmek Zor mu?", href: `${YD}/cince-kursu/cince-ogrenmek-zor-mu`, soon: true },
                   { label: "Online Çince Eğitimi", href: `${YD}/cince-kursu/online-cince-egitimi`, soon: true },
                 ],
@@ -223,7 +223,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "Türkçe Programı", href: `${YD}/yabancila-icin-turkce-kurs/yabancila-icin-turkce-kurs-2`, soon: true },
-                  { label: "Yabancılar İçin Türkçe Özel Ders", href: `${YD}/yabancila-icin-turkce-kurs/turkce-ozel-ders`, soon: true },
+                  { label: "Yabancılar İçin Türkçe Özel Ders", href: `${YD}/yabancila-icin-turkce-kurs/turkce-ozel-ders` },
                   { label: "Türkçe Eğitim Seviyeleri", href: `${YD}/yabancila-icin-turkce-kurs/turkce-egitim-seviyeleri`, soon: true },
                   { label: "Online Türkçe Eğitimi", href: `${YD}/yabancila-icin-turkce-kurs/online-turkce-egitimi`, soon: true },
                 ],
@@ -247,7 +247,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "İngilizce Konuşma Programı", href: `${YD}/ingilizce-konusma-kursu/ingilizce-konusma-kursu-2`, soon: true },
-                  { label: "İngilizce Konuşma Özel Ders", href: `${YD}/ingilizce-konusma-kursu/ingilizce-konusma-ozel-ders`, soon: true },
+                  { label: "İngilizce Konuşma Özel Ders", href: `${YD}/ingilizce-konusma-kursu/ingilizce-konusma-ozel-ders` },
                 ],
               },
               {
@@ -318,7 +318,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "TOEFL Programı", href: `${SH}/toefl-kursu/toefl-kursu-2`, soon: true },
-                  { label: "TOEFL Özel Ders", href: `${SH}/toefl-kursu/toefl-ozel-ders`, soon: true },
+                  { label: "TOEFL Özel Ders", href: `${SH}/toefl-kursu/toefl-ozel-ders` },
                   { label: "TOEFL Nedir?", href: `${SH}/toefl-kursu/toefl-nedir`, soon: true },
                 ],
               },
@@ -341,7 +341,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "IELTS Programı", href: `${SH}/ielts-kursu/ielts-kursu-2`, soon: true },
-                  { label: "IELTS Özel Ders", href: `${SH}/ielts-kursu/ielts-ozel-ders`, soon: true },
+                  { label: "IELTS Özel Ders", href: `${SH}/ielts-kursu/ielts-ozel-ders` },
                   { label: "IELTS Nedir?", href: `${SH}/ielts-kursu/ielts-nedir`, soon: true },
                 ],
               },
@@ -364,7 +364,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "TOEIC Programı", href: `${SH}/toeic-kursu/toeic-kursu-2`, soon: true },
-                  { label: "TOEIC Özel Ders", href: `${SH}/toeic-kursu/toeic-ozel-ders`, soon: true },
+                  { label: "TOEIC Özel Ders", href: `${SH}/toeic-kursu/toeic-ozel-ders` },
                   { label: "TOEIC Nedir?", href: `${SH}/toeic-kursu/toeic-nedir`, soon: true },
                 ],
               },
@@ -388,8 +388,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "YDS Programı", href: `${SH}/yds-kursu/yds-kursu-2`, soon: true },
                   { label: "YDS Nedir?", href: `${SH}/yds-kursu/yds-nedir`, soon: true },
-                  { label: "YDS Özel Ders", href: `${SH}/yds-kursu/yds-ozel-ders`, soon: true },
-                  { label: "YDS Kurs Dönemi", href: `${SH}/yds-kursu/yds-ozel-ders-2`, soon: true },
+                  { label: "YDS Özel Ders", href: `${SH}/yds-kursu/yds-ozel-ders` },
                 ],
               },
               {
@@ -411,7 +410,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "Proficiency Programı", href: `${SH}/proficiency-kursu/proficiency-kursu-2`, soon: true },
-                  { label: "Proficiency Özel Ders", href: `${SH}/proficiency-kursu/proficiency-ozel-ders`, soon: true },
+                  { label: "Proficiency Özel Ders", href: `${SH}/proficiency-kursu/proficiency-ozel-ders` },
                   { label: "Proficiency Nedir?", href: `${SH}/proficiency-kursu/proficiency-nedir`, soon: true },
                   { label: "Proficiency Sınavı", href: `${SH}/proficiency-kursu/proficiency-sinavi`, soon: true },
                   { label: "Proficiency Örnek Sınav Soruları", href: `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari`, soon: true },
@@ -437,7 +436,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "GRE Programı", href: `${SH}/gre-kursu/gre-kursu-2`, soon: true },
-                  { label: "GRE Özel Ders", href: `${SH}/gre-kursu/gre-ozel-ders`, soon: true },
+                  { label: "GRE Özel Ders", href: `${SH}/gre-kursu/gre-ozel-ders` },
                   { label: "GRE Nedir?", href: `${SH}/gre-kursu/gre-nedir`, soon: true },
                 ],
               },
@@ -460,7 +459,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "SAT Programı", href: `${SH}/sat-kursu/sat-kursu-2`, soon: true },
-                  { label: "SAT Özel Ders", href: `${SH}/sat-kursu/sat-ozel-ders`, soon: true },
+                  { label: "SAT Özel Ders", href: `${SH}/sat-kursu/sat-ozel-ders` },
                   { label: "SAT Nedir?", href: `${SH}/sat-kursu/sat-nedir`, soon: true },
                 ],
               },
@@ -483,7 +482,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "GMAT Programı", href: `${SH}/gmat-kursu/gmat-kursu-2`, soon: true },
-                  { label: "GMAT Özel Ders", href: `${SH}/gmat-kursu/gmat-ozel-ders`, soon: true },
+                  { label: "GMAT Özel Ders", href: `${SH}/gmat-kursu/gmat-ozel-ders` },
                   { label: "GMAT Nedir ?", href: `${SH}/gmat-kursu/gmat-nedir`, soon: true },
                 ],
               },
@@ -505,7 +504,7 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "PTE Akademik Özel Ders", href: `${SH}/academic-pte/pte-akademik-ozel-ders`, soon: true },
+                  { label: "PTE Akademik Özel Ders", href: `${SH}/academic-pte/pte-akademik-ozel-ders` },
                   { label: "PTE Programı", href: `${SH}/academic-pte/academic-pte-2`, soon: true },
                 ],
               },

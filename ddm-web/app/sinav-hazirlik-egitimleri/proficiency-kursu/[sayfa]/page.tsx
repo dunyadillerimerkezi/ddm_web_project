@@ -12,6 +12,9 @@ import { UniversityGrid } from "@/components/sections/UniversityGrid";
 import { LinkRow } from "@/components/sections/LinkRow";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { CourseDatePage } from "@/components/sections/CourseDatePage";
+import { RichContentPage } from "@/components/sections/RichContentPage";
+import { getPrivateLessonDef } from "@/data/privateLessons";
+import { assertNoSlugCollision, getPrivateLessonPage, richMetadata, richPathsUnder } from "@/lib/richContent";
 import { UNIVERSITIES, UNIVERSITY_INDEX, getUniversityDef } from "@/data/universities";
 import type { HomeStat } from "@/data/home";
 import { BRANCH_LIST, DEFAULT_BRANCH } from "@/data/branches";
@@ -34,7 +37,11 @@ import { DataMissingNotice } from "@/components/ui";
  * `[sayfa]`ya genişletildi: slug bir üniversite ise ÜNİVERSİTE sayfası,
  * bir kurs-tarihi `pageSlug`ıysa ŞUBE KURS TARİHİ sayfası render edilir.
  * 21 üniversite sayfası ve 42 redirect'i BU DEĞİŞİKLİKTEN etkilenmedi.
+ * P4: üçüncü tip — Zengin İçerik / özel ders (`data/privateLessons.ts`).
  */
+
+const PROFICIENCY_PREFIX = "/sinav-hazirlik-egitimleri/proficiency-kursu/";
+const richDef = (sayfa: string) => getPrivateLessonDef(`${PROFICIENCY_PREFIX}${sayfa}`);
 
 const SCHEDULE_COLUMNS: ScheduleColumn[] = [
   { key: "sube", head: "ŞUBE", rowLabel: null },
@@ -86,7 +93,13 @@ export function generateStaticParams() {
   const courseDates = COURSE_DATES.filter((e) => e.courseSlug === "proficiency-kursu").map((e) => ({
     sayfa: e.pageSlug,
   }));
-  return [...universities, ...courseDates];
+  const rich = richPathsUnder(PROFICIENCY_PREFIX).map(([sayfa]) => ({ sayfa }));
+  assertNoSlugCollision(
+    "proficiency dağıtıcı",
+    rich.map((r) => r.sayfa),
+    [...universities, ...courseDates].map((p) => p.sayfa),
+  );
+  return [...universities, ...courseDates, ...rich];
 }
 
 type Params = { sayfa: string };
@@ -115,6 +128,9 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       alternates: { canonical: absoluteUrl(page.href) },
     };
   }
+
+  const rich = richDef(sayfa);
+  if (rich) return richMetadata(rich);
 
   return {};
 }
@@ -214,6 +230,9 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     const page = getCourseDatePage(entry);
     return <CourseDatePage page={page} />;
   }
+
+  const rich = richDef(sayfa);
+  if (rich) return <RichContentPage page={getPrivateLessonPage(rich)} />;
 
   notFound();
 }

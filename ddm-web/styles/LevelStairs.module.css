@@ -1,0 +1,220 @@
+/* ---------------------------------------------------------------
+ * LevelStairs — P4 seviye merdiveni (sayfanın baskın bölümü).
+ * Basamak yükseklikleri eşit adımlarla artar (%26 → %100), sayı `--count`tan.
+ * Tek hareket: ilk görünüşte basamaklar alttan sırayla yükselir.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.container {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.lead {
+  margin: var(--space-4) 0 0;
+  max-width: 66ch;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.7;
+  color: var(--ddm-gray-600);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: var(--ddm-gap-wide);
+  align-items: end;
+  margin-top: var(--space-12);
+}
+
+/* --- basamaklar --- */
+.stairs {
+  display: grid;
+  grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: end;
+  height: var(--ddm-stairs-h);
+  border-bottom: 2px solid var(--ddm-gray-200);
+}
+
+.step {
+  /* ilk basamak %26 … son basamak %100, eşit adımlarla */
+  height: calc(26% + var(--step) * 74% / (var(--count) - 1));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--ddm-navy-50);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transform-origin: bottom;
+  transition:
+    background var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-stairs) var(--ease-out-soft) calc(var(--step) * var(--stagger-stairs)),
+    opacity var(--duration-reveal) var(--ease-out-soft) calc(var(--step) * var(--stagger-stairs));
+}
+
+.step:hover {
+  background: var(--ddm-navy-100);
+}
+
+.step:focus-visible {
+  outline: 3px solid var(--ddm-sky-base);
+  outline-offset: 3px;
+}
+
+.step[aria-selected="true"] {
+  background: var(--ddm-navy-600);
+}
+
+.stairs[data-motion="pending"] .step {
+  opacity: 0;
+  transform: scaleY(0.2);
+}
+
+.key {
+  white-space: nowrap;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-stairs-key);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ddm-navy-600);
+}
+
+.name {
+  font-size: var(--ddm-text-caption);
+  font-weight: 600;
+  color: var(--ddm-gray-600);
+}
+
+.step[aria-selected="true"] .key,
+.step[aria-selected="true"] .name {
+  color: var(--ddm-white);
+}
+
+/* --- detay paneli --- */
+.panels {
+  min-width: 0;
+}
+
+.panel {
+  min-height: var(--ddm-stairs-h);
+  padding: var(--space-8);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-card);
+  animation: ddmPanelIn var(--duration-slow) var(--ease-out-soft); /* globals.css */
+}
+
+.panelKey {
+  display: block;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 800;
+  color: var(--ddm-sky-ink);
+}
+
+.panelTitle {
+  margin: var(--space-1) 0 var(--space-5);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.facts dt {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.facts dd {
+  margin: var(--space-1) 0 0;
+  font-size: var(--ddm-text-body);
+  line-height: 1.6;
+  color: var(--ddm-gray-600);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step,
+  .panel {
+    transition: none;
+    animation: none;
+  }
+
+  .stairs[data-motion="pending"] .step {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 999px) {
+  .stage {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .stairs {
+    height: var(--ddm-stairs-h-sm);
+    gap: var(--space-2);
+  }
+
+  .step {
+    padding: var(--space-3) var(--space-2);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  .key {
+    font-size: var(--ddm-text-h4);
+  }
+
+  .name {
+    font-size: var(--ddm-text-micro);
+  }
+
+  .panel {
+    min-height: 0;
+    padding: var(--space-6);
+  }
+
+  /* Uzun basamak kodu (HSK 1…6): kod küçülür, tekrar eden seviye adı panelde kalır. */
+  .stairs[data-long] .key {
+    font-size: var(--ddm-text-body-s);
+  }
+
+  .stairs[data-long] .name {
+    display: none;
+  }
+}
+
+/* Telefonda basamak yalnız kodu taşır ("Başlangıç" 6 kolona sığmıyor); ad panelde. */
+@media (max-width: 559px) {
+  .name {
+    display: none;
+  }
+}

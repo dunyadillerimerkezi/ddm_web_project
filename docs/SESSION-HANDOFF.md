@@ -7,10 +7,23 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-24, UI turu — Ana Sayfa + header şeridi)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-25, P4 · Özel Ders alt türü — commit bekliyor)*
 
 | Alan | Değer |
 |---|---|
+| **Son kod commit'i** | `d5b5fa9` (UI turu, kullanıcı). **P4 özel ders kodu çalışma ağacında, commit'lenmedi** (kullanıcıya sorulacak). |
+| **Son döküman commit'i** | `d5b5fa9`; bu oturumun döküman güncellemeleri commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**155 statik sayfa**, 137'den) · `check-links` **19 benzersiz / 809 çift** (22/742'den; çift artışı yeni sayfaların footer'ındaki mevcut ölü hedefler) · 72/72 kurs tarihi üretiliyor · 18 özel ders × 360/390/999/1440 px taşma ve konsol hatası yok, tek H1 |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · **Özel Ders 18 (P4 alt tür 1)** |
+| **Aktif faz** | P4 Zengin İçerik — **özel ders tamam** (9 dil + 9 sınav; YDS Kurs Dönemi yayınlanmadı → 301). Sıradaki alt tür: **online (8)** |
+| **Bir sonraki somut adım** | Kullanıcı onayı → P4 özel ders commit'i (kod + döküman ayrı); sonra P4 "online" Aşama 0: `online-*-egitimi` kayıtlarını dök (Çince=Almanca %100 kopya, "8 kişilik grup" çelişkisini sor) |
+| **Yarım kalan iş** | Yok. |
+| **Engeller** | Kalan 19 ölü hedef: footer'daki `/diger-program/{business-english,cocuklar-icin-ingilizce-kursu,online-dil-egitimi,tercume-hizmetleri}` ve `/ogrenci-yorumlari` → P4/P7 · proficiency `nedir/ornek-sinav-sorulari` (21'er, üniversite sayfalarındaki sabit liste) → P4 nedir/tekil · yurtdışı alt sayfaları (1'er) → P4 |
+| **Bekleyen kullanıcı kararları** | **GMAT/GRE grup büyüklüğü çelişkisi:** firma metni "maksimum iki veya üç kişilik özel gruplar", P3 tablosu "en fazla 2 kişi" — bu iki sayfada tablonun "Kişi sayısı" satırı gizli · sınav özel ders hero fotoğrafı (şimdilik 9 sayfada aynı, 736×1104 küçük) · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD (özel ders SSS'leri FAQPage için hazır) · Search Console verisi (özel ders kalıcılığı) |
+| **Bilinen veri notları** | Joomla `?id=` 301'leri (kurs tarihi ve özel ders) sorgu dizesini hedefe taşıyor (Next.js davranışı, `redirects()` ile kapatılamaz; canonical temiz) — gerekirse Faz 8'de proxy ile · özel ders `.html` 301'leri Faz 8 genel kuralına bırakıldı (kullanıcı talimatı) · Türkçe kurs tarihleri 2022 · TOEFL ana kaydında h1 yok · 10 dil sayfasında fiyat bölümü yok (karar 2026-09-24) |
+| **Kalıcı kurallar** | P4 içerik kuralı: firma metni birebir (yalnız yazım düzeltmesi, `edits`), genel bilgi ayrı alanda + resmi kaynak yorumda + sayfada "Son güncelleme" (CLAUDE.md §5) · P4 tasarım: hero → 1 baskın bölüm (dil: seviye merdiveni, sınav: format kartları) → firma metni → tek gri tablo → SSS (CLAUDE.md §9) · UI turu: TopBar yok, ilk bölüm header'ın arkasından · `soon` bayrağı (§10) · hub linkleri `isProducedPage()` süzgecinden |
+
+---|---|
 | **Son kod commit'i** | `507e3e4` (UI turu 1. kısım, kullanıcı commit'ledi; P3 `3715727` ile gitti). **Çalışma ağacında commit bekleyen:** site geneli header şeridi kuralı (`globals.css`) + sınav logoları (`data/home.ts`, `CourseChipCard`) — kullanıcı kendisi commit'leyecek. Yeni logo dosyaları (`gre_logo.png`, `osym_logo.png`, `toeic_logo.jpg`) izlenmiyor ama kod onlara bağlı → kodla birlikte eklenmeli. |
 | **Son döküman commit'i** | bkz. `git log`; UI turu notu (CLAUDE.md §9 + §7) ve bu dosya commit'lenmedi |
 | **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**133 statik sayfa**) · `check-links` **22 benzersiz / 742 çift** (28/957'den) · 7 hub 1440/999/390/360 px'te yatay taşma yok, tek H1 |
@@ -59,6 +72,32 @@
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-25 · Opus 5.5 · P4 — Özel Ders (18 sayfa) — commit bekliyor
+- **Aşama 0:** 19 temiz + 21 Joomla `?id=` kaydı; kopyaların gövdesi temizlerle birebir. Şablon artığı yok (özgün metin 91–253
+  kelime). Aileler: dil (7 aynı iskelet), sınav A (TOEFL/TOEIC/PTE), B (GMAT=GRE %100), C (IELTS~Proficiency %81).
+  `yds-ozel-ders-2` aslında "YDS Kurs Dönemi" duyurusu. İngilizce Konuşma meta'sı Ataşehir ön kayıt formundan kopya.
+- **Kararlar (kullanıcı):** YDS Kurs Dönemi yayınlanmaz → iki bilgisi YDS Kursu'na taşındı + 301 · bariz yazım/kopya
+  hataları düzeltilir (`edits`) · PTE "2 ayda 80-90" → **"60-70"** (TOEFL 80-90 ≈ B2 [ETS] → PTE B2 59–75 [Pearson]) ·
+  üstünlük iddialarına dokunulmaz · tasarım **B (seviye merdiveni)**, sınav sayfalarında **sınav formatı kartları** ·
+  header değişikliği (TopBar yok, yüzen header) taslağa yansıtıldı. Pilot (Almanca) onaylandı.
+- **Yapılanlar:** `data/privateLessons{,Shared,Language,Exam}.ts` · `lib/richContent.ts` (SectionResolver +
+  assertCoverage + edits/headingEdits denetimi + title≤60/desc≤155 + dağıtıcı yardımcıları) · bileşenler
+  `RichContentPage, RichHero, LevelStairs (client, erişilebilir sekmeler), FormatCards, RichAbout, RichFaq` + CSS ·
+  3 dağıtıcı genişledi (yabancı dil / sınav `[kurs]/[sayfa]`, proficiency `[sayfa]` — slug çakışma denetimli) ·
+  `pageRegistry` → `rich` · 17+1 `soon` silindi, "YDS Kurs Dönemi" menü satırı kaldırıldı · 21 Joomla + 2 emekli 301 ·
+  `examContent` merged seçicisi satır içi tam cümleyi de kabul ediyor.
+- **Genel bilgi doğrulaması:** iki araştırma ajanı resmi kaynaklardan (ETS, IELTS, GMAC, College Board, Pearson, ÖSYM
+  kılavuzları, Cervantes, Perugia/Siena, MUR genelgesi, TestDaF, BAMF, SPbGU/RUDN, chinesetest.cn, YEE). Önemli:
+  TOEFL 2026 1–6 ölçeği (0–120 Ocak 2028'e kadar) · IELTS kâğıt sınav kalkıyor · YDS geçerliliği kurum mevzuatına bağlı ·
+  SAT resmi geçerlilik yok · **HSK'nın resmi CEFR karşılığı yok** (Çince merdiveni HSK 1–6) · TYS yalnız B2/C1 belgesi.
+- **`code-review` (high):** 10 bulgu → 8 düzeltildi (HSK boşluklu ARIA id · tarih UTC · merged seçici tam cümle ·
+  proficiency çakışma denetimi · dağıtıcı yardımcıları ortaklaştırıldı · yerel keyframe → `ddmPanelIn` · RichHero ham
+  px → token · pageRegistry yorumu). Bilinçli bırakılan 2: `.html` 301'leri (Faz 8, kullanıcı talimatı) · 301'de sorgu
+  dizesinin taşınması (Next.js davranışı, mevcut 16 kuralla aynı).
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (155) · check-links 22 → 19 · 72/72 kurs tarihi · 18 sayfa 490–790 kelime,
+  tek H1 · 72 sayfa×genişlik taşmasız · merdiven klavye/tıklama/reduced-motion tarayıcıda test edildi.
+- **Commit'ler:** henüz yok.
 
 ### 2026-09-24 · Opus 5.5 · UI turu — Ana Sayfa + site geneli header
 - **Akış:** 1440/390 ekran görüntüsü → teşhis → 6 bölüm için scratchpad taslakları (A/B/C) → kullanıcı seçimi

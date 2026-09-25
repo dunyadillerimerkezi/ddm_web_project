@@ -82,6 +82,44 @@ const JOOMLA_CONTACT: [string, string][] = [
   ["/component/content/article/65-levent-subesi-on-kayıt-formu.html", "/ddm-iletisim/3-levent"],
 ];
 
+/**
+ * P4 — 21 özel ders sayfasının Joomla `?view=article&id=…` kopyası (16'sı
+ * `/diger-program/ozel-dersler.html?id=…`, 5'i kurs sayfası üstünden
+ * `/{kategori}/{kurs}.html?id=…`). Gövdeleri temiz sayfalarla birebir aynı
+ * (site_content.json'da doğrulandı); kanonik adres temiz yol. [kaynak, id, hedef].
+ */
+const JOOMLA_PRIVATE_LESSONS: [string, string, string][] = [
+  ["/diger-program/ozel-dersler.html", "368:ingilizce-ozel-ders", "/yabanci-dil-egitimleri/ingilizce-kursu/ingilizce-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "369:almanca-ozel-ders", "/yabanci-dil-egitimleri/almanca-kursu/almanca-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "370:fransizca-ozel-ders", "/yabanci-dil-egitimleri/fransizca-kursu/fransizca-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "371:ispanyolca-ozel-ders", "/yabanci-dil-egitimleri/ispanyolca-kursu/ispanyolca-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "372:italyanca-ozel-ders", "/yabanci-dil-egitimleri/italyanca-kursu/italyanca-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "373:rusca-ozel-ders", "/yabanci-dil-egitimleri/rusca-kursu/rusca-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "374:cince-ozel-ders", "/yabanci-dil-egitimleri/cince-kursu/cince-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "375:turkce-ozel-ders", "/yabanci-dil-egitimleri/yabancila-icin-turkce-kurs/turkce-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "376:toefl-ozel-ders", "/sinav-hazirlik-egitimleri/toefl-kursu/toefl-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "377:ielts-ozel-ders", "/sinav-hazirlik-egitimleri/ielts-kursu/ielts-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "378:toeic-ozel-ders", "/sinav-hazirlik-egitimleri/toeic-kursu/toeic-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "379:pte-ozel-ders", "/sinav-hazirlik-egitimleri/academic-pte/pte-akademik-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "380:proficiency-ozel-ders", "/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "381:sat-ozel-ders", "/sinav-hazirlik-egitimleri/sat-kursu/sat-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "382:gre-ozel-ders", "/sinav-hazirlik-egitimleri/gre-kursu/gre-ozel-ders"],
+  ["/diger-program/ozel-dersler.html", "383:gmat-ozel-ders", "/sinav-hazirlik-egitimleri/gmat-kursu/gmat-ozel-ders"],
+  ["/yabanci-dil-egitimleri/almanca-kursu.html", "369:almanca-ozel-ders", "/yabanci-dil-egitimleri/almanca-kursu/almanca-ozel-ders"],
+  ["/sinav-hazirlik-egitimleri/gmat-kursu.html", "383:gmat-ozel-ders", "/sinav-hazirlik-egitimleri/gmat-kursu/gmat-ozel-ders"],
+  ["/sinav-hazirlik-egitimleri/proficiency-kursu.html", "380:proficiency-ozel-ders", "/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-ozel-ders"],
+  ["/sinav-hazirlik-egitimleri/sat-kursu.html", "381:sat-ozel-ders", "/sinav-hazirlik-egitimleri/sat-kursu/sat-ozel-ders"],
+  ["/sinav-hazirlik-egitimleri/toeic-kursu.html", "378:toeic-ozel-ders", "/sinav-hazirlik-egitimleri/toeic-kursu/toeic-ozel-ders"],
+];
+
+/**
+ * P4 — yayınlanmayan sayfalar (kullanıcı kararı, 2026-09-25): "YDS Kurs Dönemi"
+ * (`yds-ozel-ders-2`) — iki bilgisi YDS Kursu sayfasına taşındı.
+ */
+const RETIRED_PAGES: [string, string][] = [
+  ["/sinav-hazirlik-egitimleri/yds-kursu/yds-ozel-ders-2", "/sinav-hazirlik-egitimleri/yds-kursu"],
+];
+
 const nextConfig: NextConfig = {
   // Trailing slash kararı: URL'lerin sonunda "/" YOK, tutarlı biçimde
   // uygulanıyor (bkz. CLAUDE.md). Next.js varsayılanı zaten bu; kararı
@@ -119,7 +157,17 @@ const nextConfig: NextConfig = {
       destination,
       permanent: true,
     }));
-    return [...university, ...courseDates, ...contact];
+    const privateLessons = JOOMLA_PRIVATE_LESSONS.map(([source, id, destination]) => ({
+      source,
+      has: [{ type: "query" as const, key: "id", value: id }],
+      destination,
+      permanent: true,
+    }));
+    const retired = RETIRED_PAGES.flatMap(([source, destination]) => [
+      { source, destination, permanent: true },
+      { source: `${source}.html`, destination, permanent: true },
+    ]);
+    return [...university, ...courseDates, ...contact, ...privateLessons, ...retired];
   },
 };
 

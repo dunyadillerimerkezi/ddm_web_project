@@ -109,7 +109,7 @@ export type StructureBlockRef = {
  */
 export type MergedBlockRef = {
   kind: "merged";
-  /** Kaldırılan sayfanın slug'ı: "toefl-kursu/toefl-kursu-2". */
+  /** Kaldırılan sayfanın slug'ı: "toefl-kursu/toefl-kursu-2". Seçici: tam satır ya da satır içindeki tam cümle. */
   sourcePath: string;
   kicker: string;
   title: string;
@@ -511,8 +511,11 @@ export function getExamPage(def: ExamDef): ExamPage {
             .map((l) => l.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim())
             .filter(Boolean),
         );
+        // Seçici tam satır ya da bir satırın içindeki TAM cümle olabilir (P4: bayat
+        // "kayıtlar başlamıştır" cümlesi alınmadan aynı satırın program cümlesi).
+        const sentences = new Set([...pool].flatMap((l) => l.split(/(?<=[.!?])\s+/)));
         for (const line of b.lines) {
-          if (!pool.has(line)) {
+          if (!pool.has(line) && !sentences.has(line)) {
             throw new ContentSectionsError(`${context}/${slot}: satır kaynakta yok — "${line}" (${b.sourcePath})`);
           }
         }

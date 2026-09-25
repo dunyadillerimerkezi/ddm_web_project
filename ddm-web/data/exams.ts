@@ -652,6 +652,19 @@ const YDS: ExamDef = {
         "YDS Sınav Stratejileri",
       ],
     },
+    {
+      // P4 (kullanıcı kararı, 2026-09-25): "YDS Kurs Dönemi" (`yds-ozel-ders-2`) yayınlanmıyor,
+      // 301 ile buraya gelir. Ana sayfada olmayan iki bilgisi taşındı; bayat "kayıtlar
+      // başlamıştır" duyurusu alınmadı.
+      kind: "merged",
+      sourcePath: "yds-kursu/yds-ozel-ders-2",
+      kicker: "KURS DÖNEMİ",
+      title: "YDS hazırlığına ne zaman başlamalı?",
+      lines: [
+        "YDS eğitimlerine sınavdan en az 4 ay önce başlamanızı tavsiye ederiz.",
+        "Eğitimler hafta sonu sabah, hafta sonu öğlen, ve hafta içi akşam programları olarak düzenlenecektir.",
+      ],
+    },
     { kind: "prose", heading: "YDS Hakkında Genel Bilgi?", kicker: "SINAV HAKKINDA" },
     { kind: "prose", heading: "YDS'ye Kimler Girmelidir?", kicker: "KİMLER GİRMELİ", format: "list" },
     {

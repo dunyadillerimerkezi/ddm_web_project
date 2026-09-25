@@ -69,6 +69,8 @@
   --ddm-on-dark-veil: rgba(255, 255, 255, 0.08); /* koyu zeminde akreditasyon rozeti */
   --ddm-navy-veil: rgba(22, 24, 74, 0.84); /* P3: fotoğraf üstü alt yazı rozeti */
   --ddm-white-glass: rgba(255, 255, 255, 0.94); /* P3: yapışkan dizin şeridi (mobil) */
+  --ddm-navy-veil-35: rgba(22, 24, 74, 0.35); /* P4: hero fotoğrafının lacivert zemine erimesi — orta */
+  --ddm-navy-veil-05: rgba(22, 24, 74, 0.05); /* P4: hero fotoğrafının lacivert zemine erimesi — uç */
 
   /* ---------------------------------------------------------------
    * 3 · NÖTR — laciverte çalan soğuk gri
@@ -151,6 +153,8 @@
   --ddm-text-stat-hero: clamp(26px, 3vw, 36px); /* Faz 6.4: iç sayfa hero'suna gömülü (inset) güven şeridi rakamı — StatStrip variant="inset" */
   --ddm-text-h3: clamp(19px, 2.2vw, 24px);
   --ddm-text-h4: 19px;
+  --ddm-text-stairs-key: clamp(19px, 2vw, 26px); /* P4: seviye merdiveni basamak kodu (A1…C2) */
+  --ddm-text-micro: 10.5px; /* P4: dar ekranda basamak adı */
   --ddm-text-h5: 17.5px;
 
   --ddm-text-lead: clamp(15.5px, 1.8vw, 17.5px); /* giriş paragrafı */
@@ -200,6 +204,13 @@
   --ddm-gap-card: clamp(14px, 1.6vw, 18px); /* kart ızgarası */
   --ddm-gap-col: clamp(24px, 3.4vw, 48px); /* kolon arası */
   --ddm-gap-wide: clamp(28px, 5vw, 72px); /* P3: hub iki kolon arası (dizin | içerik) */
+  --ddm-stairs-h: 340px; /* P4: seviye merdiveni yüksekliği (C2 basamağı) */
+  --ddm-stairs-h-sm: 240px; /* P4: ≤999px */
+  --ddm-faq-width: 860px; /* P4: SSS kolonu */
+  --ddm-rich-hero-pt: clamp(16px, 2.4vw, 32px); /* P4: RichHero üst dolgu (header payı globals.css'ten) */
+  --ddm-rich-hero-pb: clamp(48px, 6vw, 84px); /* P4: RichHero alt dolgu */
+  --ddm-rich-hero-copy: min(640px, 56%); /* P4: RichHero metin kolonu — sağdaki fotoğrafa taşmaz */
+  --ddm-rich-hero-photo-h: clamp(200px, 42vw, 320px); /* P4: ≤999px fotoğraf şeridi */
   --ddm-toc-width: 260px; /* P3: hub yapışkan dizin kolonu */
   --ddm-sticky-top: clamp(96px, calc(2.8vw + 78px), 120px); /* P3: yapışkan header'ın alt kenarı + 2px (ölçüldü: 390→94, 999→102, 1440→116) */
 
@@ -263,6 +274,8 @@
   --duration-base: 0.24s;
   --duration-slow: 0.34s;
   --duration-reveal: 0.5s; /* P3: kart/satır kademeli görünme */
+  --duration-stairs: 0.7s; /* P4: seviye merdiveni basamaklarının yükselmesi */
+  --stagger-stairs: 80ms; /* P4: basamaklar arası gecikme */
   --reveal-shift: 12px; /* P3: kademeli görünmede dikey kayma (yalnız transform — CLS yok) */
   /* UI turu (2026-09-24) — Ana Sayfa ortam hareketleri. Hepsi yalnız
    * transform; globals.css'teki reduced-motion kuralı hepsini durdurur. */
