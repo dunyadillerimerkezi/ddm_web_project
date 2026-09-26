@@ -144,6 +144,12 @@ export type LanguageContentMap = {
   /** Kapsama iddiası için: bilinçli olarak sayfaya alınmayan satırlar + gerekçe
    *  (ör. İngilizce kaydındaki ara-hal artıkları — bkz. data/languages.ts). */
   ignored: string[];
+  /**
+   * Bariz kopyala-yapıştır hatalarının düzeltmesi — kaynak satırın TAMAMI →
+   * düzeltilmiş hali (kullanıcı onayıyla; CLAUDE.md §5). Kaynakta karşılığı
+   * kalmayan anahtar build'i düşürür, düzeltme izlenebilir kalır.
+   */
+  edits?: Record<string, string>;
 };
 
 export type LanguageDef = {
@@ -366,15 +372,37 @@ export function getLanguagePage(def: LanguageDef): LanguagePage {
 
   resolver.assertCoverage(c.ignored, context);
 
+  // Onaylı düzeltmeler — yalnız birebir eşleşen satıra uygulanır.
+  const edits = c.edits ?? {};
+  const used = new Set<string>();
+  const fix = (line: string): string => {
+    if (line in edits) {
+      used.add(line);
+      return edits[line];
+    }
+    return line;
+  };
+  whyChooseDDM.items = whyChooseDDM.items.map(fix);
+  const fixedAbout = about.map(fix);
+  const fixedCertification = certification?.map(fix) ?? null;
+  const fixedWhyLearn = whyLearn?.map(fix) ?? null;
+  teachingModel.items = teachingModel.items.map(fix);
+  const unused = Object.keys(edits).filter((k) => !used.has(k));
+  if (unused.length > 0) {
+    throw new ContentSectionsError(
+      `${context}: edits anahtarı kaynakta bulunamadı — ${unused.map((k) => `"${k}"`).join(", ")}. data/languages.ts'i güncelleyin.`,
+    );
+  }
+
   return {
     def,
     record,
     h1,
     heroLead,
-    about,
+    about: fixedAbout,
     programSchedule,
-    certification,
-    whyLearn,
+    certification: fixedCertification,
+    whyLearn: fixedWhyLearn,
     whyChooseDDM,
     levelGroups,
     levelGroupsHeading: c.levelGroupsHeading,

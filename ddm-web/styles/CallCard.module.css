@@ -1,0 +1,89 @@
+/* ---------------------------------------------------------------
+ * CallCard — P4 online: dekoratif canlı ders penceresi
+ * (`OnlineSteps` hazırlık panelinin sağında, lacivert zemin üstünde).
+ * ------------------------------------------------------------- */
+.call {
+  width: var(--ddm-call-w);
+  max-width: 100%;
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-lg);
+  color: var(--ddm-navy-900);
+  animation: ddmFloatSoft var(--duration-float) ease-in-out infinite;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-1) var(--space-3);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+}
+
+.live {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: 50%;
+  background: var(--ddm-success);
+  box-shadow: 0 0 0 var(--space-1) var(--ddm-success-bg);
+}
+
+.flag {
+  margin-left: auto;
+  border-radius: var(--radius-flag);
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--ddm-navy-800), var(--ddm-navy-600));
+}
+
+.bubble {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-white);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+/* Sizin kareniz — sağ altta küçük önizleme. */
+.self {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  display: grid;
+  place-items: center;
+  width: 28%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--ddm-navy-line);
+  border-radius: var(--radius-md);
+  background: var(--ddm-navy-900);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-navy-200);
+}
+
+.tools {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+}
+
+.tool {
+  display: grid;
+  place-items: center;
+  width: var(--space-8);
+  height: var(--space-8);
+  border-radius: 50%;
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-sky-mid);
+}

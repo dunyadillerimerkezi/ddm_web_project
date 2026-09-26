@@ -1,0 +1,61 @@
+/* ---------------------------------------------------------------
+ * FaqAside — başlık kartı + akordiyon (UI turu 2026-09-25)
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.grid {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
+  gap: var(--ddm-gap-col);
+  align-items: start;
+}
+
+.aside {
+  position: sticky;
+  top: var(--ddm-sticky-top);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: clamp(24px, 2.8vw, 34px);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-navy-900);
+}
+
+.kicker {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-label);
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-sky-400);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2-sm);
+  line-height: 1.18;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-white);
+}
+
+.cta {
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 899px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .aside {
+    position: static;
+  }
+}

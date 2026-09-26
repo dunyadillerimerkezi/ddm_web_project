@@ -1,0 +1,101 @@
+/* ---------------------------------------------------------------
+ * CourseDateList — Dil Kursu "Şube ve kurs tarihleri" satırları
+ * (UI turu 2026-09-25): tek kart içinde alt alta, çizgiyle ayrılmış.
+ * ------------------------------------------------------------- */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--ddm-border-card);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-card);
+}
+
+.list li + li {
+  border-top: 1px solid var(--ddm-border-card);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 68px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-xl);
+  transition: background var(--duration-base) ease;
+}
+
+a.row:hover,
+a.row:focus-visible {
+  background: var(--ddm-sky-bg);
+}
+
+.icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-sky-ink);
+  transition: background var(--duration-base) ease, color var(--duration-base) ease;
+}
+
+a.row:hover .icon {
+  background: var(--ddm-white);
+}
+
+.label {
+  min-width: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.35;
+  color: var(--ddm-navy-900);
+}
+
+.go {
+  margin-left: auto;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--ddm-border-card);
+  color: var(--ddm-primary);
+  transition: background var(--duration-base) ease, color var(--duration-base) ease,
+    border-color var(--duration-base) ease, transform var(--duration-base) var(--ease-out-soft);
+}
+
+a.row:hover .go,
+a.row:focus-visible .go {
+  background: var(--ddm-primary);
+  border-color: var(--ddm-primary);
+  color: var(--ddm-white);
+  transform: translateX(4px);
+}
+
+.inert .label {
+  color: var(--ddm-gray-500);
+}
+
+@media (max-width: 559px) {
+  .row {
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+
+  .label {
+    font-size: var(--ddm-text-body);
+  }
+
+  .go {
+    width: 34px;
+    height: 34px;
+  }
+}

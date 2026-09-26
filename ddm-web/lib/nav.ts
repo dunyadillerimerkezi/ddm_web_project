@@ -60,7 +60,7 @@ export const NAV_ITEMS: NavItem[] = [
                   { label: "İngilizce Programı", href: `${YD}/ingilizce-kursu/ingilizce-kursu-2`, soon: true },
                   { label: "İngilizce Özel Ders", href: `${YD}/ingilizce-kursu/ingilizce-ozel-ders` },
                   { label: "İngilizce Eğitim Sistemi", href: `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi`, soon: true },
-                  { label: "Online İngilizce Eğitimi", href: `${YD}/ingilizce-kursu/online-ingilizce-egitimi`, soon: true },
+                  { label: "Online İngilizce Eğitimi", href: `${YD}/ingilizce-kursu/online-ingilizce-egitimi` },
                 ],
               },
               {
@@ -85,7 +85,7 @@ export const NAV_ITEMS: NavItem[] = [
                   { label: "Hızlandırılmış Almanca Kursu", href: `${YD}/almanca-kursu/hizlandirilmis-almanca-kursu`, soon: true },
                   { label: "Almanca Özel Ders", href: `${YD}/almanca-kursu/almanca-ozel-ders` },
                   { label: "Almanca Konuşma Kursları", href: `${YD}/almanca-kursu/almanca-konusma-kurslari`, soon: true },
-                  { label: "Online Almanca Eğitimi", href: `${YD}/almanca-kursu/online-almanca-egitimi`, soon: true },
+                  { label: "Online Almanca Eğitimi", href: `${YD}/almanca-kursu/online-almanca-egitimi` },
                 ],
               },
               {
@@ -108,7 +108,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "Fransızca Programı", href: `${YD}/fransizca-kursu/fransizca-kursu-2`, soon: true },
                   { label: "Fransızca Özel Ders", href: `${YD}/fransizca-kursu/fransizca-ozel-ders` },
-                  { label: "Online Fransızca Eğitimi", href: `${YD}/fransizca-kursu/online-fransizca-egitimi`, soon: true },
+                  { label: "Online Fransızca Eğitimi", href: `${YD}/fransizca-kursu/online-fransizca-egitimi` },
                 ],
               },
               {
@@ -131,7 +131,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "Rusça Programı", href: `${YD}/rusca-kursu/rusca-kursu-2`, soon: true },
                   { label: "Rusça Özel Ders", href: `${YD}/rusca-kursu/rusca-ozel-ders` },
-                  { label: "Online Rusça Eğitimi", href: `${YD}/rusca-kursu/online-rusca-egitimi`, soon: true },
+                  { label: "Online Rusça Eğitimi", href: `${YD}/rusca-kursu/online-rusca-egitimi` },
                 ],
               },
               {
@@ -154,7 +154,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "İspanyolca Programı", href: `${YD}/ispanyolca-kursu/ispanyolca-kursu-2`, soon: true },
                   { label: "İspanyolca Özel Ders", href: `${YD}/ispanyolca-kursu/ispanyolca-ozel-ders` },
-                  { label: "Online İspanyolca Eğitimi", href: `${YD}/ispanyolca-kursu/online-ispanyolca-egitimi`, soon: true },
+                  { label: "Online İspanyolca Eğitimi", href: `${YD}/ispanyolca-kursu/online-ispanyolca-egitimi` },
                 ],
               },
               {
@@ -177,7 +177,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "İtalyanca Programı", href: `${YD}/italyanca-kursu/italyanca-kursu-2`, soon: true },
                   { label: "İtalyanca Özel Ders", href: `${YD}/italyanca-kursu/italyanca-ozel-ders` },
-                  { label: "Online İtalyanca Eğitimi", href: `${YD}/italyanca-kursu/online-italyanca-egitimi`, soon: true },
+                  { label: "Online İtalyanca Eğitimi", href: `${YD}/italyanca-kursu/online-italyanca-egitimi` },
                 ],
               },
               {
@@ -201,7 +201,7 @@ export const NAV_ITEMS: NavItem[] = [
                   { label: "Çince Programı", href: `${YD}/cince-kursu/cince-kursu-2`, soon: true },
                   { label: "Çince Özel Ders", href: `${YD}/cince-kursu/cince-ozel-ders` },
                   { label: "Çince Öğrenmek Zor mu?", href: `${YD}/cince-kursu/cince-ogrenmek-zor-mu`, soon: true },
-                  { label: "Online Çince Eğitimi", href: `${YD}/cince-kursu/online-cince-egitimi`, soon: true },
+                  { label: "Online Çince Eğitimi", href: `${YD}/cince-kursu/online-cince-egitimi` },
                 ],
               },
               {
@@ -225,7 +225,7 @@ export const NAV_ITEMS: NavItem[] = [
                   { label: "Türkçe Programı", href: `${YD}/yabancila-icin-turkce-kurs/yabancila-icin-turkce-kurs-2`, soon: true },
                   { label: "Yabancılar İçin Türkçe Özel Ders", href: `${YD}/yabancila-icin-turkce-kurs/turkce-ozel-ders` },
                   { label: "Türkçe Eğitim Seviyeleri", href: `${YD}/yabancila-icin-turkce-kurs/turkce-egitim-seviyeleri`, soon: true },
-                  { label: "Online Türkçe Eğitimi", href: `${YD}/yabancila-icin-turkce-kurs/online-turkce-egitimi`, soon: true },
+                  { label: "Online Türkçe Eğitimi", href: `${YD}/yabancila-icin-turkce-kurs/online-turkce-egitimi` },
                 ],
               },
               {
@@ -609,7 +609,7 @@ export const NAV_ITEMS: NavItem[] = [
           { label: "Business English", href: `${DP}/business-english`, soon: true },
           { label: "Özel Dersler", href: `${DP}/ozel-dersler` },
           { label: "Çocuklar İçin İngilizce Kursu", href: `${DP}/cocuklar-icin-ingilizce-kursu`, soon: true },
-          { label: "Online Dil Eğitimi", href: `${DP}/online-dil-egitimi`, soon: true },
+          { label: "Online Dil Eğitimi", href: `${DP}/online-dil-egitimi` },
           { label: "Tercüme Hizmetleri", href: `${DP}/tercume-hizmetleri`, soon: true },
         ],
       },

@@ -17,7 +17,17 @@ import {
 } from "@/data/privateLessonsShared";
 
 const YD = "/yabanci-dil-egitimleri";
-const IMG = "/assets/home_page_images";
+
+/**
+ * Hero fotoğrafları — birebir ders sahneleri (kullanıcının eklediği 3 görsel,
+ * 2026-09-25; dil kursu sayfası şehir fotoğraflarını kullandığı için özel ders
+ * hero'su onlardan ayrıldı). Sayfalara sırayla dağıtılır.
+ */
+const HERO_PHOTOS = [
+  { src: "/assets/private_lesson.jpg", alt: "Kütüphanede kitap üzerinde birlikte çalışan iki öğrenci", width: 640, height: 480 },
+  { src: "/assets/private_lesson2.jpg", alt: "Kitaplık önünde birebir derste kitap okuyan iki kişi", width: 735, height: 490 },
+  { src: "/assets/private_lesson3.jpg", alt: "Öğretmeniyle masada birebir ders yapan öğrenci", width: 620, height: 348 },
+] as const;
 
 /** "Evinizde, ofisinizde, ya da DDM şubelerinde…" cümlesinin arayüz etiketi. */
 const WHERE = { icon: "konum", label: "Evinizde, ofisinizde ya da şubede" } as const;
@@ -54,7 +64,7 @@ const ALMANCA: PrivateLessonDef = {
     reasons: ["title: kaynak 65 karakter (≤60) ve '|' öncesi boşluk eksik — 'Kurs Programları' → 'Programlar', ayraç düzeltildi"],
   },
   hero: {
-    photo: { src: `${IMG}/dil-almanca.jpg`, alt: "Köln Katedrali ve Hohenzollern Köprüsü", width: 2268, height: 4032 },
+    photo: HERO_PHOTOS[0],
     intro: { heading: DE_H1, take: [0] },
     split: true,
     facts: [WHERE, { icon: "sohbet", label: "Türk ve Alman öğretmenler" }],
@@ -165,7 +175,7 @@ const INGILIZCE: PrivateLessonDef = {
     reasons: ["title: kaynak 68 karakter (≤60) — 'Birebir İngilizce Özel Ders' olarak kısaltıldı"],
   },
   hero: {
-    photo: { src: `${IMG}/dil-ingilizce.jpg`, alt: "Londra'da Thames Nehri ve Parlamento binası", width: 4000, height: 3000 },
+    photo: HERO_PHOTOS[1],
     intro: { heading: EN_H1, take: [0] },
     split: true,
     // ← "Her yaş grubu için ayrı ayrı uygulanan… birebir özel ders sistemi…"
@@ -221,7 +231,7 @@ const FRANSIZCA: PrivateLessonDef = {
     reasons: ["title: kaynak 67 karakter (≤60) — 'Birebir Fransızca Özel Ders' olarak kısaltıldı"],
   },
   hero: {
-    photo: { src: `${IMG}/dil-fransizca.jpg`, alt: "Paris ve Eyfel Kulesi", width: 4012, height: 6017 },
+    photo: HERO_PHOTOS[2],
     intro: { heading: FR_H1, take: [0] },
     split: true,
     // ← "Fransız lisesinden mezun Türk ve Fransız öğretmenlerden oluşan öğretim kadromuz…"
@@ -299,7 +309,7 @@ const ISPANYOLCA: PrivateLessonDef = {
   label: "İspanyolca Özel Ders",
   meta: { reasons: [] },
   hero: {
-    photo: { src: `${IMG}/dil-ispanyolca.jpg`, alt: "İspanya'da gotik bir katedral", width: 3024, height: 4032 },
+    photo: HERO_PHOTOS[0],
     intro: { heading: ES_H1, take: [0] },
     split: true,
     facts: [WHERE, { icon: "sohbet", label: "İspanyol öğretmenler" }],
@@ -382,7 +392,7 @@ const ITALYANCA: PrivateLessonDef = {
     reasons: ["title: kaynak 67 karakter (≤60) — 'Birebir İtalyanca Özel Ders' olarak kısaltıldı"],
   },
   hero: {
-    photo: { src: `${IMG}/dil-italyanca.jpg`, alt: "Roma'da Pantheon", width: 5423, height: 3615 },
+    photo: HERO_PHOTOS[1],
     intro: { heading: IT_H1, take: [0] },
     split: true,
     facts: [WHERE, { icon: "sohbet", label: "İtalyan öğretmenler" }],
@@ -460,7 +470,7 @@ const RUSCA: PrivateLessonDef = {
     reasons: ["title: kaynak 63 karakter (≤60) — 'Kurs Programları' → 'Programlar', ayraç düzeltildi"],
   },
   hero: {
-    photo: { src: `${IMG}/dil-rusca.jpg`, alt: "Moskova'da Kızıl Meydan'daki Tarih Müzesi", width: 3024, height: 4032 },
+    photo: HERO_PHOTOS[2],
     intro: { heading: RU_H1, take: [0] },
     split: true,
     facts: [WHERE, { icon: "sohbet", label: "Rus öğretmenler" }],
@@ -560,7 +570,7 @@ const CINCE: PrivateLessonDef = {
     reasons: ["title: kaynak 63 karakter (≤60) — 'Kurs Programları' → 'Programlar', ayraç düzeltildi"],
   },
   hero: {
-    photo: { src: `${IMG}/dil-cince.jpg`, alt: "Geleneksel mimaride bir Çin tapınağı", width: 3510, height: 6240 },
+    photo: HERO_PHOTOS[0],
     intro: { heading: ZH_H1, take: [0] },
     split: true,
     facts: [WHERE, { icon: "sohbet", label: "Çinli öğretmenler" }],
@@ -625,7 +635,7 @@ const TURKCE: PrivateLessonDef = {
   label: "Yabancılar İçin Türkçe Özel Ders",
   meta: { reasons: [] },
   hero: {
-    photo: { src: `${IMG}/dil-turkce.jpg`, alt: "İstanbul'da Galata Kulesi", width: 2302, height: 4096 },
+    photo: HERO_PHOTOS[1],
     intro: { heading: TR_H1, take: [0] },
     split: true,
     facts: [WHERE, { icon: "sohbet", label: "Türk öğretmenler" }],
@@ -700,7 +710,7 @@ const INGILIZCE_KONUSMA: PrivateLessonDef = {
     ],
   },
   hero: {
-    photo: { src: `${IMG}/ingilizce-konusma.jpg`, alt: "Masa etrafında İngilizce konuşan bir grup", width: 5184, height: 3888 },
+    photo: HERO_PHOTOS[2],
     intro: { heading: SPEAK_H1, take: [0] },
     split: true,
     facts: [

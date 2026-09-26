@@ -6,17 +6,17 @@
  * Kaynakta karşılığı kalmayan `edits` / `headingEdits` girdisi build'i düşürür;
  * title >60 / description >155 karakter de (CLAUDE.md §6, sessizce kesilmez).
  *
- * Çıktı blok listesidir (`RichBlock`) — sonraki alt türler (online, nedir…)
+ * Çıktı blok listesidir (`RichBlock`) — sonraki alt türler (online: `lib/onlineContent.ts`, nedir…)
  * aynı sayfa bileşenine yeni blok türleriyle eklenir.
  */
-
-import type { Metadata } from "next";
 
 import siteContent from "@/data/site_content.json";
 import { EXAMS } from "@/data/exams";
 import { PRIVATE_HUB_ADDED } from "@/data/hubs";
 import { LANGUAGES } from "@/data/languages";
 import { PRIVATE_LESSONS } from "@/data/privateLessons";
+import type { FlagCode } from "@/components/graphics/Flag";
+import type { OnlineExam } from "@/data/onlineLessons";
 import type { FormatPart, LevelItem, Photo, PrivateLessonDef, SlotRef } from "@/data/privateLessonsShared";
 import type { IconName } from "@/components/graphics/icons";
 import {
@@ -25,7 +25,6 @@ import {
   parseRecord,
   type SiteContentRecord,
 } from "@/lib/contentSections";
-import { absoluteUrl } from "@/lib/site";
 import type { Crumb, Faq } from "@/lib/types";
 
 const TITLE_MAX = 60;
@@ -48,8 +47,42 @@ export type RichBlock =
       note: string | null;
     }
   | { kind: "about"; id: string; title: string; parts: RichAboutPart[]; photo: Photo }
-  | { kind: "compare"; id: string; title: string; rows: { row: string; ozel: string; grup: string }[] }
+  | {
+      kind: "compare";
+      id: string;
+      title: string;
+      lead?: string;
+      columns: { key: string; label: string }[];
+      rows: { row: string; cells: Record<string, string> }[];
+    }
+  /** Online: "nasıl işler" akışı (adım metinleri firma cümleleri) + derse hazırlık listesi (genel bilgi). */
+  | {
+      kind: "steps";
+      id: string;
+      title: string;
+      lead: string;
+      steps: { title: string; text: string; note: string | null }[];
+      checklist: { title: string; items: { icon: IconName; label: string; text: string }[] };
+      /** Hazırlık panelindeki dekoratif "canlı ders" penceresi (dilin bayrağı ve selamlaması). */
+      call: { flag: FlagCode | null; greeting: string };
+    }
+  /** Online: dilin sınavlarına evden girilebilir mi — genel bilgi, kaynak yorumda. */
+  | { kind: "exams"; id: string; title: string; lead: string; items: OnlineExam[]; note: string }
+  /** Online çatı: kaynak başlığı + cümlesi altında dil kartları ve sınav etiketleri (href üretilmişse link). */
+  | {
+      kind: "catalog";
+      id: string;
+      groups: {
+        title: string;
+        lead: string;
+        cards: { label: string; href: string; flag: FlagCode | null; greeting: string }[];
+        chipsLabel: string | null;
+        chips: { label: string; href: string | null }[];
+      }[];
+    }
   | { kind: "faq"; id: string; title: string; items: Faq[]; updated: string };
+
+export type RelatedGroup = { title: string; links: { label: string; href: string }[] };
 
 export type RichPage = {
   href: string;
@@ -60,15 +93,23 @@ export type RichPage = {
   h1: string;
   crumbs: Crumb[];
   parent: { label: string; href: string };
-  hero: { lead: string; photo: Photo; facts: { icon: IconName; label: string }[]; secondary: { label: string; href: string } };
+  hero: {
+    lead: string;
+    photo: Photo;
+    facts: { icon: IconName; label: string }[];
+    secondary: { label: string; href: string };
+  };
   blocks: RichBlock[];
+  /** Alt türün kardeş sayfaları (ilgili sayfalar bölümünün ikinci grubu). */
+  family: RelatedGroup;
+  cta: { sub: string };
 };
 
-function norm(s: string): string {
+export function norm(s: string): string {
   return s.replace(/ /g, " ").replace(/\s+/g, " ").trim();
 }
 
-function findRecord(path: string): SiteContentRecord {
+export function findRecord(path: string): SiteContentRecord {
   const url = `https://www.dunyadillerimerkezi.com${path}.html`;
   const record = (siteContent as SiteContentRecord[]).find((r) => r.url === url);
   if (!record) throw new ContentSectionsError(`data/site_content.json içinde "${url}" kaydı yok.`);
@@ -86,10 +127,25 @@ function splitFirstSentence(paragraph: string, context: string): [string, string
 const CATEGORY_CRUMB: Record<string, Crumb> = {
   "yabanci-dil-egitimleri": { label: "Yabancı Dil", href: "/yabanci-dil" },
   "sinav-hazirlik-egitimleri": { label: "Sınav Hazırlık", href: "/sinav-hazirlik-egitimleri" },
+  "diger-program": { label: "Diğer Programlar", href: "/diger-program" },
 };
 
+export function categoryCrumb(path: string, context: string): Crumb {
+  const crumb = CATEGORY_CRUMB[path.split("/")[1]];
+  if (!crumb) throw new ContentSectionsError(`${context}: kategori kırıntısı tanımsız.`);
+  return crumb;
+}
+
+/** title / description uzunluk bekçisi (CLAUDE.md §6 — sessizce kesilmez). */
+export function checkMeta(title: string, description: string, context: string): void {
+  if (title.length > TITLE_MAX) throw new ContentSectionsError(`${context}: title ${title.length} karakter (≤${TITLE_MAX}).`);
+  if (description.length > DESCRIPTION_MAX) {
+    throw new ContentSectionsError(`${context}: description ${description.length} karakter (≤${DESCRIPTION_MAX}).`);
+  }
+}
+
 /** Üst kurs: "/{kategori}/{kurs}/…" → dil ya da sınav kursunun etiketi. */
-function parentCourse(path: string, context: string): { label: string; href: string } {
+export function parentCourse(path: string, context: string): { label: string; href: string } {
   const [, category, slug] = path.split("/");
   const label = LANGUAGES.find((l) => l.slug === slug)?.label ?? EXAMS.find((e) => e.slug === slug)?.label;
   if (!label) throw new ContentSectionsError(`${context}: üst kurs bulunamadı — "${slug}"`);
@@ -187,10 +243,7 @@ export function getPrivateLessonPage(def: PrivateLessonDef): RichPage {
   // Metadata (CLAUDE.md §6)
   const title = norm(def.meta.title ?? record.title);
   const description = norm(def.meta.description ?? record.meta_description);
-  if (title.length > TITLE_MAX) throw new ContentSectionsError(`${context}: title ${title.length} karakter (≤${TITLE_MAX}).`);
-  if (description.length > DESCRIPTION_MAX) {
-    throw new ContentSectionsError(`${context}: description ${description.length} karakter (≤${DESCRIPTION_MAX}).`);
-  }
+  checkMeta(title, description, context);
   const sourceH1 = record.headings.find((h) => h.level === "h1");
   let h1 = def.meta.h1 ?? (sourceH1 ? headingText(norm(sourceH1.text)) : null);
   if (!h1) {
@@ -198,8 +251,7 @@ export function getPrivateLessonPage(def: PrivateLessonDef): RichPage {
     console.warn(`[richContent] ${def.path}: kaynakta h1 yok — ilk başlığa düşüldü ("${h1}").`);
   }
 
-  const categoryCrumb = CATEGORY_CRUMB[def.path.split("/")[1]];
-  if (!categoryCrumb) throw new ContentSectionsError(`${context}: kategori kırıntısı tanımsız.`);
+  const category = categoryCrumb(def.path, context);
   const parent = parentCourse(def.path, context);
 
   const f = def.feature;
@@ -222,7 +274,16 @@ export function getPrivateLessonPage(def: PrivateLessonDef): RichPage {
       throw new ContentSectionsError(`${context}: compare.omitRows tabloda olmayan satır içeriyor.`);
     }
     // P3'te onaylanan özel ders / grup karşılaştırması (hücreler firma sayfalarından, `data/hubs.ts`).
-    blocks.push({ kind: "compare", id: "karsilastirma", title: "Özel ders mi, grup kursu mu?", rows });
+    blocks.push({
+      kind: "compare",
+      id: "karsilastirma",
+      title: "Özel ders mi, grup kursu mu?",
+      columns: [
+        { key: "ozel", label: "Özel ders" },
+        { key: "grup", label: "Grup kursu" },
+      ],
+      rows: rows.map((r) => ({ row: r.row, cells: { ozel: r.ozel, grup: r.grup } })),
+    });
   }
   blocks.push({ kind: "faq", id: "sss", title: "Sık sorulanlar", items: faqItems, updated: def.updated });
 
@@ -232,7 +293,7 @@ export function getPrivateLessonPage(def: PrivateLessonDef): RichPage {
     title,
     description,
     h1,
-    crumbs: [{ label: "Anasayfa", href: "/" }, categoryCrumb, parent, { label: def.label }],
+    crumbs: [{ label: "Anasayfa", href: "/" }, category, parent, { label: def.label }],
     parent,
     hero: {
       lead,
@@ -244,37 +305,19 @@ export function getPrivateLessonPage(def: PrivateLessonDef): RichPage {
           : { label: "Sınav formatı", href: `#${featureBlock.id}` },
     },
     blocks,
+    family: {
+      title: "Özel dersler",
+      links: [
+        { label: "Tüm özel dersler", href: "/diger-program/ozel-dersler" },
+        // Aynı kategorideki (dil / sınav) diğer özel dersler.
+        ...PRIVATE_LESSONS.filter((d) => d.path !== def.path && d.path.split("/")[1] === def.path.split("/")[1]).map((d) => ({
+          label: d.label,
+          href: d.path,
+        })),
+      ],
+    },
+    cta: { sub: "Seviyenizi ve hedefinizi size en yakın şubemizle konuşun." },
   };
   cache.set(def.path, page);
   return page;
-}
-
-/* ---------------------------------------------------------------
- * Dağıtıcı yardımcıları — üç route (`yabanci-dil-egitimleri/[kurs]/[sayfa]`,
- * `sinav-hazirlik-egitimleri/[kurs]/[sayfa]`, `proficiency-kursu/[sayfa]`)
- * zengin içerik sayfalarını aynı kuralla eklesin diye tek yerde.
- * ------------------------------------------------------------- */
-
-/**
- * `prefix` altındaki özel ders sayfalarının kalan yol parçaları
- * (ör. "/yabanci-dil-egitimleri/" → ["almanca-kursu", "almanca-ozel-ders"]).
- * `excludeFolder`: kendi statik klasöründe dağıtılan alt ağaç (proficiency).
- */
-export function richPathsUnder(prefix: string, excludeFolder?: string): string[][] {
-  return PRIVATE_LESSONS.filter(
-    (d) => d.path.startsWith(prefix) && !(excludeFolder && d.path.startsWith(`${prefix}${excludeFolder}/`)),
-  ).map((d) => d.path.slice(prefix.length).split("/"));
-}
-
-/** Aynı segmentte iki tip aynı slug'ı üretirse build düşer (sessizce biri kazanmaz). */
-export function assertNoSlugCollision(route: string, rich: string[], others: string[]): void {
-  const taken = new Set(others);
-  const hit = rich.find((k) => taken.has(k));
-  if (hit) throw new ContentSectionsError(`[${route}] "${hit}" hem zengin içerik hem başka bir sayfa tipi.`);
-}
-
-/** Zengin içerik sayfasının metadata'sı (CLAUDE.md §6). */
-export function richMetadata(def: PrivateLessonDef): Metadata {
-  const page = getPrivateLessonPage(def);
-  return { title: page.title, description: page.description, alternates: { canonical: absoluteUrl(page.href) } };
 }

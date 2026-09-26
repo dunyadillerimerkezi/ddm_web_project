@@ -7,34 +7,21 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-25, P4 · Özel Ders alt türü — commit bekliyor)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-25, P4 · Online alt türü — commit bekliyor)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `d5b5fa9` (UI turu, kullanıcı). **P4 özel ders kodu çalışma ağacında, commit'lenmedi** (kullanıcıya sorulacak). |
-| **Son döküman commit'i** | `d5b5fa9`; bu oturumun döküman güncellemeleri commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**155 statik sayfa**, 137'den) · `check-links` **19 benzersiz / 809 çift** (22/742'den; çift artışı yeni sayfaların footer'ındaki mevcut ölü hedefler) · 72/72 kurs tarihi üretiliyor · 18 özel ders × 360/390/999/1440 px taşma ve konsol hatası yok, tek H1 |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · **Özel Ders 18 (P4 alt tür 1)** |
-| **Aktif faz** | P4 Zengin İçerik — **özel ders tamam** (9 dil + 9 sınav; YDS Kurs Dönemi yayınlanmadı → 301). Sıradaki alt tür: **online (8)** |
-| **Bir sonraki somut adım** | Kullanıcı onayı → P4 özel ders commit'i (kod + döküman ayrı); sonra P4 "online" Aşama 0: `online-*-egitimi` kayıtlarını dök (Çince=Almanca %100 kopya, "8 kişilik grup" çelişkisini sor) |
+| **Son kod commit'i** | `b21aac7` (kullanıcı; P4 özel ders kod + döküman tek commit). **P4 online kodu çalışma ağacında, commit'lenmedi.** Aynı ağaçta paralel UI turu (Dil Kursu) değişiklikleri de var — commit'te ayrılmalı. |
+| **Son döküman commit'i** | `b21aac7`; bu oturumun döküman güncellemeleri commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**164 statik sayfa**, 155'ten) · `check-links` **18 benzersiz / 694 çift** (19/809'dan) · 72/72 kurs tarihi üretiliyor · 9 online sayfa × 1440/390/360 px taşma ve konsol hatası yok, tek H1, 497–581 kelime |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · Özel Ders 18 (P4-1) · **Online 8 + çatı (P4-2)** |
+| **Aktif faz** | P4 Zengin İçerik — özel ders ✅, **online ✅** (8 dil + `/diger-program/online-dil-egitimi`). Sıradaki alt tür: **nedir (8)** |
+| **Bir sonraki somut adım** | Kullanıcı onayı → P4 online commit'i (kod + döküman ayrı; UI turu dosyalarını karıştırmadan; `public/assets/online_education*.jpg` ve sınav hero fotoğrafları izlenmiyor ama kod onlara bağlı → kullanıcı ekler); sonra P4 "nedir" Aşama 0 |
 | **Yarım kalan iş** | Yok. |
-| **Engeller** | Kalan 19 ölü hedef: footer'daki `/diger-program/{business-english,cocuklar-icin-ingilizce-kursu,online-dil-egitimi,tercume-hizmetleri}` ve `/ogrenci-yorumlari` → P4/P7 · proficiency `nedir/ornek-sinav-sorulari` (21'er, üniversite sayfalarındaki sabit liste) → P4 nedir/tekil · yurtdışı alt sayfaları (1'er) → P4 |
-| **Bekleyen kullanıcı kararları** | **GMAT/GRE grup büyüklüğü çelişkisi:** firma metni "maksimum iki veya üç kişilik özel gruplar", P3 tablosu "en fazla 2 kişi" — bu iki sayfada tablonun "Kişi sayısı" satırı gizli · sınav özel ders hero fotoğrafı (şimdilik 9 sayfada aynı, 736×1104 küçük) · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD (özel ders SSS'leri FAQPage için hazır) · Search Console verisi (özel ders kalıcılığı) |
-| **Bilinen veri notları** | Joomla `?id=` 301'leri (kurs tarihi ve özel ders) sorgu dizesini hedefe taşıyor (Next.js davranışı, `redirects()` ile kapatılamaz; canonical temiz) — gerekirse Faz 8'de proxy ile · özel ders `.html` 301'leri Faz 8 genel kuralına bırakıldı (kullanıcı talimatı) · Türkçe kurs tarihleri 2022 · TOEFL ana kaydında h1 yok · 10 dil sayfasında fiyat bölümü yok (karar 2026-09-24) |
-| **Kalıcı kurallar** | P4 içerik kuralı: firma metni birebir (yalnız yazım düzeltmesi, `edits`), genel bilgi ayrı alanda + resmi kaynak yorumda + sayfada "Son güncelleme" (CLAUDE.md §5) · P4 tasarım: hero → 1 baskın bölüm (dil: seviye merdiveni, sınav: format kartları) → firma metni → tek gri tablo → SSS (CLAUDE.md §9) · UI turu: TopBar yok, ilk bölüm header'ın arkasından · `soon` bayrağı (§10) · hub linkleri `isProducedPage()` süzgecinden |
-
----|---|
-| **Son kod commit'i** | `507e3e4` (UI turu 1. kısım, kullanıcı commit'ledi; P3 `3715727` ile gitti). **Çalışma ağacında commit bekleyen:** site geneli header şeridi kuralı (`globals.css`) + sınav logoları (`data/home.ts`, `CourseChipCard`) — kullanıcı kendisi commit'leyecek. Yeni logo dosyaları (`gre_logo.png`, `osym_logo.png`, `toeic_logo.jpg`) izlenmiyor ama kod onlara bağlı → kodla birlikte eklenmeli. |
-| **Son döküman commit'i** | bkz. `git log`; UI turu notu (CLAUDE.md §9 + §7) ve bu dosya commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**133 statik sayfa**) · `check-links` **22 benzersiz / 742 çift** (28/957'den) · 7 hub 1440/999/390/360 px'te yatay taşma yok, tek H1 |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · **Kategori Hub'ları 7 (P3)** |
-| **Aktif faz** | P3 **tamam** (kod + döküman yazıldı, commit bekliyor). Sıradaki: **P4 Zengin İçerik** — ilk alt tür özel ders (17 sayfa, `/diger-program/ozel-dersler` hub'ı hazır bekliyor) |
-| **Bir sonraki somut adım** | Kullanıcı onayı → P3 commit'i (kod + döküman ayrı); sonra P4 Aşama 0: özel ders kayıtlarını `site_content.json`'dan dök, ortak iskeleti çıkar |
-| **Yarım kalan iş** | Yok. Kullanıcıdan bekleniyor: güncel TOEFL sınav ücreti · sınav özel ders sayfalarının Search Console tıklama verisi (P4 kararı) |
-| **Engeller** | Kalan 22 ölü hedef: footer'daki `/diger-program/{business-english,cocuklar-icin-ingilizce-kursu,online-dil-egitimi,tercume-hizmetleri}` ve `/ogrenci-yorumlari` (133'er) → P4/P7 · proficiency `nedir/ornek-sinav-sorulari/ozel-ders` (21'er) → P4 · ana sayfadaki yurtdışı alt sayfaları + birkaç dil alt sayfası (1'er) → P4. Bunlar Next.js önbelleğinde 404 prefetch olarak da görünüyor (P3 öncesinden beri). |
-| **Bekleyen kullanıcı kararları** | #2 yorum/duyuru tekil mi · #4 form backend'i · #5 şube fotoğrafları/haritası · #6 JSON-LD (hub SSS'leri FAQPage için hazır) · sınav özel ders sayfalarının kalıcılığı (P4 sonunda) |
-| **Bilinen veri notları** | Türkçe kurs tarihleri kaynakta 2022 · TOEFL kaydında h1 yok · Fransızca aile birleşiminde 2 h1 · 17 üniversite kaydında H1 yok · YÖKDİL 5 yıl geçerliliği yalnız ikincil kaynakta (hub tablosunda dipnotlu) · 10 dil sayfasındaki **fiyat bölümü kaldırıldı** (kullanıcı kararı 2026-09-24; satırlar kaynakta duruyor, basılmıyor) — H1/title'daki "…ve Ders Fiyatları" ifadesi için karar bekleniyor · YÖKDİL sayfasındaki ÖSYM başvuru ücreti (1.200/1.800 TL) sınav ücreti olarak duruyor |
-| **Kalıcı kurallar** | UI turu: TopBar yok, her sayfanın ilk bölümü header'ın arkasından başlar (CLAUDE.md §9 UI notu) · `lib/nav.ts` `soon` bayrağı (CLAUDE.md §10) · hub içerik kuralı ve tasarım akışı (CLAUDE.md §5, §9 P3 notu) · hub'larda her link `lib/hubLinks.ts` → `isProducedPage()` süzgecinden geçer |
+| **Engeller** | Kalan 18 ölü hedef: `/ogrenci-yorumlari` (footer) → P7 · proficiency `nedir/ornek-sinav-sorulari` (21'er) → P4 nedir/tekil · Almanca/Çince/Türkçe tekil ve yurtdışı alt sayfaları (1'er) → P4 · `/aktivite-aktiviteler`, `/duyurular` (1'er) → P7 |
+| **Bekleyen kullanıcı kararları** | GMAT/GRE grup büyüklüğü çelişkisi (firma "2-3 kişilik", P3 tablosu "en fazla 2"; satır gizli) · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD (özel ders + online SSS'leri FAQPage için hazır) · Search Console verisi (özel ders kalıcılığı) · dile özgü online fotoğraflar (isteğe bağlı; şimdi 7 dil aynı genel görseli kullanıyor) |
+| **Bilinen veri notları** | Joomla `?id=` 301'leri sorgu dizesini hedefe taşıyor (Next.js davranışı; canonical temiz) · `.html` 301'leri Faz 8 · online sayfalarında "Skype" kaynakta kaldı (kullanıcı kararı; Skype Mayıs 2025'te kapandı) · HSK ve SIELE'nin evden sınav seçeneğinin Türkiye'de açık olduğu doğrulanamadı (sayfada not) · İtalyanca sınavlar için yalnız "merkezde" yazıldı (evden seçenek resmi sayfalarda yok ama "yoktur" da denmiyor) |
+| **Kalıcı kurallar** | P4 içerik kuralı (CLAUDE.md §5) · P4 tasarım (CLAUDE.md §9 — online: "nasıl işler" akışı baskın, adım metinleri firma cümleleri) · UI turu: TopBar yok, ilk bölüm header'ın arkasından · `soon` bayrağı (§10) · hub linkleri `isProducedPage()` süzgecinden · zengin içerik sayfaları tek listeden: `lib/richPages.ts` |
 
 ---
 
@@ -72,6 +59,57 @@
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-25 · Opus 5.5 · P4 — Online eğitim (8 sayfa + çatı) — commit bekliyor
+- **Aşama 0:** 8 sayfa aynı şablon (h1 + 3 paragraf / 5 cümle, 91–93 kelime); yalnız dil adı ve öğretmen uyruğu değişiyor.
+  Üç meta description başka dilden kopya (Çince→"İtalyanca", İtalyanca→"Rusça", Rusça→"İspanyolca") → düzeltildi, build
+  bekçisi eklendi (açıklamada dil adı yoksa düşer). Yazım: "Profosyonel", "hazırlanmaktayız", "öğretmen üyelerimiz"
+  (Rusça/Türkçe) — kelime düzeyinde `fixes`. "8 kişilik grup" çelişki DEĞİL (dil kursu sınıfları da 8). `?id=` kopyası yok.
+- **Kararlar (kullanıcı):** "Skype" kalsın · çatı sayfası `/diger-program/online-dil-egitimi` bu turda · tasarım: baskın bölüm
+  "nasıl işler" 4 adım (adım metinleri firma cümleleri) + "sınav online mı" destek bölümü · "içeriği biraz açabilirsin ama
+  değiştirme" · hero'da kullanıcının online eğitim fotoğrafları, "canlı ders" kartı alttaki bölümde.
+- **Yeni:** `data/onlineLessons.ts` (8 dil + `ONLINE_HUB`), `lib/onlineContent.ts` (iskeleti doğrulayan çözücü: P1.1 hero,
+  P3/P1.2/P1.3/P2 adımlar), `lib/richPages.ts` (tüm zengin içerik alt türleri tek liste; dağıtıcılar buradan sorar),
+  bileşenler `OnlineSteps`, `ExamModes`, `OnlineCatalog`, `CallCard` (+ CSS), 5 ikon (wifi, kamera, mikrofon, klavye,
+  ekran). `RichBlock.compare` artık serbest sütunlu; `RichPage.family` / `cta` alt türe göre.
+- **Genel bilgi:** sınavların evden/merkezde yapılışı resmi kaynaklardan doğrulandı (ETS, IELTS, Pearson, Cambridge, ÖSYM,
+  Goethe, TestDaF, telc, ÖSD, FEI, CCI Paris, Cervantes/SIELE, Siena/Perugia/Dante, Puşkin Enstitüsü, CTI, YEE).
+  Evden: TOEFL, IELTS Academic, SIELE, HSK, TORFL (bazı merkezler). Kaynak URL'leri veri dosyasında yorumda.
+- **Fotoğraf:** İngilizce `online_education2`, çatı `online_education3`, diğer 7 dil genel `online_education` (2 ve 3 İngilizceye
+  özgü). Sınav özel ders hero'ları da kullanıcının yeni fotoğraflarıyla ayrıştı (`study_exam*` ikisi kırpılınca bozuk yazı
+  gösterdiği için kullanılmadı).
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ 164 · check-links 18/694 · 72/72 kurs tarihi · 9 sayfa × 3 genişlik temiz.
+- **code-review (high):** 8 bulgunun 6'sı düzeltildi — "hazırlanmaktayız" → "hazırlanmaktadır" (edilgen cümle; ilk
+  düzeltme yanlıştı) · çatıda şube sınıf mevcudu satırı kaldırıldı (dile göre değişiyor) · çatı h2'lerine tek paragraf
+  bekçisi · `pageRegistry` zengin sayfaları `RICH_PATHS`ten alır (tek liste) · ölü kod · SSS'de "görüntülü" çıkarımı
+  kaldırıldı. Açık: çatı hero fotoğrafı 735 px (düşük) · 2 sınavlı dilde ızgara `auto-fit`.
+
+### 2026-09-25 · Opus 5.5 · UI turu — Dil Kursu sayfası (10 dil)
+- **Seçimler:** sıra yeni · Neden-dil A · Hakkında B · Takvim B · Seviyeler A · Neden DDM A · Model A · SSS A · Diğer diller B.
+- **Yeni:** `data/languageExtras.ts` (fayda kartları, fotoğraf, nl/tr/speak için evrensel "Neden…" metni),
+  `lib/languageFaq.ts` (takvim ayrıştırıcı + olgulardan SSS), bileşenler `LanguageBenefits`, `AboutBento`,
+  `LevelLadder`, `WeekSchedule`, `WhyDdm`, `TeachingCycle`, `FaqAside`, `LanguageLinks` (+ CSS). `Faq.icon`
+  opsiyonel, `Accordion` ikon basar. Hero rakam şeridi 1320px kapsayıcıya hizalandı (tüm PageHero'lar).
+- **Silinen:** `LevelExplorer`, `LevelPanel`, `ProgressTrack` (+ CSS) — başka kullanan yoktu.
+- **Bağımlılık:** `LevelLadder`, P4'ün `data/privateLessonsShared.ts`'indeki `CEFR_NAMES/CEFR_CAN`'i kullanır
+  (iki sabit `export` yapıldı) — bu dosya commit'lenmeden dil kursu kodu derlenmez.
+- **Kaynak hatası (kullanıcı onayıyla düzeltildi):** Türkçe "Neden DDM" listesinde "Yüz yüze Korece eğitimleri" →
+  "Türkçe". Yeni mekanizma: `LanguageContentMap.edits` (satır → düzeltme), `getLanguagePage` uygular, kullanılmayan anahtar build'i düşürür.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (155, P4 dahil) · 10 dil × 1440/390/360 taşma yok, tek H1, konsol temiz ·
+  seviye sekmeleri tık + klavye test edildi.
+- **Düzeltme turu (kullanıcı geri bildirimi):** Hakkında kutularına başlık + ikon (`AboutBento` `TOPIC_RULES`,
+  eşleşmeyen paragraf build'i düşürür) · takvimde hafta içi önce (`parseSchedule` sıralar) · şube tarihleri yeni
+  `CourseDateList` ile alt alta satır, SSS'nin altında · öğrenci yorumları kalktı (`TestimonialsCarousel` artık
+  hiçbir sayfada kullanılmıyor, dosya duruyor) · hero'da illüstrasyon yerine dil fotoğrafı (`PageHero` yeni `photo`
+  prop'u, mask-image ile yumuşak geçiş; yeni fotoğraflar gelince `LANGUAGE_EXTRAS.photo` yerine hero'ya ayrı alan açılacak).
+  tsc ✅ · lint ✅ · build ✅ 155 · 10 dil × 3 genişlik taşma yok.
+- **Hero geçişi (kullanıcı: "resim daha çok görünsün"):** `--ddm-photo-fade-x/-y/-strip` yalnız kenarlarda ince
+  smoothstep erime; fotoğrafın üstünde lacivert katman yok. Aynı maske P4 `RichHero`'ya da uygulandı (özel ders +
+  online sayfaları; eski `::after` lacivert degrade kalktı). Dil özel ders hero'ları (9) şehir fotoğrafı yerine
+  kullanıcının eklediği `private_lesson{,2,3}.jpg` (sırayla dağıtılır, `data/privateLessonsLanguage.ts` `HERO_PHOTOS`);
+  sınav özel ders fotoğrafları aynen. Görseller küçük (620–735px) — retina'da hafif yumuşak. build ✅ 164.
+- **Fotoğraf genişliği (2026-09-26, kullanıcı: "resimler yarım görünüyor"):** her iki hero'da fotoğraf `--ddm-hero-photo-w`
+  (55%; 1000–1279px'te 46%). Kullanıcı "laciverti azalt" dedi: erime yalnız ince kenarlarda — fade-x 0→14%, fade-y son %10.
 
 ### 2026-09-25 · Opus 5.5 · P4 — Özel Ders (18 sayfa) — commit bekliyor
 - **Aşama 0:** 19 temiz + 21 Joomla `?id=` kaydı; kopyaların gövdesi temizlerle birebir. Şablon artığı yok (özgün metin 91–253

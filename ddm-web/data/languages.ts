@@ -297,6 +297,10 @@ const tr: LanguageContentMap = {
   ignored: [
     "Türkçe Kursu | Türkçe Özel Ders | Türkçe Eğitim Seviyeleri | Türkçe Öğrenmek Zor mu? | Kampanyalı Türkçe Kursları",
   ],
+  // Kaynakta kopyala-yapıştır hatası: Türkçe sayfasında "Korece" (kullanıcı onayı, 2026-09-25).
+  edits: {
+    "Yüz yüze Korece eğitimleri": "Yüz yüze Türkçe eğitimleri",
+  },
 };
 
 /* ---------------------------------------------------------------

@@ -41,6 +41,19 @@
   flex: 1;
 }
 
+/* UI turu (2026-09-25): isteğe bağlı soru ikonu (`Faq.icon`). */
+.icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-sky-ink);
+}
+
 .caret {
   flex: none;
   display: inline-flex;

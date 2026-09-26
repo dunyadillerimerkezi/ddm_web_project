@@ -101,7 +101,7 @@ export type PrivateLessonDef = {
  * ------------------------------------------------------------- */
 export type CefrKey = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 
-const CEFR_NAMES: Record<CefrKey, string> = {
+export const CEFR_NAMES: Record<CefrKey, string> = {
   A1: "Başlangıç",
   A2: "Temel",
   B1: "Orta",
@@ -110,7 +110,7 @@ const CEFR_NAMES: Record<CefrKey, string> = {
   C2: "Ustalık",
 };
 
-const CEFR_CAN: Record<CefrKey, string> = {
+export const CEFR_CAN: Record<CefrKey, string> = {
   A1: "Kendinizi tanıtır, günlük hayattaki çok temel ifadeleri anlar ve kullanırsınız.",
   A2: "Alışveriş, iş ve yakın çevre gibi rutin konularda basit ve doğrudan iletişim kurarsınız.",
   B1: "İşte, okulda ve seyahatte karşılaşılan durumların çoğunda kendinizi ifade edersiniz.",

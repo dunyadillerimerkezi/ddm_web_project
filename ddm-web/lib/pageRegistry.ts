@@ -25,7 +25,7 @@ import { BRANCH_LIST } from "@/data/branches";
 import { EXAMS } from "@/data/exams";
 import { examHref } from "@/lib/examContent";
 import { HUBS } from "@/data/hubs";
-import { PRIVATE_LESSONS } from "@/data/privateLessons";
+import { RICH_PATHS } from "@/lib/richPages";
 
 export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub" | "rich";
 
@@ -77,9 +77,9 @@ function hubPages(): PageRecord[] {
   return HUBS.map((h) => ({ href: h.path, kind: "hub" as const }));
 }
 
-/** P4 — Zengin İçerik alt sayfaları (özel ders; `data/privateLessons.ts`). */
+/** P4 — Zengin İçerik alt sayfaları — tüm alt türler tek listeden (`lib/richPages.ts`). */
 function richPages(): PageRecord[] {
-  return PRIVATE_LESSONS.map((d) => ({ href: d.path, kind: "rich" as const }));
+  return RICH_PATHS.map((href) => ({ href, kind: "rich" as const }));
 }
 
 /** Üretilen tüm sayfaların düz listesi (güncel sayı: `npm run build` çıktısı — burada elle tutulmaz). */

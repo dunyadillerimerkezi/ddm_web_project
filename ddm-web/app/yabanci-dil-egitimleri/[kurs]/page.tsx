@@ -4,73 +4,42 @@ import { notFound } from "next/navigation";
 import { SiteChrome } from "@/components/layout";
 import { PageHero } from "@/components/sections/PageHero";
 import { PageSection } from "@/components/sections/PageSection";
-import { ScheduleTable } from "@/components/sections/ScheduleTable";
-import { AboutCertification, type CertBox } from "@/components/sections/AboutCertification";
-import { LevelExplorer } from "@/components/sections/LevelExplorer";
-import { BulletPanel } from "@/components/sections/BulletPanel";
-import { LinkRow } from "@/components/sections/LinkRow";
-import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
+import { LanguageBenefits } from "@/components/sections/LanguageBenefits";
+import { AboutBento } from "@/components/sections/AboutBento";
+import type { CertBox } from "@/components/sections/AboutCertification";
+import { LevelLadder } from "@/components/sections/LevelLadder";
+import { WeekSchedule } from "@/components/sections/WeekSchedule";
+import { WhyDdm } from "@/components/sections/WhyDdm";
+import { TeachingCycle } from "@/components/sections/TeachingCycle";
+import { FaqAside } from "@/components/sections/FaqAside";
+import { CourseDateList } from "@/components/sections/CourseDateList";
+import { LanguageLinks, type LanguageLinkItem } from "@/components/sections/LanguageLinks";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { Accordion } from "@/components/ui";
 import { LANGUAGES, getLanguageDef } from "@/data/languages";
+import { LANGUAGE_EXTRAS } from "@/data/languageExtras";
 import type { HomeStat } from "@/data/home";
-import { DEFAULT_BRANCH } from "@/data/branches";
-import { getLanguagePage, type LanguageDef, type LanguagePage } from "@/lib/languageContent";
+import { getLanguagePage, type LanguageDef } from "@/lib/languageContent";
+import { buildLanguageFaqs, courseFacts, factTiles, parseSchedule, yearsOfExperience } from "@/lib/languageFaq";
 import { absoluteUrl } from "@/lib/site";
-import type { Crumb, Faq, LinkRowItem, ScheduleColumn, ScheduleTableRow } from "@/lib/types";
+import type { Crumb } from "@/lib/types";
 
 /**
  * Faz 6.4 — Dil Kursu sayfası (10 dil, tek dinamik route).
  *
- * ADIM 1: Bölüm 1+2+3 (Breadcrumb + PageHero + gömülü güven şeridi) dolduruldu.
- * ADIM 2: Bölüm 3 (ders programı tablosu, `#kurs-takvimi`) + Bölüm 4
- * (hakkında + sertifika kutuları, `#kur-sinavi` `#sertifika`) dolduruldu.
- * ADIM 3: Bölüm 5 (seviyeler, `#seviyeler`) dolduruldu — yalnız G bölümü
- * olan 6 dilde render edilir.
- * ADIM 4: Bölüm 6 (Neden DDM/F) + Bölüm 7 (Eğitim Modelimiz/I) + Bölüm 8
- * (Fiyatlandırma/J) dolduruldu. KARAR (kullanıcı, 2026-09-24): Bölüm 8
- * yayından kaldırıldı — fiyat basılmaz. Satırlar `languageContent` içinde
- * okunmaya devam eder (kapsam denetimi), yalnız render edilmez.
- * ADIM 5: Bölüm 9 (şube/kurs tarihleri LinkRow, K) + Bölüm 10 (öğrenci
- * yorumları carousel, site geneli) + Bölüm 11 (SSS Accordion, E+H) dolduruldu.
- * ADIM 6: Bölüm 12 (diğer diller LinkRow) + Bölüm 13 (alt CTA `#kayit`)
- * dolduruldu — İTALYANCA pilot dil olarak tamamlandı, sonra 10 dile genişletildi.
+ * İçerik rolleri (A–K) `lib/languageContent.ts`te çözülür. Fiyatlandırma
+ * (J) kullanıcı kararıyla (2026-09-24) basılmaz; satırlar kapsam denetimi
+ * için okunmaya devam eder.
+ *
+ * UI turu (2026-09-25, kullanıcı seçimleri): bölüm sırası yeniden kuruldu —
+ * hero → Neden {dil} öğrenmelisiniz (E, SSS'den taşındı; kaynakta yoksa
+ * `data/languageExtras.ts`teki evrensel metin) → Hakkında (kutular) →
+ * Seviyeler (6 basamak) → Kurs takvimi (haftalık, hafta içi önce) → Neden
+ * DDM → Eğitim modeli (çember) → SSS → şube ve kurs tarihleri (satırlar) →
+ * diğer diller → iletişim. Öğrenci yorumları kullanıcı isteğiyle kalktı; hero
+ * illüstrasyon yerine dilin fotoğrafını taşır (özel ders hero'su gibi).
+ * "Ücretsiz Seviye Testi" butonu kalktı (böyle bir sınav yok); alt iletişim
+ * kartında telefon/e-posta yok, buton tüm şubeleri listeleyen sayfaya gider.
  */
-
-/**
- * C (programSchedule) satırları 10 dilde de birebir aynı, biçimi sabit:
- * "Program > Günler | Saatler HH:MM - HH:MM" ya da "Program > Günler
- * Saatler | HH:MM - HH:MM" (kaynağın kendi iç tutarsızlığı — "Saatler"
- * kelimesinin pipe'a göre konumu değişiyor). Metin YENİDEN YAZILMIYOR,
- * yalnız tabloya bölünüyor.
- */
-const SCHEDULE_COLUMNS: ScheduleColumn[] = [
-  { key: "program", head: "PROGRAM", rowLabel: null },
-  { key: "days", head: "GÜNLER", rowLabel: "GÜNLER" },
-  { key: "hours", head: "SAAT", rowLabel: "SAAT" },
-  { key: "cta", head: "", rowLabel: null },
-];
-
-function stripSaatler(s: string): string {
-  return s.replace(/Saatler\s*/i, "").trim();
-}
-
-function scheduleRows(lines: string[]): ScheduleTableRow[] {
-  return lines.map((line, i) => {
-    const [program, rest] = line.split(">").map((s) => s.trim());
-    const [daysRaw, hoursRaw] = rest.split("|").map((s) => s.trim());
-    return {
-      key: `${i}`,
-      group: null,
-      cells: [
-        { kind: "title", title: program, note: null },
-        { kind: "text", value: stripSaatler(daysRaw), pending: "gün bilgisi bekleniyor" },
-        { kind: "text", value: stripSaatler(hoursRaw), pending: "saat bilgisi bekleniyor" },
-        { kind: "cta", label: "Ön Bilgi Formu", href: "#kayit" },
-      ],
-    };
-  });
-}
 
 /**
  * D (certification) her zaman tam 2 paragraf: [0] kur sınavı + yerel
@@ -86,33 +55,13 @@ function certBoxes(def: LanguageDef, certification: string[] | null): CertBox[] 
   ];
 }
 
-/**
- * Bölüm 11 SSS — kaynakta soru-cevap bloğu yok, ama E ve H başlıkları zaten
- * soru formunda (bkz. plan §3 karar gerekçesi). Soru = kaynak başlığın
- * birebir kendisi; cevap = kaynak paragrafları/maddeleri. Bu satırlar
- * BAŞKA HİÇBİR yerde tekrar render edilmiyor — metin tekrarı yok.
- */
-function buildFaqs(def: LanguageDef, page: LanguagePage): Faq[] {
-  const faqs: Faq[] = [];
-  const whyLearnRef = def.content.whyLearn;
-  if (whyLearnRef && page.whyLearn) {
-    faqs.push({ question: whyLearnRef.heading ?? page.h1, answer: page.whyLearn });
-  }
-  const whoCanJoinRef = def.content.whoCanJoin;
-  if (whoCanJoinRef && page.whoCanJoin) {
-    faqs.push({ question: whoCanJoinRef.heading, answer: page.whoCanJoin.items, format: "list" });
-  }
-  return faqs;
-}
-
-/** Bölüm 12 · Diğer diller — bayrağı olmayan `speak` için sohbet-balonu ikonu. */
-function otherLanguageItems(current: LanguageDef): LinkRowItem[] {
+/** Diğer diller — bayrağı olmayan `speak` sohbet-balonu ikonuyla. */
+function otherLanguageItems(current: LanguageDef): LanguageLinkItem[] {
   return LANGUAGES.filter((l) => l.slug !== current.slug).map((l) => ({
     label: l.name,
     href: `/yabanci-dil-egitimleri/${l.slug}`,
-    sub: l.code,
     flag: l.flag,
-    icon: l.flag ? null : "sohbet",
+    greeting: l.greeting,
   }));
 }
 
@@ -165,14 +114,17 @@ export default async function DilKursuPage({
   const def = getLanguageDef(kurs);
   if (!def) notFound();
   const page = getLanguagePage(def);
-  const faqs = buildFaqs(def, page);
+  const extra = LANGUAGE_EXTRAS[def.key];
+  const slots = parseSchedule(page.programSchedule, `${def.slug}/programSchedule`);
+  const faqs = buildLanguageFaqs(def, page, slots);
 
-  // Eğitim Modelimiz (gray) sonrası bölümler — var olanlar sırayla light/gray
-  // alternatif; isteğe bağlı bölüm (şube linkleri, SSS) yoksa sıra kaymaz.
-  const tail = [page.branchLinks ? "branches" : null, "testimonials", faqs.length > 0 ? "faq" : null, "others", "cta"].filter(
-    (k): k is string => k !== null,
-  );
-  const ground = (key: string): "light" | "gray" => (tail.indexOf(key) % 2 === 0 ? "light" : "gray");
+  // "Neden … Öğrenmelisiniz?" — kaynak metin (E) varsa o, yoksa eklenen evrensel metin.
+  const whyLearn =
+    page.whyLearn && page.whyLearn.length > 0
+      ? { title: def.content.whyLearn?.heading ?? page.h1, paragraphs: page.whyLearn }
+      : extra.whyLearnAdded
+        ? { title: extra.whyLearnAdded.heading, paragraphs: extra.whyLearnAdded.paragraphs }
+        : null;
 
   const crumbs: Crumb[] = [
     { label: "Anasayfa", href: "/" },
@@ -189,8 +141,8 @@ export default async function DilKursuPage({
         showCertBadge={page.certification !== null}
         h1={page.h1}
         lead={page.heroLead.join(" ") || null}
-        primary={{ label: "Ücretsiz Seviye Testi", href: "#kayit" }}
-        secondary={{ label: "Bilgi Al", href: "#kurs-takvimi" }}
+        primary={{ label: "Bilgi Al", href: "#kurs-takvimi" }}
+        secondary={{ label: "", href: null }}
         art={{
           name: def.key,
           flag: def.flag,
@@ -198,85 +150,85 @@ export default async function DilKursuPage({
           skill: def.skill,
           scale: def.scaleChip,
         }}
+        photo={extra.photo}
         stats={trustStats(def)}
       />
 
-      <PageSection id="kurs-takvimi" ground="gray" kicker="KURS TAKVİMİ" title={def.content.programSchedule.heading}>
-        <ScheduleTable columns={SCHEDULE_COLUMNS} rows={scheduleRows(page.programSchedule)} layout="prog4" />
-      </PageSection>
+      {whyLearn && (
+        <LanguageBenefits
+          kicker={`NEDEN ${def.name.toLocaleUpperCase("tr")}`}
+          title={whyLearn.title}
+          paragraphs={whyLearn.paragraphs}
+          photo={extra.photo}
+          benefits={extra.benefits}
+        />
+      )}
 
-      <AboutCertification
+      <AboutBento
         // G (seviyeler) bölümü olmayan dillerde #seviyeler çıpası buraya taşınır (plan §3).
         id={page.levelGroups.length === 0 ? "seviyeler" : undefined}
         kicker="HAKKINDA"
         title={def.content.about.heading ?? page.h1}
         paragraphs={page.about}
+        facts={factTiles(courseFacts(def, page))}
         boxes={certBoxes(def, page.certification)}
       />
 
       {page.levelGroups.length > 0 && (
-        <PageSection id="seviyeler" ground="gray" kicker="SEVİYELER" title={page.levelGroupsHeading ?? page.h1}>
-          <LevelExplorer groups={page.levelGroups} idPrefix="seviyeler" label="Seviye grupları" />
-        </PageSection>
-      )}
-
-      <BulletPanel
-        ground="light"
-        kicker="NEDEN DDM"
-        title={page.whyChooseDDM.title}
-        lead={page.whyChooseDDM.intro}
-        icon="belge"
-        items={page.whyChooseDDM.items}
-      />
-
-      <BulletPanel
-        ground="gray"
-        kicker="EĞİTİM MODELİMİZ"
-        title={def.content.teachingModel.heading}
-        lead={page.teachingModel.intro}
-        icon="sohbet"
-        items={page.teachingModel.items}
-      />
-
-      {page.branchLinks && (
-        <LinkRow
-          id="sube-kurs-tarihleri"
-          ground={ground("branches")}
-          kicker="ŞUBE VE KURS TARİHLERİ"
-          title={def.content.branchLinks?.heading ?? page.h1}
-          items={[...page.branchLinks.branch, ...page.branchLinks.extra]}
-          density="compact"
-          icon="konum"
+        <LevelLadder
+          id="seviyeler"
+          kicker="SEVİYELER"
+          title={page.levelGroupsHeading ?? page.h1}
+          groups={page.levelGroups}
         />
       )}
 
-      <TestimonialsCarousel ground={ground("testimonials")} />
+      <PageSection id="kurs-takvimi" ground="light" kicker="KURS TAKVİMİ" title={def.content.programSchedule.heading}>
+        <WeekSchedule slots={slots} cta={{ label: "Ön Bilgi Formu", href: "#kayit" }} />
+      </PageSection>
+
+      <WhyDdm
+        kicker="NEDEN DDM"
+        title={page.whyChooseDDM.title}
+        intro={page.whyChooseDDM.intro}
+        items={page.whyChooseDDM.items}
+        years={yearsOfExperience(page.whyChooseDDM.intro)}
+      />
+
+      <TeachingCycle
+        kicker="EĞİTİM MODELİMİZ"
+        title={def.content.teachingModel.heading}
+        intro={page.teachingModel.intro}
+        items={page.teachingModel.items}
+      />
 
       {faqs.length > 0 && (
-        <PageSection
+        <FaqAside
           id="sss"
-          ground={ground("faq")}
           kicker="SIKÇA SORULAN SORULAR"
           title={`${def.name} kursu hakkında sık sorulanlar`}
-        >
-          <Accordion items={faqs} name="sss" />
-        </PageSection>
+          items={faqs}
+          cta={{ label: "İletişime Geçin", href: "/ddm-iletisim" }}
+        />
       )}
 
-      <LinkRow
-        ground={ground("others")}
-        kicker="DİĞER DİLLER"
-        title="Yabancı Dil Kursları"
-        items={otherLanguageItems(def)}
-        density="cards"
-      />
+      {page.branchLinks && (
+        <CourseDateList
+          id="sube-kurs-tarihleri"
+          kicker="ŞUBE VE KURS TARİHLERİ"
+          title={def.content.branchLinks?.heading ?? page.h1}
+          branches={page.branchLinks.branch}
+          extras={page.branchLinks.extra}
+        />
+      )}
+
+      <LanguageLinks kicker="DİĞER DİLLER" title="Yabancı Dil Kursları" items={otherLanguageItems(def)} />
 
       <CtaBand
         id="kayit"
-        ground={ground("cta")}
+        ground="gray"
         title={page.teachingModel.closingCta}
-        sub={[DEFAULT_BRANCH.phone, DEFAULT_BRANCH.mail].filter(Boolean).join(" · ")}
-        primary={{ label: "İletişime Geçin", href: DEFAULT_BRANCH.href }}
+        primary={{ label: "İletişime Geçin", href: "/ddm-iletisim" }}
       />
     </SiteChrome>
   );

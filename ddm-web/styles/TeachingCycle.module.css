@@ -1,0 +1,163 @@
+/* ---------------------------------------------------------------
+ * TeachingCycle — Dil Kursu "Eğitim Modelimiz" (UI turu 2026-09-25, "A")
+ * Çember: maddeler `--x/--y` ile konumlanır; ışık `--duration-cycle`
+ * boyunca bir tur atar, her adım `--i/--n` sırasıyla vurgulanır.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.grid {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: var(--ddm-gap-col);
+  align-items: center;
+}
+
+.stage {
+  position: relative;
+  width: min(520px, 100%);
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+
+@media (max-width: 899px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.ring {
+  position: absolute;
+  inset: 10%;
+  border-radius: var(--radius-pill);
+  border: 2px dashed var(--ddm-sky-200);
+}
+
+/* Çember üstünde dönen ışık — dairenin kenarında küçük bir nokta. */
+.orbit {
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-pill);
+  animation: ddmSpin var(--duration-cycle) linear infinite;
+}
+
+.orbit::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-base);
+  box-shadow: 0 0 0 6px var(--ddm-sky-veil);
+}
+
+.core {
+  position: absolute;
+  inset: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-navy-900);
+  color: var(--ddm-white);
+  box-shadow: var(--shadow-card);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.step {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: clamp(120px, 14vw, 150px);
+  transform: translate(-50%, -32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-white);
+  border: 2px solid var(--ddm-sky-200);
+  color: var(--ddm-sky-ink);
+  box-shadow: var(--shadow-md);
+  /* Işık bu adıma geldiğinde vurgu: tur süresi / adım sayısı kadar kaydırılır. */
+  animation: ddmCycleStep var(--duration-cycle) ease-in-out infinite;
+  animation-delay: calc(var(--duration-cycle) / var(--n) * var(--i));
+}
+
+.label {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.35;
+  color: var(--ddm-navy-900);
+}
+
+/* --- mobil: dikey liste, kesik çizgiyle bağlı --- */
+@media (max-width: 759px) {
+  .stage {
+    aspect-ratio: auto;
+    width: 100%;
+  }
+
+  .ring {
+    display: none;
+  }
+
+  .steps {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .steps::before {
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: 28px;
+    bottom: 28px;
+    border-left: 2px dashed var(--ddm-sky-line);
+  }
+
+  .step {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    transform: none;
+    flex-direction: row;
+    text-align: left;
+    gap: var(--space-4);
+  }
+
+  .icon {
+    width: 56px;
+    height: 56px;
+    flex: none;
+  }
+
+  .label {
+    font-size: var(--ddm-text-body);
+  }
+}

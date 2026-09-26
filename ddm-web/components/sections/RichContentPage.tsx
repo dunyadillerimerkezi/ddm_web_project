@@ -2,6 +2,9 @@ import { SiteChrome } from "@/components/layout";
 import { RichHero } from "@/components/sections/RichHero";
 import { LevelStairs } from "@/components/sections/LevelStairs";
 import { FormatCards } from "@/components/sections/FormatCards";
+import { OnlineSteps } from "@/components/sections/OnlineSteps";
+import { ExamModes } from "@/components/sections/ExamModes";
+import { OnlineCatalog } from "@/components/sections/OnlineCatalog";
 import { RichAbout } from "@/components/sections/RichAbout";
 import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { RichFaq } from "@/components/sections/RichFaq";
@@ -9,16 +12,15 @@ import { CtaBand } from "@/components/sections/CtaBand";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { BRANCH_LIST } from "@/data/branches";
 import { byCourse } from "@/data/courseDates";
-import { PRIVATE_LESSONS } from "@/data/privateLessons";
-import { CONTACT_HREF, onlyProduced } from "@/lib/hubLinks";
+import { CONTACT_HREF, linkIfProduced, onlyProduced } from "@/lib/hubLinks";
 import type { RichBlock, RichPage } from "@/lib/richContent";
 
 /**
  * P4 — Zengin İçerik sayfası (onaylanan "B · seviye merdiveni" yönü, 2026-09-24).
  *
  * Ritim: lacivert hero → 1 baskın bölüm (dilde seviye merdiveni, sınavda format
- * kartları) → 2 destek (firma
- * metni + alanlar, karşılaştırma) → kısa SSS → CTA → ilgili sayfalar.
+ * kartları, online'da "nasıl işler" akışı) → 2 destek (firma metni + alanlar /
+ * sınavlar, karşılaştırma) → kısa SSS → CTA → ilgili sayfalar.
  * Zeminler bilinçli olarak sırayla gri/beyaz DÖNMÜYOR (P2 `blockGrounds()`
  * hatası tekrarlanmadı): gövde tek beyaz zemin, vurguyu bölümün kendisi taşır.
  */
@@ -35,12 +37,26 @@ function Block({ block }: { block: RichBlock }) {
         <ComparisonTable
           id={block.id}
           title={block.title}
+          lead={block.lead}
           firstLabel="Ölçüt"
-          columns={[
-            { key: "ozel", label: "Özel ders" },
-            { key: "grup", label: "Grup kursu" },
-          ]}
-          rows={block.rows.map((r) => ({ name: r.row, href: null, cells: { ozel: r.ozel, grup: r.grup } }))}
+          columns={block.columns}
+          rows={block.rows.map((r) => ({ name: r.row, href: null, cells: r.cells }))}
+        />
+      );
+    case "steps":
+      return <OnlineSteps {...block} />;
+    case "exams":
+      return <ExamModes {...block} />;
+    case "catalog":
+      // Üretilmemiş hedef düz metin kalır (ölü link basılmaz).
+      return (
+        <OnlineCatalog
+          id={block.id}
+          groups={block.groups.map((g) => ({
+            ...g,
+            cards: g.cards.map((c) => ({ ...c, href: linkIfProduced(c.href) })),
+            chips: g.chips.map((c) => ({ ...c, href: c.href && linkIfProduced(c.href) })),
+          }))}
         />
       );
     case "faq":
@@ -58,16 +74,7 @@ function related(page: RichPage) {
         ...byCourse(courseSlug).map((e) => ({ label: `${e.branchLabel} şubesi kurs tarihi`, href: `/${e.category}/${e.courseSlug}/${e.pageSlug}` })),
       ]),
     },
-    {
-      title: "Özel dersler",
-      links: onlyProduced([
-        { label: "Tüm özel dersler", href: "/diger-program/ozel-dersler" },
-        // Aynı kategorideki (dil / sınav) diğer özel dersler.
-        ...PRIVATE_LESSONS.filter((d) => d.path !== page.href && d.path.split("/")[1] === page.href.split("/")[1]).map(
-          (d) => ({ label: d.label, href: d.path }),
-        ),
-      ]),
-    },
+    { title: page.family.title, links: onlyProduced(page.family.links) },
     {
       title: "Şubelerimiz",
       links: onlyProduced([
@@ -92,7 +99,7 @@ export function RichContentPage({ page }: { page: RichPage }) {
       <CtaBand
         ground="light"
         title={`${page.label} programınızı birlikte planlayalım`}
-        sub="Seviyenizi ve hedefinizi size en yakın şubemizle konuşun."
+        sub={page.cta.sub}
         primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
       />
       <RelatedLinks title="İlgili sayfalar" groups={related(page)} />

@@ -71,20 +71,17 @@
   color: var(--ddm-sky-400);
 }
 
-/* Fotoğraf: sağ kenara taşar, soldan lacivert zemine erir. */
+/* Fotoğraf: sağ kenara taşar; soldan ve alttan lacivert zemine erir — Dil
+ * Kursu hero'suyla aynı maske (UI turu 2026-09-25): fotoğrafın üstünde
+ * yarı saydam lacivert katman yok, yalnız kenarlarda ince yumuşak geçiş. */
 .photo {
   position: absolute;
   top: calc(-1 * var(--ddm-header-flow-h));
   right: 0;
   bottom: 0;
-  width: 42%;
-}
-
-.photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, var(--ddm-navy-900) 0%, var(--ddm-navy-veil-35) 40%, var(--ddm-navy-veil-05) 100%);
+  width: var(--ddm-hero-photo-w);
+  mask-image: var(--ddm-photo-fade-x), var(--ddm-photo-fade-y);
+  mask-composite: intersect;
 }
 
 .img {
@@ -112,10 +109,7 @@
     width: auto;
     height: var(--ddm-rich-hero-photo-h);
     margin: var(--space-10) calc(-1 * var(--ddm-gutter)) 0;
-  }
-
-  .photo::after {
-    background: linear-gradient(180deg, var(--ddm-navy-900) 0%, var(--ddm-navy-veil-05) 55%);
+    mask-image: var(--ddm-photo-fade-strip);
   }
 
   .facts {

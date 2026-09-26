@@ -1,0 +1,170 @@
+/* ---------------------------------------------------------------
+ * OnlineCatalog — P4 online çatı sayfası: diller (bayraklı kartlar)
+ * + sınavlar (etiketler). Beyaz zemin; kartlar kenarlıklı, hover'da gölge.
+ * ------------------------------------------------------------- */
+.section {
+  scroll-margin-top: var(--ddm-sticky-top);
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.container {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.group + .group {
+  margin-top: var(--space-16);
+  padding-top: var(--space-16);
+  border-top: 1px solid var(--ddm-gray-divider);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.lead {
+  margin: var(--space-4) 0 0;
+  max-width: 72ch;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.7;
+  color: var(--ddm-gray-600);
+}
+
+.cards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--ddm-gap-card);
+  margin: var(--space-10) 0 0;
+  padding: 0;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: 100%;
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-white);
+  color: var(--ddm-navy-900);
+  text-decoration: none;
+  transition:
+    border-color var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft);
+}
+
+a.card:hover {
+  border-color: var(--ddm-sky-line);
+  box-shadow: var(--shadow-md);
+  transform: translateY(calc(-1 * var(--space-1)));
+}
+
+a.card:focus-visible {
+  outline: 2px solid var(--ddm-sky-mid);
+  outline-offset: 2px;
+}
+
+.flag {
+  flex: none;
+  border-radius: var(--radius-flag);
+  box-shadow: 0 0 0 1px var(--ddm-gray-200);
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cardLabel {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 800;
+}
+
+.greeting {
+  margin-top: var(--space-1);
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+.arrow {
+  margin-left: auto;
+  flex: none;
+  color: var(--ddm-sky-mid);
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.chipsLabel {
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  letter-spacing: var(--ddm-tracking-kicker);
+  text-transform: uppercase;
+  color: var(--ddm-gray-500);
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+}
+
+.chip,
+.chipLink {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--ddm-gray-200);
+  border-radius: var(--radius-pill);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  color: var(--ddm-gray-700);
+}
+
+.chipLink {
+  border-color: var(--ddm-sky-line);
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-navy-900);
+  text-decoration: none;
+  transition: background var(--duration-base) var(--ease-out-soft);
+}
+
+.chipLink:hover {
+  background: var(--ddm-sky-100);
+}
+
+.chipLink:focus-visible {
+  outline: 2px solid var(--ddm-sky-mid);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1099px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 459px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

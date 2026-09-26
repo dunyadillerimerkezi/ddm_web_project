@@ -127,6 +127,8 @@ export type Faq = {
   answer: string[];
   /** "prose" (varsayılan) → ayrı `<p>` paragrafları. "list" → `<ul><li>` madde listesi (H). */
   format?: "prose" | "list";
+  /** UI turu (2026-09-25): sorunun solunda ikon kutusu — verilmezse basılmaz. */
+  icon?: IconName;
 };
 
 /** Kurs takvimi satırı — tarih/gün/saat kaynak içerikte YOK, hepsi null gelir. */

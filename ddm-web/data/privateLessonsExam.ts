@@ -12,11 +12,19 @@ import { PRIVATE_LESSON_PHOTO, type PrivateLessonDef } from "@/data/privateLesso
 const SH = "/sinav-hazirlik-egitimleri";
 const UPDATED = "2026-09-25";
 
-const EXAM_PHOTO = {
-  src: "/assets/home_page_images/exam_preparation.jpg",
-  alt: "Kitap ve dizüstü bilgisayarla sınava çalışan öğrenci",
-  width: 736,
-  height: 1104,
+/** Sınav başına hero fotoğrafı — sınavın hedef kitlesine göre (kullanıcının eklediği görseller, 2026-09-25).
+ * study_exam.jpg ve study_exam_university.jpg kullanılmadı: kırpılınca "GIVE UP." / bozuk diploma yazısı görünüyor. */
+const A = "/assets";
+const EXAM_PHOTOS = {
+  toefl: { src: `${A}/study_exam2.jpg`, alt: "Kütüphanede kitap ve dizüstü bilgisayarla çalışan öğrenci", width: 736, height: 981 },
+  ielts: { src: `${A}/university1.jpg`, alt: "Yurt dışında bir üniversite kampüsünde ders çalışma masası", width: 900, height: 1200 },
+  toeic: { src: `${A}/office_photo.jpg`, alt: "Açık ofiste bilgisayar başında çalışan ekip", width: 700, height: 700 },
+  pte: { src: `${A}/home_page_images/yurtdisi-dil-egitimi2.jpg`, alt: "Yurt dışında tarihi bir kampüs binasının önünde öğrenciler", width: 6000, height: 4000 },
+  yds: { src: `${A}/home_page_images/exam_preparation.jpg`, alt: "Notlarıyla sınava çalışan öğrenci", width: 736, height: 1104 },
+  proficiency: { src: `${A}/university2.jpg`, alt: "Üniversite amfisinde derse katılan öğrenciler", width: 713, height: 713 },
+  gre: { src: `${A}/home_page_images/yurtdisi-egitim.jpg`, alt: "Yurt dışında bir üniversite kampüsünde yürüyen öğrenciler", width: 6000, height: 4000 },
+  gmat: { src: `${A}/home_page_images/is-ingilizcesi.jpg`, alt: "Toplantı masasında görüşen iş insanları", width: 6720, height: 4480 },
+  sat: { src: `${A}/university3.jpg`, alt: "Kampüs çimlerinde sohbet eden üniversite öğrencileri", width: 1024, height: 1024 },
 };
 
 /** `DDM'de X özel ders` — kaynakta başlığı olmayan firma paragraflarının bölüm başlığı. */
@@ -37,7 +45,7 @@ const TOEFL: PrivateLessonDef = {
     reasons: ["title: kaynak 64 karakter (≤60) — 'Kurs Programları' → 'Programlar'"],
   },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.toefl,
     intro: { heading: TOEFL_H1, take: [0] },
     split: true,
     facts: [
@@ -131,7 +139,7 @@ const IELTS: PrivateLessonDef = {
     reasons: ["title: kaynak 64 karakter (≤60) — 'Kurs Programları' → 'Programlar'"],
   },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.ielts,
     intro: { heading: IELTS_H1, take: [0] },
     split: false,
     facts: [
@@ -211,7 +219,7 @@ const TOEIC: PrivateLessonDef = {
     reasons: ["title: kaynak 64 karakter (≤60) — 'Kurs Programları' → 'Programlar'"],
   },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.toeic,
     intro: { heading: TOEIC_H1, take: [0] },
     split: true,
     facts: [
@@ -291,7 +299,7 @@ const PTE: PrivateLessonDef = {
   label: "PTE Akademik Özel Ders",
   meta: { reasons: [] },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.pte,
     intro: { heading: PTE_H1, take: [0] },
     split: true,
     facts: [
@@ -368,7 +376,7 @@ const YDS: PrivateLessonDef = {
     reasons: ["title: kaynak 62 karakter (≤60) — 'Kurs Programları' → 'Programlar'"],
   },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.yds,
     intro: { heading: YDS_H1, take: [0] },
     split: true,
     facts: [
@@ -450,7 +458,7 @@ const PROFICIENCY: PrivateLessonDef = {
   label: "Proficiency Özel Ders",
   meta: { reasons: [] },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.proficiency,
     intro: { heading: PROF_H1, take: [0] },
     split: true,
     facts: [
@@ -538,7 +546,7 @@ const GRE: PrivateLessonDef = {
   label: "GRE Özel Ders",
   meta: { reasons: [] },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.gre,
     intro: { heading: GRE_H1, take: [0] },
     split: true,
     facts: [
@@ -607,7 +615,7 @@ const GMAT: PrivateLessonDef = {
     reasons: ["h1: kaynakta h1 yok (en üst başlık h2) — aynı metin H1'e yükseltildi"],
   },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.gmat,
     intro: { heading: GMAT_H, take: [0] },
     split: true,
     facts: [
@@ -677,7 +685,7 @@ const SAT: PrivateLessonDef = {
   label: "SAT Özel Ders",
   meta: { reasons: [] },
   hero: {
-    photo: EXAM_PHOTO,
+    photo: EXAM_PHOTOS.sat,
     intro: { heading: SAT_H1, take: [0] },
     split: true,
     facts: [

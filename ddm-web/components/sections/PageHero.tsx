@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { Breadcrumb } from "@/components/layout";
 import { ButtonLink, Badge } from "@/components/ui";
 import { Icon } from "@/components/graphics/Icon";
@@ -58,6 +60,7 @@ export function PageHero({
   primary,
   secondary,
   art,
+  photo,
   stats,
 }: {
   crumbs: Crumb[];
@@ -87,82 +90,101 @@ export function PageHero({
   primary: NavLink;
   secondary: NavLink;
   art: PageHeroArt;
+  /** UI turu (2026-09-25, Dil Kursu): verilirse illüstrasyon yerine sağda
+   *  kenara taşan fotoğraf (P4 özel ders hero'su gibi) — sola ve aşağı doğru
+   *  lacivert zemine yumuşakça erir; ≤999px metnin altında şerit. */
+  photo?: { src: string; alt: string };
   stats: HomeStat[];
 }) {
   return (
-    <section className={styles.section}>
-      <div className={styles.glow} aria-hidden="true" />
+    <section className={photo ? `${styles.section} ${styles.withPhoto}` : styles.section}>
+      {!photo && <div className={styles.glow} aria-hidden="true" />}
 
-      <div className={styles.crumbWrap}>
-        <Breadcrumb items={crumbs} />
-      </div>
-
-      <div className={styles.grid}>
-        <div className={styles.intro}>
-          <div className={styles.badgeRow}>
-            {code &&
-              (codeVariant === "pill" ? (
-                <span className={styles.codePill}>{code}</span>
-              ) : (
-                <span className={styles.codeBadge}>{code}</span>
-              ))}
-            {branchBadge && (
-              <Badge variant="accent">
-                <span className={styles.dot} aria-hidden="true" />
-                {branchBadge}
-              </Badge>
-            )}
-            {showCertBadge && <Badge variant="outline">M.E.B onaylı sertifika</Badge>}
-            {outlineBadge && <Badge variant="outline">{outlineBadge}</Badge>}
-            {groupBadge && <Badge variant="outline">{groupBadge}</Badge>}
-          </div>
-
-          <h1
-            className={
-              titleSize === "uni" ? styles.titleUni : titleSize === "sube" ? styles.titleSube : styles.title
-            }
-          >
-            {h1}
-          </h1>
-          {lead && <p className={styles.lead}>{lead}</p>}
-
-          <div className={styles.actions}>
-            {primary.href && (
-              <ButtonLink href={primary.href} variant="onDark" size="lg" arrow>
-                {primary.label}
-              </ButtonLink>
-            )}
-            {secondary.href && (
-              <ButtonLink href={secondary.href} variant="outlineDark" size="lg">
-                {secondary.label}
-              </ButtonLink>
-            )}
-          </div>
+      <div className={styles.stage}>
+        <div className={styles.crumbWrap}>
+          <Breadcrumb items={crumbs} />
         </div>
 
-        <div className={art.mode === "sube" ? `${styles.art} ${styles.artSube}` : styles.art} aria-hidden="true">
-          <Illustration name={art.name} glow="circle" maxWidth={art.mode === "sube" ? 340 : 430} />
-          {art.mode === "uni" ? (
-            <>
-              <span className={`${styles.chip} ${styles.chipGreeting}`}>{art.chip1}</span>
-              <span className={`${styles.chip} ${styles.chipSkill}`}>{art.chip2}</span>
-              <span className={`${styles.chip} ${styles.chipScale}`}>Hazırlık atlama</span>
-            </>
-          ) : art.mode === "sube" ? null : (
-            <>
-              <span className={`${styles.chip} ${styles.chipGreeting}`}>
-                {art.flag ? (
-                  <Flag code={art.flag} width={18} className={styles.chipFlag} />
+        <div className={styles.grid}>
+          <div className={styles.intro}>
+            <div className={styles.badgeRow}>
+              {code &&
+                (codeVariant === "pill" ? (
+                  <span className={styles.codePill}>{code}</span>
                 ) : (
-                  <Icon name="sohbet" size={16} strokeWidth={1.8} className={styles.chipBubble} />
-                )}
-                {art.greeting}
-              </span>
-              <span className={`${styles.chip} ${styles.chipSkill}`}>{art.skill}</span>
-              {art.scale && <span className={`${styles.chip} ${styles.chipScale}`}>{art.scale}</span>}
-            </>
+                  <span className={styles.codeBadge}>{code}</span>
+                ))}
+              {branchBadge && (
+                <Badge variant="accent">
+                  <span className={styles.dot} aria-hidden="true" />
+                  {branchBadge}
+                </Badge>
+              )}
+              {showCertBadge && <Badge variant="outline">M.E.B onaylı sertifika</Badge>}
+              {outlineBadge && <Badge variant="outline">{outlineBadge}</Badge>}
+              {groupBadge && <Badge variant="outline">{groupBadge}</Badge>}
+            </div>
+
+            <h1
+              className={titleSize === "uni" ? styles.titleUni : titleSize === "sube" ? styles.titleSube : styles.title}
+            >
+              {h1}
+            </h1>
+            {lead && <p className={styles.lead}>{lead}</p>}
+
+            <div className={styles.actions}>
+              {primary.href && (
+                <ButtonLink href={primary.href} variant="onDark" size="lg" arrow>
+                  {primary.label}
+                </ButtonLink>
+              )}
+              {secondary.href && (
+                <ButtonLink href={secondary.href} variant="outlineDark" size="lg">
+                  {secondary.label}
+                </ButtonLink>
+              )}
+            </div>
+          </div>
+
+          {!photo && (
+            <div className={art.mode === "sube" ? `${styles.art} ${styles.artSube}` : styles.art} aria-hidden="true">
+              <Illustration name={art.name} glow="circle" maxWidth={art.mode === "sube" ? 340 : 430} />
+              {art.mode === "uni" ? (
+                <>
+                  <span className={`${styles.chip} ${styles.chipGreeting}`}>{art.chip1}</span>
+                  <span className={`${styles.chip} ${styles.chipSkill}`}>{art.chip2}</span>
+                  <span className={`${styles.chip} ${styles.chipScale}`}>Hazırlık atlama</span>
+                </>
+              ) : art.mode === "sube" ? null : (
+                <>
+                  <span className={`${styles.chip} ${styles.chipGreeting}`}>
+                    {art.flag ? (
+                      <Flag code={art.flag} width={18} className={styles.chipFlag} />
+                    ) : (
+                      <Icon name="sohbet" size={16} strokeWidth={1.8} className={styles.chipBubble} />
+                    )}
+                    {art.greeting}
+                  </span>
+                  <span className={`${styles.chip} ${styles.chipSkill}`}>{art.skill}</span>
+                  {art.scale && <span className={`${styles.chip} ${styles.chipScale}`}>{art.scale}</span>}
+                </>
+              )}
+            </div>
           )}
         </div>
+
+        {photo && (
+          <div className={styles.photo}>
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              priority
+              sizes="(max-width: 999px) 100vw, 60vw"
+              className={styles.photoImg}
+            />
+          </div>
+        )}
       </div>
 
       <StatStrip items={stats} variant="inset" />

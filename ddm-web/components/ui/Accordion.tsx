@@ -1,4 +1,4 @@
-import { UiIcon } from "@/components/graphics/Icon";
+import { Icon, UiIcon } from "@/components/graphics/Icon";
 import type { Faq } from "@/lib/types";
 import styles from "@/styles/Accordion.module.css";
 
@@ -22,6 +22,11 @@ export function Accordion({
       {items.map((item, i) => (
         <details className={styles.item} name={name} open={i === defaultOpenIndex} key={item.question}>
           <summary className={styles.summary}>
+            {item.icon && (
+              <span className={styles.icon} aria-hidden="true">
+                <Icon name={item.icon} size={20} strokeWidth={1.7} />
+              </span>
+            )}
             <span className={styles.question}>{item.question}</span>
             <span className={styles.caret}>
               <UiIcon name="caretDown" size={12} strokeWidth={1.8} />

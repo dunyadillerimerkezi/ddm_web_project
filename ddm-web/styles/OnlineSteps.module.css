@@ -1,0 +1,230 @@
+/* ---------------------------------------------------------------
+ * OnlineSteps — P4 online eğitim baskın bölümü: 4 adımlık akış
+ * (numaralı düğümler, aralarında bir kez çizilen çizgi) + lacivert
+ * "Derse başlamadan önce" paneli. Beyaz zemin (gri bölüm yalnız tablo).
+ * ------------------------------------------------------------- */
+.section {
+  scroll-margin-top: var(--ddm-sticky-top);
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.container {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0;
+  max-width: 24ch;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.lead {
+  margin: var(--space-4) 0 0;
+  max-width: 66ch;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.7;
+  color: var(--ddm-gray-600);
+}
+
+/* --- akış --- */
+.track {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr));
+  gap: var(--space-8);
+  margin: var(--space-12) 0 0;
+  padding: 0;
+}
+
+.step {
+  position: relative;
+  padding-top: calc(var(--space-12) + var(--space-5));
+}
+
+.node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--space-12);
+  height: var(--space-12);
+  border-radius: 50%;
+  background: var(--ddm-navy-900);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 800;
+  color: var(--ddm-white);
+  box-shadow: 0 0 0 var(--space-2) var(--ddm-sky-bg);
+}
+
+/* Bir sonraki adıma giden çizgi — adım görünür olunca bir kez çizilir. */
+.step::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--space-12) / 2 - 1px);
+  left: calc(var(--space-12) + var(--space-3));
+  right: calc(var(--space-3) - var(--space-8));
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-line);
+  transform-origin: left center;
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+.step[data-reveal="pending"]::after {
+  transform: scaleX(0);
+}
+
+.step[data-reveal="shown"]::after {
+  transform: none;
+  transition: transform var(--duration-steps-line) var(--ease-out-soft) calc(var(--reveal-delay, 0ms) + var(--duration-reveal));
+}
+
+.stepTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--ddm-navy-900);
+}
+
+.stepText {
+  margin: var(--space-2) 0 0;
+  font-size: var(--ddm-text-body);
+  line-height: 1.65;
+  color: var(--ddm-gray-600);
+}
+
+.stepNote {
+  margin: var(--space-3) 0 0;
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ddm-sky-ink);
+}
+
+/* --- derse hazırlık paneli --- */
+.check {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-10);
+  align-items: center;
+  margin-top: var(--space-16);
+  padding: var(--space-10);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-navy-900);
+}
+
+.checkCall {
+  display: flex;
+  justify-content: center;
+}
+
+.checkTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--ddm-white);
+}
+
+.checkList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-8);
+  margin: var(--space-8) 0 0;
+  padding: 0;
+}
+
+.checkItem {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.checkIcon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border-radius: var(--radius-md);
+  background: var(--ddm-navy-800);
+  color: var(--ddm-sky-400);
+}
+
+.checkLabel {
+  display: block;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-white);
+}
+
+.checkText {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.6;
+  color: var(--ddm-navy-200);
+}
+
+/* ≤999px: akış dikey — düğümler solda, çizgi aşağı iner. */
+@media (max-width: 999px) {
+  .track {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .step {
+    padding: 0 0 0 calc(var(--space-12) + var(--space-5));
+    min-height: var(--space-12);
+  }
+
+  .step::after {
+    top: calc(var(--space-12) + var(--space-2));
+    bottom: calc(var(--space-2) - var(--space-8));
+    left: calc(var(--space-12) / 2 - 1px);
+    right: auto;
+    width: 2px;
+    height: auto;
+    transform-origin: center top;
+  }
+
+  .step[data-reveal="pending"]::after {
+    transform: scaleY(0);
+  }
+
+  .stepTitle {
+    padding-top: var(--space-3);
+  }
+
+  .check {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 599px) {
+  .check {
+    padding: var(--space-6);
+  }
+
+  .checkList {
+    grid-template-columns: 1fr;
+  }
+}

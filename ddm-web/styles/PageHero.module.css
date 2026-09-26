@@ -5,7 +5,7 @@
 .section {
   position: relative;
   background: var(--ddm-navy-900);
-  padding: clamp(16px, 2.4vw, 26px) var(--ddm-gutter) clamp(40px, 5.5vw, 68px);
+  padding: var(--ddm-page-hero-pt) var(--ddm-gutter) clamp(40px, 5.5vw, 68px);
   overflow: clip;
 }
 
@@ -18,6 +18,12 @@
   height: 440px;
   background: radial-gradient(ellipse at center, var(--ddm-hero-glow) 0%, rgba(46, 155, 214, 0) 70%);
   pointer-events: none;
+}
+
+/* Kırıntı + ızgara (+ varsa fotoğraf) — fotoğrafın konum kutusu; güven
+ * şeridi dışarıda kalır, fotoğraf şeridin üstünde biter. */
+.stage {
+  position: relative;
 }
 
 .crumbWrap {
@@ -203,5 +209,46 @@
 
   .art {
     display: none;
+  }
+}
+
+/* --- fotoğraflı hero (UI turu 2026-09-25, Dil Kursu) ------------- */
+
+/* Metin sağdaki fotoğrafın altına girmesin. */
+.withPhoto .grid {
+  grid-template-columns: minmax(0, var(--ddm-page-hero-copy-w));
+}
+
+/* Sağ kenara taşar, header'ın arkasına kadar uzanır; sola ve aşağı doğru
+ * iki maskenin kesişimiyle lacivert zemine erir (yarı saydam katman yok —
+ * geçişte gri/bulanık bant oluşmaz). */
+.photo {
+  position: absolute;
+  top: calc(-1 * (var(--ddm-header-flow-h) + var(--ddm-page-hero-pt)));
+  bottom: 0;
+  right: calc(-1 * var(--ddm-gutter));
+  width: calc(var(--ddm-hero-photo-w) + var(--ddm-gutter));
+  mask-image: var(--ddm-photo-fade-x), var(--ddm-photo-fade-y);
+  mask-composite: intersect;
+}
+
+.photoImg {
+  object-fit: cover;
+}
+
+/* ≤999px: fotoğraf metnin altında, kenardan kenara şerit; alt ve üst uçları erir. */
+@media (max-width: 999px) {
+  .withPhoto .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .photo {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: auto;
+    height: var(--ddm-rich-hero-photo-h);
+    margin: var(--space-6) calc(-1 * var(--ddm-gutter)) calc(-1 * var(--space-6));
+    mask-image: var(--ddm-photo-fade-strip);
   }
 }

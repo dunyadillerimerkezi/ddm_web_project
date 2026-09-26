@@ -34,7 +34,7 @@ export function RichHero({
           width={hero.photo.width}
           height={hero.photo.height}
           priority
-          sizes="(max-width: 999px) 100vw, 42vw"
+          sizes="(max-width: 999px) 100vw, 60vw"
           className={styles.img}
         />
       </div>

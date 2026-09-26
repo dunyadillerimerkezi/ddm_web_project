@@ -185,6 +185,20 @@ textarea {
   }
 }
 
+/* UI turu (2026-09-25) — eğitim modeli çemberi: ışık adıma gelince vurgu. */
+@keyframes ddmCycleStep {
+  0%,
+  14% {
+    transform: scale(1.12);
+    border-color: var(--ddm-sky-base);
+  }
+  22%,
+  100% {
+    transform: none;
+    border-color: var(--ddm-sky-200);
+  }
+}
+
 @keyframes ddmChip {
   0%,
   100% {

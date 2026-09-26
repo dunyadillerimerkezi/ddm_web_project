@@ -12,7 +12,5 @@ export {
 } from "./Primitives";
 export type { BadgeVariant, DayKey } from "./Primitives";
 export { Carousel } from "./Carousel";
-export { ProgressTrack } from "./ProgressTrack";
-export type { ProgressStep } from "./ProgressTrack";
 export { Accordion } from "./Accordion";
 export { Reveal } from "./Reveal";

@@ -13,8 +13,7 @@ import { LinkRow } from "@/components/sections/LinkRow";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { CourseDatePage } from "@/components/sections/CourseDatePage";
 import { RichContentPage } from "@/components/sections/RichContentPage";
-import { getPrivateLessonDef } from "@/data/privateLessons";
-import { assertNoSlugCollision, getPrivateLessonPage, richMetadata, richPathsUnder } from "@/lib/richContent";
+import { assertNoSlugCollision, getRichPage, richMetadata, richPathsUnder } from "@/lib/richPages";
 import { UNIVERSITIES, UNIVERSITY_INDEX, getUniversityDef } from "@/data/universities";
 import type { HomeStat } from "@/data/home";
 import { BRANCH_LIST, DEFAULT_BRANCH } from "@/data/branches";
@@ -37,11 +36,11 @@ import { DataMissingNotice } from "@/components/ui";
  * `[sayfa]`ya genişletildi: slug bir üniversite ise ÜNİVERSİTE sayfası,
  * bir kurs-tarihi `pageSlug`ıysa ŞUBE KURS TARİHİ sayfası render edilir.
  * 21 üniversite sayfası ve 42 redirect'i BU DEĞİŞİKLİKTEN etkilenmedi.
- * P4: üçüncü tip — Zengin İçerik / özel ders (`data/privateLessons.ts`).
+ * P4: üçüncü tip — Zengin İçerik (`lib/richPages.ts`; burada yalnız özel ders).
  */
 
 const PROFICIENCY_PREFIX = "/sinav-hazirlik-egitimleri/proficiency-kursu/";
-const richDef = (sayfa: string) => getPrivateLessonDef(`${PROFICIENCY_PREFIX}${sayfa}`);
+const richPage = (sayfa: string) => getRichPage(`${PROFICIENCY_PREFIX}${sayfa}`);
 
 const SCHEDULE_COLUMNS: ScheduleColumn[] = [
   { key: "sube", head: "ŞUBE", rowLabel: null },
@@ -129,7 +128,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     };
   }
 
-  const rich = richDef(sayfa);
+  const rich = richPage(sayfa);
   if (rich) return richMetadata(rich);
 
   return {};
@@ -231,8 +230,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     return <CourseDatePage page={page} />;
   }
 
-  const rich = richDef(sayfa);
-  if (rich) return <RichContentPage page={getPrivateLessonPage(rich)} />;
+  const rich = richPage(sayfa);
+  if (rich) return <RichContentPage page={rich} />;
 
   notFound();
 }

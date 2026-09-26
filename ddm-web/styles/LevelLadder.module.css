@@ -1,0 +1,178 @@
+/* ---------------------------------------------------------------
+ * LevelLadder — Dil Kursu seviye merdiveni (UI turu 2026-09-25, "A")
+ * ------------------------------------------------------------- */
+.stairs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: end;
+  height: clamp(170px, 20vw, 250px);
+}
+
+.step {
+  /* Basamak yüksekliği sırayla artar: %34 → %100. */
+  height: calc(34% + var(--step) * 13.2%);
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: clamp(10px, 1.2vw, 16px);
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-sm) var(--radius-sm);
+  border: 1px solid var(--ddm-border-card);
+  background: var(--ddm-white);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--duration-base) ease, border-color var(--duration-base) ease,
+    box-shadow var(--duration-base) ease;
+}
+
+/* Hover'da transform YOK — `Reveal` görünme geçişi transform'u kullanıyor. */
+.step:hover {
+  border-color: var(--ddm-sky-line);
+  box-shadow: var(--shadow-md);
+}
+
+.step:focus-visible {
+  outline: 3px solid var(--ddm-sky-base);
+  outline-offset: 2px;
+}
+
+.stepActive {
+  background: var(--ddm-navy-900);
+  border-color: var(--ddm-navy-900);
+  box-shadow: var(--shadow-card);
+}
+
+.stepKey {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: clamp(18px, 2vw, 26px);
+  line-height: 1;
+  color: var(--ddm-navy-900);
+}
+
+.stepName {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+.stepActive .stepKey {
+  color: var(--ddm-white);
+}
+
+.stepActive .stepName {
+  color: var(--ddm-navy-200);
+}
+
+/* --- panel --- */
+.panel {
+  margin-top: var(--space-4);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  padding: clamp(22px, 2.6vw, 34px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.levelPanel:not([hidden]),
+.group:not([hidden]) {
+  animation: ddmPanelIn var(--duration-base) var(--ease-out-soft);
+}
+
+.levelKicker {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-label);
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-sky-ink);
+}
+
+.can {
+  margin: var(--space-2) 0 0;
+  max-width: 48ch;
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-h3);
+  line-height: 1.35;
+  color: var(--ddm-navy-900);
+}
+
+.group:not([hidden]) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.groupHead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.groupTag {
+  margin: 0;
+  display: inline-flex;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-navy-900);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-white);
+}
+
+.groupIntro {
+  margin: 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-600);
+}
+
+.groupList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.groupList li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-bg);
+  font-weight: 600;
+  color: var(--ddm-navy-900);
+}
+
+.groupList li::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-base);
+}
+
+@media (max-width: 759px) {
+  .stairs {
+    gap: 6px;
+  }
+
+  .stepName {
+    display: none;
+  }
+
+  .group:not([hidden]) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -63,9 +63,13 @@
  * içinde oturur. Daha küçük ikon kutusu ve rakam ölçeği.
  * ------------------------------------------------------------- */
 .stripInset {
+  position: relative;
+  max-width: var(--ddm-container);
   border-top: 1px solid var(--ddm-navy-line);
   padding: clamp(26px, 3.2vw, 38px) 0 0;
-  margin-top: clamp(36px, 4.5vw, 56px);
+  /* UI turu (2026-09-25): hero'nun 1320px kapsayıcısıyla hizalı — önceden
+   * şerit tam genişlikteydi, masaüstünde başlığın solundan taşıyordu. */
+  margin: clamp(36px, 4.5vw, 56px) auto 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: clamp(20px, 2.6vw, 32px);

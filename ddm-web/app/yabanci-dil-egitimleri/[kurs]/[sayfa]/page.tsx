@@ -4,15 +4,14 @@ import { notFound } from "next/navigation";
 import { CourseDatePage } from "@/components/sections/CourseDatePage";
 import { RichContentPage } from "@/components/sections/RichContentPage";
 import { COURSE_DATES, findCourseDateEntry } from "@/data/courseDates";
-import { getPrivateLessonDef } from "@/data/privateLessons";
 import { getCourseDatePage } from "@/lib/courseDateContent";
-import { assertNoSlugCollision, getPrivateLessonPage, richMetadata, richPathsUnder } from "@/lib/richContent";
+import { assertNoSlugCollision, getRichPage, richMetadata, richPathsUnder } from "@/lib/richPages";
 import { absoluteUrl } from "@/lib/site";
 
 /**
  * DAĞITICI route — `/yabanci-dil-egitimleri/{kurs}/{sayfa}` altında iki tip:
  *   - Faz 6.6 Şube Kurs Tarihi (`data/courseDates.ts`) → `CourseDatePage`
- *   - P4 Zengin İçerik / özel ders (`data/privateLessons.ts`) → `RichContentPage`
+ *   - P4 Zengin İçerik (özel ders, online…; `lib/richPages.ts`) → `RichContentPage`
  * İki listenin slug'ları çakışmaz (build'de denetlenir, aşağıda).
  */
 
@@ -53,8 +52,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     };
   }
 
-  const def = getPrivateLessonDef(`${PREFIX}${kurs}/${sayfa}`);
-  if (def) return richMetadata(def);
+  const rich = getRichPage(`${PREFIX}${kurs}/${sayfa}`);
+  if (rich) return richMetadata(rich);
 
   return {};
 }
@@ -65,8 +64,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const entry = findCourseDateEntry(CATEGORY, kurs, sayfa);
   if (entry) return <CourseDatePage page={getCourseDatePage(entry)} />;
 
-  const def = getPrivateLessonDef(`${PREFIX}${kurs}/${sayfa}`);
-  if (def) return <RichContentPage page={getPrivateLessonPage(def)} />;
+  const rich = getRichPage(`${PREFIX}${kurs}/${sayfa}`);
+  if (rich) return <RichContentPage page={rich} />;
 
   notFound();
 }

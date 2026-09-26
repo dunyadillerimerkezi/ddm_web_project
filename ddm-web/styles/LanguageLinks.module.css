@@ -1,0 +1,100 @@
+/* ---------------------------------------------------------------
+ * LanguageLinks — Dil Kursu "Diğer diller" (UI turu 2026-09-25, "B")
+ * ------------------------------------------------------------- */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 72px;
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--ddm-border-card);
+  background: var(--ddm-white);
+  transition: border-color var(--duration-base) ease, transform var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) ease;
+}
+
+.card:hover {
+  border-color: var(--ddm-sky-line);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.flag {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  color: var(--ddm-sky-ink);
+  background: var(--ddm-sky-bg);
+}
+
+.flag svg {
+  border-radius: var(--radius-flag);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-l);
+  color: var(--ddm-navy-900);
+}
+
+.greeting {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-sky-ink);
+}
+
+.go {
+  margin-left: auto;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-sky-ink);
+  transition: background var(--duration-base) ease, color var(--duration-base) ease,
+    transform var(--duration-base) var(--ease-out-soft);
+}
+
+.card:hover .go {
+  background: var(--ddm-primary);
+  color: var(--ddm-white);
+  transform: translateX(3px);
+}
+
+@media (max-width: 899px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 559px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

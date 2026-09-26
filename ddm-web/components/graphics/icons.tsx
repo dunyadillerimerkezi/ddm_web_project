@@ -209,6 +209,37 @@ export const ICONS = {
       <circle cx="12" cy="12" r="0.6" fill="currentColor" stroke="none" />
     </>
   ),
+  /* ---- P4 online eğitim (2026-09-25): derse hazırlık listesi + canlı ders kartı. ---- */
+  wifi: (
+    <>
+      <path d="M3 9.5a13 13 0 0118 0M6 13a8.5 8.5 0 0112 0M9 16.5a4 4 0 016 0" />
+      <path d="M12 19.5v.01" />
+    </>
+  ),
+  kamera: (
+    <>
+      <rect x="3" y="6.5" width="12.5" height="11" rx="2" />
+      <path d="M15.5 10.5l5-3v9l-5-3" strokeLinejoin="round" />
+    </>
+  ),
+  mikrofon: (
+    <>
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21" />
+    </>
+  ),
+  klavye: (
+    <>
+      <rect x="2.5" y="6" width="19" height="12" rx="2" />
+      <path d="M6 10h.01M9.5 10h.01M13 10h.01M16.5 10h.01M6 13.5h.01M16.5 13.5h.01M9 14h6" />
+    </>
+  ),
+  ekran: (
+    <>
+      <rect x="3" y="4" width="18" height="12" rx="2" />
+      <path d="M9 20h6M12 16v4" />
+    </>
+  ),
 } satisfies Record<string, ReactNode>;
 
 export type IconName = keyof typeof ICONS;

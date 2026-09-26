@@ -137,6 +137,13 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     `data/privateLessons*.ts`'te `feature` / `faq[].answer.added` alanlarında durur; her olgu resmi kaynaktan
     doğrulanır ve kaynak yorumda yazar; emin olunmayan rakam yazılmaz. Sayfada "Son güncelleme" tarihi gösterilir.
     Hero'daki kısa "facts" etiketleri firma cümlesinin arayüz kısaltmasıdır, dayandığı cümle yorumda.
+  - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
+    not barajı, sertifika) ekleme-çıkarma YOK; sayfada zaten yazılı olgular aynı anlamda yeniden
+    cümlelenebilir (SSS cevapları `lib/languageFaq.ts` bunları o dilin kendi metninden regex'le okur,
+    olgu yoksa soru düşer). Dilin kendisi hakkında evrensel bilgi (CEFR, dilin nerede konuşulduğu,
+    neden öğrenilmeli) yeni metin olarak eklenebilir — `data/languageExtras.ts`. Kaynak metindeki
+    bariz kopyala-yapıştır hatası (ör. Türkçe sayfasında "Korece") kullanıcı onayıyla
+    `data/languages.ts` → `edits` ile düzeltilir; kullanılmayan anahtar build'i düşürür.
   Bunların dışında yeni bir sapma gerekirse önce kullanıcıya danış.
 - Belirsiz/çelişkili firma bilgisi (ör. "kaç yıldır faaliyette" — bkz.
   `../docs/brand-context.md` [doğrula] bölümü) sayfa içeriğine **uydurma bir
@@ -188,6 +195,7 @@ ddm-web/
 │   ├── courseDates.ts       # 72 şube×kurs kaydı (üretim betiğiyle çıkarıldı)
 │   └── home.ts              # Ana Sayfa verisi
 │   ├── privateLessons.ts    # P4 özel ders birleşik listesi (+ Shared / Language / Exam tanımları)
+│   ├── onlineLessons.ts     # P4 online eğitim — 8 dil + çatı (`ONLINE_HUB`), sınavların evden/merkezde bilgisi
 ├── lib/
 │   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
 │   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak (§10)
@@ -195,7 +203,9 @@ ddm-web/
 │   ├── navAudit.ts # `soon` bayraklarını pageRegistry'ye karşı build'de doğrular
 │   ├── types.ts    # paylaşılan sayfa ve bileşen tipleri
 │   ├── contentSections.ts   # SectionResolver — kaynağı başlık-tabanlı bölümler; assertCoverage
-│   ├── richContent.ts       # P4 Zengin İçerik çözücü + dağıtıcı yardımcıları (richPathsUnder, richMetadata, çakışma denetimi)
+│   ├── richContent.ts       # P4 Zengin İçerik tipleri (RichPage/RichBlock) + özel ders çözücüsü + ortak yardımcılar
+│   ├── onlineContent.ts     # P4 online çözücüsü (kaynak iskeletini doğrular, cümleleri hero + adımlara dağıtır)
+│   ├── richPages.ts         # P4 tüm alt türlerin tek listesi + dağıtıcı yardımcıları (getRichPage, richPathsUnder, richMetadata)
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
 ├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
 ├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
@@ -280,6 +290,16 @@ ddm-web/
 >   şubeler "3+2", video "fotoğrafsız kapak, tıklayınca sayfa içi oynatıcı".
 > - Ortam hareketleri yalnız transform + token (`--duration-kenburns/-float/-marquee`);
 >   globals.css reduced-motion kuralı hepsini durdurur.
+> - **Dil Kursu (2026-09-25):** sıra hero (dilin fotoğrafı sağda, `PageHero photo` — maske ile sola/aşağı
+>   yumuşak erir, `--ddm-photo-fade-*`) → "Neden {dil} öğrenmelisiniz" (fotoğraf + süzülen fayda
+>   kartları) → Hakkında (her kutu başlıklı + ikonlu, rakam kutusu) → Seviyeler (6 basamak, P4 ile ortak
+>   CEFR cümleleri) → Kurs takvimi (haftalık tablo, hafta içi önce, tek "Ön Bilgi Formu" butonu) → Neden
+>   DDM → Eğitim modeli (çember) → SSS (başlık kartı + ikonlu akordiyon) → şube ve kurs tarihleri (alt
+>   alta tıklanabilir satırlar) → diğer diller (selamlamalı) → iletişim kartı (telefon/e-posta yok,
+>   `/ddm-iletisim`'e gider). Öğrenci yorumları ve "Ücretsiz Seviye Testi" yok.
+> - **Fotoğraflı lacivert hero'lar (2026-09-25):** fotoğraf yalnız sol ve alt kenarda ince, yumuşak erir
+>   (`--ddm-photo-fade-*` maskesi); üstüne lacivert katman konmaz — kullanıcı "resim daha çok görünsün" dedi.
+>   Dil kursu hero'su şehir fotoğrafını, dil özel ders hero'su birebir ders fotoğraflarını taşır.
 
 > **P4 notu (2026-09-25):** Zengin İçerik için 3 taslak yön sunuldu, kullanıcı **"B · seviye merdiveni"**ni seçti.
 > Sistem: lacivert hero (sağda dilin şehri / sınav fotoğrafı, header'ın arkasından) → **1 baskın bölüm** (dilde
@@ -288,6 +308,9 @@ ddm-web/
 > basamakları / format kartları ilk görünüşte bir kez; reduced-motion'da sabit. Sonraki alt türler (online,
 > nedir…) aynı `RichContentPage`'e yeni blok türü ekler; her yeni alt türde "bu tür neden farklı görünmeli"
 > kullanıcıya bir kez sorulur.
+> **Online (2026-09-25):** baskın bölüm `OnlineSteps` ("nasıl işler" adımları — metinler firma cümleleri — + lacivert
+> "Derse başlamadan önce" paneli ve dekoratif `CallCard`), destek `ExamModes` (sınav evden mi / merkezde mi) ve
+> online/şube tablosu. Hero fotoğrafı kullanıcının online eğitim görselleri (İngilizceye özgü olanlar yalnız İngilizce ve çatı).
 
 Tasarım **Claude Design**'da yapılır (Faz 4-5). Bu repo ve bu dosya sadece
 onaylanmış tasarımı **koda uygular** — burada UI/görsel karar alınmaz. Bir
