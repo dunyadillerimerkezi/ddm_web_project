@@ -252,6 +252,9 @@
   --ddm-answer-rule: 3px; /* P4 nedir: kısa cevabın solundaki mavi çizgi */
   --ddm-toc-rule: 2px; /* P4 nedir: soru listesinin sol çizgisi (aktif öğe onu örter) */
   --ddm-call-w: 300px; /* P4 online: hero'daki dekoratif canlı ders kartı */
+  --ddm-home-art-h: clamp(380px, 34vw, 470px); /* Ana Sayfa hero (2026-09-26): sağdaki selam bulutu yüksekliği */
+  --ddm-home-glyph-size: clamp(56px, 7vw, 120px); /* Ana Sayfa hero: zeminde yüzen harfler */
+  --ddm-home-orbit: 96%; /* Ana Sayfa hero: balonların arkasındaki yörünge çapı (bulut yüksekliğine oranla) */
   --ddm-page-hero-pt: clamp(16px, 2.4vw, 26px); /* PageHero üst dolgu (header payı globals.css'ten) */
   --ddm-page-hero-copy-w: 50%; /* UI turu (2026-09-25): fotoğraflı PageHero'da metin kolonu */
   --ddm-hero-photo-w: 55%; /* UI turu (2026-09-26): fotoğraflı lacivert hero'larda fotoğraf genişliği — metnin
@@ -295,6 +298,7 @@
   --radius-chip: 11px; /* Faz 6.4: PageHero illüstrasyon slotundaki yüzen sohbet çipleri */
   --radius-flag: 3px; /* P3: küçük bayrak SVG köşesi */
   --radius-code-pill: 13px; /* Faz 6.5: sınav kodu rozeti (44×44 kareden yatay dolgulu pill'e) */
+  --radius-bubble: 18px 18px 18px 6px; /* Ana Sayfa hero: konuşma balonu (sol alt köşe sivri) */
 
   /* ---------------------------------------------------------------
    * 8 · GÖLGE
@@ -331,6 +335,14 @@
   --duration-marquee-alt: 75s; /* ikinci şerit — ters yönde, farklı hızda */
   --duration-zoom: 0.6s; /* fotoğraflı kartta hover yakınlaşması */
   --duration-cycle: 10s; /* Dil Kursu eğitim modeli çemberinde ışığın bir turu */
+  /* Ana Sayfa hero (2026-09-26) — canlı lacivert zemin + selam bulutu. */
+  --duration-drift: 18s; /* ışık lekelerinin yavaş kayması */
+  --duration-drift-alt: 23s; /* ikinci leke — farklı hızda, eşzamanlı görünmesin */
+  --duration-glyph: 16s; /* zemindeki harflerin yukarı süzülmesi */
+  --duration-greet: 12s; /* selam balonlarının sırayla belirip sönmesi (bir tur) */
+  --duration-orbit: 40s; /* balonların arkasındaki kesikli yörüngenin bir turu */
+  --duration-float-alt: 8s; /* cam bilgi kartlarının süzülmesi */
+  --parallax-shift: 10px; /* fareye tepki — en öndeki katmanın en büyük kayması */
   --float-shift: 8px; /* süzülme genliği */
 
   /* UI turu — fotoğraf/logo üstü okunabilirlik katmanları */
@@ -348,6 +360,26 @@
   ); /* sınav kartı: logo üst yarıda açık kalır, yazı alt yarıda */
   --ddm-greet-ink: rgba(255, 255, 255, 0.07); /* video kapağı kayan yazı */
   --ddm-greet-ink-sky: rgba(93, 180, 226, 0.13);
+
+  /* Ana Sayfa hero (2026-09-26) — düz lacivert yerine derinlik. Işıklar
+   * metnin arkasında zayıf, sağda güçlü; lead kontrastı AA üstünde kalır. */
+  --ddm-home-hero-bg: linear-gradient(
+    135deg,
+    var(--ddm-navy-950) 0%,
+    var(--ddm-navy-900) 40%,
+    var(--ddm-navy-600) 100%
+  );
+  --ddm-home-glow-sky: rgba(46, 155, 214, 0.32); /* gök mavisi ışık */
+  --ddm-home-glow-violet: rgba(140, 143, 211, 0.3); /* mor-mavi ışık (navy-300) */
+  --ddm-home-glyph-ink: rgba(255, 255, 255, 0.06); /* yüzen harfler */
+  --ddm-home-dot: rgba(255, 255, 255, 0.09); /* nokta dokusu */
+  --ddm-home-dot-gap: 22px;
+  --ddm-home-dot-mask: linear-gradient(90deg, transparent 28%, #000 72%); /* doku yalnız sağda — metnin arkası temiz */
+  --ddm-glass-bg: rgba(255, 255, 255, 0.09); /* cam kart / balon zemini */
+  --ddm-glass-bg-strong: rgba(255, 255, 255, 0.14);
+  --ddm-glass-line: rgba(255, 255, 255, 0.2);
+  --ddm-glass-blur: 12px;
+  --ddm-glass-shadow: 0 14px 34px rgba(8, 9, 30, 0.3);
   --ddm-panel-chip: rgba(255, 255, 255, 0.06); /* lacivert panelde hap bağlantı zemini */
   --ddm-panel-chip-line: rgba(255, 255, 255, 0.16);
 }

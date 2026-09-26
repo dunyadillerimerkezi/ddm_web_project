@@ -305,6 +305,10 @@ ddm-web/
 > - **Fotoğraflı lacivert hero'lar (2026-09-25):** fotoğraf yalnız sol ve alt kenarda ince, yumuşak erir
 >   (`--ddm-photo-fade-*` maskesi); üstüne lacivert katman konmaz — kullanıcı "resim daha çok görünsün" dedi.
 >   Dil kursu hero'su şehir fotoğrafını, dil özel ders hero'su birebir ders fotoğraflarını taşır.
+> - **Ana Sayfa hero'su (2026-09-26):** düz lacivert yerine gradient + yavaş ışık/harf/nokta zemini (`HeroBackdrop`),
+>   metnin sağında "selam bulutu" (`HeroLanguageArt`: cam balonlar sırayla belirir, 2 cam bilgi kartı; veriler
+>   `LANGUAGES` / `HOME_STATS`'tan). Mobilde (≤999) yalnız zemin. **Keyframe'ler modülün içinde yazılır** — CSS Modules
+>   animasyon adını yerelleştirdiği için modülden globals.css keyframe'ine ad ile ulaşılamıyor.
 
 > **P4 notu (2026-09-25):** Zengin İçerik için 3 taslak yön sunuldu, kullanıcı **"B · seviye merdiveni"**ni seçti.
 > Sistem: lacivert hero (sağda dilin şehri / sınav fotoğrafı, header'ın arkasından) → **1 baskın bölüm** (dilde

@@ -522,25 +522,37 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
     (CLAUDE.md §5). Online sayfaların hepsi ~91–93 kelime; kopyala-yapıştır izine bak.
 - **Redirect:** 16 + 5 özel ders, 6 nedir/sınav, 2 Almanca seviye → toplam 29 `has: query`
   kuralı (§4).
-- **Pilot sırası:**
-  1. özel ders (en homojen, 19)
-  2. online (8)
-  3. nedir (8)
-  4. -2 (18)
-  5. tekil (8)
-  6. yurtdışı (11)
-  7. diğer program + kurumsal (6)
+- **Pilot sırası ve durum (2026-09-26):**
+  1. ✅ özel ders (18; YDS Kurs Dönemi → 301)
+  2. ✅ online (8 + çatı `/diger-program/online-dil-egitimi`)
+  3. ✅ nedir (8)
+  4. ⏳ **tekil (8)** — SIRADAKİ: `almanca-konusma-kurslari`, `hizlandirilmis-almanca-kursu`, `cince-ogrenmek-zor-mu`,
+     `ingilizce-egitim-sistemi` (P5 ile çakışıyor mu Aşama 0'da bak), `turkce-egitim-seviyeleri`,
+     `proficiency-ornek-sinav-sorulari` (21 üniversite sayfasından ölü link alıyor), `proficiency-sinavi`,
+     `aile-birlesimi-egitimi/a1-sinav-ornegi`. `?id=` 301: `proficiency-kursu.html?id=364:proficiency-sinavi`,
+     `…id=323:proficiency-sinav-sorulari`, 2 Almanca seviye (§4).
+  5. ⏳ yurtdışı (11) — `kanada-vancouver-2` için kullanıcıya sor (diğer "-2"ler 301).
+  6. ⏳ diğer program + kurumsal (5): `business-english`, `cocuklar-icin-ingilizce-kursu`, `tercume-hizmetleri`,
+     `yurtdisinda-egitim`, `kurumsal-dil-egitim/turkish-course-pegasus-pilots` (footer'dan ölü link alıyorlar).
+  7. ⏳ dil tarafı 9 "-2" sayfası → kendi ana sayfasına 301 (içerik taşınacak bir şey var mı Aşama 0'da bak).
 
-  Her alt tür için 1 pilot → onay → toplu.
-- **Başlangıç prompt'u:**
-  ```
-  SESSION-HANDOFF §A + CLAUDE.md oku. remaining-pages-plan §3 ve §5 P4. Bu oturumun alt
-  türü: <ÖZEL DERS | ONLINE | ...>. Aşama 0: o alt türün kayıtlarını dök, ortak iskeleti ve
-  duplikasyonları çıkar, rapor et. Onaydan sonra RichContentPage + lib/richContent.ts
-  (SectionResolver + assertCoverage) kur, mevcut [kurs]/[sayfa] dağıtıcılarını tür bazlı
-  genişlet (kurs-tarihi sayfaları BOZULMAMALI, 72/72 kontrol et). frontend-design ve
-  programmatic-seo skill'lerini kullan.
-  ```
+  Her alt tür: Aşama 0 → "bu tür neden farklı görünmeli" sorusu → 1 pilot → onay → toplu → code-review → döküman.
+- **P4'te öğrenilenler (sonraki oturum bunlara uysun):**
+  - **İçerik türünü ayır:** firma bilgisi (DDM'in cümlesi, şube/öğretmen/sınıf/iddia) birebir, yalnız yazım; genel
+    bilgi (sınav, dil, mevzuat) resmi kaynaktan doğrulanır ve eskimişse düzeltilir (nedir sayfalarında kullanıcı P2
+    kuralını onayladı). Doğrulamayı arka planda araştırma ajanlarına ver, kaynak URL'lerini veri dosyasında yoruma yaz.
+  - **Altyapı hazır:** yeni alt tür = `data/<tür>.ts` + `lib/<tür>Content.ts` (SectionResolver + assertCoverage + edits
+    denetimi + `checkMeta`) + `lib/richPages.ts` `ENTRIES` satırı. Sayfa bileşeni: blok listeli `RichContentPage`
+    (özel ders/online) ya da `GuidePage` (nedir); `RichEntry` (rich | guide) yeni bir `kind` ile genişletilebilir.
+    `[kurs]/[sayfa]` ve proficiency dağıtıcıları alt türü bilmez; yeni prefix (`yurtdisi-egitim/`, `diger-program/`,
+    `kurumsal-dil-egitim/`) için statik klasör ya da `[sayfa]` açılır.
+  - **Kontrol:** `npm run build` (sayfa sayısı), `npm run check-links` (ölü hedef sayısı düşmeli), 72/72 kurs tarihi,
+    1440/390/360 px taşma + tek H1 (Playwright betiği scratchpad'de yoksa yeniden yaz). Açık dev sunucusu (3000)
+    değişiklikleri bazen yüklemiyor → kontrolü production build ile `npx next start -p 3200`'de yap, sonra durdur.
+  - **Kullanıcı:** Türkçe, kısa, teknik olmayan dil; seçenekleri görsel göster, az soru sor; tekrar eden bilgiden
+    kaçma ama bilgiye boğma, göz gezdirilebilir format (soru başlığı → kalın cevap → madde/tablo). Commit'ten önce sor.
+- **Başlangıç prompt'u (P4 kalan alt türler):** bkz. `docs/SESSION-HANDOFF.md` §A "Sonraki oturum prompt'u" — kullanıcıya
+  verilen tam metin orada.
 - **Skill:** `frontend-design:frontend-design`, `programmatic-seo`, `code-review`
   (dağıtıcı değişikliği riskli), `run`.
 

@@ -1,0 +1,121 @@
+/* ---------------------------------------------------------------
+ * HeroBackdrop — Ana Sayfa hero zemini (2026-09-26)
+ * Işıklar radial-gradient (filter: blur yok — ucuz), yalnız transform ile
+ * kayar. Metnin arkası zayıf, sağ taraf güçlü → lead kontrastı AA üstünde.
+ * ------------------------------------------------------------- */
+.backdrop {
+  position: absolute;
+  inset: calc(-1 * var(--ddm-header-flow-h)) 0 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.glow {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: var(--radius-pill);
+  animation: drift var(--duration-drift) ease-in-out infinite;
+}
+
+.glowSky {
+  width: max(62vw, var(--ddm-home-art-h));
+  right: -20vw;
+  top: -24vw;
+  background: radial-gradient(circle, var(--ddm-home-glow-sky) 0%, transparent 62%);
+}
+
+.glowViolet {
+  width: max(44vw, var(--ddm-home-art-h));
+  right: 14vw;
+  top: 6vw;
+  background: radial-gradient(circle, var(--ddm-home-glow-violet) 0%, transparent 64%);
+  animation-duration: var(--duration-drift-alt);
+  animation-direction: reverse;
+}
+
+.glowLow {
+  width: max(40vw, var(--ddm-home-art-h));
+  left: -16vw;
+  bottom: -12vw;
+  opacity: 0.6;
+  background: radial-gradient(circle, var(--ddm-home-glow-sky) 0%, transparent 62%);
+  animation-delay: calc(var(--duration-drift) * -0.5);
+}
+
+.dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--ddm-home-dot) 1px, transparent 1.6px);
+  background-size: var(--ddm-home-dot-gap) var(--ddm-home-dot-gap);
+  mask-image: var(--ddm-home-dot-mask);
+}
+
+/* Harfler: dikey konum header payı + bulut yüksekliğine göre — kartların
+ * arkasına düşmez, başlık bölgesinde kalır. */
+.glyph {
+  position: absolute;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-home-glyph-size);
+  line-height: 1;
+  color: var(--ddm-home-glyph-ink);
+  animation: glyphRise var(--duration-glyph) ease-in-out infinite;
+  animation-delay: calc(var(--i) * var(--duration-glyph) / -8);
+}
+
+.glyph:nth-child(odd) {
+  animation-duration: calc(var(--duration-glyph) * 1.25);
+}
+
+.glyph:nth-child(5) { left: 3%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * 0.02); }
+.glyph:nth-child(6) { left: 36%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * 0.08); font-size: calc(var(--ddm-home-glyph-size) * 0.7); }
+.glyph:nth-child(7) { left: 45%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * 0.62); }
+.glyph:nth-child(8) { left: 64%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * -0.04); font-size: calc(var(--ddm-home-glyph-size) * 0.8); }
+.glyph:nth-child(9) { left: 92%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * 0.3); }
+.glyph:nth-child(10) { left: 22%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * 0.72); font-size: calc(var(--ddm-home-glyph-size) * 0.75); }
+.glyph:nth-child(11) { left: 84%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * 0.82); }
+.glyph:nth-child(12) { left: 56%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * 0.36); font-size: calc(var(--ddm-home-glyph-size) * 0.65); }
+
+/* Mobil: 4 harf yeter, sağa yaslı — başlığın üstünde yoğunluk olmasın. */
+@media (max-width: 999px) {
+  .glyph:nth-child(n + 9) {
+    display: none;
+  }
+
+  .glyph:nth-child(5) { left: 78%; }
+  .glyph:nth-child(6) { left: 60%; }
+  .glyph:nth-child(7) { left: 84%; }
+  .glyph:nth-child(8) { left: 70%; top: calc(var(--ddm-header-flow-h) + var(--ddm-home-art-h) * 0.4); }
+
+  .dots {
+    mask-image: none;
+    opacity: 0.6;
+  }
+}
+
+/* Keyframe'ler modülün içinde: CSS Modules animasyon adlarını yerelleştirir,
+ * globals.css'teki keyframe'e modülden ad ile ulaşılamaz. */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-6%, 5%, 0) scale(1.08);
+  }
+}
+
+@keyframes glyphRise {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  20%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+}

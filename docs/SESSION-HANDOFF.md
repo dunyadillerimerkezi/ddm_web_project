@@ -16,12 +16,80 @@
 | **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**172 statik sayfa**, 164'ten) · `check-links` **17 benzersiz / 705 çift** (18/694'ten; çift artışı yeni sayfaların footer'ındaki mevcut ölü hedefler) · 72/72 kurs tarihi · 8 nedir × 1440/390/360 px taşma yok, tek H1, 373–611 kelime · 4 `?id=` 301 çalışıyor |
 | **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · Özel Ders 18 (P4-1) · Online 8 + çatı (P4-2) · **Nedir 8 (P4-3)** |
 | **Aktif faz** | P4 Zengin İçerik — özel ders ✅, online ✅, **nedir ✅**. Sıradaki alt tür: **tekil (8)** (sonra yurtdışı 11, diğer program + kurumsal, dil "-2" 301) |
-| **Bir sonraki somut adım** | Kullanıcı onayı → P4 nedir commit'i (kod + döküman ayrı); sonra P4 "tekil" Aşama 0 |
+| **Bir sonraki somut adım** | Yeni oturum: aşağıdaki prompt ile P4 "tekil" Aşama 0. Önce nedir değişikliklerinin commit durumunu sor (kod + döküman ayrı). |
 | **Yarım kalan iş** | Yok. Dev sunucusu (3000) son değişiklikleri yüklemiyordu → kontrol production build ile (3200) yapıldı; kullanıcıya yeniden başlatması söylendi. |
 | **Engeller** | Kalan 17 ölü hedef: `/ogrenci-yorumlari` (footer) → P7 · `proficiency-ornek-sinav-sorulari` (21'er) → P4 tekil · Almanca/Çince/Türkçe tekil ve yurtdışı alt sayfaları (1'er) → P4 · `/aktivite-aktiviteler`, `/duyurular` → P7 |
 | **Bekleyen kullanıcı kararları** | GMAT/GRE grup büyüklüğü çelişkisi (özel ders; satır gizli) · online çatı fotoğrafı (kullanıcı daha büyüğünü verecek) · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD (SSS'ler hazır) |
 | **Bilinen veri notları** | Nedir sayfaları GENEL sınav bilgisi → P2 kuralı (başlık kalır, eskimiş olgu resmi kaynaktan düzeltilir, `edits` izlenir; kullanıcı 2026-09-26) · TOEFL puanı 1–6 bant + eski 0–120 karşılık tablosu (ETS resmi tablosu) · YDS süre 180 dk, tazminat rakamları gösterge (375 s. KHK md. 2) · Atılım muafiyet eşikleri 2025 yönergesinden · SAT/GMAT eski posta/telefon blokları kaldırıldı (kullanıcı onayı) · `?id=` 301'leri sorgu dizesini taşıyor (Next.js) |
 | **Kalıcı kurallar** | P4 içerik kuralı (CLAUDE.md §5) · P4 tasarım (CLAUDE.md §9; nedir: açık hero + "bir bakışta" kartı, soru başlıklı bölümler, madde/tablo, sınav ana sayfalarından ayrı) · zengin içerik tek liste `lib/richPages.ts` (`RichEntry`: rich / guide) · `soon` bayrağı (§10) |
+
+
+**Sonraki oturum prompt'u (kullanıcıya verildi, 2026-09-26):**
+
+```
+P4 · Zengin İçerik Alt Sayfalar — devam oturumu. Bu oturumun alt türü: TEKİL (8 sayfa).
+(Bitince sırayla: yurtdışı 11 → diğer program + kurumsal 5 → dil "-2" 301'leri. Her yeni alt tür ayrı oturum olabilir.)
+
+OTURUM BAŞI
+- Oku: docs/SESSION-HANDOFF.md §A ve §B, ddm-web/CLAUDE.md (§3, §4, §5, §6, §9, §10), docs/remaining-pages-plan.md
+  §3/§5 P4 bölümü ("Pilot sırası ve durum" ve "P4'te öğrenilenler" dahil), lib/nav.ts'teki ilgili satırlar.
+  git status / git log -5 ile §A'yı teyit et. frontend-design skill'ini yükle. Türkçe ve kısa yaz.
+
+YAPILANLAR (dokunma, örnek al)
+- Özel ders 18 sayfa (RichContentPage: seviye merdiveni / sınav formatı kartları), online 8 + çatı
+  (/diger-program/online-dil-egitimi; "nasıl işler" adımları + sınav evden mi kartları), nedir 8 (GuidePage: açık hero,
+  kısa cevap, "bir bakışta" kartı, soru başlıklı bölümler, tablolar). Toplam 172 sayfa, check-links 17 benzersiz ölü hedef.
+- Altyapı: lib/richPages.ts tüm alt türlerin tek listesi (RichEntry: rich | guide); lib/richContent.ts, lib/onlineContent.ts,
+  lib/guideContent.ts çözücüleri; SectionResolver + assertCoverage + edits/headingEdits denetimi + title≤60 /
+  description≤155 bekçisi. Dağıtıcılar ([kurs]/[sayfa] ×2 + proficiency-kursu/[sayfa]) alt türü bilmez.
+
+BU OTURUMUN İŞİ — TEKİL
+- Sayfalar: almanca-konusma-kurslari, hizlandirilmis-almanca-kursu, cince-ogrenmek-zor-mu, ingilizce-egitim-sistemi
+  (P5 /ingilizce-kurslari ile çakışıyor mu bak), turkce-egitim-seviyeleri, proficiency-ornek-sinav-sorulari (21 üniversite
+  sayfasından ölü link alıyor), proficiency-sinavi, aile-birlesimi-egitimi/a1-sinav-ornegi.
+- Joomla ?id= 301'leri has: query ile (plan §4: proficiency-sinavi id=364, proficiency-sinav-sorulari id=323,
+  2 Almanca seviye). Genel .html kuralı Faz 8'de.
+
+İÇERİK KURALI
+- Firma bilgisi (DDM'in cümleleri, şube/öğretmen/sınıf/program bilgisi, iddialar): asla yeniden yazma, güçlendirme,
+  silme. Yeri değişebilir; yalnız bariz yazım/kopyala-yapıştır hatası edits ile düzeltilir. Başlıklar silinmez.
+- Genel bilgi (sınav, dil, seviye, mevzuat): içerik açılabilir ve geliştirilebilir; eskimişse resmi kaynaktan
+  doğrulanıp düzeltilir; her değişiklik edits / additions olarak izlenir, kaynak URL yorumda. Emin olmadığın rakamı yazma.
+  Doğrulamayı arka planda araştırma ajanlarına ver. Sayfada "Son güncelleme" tarihi göster.
+- Fiyat, tarih, şube adı, telefon, istatistik, sertifika adı asla uydurma. Şubeler yalnız data/branches.ts'ten.
+- Hedef 500–800 kelime; tekrardan kaçma ama bilgiye boğma. Uzun metin bloğu yok: göz gezdirilebilir format
+  (soru başlığı → kalın cevap → madde / kart / tablo).
+
+TASARIM
+- Görsel, etkileyici ama kurumsal; küçük ve tek seferlik hareket; reduced-motion'a uy. 1 baskın bölüm + 2–3 destek.
+  Gri/beyaz zeminleri sırayla dizme. Header'ın arkasından başlayan ilk bölüm kuralına uy (globals.css).
+- Bu alt tür için önce "neden farklı görünmeli" sorusunu 2–3 yönle (1440 + 390 ekran görüntüsüyle) sor, sonra kodla.
+  Sınav ana sayfalarının tasarımını örnek alma (kullanıcı beğenmedi, ayrıca ele alınacak).
+- Görsel: önce public/assets'e bak; yoksa yer tutucu + kullanıcıya net görsel isteği listesi.
+
+SÜREÇ
+1) Aşama 0 denetimi (kayıtları dök, iskelet, kopyalar, eskimiş bilgi, meta hataları) → rapor et, DUR.
+2) Tasarım yönleri → DUR. 3) 1 pilot → DUR. 4) Toplu. 5) code-review (high) ve bulguları düzelt.
+- Teknik: CSS Modules + tokens (ham hex/px yok; 1px/2px kenarlık ve breakpoint hariç), Tailwind/CSS-in-JS yok,
+  absolute URL yok, canonical absoluteUrl ile. Üretilen sayfaların lib/nav.ts'teki soon: true bayrağını kaldır;
+  ölü link sayısı artmasın. Kütüphane kurmadan önce sor.
+- Kontrol: tsc, lint, build (sayfa sayısı), check-links, 72/72 kurs tarihi, 1440/390/360 px taşma + tek H1.
+  Açık dev sunucusu (3000) değişiklikleri yüklemeyebilir → production build'i 3200'de açıp kontrol et, sonra durdur.
+
+KAPANIŞ
+- SESSION-HANDOFF §A (üzerine yaz) + §D (ekle), PROGRESS, page-types, plan P4 bölümü güncelle.
+- Commit'lemeden önce bana sor. Kod ve döküman ayrı commit. Push yok. public/assets altındaki izlenmeyen görselleri
+  commit'leme. Yarım kodu commit'leme.
+
+AÇIK KONULAR (fırsat olursa sor)
+- Nedir değişiklikleri henüz commit'lenmemiş olabilir (git status'a bak, sor).
+- GMAT/GRE özel ders "2-3 kişilik grup" ↔ tablo "en fazla 2" çelişkisi (satır gizli).
+- Online çatı sayfası fotoğrafı (kullanıcı daha büyüğünü verecek).
+- 5 nedir sayfası 500 kelimenin altında (SAT 373, GMAT 409…); kullanıcı zorlamamayı seçti.
+
+İLETİŞİM: Teknik olmayan kullanıcı. Kısa yaz, az soru sor, seçenekleri görsel göster.
+Fiyat / şube / tarih / istatistik / sınav formatı konusunda asla varsayma, doğrula ya da sor.
+```
 
 ---
 
@@ -59,6 +127,19 @@
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-26 · Opus 5.5 · UI turu — Ana Sayfa hero'su (canlı zemin + selam bulutu) — commit bekliyor
+- **Sorun (kullanıcı):** sağ yarı boş, düz lacivert ağır. 3 yön sunuldu (yörünge / selam bulutu / karma);
+  kullanıcı **B · Selam Bulutu** + mobilde **yalnız zemin** seçti.
+- **Zemin:** `HeroBackdrop` — gradient (`--ddm-home-hero-bg`, navy-950→600), 3 radial ışık (blur yok, 18/23 sn kayma),
+  8 alfabeden %6'lık yüzen harf (16/20 sn), sağda nokta dokusu. Header payını da kaplar (section `overflow-x: clip`).
+- **Sağ:** `HeroLanguageArt` — 8 cam balon (bayrak + selam, `LANGUAGES`'tan; "Hallo" tekrarı düşer), 12 sn'de sırayla
+  belirip söner; 40 sn dönen kesikli yörünge; 2 cam kart (rakamlar `HOME_STATS`'tan). `Parallax` (ui) yalnız fareli
+  masaüstünde, reduced-motion'da kapalı. ≤1279 son 2 balon düşer, ≤999 kompozisyon gizli.
+- **Bulgu (site geneli, DÜZELTİLMEDİ):** CSS Modules animasyon adlarını yerelleştiriyor — modüllerden `ddmFloatSoft`,
+  `ddmKenBurns`, `ddmSpin`, `ddmChip`… diye globals.css keyframe'lerine yapılan tüm çağrılar ÇALIŞMIYOR (ör.
+  `AbroadSection-module__…__ddmFloatSoft`). Yeni hero keyframe'leri bu yüzden kendi modüllerinde. Düzeltme kullanıcıya soruldu.
+- build ✅ 172, lint/tsc temiz; 1440/1100/390/360 + reduced-motion kontrol edildi, yatay taşma yok.
 
 ### 2026-09-26 · Opus 5.5 · P4 — Nedir rehberleri (8 sayfa) — commit bekliyor
 - **Aşama 0:** 8 sayfa, 119–604 kelime; metin firma bilgisi değil GENEL sınav bilgisi ve büyük kısmı eskimiş (SAT I/II,

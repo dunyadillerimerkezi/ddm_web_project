@@ -1,0 +1,228 @@
+/* ---------------------------------------------------------------
+ * HeroLanguageArt — Ana Sayfa hero'sunun sağındaki selam bulutu
+ * (kullanıcı seçimi B, 2026-09-26). Yalnız transform + opacity;
+ * reduced-motion'da her şey görünür ve yerinde durur.
+ * ------------------------------------------------------------- */
+.art {
+  position: relative;
+  width: 100%;
+  height: var(--ddm-home-art-h);
+}
+
+/* Fare parallax'ı — Parallax bileşeni --px/--py yazar (-1…1). Arka katman
+ * az, ön katman çok kayar → derinlik. */
+.layerBack,
+.layerMid,
+.layerFront {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--duration-slow) var(--ease-out-soft);
+}
+
+.layerBack {
+  transform: translate3d(
+    calc(var(--px, 0) * var(--parallax-shift) * -0.35),
+    calc(var(--py, 0) * var(--parallax-shift) * -0.35),
+    0
+  );
+}
+
+.layerMid {
+  transform: translate3d(
+    calc(var(--px, 0) * var(--parallax-shift) * -0.7),
+    calc(var(--py, 0) * var(--parallax-shift) * -0.7),
+    0
+  );
+}
+
+.layerFront {
+  transform: translate3d(
+    calc(var(--px, 0) * var(--parallax-shift) * -1),
+    calc(var(--py, 0) * var(--parallax-shift) * -1),
+    0
+  );
+}
+
+/* --- arka: ışık halesi + yörünge --- */
+.halo,
+.orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  aspect-ratio: 1;
+}
+
+.halo {
+  height: 80%;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(circle, var(--ddm-home-glow-sky) 0%, transparent 66%);
+}
+
+.orbit {
+  height: var(--ddm-home-orbit);
+  overflow: visible;
+  animation: spin var(--duration-orbit) linear infinite;
+}
+
+.orbitDash {
+  fill: none;
+  stroke: var(--ddm-glass-line);
+  stroke-width: 0.6;
+  stroke-dasharray: 1.4 4.2;
+}
+
+.orbitLine {
+  fill: none;
+  stroke: var(--ddm-panel-chip-line);
+  stroke-width: 0.5;
+  opacity: 0.6;
+}
+
+.orbitDot {
+  fill: var(--ddm-sky-400);
+}
+
+/* --- orta: cam konuşma balonları --- */
+.bubble {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-3);
+  border-radius: var(--radius-bubble);
+  background: var(--ddm-glass-bg);
+  border: 1px solid var(--ddm-glass-line);
+  backdrop-filter: blur(var(--ddm-glass-blur));
+  box-shadow: var(--ddm-glass-shadow);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.2;
+  color: var(--ddm-white);
+  white-space: nowrap;
+  animation: greet var(--duration-greet) var(--ease-out-soft) infinite;
+  /* Negatif gecikme: sayfa açılır açılmaz döngünün ortası — boş başlamaz. */
+  animation-delay: calc(var(--i) * var(--duration-greet) / var(--n) * -1);
+}
+
+.flag {
+  display: block;
+  flex: none;
+  border-radius: var(--radius-flag);
+}
+
+.bubble:nth-child(1) { left: 38%; top: 1%; }
+.bubble:nth-child(2) { left: 70%; top: 13%; }
+.bubble:nth-child(3) { left: 4%; top: 33%; }
+.bubble:nth-child(4) { left: 42%; top: 29%; }
+.bubble:nth-child(5) { left: 74%; top: 44%; }
+.bubble:nth-child(6) { left: 20%; top: 57%; }
+.bubble:nth-child(7) { left: 55%; top: 62%; }
+.bubble:nth-child(8) { left: 8%; top: 83%; }
+
+/* --- ön: cam bilgi kartları --- */
+.card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-glass-bg-strong);
+  border: 1px solid var(--ddm-glass-line);
+  backdrop-filter: blur(var(--ddm-glass-blur));
+  box-shadow: var(--ddm-glass-shadow);
+  animation: floatSoft var(--duration-float-alt) ease-in-out infinite;
+}
+
+.cardTop {
+  left: 0;
+  top: 4%;
+}
+
+.cardBottom {
+  right: 0;
+  bottom: 2%;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-5);
+  animation-duration: calc(var(--duration-float-alt) * 1.25);
+  animation-delay: calc(var(--duration-float-alt) * -0.5);
+}
+
+.pair {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.divider {
+  align-self: stretch;
+  width: 1px;
+  background: var(--ddm-glass-line);
+}
+
+.value {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-stat-hero);
+  line-height: 1;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-white);
+}
+
+.label {
+  font-size: var(--ddm-text-caption);
+  font-weight: 600;
+  color: var(--ddm-navy-200);
+}
+
+/* Dar masaüstünde bulut sıkışmasın: son iki balon düşer. */
+@media (max-width: 1279px) {
+  .bubble:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+/* Mobil (kullanıcı seçimi): kompozisyon yok, yalnız zemin efekti. */
+@media (max-width: 999px) {
+  .art {
+    display: none;
+  }
+}
+
+/* Keyframe'ler modülün içinde: CSS Modules animasyon adlarını yerelleştirir,
+ * globals.css'teki keyframe'e modülden ad ile ulaşılamaz. */
+@keyframes greet {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.94);
+  }
+  8%,
+  44% {
+    opacity: 1;
+    transform: none;
+  }
+  54%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes floatSoft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(calc(-1 * var(--float-shift)));
+  }
+}

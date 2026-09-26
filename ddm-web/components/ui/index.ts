@@ -14,3 +14,4 @@ export type { BadgeVariant, DayKey } from "./Primitives";
 export { Carousel } from "./Carousel";
 export { Accordion } from "./Accordion";
 export { Reveal } from "./Reveal";
+export { Parallax } from "./Parallax";

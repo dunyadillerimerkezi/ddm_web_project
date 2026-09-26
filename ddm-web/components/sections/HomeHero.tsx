@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Badge, ButtonLink } from "@/components/ui";
 import { FeatureCard } from "@/components/cards/FeatureCard";
+import { HeroBackdrop } from "@/components/sections/HeroBackdrop";
+import { HeroLanguageArt } from "@/components/sections/HeroLanguageArt";
 import { HOME_HERO } from "@/data/home";
 import styles from "@/styles/HomeHero.module.css";
 
@@ -14,6 +16,11 @@ import styles from "@/styles/HomeHero.module.css";
  * alt katman üstünde yazı; sağda iki yatay kart (fotoğraf solda, kart
  * yüksekliğini doldurur). Header'ın arkasından başlaması tüm sitede ortak
  * kural (globals.css `main > :first-child`).
+ *
+ * Canlı zemin + selam bulutu (2026-09-26, kullanıcı seçimi "B"): gradient
+ * lacivert üstünde ışık/harf/doku katmanı (`HeroBackdrop`), metnin sağında
+ * `HeroLanguageArt`. H1 DOM'da süslemeden önce; süsleme saf CSS (parallax
+ * hariç) → LCP gecikmez. ≤999px'te sağ kompozisyon yok, yalnız zemin.
  */
 export function HomeHero() {
   const { badge, h1, lead, primaryCard, featureCards } = HOME_HERO;
@@ -21,14 +28,18 @@ export function HomeHero() {
 
   return (
     <section className={styles.section}>
+      <HeroBackdrop />
       <div className={styles.inner}>
-        <div className={styles.intro}>
-          <Badge variant="accent">
-            <span className={styles.dot} aria-hidden="true" />
-            {badge}
-          </Badge>
-          <h1 className={styles.title}>{h1}</h1>
-          <p className={styles.lead}>{lead}</p>
+        <div className={styles.top}>
+          <div className={styles.intro}>
+            <Badge variant="accent">
+              <span className={styles.dot} aria-hidden="true" />
+              {badge}
+            </Badge>
+            <h1 className={styles.title}>{h1}</h1>
+            <p className={styles.lead}>{lead}</p>
+          </div>
+          <HeroLanguageArt />
         </div>
 
         <div className={styles.grid}>
