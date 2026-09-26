@@ -454,7 +454,12 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `site-architecture` (iç link ağı, breadcrumb), `frontend-design:frontend-design`.
 
-### P4 — Zengin İçerik Alt Sayfa  🟡 özel ders ✅ · online ✅ (2026-09-25) · kalan: nedir, tekil, yurtdışı, diğer+kurumsal (online-dil-egitimi hariç), dil -2 301
+### P4 — Zengin İçerik Alt Sayfa  🟡 özel ders ✅ · online ✅ · nedir ✅ (2026-09-26) · kalan: tekil, yurtdışı, diğer+kurumsal (online-dil-egitimi hariç), dil -2 301
+
+> **Sonuç — Nedir (2026-09-26, Opus 5.5):** 8 rehber. Metin genel sınav bilgisi → P2 kuralı (başlık kalır, eskimiş olgu
+> resmi kaynaktan düzeltilir, `edits` izlenir). Ayrı tasarım (`GuidePage`): açık hero + kısa cevap + lacivert "bir bakışta"
+> `<dl>`, yapışkan soru listesi, soru başlıklı bölümler (kalın cevap → madde / kart / tablo), kaynaklar + son güncelleme.
+> Karşılaştırma tabloları (TOEFL/IELTS/PTE, GRE/GMAT, TOEIC/TOEFL/IELTS), TOEFL yeni/eski puan tabloları. 4 `?id=` 301.
 
 > **Sonuç — Online (2026-09-25, Opus 5.5):** 8 dil + çatı `/diger-program/online-dil-egitimi` (diğer program alt türünden
 > öne alındı, kullanıcı kararı). Kaynak tek şablon (5 cümle) → çözücü iskeleti doğrular, cümleler hero + 4 adıma dağılır.

@@ -137,6 +137,9 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     `data/privateLessons*.ts`'te `feature` / `faq[].answer.added` alanlarında durur; her olgu resmi kaynaktan
     doğrulanır ve kaynak yorumda yazar; emin olunmayan rakam yazılmaz. Sayfada "Son güncelleme" tarihi gösterilir.
     Hero'daki kısa "facts" etiketleri firma cümlesinin arayüz kısaltmasıdır, dayandığı cümle yorumda.
+    **Nedir rehberleri (2026-09-26, kullanıcı):** metin genel sınav bilgisi olduğu için P2 kuralı uygulanır — başlık
+    kalır, eskimiş olgu resmi kaynaktan düzeltilir (`data/examGuides.ts` `edits`), firma cümlesi varsa (Proficiency
+    tavsiyeleri) yalnız yazım/eskimiş olgu düzeltilir; eski adres/telefon blokları gerekçeli `ignored`.
   - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
     not barajı, sertifika) ekleme-çıkarma YOK; sayfada zaten yazılı olgular aynı anlamda yeniden
     cümlelenebilir (SSS cevapları `lib/languageFaq.ts` bunları o dilin kendi metninden regex'le okur,
@@ -196,6 +199,7 @@ ddm-web/
 │   └── home.ts              # Ana Sayfa verisi
 │   ├── privateLessons.ts    # P4 özel ders birleşik listesi (+ Shared / Language / Exam tanımları)
 │   ├── onlineLessons.ts     # P4 online eğitim — 8 dil + çatı (`ONLINE_HUB`), sınavların evden/merkezde bilgisi
+│   ├── examGuides.ts        # P4 "{Sınav} Nedir?" rehberleri (8) — genel bilgi, P2 kuralı, kaynak yorumda
 ├── lib/
 │   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
 │   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak (§10)
@@ -205,7 +209,8 @@ ddm-web/
 │   ├── contentSections.ts   # SectionResolver — kaynağı başlık-tabanlı bölümler; assertCoverage
 │   ├── richContent.ts       # P4 Zengin İçerik tipleri (RichPage/RichBlock) + özel ders çözücüsü + ortak yardımcılar
 │   ├── onlineContent.ts     # P4 online çözücüsü (kaynak iskeletini doğrular, cümleleri hero + adımlara dağıtır)
-│   ├── richPages.ts         # P4 tüm alt türlerin tek listesi + dağıtıcı yardımcıları (getRichPage, richPathsUnder, richMetadata)
+│   ├── guideContent.ts      # P4 nedir çözücüsü (GuidePage: soru başlıklı bölümler, kaynak satırlı tablolar)
+│   ├── richPages.ts         # P4 tüm alt türlerin tek listesi (`RichEntry`: rich | guide) + dağıtıcı yardımcıları
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
 ├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
 ├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
@@ -311,6 +316,9 @@ ddm-web/
 > **Online (2026-09-25):** baskın bölüm `OnlineSteps` ("nasıl işler" adımları — metinler firma cümleleri — + lacivert
 > "Derse başlamadan önce" paneli ve dekoratif `CallCard`), destek `ExamModes` (sınav evden mi / merkezde mi) ve
 > online/şube tablosu. Hero fotoğrafı kullanıcının online eğitim görselleri (İngilizceye özgü olanlar yalnız İngilizce ve çatı).
+> **Nedir (2026-09-26):** sınav ana sayfalarından AYRI `GuidePage` — açık mavi hero, H1 altında büyük kısa cevap, sağda
+> lacivert "bir bakışta" `<dl>`; gövdede solda yapışkan soru listesi (`GuideToc`), her bölüm soru → kalın tek cümlelik
+> cevap → madde / bölüm kartı / tablo; uzun paragraf bloğu yok; fotoğraf ve hareket yok; sonda kaynaklar + son güncelleme.
 
 Tasarım **Claude Design**'da yapılır (Faz 4-5). Bu repo ve bu dosya sadece
 onaylanmış tasarımı **koda uygular** — burada UI/görsel karar alınmaz. Bir

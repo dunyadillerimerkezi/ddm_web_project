@@ -113,6 +113,18 @@ const JOOMLA_PRIVATE_LESSONS: [string, string, string][] = [
 ];
 
 /**
+ * P4 — 4 "Nedir?" rehberinin Joomla `?view=article&id=…` kopyası (kurs sayfası
+ * üstünden). Gövdeleri temiz sayfalarla birebir aynı (site_content.json'da
+ * doğrulandı). [kaynak, id, hedef].
+ */
+const JOOMLA_GUIDES: [string, string, string][] = [
+  ["/sinav-hazirlik-egitimleri/gmat-kursu.html", "165:gmat-nedir", "/sinav-hazirlik-egitimleri/gmat-kursu/gmat-nedir"],
+  ["/sinav-hazirlik-egitimleri/sat-kursu.html", "159:sat-nedir", "/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir"],
+  ["/sinav-hazirlik-egitimleri/toeic-kursu.html", "128:toeic-nedir", "/sinav-hazirlik-egitimleri/toeic-kursu/toeic-nedir"],
+  ["/sinav-hazirlik-egitimleri/proficiency-kursu.html", "136:proficiency-nedir", "/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-nedir"],
+];
+
+/**
  * P4 — yayınlanmayan sayfalar (kullanıcı kararı, 2026-09-25): "YDS Kurs Dönemi"
  * (`yds-ozel-ders-2`) — iki bilgisi YDS Kursu sayfasına taşındı.
  */
@@ -163,11 +175,17 @@ const nextConfig: NextConfig = {
       destination,
       permanent: true,
     }));
+    const guides = JOOMLA_GUIDES.map(([source, id, destination]) => ({
+      source,
+      has: [{ type: "query" as const, key: "id", value: id }],
+      destination,
+      permanent: true,
+    }));
     const retired = RETIRED_PAGES.flatMap(([source, destination]) => [
       { source, destination, permanent: true },
       { source: `${source}.html`, destination, permanent: true },
     ]);
-    return [...university, ...courseDates, ...contact, ...privateLessons, ...retired];
+    return [...university, ...courseDates, ...contact, ...privateLessons, ...guides, ...retired];
   },
 };
 

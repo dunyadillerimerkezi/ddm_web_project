@@ -7,21 +7,21 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-25, P4 · Online alt türü — commit bekliyor)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-26, P4 · Nedir alt türü — commit bekliyor)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `b21aac7` (kullanıcı; P4 özel ders kod + döküman tek commit). **P4 online kodu çalışma ağacında, commit'lenmedi.** Aynı ağaçta paralel UI turu (Dil Kursu) değişiklikleri de var — commit'te ayrılmalı. |
-| **Son döküman commit'i** | `b21aac7`; bu oturumun döküman güncellemeleri commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**164 statik sayfa**, 155'ten) · `check-links` **18 benzersiz / 694 çift** (19/809'dan) · 72/72 kurs tarihi üretiliyor · 9 online sayfa × 1440/390/360 px taşma ve konsol hatası yok, tek H1, 497–581 kelime |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · Özel Ders 18 (P4-1) · **Online 8 + çatı (P4-2)** |
-| **Aktif faz** | P4 Zengin İçerik — özel ders ✅, **online ✅** (8 dil + `/diger-program/online-dil-egitimi`). Sıradaki alt tür: **nedir (8)** |
-| **Bir sonraki somut adım** | Kullanıcı onayı → P4 online commit'i (kod + döküman ayrı; UI turu dosyalarını karıştırmadan; `public/assets/online_education*.jpg` ve sınav hero fotoğrafları izlenmiyor ama kod onlara bağlı → kullanıcı ekler); sonra P4 "nedir" Aşama 0 |
-| **Yarım kalan iş** | Yok. |
-| **Engeller** | Kalan 18 ölü hedef: `/ogrenci-yorumlari` (footer) → P7 · proficiency `nedir/ornek-sinav-sorulari` (21'er) → P4 nedir/tekil · Almanca/Çince/Türkçe tekil ve yurtdışı alt sayfaları (1'er) → P4 · `/aktivite-aktiviteler`, `/duyurular` (1'er) → P7 |
-| **Bekleyen kullanıcı kararları** | GMAT/GRE grup büyüklüğü çelişkisi (firma "2-3 kişilik", P3 tablosu "en fazla 2"; satır gizli) · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD (özel ders + online SSS'leri FAQPage için hazır) · Search Console verisi (özel ders kalıcılığı) · dile özgü online fotoğraflar (isteğe bağlı; şimdi 7 dil aynı genel görseli kullanıyor) |
-| **Bilinen veri notları** | Joomla `?id=` 301'leri sorgu dizesini hedefe taşıyor (Next.js davranışı; canonical temiz) · `.html` 301'leri Faz 8 · online sayfalarında "Skype" kaynakta kaldı (kullanıcı kararı; Skype Mayıs 2025'te kapandı) · HSK ve SIELE'nin evden sınav seçeneğinin Türkiye'de açık olduğu doğrulanamadı (sayfada not) · İtalyanca sınavlar için yalnız "merkezde" yazıldı (evden seçenek resmi sayfalarda yok ama "yoktur" da denmiyor) |
-| **Kalıcı kurallar** | P4 içerik kuralı (CLAUDE.md §5) · P4 tasarım (CLAUDE.md §9 — online: "nasıl işler" akışı baskın, adım metinleri firma cümleleri) · UI turu: TopBar yok, ilk bölüm header'ın arkasından · `soon` bayrağı (§10) · hub linkleri `isProducedPage()` süzgecinden · zengin içerik sayfaları tek listeden: `lib/richPages.ts` |
+| **Son kod commit'i** | `0cc4673` (kullanıcı; P4 online dahil). **P4 nedir kodu çalışma ağacında, commit'lenmedi.** |
+| **Son döküman commit'i** | `0cc4673`; bu oturumun nedir döküman güncellemeleri commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**172 statik sayfa**, 164'ten) · `check-links` **17 benzersiz / 705 çift** (18/694'ten; çift artışı yeni sayfaların footer'ındaki mevcut ölü hedefler) · 72/72 kurs tarihi · 8 nedir × 1440/390/360 px taşma yok, tek H1, 373–611 kelime · 4 `?id=` 301 çalışıyor |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · Özel Ders 18 (P4-1) · Online 8 + çatı (P4-2) · **Nedir 8 (P4-3)** |
+| **Aktif faz** | P4 Zengin İçerik — özel ders ✅, online ✅, **nedir ✅**. Sıradaki alt tür: **tekil (8)** (sonra yurtdışı 11, diğer program + kurumsal, dil "-2" 301) |
+| **Bir sonraki somut adım** | Kullanıcı onayı → P4 nedir commit'i (kod + döküman ayrı); sonra P4 "tekil" Aşama 0 |
+| **Yarım kalan iş** | Yok. Dev sunucusu (3000) son değişiklikleri yüklemiyordu → kontrol production build ile (3200) yapıldı; kullanıcıya yeniden başlatması söylendi. |
+| **Engeller** | Kalan 17 ölü hedef: `/ogrenci-yorumlari` (footer) → P7 · `proficiency-ornek-sinav-sorulari` (21'er) → P4 tekil · Almanca/Çince/Türkçe tekil ve yurtdışı alt sayfaları (1'er) → P4 · `/aktivite-aktiviteler`, `/duyurular` → P7 |
+| **Bekleyen kullanıcı kararları** | GMAT/GRE grup büyüklüğü çelişkisi (özel ders; satır gizli) · online çatı fotoğrafı (kullanıcı daha büyüğünü verecek) · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD (SSS'ler hazır) |
+| **Bilinen veri notları** | Nedir sayfaları GENEL sınav bilgisi → P2 kuralı (başlık kalır, eskimiş olgu resmi kaynaktan düzeltilir, `edits` izlenir; kullanıcı 2026-09-26) · TOEFL puanı 1–6 bant + eski 0–120 karşılık tablosu (ETS resmi tablosu) · YDS süre 180 dk, tazminat rakamları gösterge (375 s. KHK md. 2) · Atılım muafiyet eşikleri 2025 yönergesinden · SAT/GMAT eski posta/telefon blokları kaldırıldı (kullanıcı onayı) · `?id=` 301'leri sorgu dizesini taşıyor (Next.js) |
+| **Kalıcı kurallar** | P4 içerik kuralı (CLAUDE.md §5) · P4 tasarım (CLAUDE.md §9; nedir: açık hero + "bir bakışta" kartı, soru başlıklı bölümler, madde/tablo, sınav ana sayfalarından ayrı) · zengin içerik tek liste `lib/richPages.ts` (`RichEntry`: rich / guide) · `soon` bayrağı (§10) |
 
 ---
 
@@ -59,6 +59,28 @@
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-26 · Opus 5.5 · P4 — Nedir rehberleri (8 sayfa) — commit bekliyor
+- **Aşama 0:** 8 sayfa, 119–604 kelime; metin firma bilgisi değil GENEL sınav bilgisi ve büyük kısmı eskimiş (SAT I/II,
+  GMAT'i "ETS yapar", GRE 2023 öncesi format, TOEIC 2006 öncesi dağılım, YDS 150 dk, tazminat rakamları TL gibi,
+  Proficiency'de TOEFL CBT/FCE). 4 Joomla `?id=` kopyası birebir → 301. Meta description'ların 7'si >155 + bayat şube listesi.
+- **Kararlar (kullanıcı):** içerik düzenlenip geliştirilebilir, eskimiş bilgi düzeltilir, firma bilgisi değişmez · ayrı
+  tasarım (sınav ana sayfaları beğenilmedi, sonra ele alınacak) · göz gezdirilerek okunan format, bilgiye boğmadan ·
+  TOEFL'da eski 0–120 ölçeği de ayrı tablo olarak.
+- **Yeni:** `data/examGuides.ts` (8 tanım; `edits`/`headingEdits`/gerekçeli `ignored`; kaynak satırlı tablo `rows: { src }`,
+  `links` bloğu), `lib/guideContent.ts` (SectionResolver + assertCoverage; kaynak başlığı bölüm başlığı olunca tüketilmiş
+  sayılır), `GuidePage`/`GuideHero`/`GuideToc`/`RichRoute` (+ CSS). `lib/richPages.ts` artık `RichEntry` (rich | guide).
+  `next.config.ts` `JOOMLA_GUIDES` (4). Menüde 8 satır açıldı ("GMAT Nedir ?" etiketi düzeltildi).
+- **Doğrulama (resmi kaynak, 2026-09-26):** ETS (TOEFL bant↔CEFR↔0–120, 3 gün, MyBest, 40M+, 13.500+ kurum; GRE 21 gün/5,
+  8–10 gün, 40 $, ScoreSelect; TOEIC dağılım, CEFR, 7 milyon), IELTS (kâğıt 2026 ortası kalkıyor, Writing on Paper, One Skill
+  Retake, bant adları), GMAC (Pearson VUE, 16 gün/5/8, 7.700+ program), College Board (dijital SAT, 2–4 hafta, 8 tarih,
+  sınav günü), ÖSYM (180 dk, diller, e-YDS 12 oturum, eşdeğerlik; IELTS yok), 375 s. KHK, YÖK yönetmeliği, Atılım 2025.
+- **Doğrulama (teknik):** tsc ✅ · lint ✅ · build ✅ 172 · check-links 17/705 · 72/72 · 8 × 3 genişlik temiz.
+- **code-review (high):** 12 bulgunun 10'u düzeltildi — SAT süre cümlesi (molayla 2 sa 14 dk yanlıştı) · GMAT "her bölümde"
+  en fazla 3 cevap · TOEFL süresi ETS ifadesiyle ("yaklaşık 2 saat ayırın", net ~90 dk) · YDS "çoğu dilde çoktan seçmeli" ·
+  3px/2px çizgiler token · TOEFL tablosu ortak `EN_COMPARE_ROWS` · GRE uyarlamalı paragraf puan bölümüne · IELTS/GMAT tekrarları ·
+  SAT açıklama büyük harf · Proficiency firma cümlesinde "biraz speaking çalışıp" geri geldi · eski yorumlar. Açık: `?id=` sorgu
+  taşınması (tüm Joomla kurallarında ortak, Faz 8).
 
 ### 2026-09-25 · Opus 5.5 · P4 — Online eğitim (8 sayfa + çatı) — commit bekliyor
 - **Aşama 0:** 8 sayfa aynı şablon (h1 + 3 paragraf / 5 cümle, 91–93 kelime); yalnız dil adı ve öğretmen uyruğu değişiyor.

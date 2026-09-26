@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { CourseDatePage } from "@/components/sections/CourseDatePage";
-import { RichContentPage } from "@/components/sections/RichContentPage";
+import { RichRoute } from "@/components/sections/RichRoute";
 import { COURSE_DATES, findCourseDateEntry } from "@/data/courseDates";
 import { getCourseDatePage } from "@/lib/courseDateContent";
 import { assertNoSlugCollision, getRichPage, richMetadata, richPathsUnder } from "@/lib/richPages";
@@ -11,7 +11,7 @@ import { absoluteUrl } from "@/lib/site";
 /**
  * DAĞITICI route — `/yabanci-dil-egitimleri/{kurs}/{sayfa}` altında iki tip:
  *   - Faz 6.6 Şube Kurs Tarihi (`data/courseDates.ts`) → `CourseDatePage`
- *   - P4 Zengin İçerik (özel ders, online…; `lib/richPages.ts`) → `RichContentPage`
+ *   - P4 Zengin İçerik (özel ders, online…; `lib/richPages.ts`) → `RichRoute` (alt türe göre sayfa)
  * İki listenin slug'ları çakışmaz (build'de denetlenir, aşağıda).
  */
 
@@ -65,7 +65,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   if (entry) return <CourseDatePage page={getCourseDatePage(entry)} />;
 
   const rich = getRichPage(`${PREFIX}${kurs}/${sayfa}`);
-  if (rich) return <RichContentPage page={rich} />;
+  if (rich) return <RichRoute entry={rich} />;
 
   notFound();
 }

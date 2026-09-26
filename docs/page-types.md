@@ -19,7 +19,7 @@
 | 1 | Şube Kurs Tarihi Sayfası | `/{kategori}/{kurs}/{sube}-subesi-kurs-tarihi.html` | **84** | `/yabanci-dil-egitimleri/ingilizce-kursu/besiktas-subesi-kurs-tarihi.html` | ✅ 6.6 — 72 sayfa + 16 Joomla 301 |
 | 2 | Öğrenci Yorumu (Tekil) | `/ogrenci-yorumlari/{id}-{ad-soyad}.html` | **51** | `/ogrenci-yorumlari/16-sibiya-sayeste.html` | ⏳ P7 |
 | 3 | Üniversite Proficiency Sayfası | `/sinav-hazirlik-egitimleri/proficiency-kursu/{universite}.html` (+ kök dizin eş kopyası) | **42** (21 üniversite × 2 URL) | `/sinav-hazirlik-egitimleri/proficiency-kursu/bogazici-universitesi.html` | ✅ 6.5 — 21 sayfa + 42 redirect |
-| 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` | ⏳ P4 |
+| 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` | 🟡 P4 — 8 nedir ✅ (2026-09-26); -2 ve seviye/örnek sınav alt sayfaları bekliyor |
 | 5 | Özel Ders Sayfası | `/{kategori}/{kurs}/{kurs}-ozel-ders.html` (+ eski Joomla `?id=` varyantı) | **39** | `/yabanci-dil-egitimleri/fransizca-kursu/fransizca-ozel-ders.html` | ✅ P4 — 18 sayfa (9 dil + 9 sınav) + 21 Joomla `?id=` 301; `yds-ozel-ders-2` yayınlanmadı → 301 YDS Kursu |
 | 6 | Sınav Hazırlık Kursu Ana Sayfası | `/sinav-hazirlik-egitimleri/{sinav}-kursu.html` | **16** | `/sinav-hazirlik-egitimleri/toefl-kursu.html` | ✅ 6.9 (P2) |
 | 7 | Şube İletişim Sayfası | `/ddm-iletisim/{sube}.html` (+ eski `/component/content/article/...`) | **13** | `/ddm-iletisim/1-kadikoy.html` | ✅ P1 — hub + 5 sayfa + 6 Joomla 301 (form gövdesi sona bırakıldı) |

@@ -319,7 +319,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "TOEFL Programı", href: `${SH}/toefl-kursu/toefl-kursu-2`, soon: true },
                   { label: "TOEFL Özel Ders", href: `${SH}/toefl-kursu/toefl-ozel-ders` },
-                  { label: "TOEFL Nedir?", href: `${SH}/toefl-kursu/toefl-nedir`, soon: true },
+                  { label: "TOEFL Nedir?", href: `${SH}/toefl-kursu/toefl-nedir` },
                 ],
               },
               {
@@ -342,7 +342,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "IELTS Programı", href: `${SH}/ielts-kursu/ielts-kursu-2`, soon: true },
                   { label: "IELTS Özel Ders", href: `${SH}/ielts-kursu/ielts-ozel-ders` },
-                  { label: "IELTS Nedir?", href: `${SH}/ielts-kursu/ielts-nedir`, soon: true },
+                  { label: "IELTS Nedir?", href: `${SH}/ielts-kursu/ielts-nedir` },
                 ],
               },
               {
@@ -365,7 +365,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "TOEIC Programı", href: `${SH}/toeic-kursu/toeic-kursu-2`, soon: true },
                   { label: "TOEIC Özel Ders", href: `${SH}/toeic-kursu/toeic-ozel-ders` },
-                  { label: "TOEIC Nedir?", href: `${SH}/toeic-kursu/toeic-nedir`, soon: true },
+                  { label: "TOEIC Nedir?", href: `${SH}/toeic-kursu/toeic-nedir` },
                 ],
               },
               {
@@ -387,7 +387,7 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "YDS Programı", href: `${SH}/yds-kursu/yds-kursu-2`, soon: true },
-                  { label: "YDS Nedir?", href: `${SH}/yds-kursu/yds-nedir`, soon: true },
+                  { label: "YDS Nedir?", href: `${SH}/yds-kursu/yds-nedir` },
                   { label: "YDS Özel Ders", href: `${SH}/yds-kursu/yds-ozel-ders` },
                 ],
               },
@@ -411,7 +411,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "Proficiency Programı", href: `${SH}/proficiency-kursu/proficiency-kursu-2`, soon: true },
                   { label: "Proficiency Özel Ders", href: `${SH}/proficiency-kursu/proficiency-ozel-ders` },
-                  { label: "Proficiency Nedir?", href: `${SH}/proficiency-kursu/proficiency-nedir`, soon: true },
+                  { label: "Proficiency Nedir?", href: `${SH}/proficiency-kursu/proficiency-nedir` },
                   { label: "Proficiency Sınavı", href: `${SH}/proficiency-kursu/proficiency-sinavi`, soon: true },
                   { label: "Proficiency Örnek Sınav Soruları", href: `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari`, soon: true },
                   { label: "Üniversite Proficiency Kursları", href: `${SH}/proficiency-kursu#universiteler` },
@@ -437,7 +437,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "GRE Programı", href: `${SH}/gre-kursu/gre-kursu-2`, soon: true },
                   { label: "GRE Özel Ders", href: `${SH}/gre-kursu/gre-ozel-ders` },
-                  { label: "GRE Nedir?", href: `${SH}/gre-kursu/gre-nedir`, soon: true },
+                  { label: "GRE Nedir?", href: `${SH}/gre-kursu/gre-nedir` },
                 ],
               },
               {
@@ -460,7 +460,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "SAT Programı", href: `${SH}/sat-kursu/sat-kursu-2`, soon: true },
                   { label: "SAT Özel Ders", href: `${SH}/sat-kursu/sat-ozel-ders` },
-                  { label: "SAT Nedir?", href: `${SH}/sat-kursu/sat-nedir`, soon: true },
+                  { label: "SAT Nedir?", href: `${SH}/sat-kursu/sat-nedir` },
                 ],
               },
               {
@@ -483,7 +483,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "GMAT Programı", href: `${SH}/gmat-kursu/gmat-kursu-2`, soon: true },
                   { label: "GMAT Özel Ders", href: `${SH}/gmat-kursu/gmat-ozel-ders` },
-                  { label: "GMAT Nedir ?", href: `${SH}/gmat-kursu/gmat-nedir`, soon: true },
+                  { label: "GMAT Nedir?", href: `${SH}/gmat-kursu/gmat-nedir` },
                 ],
               },
               {

@@ -245,6 +245,12 @@
   --ddm-rich-hero-photo-h: clamp(200px, 42vw, 320px); /* P4: ≤999px fotoğraf şeridi */
   --ddm-exam-mode-min: 330px; /* P4 online: sınav kartı en dar genişliği (auto-fill ızgara) */
   --ddm-exam-mode-single: 640px; /* P4 online: tek sınav kartının en geniş hâli */
+  --ddm-text-answer: clamp(17px, 2vw, 21px); /* P4 nedir: hero'daki kısa cevap */
+  --ddm-guide-toc-w: 260px; /* P4 nedir: yapışkan soru listesi kolonu */
+  --ddm-guide-article-w: 780px; /* P4 nedir: makale kolonu en geniş */
+  --ddm-guide-table-narrow: 280px; /* P4 nedir: iki sütunlu küçük tablo (bant ↔ CEFR) */
+  --ddm-answer-rule: 3px; /* P4 nedir: kısa cevabın solundaki mavi çizgi */
+  --ddm-toc-rule: 2px; /* P4 nedir: soru listesinin sol çizgisi (aktif öğe onu örter) */
   --ddm-call-w: 300px; /* P4 online: hero'daki dekoratif canlı ders kartı */
   --ddm-page-hero-pt: clamp(16px, 2.4vw, 26px); /* PageHero üst dolgu (header payı globals.css'ten) */
   --ddm-page-hero-copy-w: 50%; /* UI turu (2026-09-25): fotoğraflı PageHero'da metin kolonu */

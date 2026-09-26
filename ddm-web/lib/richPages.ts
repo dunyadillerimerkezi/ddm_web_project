@@ -7,26 +7,34 @@
 
 import type { Metadata } from "next";
 
+import { EXAM_GUIDES } from "@/data/examGuides";
 import { ONLINE_HUB, ONLINE_LESSONS } from "@/data/onlineLessons";
 import { PRIVATE_LESSONS } from "@/data/privateLessons";
 import { ContentSectionsError } from "@/lib/contentSections";
+import { getGuidePage, type GuidePage } from "@/lib/guideContent";
 import { getOnlineHubPage, getOnlineLessonPage } from "@/lib/onlineContent";
 import { getPrivateLessonPage, type RichPage } from "@/lib/richContent";
 import { absoluteUrl } from "@/lib/site";
 
-const ENTRIES: { path: string; build: () => RichPage }[] = [
-  ...PRIVATE_LESSONS.map((d) => ({ path: d.path, build: () => getPrivateLessonPage(d) })),
-  ...ONLINE_LESSONS.map((d) => ({ path: d.path, build: () => getOnlineLessonPage(d) })),
-  { path: ONLINE_HUB.path, build: () => getOnlineHubPage(ONLINE_HUB) },
+/** Blok listeli sayfalar (`RichContentPage`) ya da nedir rehberleri (`GuidePage`). */
+export type RichEntry = { kind: "rich"; page: RichPage } | { kind: "guide"; page: GuidePage };
+
+const rich = (page: RichPage): RichEntry => ({ kind: "rich", page });
+
+const ENTRIES: { path: string; build: () => RichEntry }[] = [
+  ...PRIVATE_LESSONS.map((d) => ({ path: d.path, build: () => rich(getPrivateLessonPage(d)) })),
+  ...ONLINE_LESSONS.map((d) => ({ path: d.path, build: () => rich(getOnlineLessonPage(d)) })),
+  { path: ONLINE_HUB.path, build: () => rich(getOnlineHubPage(ONLINE_HUB)) },
+  ...EXAM_GUIDES.map((d) => ({ path: d.path, build: (): RichEntry => ({ kind: "guide", page: getGuidePage(d) }) })),
 ];
 
-const BY_PATH = new Map<string, () => RichPage>();
+const BY_PATH = new Map<string, () => RichEntry>();
 for (const e of ENTRIES) {
   if (BY_PATH.has(e.path)) throw new ContentSectionsError(`[richPages] "${e.path}" iki alt türde birden tanımlı.`);
   BY_PATH.set(e.path, e.build);
 }
 
-export function getRichPage(path: string): RichPage | undefined {
+export function getRichPage(path: string): RichEntry | undefined {
   return BY_PATH.get(path)?.();
 }
 
@@ -49,7 +57,7 @@ export function assertNoSlugCollision(route: string, rich: string[], others: str
 }
 
 /** Zengin içerik sayfasının metadata'sı (CLAUDE.md §6). */
-export function richMetadata(page: RichPage): Metadata {
+export function richMetadata({ page }: RichEntry): Metadata {
   return { title: page.title, description: page.description, alternates: { canonical: absoluteUrl(page.href) } };
 }
 

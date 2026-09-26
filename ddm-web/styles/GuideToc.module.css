@@ -1,0 +1,62 @@
+/* ---------------------------------------------------------------
+ * GuideToc — P4 nedir soru listesi. Masaüstünde yapışkan sol kolon;
+ * okunan soru mavi çizgi + koyu yazıyla işaretlenir.
+ * ------------------------------------------------------------- */
+.toc {
+  position: sticky;
+  top: var(--ddm-sticky-top);
+  align-self: start;
+}
+
+.label {
+  margin: 0 0 var(--space-3);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-gray-500);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: var(--ddm-toc-rule) solid var(--ddm-gray-divider);
+}
+
+.link {
+  display: block;
+  margin-left: calc(-1 * var(--ddm-toc-rule));
+  padding: var(--space-2) var(--space-4);
+  border-left: var(--ddm-toc-rule) solid transparent;
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.45;
+  color: var(--ddm-gray-600);
+  text-decoration: none;
+  transition:
+    color var(--duration-base) var(--ease-out-soft),
+    border-color var(--duration-base) var(--ease-out-soft);
+}
+
+.link:hover {
+  color: var(--ddm-navy-900);
+}
+
+.link[aria-current="location"] {
+  border-left-color: var(--ddm-sky-mid);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--ddm-sky-mid);
+  outline-offset: 2px;
+}
+
+/* ≤999px: gövdenin üstünde çerçeveli düz liste (yapışkan değil). */
+@media (max-width: 999px) {
+  .toc {
+    position: static;
+    padding: var(--space-5);
+    border: 1px solid var(--ddm-border-card);
+    border-radius: var(--radius-xl);
+  }
+}

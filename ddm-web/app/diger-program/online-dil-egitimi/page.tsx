@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { RichContentPage } from "@/components/sections/RichContentPage";
+import { RichRoute } from "@/components/sections/RichRoute";
 import { ONLINE_HUB } from "@/data/onlineLessons";
 import { getRichPage, richMetadata } from "@/lib/richPages";
 
@@ -11,12 +11,12 @@ import { getRichPage, richMetadata } from "@/lib/richPages";
  */
 
 export function generateMetadata(): Metadata {
-  const page = getRichPage(ONLINE_HUB.path);
-  return page ? richMetadata(page) : {};
+  const entry = getRichPage(ONLINE_HUB.path);
+  return entry ? richMetadata(entry) : {};
 }
 
 export default function OnlineDilEgitimiPage() {
-  const page = getRichPage(ONLINE_HUB.path);
-  if (!page) notFound();
-  return <RichContentPage page={page} />;
+  const entry = getRichPage(ONLINE_HUB.path);
+  if (!entry) notFound();
+  return <RichRoute entry={entry} />;
 }
