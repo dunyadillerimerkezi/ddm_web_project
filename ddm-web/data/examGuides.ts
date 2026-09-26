@@ -34,8 +34,9 @@ export type GuideBlock =
   /**
    * Küçük tablo (karşılaştırma, puan eşlemesi); `title` tablonun üstünde küçük başlık.
    * `rows: { src }` → satırlar kaynak satırlarından gelir (`edits` sonrası " | " ile hücrelere bölünür).
+   * `rows: { src, cells }` → kaynakta her hücre ayrı satırsa (eski HTML tablosu), ardışık `cells` satır bir tablo satırı.
    */
-  | { kind: "table"; title?: string; head: string[]; rows: string[][] | { src: SlotRef }; note: string | null }
+  | { kind: "table"; title?: string; head: string[]; rows: string[][] | { src: SlotRef; cells?: number }; note: string | null }
   /** İç bağlantı çipleri — üretilmemiş hedef düz metin kalır (`linkIfProduced`, GuidePage). */
   | { kind: "links"; items: { label: string; href: string }[] }
   /** Kaynaktaki link satırları: etiket kaynak satırı (`edits` sonrası), hedef orijinal satıra göre `hrefs`ten. */

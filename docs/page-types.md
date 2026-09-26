@@ -19,7 +19,7 @@
 | 1 | Şube Kurs Tarihi Sayfası | `/{kategori}/{kurs}/{sube}-subesi-kurs-tarihi.html` | **84** | `/yabanci-dil-egitimleri/ingilizce-kursu/besiktas-subesi-kurs-tarihi.html` | ✅ 6.6 — 72 sayfa + 16 Joomla 301 |
 | 2 | Öğrenci Yorumu (Tekil) | `/ogrenci-yorumlari/{id}-{ad-soyad}.html` | **51** | `/ogrenci-yorumlari/16-sibiya-sayeste.html` | ⏳ P7 |
 | 3 | Üniversite Proficiency Sayfası | `/sinav-hazirlik-egitimleri/proficiency-kursu/{universite}.html` (+ kök dizin eş kopyası) | **42** (21 üniversite × 2 URL) | `/sinav-hazirlik-egitimleri/proficiency-kursu/bogazici-universitesi.html` | ✅ 6.5 — 21 sayfa + 42 redirect |
-| 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` | 🟡 P4 — 8 nedir ✅ + 8 tekil ✅ (2026-09-26: program, seviye, eğitim sistemi, "zor mu", A1 ve proficiency örnek sınav; `proficiency-sinavi` → 301); -2 sayfaları bekliyor |
+| 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` | ✅ P4 — 8 nedir + 8 tekil (2026-09-26: program, seviye, eğitim sistemi, "zor mu", A1 ve proficiency örnek sınav; `proficiency-sinavi` → 301); 18 "-2" sayfası yayınlanmadı → kendi kurs sayfasına 301 |
 | 5 | Özel Ders Sayfası | `/{kategori}/{kurs}/{kurs}-ozel-ders.html` (+ eski Joomla `?id=` varyantı) | **39** | `/yabanci-dil-egitimleri/fransizca-kursu/fransizca-ozel-ders.html` | ✅ P4 — 18 sayfa (9 dil + 9 sınav) + 21 Joomla `?id=` 301; `yds-ozel-ders-2` yayınlanmadı → 301 YDS Kursu |
 | 6 | Sınav Hazırlık Kursu Ana Sayfası | `/sinav-hazirlik-egitimleri/{sinav}-kursu.html` | **16** | `/sinav-hazirlik-egitimleri/toefl-kursu.html` | ✅ 6.9 (P2) |
 | 7 | Şube İletişim Sayfası | `/ddm-iletisim/{sube}.html` (+ eski `/component/content/article/...`) | **13** | `/ddm-iletisim/1-kadikoy.html` | ✅ P1 — hub + 5 sayfa + 6 Joomla 301 (form gövdesi sona bırakıldı) |
@@ -27,14 +27,14 @@
 | 9 | Duyuru Detay Sayfası | `/duyurular/{id}-{slug}.html` | **12** | `/duyurular/31-konusma-siniflari-speaking.html` | ⏳ P7 |
 | 10 | Dil Kursu Ana Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu.html` | **10** | `/yabanci-dil-egitimleri/ingilizce-kursu.html` | ✅ 6.4 — 10 sayfa |
 | 11 | İngilizce Seviye Kursu Sayfası | `/ingilizce-kurslari/{seviye}-ingilizce-kursu.html` | **11** | `/ingilizce-kurslari/elementary-ingilizce-kursu.html` | ⏳ P5 |
-| 12 | Yurtdışı Eğitim Alt Sayfası | `/yurtdisi-egitim/{konu}.html` | **11** | `/yurtdisi-egitim/yaz-okullari.html` | ⏳ P4 |
+| 12 | Yurtdışı Eğitim Alt Sayfası | `/yurtdisi-egitim/{konu}.html` | **11** | `/yurtdisi-egitim/yaz-okullari.html` | ✅ P4 (2026-09-26) — 9 sayfa ("biniş kartı"); Yurtdışı Dil Eğitimi + Tercih Edilen Ülkeler → ana sayfa 301; `…/kanada-vancouver-2` → yeni `…/ingiltere` |
 | 13 | Online Eğitim Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu/online-{dil}-egitimi.html` | **8** | `/yabanci-dil-egitimleri/rusca-kursu/online-rusca-egitimi.html` | ✅ P4 (2026-09-25, + çatı `/diger-program/online-dil-egitimi`) |
 | 14 | Kategori Hub Sayfası | `/{kategori}.html` (alt sayfa yok, kart listesi) | **6** | `/diger-program.html` | ✅ P3 — 7 hub (özel dersler dahil), `data/hubs.ts` + `lib/hubContent.ts` |
-| 15 | Diğer Program Alt Sayfası | `/diger-program/{konu}.html` | **6** | `/diger-program/tercume-hizmetleri.html` | ⏳ P4 |
+| 15 | Diğer Program Alt Sayfası | `/diger-program/{konu}.html` | **6** | `/diger-program/tercume-hizmetleri.html` | ✅ P4 (2026-09-26) — Business English, Çocuklar İçin İngilizce, Tercüme; `yurtdisinda-egitim` Work and Travel kopyası → 301 (özel dersler + online çatı daha önce) |
 | 16 | Şube Tanıtım Sayfası | `/{sube}-tanitim-sayfasi.html` | **4** | `/kadikoy-tanitim-sayfasi.html` | ⏳ P6 |
 | 17 | Ana Sayfa | `/` | **1** | `/` | ✅ 6.3 |
 | — | Tanıtım İçerik Parçası (fragment) | `/tanitim-icerik/{id}-{slug}.html` | 6 | `/tanitim-icerik/10-sistem.html` | ⛔ P8 kararı (ana sayfa bölümü olarak beslenmiş mi kontrol) |
-| — | Kurumsal / Özel İçerik Sayfası | `/kurumsal-dil-egitim.html`, `.../turkish-course-pegasus-pilots.html` | 2 | `/kurumsal-dil-egitim.html` | ✅ P3 (hub) / ⏳ P4 (Pegasus) |
+| — | Kurumsal / Özel İçerik Sayfası | `/kurumsal-dil-egitim.html`, `.../turkish-course-pegasus-pilots.html` | 2 | `/kurumsal-dil-egitim.html` | ✅ P3 (hub) / ✅ P4 (Pegasus, İngilizce sayfa, 2026-09-26) |
 | — | Etiket (Tag) Sayfası — muhtemelen taşınmayacak | `/component/tags/tag/{slug}.html` | 2 | `/component/tags/tag/almanca-kursu.html` | ⛔ Taşınmaz — 301 |
 | — | Diğer / Tekil Sayfalar — şablon gerektirmez | — | 2 | `/aktivite-aktiviteler.html`, `/star-media.html` | ⛔ Taşınmaz / P8 kararı |
 

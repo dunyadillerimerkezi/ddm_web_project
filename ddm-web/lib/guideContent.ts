@@ -135,7 +135,14 @@ export function createGuideResolver(
         };
       case "table": {
         if (Array.isArray(b.rows)) return { ...b, rows: b.rows };
-        const rows = take(b.rows.src, bslot).map((line) => line.split(" | "));
+        const lines = take(b.rows.src, bslot);
+        const cells = b.rows.cells;
+        if (cells && lines.length % cells !== 0) {
+          throw new ContentSectionsError(`${context}/${bslot}: ${lines.length} hücre ${cells}'li satırlara bölünmüyor.`);
+        }
+        const rows = cells
+          ? Array.from({ length: lines.length / cells }, (_, i) => lines.slice(i * cells, (i + 1) * cells))
+          : lines.map((line) => line.split(" | "));
         if (rows.some((r) => r.length !== b.head.length)) {
           throw new ContentSectionsError(`${context}/${bslot}: tablo satırı ${b.head.length} hücreye bölünmedi — edits'te " | " kullanın.`);
         }

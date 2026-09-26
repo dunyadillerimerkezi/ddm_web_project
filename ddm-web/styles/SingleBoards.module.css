@@ -343,6 +343,228 @@
   background: var(--ddm-sky-400);
 }
 
+/* --- biniş kartı (yurtdışı): ana gövde + lacivert koçan, arada delik çizgisi --- */
+@keyframes settle {
+  from {
+    transform: translateY(var(--space-6)) rotate(-1.5deg);
+    opacity: 0;
+  }
+}
+
+.pass {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.34fr);
+  overflow: hidden;
+  border-radius: var(--radius-3xl);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-lift);
+  animation: settle var(--duration-board) var(--ease-out-soft) both;
+}
+
+.passMain {
+  padding: var(--space-6) var(--space-8);
+}
+
+.passTop {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-gray-500);
+}
+
+.route {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 var(--space-6);
+}
+
+.port {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.portTo {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.portCode {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-pass-code);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ddm-navy-900);
+}
+
+.portName {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+.flight {
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: var(--ddm-navy-600);
+}
+
+.flight::before {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  border-top: 2px dashed var(--ddm-sky-line);
+}
+
+.flight svg {
+  position: relative;
+  padding: 0 var(--space-2);
+  box-sizing: content-box;
+  background: var(--ddm-white);
+}
+
+.passFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-6);
+  margin: 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.passLabel {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+.passValue {
+  margin: var(--space-1) 0 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ddm-navy-900);
+}
+
+.stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin: 0;
+  padding: var(--space-6) var(--space-5);
+  background: var(--ddm-navy-600);
+  color: var(--ddm-white);
+}
+
+.stub::before {
+  content: "";
+  position: absolute;
+  top: var(--space-4);
+  bottom: var(--space-4);
+  left: 0;
+  border-left: 2px dashed var(--ddm-white-perforation);
+}
+
+.stubInfo {
+  margin: 0;
+}
+
+.stubLabel {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-navy-200);
+}
+
+.stubValue {
+  margin: var(--space-1) 0 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h5);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.barcode {
+  display: block;
+  height: var(--space-12);
+  border-radius: var(--radius-flag);
+  opacity: 0.85;
+  background: var(--ddm-pass-barcode);
+}
+
+/* --- etiketler --- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--ddm-sky-200);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-bg);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  color: var(--ddm-navy-800);
+  animation: rise var(--duration-board) var(--ease-out-soft) both;
+  animation-delay: calc(var(--i) * var(--delay-board-step) / 2);
+}
+
+/* --- iki seçenek yan yana --- */
+.compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.compareNote {
+  margin: var(--space-1) 0 0;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-600);
+}
+
+.panHard .compareNote {
+  color: var(--ddm-navy-200);
+}
+
+.compareFacts {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+}
+
+.compareLabel {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+.panHard .compareLabel {
+  color: var(--ddm-navy-200);
+}
+
+.compareValue {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.panHard .compareValue {
+  color: var(--ddm-white);
+}
+
 @media (max-width: 599px) {
   .board {
     padding: var(--space-6) var(--space-5) var(--space-5);
@@ -356,8 +578,35 @@
     min-width: calc(var(--space-20) + var(--space-4));
   }
 
-  .scale {
+  .scale,
+  .compare {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pass {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .passMain {
+    padding: var(--space-5);
+  }
+
+  .stub {
+    flex-direction: row;
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .stub::before {
+    inset: 0 var(--space-4) auto;
+    border-top: 2px dashed var(--ddm-white-perforation);
+    border-left: 0;
+  }
+
+  .barcode {
+    flex: none;
+    width: var(--space-20);
+    height: var(--space-10);
   }
 
   .factValue {

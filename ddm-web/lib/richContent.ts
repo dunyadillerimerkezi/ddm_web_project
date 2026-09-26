@@ -129,6 +129,8 @@ const CATEGORY_CRUMB: Record<string, Crumb> = {
   "yabanci-dil-egitimleri": { label: "Yabancı Dil", href: "/yabanci-dil" },
   "sinav-hazirlik-egitimleri": { label: "Sınav Hazırlık", href: "/sinav-hazirlik-egitimleri" },
   "diger-program": { label: "Diğer Programlar", href: "/diger-program" },
+  "yurtdisi-egitim": { label: "Yurtdışı Eğitim", href: "/yurtdisi-egitim" },
+  "kurumsal-dil-egitim": { label: "Kurumsal Dil Eğitimi", href: "/kurumsal-dil-egitim" },
 };
 
 export function categoryCrumb(path: string, context: string): Crumb {

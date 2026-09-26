@@ -69,6 +69,9 @@
   --ddm-on-dark-veil: rgba(255, 255, 255, 0.08); /* koyu zeminde akreditasyon rozeti */
   --ddm-navy-veil: rgba(22, 24, 74, 0.84); /* P3: fotoğraf üstü alt yazı rozeti */
   --ddm-white-glass: rgba(255, 255, 255, 0.94); /* P3: yapışkan dizin şeridi (mobil) */
+  --ddm-white-perforation: rgba(255, 255, 255, 0.35); /* P4 yurtdışı: biniş kartı koçanının delik çizgisi */
+  /* P4 yurtdışı: biniş kartı koçanındaki dekoratif barkod (ince/kalın çizgi deseni) */
+  --ddm-pass-barcode: repeating-linear-gradient(90deg, #ffffff 0 2px, transparent 2px 4px, #ffffff 4px 5px, transparent 5px 8px);
   --ddm-navy-veil-35: rgba(22, 24, 74, 0.35); /* P4: hero fotoğrafının lacivert zemine erimesi — orta */
   --ddm-navy-veil-05: rgba(22, 24, 74, 0.05); /* P4: hero fotoğrafının lacivert zemine erimesi — uç */
   /* UI turu (2026-09-25, Dil Kursu hero): fotoğrafın lacivert zemine yumuşak
@@ -246,6 +249,8 @@
   --ddm-exam-mode-min: 330px; /* P4 online: sınav kartı en dar genişliği (auto-fill ızgara) */
   --ddm-exam-mode-single: 640px; /* P4 online: tek sınav kartının en geniş hâli */
   --ddm-text-answer: clamp(17px, 2vw, 21px); /* P4 nedir: hero'daki kısa cevap */
+  --ddm-text-pass-code: clamp(30px, 3.4vw, 44px); /* P4 yurtdışı: biniş kartındaki IST / USA kodu */
+  --ddm-topic-min: 15rem; /* P4: konu kartı (topics) en dar genişliği — sütun sayısı buna göre akar */
   --ddm-guide-toc-w: 260px; /* P4 nedir: yapışkan soru listesi kolonu */
   --ddm-guide-article-w: 780px; /* P4 nedir: makale kolonu en geniş */
   --ddm-guide-table-narrow: 280px; /* P4 nedir: iki sütunlu küçük tablo (bant ↔ CEFR) */

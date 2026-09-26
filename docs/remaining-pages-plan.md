@@ -454,7 +454,18 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `site-architecture` (iç link ağı, breadcrumb), `frontend-design:frontend-design`.
 
-### P4 — Zengin İçerik Alt Sayfa  🟡 özel ders ✅ · online ✅ · nedir ✅ · tekil ✅ (2026-09-26) · kalan: yurtdışı, diğer+kurumsal (online-dil-egitimi hariç), dil -2 301
+### P4 — Zengin İçerik Alt Sayfa  ✅ tamam (2026-09-26) — özel ders · online · nedir · tekil · yurtdışı · diğer + kurumsal · "-2" 301
+
+> **Sonuç — Yurtdışı + Diğer program / kurumsal + "-2" (2026-09-26, Opus 5.5):** 13 sayfa (yurtdışı 9, Business English,
+> Çocuklar İçin İngilizce, Tercüme, Pegasus). Kararlar (kullanıcı): tasarım **"A · biniş kartı"** (yurtdışı; diğer programlar
+> tekil panosuyla) · Yurtdışı Dil Eğitimi ve Tercih Edilen Ülkeler ana sayfanın kopyası → 301 · `diger-program/yurtdisinda-egitim`
+> Work and Travel'ın kopyası → 301 · "İngiltere'de Dil Okulları" `…/kanada-vancouver-2` → yeni `…/ingiltere` (301) · Tercüme'de
+> yalnız DDM metni (Lavanda'nın İngilizce tanıtımı `ignored`) · Kaplan rakamları kaynaktaki gibi (araştırma eskimiş buldu, kullanıcı
+> "olduğu gibi bırak"; Kaplan ortaklığının sürüp sürmediğini kullanıcı teyit edecek) · pilot "çok fazla yazı" diye geri döndü →
+> **kart / tablo**: `facets` (kaynak metinden kartlar, kart ifadesi kaynakta aranır, metnin kendisi açılır "Ayrıntılı bilgi"de) ve
+> `topics` (kaynak başlığı + özet + açılır paragraf). 18 "-2" sayfası kendi kurs sayfasına 301, menüdeki "… Programı" kalemleri
+> kaldırıldı. Yeni route'lar `yurtdisi-egitim/[...sayfa]`, `diger-program/[sayfa]` (kendi klasörü olanlar hariç),
+> `kurumsal-dil-egitim/[sayfa]`. check-links 12 → **3** (yalnız P7).
 
 > **Sonuç — Tekil (2026-09-26, Opus 5.5):** 8 sayfa. Kararlar (kullanıcı): `proficiency-sinavi` yayınlanmadı (21 üniversite
 > linki, Proficiency Kursu'ndaki listenin kopyası → `#universiteler` 301, menü kalemi kaldırıldı) · Joomla "Almanca Eğitim
@@ -544,10 +555,9 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
      `proficiency-ornek-sinav-sorulari` (21 üniversite sayfasından ölü link alıyor), `proficiency-sinavi`,
      `aile-birlesimi-egitimi/a1-sinav-ornegi`. `?id=` 301: `proficiency-kursu.html?id=364:proficiency-sinavi`,
      `…id=323:proficiency-sinav-sorulari`, 2 Almanca seviye (§4).
-  5. ⏳ **yurtdışı (11)** — SIRADAKİ. `kanada-vancouver-2` için kullanıcıya sor (diğer "-2"ler 301).
-  6. ⏳ diğer program + kurumsal (5): `business-english`, `cocuklar-icin-ingilizce-kursu`, `tercume-hizmetleri`,
-     `yurtdisinda-egitim`, `kurumsal-dil-egitim/turkish-course-pegasus-pilots` (footer'dan ölü link alıyorlar).
-  7. ⏳ dil tarafı 9 "-2" sayfası → kendi ana sayfasına 301 (içerik taşınacak bir şey var mı Aşama 0'da bak).
+  5. ✅ **yurtdışı (9 + 2 × 301)** (2026-09-26) — `kanada-vancouver-2` aslında İngiltere sayfası → yeni `…/ingiltere`.
+  6. ✅ diğer program + kurumsal (4 + `yurtdisinda-egitim` 301) (2026-09-26).
+  7. ✅ "-2" sayfaları: dil 9 + sınav 9 → kendi kurs sayfasına 301 (içerik ana sayfanın başlık listesi; "8 kişilik grup" çelişkisi taşınmadı).
 
   Her alt tür: Aşama 0 → "bu tür neden farklı görünmeli" sorusu → 1 pilot → onay → toplu → code-review → döküman.
 - **P4'te öğrenilenler (sonraki oturum bunlara uysun):**
@@ -568,6 +578,9 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
     alanından dosya linklerini say.
   - **Kullanıcı:** Türkçe, kısa, teknik olmayan dil; seçenekleri görsel göster, az soru sor; tekrar eden bilgiden
     kaçma ama bilgiye boğma, göz gezdirilebilir format (soru başlığı → kalın cevap → madde/tablo). Commit'ten önce sor.
+  - **Yurtdışı'ndan:** pilotu "çok fazla yazı var" diye geri çevirdi → her bölüm tek kısa cevap + kart / tablo; uzun kaynak
+    paragrafı `facets` / `topics` ile kartlara bölünür, metnin kendisi açılır "Ayrıntılı bilgi"de birebir durur. Pilotu göstermeden
+    önce her bölümde paragraf kalmış mı bak. İş ortağı (Kaplan) bilgisini kullanıcı sormadan düzeltme — sor.
 - **Başlangıç prompt'u (P4 kalan alt türler):** bkz. `docs/SESSION-HANDOFF.md` §A "Sonraki oturum prompt'u" — kullanıcıya
   verilen tam metin orada.
 - **Skill:** `frontend-design:frontend-design`, `programmatic-seo`, `code-review`

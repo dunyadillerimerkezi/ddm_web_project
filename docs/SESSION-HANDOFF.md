@@ -7,86 +7,73 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-26, P4 · Tekil alt türü — commit bekliyor)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-26, P4 · Yurtdışı + Diğer program + "-2" — commit bekliyor)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `f6494f4` (kullanıcı; nedir `3c07e16` dahil). **P4 tekil kodu çalışma ağacında, commit'lenmedi.** |
-| **Son döküman commit'i** | `f6494f4`; bu oturumun tekil döküman güncellemeleri commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**180 statik sayfa**, 172'den) · `check-links` **12 benzersiz / 712 çift** (17'den) · 72/72 kurs tarihi · 8 tekil × 1440/390/360 px taşma yok, tek H1, 532–911 kelime · 6 `?id=` + 2 temiz URL 301 çalışıyor · 22 örnek sınav dosyası 200 |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · Özel Ders 18 · Online 8 + çatı · Nedir 8 · **Tekil 8 (P4-4)** |
-| **Aktif faz** | P4 Zengin İçerik — özel ders ✅, online ✅, nedir ✅, **tekil ✅**. Sıradaki alt tür: **yurtdışı (11)** (sonra diğer program + kurumsal 5, dil "-2" 301) |
-| **Bir sonraki somut adım** | Yeni oturum: aşağıdaki prompt ile P4 "yurtdışı" Aşama 0 (`/yurtdisi-egitim/*` 11 kayıt). Önce tekil değişikliklerinin commit durumunu sor (kod + döküman ayrı; `public/images`, `public/ddm` PDF'leri kod commit'ine girer — kullanıcı onayladı, `public/assets` girmez). |
+| **Son kod commit'i** | `873922e` (kullanıcı; tekil dahil). **P4 yurtdışı / diğer program kodu çalışma ağacında, commit'lenmedi.** |
+| **Son döküman commit'i** | `873922e`; bu oturumun döküman güncellemeleri commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**193 statik sayfa**, 180'den) · `check-links` **3 benzersiz / 191 çift** (12'den; kalanlar yalnız P7) · sitemap'teki 189 adres 200 (72 kurs tarihi dahil) · 13 yeni sayfa × 1440/390/360 taşma yok, tek H1 · 22 yeni 301 (4 yurtdışı/diğer + 18 "-2") 308 dönüyor |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · **P4 tamam**: Özel Ders 18 · Online 8 + çatı · Nedir 8 · Tekil 8 · Yurtdışı 9 · Diğer program / kurumsal 4 |
+| **Aktif faz** | P4 bitti. Sıradaki: **P5 İngilizce Seviye Kursu (11)** |
+| **Bir sonraki somut adım** | Yeni oturum: aşağıdaki prompt ile P5 Aşama 0 (`/ingilizce-kurslari/*` 11 kayıt). Önce bu oturumun commit durumunu sor (kod + döküman ayrı; `public/assets` girmez). |
 | **Yarım kalan iş** | Yok. |
-| **Engeller** | Kalan 12 ölü hedef: `/ogrenci-yorumlari` (footer) → P7 · `/diger-program/{business-english,cocuklar-icin-ingilizce-kursu,tercume-hizmetleri}` (footer, 176'şar) → P4 diğer program · 6 `/yurtdisi-egitim/*` → P4 yurtdışı · `/aktivite-aktiviteler`, `/duyurular` → P7 |
-| **Bekleyen kullanıcı kararları** | Üniversite proficiency sayfalarında eski sınav adları (Acıbadem AYES → ACUPEP/ACEPT, Kadir Has → KHAS-LPPE, Okan → OPAE, Beykent → BULET, Boğaziçi TR → BÜYES) ve kapanmış 2 üniversite (İstanbul Şehir 2020, Süleyman Şah 2016) — ayrı iş, sorulmadı · GMAT/GRE grup büyüklüğü çelişkisi · online çatı fotoğrafı · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD |
-| **Bilinen veri notları** | Tekil: firma metni birebir (yazım + "Beşiktaş" → Levent / Etiler `edits`), genel bilgi resmi kaynaklı (`data/singlePages.ts` yorumları). Ümraniye'de Almanca/İngilizce kurs tarihi yok → şube listelerine eklenmedi. Almanca seviyelerinde Grundstufe/Mittelstufe ↔ CEFR eşlemesi resmi kaynakta bulunamadı → yazılmadı. Goethe UE (ders saati) tablosu orta güvende → kullanılmadı. Koç KUEPE dosyası DDM hazırlığı (`_DDM.pdf`), resmi örnek değil; sayfada "resmi örnek yayımlamıyor" notu var. `?id=` 301'leri sorgu dizesini taşıyor (Next.js, Faz 8'de ortak çözüm) |
-| **Kalıcı kurallar** | P4 içerik kuralı (CLAUDE.md §5; tekil: cümle kapsaması + `splits`) · P4 tasarım (CLAUDE.md §9; tekil "A · program panosu") · zengin içerik tek liste `lib/richPages.ts` (`RichEntry`: rich / guide / single) · `soon` bayrağı (§10) |
+| **Engeller** | Kalan 3 ölü hedef: `/ogrenci-yorumlari` (footer, 189 sayfa), `/aktivite-aktiviteler`, `/duyurular` → P7 |
+| **Bekleyen kullanıcı kararları** | **Çocuklar İçin İngilizce: hafta içi akşam 19:00–21:30 × 2 gün = 5 saat, kaynak "Haftada 6 Saat" diyor** (saat mi, süre mi yanlış?) · **Kaplan ortaklığı sürüyor mu?** (Kaplan'ın dil okulları grubu 1 Mayıs 2026'da Inspirit Capital'e geçti; menüde "KAPLAN INTERNATIONAL ve ILSC resmi kayıt ofisi" yazıyor — kullanıcı teyit edecek) · Kaplan sayfalarındaki eskimiş rakamlar kullanıcı kararıyla kaynaktaki gibi ("80 yıl", "37 okul", "%97", GRE/GMAT kursları, San Diego yaz okulu; "50 / 150 millet" iki sayfada çelişkili) · Yurtdışı Eğitim ana sayfasında (P3) "Kaplan ailesinin parçası Enforex" yanlış (Enforex Kaplan'a ait değil) — sorulmadı · üniversite sayfalarında eski sınav adları + kapanmış 2 üniversite · GMAT/GRE grup büyüklüğü · online çatı fotoğrafı · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD |
+| **Bilinen veri notları** | Yurtdışı genel bilgi kaynakları `data/abroadPages.ts` yorumlarında (J-1 SWT, dol.gov, ECCC, StatCan Ağustos 2026, TransLink, IRCC, English UK 2026, gov.uk, MUR 2026-28, EC eğitim profili); diğer program kaynakları `data/otherPrograms.ts`'te (Cambridge, ETS, MEB TTK 2025, Noterlik Kanunu, MFA, AIIC). Vancouver'da "şehrin yarısı göçmen" ve İngiltere'de "%15–35 indirim" doğrulanamadı → çıkarıldı. Kings'in Manchester/Newcastle merkezleri yetişkin mi genç mi netleşmedi → eklenmedi. Tercüme'de "19 dil" deniyor, listede 17 dil var (firma metni, dokunulmadı). Pegasus sayfası İngilizce (`lang="en"`), kaynakta yalnız 43 kelime — genişletilmedi |
+| **Kalıcı kurallar** | P4 içerik kuralı (CLAUDE.md §5; yurtdışı: kart/tablo, `facets` / `topics`, Kaplan kaynaktaki gibi) · P4 tasarım (CLAUDE.md §9; yurtdışı "A · biniş kartı") · zengin içerik tek liste `lib/richPages.ts` · `soon` bayrağı (§10) · **sayfada düz yazı yok** (hafıza: pages-cards-not-prose) |
 
 
-**Sonraki oturum prompt'u (kullanıcıya verildi, 2026-09-26):**
+**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-09-26):**
 
 ```
-P4 · Zengin İçerik Alt Sayfalar — devam oturumu. Bu oturumun alt türü: YURTDIŞI (11 sayfa).
-(Bitince sırayla: diğer program + kurumsal 5 → dil "-2" 301'leri. Her yeni alt tür ayrı oturum olabilir.)
+P5 · İngilizce Seviye Kursları (11 sayfa, /ingilizce-kurslari/*).
 
 OTURUM BAŞI
 - Oku: docs/SESSION-HANDOFF.md §A ve §B, ddm-web/CLAUDE.md (§3, §4, §5, §6, §9, §10), docs/remaining-pages-plan.md
-  §3/§5 P4 bölümü ("Pilot sırası ve durum" ve "P4'te öğrenilenler" dahil), lib/nav.ts'teki ilgili satırlar.
-  git status / git log -5 ile §A'yı teyit et. frontend-design skill'ini yükle. Türkçe ve kısa yaz.
+  §5 P5 bölümü ve P4 "öğrenilenler", lib/nav.ts'teki İngilizce menüsü (10 `soon` kalemi). git status / git log -5 ile §A'yı
+  teyit et. frontend-design skill'ini yükle. Türkçe ve kısa yaz.
 
 YAPILANLAR (dokunma, örnek al)
-- Özel ders 18 (RichContentPage), online 8 + çatı, nedir 8 (GuidePage), tekil 8 (SinglePage: açık hero + sağda sayfanın
-  asıl bilgisi — haftalık takvim / kur basamakları / ders akışı / sınav kâğıdı / dosya rafı / kolay-zor; gövdede soru |
-  içerik satırları; gri bantta şube kartları). Toplam 180 sayfa, check-links 12 benzersiz ölü hedef.
-- Altyapı: lib/richPages.ts tüm alt türlerin tek listesi (RichEntry: rich | guide | single); createGuideResolver
-  (lib/guideContent.ts) nedir + tekil ortak kaynak sözleşmesi: SectionResolver + assertCoverage + edits/headingEdits +
-  cümle kapsaması + title≤60 / description≤155 bekçisi. Dağıtıcılar alt türü bilmez; yurtdışı için yeni prefix
-  (`app/yurtdisi-egitim/`) gerekecek (plan §3 madde 5: kökte catch-all YOK, `[sayfa]` ya da 2 seviye için `[...sayfa]`).
+- P4 tamam: özel ders (RichContentPage), nedir (GuidePage), tekil + yurtdışı + diğer program (SinglePage: sağda pano —
+  haftalık takvim, kur basamakları, biniş kartı, modül etiketleri…; gövde kart / tablo, `facets` / `topics` + açılır
+  "Ayrıntılı bilgi"). Dil kursu sayfaları LevelStairs / seviye merdiveni. 193 sayfa, check-links 3 (yalnız P7).
+- /ingilizce-kurslari hub'ı (P3) A1→C2 seviye rayıyla bu 11 sayfaya link veriyor.
 
-BU OTURUMUN İŞİ — YURTDIŞI
-- Sayfalar: pathway-programi, sinav-hazirlik, tercih, tercih/italyadauniversite, work-and-travel, yaz-okullari,
-  yuksek-ogrenim, yurtdisi-dil-egitimi, yurtdisi-ingilizce-egitimi, …/kanada-vancouver, …/kanada-vancouver-2
-  (`-2` için kullanıcıya sor; diğer "-2"ler 301). /yurtdisi-egitim hub'ı (P3) bunlara link veriyor.
-- Aşama 0'da: ddm-crawl/site_content.json `links` alanından indirilebilir dosya / dış link var mı bak; partner okul
-  (Kaplan, ILSC) bilgisi firma bilgisi mi iş ortağı iddiası mı ayır; fiyat / vize / tarih eskimiş mi.
+BU OTURUMUN İŞİ — İNGİLİZCE SEVİYE KURSLARI
+- Sayfalar: elementary / pre-intermediate / intermediate / upper-intermediate / advanced -ingilizce-kursu, ilkogretim-,
+  universite-, yaz-okulu-ingilizce-kursu, yks-dil-ingilizce, ingilizce-konusma-kursu (+ ingilizce-egitim-sistemi zaten
+  /yabanci-dil-egitimleri/… kanonik, 301 var).
+- Aşama 0: 11 kaydı dök; seviye sayfaları ortak iskelet mi, birbirinin kopyası mı; /ingilizce-kurslari/ingilizce-konusma-kursu
+  ile /yabanci-dil-egitimleri/ingilizce-konusma-kursu aynı mı (kopyaysa 301 öner); gün-saat / kur süresi / şube satırları.
 
 İÇERİK KURALI
-- Firma bilgisi (DDM'in cümleleri, şube/öğretmen/sınıf/program bilgisi, iddialar): asla yeniden yazma, güçlendirme,
-  silme. Yeri değişebilir; yalnız bariz yazım/kopyala-yapıştır hatası edits ile düzeltilir. Başlıklar silinmez.
-- Genel bilgi (ülke, vize, sınav, program türü): içerik açılabilir ve geliştirilebilir; eskimişse resmi kaynaktan
-  doğrulanıp düzeltilir; her değişiklik edits / additions olarak izlenir, kaynak URL yorumda. Emin olmadığın rakamı yazma.
-  Doğrulamayı arka planda araştırma ajanlarına ver. Sayfada "Son güncelleme" tarihi göster.
-- Fiyat, tarih, şube adı, telefon, istatistik, sertifika adı, iş ortağı rakamı asla uydurma. Şubeler yalnız data/branches.ts'ten.
-- Hedef 500–800 kelime; göz gezdirilebilir format (soru başlığı → kalın cevap → madde / kart / tablo).
+- Firma bilgisi (kur süresi, saat, sınıf, şube, iddia): asla yeniden yazma; yalnız bariz yazım edits. Başlıklar silinmez.
+- Genel bilgi (CEFR, sınav): resmi kaynaktan doğrula, eskimişse düzelt, kaynak yorumda; emin olmadığın rakamı yazma.
+- Fiyat, tarih, şube, istatistik uydurma. Şubeler yalnız data/branches.ts.
+- DÜZ YAZI YOK: her bölüm tek kısa cevap + kart / tablo / pano; uzun kaynak paragrafı kartlara bölünür, metin açılır
+  "Ayrıntılı bilgi"de birebir.
 
 TASARIM
-- Görsel, etkileyici ama kurumsal; küçük ve tek seferlik hareket; reduced-motion'a uy. 1 baskın bölüm + 2–3 destek.
-  Gri/beyaz zeminleri sırayla dizme. Header'ın arkasından başlayan ilk bölüm kuralına uy (globals.css).
-- Bu alt tür için önce "neden farklı görünmeli" sorusunu 2–3 yönle (1440 + 390 ekran görüntüsüyle) sor, sonra kodla.
-  Sorularda URL yerine kullanıcının gördüğü yeri (menü yolu, sayfadan örnek metin) göster.
-- Görsel: önce public/assets'e bak (yurtdışı fotoğrafları, kaplan_int.jpg, ilsc_logo.jpg); yoksa yer tutucu + görsel isteği.
+- "Bu tür neden farklı görünmeli" sorusunu 2–3 yönle (1440 + 390 ekran görüntüsüyle) sor; seviye sayfaları için dil kursundaki
+  seviye merdiveni / tekil kur basamakları yeniden kullanılabilir. Sorularda URL yerine menü yolu + sayfadan örnek metin.
+- Görsel gerekirse önce public/assets'e bak; yoksa kullanıcıdan iste.
 
 SÜREÇ
-1) Aşama 0 denetimi → rapor et, DUR. 2) Tasarım yönleri → DUR. 3) 1 pilot → DUR. 4) Toplu. 5) code-review (high) ve düzelt.
-- Teknik: CSS Modules + tokens (ham hex/px yok; 1px/2px kenarlık ve breakpoint hariç), Tailwind/CSS-in-JS yok,
-  absolute URL yok, canonical absoluteUrl ile. Üretilen sayfaların lib/nav.ts'teki soon: true bayrağını kaldır;
-  ölü link sayısı artmasın. Kütüphane kurmadan önce sor.
-- Kontrol: tsc, lint, build (sayfa sayısı), check-links, 72/72 kurs tarihi, 1440/390/360 px taşma + tek H1.
-  Açık dev sunucusu (3000) değişiklikleri yüklemeyebilir → production build'i 3200'de açıp kontrol et, sonra durdur.
+1) Aşama 0 → rapor, DUR. 2) Tasarım yönleri → DUR. 3) 1 pilot → DUR. 4) Toplu. 5) Bağımsız kod incelemesi ve düzelt.
+- Teknik: CSS Modules + tokens, absolute URL yok. Üretilen sayfaların lib/nav.ts `soon` bayrağını kaldır.
+- Kontrol: tsc, lint, build (sayfa sayısı), check-links, sitemap'teki tüm adresler 200, 1440/390/360 taşma + tek H1.
+  Production build'i 3200'de aç, sonra durdur.
 
 KAPANIŞ
-- SESSION-HANDOFF §A (üzerine yaz) + §D (ekle), PROGRESS, page-types, plan P4 bölümü güncelle.
+- SESSION-HANDOFF §A (üzerine yaz) + §D (ekle), PROGRESS, page-types, plan P5 bölümü, CLAUDE.md güncelle.
 - Commit'lemeden önce bana sor. Kod ve döküman ayrı commit. Push yok. public/assets altındaki izlenmeyen görselleri
   commit'leme. Yarım kodu commit'leme.
 
 AÇIK KONULAR (fırsat olursa sor)
-- Tekil değişiklikleri henüz commit'lenmemiş olabilir (git status'a bak, sor).
-- Üniversite sayfalarında eski sınav adları + kapanmış 2 üniversite (§A "Bekleyen kullanıcı kararları").
-- GMAT/GRE özel ders "2-3 kişilik grup" ↔ tablo "en fazla 2" çelişkisi (satır gizli). Online çatı fotoğrafı.
+- Kaplan ortaklığı sürüyor mu (Kaplan dil okulları Mayıs 2026'da el değiştirdi)? Yurtdışı ana sayfasında Enforex yanlışı.
 
 İLETİŞİM: Teknik olmayan kullanıcı. Kısa yaz, az soru sor, seçenekleri görsel göster.
-Fiyat / şube / tarih / istatistik / sınav formatı konusunda asla varsayma, doğrula ya da sor.
 ```
 
 ---
@@ -126,6 +113,31 @@ Fiyat / şube / tarih / istatistik / sınav formatı konusunda asla varsayma, do
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+
+### 2026-09-26 · Opus 5.5 · P4 — Yurtdışı (9) + Diğer program / kurumsal (4) + "-2" 301 — commit bekliyor
+- **Aşama 0:** 16 kayıt. Kopyalar: `yurtdisi-dil-egitimi` (3'te 2'si hub'da), `tercih` (yalnız ülke/şehir listesi = hub tablosu),
+  `diger-program/yurtdisinda-egitim` (Work and Travel'ın birebir kopyası). `kanada-vancouver-2` aslında "İngiltere'de Dil
+  Okulları". Tercüme'nin yarısı Lavanda'nın İngilizce tanıtımı. Pegasus 43 kelime, İngilizce. Kaynak fotoğraf yok.
+- **Kararlar (kullanıcı):** tasarım **A · biniş kartı** (3 yön: biniş kartı / rota şeridi / fotoğraflı kapak) · 3 kopya → 301 ·
+  Tercüme yalnız DDM metni · İngiltere yeni doğru adres (`…/ingiltere`, eski 301) · pilot "çok fazla yazı var, kart tablo" → yeniden
+  düzenlendi, onaylandı · Kaplan rakamları "olduğu gibi bırak" · Kaplan ortaklığını kullanıcı teyit edecek.
+- **Yeni:** `data/abroadPages.ts`, `data/otherPrograms.ts`; panolar `pass` / `chips` / `compare`; bloklar `facets` (kart ifadesi
+  kaynakta aranır, metin açılır ayrıntıda) ve `topics`; tablo `{ src, cells }` (hücre hücre kaynak tablo); `SinglePageDef.parent`
+  ve `lang`; `ucak` ikonu; route'lar `yurtdisi-egitim/[...sayfa]`, `diger-program/[sayfa]`, `kurumsal-dil-egitim/[sayfa]`; kırıntıda
+  yurtdışı / kurumsal kategorileri. 301: 4 kopya/yanlış adres + 18 "-2". Menü: 11 `soon` kalktı, 18 "… Programı" kalemi silindi,
+  İngiltere / Tercih / Yurtdışı Dil Eğitimi / Diğer › Yurtdışı Eğitim kalemleri yeni hedeflere. Ana sayfanın 2 bağlantısı hub'a.
+- **Doğrulama (resmi kaynak, 2026-09-26):** J-1 SWT (j1visa.state.gov, 22 CFR 62.32, dol.gov asgari ücret, ice.gov SEVIS 35 $),
+  ECCC iklim normalleri, StatCan (2021 sayımı, Ağustos 2026 LFS), TransLink, IRCC, English UK 2026 raporu, British Council, Eaquals,
+  gov.uk vizeleri, okul siteleri; MUR 2026-28 genelgesi, EC İtalya profili, CLIQ; Cambridge (BEC kalktı, Linguaskill, YLE), ETS,
+  MEB TTK 2025; Noterlik Kanunu, MFA tasdik, AIIC. Kaplan: 1938, 4 ülkede 18 okul, %96 tavsiye, Inspirit Capital satışı (uygulanmadı).
+- **Doğrulama (teknik):** tsc ✅ · lint ✅ · build ✅ 193 · check-links 3/191 · sitemap 189 × 200 · 13 × 3 genişlik temiz · 301'ler 308.
+- **Kod incelemesi (bağımsız ajan, high):** 12 bulgunun hepsi düzeltildi — karşılaştırma panosunda yinelenen React anahtarı,
+  `lang="en"` artık yalnız içerik satırlarında (Türkçe "Ayrıntılı bilgi" / tarih / CTA dışarıda), `facets` artık `added`
+  kaynağı reddediyor + en az 4 harflik eşleşme + kart / konu özetindeki her rakam kaynakta aranıyor (sıra numarası hariç),
+  Vancouver "yaz ortalaması" → Temmuz ort. en yüksek, yaz okulu kodu UK/US, İngiltere okul notu yumuşatıldı, İtalya ve
+  Business English ekleri araştırmanın ötesine geçmiyor, koçan `dl` yapısı geçerli HTML, ham px/rem token'a taşındı.
+  Çocuklar sayfasında kaynak "Haftada 6 Saat" hafta içi akşam (19:00–21:30 × 2 = 5 saat) için tutmuyor → eklenen metinde
+  tekrarlanmadı, kullanıcıya soruldu.
 ### 2026-09-26 · Opus 5.5 · P4 — Tekil sayfalar (8) — commit bekliyor
 - **Aşama 0:** 8 kayıt + 4 Joomla kopyası (hepsi birebir). `proficiency-sinavi` yalnız 21 üniversite linki (H1 yok,
   Proficiency Kursu'ndaki ızgaranın kopyası); İngilizce Eğitim Sistemi iki adreste birebir; "Almanca Eğitim Seviyeleri"
@@ -245,6 +257,9 @@ Fiyat / şube / tarih / istatistik / sınav formatı konusunda asla varsayma, do
   `home_page_images/dil-*2/3.jpg` — **izlenmiyor, kod bunlara bağlı** (commit'i kullanıcı yapar). Yedekte kalan:
   `dil-almanca2` (Köln, benefits'teki Köln'le aynı konu), `dil-fransizca` (Eyfel dik), `dil-turkce`. İngilizce Konuşma'nın
   tek fotoğrafı var → iki yerde aynı, ikincisi kullanıcıdan. Yeni görseller 640–1200px — hero'da retina'da hafif yumuşak.
+- **Online hero fotoğrafları (2026-09-26, kullanıcı yeni `online_education4/5/6.jpg` ekledi — izlenmiyor, kod bağlı):**
+  `data/onlineLessons.ts` `ONLINE_PHOTO` → `ONLINE_PHOTOS` (4 genel görsel). 7 dil: Almanca/Türkçe 4, Fransızca/Rusça 5,
+  İspanyolca/Çince 6, İtalyanca eski görsel; İngilizce (2) ve çatı (3) aynen. Her görsel en fazla 2 sayfada.
 
 ### 2026-09-25 · Opus 5.5 · P4 — Özel Ders (18 sayfa) — commit bekliyor
 - **Aşama 0:** 19 temiz + 21 Joomla `?id=` kaydı; kopyaların gövdesi temizlerle birebir. Şablon artığı yok (özgün metin 91–253

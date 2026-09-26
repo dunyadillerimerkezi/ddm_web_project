@@ -25,14 +25,19 @@ const BRANCHES_ID = "subeler";
  * hero'da görsel olarak başlar.
  */
 export function SinglePage({ page }: { page: SinglePageData }) {
+  const lang = page.lang ?? undefined;
   return (
     <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.copy}>
             <Breadcrumb items={page.crumbs} tone="onLight" />
-            <h1 className={styles.title}>{page.h1}</h1>
-            <p className={styles.lead}>{page.hero.lead}</p>
+            <h1 className={styles.title} lang={lang}>
+              {page.h1}
+            </h1>
+            <p className={styles.lead} lang={lang}>
+              {page.hero.lead}
+            </p>
             <div className={styles.actions}>
               <ButtonLink href={CONTACT_HREF} variant="primary" size="lg" arrow>
                 Bilgi Al
@@ -48,13 +53,19 @@ export function SinglePage({ page }: { page: SinglePageData }) {
               )}
             </div>
           </div>
-          <SingleBoard board={page.hero.board} />
+          {lang ? (
+            <div lang={lang}>
+              <SingleBoard board={page.hero.board} />
+            </div>
+          ) : (
+            <SingleBoard board={page.hero.board} />
+          )}
         </div>
       </section>
 
       <div className={styles.body}>
         {page.sections.map((s) => (
-          <section key={s.id} id={s.id} className={styles.row} aria-labelledby={`${s.id}-baslik`}>
+          <section key={s.id} id={s.id} className={styles.row} aria-labelledby={`${s.id}-baslik`} lang={lang}>
             <div className={styles.ask}>
               <h2 id={`${s.id}-baslik`} className={guide.question}>
                 {s.title}

@@ -54,7 +54,7 @@ export function WeekBoard({ board }: { board: WeekBoardData }) {
         {board.slots.flatMap((s) =>
           s.days.map((day) => (
             <span
-              key={`${s.label}-${day}`}
+              key={`${s.from}-${day}`}
               className={blockClass(s)}
               style={{ gridColumn: day + 2, gridRow: `${row(s.from)} / ${row(s.to)}`, "--i": order++ } as CSSProperties}
             >
@@ -74,7 +74,7 @@ export function WeekBoard({ board }: { board: WeekBoardData }) {
               <span className={styles.listName}>{name}</span>
               <span className={styles.listSlots}>
                 {daySlots.map((s) => (
-                  <span key={s.label} className={s.tone === "a" ? styles.barA : styles.barB}>
+                  <span key={s.from} className={s.tone === "a" ? styles.barA : styles.barB}>
                     {s.from} – {s.to}
                   </span>
                 ))}

@@ -13,6 +13,8 @@ import { BRANCH_LIST } from "@/data/branches";
  *      sekme değil, Diğer Programlar altında.
  *   3. "Öğrenci Yorumları" sekmesi (Mektuplar/Aktiviteler/Duyurular dahil)
  *      menüden tamamen kalktı. Footer'daki link duruyor.
+ *   4. (P4, 2026-09-26) "-2" "… Programı" kalemleri (18) kalktı: sayfalar
+ *      yayınlanmıyor, eski adresler ana kurs sayfasına 301 (next.config.ts).
  *
  * BU DOSYA AĞACIN TAMAMINI TARİF EDER — henüz ÜRETİLMEMİŞ sayfalar dahil
  * (P4/P5: `-2`, `özel ders`, `nedir`, `online-*`, `/ingilizce-kurslari/*`,
@@ -57,7 +59,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "İngilizce Programı", href: `${YD}/ingilizce-kursu/ingilizce-kursu-2`, soon: true },
                   { label: "İngilizce Özel Ders", href: `${YD}/ingilizce-kursu/ingilizce-ozel-ders` },
                   { label: "İngilizce Eğitim Sistemi", href: `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi` },
                   { label: "Online İngilizce Eğitimi", href: `${YD}/ingilizce-kursu/online-ingilizce-egitimi` },
@@ -81,7 +82,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "Almanca Programı", href: `${YD}/almanca-kursu/almanca-kursu-2`, soon: true },
                   { label: "Hızlandırılmış Almanca Kursu", href: `${YD}/almanca-kursu/hizlandirilmis-almanca-kursu` },
                   { label: "Almanca Özel Ders", href: `${YD}/almanca-kursu/almanca-ozel-ders` },
                   { label: "Almanca Konuşma Kursları", href: `${YD}/almanca-kursu/almanca-konusma-kurslari` },
@@ -107,7 +107,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "Fransızca Programı", href: `${YD}/fransizca-kursu/fransizca-kursu-2`, soon: true },
                   { label: "Fransızca Özel Ders", href: `${YD}/fransizca-kursu/fransizca-ozel-ders` },
                   { label: "Online Fransızca Eğitimi", href: `${YD}/fransizca-kursu/online-fransizca-egitimi` },
                 ],
@@ -130,7 +129,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "Rusça Programı", href: `${YD}/rusca-kursu/rusca-kursu-2`, soon: true },
                   { label: "Rusça Özel Ders", href: `${YD}/rusca-kursu/rusca-ozel-ders` },
                   { label: "Online Rusça Eğitimi", href: `${YD}/rusca-kursu/online-rusca-egitimi` },
                 ],
@@ -153,7 +151,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "İspanyolca Programı", href: `${YD}/ispanyolca-kursu/ispanyolca-kursu-2`, soon: true },
                   { label: "İspanyolca Özel Ders", href: `${YD}/ispanyolca-kursu/ispanyolca-ozel-ders` },
                   { label: "Online İspanyolca Eğitimi", href: `${YD}/ispanyolca-kursu/online-ispanyolca-egitimi` },
                 ],
@@ -176,7 +173,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "İtalyanca Programı", href: `${YD}/italyanca-kursu/italyanca-kursu-2`, soon: true },
                   { label: "İtalyanca Özel Ders", href: `${YD}/italyanca-kursu/italyanca-ozel-ders` },
                   { label: "Online İtalyanca Eğitimi", href: `${YD}/italyanca-kursu/online-italyanca-egitimi` },
                 ],
@@ -199,7 +195,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "Çince Programı", href: `${YD}/cince-kursu/cince-kursu-2`, soon: true },
                   { label: "Çince Özel Ders", href: `${YD}/cince-kursu/cince-ozel-ders` },
                   { label: "Çince Öğrenmek Zor mu?", href: `${YD}/cince-kursu/cince-ogrenmek-zor-mu` },
                   { label: "Online Çince Eğitimi", href: `${YD}/cince-kursu/online-cince-egitimi` },
@@ -223,7 +218,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "Türkçe Programı", href: `${YD}/yabancila-icin-turkce-kurs/yabancila-icin-turkce-kurs-2`, soon: true },
                   { label: "Yabancılar İçin Türkçe Özel Ders", href: `${YD}/yabancila-icin-turkce-kurs/turkce-ozel-ders` },
                   { label: "Türkçe Eğitim Seviyeleri", href: `${YD}/yabancila-icin-turkce-kurs/turkce-egitim-seviyeleri` },
                   { label: "Online Türkçe Eğitimi", href: `${YD}/yabancila-icin-turkce-kurs/online-turkce-egitimi` },
@@ -247,7 +241,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "İngilizce Konuşma Programı", href: `${YD}/ingilizce-konusma-kursu/ingilizce-konusma-kursu-2`, soon: true },
                   { label: "İngilizce Konuşma Özel Ders", href: `${YD}/ingilizce-konusma-kursu/ingilizce-konusma-ozel-ders` },
                 ],
               },
@@ -318,7 +311,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "TOEFL Programı", href: `${SH}/toefl-kursu/toefl-kursu-2`, soon: true },
                   { label: "TOEFL Özel Ders", href: `${SH}/toefl-kursu/toefl-ozel-ders` },
                   { label: "TOEFL Nedir?", href: `${SH}/toefl-kursu/toefl-nedir` },
                 ],
@@ -341,7 +333,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "IELTS Programı", href: `${SH}/ielts-kursu/ielts-kursu-2`, soon: true },
                   { label: "IELTS Özel Ders", href: `${SH}/ielts-kursu/ielts-ozel-ders` },
                   { label: "IELTS Nedir?", href: `${SH}/ielts-kursu/ielts-nedir` },
                 ],
@@ -364,7 +355,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "TOEIC Programı", href: `${SH}/toeic-kursu/toeic-kursu-2`, soon: true },
                   { label: "TOEIC Özel Ders", href: `${SH}/toeic-kursu/toeic-ozel-ders` },
                   { label: "TOEIC Nedir?", href: `${SH}/toeic-kursu/toeic-nedir` },
                 ],
@@ -387,7 +377,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "YDS Programı", href: `${SH}/yds-kursu/yds-kursu-2`, soon: true },
                   { label: "YDS Nedir?", href: `${SH}/yds-kursu/yds-nedir` },
                   { label: "YDS Özel Ders", href: `${SH}/yds-kursu/yds-ozel-ders` },
                 ],
@@ -410,7 +399,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "Proficiency Programı", href: `${SH}/proficiency-kursu/proficiency-kursu-2`, soon: true },
                   { label: "Proficiency Özel Ders", href: `${SH}/proficiency-kursu/proficiency-ozel-ders` },
                   { label: "Proficiency Nedir?", href: `${SH}/proficiency-kursu/proficiency-nedir` },
                   { label: "Proficiency Örnek Sınav Soruları", href: `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari` },
@@ -435,7 +423,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "GRE Programı", href: `${SH}/gre-kursu/gre-kursu-2`, soon: true },
                   { label: "GRE Özel Ders", href: `${SH}/gre-kursu/gre-ozel-ders` },
                   { label: "GRE Nedir?", href: `${SH}/gre-kursu/gre-nedir` },
                 ],
@@ -458,7 +445,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "SAT Programı", href: `${SH}/sat-kursu/sat-kursu-2`, soon: true },
                   { label: "SAT Özel Ders", href: `${SH}/sat-kursu/sat-ozel-ders` },
                   { label: "SAT Nedir?", href: `${SH}/sat-kursu/sat-nedir` },
                 ],
@@ -481,7 +467,6 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "GMAT Programı", href: `${SH}/gmat-kursu/gmat-kursu-2`, soon: true },
                   { label: "GMAT Özel Ders", href: `${SH}/gmat-kursu/gmat-ozel-ders` },
                   { label: "GMAT Nedir?", href: `${SH}/gmat-kursu/gmat-nedir` },
                 ],
@@ -505,7 +490,6 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "PTE Akademik Özel Ders", href: `${SH}/academic-pte/pte-akademik-ozel-ders` },
-                  { label: "PTE Programı", href: `${SH}/academic-pte/academic-pte-2`, soon: true },
                 ],
               },
             ],
@@ -555,36 +539,39 @@ export const NAV_ITEMS: NavItem[] = [
         items: [
           {
             label: "Yurtdışı İngilizce Eğitimi",
-            href: `${YE}/yurtdisi-ingilizce-egitimi`, soon: true,
+            href: `${YE}/yurtdisi-ingilizce-egitimi`,
             children: [
               {
                 title: null,
                 items: [
-                  { label: "Kanada Vancouver", href: `${YE}/yurtdisi-ingilizce-egitimi/kanada-vancouver`, soon: true },
-                  { label: "İngiltere", href: `${YE}/yurtdisi-ingilizce-egitimi/kanada-vancouver-2`, soon: true },
+                  { label: "Kanada Vancouver", href: `${YE}/yurtdisi-ingilizce-egitimi/kanada-vancouver` },
+                  // P4 (kullanıcı, 2026-09-26): içerik "İngiltere'de Dil Okulları" — yanlış adres (…/kanada-vancouver-2) 301 ile buraya.
+                  { label: "İngiltere", href: `${YE}/yurtdisi-ingilizce-egitimi/ingiltere` },
                 ],
               },
             ],
           },
-          { label: "Yüksek Öğrenim", href: `${YE}/yuksek-ogrenim`, soon: true },
-          { label: "Sınav Hazırlık", href: `${YE}/sinav-hazirlik`, soon: true },
-          { label: "Yaz Okulları", href: `${YE}/yaz-okullari`, soon: true },
+          { label: "Yüksek Öğrenim", href: `${YE}/yuksek-ogrenim` },
+          { label: "Sınav Hazırlık", href: `${YE}/sinav-hazirlik` },
+          { label: "Yaz Okulları", href: `${YE}/yaz-okullari` },
         ],
       },
       {
         title: "FIRSATLAR VE ÜLKELER",
         items: [
-          { label: "Pathway Programı", href: `${YE}/pathway-programi`, soon: true },
-          { label: "Yurtdışı Dil Eğitimi", href: `${YE}/yurtdisi-dil-egitimi`, soon: true },
-          { label: "Work and Travel", href: `${YE}/work-and-travel`, soon: true },
+          { label: "Pathway Programı", href: `${YE}/pathway-programi` },
+          // P4 (kullanıcı, 2026-09-26): içeriği Yurtdışı Eğitim ana sayfasında → eski adres 301.
+          { label: "Yurtdışı Dil Eğitimi", href: YE },
+          { label: "Work and Travel", href: `${YE}/work-and-travel` },
           {
             label: "Yurtdışı Tercih Edilen Ülkeler",
-            href: `${YE}/tercih`, soon: true,
+            // P4 (kullanıcı, 2026-09-26): ülke listesi ana sayfanın ülke tablosunda → eski adres 301.
+            href: `${YE}#ulkeler`,
             children: [
               {
                 title: null,
                 items: [
-                  { label: "İtalya'da Üniversite", href: `${YE}/tercih/italyadauniversite`, soon: true },
+                  { label: "İtalya'da Üniversite", href: `${YE}/tercih/italyadauniversite` },
                 ],
               },
             ],
@@ -605,12 +592,13 @@ export const NAV_ITEMS: NavItem[] = [
       {
         title: "PROGRAMLAR",
         items: [
-          { label: "Yurtdışı Eğitim", href: `${DP}/yurtdisinda-egitim`, soon: true },
-          { label: "Business English", href: `${DP}/business-english`, soon: true },
+          // P4 (kullanıcı, 2026-09-26): eski sayfa Work and Travel'ın kopyası (301); kalem Yurtdışı Eğitim ana sayfasına.
+          { label: "Yurtdışı Eğitim", href: YE },
+          { label: "Business English", href: `${DP}/business-english` },
           { label: "Özel Dersler", href: `${DP}/ozel-dersler` },
-          { label: "Çocuklar İçin İngilizce Kursu", href: `${DP}/cocuklar-icin-ingilizce-kursu`, soon: true },
+          { label: "Çocuklar İçin İngilizce Kursu", href: `${DP}/cocuklar-icin-ingilizce-kursu` },
           { label: "Online Dil Eğitimi", href: `${DP}/online-dil-egitimi` },
-          { label: "Tercüme Hizmetleri", href: `${DP}/tercume-hizmetleri`, soon: true },
+          { label: "Tercüme Hizmetleri", href: `${DP}/tercume-hizmetleri` },
         ],
       },
       {
@@ -623,7 +611,7 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: null,
                 items: [
-                  { label: "Exclusive For Pegasus Pilots", href: `${KD}/turkish-course-pegasus-pilots`, soon: true },
+                  { label: "Exclusive For Pegasus Pilots", href: `${KD}/turkish-course-pegasus-pilots` },
                 ],
               },
             ],

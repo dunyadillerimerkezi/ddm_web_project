@@ -1,5 +1,7 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 
+import { Icon } from "@/components/graphics/Icon";
 import { GuideBlock } from "@/components/sections/GuideBlock";
 import { linkIfProduced } from "@/lib/hubLinks";
 import type { FileGroup, SingleResolvedBlock } from "@/lib/singleContent";
@@ -68,6 +70,60 @@ export function SingleBlock({ block }: { block: SingleResolvedBlock }) {
             <li key={c.title} className={styles.card}>
               <strong className={styles.cardTitle}>{c.title}</strong>
               <p className={styles.cardText}>{c.text}</p>
+            </li>
+          ))}
+        </ul>
+      );
+    case "facets":
+      return (
+        <>
+          <ul
+            className={styles.facets}
+            data-span-last={block.items.length % 3 !== 0 && block.items.length % 2 === 1 ? "" : undefined}
+            style={{ "--cols": block.items.length % 3 === 0 ? 3 : 2 } as CSSProperties}
+          >
+            {block.items.map((c) => (
+              <li key={c.title} className={styles.facet}>
+                {c.icon && (
+                  <span className={styles.facetIcon} aria-hidden="true">
+                    <Icon name={c.icon} size={20} />
+                  </span>
+                )}
+                <strong className={styles.cardTitle}>{c.title}</strong>
+                <p className={styles.cardText}>{c.text}</p>
+              </li>
+            ))}
+          </ul>
+          <details className={styles.facetNote}>
+            <summary className={styles.facetSummary} lang="tr">
+              Ayrıntılı bilgi
+            </summary>
+            {block.note.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </details>
+        </>
+      );
+    case "topics":
+      return (
+        <ul className={styles.topics}>
+          {block.items.map((t) => (
+            <li key={t.title} className={styles.topic}>
+              {t.icon && (
+                <span className={styles.facetIcon} aria-hidden="true">
+                  <Icon name={t.icon} size={20} />
+                </span>
+              )}
+              <h3 className={styles.topicTitle}>{t.title}</h3>
+              <p className={styles.cardText}>{t.summary}</p>
+              <details className={styles.facetNote}>
+                <summary className={styles.facetSummary} lang="tr">
+              Ayrıntılı bilgi
+            </summary>
+                {t.paragraphs.map((p) => (
+                  <p key={p}>{p}</p>
+                ))}
+              </details>
             </li>
           ))}
         </ul>

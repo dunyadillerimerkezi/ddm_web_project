@@ -21,6 +21,7 @@
  * örnek sınav dosyaları eski siteden indirilip aynı yollarla `public/`e kondu.
  */
 
+import type { IconName } from "@/components/graphics/icons";
 import type { GuideBlock, GuideSection, GuideText } from "@/data/examGuides";
 import { CEFR_CAN } from "@/data/privateLessonsShared";
 import type { SlotRef } from "@/data/privateLessonsShared";
@@ -54,7 +55,25 @@ export type SingleBoard =
   /** Dosya rafı — içerik sayfanın `files` bloğundan hesaplanır. */
   | { kind: "files"; title: string; sub: string }
   /** Kolay / zor yanlar. */
-  | { kind: "scale"; title: string; sub: string; easy: string[]; hard: string[] };
+  | { kind: "scale"; title: string; sub: string; easy: string[]; hard: string[] }
+  /**
+   * Yurtdışı (kullanıcı, 2026-09-26 — "A · biniş kartı"): İstanbul → gidilecek yer, dört alan ve
+   * koçan. Kodlar arayüz etiketi (havalimanı / ülke kısaltması); alanlar kaynak ya da doğrulanmış
+   * genel bilgi cümlesinin kısaltması, dayandığı cümle yorumda.
+   */
+  | {
+      kind: "pass";
+      title: string;
+      tag: string;
+      from: { code: string; name: string };
+      to: { code: string; name: string };
+      fields: { label: string; value: string }[];
+      stub: { label: string; value: string };
+    }
+  /** Konu / dil etiketleri (iş İngilizcesi modülleri, çeviri dilleri). */
+  | { kind: "chips"; title: string; sub: string; items: string[]; facts: { value: string; label: string }[] }
+  /** Yan yana iki program seçeneği (grup / özel ders). */
+  | { kind: "compare"; title: string; sub: string; cols: { name: string; note: string; facts: { value: string; label: string }[] }[] };
 
 export type FileUniversity = {
   key: string;
@@ -76,6 +95,18 @@ export type SingleBlock =
   /** Kısa başlıklı kartlar; başlık arayüz etiketi, metin kaynak ya da eklenen. */
   | { kind: "cards"; items: { title: string; text: GuideText }[] }
   /**
+   * Kaynak metnin kartlara ayrılmış hali (kullanıcı, 2026-09-26: "düz yazı değil, kart / tablo"):
+   * kartlar metnin arayüz kısaltması — her kartın `match`'i (yoksa `text`'in virgülle ayrılmış
+   * parçaları) `from` metninde geçmek zorunda (build denetler); metnin kendisi kartların altında
+   * açılır "Ayrıntılı bilgi" kutusunda birebir durur (sayfadan kaybolmaz).
+   */
+  | { kind: "facets"; from: GuideText; items: FacetItem[] }
+  /**
+   * Konu kartları: her kart bir kaynak başlığı (`source`) + arayüz özeti (`summary`, dayandığı cümle
+   * yorumda); başlığın altındaki kaynak paragrafları kartın açılır "Ayrıntılı bilgi"sinde birebir.
+   */
+  | { kind: "topics"; items: { source: string; summary: string; icon?: IconName }[] }
+  /**
    * Sınav görevleri. Her metin kaynaktan gelir: `{ h }` kaynak başlığı (`headingEdits`), `{ l }`
    * kaynak satırı (`edits`), `{ l, part }` iki görevin birleştiği satırın parçası (`splits`).
    * `from` satırları tüketir; kullanılmayan satır ya da parça build'i düşürür.
@@ -92,6 +123,9 @@ export type SingleBlock =
       universities: FileUniversity[];
     };
 
+/** Kart: başlık + kısa metin (+ ikon). `match`: kaynakta aranacak ifade (`text` kaynaktan farklı yazıldıysa). */
+export type FacetItem = { title: string; text: string; icon?: IconName; match?: string };
+
 /** Görev metni referansı — kaynak başlığı, kaynak satırı ya da bölünmüş satırın parçası. */
 export type TaskRef = { h: string } | { l: string; part?: number };
 
@@ -103,6 +137,13 @@ export type SinglePageDef = {
   source?: string;
   /** Kırıntı etiketi. */
   label: string;
+  /**
+   * Üst sayfa (kırıntı + ikincil buton). Verilmezse yolun ikinci parçası dil / sınav kursu
+   * sayılır (`parentCourse`); yurtdışı ve diğer program sayfalarında kategori ya da üst program.
+   */
+  parent?: { label: string; href: string };
+  /** Sayfa gövdesinin dili Türkçe değilse (Pegasus pilotları: İngilizce). */
+  lang?: "en";
   /** Kaynakta h1 yoksa H1'e yükseltilen kaynak başlığı (gerekçe yorumda). */
   h1Heading?: string;
   meta: { title?: string; description?: string; reasons: string[] };

@@ -140,6 +140,20 @@ const RETIRED_PAGES: [string, string][] = [
   ["/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-sinavi", "/sinav-hazirlik-egitimleri/proficiency-kursu#universiteler"],
   // P4 tekil (kullanıcı kararı, 2026-09-26): aynı metin iki adreste — kanonik /yabanci-dil-egitimleri/… .
   ["/ingilizce-kurslari/ingilizce-egitim-sistemi", "/yabanci-dil-egitimleri/ingilizce-kursu/ingilizce-egitim-sistemi"],
+  // P4 yurtdışı + diğer program (kullanıcı kararları, 2026-09-26): içeriği ana sayfada olan ya da kopya sayfalar;
+  // "İngiltere'de Dil Okulları" yanlış adresinden (…/kanada-vancouver-2) doğru adresine.
+  ["/yurtdisi-egitim/yurtdisi-ingilizce-egitimi/kanada-vancouver-2", "/yurtdisi-egitim/yurtdisi-ingilizce-egitimi/ingiltere"],
+  ["/yurtdisi-egitim/yurtdisi-dil-egitimi", "/yurtdisi-egitim"],
+  ["/yurtdisi-egitim/tercih", "/yurtdisi-egitim#ulkeler"],
+  ["/diger-program/yurtdisinda-egitim", "/yurtdisi-egitim/work-and-travel"],
+  // "-2" (Kurs Programı) sayfaları yayınlanmıyor (kullanıcı kararı, 2026-09-23): içerik ana sayfanın başlık listesi.
+  ...[
+    "almanca-kursu", "cince-kursu", "fransizca-kursu", "ingilizce-konusma-kursu", "ingilizce-kursu",
+    "ispanyolca-kursu", "italyanca-kursu", "rusca-kursu", "yabancila-icin-turkce-kurs",
+  ].map((k): [string, string] => [`/yabanci-dil-egitimleri/${k}/${k}-2`, `/yabanci-dil-egitimleri/${k}`]),
+  ...["academic-pte", "gmat-kursu", "gre-kursu", "ielts-kursu", "proficiency-kursu", "sat-kursu", "toefl-kursu", "toeic-kursu", "yds-kursu"].map(
+    (k): [string, string] => [`/sinav-hazirlik-egitimleri/${k}/${k}-2`, `/sinav-hazirlik-egitimleri/${k}`],
+  ),
 ];
 
 const nextConfig: NextConfig = {

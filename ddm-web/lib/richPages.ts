@@ -1,13 +1,16 @@
 /**
  * P4 — Zengin İçerik sayfalarının tek listesi (tüm alt türler) + dağıtıcı
- * yardımcıları. Üç route (`yabanci-dil-egitimleri/[kurs]/[sayfa]`,
- * `sinav-hazirlik-egitimleri/[kurs]/[sayfa]`, `proficiency-kursu/[sayfa]`)
+ * yardımcıları. Route'lar (`yabanci-dil-egitimleri/[kurs]/[sayfa]`,
+ * `sinav-hazirlik-egitimleri/[kurs]/[sayfa]`, `proficiency-kursu/[sayfa]`,
+ * `yurtdisi-egitim/[...sayfa]`, `diger-program/[sayfa]`, `kurumsal-dil-egitim/[sayfa]`)
  * alt türü bilmeden buradan sorar; yeni alt tür yalnız `ENTRIES`e eklenir.
  */
 
 import type { Metadata } from "next";
 
+import { ABROAD_PAGES } from "@/data/abroadPages";
 import { EXAM_GUIDES } from "@/data/examGuides";
+import { OTHER_PROGRAM_PAGES } from "@/data/otherPrograms";
 import { ONLINE_HUB, ONLINE_LESSONS } from "@/data/onlineLessons";
 import { PRIVATE_LESSONS } from "@/data/privateLessons";
 import { SINGLE_PAGES } from "@/data/singlePages";
@@ -31,7 +34,10 @@ const ENTRIES: { path: string; build: () => RichEntry }[] = [
   ...ONLINE_LESSONS.map((d) => ({ path: d.path, build: () => rich(getOnlineLessonPage(d)) })),
   { path: ONLINE_HUB.path, build: () => rich(getOnlineHubPage(ONLINE_HUB)) },
   ...EXAM_GUIDES.map((d) => ({ path: d.path, build: (): RichEntry => ({ kind: "guide", page: getGuidePage(d) }) })),
-  ...SINGLE_PAGES.map((d) => ({ path: d.path, build: (): RichEntry => ({ kind: "single", page: getSinglePage(d) }) })),
+  ...[...SINGLE_PAGES, ...ABROAD_PAGES, ...OTHER_PROGRAM_PAGES].map((d) => ({
+    path: d.path,
+    build: (): RichEntry => ({ kind: "single", page: getSinglePage(d) }),
+  })),
 ];
 
 const BY_PATH = new Map<string, () => RichEntry>();

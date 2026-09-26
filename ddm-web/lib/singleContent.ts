@@ -7,9 +7,10 @@
  * description >155 build'i düşürür.
  */
 
+import type { IconName } from "@/components/graphics/icons";
 import { BRANCHES } from "@/data/branches";
 import { byCourse } from "@/data/courseDates";
-import type { SingleBlock, SingleBoard, SinglePageDef, TaskRef } from "@/data/singlePages";
+import type { FacetItem, SingleBlock, SingleBoard, SinglePageDef, TaskRef } from "@/data/singlePages";
 import { ContentSectionsError } from "@/lib/contentSections";
 import { createGuideResolver, type GuideResolvedBlock } from "@/lib/guideContent";
 import { categoryCrumb, checkMeta, norm, parentCourse } from "@/lib/richContent";
@@ -29,6 +30,9 @@ export type SingleResolvedBlock =
   | GuideResolvedBlock
   | { kind: "subhead"; text: string }
   | { kind: "cards"; items: { title: string; text: string }[] }
+  /** Kartlar + kaynak cümlenin kendisi (altta, küçük) — metin sayfadan kaybolmaz. */
+  | { kind: "facets"; items: FacetItem[]; note: string[] }
+  | { kind: "topics"; items: { title: string; summary: string; icon: IconName | null; paragraphs: string[] }[] }
   | { kind: "tasks"; items: { label: string; prompt: string; tr: string; points: string[] }[] }
   | { kind: "files"; groups: FileGroup[] };
 
@@ -38,6 +42,7 @@ export type SingleBoardResolved =
 
 export type SinglePage = {
   href: string;
+  lang: "en" | null;
   title: string;
   description: string;
   h1: string;
@@ -60,6 +65,15 @@ function fileType(href: string): FileGroup["files"][number]["type"] {
   return "PDF";
 }
 
+/** `facets` eşleşme ifadesinin en kısa hali — tek harfli / boş parça her metinde "bulunur". */
+const MIN_MATCH = 4;
+
+/** Kart / özet metnindeki her rakam (3, 6,5, 10.000, 12–17'nin iki ucu) kaynak metinde de geçmeli. */
+function assertNumbers(text: string, sourceLower: string, context: string): void {
+  const missing = (text.match(/\d+(?:[.,]\d+)*/g) ?? []).find((n) => !sourceLower.includes(n));
+  if (missing) throw new ContentSectionsError(`${context}: "${missing}" kaynak metinde yok.`);
+}
+
 const cache = new Map<string, SinglePage>();
 
 export function getSinglePage(def: SinglePageDef): SinglePage {
@@ -77,6 +91,35 @@ export function getSinglePage(def: SinglePageDef): SinglePage {
         return { kind: "subhead", text: r.heading({ source: b.source }, slot) };
       case "cards":
         return { kind: "cards", items: b.items.map((c, i) => ({ title: c.title, text: r.one(c.text, `${slot}.items[${i}]`) })) };
+      case "facets": {
+        if ("added" in b.from) throw new ContentSectionsError(`${context}/${slot}: kartlar kaynak metinden gelmeli (from: added olamaz).`);
+        const note = r.text(b.from, `${slot}.from`);
+        const lower = note.join(" ").toLocaleLowerCase("tr");
+        for (const item of b.items) {
+          const parts = item.match ? [item.match] : item.text.split(/,\s*/);
+          const missing = parts.find((part) => part.trim().length < MIN_MATCH || !lower.includes(part.toLocaleLowerCase("tr")));
+          if (missing !== undefined) throw new ContentSectionsError(`${context}/${slot}: kart "${item.title}" kaynak metinde yok — "${missing}"`);
+          // Başlıktaki sıra numarası ("1. Dil okulu") olgu değil, denetlenmez.
+          assertNumbers(`${item.title.replace(/^\d+\.\s+/, "")} ${item.text}`, lower, `${context}/${slot}: kart "${item.title}"`);
+        }
+        return { kind: "facets", items: b.items, note };
+      }
+      case "topics": {
+        const resolved: Extract<SingleResolvedBlock, { kind: "topics" }> = {
+          kind: "topics",
+          items: b.items.map((t, i) => ({
+            title: r.heading({ source: t.source }, `${slot}.items[${i}]`),
+            summary: t.summary,
+            icon: t.icon ?? null,
+            paragraphs: r.text({ src: { heading: t.source } }, `${slot}.items[${i}]`),
+          })),
+        };
+        // Özet arayüz kısaltmasıdır; içindeki rakamlar kartın kaynak paragrafında geçmek zorunda.
+        for (const t of resolved.items) {
+          assertNumbers(t.summary, t.paragraphs.join(" ").toLocaleLowerCase("tr"), `${context}/${slot}: "${t.title}" özeti`);
+        }
+        return resolved;
+      }
       case "tasks": {
         const lines = new Set(b.from.flatMap((ref, i) => r.raw(ref, `${slot}.from[${i}]`)));
         const usedLines = new Set<string>();
@@ -190,13 +233,20 @@ export function getSinglePage(def: SinglePageDef): SinglePage {
   const description = norm(def.meta.description ?? r.record.meta_description);
   checkMeta(title, description, context);
 
-  const course = parentCourse(def.path, context);
+  const course = def.parent ?? parentCourse(def.path, context);
+  const category = categoryCrumb(def.path, context);
   const page: SinglePage = {
     href: def.path,
+    lang: def.lang ?? null,
     title,
     description,
     h1,
-    crumbs: [{ label: "Anasayfa", href: "/" }, categoryCrumb(def.path, context), course, { label: def.label }],
+    crumbs: [
+      { label: "Anasayfa", href: "/" },
+      category,
+      ...(course.href === category.href ? [] : [course]),
+      { label: def.label },
+    ],
     course,
     hero: { lead, board },
     sections,

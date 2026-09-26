@@ -21,16 +21,37 @@ const YD = "/yabanci-dil-egitimleri";
 const UPDATED = "2026-09-25";
 
 /**
- * Hero fotoğrafı (kullanıcının eklediği online eğitim görselleri, 2026-09-25).
- * `online_education2/3` İngilizceye özgü (İngiliz bayrağı, "English Lesson")
- * → yalnız İngilizce sayfası ve çatı sayfasında; diğer diller bu genel görseli kullanır.
+ * Hero fotoğrafları (kullanıcının eklediği online eğitim görselleri, 2026-09-25 / 09-26).
+ * `online_education2/3` İngilizceye özgü (İngiliz bayrağı, "English Lesson") → yalnız
+ * İngilizce sayfası ve çatı sayfasında. Diğer 7 dil 4 genel görseli paylaşır (kullanıcı
+ * 2026-09-26: "tekrar edenleri yenilerle değiştir"); her görsel en fazla iki sayfada.
  */
-const ONLINE_PHOTO: Photo = {
-  src: "/assets/online_education.jpg",
-  alt: "Dizüstü bilgisayarda online dil kursu seçen öğrenci",
-  width: 800,
-  height: 600,
-};
+const ONLINE_PHOTOS = {
+  courses: {
+    src: "/assets/online_education.jpg",
+    alt: "Dizüstü bilgisayarda online dil kursu seçen öğrenci",
+    width: 800,
+    height: 600,
+  },
+  groupNotes: {
+    src: "/assets/online_education4.jpg",
+    alt: "Dizüstü bilgisayardan online grup dersine katılıp not alan öğrenci",
+    width: 1200,
+    height: 800,
+  },
+  homeDesk: {
+    src: "/assets/online_education5.jpg",
+    alt: "Evde dizüstü bilgisayar başında online derste not alan öğrenci",
+    width: 1199,
+    height: 799,
+  },
+  headphones: {
+    src: "/assets/online_education6.jpg",
+    alt: "Kulaklıkla online grup dersine katılıp defterine not alan öğrenci",
+    width: 1000,
+    height: 562,
+  },
+} satisfies Record<string, Photo>;
 
 /** "Evden" = sınav sahibinin resmi evden (uzaktan gözetimli) seçeneği var. */
 export type ExamMode = "center" | "both";
@@ -209,7 +230,7 @@ const DE: OnlineLessonDef = {
   languageSlug: "almanca-kursu",
   language: "Almanca",
   meta: { title: title("Almanca"), reasons: [TITLE_SPACE] },
-  photo: ONLINE_PHOTO,
+  photo: ONLINE_PHOTOS.groupNotes,
   fixes: TYPO,
   branchGroup: GROUP_8,
   keyboard: { label: "Almanca klavye", text: "ö ve ü Türkçe klavyede zaten var; ä ve ß için bilgisayarınıza Almanca klavye düzeni ekleyebilirsiniz." },
@@ -256,7 +277,7 @@ const FR: OnlineLessonDef = {
   languageSlug: "fransizca-kursu",
   language: "Fransızca",
   meta: { title: title("Fransızca"), reasons: [TITLE_SPACE] },
-  photo: ONLINE_PHOTO,
+  photo: ONLINE_PHOTOS.homeDesk,
   fixes: TYPO,
   branchGroup: GROUP_8,
   keyboard: { label: "Fransızca klavye", text: "ç Türkçe klavyede var; é, è, à, ê gibi aksanlı harfler için Fransızca klavye düzeni ekleyebilirsiniz." },
@@ -297,7 +318,7 @@ const ES: OnlineLessonDef = {
   languageSlug: "ispanyolca-kursu",
   language: "İspanyolca",
   meta: { title: title("İspanyolca"), reasons: ["title: kaynak 'Online İspanyolca Eğitimi' — h1 ve marka eki eklendi (diğer sayfalarla tutarlı)"] },
-  photo: ONLINE_PHOTO,
+  photo: ONLINE_PHOTOS.headphones,
   fixes: TYPO,
   branchGroup: GROUP_8,
   keyboard: { label: "İspanyolca klavye", text: "ñ, á, é, ó, ú ve ters soru-ünlem işaretleri (¿ ¡) için İspanyolca klavye düzeni ekleyebilirsiniz." },
@@ -337,7 +358,7 @@ const IT: OnlineLessonDef = {
     description: description("İtalyanca"),
     reasons: [TITLE_SPACE, "description: kaynak 'Online Rusça eğitimi…' — Rusça sayfasından kopyalanmış, dil adı düzeltildi"],
   },
-  photo: ONLINE_PHOTO,
+  photo: ONLINE_PHOTOS.courses,
   fixes: TYPO,
   branchGroup: GROUP_8,
   keyboard: { label: "İtalyanca klavye", text: "à, è, é, ì, ò, ù gibi vurgulu harfler için İtalyanca klavye düzeni ekleyebilirsiniz." },
@@ -372,7 +393,7 @@ const RU: OnlineLessonDef = {
     description: description("Rusça"),
     reasons: [TITLE_SPACE, "description: kaynak 'Online İspanyolca eğitimi…' — İspanyolca sayfasından kopyalanmış, dil adı düzeltildi"],
   },
-  photo: ONLINE_PHOTO,
+  photo: ONLINE_PHOTOS.homeDesk,
   fixes: [...TYPO, TYPO_TEACHER],
   branchGroup: GROUP_8,
   keyboard: { label: "Kiril klavye", text: "Rusça Kiril alfabesiyle yazılır; derste yazabilmek için bilgisayarınıza Rusça klavye düzeni ekleyin." },
@@ -409,7 +430,7 @@ const ZH: OnlineLessonDef = {
     description: description("Çince"),
     reasons: [TITLE_SPACE, "description: kaynak 'Online İtalyanca eğitimi…' — İtalyanca sayfasından kopyalanmış, dil adı düzeltildi"],
   },
-  photo: ONLINE_PHOTO,
+  photo: ONLINE_PHOTOS.headphones,
   fixes: TYPO,
   branchGroup: GROUP_8,
   keyboard: { label: "Pinyin girişi", text: "Çince karakterler Latin harfleriyle pinyin yazılarak girilir; bilgisayarınıza Çince (pinyin) giriş yöntemi ekleyin." },
@@ -447,7 +468,7 @@ const TR: OnlineLessonDef = {
   languageSlug: "yabancila-icin-turkce-kurs",
   language: "Türkçe",
   meta: { reasons: [] },
-  photo: ONLINE_PHOTO,
+  photo: ONLINE_PHOTOS.groupNotes,
   fixes: [...TYPO, TYPO_TEACHER],
   branchGroup: "6 kişilik özel gruplar ya da birebir özel ders",
   keyboard: { label: "Türkçe klavye", text: "ç, ğ, ı, İ, ö, ş, ü harfleri için bilgisayarınıza Türkçe klavye düzeni ekleyebilirsiniz." },

@@ -161,7 +161,8 @@ export const ABROAD_SECTION = {
     { label: "Pathway Programı", href: `${YE}/pathway-programi` },
     { label: "Yüksek Öğrenim", href: `${YE}/yuksek-ogrenim` },
     { label: "Yaz Okulları", href: `${YE}/yaz-okullari` },
-    { label: "Yurtdışı Dil Eğitimi", href: `${YE}/yurtdisi-dil-egitimi` },
+    // P4 (kullanıcı, 2026-09-26): eski "Yurtdışı Dil Eğitimi" sayfası ana sayfanın kopyası → 301; bağlantı doğrudan ana sayfaya.
+    { label: "Yurtdışı Dil Eğitimi", href: YE },
   ] satisfies NavLink[],
 };
 
@@ -424,7 +425,7 @@ export const OTHER_PROGRAMS_SECTION = {
     },
     {
       num: "04", title: "Yurtdışı Dil Eğitimi", sub: "DDM farkıyla Yurtdışında Dil Eğitimi",
-      href: `${YE}/yurtdisi-dil-egitimi`,
+      href: YE,
       image: { src: `${IMG}/yurtdisi-dil-egitimi.jpg`, hint: "Kampüs / valiz" },
     },
   ] satisfies OtherProgram[],

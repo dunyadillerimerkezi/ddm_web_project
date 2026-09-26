@@ -148,6 +148,11 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     `edits`), genel bilgi P2 kuralıyla. Paragraftan cümle almak serbest (`sentence`), ama gösterilmeyen cümle build'i
     düşürür; iki içeriğin birleştiği kaynak satırı `splits` ile izlenerek bölünür (elle kopya metin yazılmaz). Eskimiş firma
     ifadesi (ör. "kaset / DVD") yalnız kullanıcı onayıyla çıkarılır. İçeriği başka sayfanın kopyası olan sayfa yayınlanmaz, 301.
+    **Yurtdışı + diğer program (2026-09-26, kullanıcı):** `data/abroadPages.ts`, `data/otherPrograms.ts` — tekil kuralı aynen.
+    Sayfada düz yazı yok: kaynak paragrafı `facets` (kartlar; her kartın `match`'i kaynakta aranır, bulunmazsa build düşer) ya
+    da `topics` (kaynak başlığı + özet) ile gösterilir, metnin kendisi açılır "Ayrıntılı bilgi"de birebir durur. İş ortağı
+    (Kaplan) rakamları kullanıcı kararıyla kaynaktaki gibi — düzeltmeden önce sor. Kaynaktaki başka firmanın metni (Tercüme'de
+    Lavanda) gerekçeli `ignored`. Kaynak İngilizceyse sayfa `lang: "en"`.
   - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
     not barajı, sertifika) ekleme-çıkarma YOK; sayfada zaten yazılı olgular aynı anlamda yeniden
     cümlelenebilir (SSS cevapları `lib/languageFaq.ts` bunları o dilin kendi metninden regex'le okur,
@@ -181,7 +186,9 @@ ddm-web/
 │   ├── yabanci-dil-egitimleri/[kurs]/page.tsx     # Dil Kursu Ana, 10 dil (6.4)
 │   ├── yabanci-dil-egitimleri/[kurs]/[sayfa]/     # Şube Kurs Tarihi — dil tarafı (6.6)
 │   ├── sinav-hazirlik-egitimleri/[kurs]/[sayfa]/  # Şube Kurs Tarihi — sınav tarafı (6.6)
-│   └── sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/  # 21 üniversite + tarih dağıtıcısı (6.5/6.6)
+│   ├── sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/  # 21 üniversite + tarih dağıtıcısı (6.5/6.6)
+│   ├── yurtdisi-egitim/[...sayfa]/                # P4 yurtdışı (1–2 seviye; catch-all yalnız bu prefix altında)
+│   └── diger-program/[sayfa]/, kurumsal-dil-egitim/[sayfa]/  # P4 diğer program / kurumsal (kendi klasörü olanlar hariç)
 ├── components/     # Paylaşılan UI bileşenleri — Faz 6'da doluyor
 │   ├── layout/     # SiteHeader, MobileBottomBar, SiteFooter, SiteChrome,
 │   │               # Breadcrumb, StickyToc
@@ -209,6 +216,8 @@ ddm-web/
 │   ├── onlineLessons.ts     # P4 online eğitim — 8 dil + çatı (`ONLINE_HUB`), sınavların evden/merkezde bilgisi
 │   ├── examGuides.ts        # P4 "{Sınav} Nedir?" rehberleri (8) — genel bilgi, P2 kuralı, kaynak yorumda
 │   ├── singlePages.ts       # P4 tekil sayfalar (8) — pano (`board`) + soru satırları + şube bandı; kaynaklar yorumda
+│   ├── abroadPages.ts       # P4 yurtdışı (9) — biniş kartı panosu (`pass`), kart/tablo gövde; genel bilgi kaynakları yorumda
+│   ├── otherPrograms.ts     # P4 diğer program / kurumsal (4) — Business English, Çocuklar, Tercüme, Pegasus (lang en)
 ├── lib/
 │   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
 │   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak (§10)
@@ -335,6 +344,10 @@ ddm-web/
 > (`WeekBoard` haftalık takvim; `SingleBoards`: kur basamakları, ders akışı, sınav kâğıdı, dosya rafı, kolay/zor); gövdede
 > her bölüm bir satır (solda yapışkan soru + kalın cevap, sağda tablo/kart); ≥3 sütunlu tablo mobilde satır kartı
 > (`GuideBlock stackTables`); gri bantta şube kartları. Tek hareket: pano blokları ilk görünüşte bir kez.
+> **Yurtdışı (2026-09-26, "A · biniş kartı"):** `SinglePage` + hero'da `pass` panosu (İstanbul → gidilecek yer kodu, dört alan,
+> lacivert koçan; ilk görünüşte bir kez yerine oturur). Diğer programlar aynı sayfa: `chips` (modül / dil etiketleri), `week`,
+> `compare` (grup / özel ders). Gövde kart ağırlıklı: `facets` (ikonlu açık mavi kartlar, 3'ün katı değilse iki sütun, tek kalan
+> kart satırı doldurur) ve `topics` (kenarlıklı konu kartları), altında açılır "Ayrıntılı bilgi". Kullanıcı: "düz yazı değil".
 > **Nedir (2026-09-26):** sınav ana sayfalarından AYRI `GuidePage` — açık mavi hero, H1 altında büyük kısa cevap, sağda
 > lacivert "bir bakışta" `<dl>`; gövdede solda yapışkan soru listesi (`GuideToc`), her bölüm soru → kalın tek cümlelik
 > cevap → madde / bölüm kartı / tablo; uzun paragraf bloğu yok; fotoğraf ve hareket yok; sonda kaynaklar + son güncelleme.

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 
+import { Icon } from "@/components/graphics/Icon";
 import { WeekBoard } from "@/components/sections/WeekBoard";
 import type { SingleBoardResolved } from "@/lib/singleContent";
 import styles from "@/styles/SingleBoards.module.css";
@@ -155,6 +156,97 @@ function Scale({ board }: { board: Board<"scale"> }) {
   );
 }
 
+/**
+ * Biniş kartı (yurtdışı, kullanıcı 2026-09-26 "A"): İstanbul → gidilecek yer, dört alan, lacivert
+ * koçan. Kart ilk görünüşte bir kez yerine oturur (reduced-motion'da sabit). Barkod dekoratif.
+ */
+function Pass({ board }: { board: Board<"pass"> }) {
+  return (
+    <aside className={styles.pass} aria-labelledby="pano">
+      <div className={styles.passMain}>
+        <p className={styles.passTop}>
+          <span id="pano">{board.title}</span>
+          <span>{board.tag}</span>
+        </p>
+        <p className={styles.route}>
+          <span className={styles.port}>
+            <span className={styles.portCode} aria-hidden="true">
+              {board.from.code}
+            </span>
+            <span className={styles.portName}>{board.from.name}</span>
+          </span>
+          <span className={styles.flight} aria-hidden="true">
+            <Icon name="ucak" size={18} />
+          </span>
+          <span className={`${styles.port} ${styles.portTo}`}>
+            <span className={styles.portCode} aria-hidden="true">
+              {board.to.code}
+            </span>
+            <span className={styles.portName}>{board.to.name}</span>
+          </span>
+        </p>
+        <dl className={styles.passFields}>
+          {board.fields.map((f) => (
+            <div key={f.label}>
+              <dt className={styles.passLabel}>{f.label}</dt>
+              <dd className={styles.passValue}>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div className={styles.stub}>
+        <dl className={styles.stubInfo}>
+          <dt className={styles.stubLabel}>{board.stub.label}</dt>
+          <dd className={styles.stubValue}>{board.stub.value}</dd>
+        </dl>
+        <span className={styles.barcode} aria-hidden="true" />
+      </div>
+    </aside>
+  );
+}
+
+/** Konu / dil etiketleri. */
+function Chips({ board }: { board: Board<"chips"> }) {
+  return (
+    <aside className={styles.board} aria-labelledby="pano">
+      <Head id="pano" title={board.title} sub={board.sub} />
+      <ul className={styles.chips}>
+        {board.items.map((t, i) => (
+          <li key={t} className={styles.chip} style={{ "--i": i } as CSSProperties}>
+            {t}
+          </li>
+        ))}
+      </ul>
+      {board.facts.length > 0 && <Facts facts={board.facts} />}
+    </aside>
+  );
+}
+
+/** Yan yana iki program seçeneği. */
+function Compare({ board }: { board: Board<"compare"> }) {
+  return (
+    <aside className={styles.board} aria-labelledby="pano">
+      <Head id="pano" title={board.title} sub={board.sub} />
+      <div className={styles.compare}>
+        {board.cols.map((c, i) => (
+          <section key={c.name} className={i === 0 ? styles.pan : `${styles.pan} ${styles.panHard}`} aria-label={c.name}>
+            <h3 className={styles.panTitle}>{c.name}</h3>
+            <p className={styles.compareNote}>{c.note}</p>
+            <dl className={styles.compareFacts}>
+              {c.facts.map((f) => (
+                <div key={`${f.label}-${f.value}`}>
+                  <dt className={styles.compareLabel}>{f.label}</dt>
+                  <dd className={styles.compareValue}>{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
 /** P4 tekil — hero'nun sağındaki pano (kullanıcı, 2026-09-26: "A · program panosu"). */
 export function SingleBoard({ board }: { board: SingleBoardResolved }) {
   switch (board.kind) {
@@ -170,5 +262,11 @@ export function SingleBoard({ board }: { board: SingleBoardResolved }) {
       return <Files board={board} />;
     case "scale":
       return <Scale board={board} />;
+    case "pass":
+      return <Pass board={board} />;
+    case "chips":
+      return <Chips board={board} />;
+    case "compare":
+      return <Compare board={board} />;
   }
 }

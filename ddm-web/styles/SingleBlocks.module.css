@@ -54,6 +54,98 @@
   color: var(--ddm-gray-700);
 }
 
+/* --- kaynak metinden kartlar (facets) + açılır ayrıntı --- */
+.facets {
+  display: grid;
+  /* 3 ya da 6 kart → üç sütun, diğerleri iki sütun: son satırda tek kart kalmaz. */
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.facet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-sky-bg);
+}
+
+/* Tek sayılı (3'e bölünmeyen) kart grubunda son kart satırı doldurur. */
+.facets[data-span-last] > .facet:last-child {
+  grid-column: 1 / -1;
+}
+
+/* --- konu kartları: başlık + özet + açılır kaynak metin --- */
+.topics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--ddm-topic-min)), 1fr));
+  align-items: start;
+  gap: var(--space-3);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.topic {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-xl);
+}
+
+.topicTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--ddm-navy-900);
+}
+
+.topic .facetNote {
+  margin-top: var(--space-1);
+}
+
+.facetIcon {
+  display: grid;
+  place-items: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  margin-bottom: var(--space-1);
+  border-radius: var(--radius-md);
+  background: var(--ddm-white);
+  color: var(--ddm-navy-600);
+}
+
+.facetNote {
+  margin: var(--space-4) 0 0;
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.6;
+  color: var(--ddm-gray-600);
+}
+
+.facetNote p {
+  margin: var(--space-2) 0 0;
+}
+
+.facetSummary {
+  width: fit-content;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.facetSummary:focus-visible {
+  outline: 2px solid var(--ddm-sky-mid);
+  outline-offset: 2px;
+}
+
 /* --- sınav görevleri: kâğıt kartlar --- */
 .tasks {
   display: grid;
@@ -232,5 +324,21 @@ a.fileUniName:focus-visible {
   .cards,
   .tasks {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .facets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .facet:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .topics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .facet {
+    padding: var(--space-4);
   }
 }
