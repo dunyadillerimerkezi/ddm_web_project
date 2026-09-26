@@ -306,7 +306,8 @@ ddm-web/
 >   şubeler "3+2", video "fotoğrafsız kapak, tıklayınca sayfa içi oynatıcı".
 > - Ortam hareketleri yalnız transform + token (`--duration-kenburns/-float/-marquee`);
 >   globals.css reduced-motion kuralı hepsini durdurur.
-> - **Dil Kursu (2026-09-25):** sıra hero (dilin fotoğrafı sağda, `PageHero photo` — maske ile sola/aşağı
+> - **Dil Kursu (2026-09-25):** her dilin İKİ ayrı fotoğrafı var (`heroPhoto` yatay, `benefitsPhoto` kareye yakın;
+>   aynı fotoğraf sayfada iki kez kullanılmaz). Sıra hero (dilin fotoğrafı sağda, `PageHero photo` — maske ile sola/aşağı
 >   yumuşak erir, `--ddm-photo-fade-*`) → "Neden {dil} öğrenmelisiniz" (fotoğraf + süzülen fayda
 >   kartları) → Hakkında (her kutu başlıklı + ikonlu, rakam kutusu) → Seviyeler (6 basamak, P4 ile ortak
 >   CEFR cümleleri) → Kurs takvimi (haftalık tablo, hafta içi önce, tek "Ön Bilgi Formu" butonu) → Neden

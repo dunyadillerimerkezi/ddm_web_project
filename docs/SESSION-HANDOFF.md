@@ -240,6 +240,11 @@ Fiyat / şube / tarih / istatistik / sınav formatı konusunda asla varsayma, do
   sınav özel ders fotoğrafları aynen. Görseller küçük (620–735px) — retina'da hafif yumuşak. build ✅ 164.
 - **Fotoğraf genişliği (2026-09-26, kullanıcı: "resimler yarım görünüyor"):** her iki hero'da fotoğraf `--ddm-hero-photo-w`
   (55%; 1000–1279px'te 46%). Kullanıcı "laciverti azalt" dedi: erime yalnız ince kenarlarda — fade-x 0→14%, fade-y son %10.
+- **İki fotoğraf (2026-09-26, kullanıcı: "fotoğraflar tekrar ediyor, her dilden en az 2 var"):** `LanguageExtra.photo` →
+  `heroPhoto` (yatay kompozisyon) + `benefitsPhoto` (kareye yakın kutu, dik/ortası güçlü). Yeni görseller
+  `home_page_images/dil-*2/3.jpg` — **izlenmiyor, kod bunlara bağlı** (commit'i kullanıcı yapar). Yedekte kalan:
+  `dil-almanca2` (Köln, benefits'teki Köln'le aynı konu), `dil-fransizca` (Eyfel dik), `dil-turkce`. İngilizce Konuşma'nın
+  tek fotoğrafı var → iki yerde aynı, ikincisi kullanıcıdan. Yeni görseller 640–1200px — hero'da retina'da hafif yumuşak.
 
 ### 2026-09-25 · Opus 5.5 · P4 — Özel Ders (18 sayfa) — commit bekliyor
 - **Aşama 0:** 19 temiz + 21 Joomla `?id=` kaydı; kopyaların gövdesi temizlerle birebir. Şablon artığı yok (özgün metin 91–253

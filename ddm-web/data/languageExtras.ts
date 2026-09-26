@@ -19,8 +19,13 @@ import type { LanguageKey } from "@/lib/languageContent";
 export type LanguageBenefit = { icon: IconName; label: string };
 
 export type LanguageExtra = {
-  /** "Neden … Öğrenmelisiniz?" bölümünün fotoğrafı — Ana Sayfa dil kartlarıyla aynı set. */
-  photo: { src: string; alt: string };
+  /**
+   * Fotoğraflar (2026-09-26, kullanıcı: "her dilden en az 2 fotoğraf var, tekrar etmesin"):
+   * hero geniş ve yatay (metnin sağında, sola/aşağı erir; mobilde şerit) → yatay kompozisyon;
+   * "Neden … Öğrenmelisiniz?" kutusu kareye yakın (4:3.5) → dik ya da ortası güçlü kare kompozisyon.
+   */
+  heroPhoto: { src: string; alt: string };
+  benefitsPhoto: { src: string; alt: string };
   benefits: LanguageBenefit[];
   /** Kaynakta `whyLearn` yoksa eklenen evrensel metin (başlık + paragraflar). */
   whyLearnAdded: { heading: string; paragraphs: string[] } | null;
@@ -30,7 +35,8 @@ const IMG = "/assets/home_page_images";
 
 export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
   en: {
-    photo: { src: `${IMG}/dil-ingilizce.jpg`, alt: "Londra'da Westminster Sarayı ve Thames Nehri" },
+    heroPhoto: { src: `${IMG}/dil-ingilizce.jpg`, alt: "Londra'da Westminster Sarayı ve Thames Nehri" },
+    benefitsPhoto: { src: `${IMG}/dil-ingilizce2.jpg`, alt: "Londra'da Big Ben, Thames Nehri ve London Eye, gün batımı" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
       { icon: "mezuniyet", label: "Yurtdışında eğitim almak" },
@@ -40,7 +46,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   de: {
-    photo: { src: `${IMG}/dil-almanca.jpg`, alt: "Köln Katedrali ve Hohenzollern Köprüsü" },
+    heroPhoto: { src: `${IMG}/dil-almanca3.jpg`, alt: "Berlin'de Spree Nehri, Televizyon Kulesi ve Berlin Katedrali, gün batımı" },
+    benefitsPhoto: { src: `${IMG}/dil-almanca.jpg`, alt: "Köln Katedrali ve Hohenzollern Köprüsü" },
     benefits: [
       { icon: "kupa", label: "Kariyer fırsatları" },
       { icon: "mezuniyet", label: "Avrupa'da eğitim almak" },
@@ -50,7 +57,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   fr: {
-    photo: { src: `${IMG}/dil-fransizca.jpg`, alt: "Paris silueti ve Eyfel Kulesi" },
+    heroPhoto: { src: `${IMG}/dil-fransızca3.jpg`, alt: "Paris'te balkonlu klasik bir bina ve arkada Eyfel Kulesi" },
+    benefitsPhoto: { src: `${IMG}/dil-fransizca2.jpg`, alt: "Gece Paris'te Zafer Takı'ndan yayılan caddeler ve Eyfel Kulesi" },
     benefits: [
       { icon: "kupa", label: "Uluslararası kariyer" },
       { icon: "mezuniyet", label: "Fransa'da eğitim almak" },
@@ -60,7 +68,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   it: {
-    photo: { src: `${IMG}/dil-italyanca.jpg`, alt: "Roma'da Pantheon önündeki meydan" },
+    heroPhoto: { src: `${IMG}/dil-italyanca.jpg`, alt: "Roma'da Pantheon önündeki meydan" },
+    benefitsPhoto: { src: `${IMG}/dil-italyanca2.jpg`, alt: "Roma'da Kolezyum'un havadan görünümü" },
     benefits: [
       { icon: "kupa", label: "Kariyer fırsatları" },
       { icon: "mezuniyet", label: "İtalya'da eğitim almak" },
@@ -70,7 +79,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   es: {
-    photo: { src: `${IMG}/dil-ispanyolca.jpg`, alt: "Barselona'da gotik katedral" },
+    heroPhoto: { src: `${IMG}/dil-ispanyolca-2.jpg`, alt: "Madrid'de Metropolis Binası ve Gran Vía, gün batımı" },
+    benefitsPhoto: { src: `${IMG}/dil-ispanyolca.jpg`, alt: "Barselona'da gotik katedral" },
     benefits: [
       { icon: "kupa", label: "Kariyer fırsatlarını artırmak" },
       { icon: "mezuniyet", label: "Yurtdışında eğitim almak" },
@@ -80,7 +90,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   ru: {
-    photo: { src: `${IMG}/dil-rusca.jpg`, alt: "Moskova'da Kızıl Meydan'daki Devlet Tarih Müzesi" },
+    heroPhoto: { src: `${IMG}/dil-rusça2.jpg`, alt: "Moskova'da Aziz Vasil Katedrali" },
+    benefitsPhoto: { src: `${IMG}/dil-rusca.jpg`, alt: "Moskova'da Kızıl Meydan'daki Devlet Tarih Müzesi" },
     benefits: [
       { icon: "kupa", label: "Kariyer fırsatlarını artırmak" },
       { icon: "ucret", label: "Ticaret ve turizm" },
@@ -90,7 +101,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   zh: {
-    photo: { src: `${IMG}/dil-cince.jpg`, alt: "Geleneksel Çin tapınak mimarisi" },
+    heroPhoto: { src: `${IMG}/dil-çince2.jpg`, alt: "Dağların üzerinde uzanan Çin Seddi, gün batımı" },
+    benefitsPhoto: { src: `${IMG}/dil-cince.jpg`, alt: "Geleneksel Çin tapınak mimarisi" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
       { icon: "grup", label: "Ana dili olarak en çok konuşulan dil" }, // Ethnologue: toplamda 1. İngilizce (2026-09-26)
@@ -100,7 +112,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   nl: {
-    photo: { src: `${IMG}/dil-felemenkce.jpg`, alt: "Amsterdam'da kanal kenarı" },
+    heroPhoto: { src: `${IMG}/dil-felemenkce.jpg`, alt: "Amsterdam'da kanal kenarı" },
+    benefitsPhoto: { src: `${IMG}/dil-felemenkçe2.jpg`, alt: "Amsterdam'da kanal kıyısındaki renkli evler" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
       { icon: "konum", label: "Hollanda ve Belçika'da çalışmak" },
@@ -116,7 +129,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     },
   },
   tr: {
-    photo: { src: `${IMG}/dil-turkce.jpg`, alt: "İstanbul silueti ve Galata Kulesi" },
+    heroPhoto: { src: `${IMG}/dil-türkçe3.jpg`, alt: "İstanbul'da Tarihi Yarımada ve Boğaz'ın havadan görünümü, gün batımı" },
+    benefitsPhoto: { src: `${IMG}/dil-türkçe2.jpg`, alt: "Galata Kulesi ve Haliç'in havadan görünümü" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
       { icon: "konum", label: "Türkiye'de iş hayatı" },
@@ -132,7 +146,9 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     },
   },
   speak: {
-    photo: { src: `${IMG}/ingilizce-konusma.jpg`, alt: "Masa etrafında İngilizce sohbet eden bir grup" },
+    // Bu sayfa için tek fotoğraf var; ikincisi gelene kadar iki yerde aynı.
+    heroPhoto: { src: `${IMG}/ingilizce-konusma.jpg`, alt: "Masa etrafında İngilizce sohbet eden bir grup" },
+    benefitsPhoto: { src: `${IMG}/ingilizce-konusma.jpg`, alt: "Masa etrafında İngilizce sohbet eden bir grup" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
       { icon: "konusma", label: "Akıcı ve özgüvenli konuşmak" },

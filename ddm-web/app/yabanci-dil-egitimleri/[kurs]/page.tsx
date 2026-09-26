@@ -150,7 +150,7 @@ export default async function DilKursuPage({
           skill: def.skill,
           scale: def.scaleChip,
         }}
-        photo={extra.photo}
+        photo={extra.heroPhoto}
         stats={trustStats(def)}
       />
 
@@ -159,7 +159,7 @@ export default async function DilKursuPage({
           kicker={`NEDEN ${def.name.toLocaleUpperCase("tr")}`}
           title={whyLearn.title}
           paragraphs={whyLearn.paragraphs}
-          photo={extra.photo}
+          photo={extra.benefitsPhoto}
           benefits={extra.benefits}
         />
       )}
