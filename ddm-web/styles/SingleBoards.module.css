@@ -1,0 +1,366 @@
+/* ---------------------------------------------------------------
+ * SingleBoards — P4 tekil hero'sunun sağındaki panolar (haftalık takvim
+ * hariç: WeekBoard.module.css). Hepsi aynı beyaz kart; içerik sayfanın asıl
+ * bilgisi: kur basamakları, ders akışı, sınav kâğıdı, dosya rafı, kolay/zor.
+ * Tek hareket: basamak / adım / raf satırları ilk görünüşte bir kez yerine
+ * gelir (globals.css reduced-motion kuralı kapatır; son hâl görünür).
+ * ------------------------------------------------------------- */
+.board {
+  padding: var(--space-8) var(--space-8) var(--space-6);
+  border-radius: var(--radius-3xl);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-lift);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.sub {
+  margin: var(--space-1) 0 0;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+@keyframes rise {
+  from {
+    transform: translateX(calc(-1 * var(--space-6)));
+    opacity: 0;
+  }
+}
+
+/* --- rakamlar --- */
+.facts {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-1);
+}
+
+.factValue {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--ddm-navy-900);
+}
+
+.factLabel {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+/* --- kur basamakları: en üstte en yüksek kur, her basamak bir öncekinden sağa kayar --- */
+.ladder {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-2);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rung {
+  margin-left: calc(var(--i) * var(--space-6));
+  animation: rise var(--duration-board) var(--ease-out-soft) both;
+  animation-delay: calc(var(--i) * var(--delay-board-step));
+}
+
+.rungLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--ddm-sky-200);
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-bg);
+  text-decoration: none;
+  transition: border-color var(--duration-base) var(--ease-out-soft);
+}
+
+.rungLink:hover {
+  border-color: var(--ddm-sky-line);
+}
+
+.rungLink:focus-visible {
+  outline: 2px solid var(--ddm-sky-mid);
+  outline-offset: 2px;
+}
+
+.rungCode {
+  flex: none;
+  min-width: calc(var(--space-24) + var(--space-4));
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 800;
+  color: var(--ddm-navy-600);
+}
+
+.rungName {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-700);
+}
+
+/* --- ders akışı: numaralı adımlar, soldan dikey çizgiyle bağlı --- */
+.steps {
+  position: relative;
+  display: grid;
+  gap: var(--space-5);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps::before {
+  content: "";
+  position: absolute;
+  top: var(--space-5);
+  bottom: var(--space-5);
+  left: calc(var(--space-5) - 1px);
+  border-left: 2px dashed var(--ddm-sky-line);
+}
+
+.step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  animation: rise var(--duration-board) var(--ease-out-soft) both;
+  animation-delay: calc(var(--i) * var(--delay-board-step));
+}
+
+.stepNo {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border-radius: 50%;
+  background: var(--ddm-navy-600);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 800;
+  color: var(--ddm-white);
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.stepName {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h5);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.stepText {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-600);
+}
+
+/* --- sınav kâğıdı: üstte lacivert şerit (görev kartlarıyla aynı), vurgulu satır --- */
+.sheet {
+  border-top: var(--space-1) solid var(--ddm-navy-600);
+}
+
+.sheetRows {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sheetRow,
+.sheetRowOn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-md);
+  background: var(--ddm-white);
+}
+
+.sheetRowOn {
+  border-color: var(--ddm-navy-600);
+  background: var(--ddm-sky-bg);
+}
+
+.sheetName {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.sheetLocal {
+  font-family: var(--ddm-font-body);
+  font-size: var(--ddm-text-caption);
+  font-weight: 500;
+  color: var(--ddm-gray-500);
+}
+
+.sheetTime {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-700);
+  text-align: right;
+}
+
+.sheetTag {
+  grid-column: 1 / -1;
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-navy-600);
+}
+
+/* --- dosya rafı: klasör sekmeli satırlar --- */
+.shelf {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.folder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--ddm-border-card);
+  border-left: var(--space-1) solid var(--ddm-sky-mid);
+  border-radius: var(--radius-sm);
+  animation: rise var(--duration-board) var(--ease-out-soft) both;
+  animation-delay: calc(var(--i) * var(--delay-board-step));
+}
+
+.folderName {
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.folderCount {
+  flex: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-bg);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.shelfMore {
+  margin: var(--space-3) 0 0;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+/* --- kolay / zor --- */
+.scale {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.pan {
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-sky-bg);
+}
+
+.panHard {
+  background: var(--ddm-navy-900);
+}
+
+.panTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.panHard .panTitle {
+  color: var(--ddm-white);
+}
+
+.panList {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.easy,
+.hard {
+  position: relative;
+  padding-left: var(--space-5);
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.45;
+  color: var(--ddm-gray-800);
+}
+
+.hard {
+  color: var(--ddm-navy-body);
+}
+
+.easy::before,
+.hard::before {
+  content: "";
+  position: absolute;
+  top: 0.45em;
+  left: 0;
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: 50%;
+  background: var(--ddm-sky-mid);
+}
+
+.hard::before {
+  background: var(--ddm-sky-400);
+}
+
+@media (max-width: 599px) {
+  .board {
+    padding: var(--space-6) var(--space-5) var(--space-5);
+  }
+
+  .rung {
+    margin-left: calc(var(--i) * var(--space-3));
+  }
+
+  .rungCode {
+    min-width: calc(var(--space-20) + var(--space-4));
+  }
+
+  .scale {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .factValue {
+    font-size: var(--ddm-text-h5);
+  }
+}

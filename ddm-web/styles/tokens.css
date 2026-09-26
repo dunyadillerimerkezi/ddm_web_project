@@ -324,6 +324,8 @@
   --duration-slow: 0.34s;
   --duration-reveal: 0.5s; /* P3: kart/satır kademeli görünme */
   --duration-stairs: 0.7s; /* P4: seviye merdiveni basamaklarının yükselmesi */
+  --duration-board: 0.7s; /* P4 tekil: hero panosundaki blokların (takvim, basamak) bir kez dolması */
+  --delay-board-step: 80ms; /* P4 tekil: pano blokları arası kademe */
   --stagger-stairs: 80ms; /* P4: basamaklar arası gecikme */
   --duration-steps-line: 0.6s; /* P4 online: adımları bağlayan çizginin çizilmesi */
   --reveal-shift: 12px; /* P3: kademeli görünmede dikey kayma (yalnız transform — CLS yok) */
@@ -343,6 +345,24 @@
   --duration-orbit: 40s; /* balonların arkasındaki kesikli yörüngenin bir turu */
   --duration-float-alt: 8s; /* cam bilgi kartlarının süzülmesi */
   --parallax-shift: 10px; /* fareye tepki — en öndeki katmanın en büyük kayması */
+  /* Keyframe ADLARI (2026-09-26). CSS Modules modüldeki animasyon adını yerelleştirir
+   * (`ddmSpin` → `X-module__…__ddmSpin`), globals.css'teki keyframe'e ad ile ulaşılamaz;
+   * `:global()` ve tırnaklı ad da çalışmıyor. Değişkenin içi yerelleştirilmediği için
+   * modüller adı buradan alır: `animation: var(--kf-spin) 48s linear infinite;` */
+  --kf-float: ddmFloat;
+  --kf-float-slow: ddmFloatSlow;
+  --kf-float-soft: ddmFloatSoft;
+  --kf-pulse: ddmPulse;
+  --kf-ring: ddmRing;
+  --kf-spin: ddmSpin;
+  --kf-ken-burns: ddmKenBurns;
+  --kf-marquee: ddmMarquee;
+  --kf-panel-in: ddmPanelIn;
+  --kf-cycle-step: ddmCycleStep;
+  --kf-chip: ddmChip;
+  --kf-drift: ddmDrift;
+  --kf-glyph-rise: ddmGlyphRise;
+  --kf-greet: ddmGreet;
   --float-shift: 8px; /* süzülme genliği */
 
   /* UI turu — fotoğraf/logo üstü okunabilirlik katmanları */

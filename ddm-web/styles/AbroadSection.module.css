@@ -115,7 +115,7 @@
   border: 1px solid var(--ddm-border-card);
   box-shadow: var(--shadow-md);
   overflow: hidden;
-  animation: ddmFloatSoft var(--duration-float) ease-in-out infinite;
+  animation: var(--kf-float-soft) var(--duration-float) ease-in-out infinite;
 }
 
 .logoTile:nth-child(2) {
@@ -154,7 +154,7 @@
 
 .photo {
   object-fit: cover;
-  animation: ddmKenBurns var(--duration-kenburns) ease-in-out infinite alternate;
+  animation: var(--kf-ken-burns) var(--duration-kenburns) ease-in-out infinite alternate;
 }
 
 @media (max-width: 899px) {

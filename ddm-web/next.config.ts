@@ -113,8 +113,8 @@ const JOOMLA_PRIVATE_LESSONS: [string, string, string][] = [
 ];
 
 /**
- * P4 — 4 "Nedir?" rehberinin Joomla `?view=article&id=…` kopyası (kurs sayfası
- * üstünden). Gövdeleri temiz sayfalarla birebir aynı (site_content.json'da
+ * P4 — "Nedir?" rehberleri ve tekil sayfaların Joomla `?view=article&id=…` kopyaları
+ * (kurs sayfası üstünden). Gövdeleri hedef sayfalarla birebir aynı (site_content.json'da
  * doğrulandı). [kaynak, id, hedef].
  */
 const JOOMLA_GUIDES: [string, string, string][] = [
@@ -122,6 +122,12 @@ const JOOMLA_GUIDES: [string, string, string][] = [
   ["/sinav-hazirlik-egitimleri/sat-kursu.html", "159:sat-nedir", "/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir"],
   ["/sinav-hazirlik-egitimleri/toeic-kursu.html", "128:toeic-nedir", "/sinav-hazirlik-egitimleri/toeic-kursu/toeic-nedir"],
   ["/sinav-hazirlik-egitimleri/proficiency-kursu.html", "136:proficiency-nedir", "/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-nedir"],
+  // P4 tekil (2026-09-26): örnek sınav soruları; "Proficiency Sınavı" yayınlanmıyor (21 üniversite listesi
+  // Proficiency Kursu sayfasında) → üniversiteler bölümü; "Almanca Eğitim Seviyeleri" yeni temiz adresine.
+  ["/sinav-hazirlik-egitimleri/proficiency-kursu.html", "323:proficiency-sinav-sorulari", "/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-ornek-sinav-sorulari"],
+  ["/sinav-hazirlik-egitimleri/proficiency-kursu.html", "364:proficiency-sinavi", "/sinav-hazirlik-egitimleri/proficiency-kursu#universiteler"],
+  ["/yabanci-dil-egitimleri/almanca-kursu/almanca-konusma-kurslari.html", "67:almanca-egitim-seviyeleri", "/yabanci-dil-egitimleri/almanca-kursu/almanca-egitim-seviyeleri"],
+  ["/yabanci-dil-egitimleri/almanca-kursu/hizlandirilmis-almanca-kursu.html", "67:almanca-egitim-seviyeleri", "/yabanci-dil-egitimleri/almanca-kursu/almanca-egitim-seviyeleri"],
 ];
 
 /**
@@ -130,6 +136,10 @@ const JOOMLA_GUIDES: [string, string, string][] = [
  */
 const RETIRED_PAGES: [string, string][] = [
   ["/sinav-hazirlik-egitimleri/yds-kursu/yds-ozel-ders-2", "/sinav-hazirlik-egitimleri/yds-kursu"],
+  // P4 tekil (kullanıcı kararı, 2026-09-26): içeriği yalnız 21 üniversite listesi → Proficiency Kursu'nun üniversiteler bölümü.
+  ["/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-sinavi", "/sinav-hazirlik-egitimleri/proficiency-kursu#universiteler"],
+  // P4 tekil (kullanıcı kararı, 2026-09-26): aynı metin iki adreste — kanonik /yabanci-dil-egitimleri/… .
+  ["/ingilizce-kurslari/ingilizce-egitim-sistemi", "/yabanci-dil-egitimleri/ingilizce-kursu/ingilizce-egitim-sistemi"],
 ];
 
 const nextConfig: NextConfig = {

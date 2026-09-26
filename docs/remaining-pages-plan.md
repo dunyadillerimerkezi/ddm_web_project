@@ -123,8 +123,8 @@ bu yüzden **hepsi açık `has: query` kuralı ister** (6.6'daki `JOOMLA_COURSE_
 | Kurs tarihi **Ataşehir** | **4** | `proficiency\|gmat\|sat\|toeic-kursu.html?...id=306\|322\|318\|298:atasehir-kurs-tarihleri` | `.../atasehir-subesi-{kurs}-kurs-tarihi` | P0 | ✅ `7b68a73` |
 | Özel ders (`diger-program/ozel-dersler.html?id=368..383`) | 16 | `...id=370:fransizca-ozel-ders&catid=48` | `/{kategori}/{kurs}/{kurs}-ozel-ders` | P4 | ⏳ |
 | Özel ders (kurs sayfası üstünden) | 5 | `almanca-kursu.html?...id=369:almanca-ozel-ders`, `gmat/sat/toeic/proficiency-kursu.html?...ozel-ders` | aynı özel ders sayfası | P4 | ⏳ |
-| Nedir / sınav / örnek soru | 6 | `gmat-kursu.html?...id=165:gmat-nedir`, `proficiency-kursu.html?...id=364:proficiency-sinavi`, `...id=323:proficiency-sinav-sorulari`, `...id=136:proficiency-nedir`, `sat-nedir`, `toeic-nedir` | ilgili P4 alt sayfası | P4 | ⏳ |
-| Almanca seviyeleri | 2 | `almanca-konusma-kurslari.html?...id=67:almanca-egitim-seviyeleri`, `hizlandirilmis-almanca-kursu.html?...id=67` | Aşama 0'da karar (tek kanonik) | P4 | ⏳ |
+| Nedir / sınav / örnek soru | 6 | `gmat-kursu.html?...id=165:gmat-nedir`, `proficiency-kursu.html?...id=364:proficiency-sinavi`, `...id=323:proficiency-sinav-sorulari`, `...id=136:proficiency-nedir`, `sat-nedir`, `toeic-nedir` | ilgili P4 alt sayfası (`364:proficiency-sinavi` → Proficiency Kursu `#universiteler`) | P4 | ✅ 2026-09-26 |
+| Almanca seviyeleri | 2 | `almanca-konusma-kurslari.html?...id=67:almanca-egitim-seviyeleri`, `hizlandirilmis-almanca-kursu.html?...id=67` | yeni `/yabanci-dil-egitimleri/almanca-kursu/almanca-egitim-seviyeleri` | P4 | ✅ 2026-09-26 |
 | İletişim (`component/content/article/...`) | 6 | `337-iletisim-sayfasi-kadikoy.html?Itemid=401`, `65-levent-subesi-on-kayit-formu` (×2, URL-encoded varyant) | `/ddm-iletisim/{sube}` | P1 | ⏳ |
 | Öğrenci yorumları sayfalama | 10 | `ogrenci-yorumlari.html?start=4..40` | `/ogrenci-yorumlari?page=N` ya da `/ogrenci-yorumlari` | P7 | ⏳ |
 | **Toplam** | **61** | | | | 16 ✅ · 45 ⏳ |
@@ -454,7 +454,20 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `site-architecture` (iç link ağı, breadcrumb), `frontend-design:frontend-design`.
 
-### P4 — Zengin İçerik Alt Sayfa  🟡 özel ders ✅ · online ✅ · nedir ✅ (2026-09-26) · kalan: tekil, yurtdışı, diğer+kurumsal (online-dil-egitimi hariç), dil -2 301
+### P4 — Zengin İçerik Alt Sayfa  🟡 özel ders ✅ · online ✅ · nedir ✅ · tekil ✅ (2026-09-26) · kalan: yurtdışı, diğer+kurumsal (online-dil-egitimi hariç), dil -2 301
+
+> **Sonuç — Tekil (2026-09-26, Opus 5.5):** 8 sayfa. Kararlar (kullanıcı): `proficiency-sinavi` yayınlanmadı (21 üniversite
+> linki, Proficiency Kursu'ndaki listenin kopyası → `#universiteler` 301, menü kalemi kaldırıldı) · Joomla "Almanca Eğitim
+> Seviyeleri" (`?id=67` ×2) yeni `/almanca-kursu/almanca-egitim-seviyeleri` adresinde, "kaset / DVD" cümleleri çıkarıldı ·
+> İngilizce Eğitim Sistemi kanonik `/yabanci-dil-egitimleri/…` (`/ingilizce-kurslari/…` 301) · 22 örnek sınav dosyası eski
+> siteden indirilip aynı yollarla `public/images`, `public/ddm/indir` altına kondu · Çince Kursu'ndaki yanlışlar da düzeltildi.
+> Tasarım "A · program panosu" (`SinglePage`): hero'nun sağında sayfanın asıl bilgisi (`WeekBoard` haftalık takvim, kur
+> basamakları, ders akışı, sınav kâğıdı, dosya rafı, kolay/zor); gövdede soru | içerik satırları (soru yapışkan), gri bantta
+> şube kartları (etiket kaynak satırı, adres `branches.ts`). Genel bilgi doğrulandı: Ethnologue, British Council, FSI, HSK
+> (GF0025-2021, chinesetest.cn), Goethe (Start Deutsch 1 formatı, sınav yönetmeliği), telc, ÖSD, TestDaF, AufenthG §30,
+> turkei.diplo.de (aile birleşiminde yalnız Goethe/ÖSD), Yunus Emre TYS, MEB CEFR çevirisi, 15 üniversitenin resmi sınav sayfası.
+> Altyapı: `createGuideResolver` (nedir + tekil ortak; cümle bazında alma + gösterilmeyen cümle build'i düşürür), `splits`
+> (iki içeriğin birleştiği kaynak satırı izlenerek bölünür), `check-links` artık `public/` dosyalarını tanıyor.
 
 > **Sonuç — Nedir (2026-09-26, Opus 5.5):** 8 rehber. Metin genel sınav bilgisi → P2 kuralı (başlık kalır, eskimiş olgu
 > resmi kaynaktan düzeltilir, `edits` izlenir). Ayrı tasarım (`GuidePage`): açık hero + kısa cevap + lacivert "bir bakışta"
@@ -526,12 +539,12 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   1. ✅ özel ders (18; YDS Kurs Dönemi → 301)
   2. ✅ online (8 + çatı `/diger-program/online-dil-egitimi`)
   3. ✅ nedir (8)
-  4. ⏳ **tekil (8)** — SIRADAKİ: `almanca-konusma-kurslari`, `hizlandirilmis-almanca-kursu`, `cince-ogrenmek-zor-mu`,
+  4. ✅ **tekil (8)** (2026-09-26) — `almanca-konusma-kurslari`, `hizlandirilmis-almanca-kursu`, `cince-ogrenmek-zor-mu`,
      `ingilizce-egitim-sistemi` (P5 ile çakışıyor mu Aşama 0'da bak), `turkce-egitim-seviyeleri`,
      `proficiency-ornek-sinav-sorulari` (21 üniversite sayfasından ölü link alıyor), `proficiency-sinavi`,
      `aile-birlesimi-egitimi/a1-sinav-ornegi`. `?id=` 301: `proficiency-kursu.html?id=364:proficiency-sinavi`,
      `…id=323:proficiency-sinav-sorulari`, 2 Almanca seviye (§4).
-  5. ⏳ yurtdışı (11) — `kanada-vancouver-2` için kullanıcıya sor (diğer "-2"ler 301).
+  5. ⏳ **yurtdışı (11)** — SIRADAKİ. `kanada-vancouver-2` için kullanıcıya sor (diğer "-2"ler 301).
   6. ⏳ diğer program + kurumsal (5): `business-english`, `cocuklar-icin-ingilizce-kursu`, `tercume-hizmetleri`,
      `yurtdisinda-egitim`, `kurumsal-dil-egitim/turkish-course-pegasus-pilots` (footer'dan ölü link alıyorlar).
   7. ⏳ dil tarafı 9 "-2" sayfası → kendi ana sayfasına 301 (içerik taşınacak bir şey var mı Aşama 0'da bak).
@@ -549,6 +562,10 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   - **Kontrol:** `npm run build` (sayfa sayısı), `npm run check-links` (ölü hedef sayısı düşmeli), 72/72 kurs tarihi,
     1440/390/360 px taşma + tek H1 (Playwright betiği scratchpad'de yoksa yeniden yaz). Açık dev sunucusu (3000)
     değişiklikleri bazen yüklemiyor → kontrolü production build ile `npx next start -p 3200`'de yap, sonra durdur.
+  - **Tekil'den:** kararı soran seçeneklerde URL'i değil kullanıcının gördüğü yeri (menü yolu, sayfa metninden örnek)
+    göster — kullanıcı ilk soruyu "hangi sayfa?" diye geri çevirdi. Tamamen kopya / içeriksiz sayfa için 301 önerisi kabul
+    gördü. Eski sitedeki indirilebilir dosyalar taşınınca kaybolur: Aşama 0'da `ddm-crawl/site_content.json` `links`
+    alanından dosya linklerini say.
   - **Kullanıcı:** Türkçe, kısa, teknik olmayan dil; seçenekleri görsel göster, az soru sor; tekrar eden bilgiden
     kaçma ama bilgiye boğma, göz gezdirilebilir format (soru başlığı → kalın cevap → madde/tablo). Commit'ten önce sor.
 - **Başlangıç prompt'u (P4 kalan alt türler):** bkz. `docs/SESSION-HANDOFF.md` §A "Sonraki oturum prompt'u" — kullanıcıya

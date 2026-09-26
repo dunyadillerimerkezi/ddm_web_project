@@ -93,7 +93,7 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     photo: { src: `${IMG}/dil-cince.jpg`, alt: "Geleneksel Çin tapınak mimarisi" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
-      { icon: "grup", label: "Dünyada en çok konuşulan dil" },
+      { icon: "grup", label: "Ana dili olarak en çok konuşulan dil" }, // Ethnologue: toplamda 1. İngilizce (2026-09-26)
       { icon: "ucret", label: "Güçlenen ekonomik ilişkiler" },
       { icon: "mezuniyet", label: "Geleceğe yatırım" },
     ],

@@ -49,19 +49,19 @@
 /** Ana motif — yavaş süzülür. */
 .layerPrimary {
   stroke: var(--ddm-sky-300);
-  animation: ddmFloatSlow 7s ease-in-out infinite;
+  animation: var(--kf-float-slow) 7s ease-in-out infinite;
 }
 
 /** Yardımcı motif — hafif gecikmeli. */
 .layerSecondary {
   stroke: var(--ddm-navy-400);
-  animation: ddmFloat 6s ease-in-out 0.6s infinite;
+  animation: var(--kf-float) 6s ease-in-out 0.6s infinite;
 }
 
 /** Üçüncü motif (Dil Kursu 10 dil illüstrasyonu) — en hızlı, en gecikmeli. */
 .layerTertiary {
   stroke: var(--ddm-sky-300);
-  animation: ddmFloat 5.4s ease-in-out 1.2s infinite;
+  animation: var(--kf-float) 5.4s ease-in-out 1.2s infinite;
 }
 
 /** Zemin çizgisi — sabit. */

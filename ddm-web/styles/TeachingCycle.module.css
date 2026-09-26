@@ -42,7 +42,7 @@
   position: absolute;
   inset: -2px;
   border-radius: var(--radius-pill);
-  animation: ddmSpin var(--duration-cycle) linear infinite;
+  animation: var(--kf-spin) var(--duration-cycle) linear infinite;
 }
 
 .orbit::before {
@@ -101,7 +101,7 @@
   color: var(--ddm-sky-ink);
   box-shadow: var(--shadow-md);
   /* Işık bu adıma geldiğinde vurgu: tur süresi / adım sayısı kadar kaydırılır. */
-  animation: ddmCycleStep var(--duration-cycle) ease-in-out infinite;
+  animation: var(--kf-cycle-step) var(--duration-cycle) ease-in-out infinite;
   animation-delay: calc(var(--duration-cycle) / var(--n) * var(--i));
 }
 

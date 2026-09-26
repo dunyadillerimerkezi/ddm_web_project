@@ -18,8 +18,11 @@ import { UNIVERSITY_INDEX } from "@/data/universities";
 
 const SH = "/sinav-hazirlik-egitimleri";
 
-/** Kaynak paragraf(lar) ya da eklenen metin. */
-export type GuideText = { src: SlotRef } | { added: string };
+/**
+ * Kaynak paragraf(lar), kaynak paragrafın tek cümlesi ya da cümle aralığı (`sentence`: 0'dan;
+ * `[a, b]` a..b dahil, `b` < 0 sondan sayar; `edits` bölmeden önce uygulanır) ya da eklenen metin.
+ */
+export type GuideText = { src: SlotRef } | { src: SlotRef; sentence: number | [number, number] } | { added: string };
 
 export type GuideBlock =
   /** Kısa paragraf(lar). */
@@ -34,7 +37,9 @@ export type GuideBlock =
    */
   | { kind: "table"; title?: string; head: string[]; rows: string[][] | { src: SlotRef }; note: string | null }
   /** İç bağlantı çipleri — üretilmemiş hedef düz metin kalır (`linkIfProduced`, GuidePage). */
-  | { kind: "links"; items: { label: string; href: string }[] };
+  | { kind: "links"; items: { label: string; href: string }[] }
+  /** Kaynaktaki link satırları: etiket kaynak satırı (`edits` sonrası), hedef orijinal satıra göre `hrefs`ten. */
+  | { kind: "srcLinks"; src: SlotRef; hrefs: Record<string, string> };
 
 export type GuideSection = {
   id: string;

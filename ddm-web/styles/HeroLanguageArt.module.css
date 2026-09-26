@@ -62,7 +62,7 @@
 .orbit {
   height: var(--ddm-home-orbit);
   overflow: visible;
-  animation: spin var(--duration-orbit) linear infinite;
+  animation: var(--kf-spin) var(--duration-orbit) linear infinite;
 }
 
 .orbitDash {
@@ -101,7 +101,7 @@
   line-height: 1.2;
   color: var(--ddm-white);
   white-space: nowrap;
-  animation: greet var(--duration-greet) var(--ease-out-soft) infinite;
+  animation: var(--kf-greet) var(--duration-greet) var(--ease-out-soft) infinite;
   /* Negatif gecikme: sayfa açılır açılmaz döngünün ortası — boş başlamaz. */
   animation-delay: calc(var(--i) * var(--duration-greet) / var(--n) * -1);
 }
@@ -133,7 +133,7 @@
   border: 1px solid var(--ddm-glass-line);
   backdrop-filter: blur(var(--ddm-glass-blur));
   box-shadow: var(--ddm-glass-shadow);
-  animation: floatSoft var(--duration-float-alt) ease-in-out infinite;
+  animation: var(--kf-float-soft) var(--duration-float-alt) ease-in-out infinite;
 }
 
 .cardTop {
@@ -189,40 +189,5 @@
 @media (max-width: 999px) {
   .art {
     display: none;
-  }
-}
-
-/* Keyframe'ler modülün içinde: CSS Modules animasyon adlarını yerelleştirir,
- * globals.css'teki keyframe'e modülden ad ile ulaşılamaz. */
-@keyframes greet {
-  0% {
-    opacity: 0;
-    transform: translateY(8px) scale(0.94);
-  }
-  8%,
-  44% {
-    opacity: 1;
-    transform: none;
-  }
-  54%,
-  100% {
-    opacity: 0;
-    transform: translateY(-6px) scale(0.97);
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes floatSoft {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(calc(-1 * var(--float-shift)));
   }
 }

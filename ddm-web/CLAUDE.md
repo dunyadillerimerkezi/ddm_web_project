@@ -37,6 +37,10 @@ kullanıcıya danışın.**
     Karşılığı: `../docs/design-refs/DDM_Tasarım_Sistemi_faz5/DDM Tasarım Sistemi.dc.html`
   - `styles/<Bileşen>.module.css` — bileşen başına bir modül.
   - `app/globals.css` — yalnız reset, temel eleman stilleri, keyframe'ler.
+    **Modülden keyframe'e ADI ile değil token ile ulaşılır:** `animation: var(--kf-spin) 48s linear infinite;`
+    CSS Modules animasyon adını yerelleştirir (`ddmSpin` → `X-module__…__ddmSpin`) ve animasyon sessizce
+    çalışmaz; `:global()` ve tırnaklı ad da işe yaramıyor. Yeni keyframe = globals.css'e `@keyframes ddmX` +
+    `tokens.css`'e `--kf-x: ddmX;` (2026-09-26'ya kadar sitedeki tüm ortak animasyonlar bu yüzden duruyordu).
   - **Ham hex/px değerini bileşene yazmayın**, tokendan geçirin. Token'da
     karşılığı yoksa önce `tokens.css`'e ekleyin.
   - Koyu tema YOK — site tek temalı. Koyu/açık ayrımı `prefers-color-scheme`
@@ -140,6 +144,10 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     **Nedir rehberleri (2026-09-26, kullanıcı):** metin genel sınav bilgisi olduğu için P2 kuralı uygulanır — başlık
     kalır, eskimiş olgu resmi kaynaktan düzeltilir (`data/examGuides.ts` `edits`), firma cümlesi varsa (Proficiency
     tavsiyeleri) yalnız yazım/eskimiş olgu düzeltilir; eski adres/telefon blokları gerekçeli `ignored`.
+    **Tekil sayfalar (2026-09-26, kullanıcı):** `data/singlePages.ts` — firma metni birebir (yazım + bayat şube adı
+    `edits`), genel bilgi P2 kuralıyla. Paragraftan cümle almak serbest (`sentence`), ama gösterilmeyen cümle build'i
+    düşürür; iki içeriğin birleştiği kaynak satırı `splits` ile izlenerek bölünür (elle kopya metin yazılmaz). Eskimiş firma
+    ifadesi (ör. "kaset / DVD") yalnız kullanıcı onayıyla çıkarılır. İçeriği başka sayfanın kopyası olan sayfa yayınlanmaz, 301.
   - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
     not barajı, sertifika) ekleme-çıkarma YOK; sayfada zaten yazılı olgular aynı anlamda yeniden
     cümlelenebilir (SSS cevapları `lib/languageFaq.ts` bunları o dilin kendi metninden regex'le okur,
@@ -200,6 +208,7 @@ ddm-web/
 │   ├── privateLessons.ts    # P4 özel ders birleşik listesi (+ Shared / Language / Exam tanımları)
 │   ├── onlineLessons.ts     # P4 online eğitim — 8 dil + çatı (`ONLINE_HUB`), sınavların evden/merkezde bilgisi
 │   ├── examGuides.ts        # P4 "{Sınav} Nedir?" rehberleri (8) — genel bilgi, P2 kuralı, kaynak yorumda
+│   ├── singlePages.ts       # P4 tekil sayfalar (8) — pano (`board`) + soru satırları + şube bandı; kaynaklar yorumda
 ├── lib/
 │   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
 │   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak (§10)
@@ -209,11 +218,13 @@ ddm-web/
 │   ├── contentSections.ts   # SectionResolver — kaynağı başlık-tabanlı bölümler; assertCoverage
 │   ├── richContent.ts       # P4 Zengin İçerik tipleri (RichPage/RichBlock) + özel ders çözücüsü + ortak yardımcılar
 │   ├── onlineContent.ts     # P4 online çözücüsü (kaynak iskeletini doğrular, cümleleri hero + adımlara dağıtır)
-│   ├── guideContent.ts      # P4 nedir çözücüsü (GuidePage: soru başlıklı bölümler, kaynak satırlı tablolar)
+│   ├── guideContent.ts      # P4 nedir çözücüsü + `createGuideResolver` (nedir/tekil ortak kaynak sözleşmesi, cümle kapsaması)
+│   ├── singleContent.ts     # P4 tekil çözücüsü (görev `splits`, dosya rafı, şube kartı etiket denetimi)
 │   ├── richPages.ts         # P4 tüm alt türlerin tek listesi (`RichEntry`: rich | guide) + dağıtıcı yardımcıları
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
 ├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
 ├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
+├── public/images/, public/ddm/indir/  # P4: eski sitenin örnek sınav dosyaları, ESKİ YOLLARIYLA (backlink'ler kırılmasın)
 ├── next.config.ts
 ├── .env.example
 └── CLAUDE.md
@@ -307,8 +318,7 @@ ddm-web/
 >   Dil kursu hero'su şehir fotoğrafını, dil özel ders hero'su birebir ders fotoğraflarını taşır.
 > - **Ana Sayfa hero'su (2026-09-26):** düz lacivert yerine gradient + yavaş ışık/harf/nokta zemini (`HeroBackdrop`),
 >   metnin sağında "selam bulutu" (`HeroLanguageArt`: cam balonlar sırayla belirir, 2 cam bilgi kartı; veriler
->   `LANGUAGES` / `HOME_STATS`'tan). Mobilde (≤999) yalnız zemin. **Keyframe'ler modülün içinde yazılır** — CSS Modules
->   animasyon adını yerelleştirdiği için modülden globals.css keyframe'ine ad ile ulaşılamıyor.
+>   `LANGUAGES` / `HOME_STATS`'tan). Mobilde (≤999) yalnız zemin.
 
 > **P4 notu (2026-09-25):** Zengin İçerik için 3 taslak yön sunuldu, kullanıcı **"B · seviye merdiveni"**ni seçti.
 > Sistem: lacivert hero (sağda dilin şehri / sınav fotoğrafı, header'ın arkasından) → **1 baskın bölüm** (dilde
@@ -320,6 +330,10 @@ ddm-web/
 > **Online (2026-09-25):** baskın bölüm `OnlineSteps` ("nasıl işler" adımları — metinler firma cümleleri — + lacivert
 > "Derse başlamadan önce" paneli ve dekoratif `CallCard`), destek `ExamModes` (sınav evden mi / merkezde mi) ve
 > online/şube tablosu. Hero fotoğrafı kullanıcının online eğitim görselleri (İngilizceye özgü olanlar yalnız İngilizce ve çatı).
+> **Tekil (2026-09-26, "A · program panosu"):** `SinglePage` — açık hero, sağda sayfanın asıl bilgisi görsel olarak
+> (`WeekBoard` haftalık takvim; `SingleBoards`: kur basamakları, ders akışı, sınav kâğıdı, dosya rafı, kolay/zor); gövdede
+> her bölüm bir satır (solda yapışkan soru + kalın cevap, sağda tablo/kart); ≥3 sütunlu tablo mobilde satır kartı
+> (`GuideBlock stackTables`); gri bantta şube kartları. Tek hareket: pano blokları ilk görünüşte bir kez.
 > **Nedir (2026-09-26):** sınav ana sayfalarından AYRI `GuidePage` — açık mavi hero, H1 altında büyük kısa cevap, sağda
 > lacivert "bir bakışta" `<dl>`; gövdede solda yapışkan soru listesi (`GuideToc`), her bölüm soru → kalın tek cümlelik
 > cevap → madde / bölüm kartı / tablo; uzun paragraf bloğu yok; fotoğraf ve hareket yok; sonda kaynaklar + son güncelleme.

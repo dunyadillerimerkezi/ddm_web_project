@@ -248,6 +248,18 @@ const zh: LanguageContentMap = {
     ],
   },
   ignored: [],
+  // Genel bilgi yanlışları (kullanıcı onayı, 2026-09-26) — aynı iki cümle `cince-ogrenmek-zor-mu`da da düzeltildi.
+  // Ethnologue: ana dilde 1. Mandarin, ana + ikinci dilde 1. İngilizce — https://www.ethnologue.com/insights/most-spoken-language/
+  // "İki milyar" doğrulanamadı → çıkarıldı. Özne düşük cümle ("Gelişmekte ve…") "Çin," ile tamamlandı.
+  // "İngiltere ve ABD'de en çok talep edilen dil" yanlış (MLA 2021: ABD'de 6.; gov.uk GCSE 2025: İspanyolca/Fransızca önde)
+  // → British Council "Languages for the Future" (2017): İngiltere'nin en çok ihtiyaç duyduğu 5 dilden biri
+  // — https://www.britishcouncil.org/research-insight/languages-future-2017
+  edits: {
+    "Dünya üzerinde en çok konuşulan dil Çince'dir. Dünya'da iki milyar insan Çince konuşmaktadır. Gelişmekte ve ekonomisiyle dünyanın süper gücü olma yolunda emin adımlarla ilerlemektedir. Özellikle Türkiye ile Çin Halk Cumhuriyeti arasındaki siyasi, ekonomik ve kültürel ilişkiler gün geçtikçe daha da gelişmektedir. Çin ile ilişkilerde daha verimli sonuçlar alınabilmesi için mutlaka Çince öğrenilmelidir.":
+      "Ana dili olarak en çok konuşulan dil Mandarin Çincesidir; ikinci dil olarak konuşanlar da sayıldığında İngilizceden sonra ikinci sıradadır. Çin, ekonomisiyle dünyanın süper gücü olma yolunda emin adımlarla ilerlemektedir. Özellikle Türkiye ile Çin Halk Cumhuriyeti arasındaki siyasi, ekonomik ve kültürel ilişkiler gün geçtikçe daha da gelişmektedir. Çin ile ilişkilerde daha verimli sonuçlar alınabilmesi için mutlaka Çince öğrenilmelidir.",
+    "İngiltere ve ABD'de, Çince en çok talep edilen yabancı dil olduğu bilinmektedir. Bu doğrultuda Türkiye'de de talep hızla artıyor. Yakın gelecekte daha da önemli hale gelecek olan Çince'yi öğrenmenin gençler için çok önemli bir yatırım olduğu birçok önemli iş adamları tarafından belirtiliyor.":
+      "British Council'ın \"Languages for the Future\" raporu, Mandarin Çincesini İngiltere'nin gelecekte en çok ihtiyaç duyacağı beş dil arasında sayar. Bu doğrultuda Türkiye'de de talep hızla artıyor. Yakın gelecekte daha da önemli hale gelecek olan Çince'yi öğrenmenin gençler için çok önemli bir yatırım olduğu birçok önemli iş adamları tarafından belirtiliyor.",
+  },
 };
 
 /* ---------------------------------------------------------------

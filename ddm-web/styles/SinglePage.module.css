@@ -1,0 +1,220 @@
+/* ---------------------------------------------------------------
+ * SinglePage — P4 tekil içerik sayfası (kullanıcı, 2026-09-26: "A · program
+ * panosu"). Açık mavi hero (sayfanın ilk bölümü: globals.css onu header'ın
+ * arkasından başlatır) + sağda beyaz pano; beyaz gövdede soru | içerik satırları;
+ * gri bantta şube kartları. Zeminler: açık mavi → beyaz → gri (tek kez).
+ * ------------------------------------------------------------- */
+
+/* --- hero --- */
+.hero {
+  background: var(--ddm-sky-soft);
+  padding: var(--ddm-rich-hero-pt) var(--ddm-gutter) var(--ddm-rich-hero-pb);
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: var(--space-12);
+  align-items: center;
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.title {
+  margin: var(--space-5) 0 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h1);
+  font-weight: 800;
+  line-height: 1.07;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-navy-900);
+}
+
+.lead {
+  margin: var(--space-5) 0 0;
+  max-width: 34em;
+  font-size: var(--ddm-text-lead-lg);
+  line-height: 1.65;
+  color: var(--ddm-gray-700);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+/* --- gövde: soru | içerik satırları --- */
+.body {
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.row,
+.footnote {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--space-6) var(--space-16);
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.row + .row {
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
+  border-top: 1px solid var(--ddm-gray-divider);
+}
+
+/* Uzun satırlarda (görev kartları, dosya listesi) soru ve cevap görünür kalır. */
+.ask {
+  position: sticky;
+  top: var(--ddm-sticky-top);
+  align-self: start;
+  min-width: 0;
+}
+
+.blocks {
+  min-width: 0;
+}
+
+/* GuideBlock öğeleri üst boşlukla gelir; satırın sağ kolonunda ilk öğe hizalı başlasın. */
+.blocks > :first-child {
+  margin-top: 0;
+}
+
+.footnote {
+  margin-top: var(--space-16);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--ddm-gray-divider);
+}
+
+/* --- gri bant: şubeler --- */
+.band {
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-section-y-sm) var(--ddm-gutter);
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.bandInner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.bandTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2-sm);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-navy-900);
+}
+
+.bandAnswer {
+  margin: var(--space-3) 0 0;
+  max-width: 68ch;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.6;
+  color: var(--ddm-gray-700);
+}
+
+.branchGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.branchGrid li {
+  display: flex;
+}
+
+.branchCard {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-white);
+  text-decoration: none;
+  transition: border-color var(--duration-base) var(--ease-out-soft);
+}
+
+.branchCard:hover {
+  border-color: var(--ddm-sky-line);
+}
+
+.branchCard:focus-visible {
+  outline: 2px solid var(--ddm-sky-mid);
+  outline-offset: 2px;
+}
+
+.branchName {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h5);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.branchAddress {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.5;
+  color: var(--ddm-gray-600);
+}
+
+.branchAddress svg {
+  flex: none;
+  margin-top: var(--space-1);
+  color: var(--ddm-sky-mid);
+}
+
+.branchLink {
+  margin-top: auto;
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--ddm-navy-600);
+}
+
+@media (max-width: 1099px) {
+  .branchGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 999px) {
+  .heroInner,
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ask {
+    position: static;
+  }
+
+  .heroInner {
+    gap: var(--space-10);
+  }
+}
+
+@media (max-width: 599px) {
+  .actions > * {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .branchGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

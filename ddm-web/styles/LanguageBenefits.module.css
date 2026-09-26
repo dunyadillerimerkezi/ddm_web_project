@@ -59,7 +59,7 @@
 
 .photo {
   object-fit: cover;
-  animation: ddmKenBurns var(--duration-kenburns) ease-in-out infinite alternate;
+  animation: var(--kf-ken-burns) var(--duration-kenburns) ease-in-out infinite alternate;
 }
 
 .chips {
@@ -83,7 +83,7 @@
   font-size: 14.5px;
   line-height: 1.3;
   color: var(--ddm-navy-900);
-  animation: ddmFloatSoft var(--duration-float) ease-in-out infinite;
+  animation: var(--kf-float-soft) var(--duration-float) ease-in-out infinite;
 }
 
 .chip:nth-child(1) {

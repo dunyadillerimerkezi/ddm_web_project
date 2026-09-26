@@ -28,7 +28,8 @@ const IK = "/ingilizce-kurslari";
 
 /** Kaynak satırı → hedef (lib/nav.ts ile aynı adresler). */
 const TARGETS: Record<string, string> = {
-  "→ Dünya Dilleri Merkezi İngilizce Eğitim Sistemi": `${IK}/ingilizce-egitim-sistemi`,
+  // Kanonik adres /yabanci-dil-egitimleri/… (P4, 2026-09-26; /ingilizce-kurslari/… 301).
+  "→ Dünya Dilleri Merkezi İngilizce Eğitim Sistemi": "/yabanci-dil-egitimleri/ingilizce-kursu/ingilizce-egitim-sistemi",
   "→ Advanced İngilizce C1 Kursu | İleri Seviye C1 İngilizce": `${IK}/advanced-ingilizce-kursu`,
   "→ Upper-Intermediate İngilizce Kursu | İleri Seviye İngilizce": `${IK}/upper-intermediate-ingilizce-kursu`,
   "→ Intermediate İngilizce Kursu | Orta Seviye İngilizce": `${IK}/intermediate-ingilizce-kursu`,

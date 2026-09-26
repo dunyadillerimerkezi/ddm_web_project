@@ -80,7 +80,7 @@
 
 .levelPanel:not([hidden]),
 .group:not([hidden]) {
-  animation: ddmPanelIn var(--duration-base) var(--ease-out-soft);
+  animation: var(--kf-panel-in) var(--duration-base) var(--ease-out-soft);
 }
 
 .levelKicker {

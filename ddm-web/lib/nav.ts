@@ -59,7 +59,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "İngilizce Programı", href: `${YD}/ingilizce-kursu/ingilizce-kursu-2`, soon: true },
                   { label: "İngilizce Özel Ders", href: `${YD}/ingilizce-kursu/ingilizce-ozel-ders` },
-                  { label: "İngilizce Eğitim Sistemi", href: `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi`, soon: true },
+                  { label: "İngilizce Eğitim Sistemi", href: `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi` },
                   { label: "Online İngilizce Eğitimi", href: `${YD}/ingilizce-kursu/online-ingilizce-egitimi` },
                 ],
               },
@@ -82,9 +82,10 @@ export const NAV_ITEMS: NavItem[] = [
                 title: "PROGRAM",
                 items: [
                   { label: "Almanca Programı", href: `${YD}/almanca-kursu/almanca-kursu-2`, soon: true },
-                  { label: "Hızlandırılmış Almanca Kursu", href: `${YD}/almanca-kursu/hizlandirilmis-almanca-kursu`, soon: true },
+                  { label: "Hızlandırılmış Almanca Kursu", href: `${YD}/almanca-kursu/hizlandirilmis-almanca-kursu` },
                   { label: "Almanca Özel Ders", href: `${YD}/almanca-kursu/almanca-ozel-ders` },
-                  { label: "Almanca Konuşma Kursları", href: `${YD}/almanca-kursu/almanca-konusma-kurslari`, soon: true },
+                  { label: "Almanca Konuşma Kursları", href: `${YD}/almanca-kursu/almanca-konusma-kurslari` },
+                  { label: "Almanca Eğitim Seviyeleri", href: `${YD}/almanca-kursu/almanca-egitim-seviyeleri` },
                   { label: "Online Almanca Eğitimi", href: `${YD}/almanca-kursu/online-almanca-egitimi` },
                 ],
               },
@@ -200,7 +201,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "Çince Programı", href: `${YD}/cince-kursu/cince-kursu-2`, soon: true },
                   { label: "Çince Özel Ders", href: `${YD}/cince-kursu/cince-ozel-ders` },
-                  { label: "Çince Öğrenmek Zor mu?", href: `${YD}/cince-kursu/cince-ogrenmek-zor-mu`, soon: true },
+                  { label: "Çince Öğrenmek Zor mu?", href: `${YD}/cince-kursu/cince-ogrenmek-zor-mu` },
                   { label: "Online Çince Eğitimi", href: `${YD}/cince-kursu/online-cince-egitimi` },
                 ],
               },
@@ -224,7 +225,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "Türkçe Programı", href: `${YD}/yabancila-icin-turkce-kurs/yabancila-icin-turkce-kurs-2`, soon: true },
                   { label: "Yabancılar İçin Türkçe Özel Ders", href: `${YD}/yabancila-icin-turkce-kurs/turkce-ozel-ders` },
-                  { label: "Türkçe Eğitim Seviyeleri", href: `${YD}/yabancila-icin-turkce-kurs/turkce-egitim-seviyeleri`, soon: true },
+                  { label: "Türkçe Eğitim Seviyeleri", href: `${YD}/yabancila-icin-turkce-kurs/turkce-egitim-seviyeleri` },
                   { label: "Online Türkçe Eğitimi", href: `${YD}/yabancila-icin-turkce-kurs/online-turkce-egitimi` },
                 ],
               },
@@ -293,7 +294,7 @@ export const NAV_ITEMS: NavItem[] = [
           { label: "İlköğretim İngilizcesi", href: `${IK}/ilkogretim-ingilizce-kursu`, soon: true },
           { label: "Yaz Okulu İngilizce Programları", href: `${IK}/yaz-okulu-ingilizce-kursu`, soon: true },
           { label: "İngilizce Konuşma Kursu", href: `${IK}/ingilizce-konusma-kursu`, soon: true },
-          { label: "İngilizce Eğitim Sistemi", href: `${IK}/ingilizce-egitim-sistemi`, soon: true },
+          { label: "İngilizce Eğitim Sistemi", href: `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi` }, // kanonik adres (P4, 2026-09-26)
         ],
       },
     ],
@@ -412,8 +413,7 @@ export const NAV_ITEMS: NavItem[] = [
                   { label: "Proficiency Programı", href: `${SH}/proficiency-kursu/proficiency-kursu-2`, soon: true },
                   { label: "Proficiency Özel Ders", href: `${SH}/proficiency-kursu/proficiency-ozel-ders` },
                   { label: "Proficiency Nedir?", href: `${SH}/proficiency-kursu/proficiency-nedir` },
-                  { label: "Proficiency Sınavı", href: `${SH}/proficiency-kursu/proficiency-sinavi`, soon: true },
-                  { label: "Proficiency Örnek Sınav Soruları", href: `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari`, soon: true },
+                  { label: "Proficiency Örnek Sınav Soruları", href: `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari` },
                   { label: "Üniversite Proficiency Kursları", href: `${SH}/proficiency-kursu#universiteler` },
                 ],
               },
@@ -518,7 +518,7 @@ export const NAV_ITEMS: NavItem[] = [
               {
                 title: "PROGRAM",
                 items: [
-                  { label: "A1 Sınav Örneği", href: `${SH}/aile-birlesimi-egitimi/a1-sinav-ornegi`, soon: true },
+                  { label: "A1 Sınav Örneği", href: `${SH}/aile-birlesimi-egitimi/a1-sinav-ornegi` },
                 ],
               },
               {

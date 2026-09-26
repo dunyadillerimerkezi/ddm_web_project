@@ -14,7 +14,7 @@
   position: absolute;
   aspect-ratio: 1;
   border-radius: var(--radius-pill);
-  animation: drift var(--duration-drift) ease-in-out infinite;
+  animation: var(--kf-drift) var(--duration-drift) ease-in-out infinite;
 }
 
 .glowSky {
@@ -59,7 +59,7 @@
   font-size: var(--ddm-home-glyph-size);
   line-height: 1;
   color: var(--ddm-home-glyph-ink);
-  animation: glyphRise var(--duration-glyph) ease-in-out infinite;
+  animation: var(--kf-glyph-rise) var(--duration-glyph) ease-in-out infinite;
   animation-delay: calc(var(--i) * var(--duration-glyph) / -8);
 }
 
@@ -90,32 +90,5 @@
   .dots {
     mask-image: none;
     opacity: 0.6;
-  }
-}
-
-/* Keyframe'ler modülün içinde: CSS Modules animasyon adlarını yerelleştirir,
- * globals.css'teki keyframe'e modülden ad ile ulaşılamaz. */
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-6%, 5%, 0) scale(1.08);
-  }
-}
-
-@keyframes glyphRise {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  20%,
-  75% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-60px);
   }
 }

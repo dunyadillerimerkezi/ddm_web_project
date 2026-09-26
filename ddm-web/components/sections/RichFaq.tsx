@@ -1,8 +1,7 @@
+import { UpdatedDate } from "@/components/sections/SourcesFooter";
 import { Accordion } from "@/components/ui";
 import type { Faq } from "@/lib/types";
 import styles from "@/styles/RichFaq.module.css";
-
-const DATE_FORMAT = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 
 /**
  * P4 — SSS + "son güncelleme" tarihi (genel bilgi bölümlerinin gözden
@@ -17,7 +16,7 @@ export function RichFaq({ id, title, items, updated }: { id: string; title: stri
         </h2>
         <Accordion items={items} name={id} />
         <p className={styles.updated}>
-          Son güncelleme: <time dateTime={updated}>{DATE_FORMAT.format(new Date(updated))}</time>
+          <UpdatedDate updated={updated} />
         </p>
       </div>
     </section>

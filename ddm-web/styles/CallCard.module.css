@@ -10,7 +10,7 @@
   background: var(--ddm-white);
   box-shadow: var(--shadow-lg);
   color: var(--ddm-navy-900);
-  animation: ddmFloatSoft var(--duration-float) ease-in-out infinite;
+  animation: var(--kf-float-soft) var(--duration-float) ease-in-out infinite;
 }
 
 .bar {

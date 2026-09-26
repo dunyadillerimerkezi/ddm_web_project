@@ -211,6 +211,49 @@ textarea {
   }
 }
 
+/* Ana Sayfa hero (2026-09-26) — ışık kayması, harf süzülmesi, selam balonu. */
+@keyframes ddmDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-6%, 5%, 0) scale(1.08);
+  }
+}
+
+@keyframes ddmGlyphRise {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  20%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+}
+
+@keyframes ddmGreet {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.94);
+  }
+  8%,
+  44% {
+    opacity: 1;
+    transform: none;
+  }
+  54%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

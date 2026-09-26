@@ -109,8 +109,9 @@ export function norm(s: string): string {
   return s.replace(/ /g, " ").replace(/\s+/g, " ").trim();
 }
 
+/** `path`: temiz yol (".html" eklenir) ya da eski sorgulu yol ("….html?view=article&id=…", olduğu gibi). */
 export function findRecord(path: string): SiteContentRecord {
-  const url = `https://www.dunyadillerimerkezi.com${path}.html`;
+  const url = `https://www.dunyadillerimerkezi.com${path.includes(".html") ? path : `${path}.html`}`;
   const record = (siteContent as SiteContentRecord[]).find((r) => r.url === url);
   if (!record) throw new ContentSectionsError(`data/site_content.json içinde "${url}" kaydı yok.`);
   return record;

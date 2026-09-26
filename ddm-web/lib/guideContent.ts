@@ -7,7 +7,8 @@
  * build'i düşürür.
  */
 
-import type { ExamGuideDef, GuideText } from "@/data/examGuides";
+import type { ExamGuideDef, GuideBlock, GuideSection, GuideText } from "@/data/examGuides";
+import type { SlotRef } from "@/data/privateLessonsShared";
 import type { IconName } from "@/components/graphics/icons";
 import { EXAMS } from "@/data/exams";
 import { ContentSectionsError, SectionResolver, parseRecord } from "@/lib/contentSections";
@@ -38,14 +39,24 @@ export type GuidePage = {
   updated: string;
 };
 
-const cache = new Map<string, GuidePage>();
+export type GuideSectionResolved = GuidePage["sections"][number];
 
-export function getGuidePage(def: ExamGuideDef): GuidePage {
-  const hit = cache.get(def.path);
-  if (hit) return hit;
+/** Cümle sonu: ". " + büyük harf ya da rakam. */
+function sentencesOf(line: string): string[] {
+  return line.split(/(?<=[.!?])\s+(?=[A-ZÇĞİÖŞÜ0-9])/u);
+}
 
-  const context = `nedir${def.path}`;
-  const record = findRecord(def.path);
+/**
+ * Nedir ve tekil sayfaların ortak kaynak sözleşmesi: satırlar `SectionResolver` ile
+ * tüketilir, `edits` satır bazında uygulanır; `finish()` kullanılmayan `edits` /
+ * kaynakta başlık olmayan `headingEdits` anahtarını ve kapsanmayan satırı build'de düşürür.
+ */
+export function createGuideResolver(
+  path: string,
+  def: { edits?: Record<string, string>; headingEdits?: Record<string, string> },
+  context: string,
+) {
+  const record = findRecord(path);
   const resolver = new SectionResolver(parseRecord(record));
   const sourceHeadings = new Set(record.headings.map((h) => norm(h.text)));
 
@@ -53,66 +64,125 @@ export function getGuidePage(def: ExamGuideDef): GuidePage {
   const usedEdits = new Set<string>();
   const headingEdits = new Map(Object.entries(def.headingEdits ?? {}));
   const headingText = (h: string) => headingEdits.get(h) ?? h;
+  const fix = (line: string) => {
+    const edited = edits.get(line);
+    if (edited === undefined) return line;
+    usedEdits.add(line);
+    return edited;
+  };
 
-  const take = (ref: { heading: string | null; take?: Parameters<SectionResolver["take"]>[0]["take"] }, slot: string) =>
-    (resolver.take({ heading: ref.heading, take: ref.take }, `${context}/${slot}`) ?? []).map((line) => {
-      const edited = edits.get(line);
-      if (edited === undefined) return line;
-      usedEdits.add(line);
-      return edited;
-    });
-  const text = (t: GuideText, slot: string): string[] => ("added" in t ? [t.added] : take(t.src, slot));
+  /** Ham kaynak satırları (edits uygulanmadan) — `srcLinks` hedefi orijinal satıra göre bulunur. */
+  const raw = (ref: SlotRef, slot: string) => resolver.take({ heading: ref.heading, take: ref.take }, `${context}/${slot}`) ?? [];
+  const take = (ref: SlotRef, slot: string) => raw(ref, slot).map(fix);
+  /**
+   * Cümle bazında alınan paragraflar: `resolver.take` satırın tamamını "tüketildi" sayar, bu
+   * yüzden hangi cümlelerin gösterildiği ayrıca izlenir; `finish()` gösterilmeyen cümle bırakan
+   * paragrafı build'de düşürür (kaynaktan sessizce cümle kaybolmaz).
+   */
+  const sentenceUse = new Map<string, { count: number; used: Set<number> }>();
+  const fullyUsed = new Set<string>();
+  const text = (t: GuideText, slot: string): string[] => {
+    if ("added" in t) return [t.added];
+    const lines = take(t.src, slot);
+    if (!("sentence" in t)) {
+      lines.forEach((l) => fullyUsed.add(l));
+      return lines;
+    }
+    if (lines.length !== 1) throw new ContentSectionsError(`${context}/${slot}: cümle için tek paragraf bekleniyordu (${lines.length}).`);
+    const all = sentencesOf(lines[0]);
+    const [a, rawB] = Array.isArray(t.sentence) ? t.sentence : [t.sentence, t.sentence];
+    const b = rawB < 0 ? all.length + rawB : rawB;
+    if (b >= all.length || a > b) {
+      throw new ContentSectionsError(`${context}/${slot}: ${a}–${b}. cümle yok (${all.length} cümle) — "${lines[0].slice(0, 60)}…"`);
+    }
+    const use = sentenceUse.get(lines[0]) ?? { count: all.length, used: new Set<number>() };
+    for (let i = a; i <= b; i++) use.used.add(i);
+    sentenceUse.set(lines[0], use);
+    return [all.slice(a, b + 1).join(" ")];
+  };
   const one = (t: GuideText, slot: string): string => {
     const lines = text(t, slot);
     if (lines.length !== 1) throw new ContentSectionsError(`${context}/${slot}: tek paragraf bekleniyordu (${lines.length}).`);
     return lines[0];
   };
-
-  const answer = one({ src: def.hero.answer }, "hero.answer");
-
-  const sections = def.sections.map((s, i) => {
-    const slot = `sections[${i}]`;
-    let title: string;
-    if ("source" in s.title) {
-      if (!sourceHeadings.has(s.title.source)) {
-        throw new ContentSectionsError(`${context}/${slot}: kaynakta başlık değil — "${s.title.source}"`);
-      }
-      // Başlık bölüm başlığı olarak kullanıldı → kapsamada "tüketildi" sayılır (gövdesi bloklarda alınır).
-      resolver.take({ heading: s.title.source, take: [], allowEmpty: true }, `${context}/${slot}.title`);
-      title = headingText(s.title.source);
-    } else {
-      title = s.title.added;
+  const heading = (title: GuideSection["title"], slot: string): string => {
+    if (!("source" in title)) return title.added;
+    if (!sourceHeadings.has(title.source)) {
+      throw new ContentSectionsError(`${context}/${slot}: kaynakta başlık değil — "${title.source}"`);
     }
-    const blocks: GuideResolvedBlock[] = s.blocks.map((b, j) => {
-      const bslot = `${slot}.blocks[${j}]`;
-      switch (b.kind) {
-        case "text":
-          return { kind: "text", paragraphs: text(b.text, bslot) };
-        case "points":
-          return { kind: "points", items: "added" in b.items ? b.items.added : take(b.items.src, bslot) };
-        case "parts":
-        case "links":
-          return b;
-        case "table": {
-          if (Array.isArray(b.rows)) return { ...b, rows: b.rows };
-          const rows = take(b.rows.src, bslot).map((line) => line.split(" | "));
-          if (rows.some((r) => r.length !== b.head.length)) {
-            throw new ContentSectionsError(`${context}/${bslot}: tablo satırı ${b.head.length} hücreye bölünmedi — edits'te " | " kullanın.`);
-          }
-          return { ...b, rows };
-        }
-      }
-    });
-    return { id: s.id, title, answer: one(s.answer, `${slot}.answer`), blocks };
-  });
+    // Başlık bölüm başlığı olarak kullanıldı → kapsamada "tüketildi" sayılır (gövdesi bloklarda alınır).
+    resolver.take({ heading: title.source, take: [], allowEmpty: true }, `${context}/${slot}.title`);
+    return headingText(title.source);
+  };
 
-  for (const key of edits.keys()) {
-    if (!usedEdits.has(key)) throw new ContentSectionsError(`${context}: kullanılmayan edits girdisi — "${key}"`);
-  }
-  for (const key of headingEdits.keys()) {
-    if (!sourceHeadings.has(key)) throw new ContentSectionsError(`${context}: headingEdits anahtarı kaynakta başlık değil — "${key}"`);
-  }
-  resolver.assertCoverage(def.ignored.map((x) => x.line), context);
+  const block = (b: GuideBlock, bslot: string): GuideResolvedBlock => {
+    switch (b.kind) {
+      case "text":
+        return { kind: "text", paragraphs: text(b.text, bslot) };
+      case "points":
+        return { kind: "points", items: "added" in b.items ? b.items.added : take(b.items.src, bslot) };
+      case "parts":
+      case "links":
+        return b;
+      case "srcLinks":
+        return {
+          kind: "links",
+          items: raw(b.src, bslot).map((line) => {
+            const href = b.hrefs[line];
+            if (!href) throw new ContentSectionsError(`${context}/${bslot}: link hedefi yok — "${line}"`);
+            return { label: fix(line), href };
+          }),
+        };
+      case "table": {
+        if (Array.isArray(b.rows)) return { ...b, rows: b.rows };
+        const rows = take(b.rows.src, bslot).map((line) => line.split(" | "));
+        if (rows.some((r) => r.length !== b.head.length)) {
+          throw new ContentSectionsError(`${context}/${bslot}: tablo satırı ${b.head.length} hücreye bölünmedi — edits'te " | " kullanın.`);
+        }
+        return { ...b, rows };
+      }
+    }
+  };
+
+  const sections = (list: GuideSection[]): GuideSectionResolved[] =>
+    list.map((s, i) => {
+      const slot = `sections[${i}]`;
+      const title = heading(s.title, slot);
+      const blocks = s.blocks.map((b, j) => block(b, `${slot}.blocks[${j}]`));
+      return { id: s.id, title, answer: one(s.answer, `${slot}.answer`), blocks };
+    });
+
+  const finish = (ignored: { line: string }[]) => {
+    for (const key of edits.keys()) {
+      if (!usedEdits.has(key)) throw new ContentSectionsError(`${context}: kullanılmayan edits girdisi — "${key}"`);
+    }
+    for (const key of headingEdits.keys()) {
+      if (!sourceHeadings.has(key)) throw new ContentSectionsError(`${context}: headingEdits anahtarı kaynakta başlık değil — "${key}"`);
+    }
+    for (const [line, use] of sentenceUse) {
+      if (fullyUsed.has(line) || use.used.size === use.count) continue;
+      const missing = Array.from({ length: use.count }, (_, i) => i).filter((i) => !use.used.has(i));
+      throw new ContentSectionsError(`${context}: paragrafın ${missing.join(", ")}. cümlesi gösterilmiyor — "${line.slice(0, 60)}…"`);
+    }
+    resolver.assertCoverage(ignored.map((x) => x.line), context);
+  };
+
+  return { record, raw, take, text, one, heading, headingText, block, sections, finish, fix };
+}
+
+const cache = new Map<string, GuidePage>();
+
+export function getGuidePage(def: ExamGuideDef): GuidePage {
+  const hit = cache.get(def.path);
+  if (hit) return hit;
+
+  const context = `nedir${def.path}`;
+  const r = createGuideResolver(def.path, def, context);
+  const { record, headingText } = r;
+
+  const answer = r.one({ src: def.hero.answer }, "hero.answer");
+  const sections = r.sections(def.sections);
+  r.finish(def.ignored);
 
   const title = norm(def.meta.title ?? record.title);
   const description = norm(def.meta.description ?? record.meta_description);

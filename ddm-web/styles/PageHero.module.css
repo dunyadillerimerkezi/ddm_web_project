@@ -164,7 +164,7 @@
   font-size: var(--ddm-text-caption);
   color: var(--ddm-navy-900);
   background: var(--ddm-white);
-  animation: ddmChip 6s ease-in-out infinite;
+  animation: var(--kf-chip) 6s ease-in-out infinite;
 }
 
 .chipGreeting {

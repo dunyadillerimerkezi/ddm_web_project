@@ -6,7 +6,8 @@
  * edilmiş sayfadan kök-göreli `href`'leri toplar ve şunlarla karşılaştırır:
  *   - üretilen sayfalar (o klasördeki .html dosyaları),
  *   - `.next/routes-manifest.json` içindeki redirect kaynakları (link 301'e
- *     çarpsa da ölü sayılmaz — hedefi ayrıca kontrol edilir).
+ *     çarpsa da ölü sayılmaz — hedefi ayrıca kontrol edilir),
+ *   - `public/` altındaki statik dosyalar (P4: örnek sınav PDF'leri).
  *
  * Kullanım:
  *   npm run build && npm run check-links
@@ -95,9 +96,11 @@ for (const { file, route } of pages) {
     total++;
 
     if (known.has(href)) continue;
+    const publicFile = join(ROOT, "public", href.normalize("NFC"));
+    if (existsSync(publicFile) && statSync(publicFile).isFile()) continue;
     if (redirectSources.has(href)) {
       const dest = redirectDest.get(href);
-      if (!known.has(dest)) {
+      if (!known.has(dest.split("#")[0])) {
         const key = `${href} → ${dest} (redirect hedefi yok)`;
         if (!dead.has(key)) dead.set(key, new Set());
         dead.get(key).add(route);

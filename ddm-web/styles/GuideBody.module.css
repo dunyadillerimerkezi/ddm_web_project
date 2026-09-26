@@ -301,8 +301,70 @@
   }
 }
 
+/* Tekil sayfalar: ≥3 sütunlu tablo dar ekranda satır başına kart (`GuideBlock stackTables`). */
+.stack {
+  /* işaret sınıfı — kurallar aşağıdaki medya sorgusunda */
+}
+
 @media (max-width: 599px) {
   .parts {
     grid-template-columns: 1fr;
+  }
+
+  .stack {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .stack thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .stack table,
+  .stack tbody,
+  .stack tr,
+  .stack th,
+  .stack td {
+    display: block;
+    width: auto;
+  }
+
+  .stack tbody {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .stack tr {
+    border: 1px solid var(--ddm-border-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .stack tbody tr > th,
+  .stack tbody tr:last-child > th {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--ddm-border-card);
+    background: var(--ddm-sky-table-head);
+  }
+
+  .stack tbody tr > td,
+  .stack tbody tr:last-child > td {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    border: 0;
+  }
+
+  .stack td::before {
+    content: attr(data-label);
+    font-size: var(--ddm-text-caption);
+    font-weight: 700;
+    color: var(--ddm-gray-500);
   }
 }

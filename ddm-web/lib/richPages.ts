@@ -10,14 +10,19 @@ import type { Metadata } from "next";
 import { EXAM_GUIDES } from "@/data/examGuides";
 import { ONLINE_HUB, ONLINE_LESSONS } from "@/data/onlineLessons";
 import { PRIVATE_LESSONS } from "@/data/privateLessons";
+import { SINGLE_PAGES } from "@/data/singlePages";
 import { ContentSectionsError } from "@/lib/contentSections";
 import { getGuidePage, type GuidePage } from "@/lib/guideContent";
 import { getOnlineHubPage, getOnlineLessonPage } from "@/lib/onlineContent";
 import { getPrivateLessonPage, type RichPage } from "@/lib/richContent";
+import { getSinglePage, type SinglePage } from "@/lib/singleContent";
 import { absoluteUrl } from "@/lib/site";
 
-/** Blok listeli sayfalar (`RichContentPage`) ya da nedir rehberleri (`GuidePage`). */
-export type RichEntry = { kind: "rich"; page: RichPage } | { kind: "guide"; page: GuidePage };
+/** Blok listeli sayfalar (`RichContentPage`), nedir rehberleri (`GuidePage`) ya da tekil sayfalar (`SinglePage`). */
+export type RichEntry =
+  | { kind: "rich"; page: RichPage }
+  | { kind: "guide"; page: GuidePage }
+  | { kind: "single"; page: SinglePage };
 
 const rich = (page: RichPage): RichEntry => ({ kind: "rich", page });
 
@@ -26,6 +31,7 @@ const ENTRIES: { path: string; build: () => RichEntry }[] = [
   ...ONLINE_LESSONS.map((d) => ({ path: d.path, build: () => rich(getOnlineLessonPage(d)) })),
   { path: ONLINE_HUB.path, build: () => rich(getOnlineHubPage(ONLINE_HUB)) },
   ...EXAM_GUIDES.map((d) => ({ path: d.path, build: (): RichEntry => ({ kind: "guide", page: getGuidePage(d) }) })),
+  ...SINGLE_PAGES.map((d) => ({ path: d.path, build: (): RichEntry => ({ kind: "single", page: getSinglePage(d) }) })),
 ];
 
 const BY_PATH = new Map<string, () => RichEntry>();

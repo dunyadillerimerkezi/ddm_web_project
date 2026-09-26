@@ -31,7 +31,7 @@
   margin: -31% 0 0 -31%;
   border-radius: var(--radius-pill);
   border: 1px solid var(--ddm-sky-line);
-  animation: ddmRing 4.6s ease-out infinite;
+  animation: var(--kf-ring) 4.6s ease-out infinite;
 }
 
 .ringDelayed {
@@ -48,7 +48,7 @@
 
 .spin {
   transform-origin: 100px 100px;
-  animation: ddmSpin 48s linear infinite;
+  animation: var(--kf-spin) 48s linear infinite;
 }
 
 .chip {
@@ -65,7 +65,7 @@
   font-weight: 800;
   font-size: var(--ddm-text-caption);
   color: var(--ddm-navy-900);
-  animation: ddmChip 6s ease-in-out infinite;
+  animation: var(--kf-chip) 6s ease-in-out infinite;
 }
 
 .chipFlag {

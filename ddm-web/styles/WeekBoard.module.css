@@ -1,0 +1,246 @@
+/* ---------------------------------------------------------------
+ * WeekBoard — P4 tekil hero'sundaki haftalık ders programı panosu.
+ * Beyaz kart; masaüstünde 7 günlük ızgara (ekran okuyucu için gizli —
+ * aynı bilgi altta gün listesi olarak okunur), ≤599px'te yalnız liste.
+ * Tek hareket: ders blokları ilk görünüşte yukarıdan aşağı bir kez dolar
+ * (globals.css reduced-motion kuralı animasyonu kapatır; son hâl görünür).
+ * ------------------------------------------------------------- */
+.board {
+  padding: var(--space-8) var(--space-8) var(--space-6);
+  border-radius: var(--radius-3xl);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-lift);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h4);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.sub {
+  margin: var(--space-1) 0 0;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-500);
+}
+
+/* --- ızgara --- */
+.grid {
+  display: grid;
+  grid-template-columns: var(--space-12) repeat(7, minmax(0, 1fr));
+  grid-template-rows: auto repeat(var(--week-rows), minmax(0, 1fr)) 0;
+  column-gap: var(--space-1);
+  height: calc(var(--space-30) * 2 + var(--space-8));
+  margin-top: var(--space-6);
+}
+
+.day,
+.dayOn {
+  grid-row: 1;
+  padding-bottom: var(--space-3);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  text-align: center;
+  color: var(--ddm-gray-400);
+}
+
+.dayOn {
+  color: var(--ddm-navy-600);
+}
+
+.hour {
+  grid-column: 1;
+  transform: translateY(-50%);
+  font-size: var(--ddm-text-label);
+  line-height: 1;
+  color: var(--ddm-gray-400);
+}
+
+.empty {
+  border-radius: var(--radius-sm);
+  background: var(--ddm-gray-50);
+}
+
+.blockA,
+.blockB {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+  padding: var(--space-2);
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-white);
+  transform-origin: top;
+  animation: fill var(--duration-board) var(--ease-out-soft) both;
+  animation-delay: calc(var(--i) * var(--delay-board-step));
+}
+
+.blockA {
+  background: var(--ddm-navy-600);
+}
+
+.blockB {
+  background: var(--ddm-sky-mid);
+}
+
+.blockA small,
+.blockB small {
+  font-family: var(--ddm-font-body);
+  font-size: var(--ddm-text-label);
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+@keyframes fill {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+}
+
+/* --- gün listesi (dar ekran; masaüstünde yalnız ekran okuyucu) --- */
+.list {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.listDay {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 2fr);
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.listName {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-navy-600);
+}
+
+.listSlots {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.barA,
+.barB {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-white);
+}
+
+.barA {
+  background: var(--ddm-navy-600);
+}
+
+.barB {
+  background: var(--ddm-sky-mid);
+}
+
+/* --- renk açıklaması (iki seçenekli program) --- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-600);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.swatchA,
+.swatchB {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-flag);
+  background: var(--ddm-navy-600);
+}
+
+.swatchB {
+  background: var(--ddm-sky-mid);
+}
+
+/* --- rakamlar --- */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-1);
+}
+
+.factValue {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--ddm-navy-900);
+}
+
+.factLabel {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+@media (max-width: 599px) {
+  .board {
+    padding: var(--space-6) var(--space-5) var(--space-5);
+  }
+
+  .grid {
+    display: none;
+  }
+
+  .list {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+  }
+
+  .facts {
+    gap: var(--space-3);
+  }
+
+  .factValue {
+    font-size: var(--ddm-text-h5);
+  }
+}

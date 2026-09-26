@@ -86,7 +86,7 @@
   line-height: 1;
   letter-spacing: var(--ddm-tracking-h1);
   color: var(--ddm-greet-ink);
-  animation: ddmMarquee var(--duration-marquee) linear infinite;
+  animation: var(--kf-marquee) var(--duration-marquee) linear infinite;
 }
 
 .marquee:nth-child(2) {
@@ -135,7 +135,7 @@
   margin-top: calc(clamp(62px, 8vw, 88px) / -2);
   border-radius: var(--radius-pill);
   border: 2px solid var(--ddm-white);
-  animation: ddmPulse 2.6s ease-out infinite;
+  animation: var(--kf-pulse) 2.6s ease-out infinite;
   pointer-events: none;
 }
 
