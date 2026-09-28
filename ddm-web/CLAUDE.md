@@ -159,6 +159,12 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     `data/englishPrograms.ts` `info` / `table` bloklarında, kaynak yorumda. Kart / SSS rakamları kaynak metinde, DDM İngilizce
     Kursu kaydında ya da sayfanın genel bilgi bloklarında TAM SAYI olarak geçmezse build düşer. 9 sayfada ortak şablon (şube
     satırları, program listesi) `resolveTemplate` ile tek yerde; Konuşma kursu yayınlanmaz (Dil Kursu sayfasına 301).
+  - **Şube Tanıtım (P6, 2026-09-28, kullanıcı):** P4 kuralı. Firma metni `data/branchPromo.ts` `details` ile "Ayrıntılı bilgi"de
+    birebir; sayfanın üstündeki kart / künye / sütun metinleri kaynak parçasıdır (`Excerpt.match`, düzeltilmiş metinde aranır,
+    yoksa build düşer). Düzeltmeler `edits` / `headingEdits` (yazım, bayat / yanlış şube adı: Levent sayfasındaki "Kadıköy",
+    "Beşiktaş"). Form + KVKK (`ignoredBlocks`) ve `fas fa-*` gösterilmez. **Onaylı sapma:** `title` / `description` yerel arama
+    için yeniden yazıldı ("Kadıköy Dil Kursu | Dünya Dilleri Merkezi Kadıköy"; gerekçe `meta.reasons`). Ulaşım genel bilgi
+    (resmi hat sayfası + OSM, kuş uçuşu; doğrulanamayan otobüs hattı / açılmamış M12 yazılmaz). İçerik soruları iş bitince toplu sorulur.
   - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
     not barajı, sertifika) ekleme-çıkarma YOK; sayfada zaten yazılı olgular aynı anlamda yeniden
     cümlelenebilir (SSS cevapları `lib/languageFaq.ts` bunları o dilin kendi metninden regex'le okur,
@@ -204,7 +210,7 @@ ddm-web/
 │   │               # LanguageCard, MediaCard, ProgramCard, TestimonialCard
 │   ├── sections/   # Sayfa bölümleri: PageHero (modlar dil/uni/sube), ScheduleTable,
 │   │               # WeekGrid, CourseDatePage, DetailSections, ProcessSteps,
-│   │               # ContactFormCard, BranchInfoPanel, UniversityGrid, LanguageGrid,
+│   │               # ContactFormCard, BranchContactPage, BranchHub, UniversityGrid, LanguageGrid,
 │   │               # LevelExplorer, PricingPanel, CtaBand, TestimonialsCarousel…
 │   └── graphics/   # Icon + ikon kaydı, Illustration (200×200 set), Flag, LanguageGlobe
 ├── styles/
@@ -226,6 +232,10 @@ ddm-web/
 │   ├── englishPrograms.ts   # P5 hedef kitle programları (İlköğretim, Üniversite, YKS Dil, Yaz Okulu) — blok listesi
 │   ├── abroadPages.ts       # P4 yurtdışı (9) — biniş kartı panosu (`pass`), kart/tablo gövde; genel bilgi kaynakları yorumda
 │   ├── otherPrograms.ts     # P4 diğer program / kurumsal (4) — Business English, Çocuklar, Tercüme, Pegasus (lang en)
+│   ├── branchPromo.ts       # P6 şube tanıtım (4) — blok listesi, Excerpt.match, ulaşım (kaynak yorumda)
+│   ├── branchPromoPaths.ts  # P6 yayındaki tanıtım adresleri — hafif (Ana Sayfa kartı + iletişim sayfası okur)
+│   ├── branchPhotos.ts      # 5 şubenin semt fotoğrafı — tek kaynak (Ana Sayfa, tanıtım, iletişim)
+│   ├── branchTransit.ts     # 5 şubeye ulaşım (genel bilgi, kaynaklar yorumda) — tanıtım + iletişim
 ├── lib/
 │   ├── site.ts     # SITE_URL / absoluteUrl() — domain bağımsızlığı §4
 │   ├── nav.ts      # mega menü / footer link ağacı — tek kaynak (§10)
@@ -239,6 +249,7 @@ ddm-web/
 │   ├── singleContent.ts     # P4 tekil çözücüsü (görev `splits`, dosya rafı, şube kartı etiket denetimi)
 │   ├── englishLevelContent.ts   # P5 seviye çözücüsü + ortak `resolveTemplate` / `takeTemplateCta` / rakam bekçisi
 │   ├── englishProgramContent.ts # P5 hedef kitle çözücüsü
+│   ├── branchPromoContent.ts    # P6 şube tanıtım çözücüsü (kapsama + parça bekçisi + etiket bağlantıları)
 │   ├── richPages.ts         # P4 tüm alt türlerin tek listesi (`RichEntry`: rich | guide) + dağıtıcı yardımcıları
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
 ├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
@@ -365,6 +376,15 @@ ddm-web/
 > ders saati çubuğu; mobilde satır satır). Hedef kitle `EnglishProgramPage` ayrı aile: `RichHero` görünümlü lacivert fotoğraflı
 > hero + program şeridi + açık mavi baskın panel; 3'ten fazla firma cümlesi açılır "Ayrıntılı bilgi"de. İki aile gri bandı
 > (`EnglishBand`: şubeler + program listesi) paylaşır.
+> **Şube Tanıtım (P6, 2026-09-28, "B · şube künyesi"):** `BranchPromoPage` — açık hero + sağda künye kartı (semt fotoğrafı,
+> adres / telefon `data/branches.ts`, şubeye özgü 2 satır, en yakın ulaşım; açılışta bir kez `--kf-lift-in`). Gövde şubenin kendi
+> blok dizisi (tanıtım kartları + alıntı, iki program sütunu, açık / lacivert madde paneli, dile göre sınavlar, kurumsal müşteri
+> kutuları, ders fotoğrafları) → ulaşım + `BranchMap` (açık gelen gömülü harita, `loading="lazy"` + "Yol tarifi al") | kurs tarihi sayfaları → 6 ortak
+> bağlantı → "Ayrıntılı bilgi". Sayfalar birbirinden blok sırasıyla ayrışır; gri/beyaz bant dizilmez.
+> **Şube İletişim (UI turu 2026-09-28, "A · hızlı iletişim"):** `BranchContactPage` — tanıtım ailesiyle aynı açık hero; başlık altında
+> dokunmatik iletişim kutuları (ara / WhatsApp / e-posta / yol tarifi; WhatsApp'ı olmayan şubede 3 kutu), sağda semt fotoğraflı kart +
+> tanıtım bağlantısı; harita + ulaşım (`data/branchTransit.ts`, tanıtımla ortak); diğer şubeler. Hub `BranchHub`: semt fotoğraflı
+> 3 + 2 kart. Semt fotoğrafları tek kaynak `data/branchPhotos.ts`. Form hâlâ yok (karar #4).
 > **Nedir (2026-09-26):** sınav ana sayfalarından AYRI `GuidePage` — açık mavi hero, H1 altında büyük kısa cevap, sağda
 > lacivert "bir bakışta" `<dl>`; gövdede solda yapışkan soru listesi (`GuideToc`), her bölüm soru → kalın tek cümlelik
 > cevap → madde / bölüm kartı / tablo; uzun paragraf bloğu yok; fotoğraf ve hareket yok; sonda kaynaklar + son güncelleme.

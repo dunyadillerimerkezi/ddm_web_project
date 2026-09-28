@@ -1,0 +1,135 @@
+/* İletişim ana sayfası (`/ddm-iletisim`) — UI turu 2026-09-28: 5 şube semt fotoğraflı kartta, 3 + 2. */
+.heroInner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.body {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  padding: var(--space-4) var(--ddm-gutter) var(--space-24);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  grid-column: span 2;
+  overflow: hidden;
+  border: var(--ddm-level-line) solid var(--ddm-gray-200);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-white);
+}
+
+/* Son iki kart satırı yarı yarıya doldurur — Ümraniye tek başına kalmaz. */
+.card:nth-child(4),
+.card:nth-child(5) {
+  grid-column: span 3;
+}
+
+.photo {
+  position: relative;
+  height: var(--ddm-hub-card-photo-h);
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.tag {
+  position: absolute;
+  bottom: var(--space-3);
+  left: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--ddm-navy-veil);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-white);
+}
+
+.cardBody {
+  flex: 1;
+  padding: var(--space-5) var(--space-6);
+}
+
+.name {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.address {
+  margin: var(--space-2) 0 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.55;
+  color: var(--ddm-gray-700);
+}
+
+.phone {
+  display: inline-block;
+  margin: var(--space-2) 0 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  color: var(--ddm-navy-600);
+  text-decoration: none;
+}
+
+.links {
+  display: flex;
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.links a {
+  flex: 1;
+  padding: var(--space-4) var(--space-2);
+  text-align: center;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-navy-600);
+  text-decoration: none;
+}
+
+.links a + a {
+  border-left: 1px solid var(--ddm-gray-100);
+}
+
+.links a:hover,
+.links a:focus-visible {
+  background: var(--ddm-sky-bg);
+}
+
+@media (max-width: 999px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card,
+  .card:nth-child(4),
+  .card:nth-child(5) {
+    grid-column: auto;
+  }
+
+  .card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 599px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

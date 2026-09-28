@@ -7,61 +7,43 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-28, P5 · İngilizce Kursları — commit bekliyor, kullanıcı commit'leyecek)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-28, P6 · Şube Tanıtım — 4 sayfa bitti, Ümraniye bilgi bekliyor; commit kullanıcı onayında)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `4f578f4` (kullanıcı; P4 tamamı dahil). **P5 kodu çalışma ağacında, commit'lenmedi** — kullanıcı "en son ben commit'lerim" dedi. |
-| **Son döküman commit'i** | `4f578f4`; P5 döküman güncellemeleri + başka oturumun seviye rayı notu (§D, 2026-09-28) commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**202 statik sayfa**, 193'ten) · `check-links` **3 benzersiz / 200 çift** (değişmedi; yalnız P7) · sitemap'teki 198 adres 200 (72 kurs tarihi dahil) · 9 yeni sayfa × 1440/390/360 taşma yok, tek H1, 463–820 kelime · 301: `/ingilizce-kurslari/ingilizce-konusma-kursu` ve `…/ingilizce-egitim-sistemi` 308 |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç) · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 (özel ders 18, online 8+çatı, nedir 8, tekil 8, yurtdışı 9, diğer/kurumsal 4) · **P5 İngilizce Kursları 9** (seviye 5 + hedef kitle 4; konuşma → 301, eğitim sistemi P4'te) |
-| **Aktif faz** | P5 bitti. Sıradaki: **P6 Şube Tanıtım (4)** |
-| **Bir sonraki somut adım** | Kullanıcı P5'i commit'ledikten sonra yeni oturum: aşağıdaki prompt ile P6 Aşama 0 (`/kadikoy-, /atasehir-, /cadde-, /levent-tanitim-sayfasi` 4 kayıt). |
-| **Yarım kalan iş** | Yok. |
-| **Engeller** | Kalan 3 ölü hedef: `/ogrenci-yorumlari` (footer, 198 sayfa), `/aktivite-aktiviteler`, `/duyurular` → P7 |
-| **Bekleyen kullanıcı kararları** | **P5:** İngilizce Kursları ana sayfasının (P3, `data/hubs.ts`) seviye rayında B2 hâlâ "İleri Seviye İngilizce" — seviye sayfası "Orta İleri Seviye" (kullanıcı "şimdilik kalsın") · `summer_school.jpg` 800×450 (daha büyüğü gelirse değiştir) · **P4'ten:** Çocuklar İçin İngilizce "Haftada 6 Saat" ↔ 5 saat · Kaplan ortaklığı sürüyor mu (Mayıs 2026 el değiştirdi) · Kaplan eskimiş rakamları · Yurtdışı ana sayfasında Enforex yanlışı · üniversite sayfalarında eski sınav adları + kapanmış 2 üniversite · GMAT/GRE grup büyüklüğü · online çatı fotoğrafı · #2 yorum/duyuru · #4 form · #5 şube fotoğrafları · #6 JSON-LD |
-| **Bilinen veri notları** | P5 genel bilgi kaynakları `data/englishLevels.ts` (`CEFR_EN`: Avrupa Konseyi + MEB çevirisi, ielts.org, Cambridge GLH / sınav adları) ve `data/englishPrograms.ts` (MEB 2024/21 ders çizelgesi, Maarif Modeli, YÖK hazırlık yönetmeliği RG 23.03.2016, ÖSYM 2026 YKS kılavuzu + 2025/2026 YDT kitapçıkları) yorumlarında. A1 ders saati ve A1/A2 IELTS karşılığı resmi kaynakta yok → yazılmadı. A2 firma cümlesi "IELTS 4.0" aynen (4.0 = B1 alt sınırı, çelişki değil). Kaynakta "8 farklı dilde" (YKS) ve "yüksek kaliteli video dersleri" (C1) firma metni, dokunulmadı. Üniversite sayfasında H1 = program listesi satırı (ayrıştırıcı listeyi böler; `resolveTemplate` birleştirir). İzlenmeyen: `public/assets/summer_school.jpg` (kod bağlı), kök ve `ddm-web/` altında `r3/` (başka oturumun ray ekran görüntüleri — commit'lenmemeli) |
-| **Kalıcı kurallar** | P4/P5 içerik kuralı (CLAUDE.md §5; P5: firma metni + `edits`, genel bilgi `CEFR_EN` / `added`, rakam bekçisi tam sayı eşleşmesi) · P5 tasarım (CLAUDE.md §9; seviye "B · seviye kartı", hedef kitle ayrı aile) · `soon` bayrağı (§10) · **sayfada düz yazı yok** (hafıza: pages-cards-not-prose) |
+| **Son kod commit'i** | `0e81888` (kullanıcı; P5 dahil). **P6 kodu çalışma ağacında, commit'lenmedi** — kullanıcıya sorulacak. |
+| **Son döküman commit'i** | `0e81888`; P6 döküman güncellemeleri commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**206 statik sayfa**, 202'den; Ümraniye gelince 207) · `check-links` **3 benzersiz / 204 çift** (değişmedi; yalnız P7) · sitemap'te 4 tanıtım adresi · 4 sayfa × 1440/390/360 taşma yok, tek H1, konsol temiz · 478–537 görünen / 547–864 toplam kelime |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç; 2026-09-28 yeni görünüm "A · hızlı iletişim") · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · **P6 Şube Tanıtım 4/5** (Kadıköy, Bağdat Caddesi, Levent / Etiler, Ataşehir) |
+| **Aktif faz** | P6 — Ümraniye kaldı (kaynakta tanıtım kaydı yok, bilgi kullanıcıdan) |
+| **Bir sonraki somut adım** | Kullanıcının toplu cevaplarını al (aşağıda "Bekleyen kullanıcı kararları") → `data/branchPromo.ts`'e Ümraniye tanımı (`source: null`, kapsama muaf — `lib/branchPromoContent.ts` `resolve()` şu an kaynaksız tanımı reddediyor, o dal yazılacak) + `data/branchPromoPaths.ts` satırı + `app/umraniye-tanitim-sayfasi/page.tsx`. |
+| **Yarım kalan iş** | **Ümraniye tanıtım sayfası** — kod yazılmadı (yarım kod yok). Beklenen: fotoğraflar (dış cephe + 2–3 iç mekân), açılış yılı (Ana Sayfa kaynağı "15 yıllık tecrübe" diyor), açılan diller / programlar, derslik/kapasite, otopark, kurs takvimi yayınlanacak mı. Ulaşım araştırıldı: M8 Mevlana ~1,3 km (yürüme mesafesinde metro yok), M12 yapımda. |
+| **Engeller** | Kalan 3 ölü hedef: `/ogrenci-yorumlari` (footer), `/aktivite-aktiviteler`, `/duyurular` → P7 |
+| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md)** (kullanıcı toplu soracak). Özet — **P6:** dil listesi çelişkisi (Kadıköy 9 dil, Ataşehir 8, Levent 15, menü 10, footer "19 farklı dil") · "25 yıl" (Bağdat Caddesi başlığı + Levent maddesi) ↔ "2003'ten bu yana" · Levent metni "Etiler" diyor, adres Levent tarafında (Nispetiye Cad., PK 34330) · `sube-1..5.jpeg` iç mekân fotoğraflarının şubesi (şu an kullanılmıyor) · "Öğrenme Garantisi" bağlantısı (ayrı sayfa yok, Eğitim Sistemi'ne gidiyor) · Ümraniye bilgileri · JSON-LD `LocalBusiness` (#6) · **Önceki fazlardan:** İngilizce Kursları hub B2 etiketi · `summer_school.jpg` 800×450 · Çocuklar İçin İngilizce 6/5 saat · Kaplan ortaklığı / rakamları · Yurtdışı Enforex · üniversite sayfalarında eski sınav adları · GMAT/GRE grup büyüklüğü · online çatı fotoğrafı · #2 yorum/duyuru · #4 form |
+| **Bilinen veri notları** | P6: form + KVKK (1249 kelime) 4 kayıtta birebir — %75 benzerliğin kaynağı; gerçek tanıtım metinleri %3–10 benzer. Kaynakta h1 yok → şube adını taşıyan satır H1 (Levent'te "Etiler Şubesi" → "Levent / Etiler Şubesi" `edits`). Kurs tarihi sayfalarındaki tarihler 2022'den (P6 yalnız bağlantı veriyor). Eski sitede Ataşehir harita işaretçisi Maltepe'yi gösteriyor — kullanılmadı; harita sorgusu `data/branches.ts` adresinden (posta kodu atılarak). `kadikoy.jpg`'de "@bildrone" filigranı (kullanıcı: "boşver"). 6 `tanitim-icerik/*` kaydı = eski tanıtım sayfalarının 6 sekmesinin içerikleri (Faz 8). İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/` |
+| **Kalıcı kurallar** | P4/P5/P6 içerik kuralı (CLAUDE.md §5; P6: firma metni birebir "Ayrıntılı bilgi"de, üstteki kısa metinler kaynak parçası `match`) · P6 tasarım (CLAUDE.md §9, "B · şube künyesi") · `soon` bayrağı (§10) · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
 
 
 **Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-09-28):**
 
 ```
-P6 · Şube Tanıtım Sayfaları (4 sayfa, kök dizin: /kadikoy-, /atasehir-, /cadde-, /levent-tanitim-sayfasi).
+P6 devam · Ümraniye tanıtım sayfası (/umraniye-tanitim-sayfasi) + P6 toplu soruların cevapları.
 
 OTURUM BAŞI
-- Oku: docs/SESSION-HANDOFF.md §A ve §B, ddm-web/CLAUDE.md (§3 madde 5 kökte catch-all YOK, §4, §5, §6, §9, §10),
-  docs/remaining-pages-plan.md §5 P6 bölümü + P4/P5 "öğrenilenler". git status / git log -5 ile §A'yı teyit et
-  (P5 commit'lendi mi?). frontend-design skill'ini yükle. Türkçe ve kısa yaz.
+- Oku: docs/SESSION-HANDOFF.md §A (Bekleyen kararlar + Yarım kalan iş), ddm-web/CLAUDE.md §5 (P6), §9 (P6 notu),
+  docs/remaining-pages-plan.md §5 P6. git status / git log -5. Türkçe ve kısa yaz.
 
-YAPILANLAR (dokunma, örnek al)
-- P5: /ingilizce-kurslari/* 9 sayfa — seviye (EnglishLevelPage: açık hero + seviye kartı + yapışkan merdiven + renkli
-  karşılaştırma tablosu) ve hedef kitle (EnglishProgramPage: lacivert fotoğraflı hero + program şeridi + baskın panel).
-  Ortak şablon çözümü `resolveTemplate` (şube satırları + program listesi). 202 sayfa, check-links 3 (yalnız P7).
-- Şube verisi tek kaynak data/branches.ts; P1 şube iletişim sayfaları /ddm-iletisim/*.
+YAPILANLAR (örnek al)
+- data/branchPromo.ts (4 tanım, blok listesi: intro / programs / highlights / corporate / gallery), lib/branchPromoContent.ts
+  (createGuideResolver + Excerpt.match bekçisi + kapsama), BranchPromoPage + BranchMap, 4 kök klasör, data/branchPromoPaths.ts.
 
-BU OTURUMUN İŞİ — ŞUBE TANITIM
-- 4 kayıt 1582–1912 kelime: Aşama 0'da ortak blok (menü/footer/şube listesi kalıntısı) ile gerçek tanıtım metnini ayır,
-  şubeye özel olgu (adres, ulaşım, sınıf, olanak) var mı; /ddm-iletisim/* ile çakışma; Ümraniye tanıtımı yok.
-- Her sayfa ayrı statik klasör. Görsel: public/assets'te şube fotoğrafları var (kadıköy, ataşehir, levent, bağdat_caddesi,
-  şube1-5) — önce bak, yoksa kullanıcıdan iste.
+BU OTURUMUN İŞİ
+- Kullanıcının cevaplarını uygula (dil listesi, 25 yıl, Etiler/Levent adı, sube-1..5 fotoğrafları, Öğrenme Garantisi).
+- Ümraniye: kaynak kaydı yok → source: null dalı (assertCoverage muaf, metin kullanıcıdan; uydurma yok). Fotoğraf yoksa ImageSlot.
+  Kurs tarihi verisi yok → bölüm gösterilmez. Build 206 → 207, check-links 3'te kalmalı.
+- İletişim → Ümraniye sayfasından ve Ana Sayfa kartından bağlantı (data/branchPromoPaths.ts'e satır eklemek yeterli).
 
-İÇERİK KURALI
-- Firma bilgisi birebir (yalnız yazım edits); başlıklar silinmez. Genel bilgi (ulaşım hattı vb.) resmi kaynaktan doğrula.
-- Adres/telefon yalnız data/branches.ts. DÜZ YAZI YOK: kart / tablo / pano; uzun kaynak metni açılır "Ayrıntılı bilgi"de.
-
-TASARIM / SÜREÇ
-1) Aşama 0 → rapor, DUR. 2) 2–3 tasarım yönü (1440 + 390) → DUR. 3) 1 pilot → DUR. 4) Toplu. 5) code-review (high).
-- Sorularda URL yerine menü yolu + sayfadan örnek metin. CSS Modules + tokens; absolute URL yok; soon bayrağını kaldır.
-- Kontrol: tsc, lint, build, check-links, sitemap'teki tüm adresler 200, 1440/390/360 taşma + tek H1 (prod 3200, sonra durdur).
-
-KAPANIŞ
-- SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P6, CLAUDE.md. Commit'i kullanıcı yapar; kod ve döküman ayrı; push yok.
-
-AÇIK KONULAR (fırsat olursa sor)
-- İngilizce Kursları ana sayfasındaki B2 "İleri Seviye" etiketi · Kaplan ortaklığı · Çocuklar İçin İngilizce 6/5 saat.
-
-İLETİŞİM: Teknik olmayan kullanıcı. Kısa yaz, az soru sor, seçenekleri görsel göster.
+KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P6. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
 ```
 
 ---
@@ -100,6 +82,41 @@ AÇIK KONULAR (fırsat olursa sor)
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-28 · Opus 5.5 · UI turu — Şube İletişim (hub + 5 şube) — commit bekliyor
+- **Sorun:** şube sayfalarında boş "sube-foto" / "sube-harita" yer tutucuları, şubeyle ilgisiz takvim çizimi, harita / ulaşım /
+  WhatsApp numarası yok; hub'da fotoğrafsız kartlar, Ümraniye tek başına alt satırda, "Kayıt Ol" → `#kayit` ölü çapa.
+- **Karar (kullanıcı):** 2 yön (A hızlı iletişim / B harita önde) → **A**. Hub önerisi (semt fotoğraflı 3 + 2 kart) birlikte.
+- **Yeni:** `BranchContactPage` (açık hero, ara / WhatsApp / e-posta / yol tarifi kutuları, semt fotoğraflı kart + "şubeyi tanıyın",
+  harita + `TransitList`, diğer şubeler), `BranchHub`; ortak veri `data/branchPhotos.ts` (Ana Sayfa + tanıtım + iletişim),
+  `data/branchTransit.ts` (Ümraniye dahil 5 şube; tanıtımdaki `visit.transit` buraya taşındı), `mapQuery` / `directionsHref`
+  (`data/branches.ts`). Silinen (artık kullanılmıyor): `BranchInfoPanel`, `BranchTile` (+ CSS). Metinler (H1 / açıklama) P1'deki gibi.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ 206 · check-links 3/204 · 6 sayfa × 1440/390/360 taşma yok, tek H1, konsol temiz.
+
+### 2026-09-28 · Opus 5.5 · P6 — Şube Tanıtım (4/5 sayfa) — commit bekliyor, Ümraniye bilgi bekliyor
+- **Aşama 0:** 4 kayıt 1582–1912 kelime; ~1250 kelimesi form + KVKK (4'ünde birebir, P1 kararıyla yayınlanmıyor) → ölçülen
+  %65–82 benzerliğin kaynağı bu; gerçek tanıtım metni Kadıköy ~590, Levent ~555, Cadde ~315, Ataşehir ~270 kelime, aralarında
+  %3–10 benzerlik. Ortak tek blok eski sitenin 6 sekme başlığı (içerikleri `tanitim-icerik/*`). Kaynakta h1 yok, h5 paragraf.
+  Yeni bulgular: Levent'te de "25 yılı aşkın", Levent 15 dil sayıyor, Ana Sayfa kartında "Levent Beşiktaş", `ümraniye.jpg` var
+  (saat kulesi), kurs tarihleri 2022'den, eski sitede Ataşehir harita işaretçisi Maltepe'de.
+- **Kararlar (kullanıcı):** menüye dokunulmaz; Ana Sayfa "…Şubemizi Keşfet" kartları tanıtım sayfasına + iletişim ↔ tanıtım çift
+  yönlü · 6 ortak başlık metinsiz bağlantı · harita önce "tıklanınca yüklensin" seçildi, sonra kullanıcı "açık gelsin, buton olmasın, yol tarifi kalsın" dedi · başlıklar yerel arama için
+  ("Kadıköy Dil Kursu | …") · Ümraniye adresi `/umraniye-tanitim-sayfasi` · tasarım **B · şube künyesi** (3 yön: semt kartpostalı /
+  künye / kapıdan içeri) · ders fotoğrafları alttaki alanlarda · filigran "boşver" · içerik soruları en sonda toplu.
+- **Yeni:** `data/branchPromo.ts` (blok listesi; `Excerpt.match`, `PromoTitle` line/split/added, `DetailPara` heading/join,
+  `ignoredBlocks`), `data/branchPromoPaths.ts` (hafif, Ana Sayfa + iletişim), `lib/branchPromoContent.ts`, `BranchPromoPage`,
+  `BranchPromoRoute`, `BranchMap` (+ CSS), 4 kök klasör, `PageKind` `branch-promo` (+ klasör var mı bekçisi), P6 tokenları.
+  Görseller ASCII adlara (`git mv`): `kadikoy.jpg`, `atasehir.jpg`, `bagdat-caddesi.jpg`, `umraniye.jpg`, `sube-1..5.jpeg`.
+  Kaynak düzeltmeleri (`edits`/`headingEdits`): "Dil | Eğitimi", "Ataşehirde'de", "TOEFL,YDS", Levent h5 "Kadıköy'de" → "Etiler'de",
+  Levent H1 "Etiler Şubesi" → "Levent / Etiler Şubesi", "Atmosferi”"; yanlış "Kadıköy Şubesi" üst yazıları ve `fas fa-*` gösterilmez.
+- **Doğrulama (genel bilgi, 2026-09-28):** metro.istanbul (M2, M4, M6, M8, T3 hat sayfaları), sehirhatlari.istanbul iskeleleri,
+  OpenStreetMap ölçümü (kuş uçuşu; yürüme süresi yazılmadı), M12 yapımda (Cumhuriyet haberi + Wikipedia, orta güven — yazılmadı),
+  otobüs hatları doğrulanamadı (yazılmadı).
+- **Doğrulama (teknik):** tsc ✅ · lint ✅ · build ✅ 206 · check-links 3/204 · 4 × 3 genişlik temiz, tek H1 · harita + yol tarifi test edildi.
+- **code-review (high):** 10 bulgunun 8'i düzeltildi — harita açılınca yol tarifi bağlantısı ve odak kayboluyordu (sonra harita açık gelen sürüme geçti) · h1 uyarısı kaynağa
+  bakmadan basılıyordu (artık kaynakta h1 varsa build düşer) · klasörü olmayan tanıtım adresi sitemap'e girebilirdi (bekçi) ·
+  harita sorgusunda posta kodu / arayüz adı · `priority` (Next 16'da eski) → `loading="eager"` + `fetchPriority` · çapa kimliği ·
+  iki yorum. Bırakılan: başlık sapması (kullanıcı onaylı — CLAUDE.md §5'e yazıldı) · kullanılmayan `sube-1..5` (kullanıcıya soruldu).
 
 ### 2026-09-27/28 · Opus 5.5 · P5 — İngilizce Kursları (9 sayfa) — commit bekliyor (kullanıcı commit'leyecek)
 - **Aşama 0:** 10 kayıt (eğitim sistemi P4'te çözülmüştü: kanonik `/yabanci-dil-egitimleri/…`, 301 vardı). 18 satırlık eski site

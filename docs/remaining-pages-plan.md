@@ -628,7 +628,18 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `frontend-design:frontend-design`, `run`.
 
-### P6 — Şube Tanıtım  ⏳ (M) — karar #5
+### P6 — Şube Tanıtım  🟡 4/5 (2026-09-28) — Ümraniye bilgi bekliyor
+
+> **Sonuç (2026-09-28, Opus 5.5):** 4 sayfa kök dizinde ayrı klasör. Aşama 0: %75 benzerliğin kaynağı form + KVKK (1249 kelime,
+> yayınlanmıyor); gerçek tanıtım metinleri %3–10 benzer, ortak tek blok 6 sekme başlığı. Tasarım **B · şube künyesi** (açık hero +
+> künye kartı); gövde şube başına farklı blok dizisi (`intro` / `programs` / `highlights` / `corporate` / `gallery`), ulaşım
+> (resmi hat sayfaları + OSM, kuş uçuşu) + gömülü harita (açık gelir, kullanıcı 2026-09-28), şubenin kurs tarihi sayfaları, 6 ortak bağlantı, kaynak
+> metnin tamamı "Ayrıntılı bilgi"de. Ana Sayfa şube kartları ve iletişim sayfaları tanıtıma bağlandı (`data/branchPromoPaths.ts`).
+> Ümraniye: kaynak kaydı yok; kullanıcıdan bilgi bekleniyor (SESSION-HANDOFF §A). Toplu sorular §A'da.
+> **P6'da öğrenilenler:** (1) "Benzerlik" ölçümü sayfanın yayınlanmayan bloklarını da sayar — önce yayınlanacak metni ayır.
+> (2) Kalın yazılı kelimeler kaynağı satırlara böler → `DetailPara.join`. (3) h5 olarak işaretlenmiş paragraf → `PromoTitle.split`
+> (başlık + paragraf) ya da `DetailPara.heading`. (4) Harita sorgusunda posta kodu ve arayüz adı geocoding'i bozar.
+
 - **Kapsam (4, kök dizin):** `/kadikoy-tanitim-sayfasi` (1912 kelime),
   `/atasehir-tanitim-sayfasi` (1582), `/cadde-tanitim-sayfasi` (1630),
   `/levent-tanitim-sayfasi` (1871). Her biri ayrı statik klasör (§3 madde 5).

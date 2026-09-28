@@ -120,3 +120,17 @@ export function waHref(branch: Branch): string | null {
 export function contactBranch(branch: Branch = DEFAULT_BRANCH): Branch {
   return branch.phone ? branch : DEFAULT_BRANCH;
 }
+
+/**
+ * Harita / yol tarifi sorgusu — yalnız sokak adresi: posta kodu ("Pk.34330") ve arayüz adı ("Levent / Etiler")
+ * geocoding'i şaşırtıyor (P6 code-review). Adres yoksa null.
+ */
+export function mapQuery(branch: Branch): string | null {
+  return branch.address ? `${branch.address.replace(/\s*Pk\.?\s*\d{5}/gi, "")}, İstanbul` : null;
+}
+
+/** Google Haritalar yol tarifi bağlantısı (dış domain — CLAUDE.md §4 kapsamı dışında). */
+export function directionsHref(branch: Branch): string | null {
+  const q = mapQuery(branch);
+  return q ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}` : null;
+}

@@ -31,9 +31,9 @@
 | 13 | Online Eğitim Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu/online-{dil}-egitimi.html` | **8** | `/yabanci-dil-egitimleri/rusca-kursu/online-rusca-egitimi.html` | ✅ P4 (2026-09-25, + çatı `/diger-program/online-dil-egitimi`) |
 | 14 | Kategori Hub Sayfası | `/{kategori}.html` (alt sayfa yok, kart listesi) | **6** | `/diger-program.html` | ✅ P3 — 7 hub (özel dersler dahil), `data/hubs.ts` + `lib/hubContent.ts` |
 | 15 | Diğer Program Alt Sayfası | `/diger-program/{konu}.html` | **6** | `/diger-program/tercume-hizmetleri.html` | ✅ P4 (2026-09-26) — Business English, Çocuklar İçin İngilizce, Tercüme; `yurtdisinda-egitim` Work and Travel kopyası → 301 (özel dersler + online çatı daha önce) |
-| 16 | Şube Tanıtım Sayfası | `/{sube}-tanitim-sayfasi.html` | **4** | `/kadikoy-tanitim-sayfasi.html` | ⏳ P6 |
+| 16 | Şube Tanıtım Sayfası | `/{sube}-tanitim-sayfasi.html` | **4** (+ Ümraniye yeni) | `/kadikoy-tanitim-sayfasi.html` | 🟡 P6 4/5 (2026-09-28; Ümraniye bilgi bekliyor) |
 | 17 | Ana Sayfa | `/` | **1** | `/` | ✅ 6.3 |
-| — | Tanıtım İçerik Parçası (fragment) | `/tanitim-icerik/{id}-{slug}.html` | 6 | `/tanitim-icerik/10-sistem.html` | ⛔ P8 kararı (ana sayfa bölümü olarak beslenmiş mi kontrol) |
+| — | Tanıtım İçerik Parçası (fragment) | `/tanitim-icerik/{id}-{slug}.html` | 6 | `/tanitim-icerik/10-sistem.html` | ⛔ P8 kararı — P6 Aşama 0: eski tanıtım sayfalarının 6 sekmesinin içerikleri (sayfada yalnız başlıkları bağlantı olarak var) |
 | — | Kurumsal / Özel İçerik Sayfası | `/kurumsal-dil-egitim.html`, `.../turkish-course-pegasus-pilots.html` | 2 | `/kurumsal-dil-egitim.html` | ✅ P3 (hub) / ✅ P4 (Pegasus, İngilizce sayfa, 2026-09-26) |
 | — | Etiket (Tag) Sayfası — muhtemelen taşınmayacak | `/component/tags/tag/{slug}.html` | 2 | `/component/tags/tag/almanca-kursu.html` | ⛔ Taşınmaz — 301 |
 | — | Diğer / Tekil Sayfalar — şablon gerektirmez | — | 2 | `/aktivite-aktiviteler.html`, `/star-media.html` | ⛔ Taşınmaz / P8 kararı |

@@ -1,0 +1,915 @@
+/* ---------------------------------------------------------------
+ * P6 — Şube tanıtım sayfası ("B · şube künyesi", kullanıcı 2026-09-28).
+ * Açık hero + künye kartı; gövde tek beyaz zemin (sırayla gri/beyaz bant YOK —
+ * CLAUDE.md §9), baskın bölüm iki program sütunu.
+ * ------------------------------------------------------------- */
+
+/* --- hero --- */
+.hero {
+  /* Zemin header'ın arkasındaki şeridi de kaplar (P5 öğrenilen: border-box'tan boyanır). */
+  background: linear-gradient(160deg, var(--ddm-sky-soft) 0%, var(--ddm-sky-bg) 55%, var(--ddm-white) 100%);
+  background-origin: border-box;
+  padding: var(--ddm-rich-hero-pt) var(--ddm-gutter) var(--ddm-rich-hero-pb);
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--ddm-promo-card-w));
+  gap: var(--space-16);
+  align-items: center;
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.title {
+  margin: var(--space-5) 0 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h1);
+  font-weight: 800;
+  line-height: 1.07;
+  letter-spacing: var(--ddm-tracking-h1);
+  color: var(--ddm-navy-900);
+}
+
+.lead {
+  margin: var(--space-5) 0 0;
+  max-width: 34em;
+  font-size: var(--ddm-text-lead-lg);
+  line-height: 1.65;
+  color: var(--ddm-gray-700);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+/* --- künye kartı --- */
+.card {
+  overflow: hidden;
+  border-radius: var(--radius-3xl);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-lg);
+  animation: var(--kf-lift-in) var(--duration-board) var(--ease-out-soft) both;
+}
+
+.cardPhoto {
+  position: relative;
+  height: var(--ddm-promo-card-photo-h);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-6) var(--space-2);
+}
+
+.cardName {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+}
+
+.cardBadge {
+  flex: none;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-soft);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+}
+
+.cardRows {
+  margin: 0;
+  padding: 0 var(--space-6) var(--space-3);
+}
+
+.cardRow {
+  display: grid;
+  grid-template-columns: var(--ddm-promo-dt-w) minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--ddm-gray-100);
+  font-size: var(--ddm-text-body);
+  line-height: 1.5;
+}
+
+.cardRow dt {
+  font-weight: 600;
+  color: var(--ddm-gray-500);
+}
+
+.cardRow dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--ddm-navy-900);
+}
+
+.cardRow a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cardRow a:hover,
+.cardRow a:focus-visible {
+  color: var(--ddm-sky-ink);
+  text-decoration: underline;
+}
+
+.cardFoot {
+  display: flex;
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.cardFoot a {
+  flex: 1;
+  padding: var(--space-4) var(--space-2);
+  text-align: center;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-navy-600);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out-soft);
+}
+
+.cardFoot a + a {
+  border-left: 1px solid var(--ddm-gray-100);
+}
+
+.cardFoot a:hover,
+.cardFoot a:focus-visible {
+  background: var(--ddm-sky-bg);
+}
+
+/* Kaynak parçası küçük harfle başlayabilir ("özel ders formatında") — metin değişmez, yalnız görünüm. */
+.cap::first-letter {
+  text-transform: uppercase;
+}
+
+/* --- gövde --- */
+.body {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  padding: 0 var(--ddm-gutter) var(--space-24);
+}
+
+.section {
+  padding-top: var(--space-24);
+}
+
+.h2 {
+  max-width: 24em;
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.h2Small {
+  composes: h2;
+  font-size: var(--ddm-text-h2-xs);
+}
+
+.sub {
+  max-width: 40em;
+  margin: var(--space-3) 0 0;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.6;
+  color: var(--ddm-gray-600);
+}
+
+.h3 {
+  margin: var(--space-4) 0 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h5);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--ddm-promo-point-min), 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-10);
+}
+
+.point {
+  padding-top: var(--space-5);
+  border-top: var(--ddm-promo-rule) solid var(--ddm-navy-600);
+}
+
+.point p {
+  margin: var(--space-2) 0 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.65;
+  color: var(--ddm-gray-700);
+}
+
+.pointIcon {
+  display: inline-grid;
+  place-items: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-sky-ink);
+}
+
+.quote {
+  display: grid;
+  grid-template-columns: var(--ddm-promo-quote-photo-w) minmax(0, 1fr);
+  align-items: stretch;
+  margin: var(--space-12) 0 0;
+  overflow: hidden;
+  border-radius: var(--radius-3xl);
+  background: var(--ddm-navy-900);
+}
+
+.quotePhoto {
+  position: relative;
+  min-height: var(--ddm-promo-strip-h);
+}
+
+
+.quoteText {
+  align-self: center;
+  margin: 0;
+  padding: var(--space-10) var(--space-12);
+}
+
+.quoteText p {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--ddm-white);
+}
+
+.quoteCite {
+  margin-top: var(--space-4);
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-navy-200);
+}
+
+/* --- programlar (baskın bölüm) --- */
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-10);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: var(--ddm-level-line) solid var(--ddm-gray-200);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-white);
+}
+
+.column:first-child .columnHead {
+  background: var(--ddm-sky-soft);
+}
+
+.column:last-child .columnHead {
+  background: var(--ddm-navy-900);
+}
+
+.columnHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-8);
+}
+
+.columnTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+}
+
+.column:last-child .columnTitle {
+  color: var(--ddm-white);
+}
+
+.columnBadge {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-base);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-white);
+}
+
+.columnRows {
+  margin: 0;
+  padding: var(--space-2) var(--space-8) 0;
+}
+
+.columnRow {
+  display: grid;
+  grid-template-columns: var(--ddm-promo-dt-w) minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--ddm-gray-100);
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.55;
+}
+
+.columnRow dt {
+  font-weight: 600;
+  color: var(--ddm-gray-500);
+}
+
+.columnRow dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--ddm-gray-800);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-5) var(--space-8) var(--space-8);
+  list-style: none;
+}
+
+.tag,
+.tagLink {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.tag {
+  background: var(--ddm-gray-100);
+  color: var(--ddm-gray-600);
+}
+
+.tagLink {
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-sky-ink);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out-soft);
+}
+
+.tagLink:hover,
+.tagLink:focus-visible {
+  background: var(--ddm-sky-100);
+}
+
+.approach {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-2) var(--space-6);
+  align-items: baseline;
+  margin-top: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  border-left: var(--ddm-promo-rule) solid var(--ddm-sky-base);
+  background: var(--ddm-sky-bg);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.approach p {
+  margin: 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.6;
+  color: var(--ddm-gray-800);
+}
+
+.approach .approachTitle {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+/* --- ders fotoğrafı şeridi --- */
+.strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--ddm-promo-strip-w), 1fr));
+  gap: var(--space-4);
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stripItem {
+  position: relative;
+  height: var(--ddm-promo-strip-h);
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  scroll-snap-align: start;
+}
+
+/* --- ulaşım + kurs tarihleri --- */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  padding-top: var(--space-24);
+}
+
+.box {
+  padding: var(--space-8);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-gray-50);
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.boxTitle {
+  margin: 0 0 var(--space-5);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+}
+
+.fine {
+  margin: var(--space-3) 0 var(--space-5);
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+.courseGroup + .courseGroup {
+  margin-top: var(--space-6);
+}
+
+.courseTitle {
+  margin: 0 0 var(--space-2);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-gray-500);
+}
+
+.courseList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.courseLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--ddm-gray-200);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 600;
+  color: var(--ddm-navy-800);
+  text-decoration: none;
+}
+
+.courseLink svg {
+  flex: none;
+  color: var(--ddm-sky-base);
+}
+
+.courseLink:hover,
+.courseLink:focus-visible {
+  color: var(--ddm-sky-ink);
+}
+
+/* --- ortak 6 bağlantı --- */
+.shared {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sharedLink {
+  display: inline-block;
+  padding: var(--space-3) var(--space-5);
+  border: var(--ddm-level-line) solid var(--ddm-gray-200);
+  border-radius: var(--radius-pill);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-out-soft);
+}
+
+.sharedLink:hover,
+.sharedLink:focus-visible {
+  border-color: var(--ddm-navy-600);
+}
+
+.section :global(details) {
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.quoteSolo {
+  margin: var(--space-12) 0 0;
+  padding: var(--space-2) 0 var(--space-2) var(--space-8);
+  border-left: var(--ddm-promo-rule) solid var(--ddm-sky-base);
+}
+
+.quoteSolo .quoteText {
+  padding: 0;
+}
+
+.quoteSolo .quoteText p {
+  max-width: 36em;
+  color: var(--ddm-navy-900);
+}
+
+/* --- madde panelleri (highlights) --- */
+.panelSky,
+.panelNavy {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--space-8) var(--space-12);
+  margin-top: var(--space-24);
+  padding: var(--space-12);
+  border-radius: var(--radius-3xl);
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.panelSky {
+  background: var(--ddm-sky-soft);
+}
+
+.panelNavy {
+  background: var(--ddm-navy-900);
+  color: var(--ddm-navy-200);
+}
+
+.panelTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h2-sm);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+}
+
+.panelNavy .panelTitle {
+  color: var(--ddm-white);
+}
+
+.panelLead {
+  margin: var(--space-4) 0 0;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.6;
+}
+
+.checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-6);
+  align-content: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.check {
+  position: relative;
+  padding-left: var(--space-6);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--ddm-navy-900);
+}
+
+.check::before {
+  content: "";
+  position: absolute;
+  top: 0.45em;
+  left: 0;
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-base);
+}
+
+.panelNavy .checks {
+  gap: var(--space-3);
+}
+
+.panelNavy .check {
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-10);
+  border-radius: var(--radius-md);
+  background: var(--ddm-navy-800);
+  color: var(--ddm-white);
+}
+
+.panelNavy .check::before {
+  top: calc(var(--space-4) + 0.45em);
+  left: var(--space-4);
+  background: var(--ddm-sky-400);
+}
+
+.byLang {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.byLangRow {
+  padding: var(--space-5);
+  border: 1px solid var(--ddm-navy-line);
+  border-radius: var(--radius-lg);
+}
+
+.byLangRow dt {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h5);
+  font-weight: 800;
+  color: var(--ddm-white);
+}
+
+.byLangRow dt a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.byLangRow dt a:hover,
+.byLangRow dt a:focus-visible {
+  text-decoration: underline;
+}
+
+.byLangRow dd {
+  margin: 0;
+}
+
+.tagsDark {
+  composes: tags;
+  padding: var(--space-3) 0 0;
+}
+
+.tagsDark .tag {
+  background: var(--ddm-navy-800);
+  color: var(--ddm-navy-200);
+}
+
+/* --- kurumsal --- */
+.corporate {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--space-8) var(--space-12);
+  align-items: start;
+  padding-top: var(--space-24);
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.areas,
+.clients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.area {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-bg);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.clients {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--ddm-promo-client-min), 1fr));
+}
+
+.client {
+  display: grid;
+  place-items: center;
+  min-height: var(--space-16);
+  padding: var(--space-3);
+  border: var(--ddm-level-line) solid var(--ddm-gray-200);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ddm-navy-800);
+}
+
+/* --- konum metni --- */
+.place {
+  margin: 0 0 var(--space-5);
+}
+
+.placeTitle {
+  margin: 0;
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.place p {
+  margin: var(--space-2) 0 0;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.6;
+  color: var(--ddm-gray-700);
+}
+
+/* --- ayrıntılı bilgi --- */
+.details {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.detail {
+  border: 1px solid var(--ddm-gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--ddm-white);
+}
+
+.detailSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+  cursor: pointer;
+  list-style: none;
+}
+
+.detailSummary::-webkit-details-marker {
+  display: none;
+}
+
+.detailCaret {
+  flex: none;
+  color: var(--ddm-sky-ink);
+  transition: transform var(--duration-base) var(--ease-out-soft);
+}
+
+.detail[open] .detailCaret {
+  transform: rotate(180deg);
+}
+
+.detailBody {
+  padding: 0 var(--space-5) var(--space-5);
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.7;
+  color: var(--ddm-gray-700);
+}
+
+.detailBody p {
+  max-width: 72ch;
+  margin: 0 0 var(--space-3);
+}
+
+.detailList {
+  margin: 0 0 var(--space-3);
+  padding-left: var(--space-5);
+}
+
+/* --- dar ekranlar --- */
+@media (max-width: 999px) {
+  .heroInner,
+  .quote,
+  .columns,
+  .split,
+  .panelSky,
+  .panelNavy,
+  .corporate {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .heroInner {
+    gap: var(--space-10);
+  }
+
+
+  .quoteText {
+    padding: var(--space-6) var(--space-6) var(--space-8);
+  }
+
+  .section,
+  .split,
+  .corporate {
+    padding-top: var(--space-16);
+  }
+
+  .panelSky,
+  .panelNavy {
+    margin-top: var(--space-16);
+    padding: var(--space-8) var(--space-6);
+  }
+
+  .byLang {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Dar ekranda yana kaydırılan şerit. */
+  .strip {
+    display: flex;
+    padding-bottom: var(--space-2);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .stripItem {
+    flex: 0 0 78%;
+  }
+}
+
+@media (max-width: 599px) {
+  .actions > * {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .cardHead,
+  .cardRows {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+
+  .columnHead,
+  .columnRows,
+  .tags {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+
+  .columnRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+
+  .box {
+    padding: var(--space-6) var(--space-5);
+  }
+
+  .courseList {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+
+  .approach {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .checks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panelSky,
+  .panelNavy {
+    padding: var(--space-6) var(--space-5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+}

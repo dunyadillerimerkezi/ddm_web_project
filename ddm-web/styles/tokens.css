@@ -261,6 +261,21 @@
   --ddm-level-compare-min: 560px; /* P5: karşılaştırma tablosunun masaüstü en dar genişliği (altında yatay kaydırma) */
   --ddm-program-card-min: 12rem; /* P5: program sayfası baskın paneli — 5 kart tek sırada (4 + 1 yetim kalmasın) */
   --ddm-level-line: 1.5px; /* P5: rozet / etiket / C2 basamağı ince çerçevesi */
+  --ddm-promo-card-w: 500px; /* P6: şube künye kartı (hero sağ sütunu) */
+  --ddm-promo-card-photo-h: 220px; /* P6: künye kartındaki semt fotoğrafı */
+  --ddm-promo-dt-w: 104px; /* P6: künye / program satırı etiket sütunu */
+  --ddm-promo-quote-photo-w: 320px; /* P6: alıntı panelindeki ders fotoğrafı */
+  --ddm-promo-strip-w: 380px; /* P6: ders fotoğrafı şeridi — kare genişliği */
+  --ddm-promo-strip-h: 280px; /* P6: ders fotoğrafı şeridi — kare yüksekliği */
+  --ddm-promo-code: 48px; /* P6: ulaşım satırındaki hat kodu kutusu (M4, T3…) */
+  --ddm-promo-map-h: 280px; /* P6: harita yer tutucusu / gömülü harita yüksekliği */
+  --ddm-promo-rule: 3px; /* P6: tanıtım kartlarının üst çizgisi */
+  --ddm-promo-point-min: 16rem; /* P6: tanıtım kartı en dar genişliği (3 kart tek sıra, dar ekranda alt alta) */
+  --ddm-contact-card-w: 420px; /* şube iletişim (UI turu 2026-09-28): hero sağındaki şube kartı */
+  --ddm-contact-actions-w: 52rem; /* şube iletişim: iletişim kutuları ızgarası en geniş */
+  --ddm-contact-other-photo-h: 120px; /* şube iletişim: "Diğer şubelerimiz" kart fotoğrafı */
+  --ddm-hub-card-photo-h: 180px; /* iletişim ana sayfası: şube kartı fotoğrafı */
+  --ddm-promo-client-min: 9.5rem; /* P6: kurumsal müşteri kutusu en dar genişliği */
   --ddm-guide-table-narrow: 280px; /* P4 nedir: iki sütunlu küçük tablo (bant ↔ CEFR) */
   --ddm-answer-rule: 3px; /* P4 nedir: kısa cevabın solundaki mavi çizgi */
   --ddm-toc-rule: 2px; /* P4 nedir: soru listesinin sol çizgisi (aktif öğe onu örter) */

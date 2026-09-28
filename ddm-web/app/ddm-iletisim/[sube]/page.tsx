@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { SiteChrome } from "@/components/layout";
-import { BranchHero } from "@/components/sections/BranchHero";
-import { PageSection } from "@/components/sections/PageSection";
-import { BranchInfoPanel } from "@/components/sections/BranchInfoPanel";
-import { BRANCH_LIST, telHref, waHref } from "@/data/branches";
+import { BranchContactPage } from "@/components/sections/BranchContactPage";
+import { BRANCH_LIST, waHref } from "@/data/branches";
 import { getBranchPage } from "@/lib/branchContent";
 import { absoluteUrl } from "@/lib/site";
 
@@ -14,8 +11,7 @@ import { absoluteUrl } from "@/lib/site";
  *
  * Kaynağın form + KVKK gövdesi kullanıcı kararıyla (form işi sona bırakıldı)
  * ŞİMDİLİK render EDİLMİYOR — bkz. `lib/branchContent.ts` dosya başlığı.
- * Sayfa yalnız adres/telefon/e-posta (`BranchInfoPanel`, Faz 6.6'da yazılmış,
- * o zaman kullanılmamıştı) + hızlı ara/WhatsApp aksiyonlarını gösteriyor.
+ * Görünüm `BranchContactPage` (UI turu 2026-09-28, "A · hızlı iletişim").
  */
 
 export const dynamicParams = false;
@@ -52,7 +48,6 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   if (!branch) notFound();
 
   const page = getBranchPage(branch);
-  const tel = telHref(branch);
   const wa = waHref(branch);
   // Etiler/Levent'in WhatsApp hattı yok (branches.ts) — cümle o şube için
   // olmayan bir kanalı vaat etmesin diye koşullu kuruluyor.
@@ -60,19 +55,5 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     ? `${branch.name} şubemizin adres, telefon ve WhatsApp bilgilerine aşağıdan ulaşabilirsiniz.`
     : `${branch.name} şubemizin adres ve telefon bilgilerine aşağıdan ulaşabilirsiniz.`;
 
-  return (
-    <SiteChrome branch={branch} ctaLabel="Bilgi Al" ctaHref={branch.href}>
-      <BranchHero
-        crumbs={page.crumbs}
-        h1={page.h1}
-        lead={lead}
-        primary={{ label: "Bizi Arayın", href: tel }}
-        secondary={wa ? { label: "WhatsApp'tan Yazın", href: wa } : undefined}
-      />
-
-      <PageSection kicker="İLETİŞİM" title={`${branch.name} Şubesi`} ground="light">
-        <BranchInfoPanel branch={branch} />
-      </PageSection>
-    </SiteChrome>
-  );
+  return <BranchContactPage page={page} lead={lead} />;
 }

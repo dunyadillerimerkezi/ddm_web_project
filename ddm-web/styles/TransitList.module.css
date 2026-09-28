@@ -1,0 +1,73 @@
+/* P6 — şubeye ulaşım satırları (TransitList): tanıtım + iletişim sayfaları. */
+.stops {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stop {
+  display: grid;
+  grid-template-columns: var(--ddm-promo-code) minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--ddm-white);
+}
+
+.code {
+  display: grid;
+  place-items: center;
+  height: var(--ddm-promo-code);
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-soft);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-caption);
+  font-weight: 800;
+  color: var(--ddm-sky-ink);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.note {
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-600);
+}
+
+.dist {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-s);
+  font-weight: 700;
+  color: var(--ddm-navy-600);
+  white-space: nowrap;
+}
+
+.fine {
+  margin: var(--space-3) 0 var(--space-5);
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+@media (max-width: 599px) {
+  .stop {
+    grid-template-columns: var(--ddm-promo-code) minmax(0, 1fr);
+  }
+
+  .dist {
+    grid-column: 2;
+    margin-top: calc(-1 * var(--space-3));
+  }
+}

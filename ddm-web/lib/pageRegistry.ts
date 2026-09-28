@@ -18,6 +18,9 @@
  *   - kurs tarihi: `lib/courseDateContent.ts` satır ~178 → `/${category}/${courseSlug}/${pageSlug}`
  */
 
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
 import { LANGUAGES } from "@/data/languages";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 import { COURSE_DATES } from "@/data/courseDates";
@@ -28,8 +31,9 @@ import { HUBS } from "@/data/hubs";
 import { RICH_PATHS } from "@/lib/richPages";
 import { ENGLISH_LEVEL_PATHS } from "@/data/englishLevels";
 import { ENGLISH_PROGRAM_PATHS } from "@/data/englishPrograms";
+import { BRANCH_PROMO_PATHS } from "@/data/branchPromo";
 
-export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub" | "rich" | "english-level";
+export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub" | "rich" | "english-level" | "branch-promo";
 
 export type PageRecord = {
   href: string;
@@ -89,6 +93,17 @@ function englishLevelPages(): PageRecord[] {
   return [...ENGLISH_LEVEL_PATHS, ...ENGLISH_PROGRAM_PATHS].map((href) => ({ href, kind: "english-level" as const }));
 }
 
+/** P6 — Şube tanıtım sayfaları (`data/branchPromo.ts`; kök dizinde statik klasörler). */
+function branchPromoPages(): PageRecord[] {
+  // Kök dizindeki statik klasörler elle açılıyor (catch-all yok) — tanımı olup klasörü olmayan adres sitemap'e / bağlantılara 404 olarak girmesin.
+  for (const href of BRANCH_PROMO_PATHS) {
+    if (!existsSync(join(process.cwd(), "app", href.slice(1), "page.tsx"))) {
+      throw new Error(`pageRegistry: ${href} tanımlı ama app${href}/page.tsx yok.`);
+    }
+  }
+  return BRANCH_PROMO_PATHS.map((href) => ({ href, kind: "branch-promo" as const }));
+}
+
 /** Üretilen tüm sayfaların düz listesi (güncel sayı: `npm run build` çıktısı — burada elle tutulmaz). */
 export function getPageRegistry(): PageRecord[] {
   return [
@@ -101,6 +116,7 @@ export function getPageRegistry(): PageRecord[] {
     ...hubPages(),
     ...richPages(),
     ...englishLevelPages(),
+    ...branchPromoPages(),
   ];
 }
 

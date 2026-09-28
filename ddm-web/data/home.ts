@@ -2,6 +2,8 @@ import type { FlagCode } from "@/components/graphics/Flag";
 import type { IconName } from "@/components/graphics/icons";
 import type { ImageSlotData, NavLink, Testimonial } from "@/lib/types";
 import { DEFAULT_BRANCH, BRANCH_LIST } from "@/data/branches";
+import { PROMO_PATHS } from "@/data/branchPromoPaths";
+import { BRANCH_PHOTOS } from "@/data/branchPhotos";
 
 /**
  * Ana Sayfa içerik verisi — Faz 6.3.
@@ -323,8 +325,6 @@ const BRANCH_PROMO = [
     short: "Yabancı dil eğitimi ve uluslararası sınav hazırlığında akademik kaliteyi esas alan seçkin bir kurumdur.",
     cta: "Kadıköy Şubemizi Keşfet",
     slotHint: "Kadıköy şube binası",
-    photo: "/assets/kadıköy.jpg",
-    photoAlt: "Kadıköy iskelesi ve vapur, gün batımı",
   },
   {
     tag: "BAĞDAT CADDESİ AKADEMİK",
@@ -332,8 +332,6 @@ const BRANCH_PROMO = [
     short: "Geniş bir dil yelpazesi ve uluslararası sınavlara yönelik yoğun hazırlık programlarıyla öne çıkar.",
     cta: "Bağdat Caddesi Şubemizi Keşfet",
     slotHint: "Bağdat Caddesi şubesi",
-    photo: "/assets/bağdat_caddesi.jpg",
-    photoAlt: "Ağaçlı Bağdat Caddesi",
   },
   {
     // Kaynakta başlık "Beşiktaş Şubesi" ama slug/şube "levent" — birebir korundu (§5).
@@ -342,8 +340,6 @@ const BRANCH_PROMO = [
     short: "25 yılı aşkın deneyimiyle bireysel ve kurumsal dil eğitimlerinde güvenilir bir adres.",
     cta: "Levent Şubemizi Keşfet",
     slotHint: "Levent / Etiler şubesi",
-    photo: "/assets/levent.jpg",
-    photoAlt: "Levent gökdelenleri",
   },
   {
     tag: "ATAŞEHİR",
@@ -351,8 +347,6 @@ const BRANCH_PROMO = [
     short: "MEB onaylı yapısıyla birçok dilde eğitim sunan, deneyimli Türk ve yabancı eğitmen kadrosu.",
     cta: "Ataşehir Şubemizi Keşfet",
     slotHint: "Ataşehir şubesi",
-    photo: "/assets/ataşehir.jpg",
-    photoAlt: "Gece Ataşehir silueti",
   },
   {
     tag: "ÜMRANİYE",
@@ -360,15 +354,13 @@ const BRANCH_PROMO = [
     short: "15 yıllık tecrübe deneyimli eğitmen kadromuzla sizlere dünyanın kapılarını aralıyoruz.",
     cta: "Ümraniye Şubesi",
     slotHint: "Ümraniye şubesi",
-    photo: "/assets/ümraniye.jpg",
-    photoAlt: "Ümraniye saat kulesi",
   },
 ];
 
 export const BRANCH_SECTION = {
   kicker: "ŞUBELERİMİZ",
   title: "Dünya Dilleri Merkezi Şubeler",
-  /** `href` `data/branches.ts` `BRANCH_LIST`'ten — ikinci bir kaynak yok. */
+  /** `href`: tanıtım sayfası olan şubede `data/branchPromoPaths.ts` (P6), olmayanda `data/branches.ts` iletişim sayfası. */
   cards: BRANCH_LIST.map((branch, i) => {
     const promo = BRANCH_PROMO[i];
     return {
@@ -376,10 +368,11 @@ export const BRANCH_SECTION = {
       title: promo.title,
       short: promo.short,
       cta: promo.cta,
-      href: branch.href,
+      // P6: kart "…Şubemizi Keşfet" diyor → tanıtım sayfası (kullanıcı, 2026-09-28); tanıtımı olmayan şube iletişim sayfasına.
+      href: PROMO_PATHS[branch.slug] ?? branch.href,
       slot: {
-        src: promo.photo,
-        alt: promo.photoAlt,
+        src: BRANCH_PHOTOS[branch.slug].src,
+        alt: BRANCH_PHOTOS[branch.slug].alt,
         ratio: "4/5",
         width: 800,
         height: 1000,
