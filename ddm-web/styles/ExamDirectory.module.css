@@ -1,0 +1,132 @@
+/* ---------------------------------------------------------------
+ * ExamDirectory — sınav sayfası sonundaki "Diğer sınavlar" dizini
+ * (UI turu 2026-09-28). Gri bantta 4 grup sütunu; kartlar alt alta.
+ * ------------------------------------------------------------- */
+.groups {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-8) var(--ddm-gap-card);
+  align-items: start;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.groupTitle {
+  margin: 0;
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--ddm-sky-200);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-body);
+  line-height: 1.3;
+  color: var(--ddm-navy-900);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--ddm-exam-dir-card-h);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--ddm-gray-200);
+  background: var(--ddm-white);
+  text-decoration: none;
+  transition: border-color var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: var(--ddm-sky-line);
+  box-shadow: var(--shadow-md);
+}
+
+/* Optik formdaki cevap balonu: boş halka, üzerine gelince dolar. */
+.bubble {
+  display: grid;
+  place-items: center;
+  width: var(--ddm-exam-dir-bubble);
+  height: var(--ddm-exam-dir-bubble);
+  border-radius: var(--radius-pill);
+  border: var(--ddm-exam-bubble-line) solid var(--ddm-navy-300);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-caption);
+  line-height: 1;
+  color: var(--ddm-navy-400);
+  transition: background var(--duration-base) ease, border-color var(--duration-base) ease,
+    color var(--duration-base) ease;
+}
+
+.card:hover .bubble,
+.card:focus-visible .bubble {
+  background: var(--ddm-navy-900);
+  border-color: var(--ddm-navy-900);
+  color: var(--ddm-white);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-1) / 2);
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body);
+  line-height: 1.3;
+  color: var(--ddm-navy-900);
+}
+
+.meta {
+  font-size: var(--ddm-text-caption);
+  line-height: 1.35;
+  color: var(--ddm-gray-500);
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: var(--ddm-exam-dir-arrow);
+  height: var(--ddm-exam-dir-arrow);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-sky-ink);
+  transition: transform var(--duration-base) var(--ease-out-soft), background var(--duration-base) ease;
+}
+
+.card:hover .arrow,
+.card:focus-visible .arrow {
+  transform: translateX(var(--space-1));
+  background: var(--ddm-sky-soft);
+}
+
+@media (max-width: 1199px) {
+  .groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 699px) {
+  .groups {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+}

@@ -1,22 +1,19 @@
 import type { Metadata } from "next";
 
 import { SiteChrome } from "@/components/layout";
-import { Accordion } from "@/components/ui";
-import { BranchHero } from "./BranchHero";
-import { PageSection } from "./PageSection";
-import { ProseSection } from "./ProseSection";
-import { BulletPanel } from "./BulletPanel";
-import { FactCards } from "./FactCards";
-import { LinkRow } from "./LinkRow";
+import { Reveal } from "@/components/ui";
+import { ExamHero } from "./ExamHero";
+import { ExamRow } from "./ExamRows";
+import { ExamDirectory } from "./ExamDirectory";
 import { UniversityGrid } from "./UniversityGrid";
-import { UNIVERSITY_INDEX } from "@/data/universities";
-import { BranchDateRows } from "./BranchDateRows";
-import { ExamStructure } from "./ExamStructure";
 import { CtaBand } from "./CtaBand";
-import { EXAMS } from "@/data/exams";
-import { examHref, getExamPage, type ExamBlock, type ExamDef } from "@/lib/examContent";
+import { UNIVERSITY_INDEX } from "@/data/universities";
+import { EXAM_GUIDES } from "@/data/examGuides";
+import { getExamGlance } from "@/data/examGlance";
+import { examHref, getExamPage, type ExamDef } from "@/lib/examContent";
 import { absoluteUrl } from "@/lib/site";
-import type { Crumb, LinkRowItem } from "@/lib/types";
+import type { Crumb, NavLink } from "@/lib/types";
+import styles from "@/styles/ExamRows.module.css";
 
 /**
  * P2 — Sınav Hazırlık Kursu Ana sayfası (16 sınav). İki route bunu çağırır:
@@ -24,8 +21,11 @@ import type { Crumb, LinkRowItem } from "@/lib/types";
  * `app/sinav-hazirlik-egitimleri/proficiency-kursu/page.tsx` (statik klasör
  * dinamik segmenti ezdiği için ayrı dosya — plan §3).
  *
- * Bölüm sırası `data/exams.ts`teki blok sırasıdır; zemin açık/gri dönüşümlü.
- * CTA'lar 6.6 kararı: fiyat CTA'sı yok, "Bilgi Al" → `/ddm-iletisim`.
+ * UI turu (2026-09-28, kullanıcı: "A · optik form"): degrade hero + sağda cevap
+ * kâğıdı (`ExamHero`, bilgiler `data/examGlance.ts`); gövde tek beyaz zeminde
+ * satırlar (`ExamRows`: solda yapışkan başlık, sağda kısa cevap + kartlar);
+ * sonda tek gri bant (gruplu "diğer sınavlar" dizini `ExamDirectory` + iletişim). Bölüm sırası `data/exams.ts`teki
+ * blok sırasıdır. CTA'lar 6.6 kararı: fiyat CTA'sı yok, "Bilgi Al" → `/ddm-iletisim`.
  */
 
 const CONTACT_HREF = "/ddm-iletisim";
@@ -39,135 +39,16 @@ export function examMetadata(def: ExamDef): Metadata {
   };
 }
 
-function otherExamItems(current: ExamDef): LinkRowItem[] {
-  return EXAMS.filter((e) => e.slug !== current.slug).map((e) => ({
-    label: e.label,
-    href: examHref(e.slug),
-    icon: "belge",
-  }));
-}
-
-/** Zemin ritmi: hero'dan sonra gri ile başlayıp açık/gri dönüşümlü. Görünmez
- *  `drop` blokları sayılmaz — yoksa ritim kayıp iki gri bölüm yan yana gelir. */
-function blockGrounds(blocks: ExamBlock[]): ("light" | "gray")[] {
-  let visible = 0;
-  return blocks.map((b) => (b.kind === "drop" ? "light" : visible++ % 2 === 0 ? "gray" : "light"));
-}
-
-function renderBlock(block: ExamBlock, ground: "light" | "gray") {
-  switch (block.kind) {
-    case "prose":
-      return (
-        <ProseSection
-          key={block.id}
-          id={block.id}
-          ground={ground}
-          kicker={block.kicker}
-          title={block.title}
-          paragraphs={block.paragraphs}
-          format={block.format}
-        />
-      );
-    case "facts":
-      return block.cards ? (
-        <FactCards
-          key={block.id}
-          id={block.id}
-          ground={ground}
-          kicker={block.kicker}
-          title={block.title}
-          lead={block.lead}
-          cards={block.cards}
-        />
-      ) : (
-        <BulletPanel
-          key={block.id}
-          id={block.id}
-          ground={ground}
-          kicker={block.kicker}
-          title={block.title}
-          lead={block.lead}
-          icon={block.icon}
-          items={block.items}
-        />
-      );
-    case "branchLinks":
-      return (
-        <BranchDateRows
-          key={block.id}
-          id={block.id}
-          ground={ground}
-          kicker="ŞUBE VE KURS TARİHLERİ"
-          title={block.title}
-          lead={block.lead}
-          rows={block.rows}
-        />
-      );
-    case "structure":
-      // ExamStructure `#sinav-yapisi` çapasını kendisi taşır.
-      return (
-        <ExamStructure
-          key={block.id}
-          ground={ground}
-          title={block.title}
-          lead={block.lead}
-          sections={block.sections}
-          detailIds={block.sections.map(() => block.detailAnchor)}
-        />
-      );
-    case "merged":
-      return (
-        <ProseSection
-          key={block.id}
-          id={block.id}
-          ground={ground}
-          kicker={block.kicker}
-          title={block.title}
-          paragraphs={block.items}
-          format="list"
-        />
-      );
-    case "stats":
-      return (
-        <FactCards
-          key={block.id}
-          id={block.id}
-          ground={ground}
-          kicker={block.kicker}
-          title={block.title}
-          lead={block.lead}
-          cards={block.cards}
-        />
-      );
-    case "universities":
-      // Kendi başlığını ve `#universiteler` çapasını bileşen taşıyor.
-      return <UniversityGrid key={block.id} items={UNIVERSITY_INDEX} current="" />;
-    case "drop":
-      return null;
-    case "headingList":
-      return (
-        <ProseSection
-          key={block.id}
-          id={block.id}
-          ground={ground}
-          kicker={block.kicker}
-          title={block.title}
-          paragraphs={block.items.map((i) => (i.body ? `${i.label} — ${i.body}` : i.label))}
-          format="list"
-        />
-      );
-    case "faq":
-      return (
-        <PageSection key={block.id} id={block.id} ground={ground} kicker={block.kicker} title={block.title}>
-          <Accordion items={block.items} name={block.id} />
-        </PageSection>
-      );
-  }
+/** Sınavın "Nedir?" rehberi (P4) — kâğıdın altından bağlantı. */
+function guideLink(def: ExamDef): NavLink | null {
+  const guide = EXAM_GUIDES.find((g) => g.path.startsWith(`${examHref(def.slug)}/`));
+  return guide ? { label: `${def.name} nedir?`, href: guide.path } : null;
 }
 
 export function ExamCoursePage({ def }: { def: ExamDef }) {
   const page = getExamPage(def);
   const hasDates = page.blocks.some((b) => b.kind === "branchLinks");
+  const hasUniversities = page.blocks.some((b) => b.kind === "universities");
 
   const crumbs: Crumb[] = [
     { label: "Anasayfa", href: "/" },
@@ -175,39 +56,35 @@ export function ExamCoursePage({ def }: { def: ExamDef }) {
     { label: def.label },
   ];
 
-  const grounds = blockGrounds(page.blocks);
-  const blocks = page.blocks.map((b, i) => renderBlock(b, grounds[i]));
-  const lastVisible = [...page.blocks].map((b, i) => ({ b, g: grounds[i] })).filter((x) => x.b.kind !== "drop").pop();
-  const gray = lastVisible?.g === "gray";
-  const others = otherExamItems(def);
+  const guide = guideLink(def);
 
   return (
     <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
-      <BranchHero
+      <ExamHero
         crumbs={crumbs}
-        code={def.code}
-        illustration={def.illustration}
+        code={def.code ?? def.name}
         h1={page.h1}
         lead={page.heroLead}
         primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
         secondary={hasDates ? { label: "Kurs tarihleri", href: "#kurs-tarihleri" } : undefined}
+        glance={getExamGlance(def.slug)}
+        guide={guide}
       />
 
-      {blocks}
+      <Reveal className={styles.body}>
+        {page.blocks.map((b, i) => (
+          <ExamRow key={b.kind === "drop" ? `drop-${i}` : b.id} block={b} />
+        ))}
+      </Reveal>
 
-      {others.length > 0 && (
-        <LinkRow
-          ground={gray ? "light" : "gray"}
-          kicker="DİĞER SINAVLAR"
-          title="Sınav hazırlık kursları"
-          items={others}
-          density="cards"
-        />
-      )}
+      {/* Proficiency: 21 üniversite ızgarası (arama kutulu) satır düzenine sığmaz, tam genişlik. */}
+      {hasUniversities && <UniversityGrid items={UNIVERSITY_INDEX} current="" />}
+
+      <ExamDirectory current={def.slug} />
 
       <CtaBand
         id="kayit"
-        ground={others.length > 0 ? (gray ? "gray" : "light") : gray ? "light" : "gray"}
+        ground="gray"
         title={`${def.name} kursu hakkında bilgi alın`}
         sub="Size en yakın şubemizi seçin, eğitim danışmanlarımız program ve kurs tarihleri hakkında bilgi versin."
         primary={{ label: "Bilgi Al", href: CONTACT_HREF }}

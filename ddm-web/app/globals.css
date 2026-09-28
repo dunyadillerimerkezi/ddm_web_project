@@ -266,6 +266,18 @@ textarea {
   }
 }
 
+/* Sınav sayfası optik formu: cevap balonunun içi merkezden dolar (bir kez). */
+@keyframes ddmBubble {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

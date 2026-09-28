@@ -1,0 +1,331 @@
+/* ---------------------------------------------------------------
+ * ExamRows — Sınav Hazırlık gövdesi (UI turu 2026-09-28, "A · optik form").
+ * Tek beyaz zemin (gri/beyaz bant sırası yok); her blok bir satır: solda
+ * yapışkan kicker + başlık, sağda içerik. `SinglePage` satırıyla aynı ölçüler.
+ * ------------------------------------------------------------- */
+.body {
+  background: var(--ddm-white);
+  padding: var(--ddm-section-y) var(--ddm-gutter);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: var(--space-6) var(--space-16);
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.row + .row {
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
+  border-top: 1px solid var(--ddm-gray-divider);
+}
+
+/* Uzun satırda (SSS, aday grupları) başlık görünür kalır. */
+.ask {
+  position: sticky;
+  top: var(--ddm-sticky-top);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h2-xs);
+  line-height: 1.2;
+  letter-spacing: var(--ddm-tracking-h3);
+  color: var(--ddm-navy-900);
+  text-wrap: balance;
+}
+
+.askLead {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-gray-600);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+/* --- metin --- */
+.answer {
+  margin: 0;
+  max-width: 62ch;
+  padding-left: var(--space-5);
+  border-left: var(--ddm-answer-rule) solid var(--ddm-sky-mid);
+  font-size: var(--ddm-text-lead);
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--ddm-navy-800);
+}
+
+.text {
+  margin: 0;
+  max-width: 68ch;
+  font-size: var(--ddm-text-body-l);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-700);
+}
+
+.note {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-600);
+}
+
+/* Metindeki sayı + birim: altı açık mavi vurgulu, kalın. */
+.mark {
+  padding: 0 0.12em;
+  border-radius: var(--radius-flag);
+  background: linear-gradient(transparent 58%, var(--ddm-exam-mark) 58%);
+  color: var(--ddm-navy-900);
+  font-weight: 800;
+}
+
+/* --- açılır "Ayrıntılı bilgi" --- */
+.more {
+  border-top: 1px solid var(--ddm-gray-100);
+}
+
+.moreSummary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--ddm-touch-min);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-sky-ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.moreSummary::-webkit-details-marker {
+  display: none;
+}
+
+.moreCaret {
+  transition: transform var(--duration-base) var(--ease-out-soft);
+}
+
+.more[open] .moreCaret {
+  transform: rotate(180deg);
+}
+
+.moreBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-bottom: var(--space-2);
+}
+
+/* --- kartlar --- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--ddm-exam-card-min)), 1fr));
+  gap: var(--ddm-gap-card);
+}
+
+/* Sağ kolon en fazla iki kart sütunu alır; tek kalan kart satırı doldurur. */
+.cards > :last-child:nth-child(odd),
+.ticks > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: clamp(18px, 2.2vw, 24px);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  min-width: 0;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h5);
+  line-height: 1.3;
+  color: var(--ddm-navy-900);
+}
+
+.cardText {
+  margin: 0;
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-700);
+}
+
+/* Kısa madde → ikonlu seçenek kartı. */
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--ddm-exam-chip-min)), 1fr));
+  gap: var(--space-3);
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--ddm-sky-200);
+  background: var(--ddm-white);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body);
+  line-height: 1.35;
+  color: var(--ddm-navy-900);
+}
+
+.chipIcon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--ddm-exam-icon);
+  height: var(--ddm-exam-icon);
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-soft);
+  color: var(--ddm-sky-ink);
+}
+
+/* Uzun, başlıksız madde → işaretli satır kartı. */
+.ticks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--ddm-exam-card-min)), 1fr));
+  gap: var(--space-3);
+}
+
+.tick {
+  position: relative;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-10);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--ddm-gray-200);
+  background: var(--ddm-white);
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-700);
+}
+
+.tick::before {
+  content: "";
+  position: absolute;
+  left: var(--space-4);
+  top: calc(var(--space-4) + 0.5em);
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 3px solid var(--ddm-sky-base);
+}
+
+.bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.bullets li {
+  position: relative;
+  padding-left: var(--space-5);
+  font-size: var(--ddm-text-body);
+  line-height: var(--ddm-leading-body);
+  color: var(--ddm-gray-700);
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-base);
+}
+
+/* --- sekmeler (aday grupları) --- */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Sekmeler sığmazsa alt satıra geçer — yana kaydırma gizli kalırdı. */
+.tabList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tab {
+  flex: none;
+  min-height: var(--ddm-touch-min);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--ddm-gray-200);
+  background: var(--ddm-white);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-700);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+.tab:hover {
+  border-color: var(--ddm-sky-line);
+}
+
+.tab[aria-selected="true"] {
+  background: var(--ddm-navy-900);
+  border-color: var(--ddm-navy-900);
+  color: var(--ddm-white);
+}
+
+.tabPanel {
+  padding: clamp(18px, 2.4vw, 28px);
+  border-radius: var(--radius-xl);
+  background: var(--ddm-sky-bg);
+  animation: var(--kf-panel-in) var(--duration-base) var(--ease-out-soft);
+}
+
+@media (max-width: 999px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ask {
+    position: static;
+  }
+
+  .row + .row {
+    margin-top: var(--space-10);
+    padding-top: var(--space-10);
+  }
+}

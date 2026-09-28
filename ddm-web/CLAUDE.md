@@ -350,6 +350,16 @@ ddm-web/
 > - **Ana Sayfa hero'su (2026-09-26):** düz lacivert yerine gradient + yavaş ışık/harf/nokta zemini (`HeroBackdrop`),
 >   metnin sağında "selam bulutu" (`HeroLanguageArt`: cam balonlar sırayla belirir, 2 cam bilgi kartı; veriler
 >   `LANGUAGES` / `HOME_STATS`'tan). Mobilde (≤999) yalnız zemin.
+> - **Sınav Hazırlık (2026-09-28, "A · optik form"):** `ExamCoursePage` — degrade lacivert hero + sağda cevap kâğıdı
+>   (`ExamHero`: balonlar açılışta bir kez sırayla dolar, altında sınavın 3 bilgisi + kaynak satırı + varsa "{Sınav} nedir?"
+>   bağlantısı; mobilde balonsuz bilgi kartı). Kâğıt bilgileri `data/examGlance.ts` — GENEL bilgi, resmi kaynak yorumda,
+>   doğrulanamayan sınavda kayıt açılmaz (Proficiency, Fransızca aile birleşimi). Gövde tek beyaz zemin (`ExamRows`):
+>   her blok bir satır, solda yapışkan başlık; ilk paragraf ya da ilk cümle kalın kısa cevap, metindeki sayı + birim
+>   işaretli, 3 paragraftan fazlası "Ayrıntılı bilgi"de, metindeki soru satırı kart başlığı; kısa maddeler ikonlu
+>   seçenek kartı, uzun maddeler kart; grup başlıkları veride (`list.groups`, sekme ya da kart). Sonda tek gri bant:
+>   `ExamDirectory` — diğer sınavlar 4 grupta (`EXAM_GROUPS`, her sınav tam bir grupta, build denetler), kartta ad + kod ·
+>   kurum + ok; soldaki balon üzerine gelince dolar.
+>   Metin değişmez — yalnız bölünür / vurgulanır.
 
 > **P4 notu (2026-09-25):** Zengin İçerik için 3 taslak yön sunuldu, kullanıcı **"B · seviye merdiveni"**ni seçti.
 > Sistem: lacivert hero (sağda dilin şehri / sınav fotoğrafı, header'ın arkasından) → **1 baskın bölüm** (dilde

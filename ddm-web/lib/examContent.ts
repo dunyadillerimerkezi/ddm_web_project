@@ -38,6 +38,21 @@ import type { BranchDateRow } from "@/components/sections/BranchDateRows";
 
 type Take = SectionRef["take"];
 
+/**
+ * Liste bloğunun sayfadaki düzeni (UI turu 2026-09-28, "A · optik form"). Metne
+ * dokunmaz, yalnız satırların nasıl GRUPLANACAĞINI söyler. Verilmezse düzen
+ * satır uzunluğundan seçilir (bkz. `components/sections/ExamRows.tsx`).
+ */
+export type ListHint = {
+  /** Listenin başındaki açıklama satırı sayısı — madde değil, giriş paragrafı. */
+  lead?: number;
+  /** Grup başlığı olan satırlar: satırın kendisi ya da satırın başı ("X Adayları: …").
+   *  Satırlarda bulunmayan başlık build'i düşürür. */
+  groups?: string[];
+  /** Gruplar sekmeli mi (uzun maddeler), yan yana kartlarda mı (kısa). Varsayılan "columns". */
+  groupsAs?: "tabs" | "columns";
+};
+
 /** Düz metin bölümü — başlık + paragraflar (ya da madde listesi). */
 export type ProseBlockRef = {
   kind: "prose";
@@ -48,6 +63,7 @@ export type ProseBlockRef = {
   title?: string;
   take?: Take;
   format?: "prose" | "list";
+  list?: ListHint;
 };
 
 /**
@@ -80,7 +96,8 @@ export type BranchLinksBlockRef = {
   /** Başlığın altında link listesinden BAŞKA içerik de varsa (Proficiency'nin
    *  başarı tablosu) yalnız link satırları alınır. Varsayılan "all". */
   take?: Take;
-  /** Şube-dışı satır etiketi → href (ör. sayfa içi çapa). Yoksa null. */
+  /** Şube-dışı satır etiketi (görünmez yön karakterleri temizlenmiş) → href (ör. sayfa
+   *  içi çapa ya da P4'te yayınlanan Nedir / Özel Ders sayfası). Yoksa null. */
   extraHrefs?: Record<string, string>;
 };
 
@@ -114,6 +131,7 @@ export type MergedBlockRef = {
   kicker: string;
   title: string;
   lines: string[];
+  list?: ListHint;
 };
 
 /**
@@ -210,7 +228,15 @@ export type ExamDef = {
  * ------------------------------------------------------------- */
 
 export type ExamBlock =
-  | { kind: "prose"; id: string; kicker: string; title: string; paragraphs: string[]; format: "prose" | "list" }
+  | {
+      kind: "prose";
+      id: string;
+      kicker: string;
+      title: string;
+      paragraphs: string[];
+      format: "prose" | "list";
+      list: ListHint | null;
+    }
   | {
       kind: "facts";
       id: string;
@@ -224,7 +250,7 @@ export type ExamBlock =
     }
   | { kind: "branchLinks"; id: string; title: string; lead: string | null; rows: BranchDateRow[] }
   | { kind: "structure"; id: string; title: string; lead: string | null; sections: ExamSection[]; detailAnchor: string | null }
-  | { kind: "merged"; id: string; kicker: string; title: string; items: string[] }
+  | { kind: "merged"; id: string; kicker: string; title: string; items: string[]; list: ListHint | null }
   | { kind: "stats"; id: string; kicker: string; title: string; lead: string | null; cards: FactCard[] }
   | { kind: "universities"; id: string }
   | { kind: "drop" }
@@ -292,6 +318,20 @@ function slugifyId(s: string): string {
 
 export function examHref(slug: string): string {
   return `/${CATEGORY}/${slug}`;
+}
+
+/** Grup başlıkları gerçekten satırlarda var mı — sessizce düz listeye düşmesin. */
+function checkListHint(hint: ListHint | undefined, lines: string[], where: string): ListHint | null {
+  if (!hint) return null;
+  for (const head of hint.groups ?? []) {
+    if (!lines.some((l) => l === head || l.startsWith(`${head} `))) {
+      throw new ContentSectionsError(`${where}: grup başlığı satırlarda yok — "${head}"`);
+    }
+  }
+  if ((hint.lead ?? 0) >= lines.length) {
+    throw new ContentSectionsError(`${where}: lead ${hint.lead} satır, liste ${lines.length} satır — madde kalmıyor.`);
+  }
+  return hint;
 }
 
 function findRecord(slug: string): SiteContentRecord {
@@ -378,6 +418,7 @@ export function getExamPage(def: ExamDef): ExamPage {
           title: b.title ?? clean(b.heading),
           paragraphs,
           format: b.format ?? "prose",
+          list: checkListHint(b.list, paragraphs, `${context}/${slot}`),
         };
       }
       case "facts": {
@@ -422,7 +463,7 @@ export function getExamPage(def: ExamDef): ExamPage {
           if (!branch) {
             return {
               label: clean(line),
-              href: b.extraHrefs?.[line] ?? null,
+              href: b.extraHrefs?.[clean(line)] ?? null,
               meta: [],
               kind: "link",
               groupSize: null,
@@ -462,6 +503,12 @@ export function getExamPage(def: ExamDef): ExamPage {
         for (const r of rows) {
           if (!sameGroup && r.groupSize !== null) r.meta.push(`${r.groupSize} kişilik grup`);
           if (!sameMonths && r.months !== null) r.meta.push(`${String(r.months).replace(".", ",")} ay`);
+        }
+        // Çürümüş eşleme sessiz kalmasın: her extraHrefs anahtarı bir satırı bağlamalı.
+        for (const key of Object.keys(b.extraHrefs ?? {})) {
+          if (!lines.some((l) => clean(l) === key)) {
+            throw new ContentSectionsError(`${context}/${slot}: extraHrefs anahtarı satırlarda yok — "${key}"`);
+          }
         }
         return {
           kind: "branchLinks",
@@ -519,7 +566,14 @@ export function getExamPage(def: ExamDef): ExamPage {
             throw new ContentSectionsError(`${context}/${slot}: satır kaynakta yok — "${line}" (${b.sourcePath})`);
           }
         }
-        return { kind: "merged", id: slugifyId(b.title), kicker: b.kicker, title: b.title, items: [...b.lines] };
+        return {
+          kind: "merged",
+          id: slugifyId(b.title),
+          kicker: b.kicker,
+          title: b.title,
+          items: [...b.lines],
+          list: checkListHint(b.list, b.lines, `${context}/${slot}`),
+        };
       }
       case "stats": {
         const lead = take(b.heading, b.leadTake, `${slot}/lead`, false);

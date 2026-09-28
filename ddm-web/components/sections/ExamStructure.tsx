@@ -30,16 +30,23 @@ export function ExamStructure({
 }) {
   return (
     <PageSection id="sinav-yapisi" ground={ground} kicker="SINAV YAPISI" title={title} lead={lead}>
-      <div className={styles.grid}>
-        {sections.map((section, i) => (
-          <ExamSectionCard
-            key={section.name}
-            num={i + 1}
-            section={section}
-            anchor={detailIds[i] ? `#${detailIds[i]}` : null}
-          />
-        ))}
-      </div>
+      <ExamSectionGrid sections={sections} detailIds={detailIds} />
     </PageSection>
+  );
+}
+
+/** Kart ızgarasının kendisi — sınav sayfası satırı (`ExamRows`) bölüm kabuğu olmadan kullanır. */
+export function ExamSectionGrid({ sections, detailIds }: { sections: ExamSection[]; detailIds: (string | null)[] }) {
+  return (
+    <div className={styles.grid}>
+      {sections.map((section, i) => (
+        <ExamSectionCard
+          key={section.name}
+          num={i + 1}
+          section={section}
+          anchor={detailIds[i] ? `#${detailIds[i]}` : null}
+        />
+      ))}
+    </div>
   );
 }

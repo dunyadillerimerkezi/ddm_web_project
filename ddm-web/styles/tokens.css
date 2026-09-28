@@ -395,6 +395,7 @@
   --kf-glyph-rise: ddmGlyphRise;
   --kf-greet: ddmGreet;
   --kf-lift-in: ddmLiftIn; /* P5: seviye kartı açılışta bir kez yükselir */
+  --kf-bubble: ddmBubble; /* Sınav sayfası: optik formdaki cevap balonunun dolması */
   --float-shift: 8px; /* süzülme genliği */
 
   /* UI turu — fotoğraf/logo üstü okunabilirlik katmanları */
@@ -434,6 +435,32 @@
   --ddm-glass-shadow: 0 14px 34px rgba(8, 9, 30, 0.3);
   --ddm-panel-chip: rgba(255, 255, 255, 0.06); /* lacivert panelde hap bağlantı zemini */
   --ddm-panel-chip-line: rgba(255, 255, 255, 0.16);
+
+  /* Sınav Hazırlık sayfası (UI turu 2026-09-28, "A · optik form") — hero'da
+   * sağda cevap kâğıdı: balonlar açılışta bir kez sırayla dolar, altında
+   * sınavın üç temel bilgisi (`data/examGlance.ts`). */
+  --ddm-exam-hero-bg: linear-gradient(
+    135deg,
+    var(--ddm-navy-950) 0%,
+    var(--ddm-navy-900) 50%,
+    var(--ddm-navy-600) 100%
+  );
+  --ddm-exam-sheet-w: 420px; /* cevap kâğıdı kolonu */
+  --ddm-exam-sheet-tilt: -2deg; /* masaüstünde kâğıt hafif eğik durur */
+  --ddm-exam-bubble: 22px; /* cevap balonu çapı */
+  --ddm-exam-bubble-line: 1.5px; /* balon çerçevesi */
+  --ddm-touch-min: 44px; /* en küçük dokunma hedefi (sekme, açılır kutu, bağlantı) */
+  --ddm-exam-fact-value: clamp(24px, 2.4vw, 32px); /* kâğıttaki büyük rakam */
+  --ddm-exam-chip-min: 200px; /* program seçeneği kartı en dar genişlik */
+  --ddm-exam-card-min: 260px; /* bilgi kartı en dar genişlik */
+  --ddm-exam-icon: 40px; /* kart ikon kutusu */
+  --ddm-exam-dir-card-h: 64px; /* "Diğer sınavlar" kartı en az yükseklik (dokunma hedefi) */
+  --ddm-exam-dir-bubble: 30px; /* kartın solundaki cevap balonu */
+  --ddm-exam-dir-arrow: 30px; /* kartın sağındaki ok dairesi */
+  --ddm-exam-mark: var(--ddm-sky-200); /* metindeki rakamın altı çizgisi */
+  --duration-bubble: 0.42s; /* bir balonun dolması */
+  --delay-bubble-start: 0.35s; /* ilk balon, sayfa açıldıktan sonra */
+  --delay-bubble-step: 0.2s; /* balonlar arası */
 }
 
 /*

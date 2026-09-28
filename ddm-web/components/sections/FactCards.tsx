@@ -34,17 +34,24 @@ export function FactCards({
 }) {
   return (
     <PageSection id={id} ground={ground} kicker={kicker} title={title} lead={lead}>
-      <div className={styles.grid}>
-        {cards.map((c) => (
-          <article className={styles.card} key={c.label}>
-            <span className={styles.iconTile}>
-              <Icon name={c.icon} size={22} strokeWidth={1.7} />
-            </span>
-            <h3 className={styles.label}>{c.label}</h3>
-            <p className={styles.value}>{c.value}</p>
-          </article>
-        ))}
-      </div>
+      <FactCardGrid cards={cards} />
     </PageSection>
+  );
+}
+
+/** Kart ızgarasının kendisi — sınav sayfası satırı (`ExamRows`) bölüm kabuğu olmadan kullanır. */
+export function FactCardGrid({ cards }: { cards: FactCard[] }) {
+  return (
+    <div className={styles.grid}>
+      {cards.map((c) => (
+        <article className={styles.card} key={c.label}>
+          <span className={styles.iconTile}>
+            <Icon name={c.icon} size={22} strokeWidth={1.7} />
+          </span>
+          <h3 className={styles.label}>{c.label}</h3>
+          <p className={styles.value}>{c.value}</p>
+        </article>
+      ))}
+    </div>
   );
 }

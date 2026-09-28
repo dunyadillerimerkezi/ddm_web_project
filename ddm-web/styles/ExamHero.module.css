@@ -1,0 +1,192 @@
+/* ---------------------------------------------------------------
+ * ExamHero — Sınav Hazırlık hero'su (UI turu 2026-09-28, "A · optik form").
+ * Kabuk `PageHero.module.css`ten (kırıntı, ızgara, başlık, butonlar); burada
+ * yalnız degrade zemin ve sağdaki cevap kâğıdı.
+ * ------------------------------------------------------------- */
+.section {
+  background: var(--ddm-exam-hero-bg);
+  /* Degrade header'ın arkasındaki saydam kenarlıktan başlasın (globals.css). */
+  background-origin: border-box;
+}
+
+.grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--ddm-exam-sheet-w));
+}
+
+/* --- cevap kâğıdı --- */
+.sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-white);
+  box-shadow: var(--ddm-glass-shadow);
+  color: var(--ddm-gray-700);
+  rotate: var(--ddm-exam-sheet-tilt);
+  animation: var(--kf-lift-in) var(--duration-board) var(--ease-out-soft) both;
+}
+
+.sheetHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px dashed var(--ddm-gray-300);
+}
+
+.sheetCode {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-h5);
+  color: var(--ddm-navy-900);
+}
+
+.sheetIssuer {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-label);
+  letter-spacing: var(--ddm-tracking-label);
+  color: var(--ddm-sky-ink);
+}
+
+.bubbles {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.bubbleRow {
+  display: grid;
+  grid-template-columns: var(--space-5) repeat(5, var(--ddm-exam-bubble));
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rowNum {
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-label);
+  color: var(--ddm-gray-400);
+}
+
+.bubble {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--ddm-exam-bubble);
+  height: var(--ddm-exam-bubble);
+  border-radius: var(--radius-pill);
+  border: var(--ddm-exam-bubble-line) solid var(--ddm-navy-300);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-label);
+  line-height: 1;
+  color: var(--ddm-navy-300);
+}
+
+/* İşaretli şık: içi merkezden dolar — açılışta bir kez, satır satır. Hareket
+ * kapalıysa (globals.css reduced-motion) doğrudan dolu görünür. */
+.bubbleOn::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--ddm-exam-bubble-line));
+  border-radius: inherit;
+  background: var(--ddm-navy-900);
+  animation: var(--kf-bubble) var(--duration-bubble) var(--ease-out-soft)
+    calc(var(--delay-bubble-start) + var(--i) * var(--delay-bubble-step)) both;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+}
+
+/* Görsel sıra değer → etiket; HTML'de dt → dd (ekran okuyucu "soru: 80"). */
+.fact {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--ddm-sky-bg);
+}
+
+.factValue {
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-exam-fact-value);
+  line-height: 1.05;
+  letter-spacing: var(--ddm-tracking-h2);
+  color: var(--ddm-navy-900);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.factLabel {
+  font-size: var(--ddm-text-caption);
+  line-height: 1.3;
+  color: var(--ddm-gray-600);
+}
+
+.sheetFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.source {
+  font-size: var(--ddm-text-label);
+  color: var(--ddm-gray-500);
+}
+
+.guide {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--ddm-touch-min);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-sky-ink);
+  text-decoration: none;
+}
+
+.guide:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ≤999: kâğıt metnin altında, düz; balonlar yok — yalnız bilgi kartı. */
+@media (max-width: 999px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sheet {
+    rotate: none;
+    width: 100%;
+    max-width: var(--ddm-exam-sheet-w);
+  }
+
+  .bubbles {
+    display: none;
+  }
+}
+
+@media (max-width: 419px) {
+  .sheet {
+    padding: var(--space-4);
+  }
+
+  .fact {
+    padding: var(--space-2);
+  }
+}

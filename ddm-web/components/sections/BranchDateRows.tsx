@@ -42,40 +42,47 @@ export function BranchDateRows({
   lead?: string | null;
   rows: BranchDateRow[];
 }) {
+  return (
+    <PageSection id={id} ground={ground} kicker={kicker} title={title} lead={lead}>
+      <BranchDateList rows={rows} />
+    </PageSection>
+  );
+}
+
+/** Satır listesinin kendisi — sınav sayfası satırı (`ExamRows`) bölüm kabuğu olmadan kullanır. */
+export function BranchDateList({ rows }: { rows: BranchDateRow[] }) {
   // Linkli satırlar önce; hedefi olmayanlar listenin sonunda bekler.
   const ordered = [...rows].sort((a, b) => Number(b.href !== null) - Number(a.href !== null));
 
   return (
-    <PageSection id={id} ground={ground} kicker={kicker} title={title} lead={lead}>
-      <ul className={styles.list}>
-        {ordered.map((row) =>
-          row.href ? (
-            <li key={row.label}>
-              <Link href={row.href} className={styles.row}>
-                <span className={styles.rail} aria-hidden="true" />
-                <span className={styles.iconTile} aria-hidden="true">
-                  <Icon name={row.kind === "link" ? "belge" : "takvim"} size={22} strokeWidth={1.7} />
-                </span>
-                <span className={styles.text}>
-                  <span className={styles.label}>{row.label}</span>
-                  {row.meta.length > 0 && <span className={styles.meta}>{row.meta.join(" · ")}</span>}
-                </span>
-                <span className={styles.action}>
-                  {row.kind === "link" ? "İncele" : "Tarihleri gör"}
-                  <UiIcon name="arrowRight" size={16} />
-                </span>
-              </Link>
-            </li>
-          ) : (
-            <li key={row.label}>
-              <div className={styles.rowPending}>
+    <ul className={styles.list}>
+      {ordered.map((row) =>
+        row.href ? (
+          <li key={row.label}>
+            <Link href={row.href} className={styles.row}>
+              <span className={styles.rail} aria-hidden="true" />
+              <span className={styles.iconTile} aria-hidden="true">
+                <Icon name={row.kind === "link" ? "belge" : "takvim"} size={22} strokeWidth={1.7} />
+              </span>
+              <span className={styles.text}>
                 <span className={styles.label}>{row.label}</span>
-                <span className={styles.pendingNote}>Sayfa hazırlanıyor</span>
-              </div>
-            </li>
-          ),
-        )}
-      </ul>
-    </PageSection>
+                {row.meta.length > 0 && <span className={styles.meta}>{row.meta.join(" · ")}</span>}
+              </span>
+              <span className={styles.action}>
+                {row.kind === "link" ? "İncele" : "Tarihleri gör"}
+                <UiIcon name="arrowRight" size={16} />
+              </span>
+            </Link>
+          </li>
+        ) : (
+          <li key={row.label}>
+            <div className={styles.rowPending}>
+              <span className={styles.label}>{row.label}</span>
+              <span className={styles.pendingNote}>Sayfa hazırlanıyor</span>
+            </div>
+          </li>
+        ),
+      )}
+    </ul>
   );
 }

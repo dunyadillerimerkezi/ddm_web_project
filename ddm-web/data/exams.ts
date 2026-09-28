@@ -14,6 +14,9 @@
 
 import type { ExamDef } from "@/lib/examContent";
 
+/** P4'te yayınlanan alt sayfalar (Nedir / Özel Ders / Örnek Sorular) — `extraHrefs` hedefleri. */
+const SH = "/sinav-hazirlik-egitimleri";
+
 /* ---------------------------------------------------------------
  * TOEFL (pilot)
  * ------------------------------------------------------------- */
@@ -69,7 +72,11 @@ const TOEFL: ExamDef = {
         "TOEFL Sınav Stratejileri",
       ],
     },
-    { kind: "branchLinks", heading: "TOEFL eğitim programı ve kurs tarihlerini inceleyin" },
+    {
+      kind: "branchLinks",
+      heading: "TOEFL eğitim programı ve kurs tarihlerini inceleyin",
+      extraHrefs: { "TOEFL Nedir?": `${SH}/toefl-kursu/toefl-nedir` },
+    },
     {
       kind: "faq",
       title: "TOEFL IBT sınavı hakkında sık sorulanlar",
@@ -193,6 +200,13 @@ const TESTDAF: ExamDef = {
     // (başlık silinmiyor, H1 olarak duruyor — bu yalnız bölüm etiketi).
     { kind: "prose", heading: "TESTDAF Kursu", kicker: "SINAV HAKKINDA", title: "TestDaF sertifikası ve sınav yapısı", take: "rest" },
   ],
+  // UI turu (2026-09-28, kullanıcı: "düzelt"): sonuç bildirimi resmi TestDaF sayfasından.
+  edits: {
+    // testdaf.de FAQ: "Ihre TestDaF-Ergebnisse können Sie im g.a.s.t.-Teilnehmenden-Portal abrufen"
+    // (dijital ~3 hafta, kâğıt ~6 hafta). Belgenin postalandığı doğrulanamadı.
+    "TestDaF belgeniz size postalanacaktır, böylece Almanya seyahatinizden önce üniversite başvurusu için gerekli olan evraklarınızı da hazırlayabilir ve hem zamandan, hemde paradan tasarruf etmiş olursunuz.":
+      "TestDaF sonuçlarınızı sınavdan yaklaşık üç hafta sonra (kâğıt sınavda yaklaşık altı hafta) g.a.s.t. aday portalından görebilirsiniz; böylece Almanya seyahatinizden önce üniversite başvurusu için gerekli olan evraklarınızı da hazırlayabilir ve hem zamandan hem de paradan tasarruf etmiş olursunuz.",
+  },
   ignored: [],
 };
 
@@ -207,6 +221,24 @@ const TOEFL_PRIMARY: ExamDef = {
     { kind: "prose", heading: "Neden TOEFL Primary", kicker: "KİMLER İÇİN" },
     { kind: "prose", heading: "TOEFL Primary Nedir?", kicker: "SINAV HAKKINDA", format: "list" },
   ],
+  // UI turu (2026-09-28, kullanıcı: "düzelt"): eskimiş sınav bilgisi resmi ETS sayfalarından.
+  edits: {
+    // ETS (ets.org/toefl/primary): "ages 8+" — üst yaş sınırı yok.
+    "TOEFL Primary, Educational Testing Service’in uzun süredir üzerinde çalıştığı, 8-12 yaşları arasındaki ilkokul öğrencilerinin algı düzeylerine göre hazırlanmış olan bir sınav sistemidir.":
+      "TOEFL Primary, Educational Testing Service’in uzun süredir üzerinde çalıştığı, 8 yaş ve üzerindeki ilkokul öğrencilerinin algı düzeylerine göre hazırlanmış olan bir sınav sistemidir.",
+    "İlkokul 1.sınıftan 6. sınıfa kadar okuyan öğrencilere yönelik hazırlanmış olan İngilizce sınavıdır.":
+      "Başta ilkokul öğrencileri olmak üzere 8 yaş ve üzerindeki çocuklara yönelik hazırlanmış olan İngilizce sınavıdır.",
+    // ETS test-content: okuma ve dinleme (Step 1 / Step 2) + ayrı konuşma ve yazma testleri.
+    "TOEFL Primary testinde, öğrencilerin okuma, anlama ve dinleme alanlarındaki İngilizce dil yeterlilikleri ölçülmektedir.":
+      "TOEFL Primary testinde, öğrencilerin okuma ve dinleme alanlarındaki İngilizce dil yeterlilikleri ölçülmektedir; konuşma ve yazma becerileri için ayrı testler de bulunmaktadır.",
+    // ETS: okuma ve dinleme "paper or digitally delivered".
+    "Dinleme ve Okuma bölümleri kağıt üzerinde test edilmektedir.":
+      "Dinleme ve Okuma bölümleri kâğıt üzerinde ya da dijital olarak uygulanmaktadır.",
+    // ETS scoring-reporting: okuma/dinleme "scored locally by ETS Preferred Network offices",
+    // konuşma "scored at ETS by human raters", yazma otomatik puanlama.
+    "Sonuçlar, ETS tarafından eğitilmiş uzmanlar tarafından merkezi puanlama sistemiyle yapılmaktadır.":
+      "Okuma ve dinleme bölümleri ETS’nin yetkili temsilcilikleri tarafından, konuşma bölümü ETS’de eğitimli değerlendiriciler tarafından puanlanmaktadır.",
+  },
   ignored: [],
 };
 
@@ -236,7 +268,12 @@ const PROFICIENCY: ExamDef = {
         "Proficiency Kursu Eğitim Programı Plan Tablosu ve Dünya Dilleri Merkezi Şubeleri Kurs Tarihleri",
       // Bölümün ilk 8 satırı link listesi; kalanı 2018 başarı tablosu (aşağıda).
       take: [0, 1, 2, 3, 4, 5, 6, 7],
-      extraHrefs: { "Proficiency Sınavına Hazırladığımız Üniversiteler": "#universiteler" },
+      extraHrefs: {
+        "Proficiency Sınavına Hazırladığımız Üniversiteler": "#universiteler",
+        "Proficiency Nedir ?": `${SH}/proficiency-kursu/proficiency-nedir`,
+        "Proficiency Özel Ders Birebir Kurs Programları": `${SH}/proficiency-kursu/proficiency-ozel-ders`,
+        "Proficiency Örnek Sınav Soruları": `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari`,
+      },
     },
     {
       kind: "stats",
@@ -410,7 +447,11 @@ const GRE: ExamDef = {
       heading: "Sözlü Akıl Yürütme ve Nicel Akıl Yürütme Sorularının Değiştirilmiş Versiyonları",
       kicker: "SORU HAVUZU",
     },
-    { kind: "branchLinks", heading: "GRE Eğitim Programı Plan Tablosu ve Kurs Tarihleri" },
+    {
+      kind: "branchLinks",
+      heading: "GRE Eğitim Programı Plan Tablosu ve Kurs Tarihleri",
+      extraHrefs: { "GRE Nedir?": `${SH}/gre-kursu/gre-nedir` },
+    },
     {
       kind: "faq",
       title: "GRE sınavı hakkında sık sorulanlar",
@@ -473,7 +514,14 @@ const GMAT: ExamDef = {
     { kind: "prose", heading: "İki tür nicel sorusu vardır, problem çözme ve veri yeterliliği.", kicker: "NİCEL SORU TİPLERİ" },
     { kind: "prose", heading: "Sözel bölüm", kicker: "SÖZEL BÖLÜM" },
     { kind: "prose", heading: "GMAT Puanlama Sistemi", kicker: "PUANLAMA", take: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
-    { kind: "branchLinks", heading: "GMAT Eğitim Programı Plan Tablosu ve Kurs Tarihleri" },
+    {
+      kind: "branchLinks",
+      heading: "GMAT Eğitim Programı Plan Tablosu ve Kurs Tarihleri",
+      extraHrefs: {
+        "GMAT Nedir ?": `${SH}/gmat-kursu/gmat-nedir`,
+        "GMAT Özel Ders Birebir Kurs Programları": `${SH}/gmat-kursu/gmat-ozel-ders`,
+      },
+    },
     // Kaynaktaki sınav günü tablosu düz metne dönüşünce tek tek hücrelere
     // ayrılmış ("12", "Soru", "30 Dakika"…); aynı sayılar "GMAT Sınavı Dört
     // Bölümden Oluşur" bölümünde zaten cümle hâlinde var.
@@ -519,10 +567,29 @@ const TOEIC: ExamDef = {
         "TOEIC Sınav Stratejileri",
       ],
     },
-    { kind: "prose", heading: "TOEIC Sınavı’nın İçeriği Nedir?", kicker: "SINAV YAPISI", format: "list" },
-    { kind: "prose", heading: "TOEIC Nerede Kullanılır?", kicker: "KULLANIM ALANLARI", format: "list" },
+    {
+      kind: "prose",
+      heading: "TOEIC Sınavı’nın İçeriği Nedir?",
+      kicker: "SINAV YAPISI",
+      format: "list",
+      list: { groups: ["1. Bölüm: Dinleme", "2. Bölüm: Okuma"] },
+    },
+    {
+      kind: "prose",
+      heading: "TOEIC Nerede Kullanılır?",
+      kicker: "KULLANIM ALANLARI",
+      format: "list",
+      list: { groups: ["Kurumsal", "Dil okulları, üniversiteler", "Bireysel"] },
+    },
     { kind: "prose", heading: "TOEIC Test Formatı", kicker: "TEST FORMATI" },
-    { kind: "branchLinks", heading: "TOEIC Eğitim Programı Plan Tablosu ve Kurs Tarihleri" },
+    {
+      kind: "branchLinks",
+      heading: "TOEIC Eğitim Programı Plan Tablosu ve Kurs Tarihleri",
+      extraHrefs: {
+        "TOEIC Nedir ?": `${SH}/toeic-kursu/toeic-nedir`,
+        "TOEIC Özel Ders Birebir Kurs Programları": `${SH}/toeic-kursu/toeic-ozel-ders`,
+      },
+    },
     {
       kind: "prose",
       heading: "Türkiye’de TOEIC Sınavını Gerekli Gören Başlıca Kurumlar",
@@ -532,6 +599,8 @@ const TOEIC: ExamDef = {
       kind: "prose",
       heading: "TOEIC Sınav Merkezleri - Sınav Düzenleyen Kurumlar",
       kicker: "SINAV MERKEZLERİ",
+      // [1] eski sitenin e-posta gizleme uyarısı (`ignored`) — sayfaya düşüyordu.
+      take: [0, 2, 3, 4, 5, 6, 7, 8, 9],
       format: "list",
     },
   ],
@@ -602,7 +671,14 @@ const SAT: ExamDef = {
       ],
     },
     { kind: "prose", heading: "SAT SınavındaTahminde Bulunmanın Cezası Yok", kicker: "PUANLAMA" },
-    { kind: "branchLinks", heading: "SAT Eğitim Programı Plan Tablosu ve Kurs Tarihleri" },
+    {
+      kind: "branchLinks",
+      heading: "SAT Eğitim Programı Plan Tablosu ve Kurs Tarihleri",
+      extraHrefs: {
+        "SAT Nedir?": `${SH}/sat-kursu/sat-nedir`,
+        "SAT Özel Ders Birebir Kurs Programları": `${SH}/sat-kursu/sat-ozel-ders`,
+      },
+    },
     {
       kind: "faq",
       title: "SAT sınavı hakkında sık sorulanlar",
@@ -666,7 +742,23 @@ const YDS: ExamDef = {
       ],
     },
     { kind: "prose", heading: "YDS Hakkında Genel Bilgi?", kicker: "SINAV HAKKINDA" },
-    { kind: "prose", heading: "YDS'ye Kimler Girmelidir?", kicker: "KİMLER GİRMELİ", format: "list" },
+    {
+      kind: "prose",
+      heading: "YDS'ye Kimler Girmelidir?",
+      kicker: "KİMLER GİRMELİ",
+      format: "list",
+      // Kaynakta aday grubu başlıkları sıradan madde gibi duruyordu; sekme başlığı olur.
+      list: {
+        groups: [
+          "KPSS Lise Adayları:",
+          "KPSS Ön Lisans Adayları:",
+          "Üniversite 3 veya 4’üncü Sınıfta Okuyanlar:",
+          "KPSS Lisans Adayları:",
+          "KPSS A Grubu Adayları",
+        ],
+        groupsAs: "tabs",
+      },
+    },
     {
       kind: "headingList",
       kicker: "ADAY GRUPLARI",
@@ -681,7 +773,11 @@ const YDS: ExamDef = {
         "Yurt Dışında Bir Yükseköğretim Programını Bitirenler:",
       ],
     },
-    { kind: "branchLinks", heading: "YDS Eğitim Plan Tablosu ve Kurs Tarihleri" },
+    {
+      kind: "branchLinks",
+      heading: "YDS Eğitim Plan Tablosu ve Kurs Tarihleri",
+      extraHrefs: { "YDS Nedir?": `${SH}/yds-kursu/yds-nedir` },
+    },
     {
       kind: "faq",
       title: "YDS hakkında sık sorulanlar",
@@ -709,6 +805,10 @@ const YDS: ExamDef = {
     },
   ],
   edits: {
+    // Süre bayat: ÖSYM 2026 YDS ve e-YDS kılavuzları §1.12 "180 dakika" (bkz.
+    // data/examGuides.ts YDS kaynak yorumu). Hero'daki "bir bakışta" kâğıdı da 180 diyor.
+    "Sınav 80 sorudan oluşmaktadır. Yanlışlar doğruları götürmez ve soruları cevaplandırmanız için size tanınan süre 150 dakikadır. Her doğru cevap 1.25’lik bir puan seviyesine karşılık gelmektedir. Sınava herkes başvuru yapabilir.":
+      "Sınav 80 sorudan oluşmaktadır. Yanlışlar doğruları götürmez ve soruları cevaplandırmanız için size tanınan süre 180 dakikadır. Her doğru cevap 1.25’lik bir puan seviyesine karşılık gelmektedir. Sınava herkes başvuru yapabilir.",
     // 2020 takvimi bayat. Klasik YDS yılda iki kez (ilkbahar/sonbahar),
     // e-YDS ise yıl içinde aylık oturumlarla yapılıyor.
     "2020 yılı Yabancı Dil Bilgisi Seviye Tespit Sınavı İlkbahar Dönem12 Nisan 2020 tarihinde yapılacaktır.":
@@ -761,9 +861,31 @@ const IELTS: ExamDef = {
     { kind: "prose", heading: "IELTS (International English Language Testing System)", kicker: "SINAV HAKKINDA" },
     { kind: "prose", heading: "Akademik IELTS", kicker: "AKADEMİK IELTS" },
     { kind: "prose", heading: "Genel IELTS", kicker: "GENEL IELTS", take: [0] },
-    { kind: "prose", heading: "Genel IELTS", kicker: "SINAV BÖLÜMLERİ", title: "IELTS bölümleri, süreleri ve soru sayıları", take: [1, 2, 3, 4, 5, 6, 7, 8], format: "list" },
-    { kind: "prose", heading: "Genel IELTS", kicker: "SINAV GÜNÜ", title: "Sınav günü ve fotoğraf kuralları", take: "rest", format: "list" },
-    { kind: "branchLinks", heading: "IELTS Eğitim Programı ve Kurs Tarihleri Hakkında Bilgi" },
+    {
+      kind: "prose",
+      heading: "Genel IELTS",
+      kicker: "SINAV BÖLÜMLERİ",
+      title: "IELTS bölümleri, süreleri ve soru sayıları",
+      take: [1, 2, 3, 4, 5, 6, 7, 8],
+      format: "list",
+      list: { lead: 1 },
+    },
+    {
+      // UI turu (2026-09-28): önceden `take: "rest"` idi ve yukarıdaki 8 satırı
+      // (bölümler) burada İKİNCİ kez basıyordu.
+      kind: "prose",
+      heading: "Genel IELTS",
+      kicker: "SINAV GÜNÜ",
+      title: "Sınav günü ve fotoğraf kuralları",
+      take: [9, 10, 11, 12, 13, 14, 15, 16, 17],
+      format: "list",
+      list: { lead: 4 },
+    },
+    {
+      kind: "branchLinks",
+      heading: "IELTS Eğitim Programı ve Kurs Tarihleri Hakkında Bilgi",
+      extraHrefs: { "IELTS Nedir?": `${SH}/ielts-kursu/ielts-nedir` },
+    },
     {
       kind: "faq",
       title: "IELTS hakkında sık sorulanlar",
@@ -789,6 +911,7 @@ const AILE_BIRLESIMI: ExamDef = {
       kicker: "KURS SONUNDA",
       title: "Kurs sonunda neler yapabileceksiniz?",
       format: "list",
+      list: { lead: 1 },
     },
     {
       kind: "prose",
@@ -841,7 +964,12 @@ const AILE_BIRLESIMI: ExamDef = {
         "Almanya’daki evin kira sözleşmesi",
       ],
     },
-    { kind: "branchLinks", heading: "Almanca Aile Birleşimi A1 Kursu Eğitim Plan Tablosu ve Kurs Tarihleri", take: [0, 1, 2, 3, 4] },
+    {
+      kind: "branchLinks",
+      heading: "Almanca Aile Birleşimi A1 Kursu Eğitim Plan Tablosu ve Kurs Tarihleri",
+      take: [0, 1, 2, 3, 4],
+      extraHrefs: { "A1 Sınav Örneği": `${SH}/aile-birlesimi-egitimi/a1-sinav-ornegi` },
+    },
     {
       kind: "prose",
       heading: "Almanca Aile Birleşimi A1 Kursu Eğitim Plan Tablosu ve Kurs Tarihleri",
@@ -859,6 +987,17 @@ const AILE_BIRLESIMI: ExamDef = {
     },
   ],
   edits: {
+    // Goethe (Prüfungsziele A1 SD1, 2022): "Die Teilnahme ist nicht an den Besuch eines Sprachkurses gebunden."
+    // Uyum Yasası 2007'de çıktı ("yeni" değil). Kullanıcı kararı 2026-09-28: sınav bilgisi düzeltilir.
+    "Almanya’da veya Hollanda’da yaşayan biriyle (Türk, Alman ya da Hollanda vatandaşı olması fark etmiyor) evlenen her Türk vatandaşı yeni çıkan ‘Uyum Yasası’ gereği Almanya’ya veya Hollanda’ya gitmeden önce bir başlangıç (A1) seviyesinde Almanca / Hollandaca aile birleşimi kursuna gitmek zorundadır.":
+      "Almanya’da veya Hollanda’da yaşayan biriyle (Türk, Alman ya da Hollanda vatandaşı olması fark etmiyor) evlenen her Türk vatandaşı, 2007'de yürürlüğe giren ‘Uyum Yasası’ gereği Almanya’ya veya Hollanda’ya gitmeden önce başlangıç (A1) seviyesinde Almanca / Hollandaca bildiğini belgelemek zorundadır. Bunun için bir kursa katılmak şart değildir; belge, dil sınavı geçilerek alınır.",
+    // Almanya temsilcilikleri (tuerkei.diplo.de, aile birleşimi vizesi): Goethe "Start Deutsch 1" ve ÖSD
+    // "Grundstufe Deutsch 1" kabul, belge başvuruda 12 aydan eski olmamalı. "Yalnız 3 şehir" doğrulanamadı.
+    "Kursu bitirdikten sonra sadece İstanbul, Ankara ve İzmir’de merkezi sistem yapılan Almanca / Hollandaca dil yeterlilik sınavına girerek 100 üzerinden 60 puan almak zorundadır. Ancak bu sınavı geçen kişiler konsolosluğa aile birleşimi vize başvurusunda bulunabilirler.":
+      "Almanca için geçerli belgeler Goethe-Institut’un Start Deutsch 1 ve ÖSD’nin Grundstufe Deutsch 1 sınavlarıdır; sınavı geçmek için 100 üzerinden en az 60 puan gerekir ve belge, vize başvurusu sırasında 12 aydan eski olmamalıdır. Ancak bu sınavı geçen kişiler konsolosluğa aile birleşimi vize başvurusunda bulunabilirler.",
+    // ALG II 2023'te kalktı; yaptırım bugün SGB II § 31a: kademeli 10 / 20 / 30, toplamda en fazla %30.
+    "Devamsızlık durumunda belli bir yaptırım uygulanması konusunda da tek tip uygulama yolu seçilmiştir. Dolayısıyla kursa, \"öngörülen şekilde\" katılmama durumunda işsizlik parası (ALG II) yüzde 30 oranında kesilebilir.":
+      "Devamsızlık durumunda belli bir yaptırım uygulanması konusunda da tek tip uygulama yolu seçilmiştir. Dolayısıyla kursa, \"öngörülen şekilde\" katılmama durumunda iş arayanlara verilen temel gelir desteği (SGB II) kademeli olarak, en fazla yüzde 30 oranında kesilebilir.",
     // 25 DM: Alman Markı 2002'de kalktı; güncel harç tutarı konsoloslukta.
     "Boşanmış ise boşanma kararının (Rechtsfähiges Scheidungsurteil) tercümesi (Bu belge için su anda 25,- DM harç parası alınmaktadır.) ve Apostille":
       "Boşanmış ise boşanma kararının (Rechtskräftiges Scheidungsurteil) tercümesi ve apostili. Bu belge için alınan harç tutarını ilgili konsolosluktan teyit etmeniz gerekir.",
@@ -868,6 +1007,23 @@ const AILE_BIRLESIMI: ExamDef = {
 
 /** Üretilen sınav sayfaları — sıra "diğer sınavlar" ızgarasının sırasıdır. */
 export const EXAMS: ExamDef[] = [TOEFL, IELTS, PROFICIENCY, GRE, GMAT, SAT, YDS, TOEIC, AILE_BIRLESIMI, PTE, FRANSIZCA_AILE, YOKDIL, TOEFL_ESSENTIALS, INGILTERE_VIZE, TESTDAF, TOEFL_PRIMARY];
+
+/**
+ * "Diğer sınavlar" dizininin grupları (UI turu 2026-09-28). Başlıklar arayüz etiketi;
+ * her sınav tam bir grupta olmalı — eksik / fazla slug `ExamDirectory`de build'i düşürür.
+ */
+export const EXAM_GROUPS: { title: string; slugs: string[] }[] = [
+  {
+    title: "Uluslararası İngilizce sınavları",
+    slugs: ["toefl-kursu", "ielts-kursu", "academic-pte", "toeic-kursu", "toefl-essentials-kursu", "cocuklar-icin-toefl-primary-egitimi"],
+  },
+  { title: "Türkiye'deki sınavlar", slugs: ["yds-kursu", "yokdil-sinavi-kursu", "proficiency-kursu"] },
+  { title: "Yurt dışında üniversite", slugs: ["sat-kursu", "gre-kursu", "gmat-kursu", "testdaf-kursu"] },
+  {
+    title: "Vize ve aile birleşimi",
+    slugs: ["ingiltere-vize-sinavi-ingilizce-a1kursu", "aile-birlesimi-egitimi", "fransizca-aile-birlesimi-kursu"],
+  },
+];
 
 export function getExamDef(slug: string): ExamDef | undefined {
   return EXAMS.find((e) => e.slug === slug);

@@ -25,6 +25,22 @@
    daha belirgin görünme). Şimdi mi, P9'da mı?
 8. **Commit** — 4 sayfa şimdi mi commit'lensin (kod + döküman ayrı), Ümraniye bitince mi?
 
+## UI turu · Sınav Hazırlık (2026-09-28) — firma metni, araştırmada çelişki çıktı
+
+Kaynaklar `data/examGlance.ts` yorumlarında. Firmaya ait / kursu tanıtan cümleler olduğu için dokunulmadı.
+
+1. **Fransızca Aile Birleşimi** (Sınav Hazırlık → Fransızca Aile Birleşimi) — sayfa "Türkiye Cumhuriyeti vatandaşları Fransız
+   temsilciliklerinde Fransızcaya … ilişkin bilgileri sınanmaktadır … olumsuz olması halinde 2 ay dil ve uyum kursuna tabi
+   tutulmaktadırlar" diyor. Bu sınav 2016'da kalktı (loi 2016-274 art. 20); 2024 yasasındaki geri getirme maddesi Anayasa
+   Konseyi'nce iptal edildi. Bugün dil şartı Fransa'ya VARDIKTAN sonra: çok yıllık kart için A2, 10 yıllık kart için B1
+   (TCF / TEF / DELF). Kurs A2/B1 hazırlığı olarak mı anlatılsın, sayfa yayından mı kalksın? "Kabul ve Uyum Kontratı",
+   "15-65 yaş", "Aile Birleşimi sertifikası" ifadeleri de eskimiş. **Kullanıcı (2026-09-28): "not al" — karar bekliyor,
+   metin aynen duruyor.**
+2. **TOEFL Essentials** — "%50 akademik, %50 günlük" oranı ETS'de bulunamadı (sayfada kaldı).
+
+> Çözüldü (2026-09-28, kullanıcı: "düzelt"): Almanca aile birleşimi (kurs zorunlu değil, Start Deutsch 1 / ÖSD, 12 ay, SGB II),
+> TOEFL Primary (8 yaş+, kâğıt ya da dijital, konuşma / yazma testleri, puanlama), TestDaF (sonuç portalda) — `data/exams.ts` `edits`.
+
 ## Önceki fazlardan açık kalanlar
 
 - İngilizce Kursları ana sayfasında B2 "İleri Seviye İngilizce" etiketi ("şimdilik kalsın" denmişti)

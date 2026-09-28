@@ -83,6 +83,25 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P6. Commit'i kul
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+### 2026-09-28 · Opus 5.5 · UI turu — Sınav Hazırlık (16 sayfa, "A · optik form") — commit bekliyor
+- **Sorun (kullanıcı):** "başlık ve yazı hep tek düze, hareket yok, okuyası gelmiyor". Teşhis: metin sol yarıda, 11 bölüm aynı
+  kalıp + gri/beyaz bant, madde duvarları, önemli rakamlar paragrafta gömülü, her sınavda aynı bina çizimi.
+- **Karar (kullanıcı):** 3 yön (A optik form / B hedef puan yolu / C sınav panosu) → **A**. "Bilgi yetersizse internetten araştır;
+  firmayı etkileyen içeriği bozma."
+- **Yeni:** `ExamHero` (+ `data/examGlance.ts`, 14 sınav; 7'si bu turda resmi kaynaktan doğrulandı: YÖKDİL, TOEFL Essentials,
+  IELTS Life Skills A1, TestDaF, TOEFL Primary, Start Deutsch 1), `ExamRows` / `ExamText` / `ExamTabs`; `FactCardGrid`,
+  `ExamSectionGrid`, `BranchDateList` ilgili bileşenlerden ayrıldı (dış görünüm aynı). `ListHint` (`lead` / `groups` / `groupsAs`).
+  Token: `--ddm-exam-*`, `--ddm-touch-min`, `--duration-bubble`, `--delay-bubble-*`, `--kf-bubble` (+ `ddmBubble`).
+- **Düzeltilen hatalar:** IELTS "Sınav günü" bölümü bölüm bilgilerini ikinci kez basıyordu · TOEIC'te Joomla e-posta uyarısı
+  sayfadaydı · 14 "Nedir / Özel Ders / Örnek Sorular" satırı "Sayfa hazırlanıyor" diyordu (P4'te yayınlanmışlardı) →
+  `extraHrefs` + kullanılmayan anahtar build'i düşürür · YDS "150 dakika" → 180 (ÖSYM 2026, `edits`).
+- **Devamı (kullanıcı):** "Diğer sınavlar" kartları → `ExamDirectory` (4 grup, `EXAM_GROUPS`; `LinkRow` sınav sayfasından çıktı).
+  Almanca aile birleşimi (kurs zorunlu değil · Start Deutsch 1 / ÖSD · 12 ay · SGB II), TOEFL Primary (8 yaş+, kâğıt ya da
+  dijital, konuşma / yazma testleri, puanlama), TestDaF (sonuç portalda) `edits` ile düzeltildi.
+- **Açık:** Fransızca aile birleşimi (başvuru öncesi sınav 2016'da kalktı — kullanıcı "not al") · TOEFL Essentials "%50/%50"
+  → `bekleyen-sorular.md`.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ 206 · 16 sayfa × 1440/390/360: taşma yok, tek H1, konsol / 4xx yok.
+
 ### 2026-09-28 · Opus 5.5 · UI turu — Şube İletişim (hub + 5 şube) — commit bekliyor
 - **Sorun:** şube sayfalarında boş "sube-foto" / "sube-harita" yer tutucuları, şubeyle ilgisiz takvim çizimi, harita / ulaşım /
   WhatsApp numarası yok; hub'da fotoğrafsız kartlar, Ümraniye tek başına alt satırda, "Kayıt Ol" → `#kayit` ölü çapa.
