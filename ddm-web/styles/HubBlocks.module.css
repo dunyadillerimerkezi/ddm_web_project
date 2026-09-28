@@ -101,13 +101,16 @@
 }
 
 /* Yatay ray: grupların noktalarını birleştirir */
+/* Çizgi noktaların merkezinden geçer: başlık satırı sabit yükseklikte
+ * (--ddm-rail-head-h), nokta o satırda dikey ortalı → merkez = yüksekliğin yarısı.
+ * Soldan ilk noktanın merkezinde başlar, sağda kartların kenarında biter. */
 .rail::before {
   content: "";
   position: absolute;
-  top: 11px;
-  left: 12px;
-  right: 12px;
-  height: 3px;
+  top: calc((var(--ddm-rail-head-h) - var(--ddm-rail-line)) / 2);
+  left: calc(var(--ddm-rail-dot) / 2);
+  right: 0;
+  height: var(--ddm-rail-line);
   border-radius: var(--radius-pill);
   background: linear-gradient(90deg, var(--ddm-sky-line) 0%, var(--ddm-primary) 100%);
 }
@@ -118,19 +121,26 @@
 }
 
 .railHead {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
+  align-content: flex-start;
+  min-height: var(--ddm-rail-head-h);
   gap: var(--space-2) var(--space-3);
   margin-bottom: var(--space-5);
+  /* Çizgi yazının arkasında kesilir (üstü çizili görünmesin) — bölüm zemini beyaz. */
+  padding-right: var(--space-4);
+  background: var(--ddm-white);
 }
 
 .railDot {
   position: relative;
-  width: 25px;
-  height: 25px;
+  width: var(--ddm-rail-dot);
+  height: var(--ddm-rail-dot);
   flex: none;
-  align-self: center;
   border: 4px solid var(--ddm-white);
   border-radius: var(--radius-pill);
   background: var(--ddm-primary);
@@ -141,6 +151,7 @@
   font-family: var(--ddm-font-heading);
   font-size: var(--ddm-text-h3);
   font-weight: 800;
+  line-height: var(--ddm-rail-head-h);
   color: var(--ddm-navy-900);
 }
 
@@ -401,11 +412,11 @@
 
   /* Dikey ray */
   .rail::before {
-    top: 12px;
-    bottom: 12px;
-    left: 11px;
+    top: calc(var(--ddm-rail-head-h) / 2);
+    bottom: 0;
+    left: calc((var(--ddm-rail-dot) - var(--ddm-rail-line)) / 2);
     right: auto;
-    width: 3px;
+    width: var(--ddm-rail-line);
     height: auto;
     background: linear-gradient(180deg, var(--ddm-sky-line) 0%, var(--ddm-primary) 100%);
   }

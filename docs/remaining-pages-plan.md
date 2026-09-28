@@ -65,7 +65,7 @@
 | **PM** | Menü / gezinme düzeltmesi (`lib/nav.ts`) | — | — | S | ✅ tamam (2026-09-23) |
 | **P3** | Kategori Hub'ları | 6–7 | — | S | P2 / P4 ile birlikte |
 | **P4** | Zengin İçerik Alt Sayfa | ~78 | 29 (`has: query`) | L | §3 route işi, karar #1 |
-| **P5** | İngilizce Seviye Kursu | 11 | — | S–M | Dil Kursu şablonu |
+| **P5** | İngilizce Seviye Kursu | 9 (+2 → 301) | 1 (konuşma) | S–M | ✅ tamam (2026-09-28) |
 | **P6** | Şube Tanıtım | 4 | — | M | P1, karar #5 |
 | **P7** | Öğrenci Yorumu + Duyuru | 51 + 12 + 2 liste | 10 (`?start=`) | M | Karar #2 |
 | **P8** | Faz 8 SEO taşıma + 6.7 Temizlik | — | genel kural | L | Hepsi |
@@ -586,7 +586,26 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
 - **Skill:** `frontend-design:frontend-design`, `programmatic-seo`, `code-review`
   (dağıtıcı değişikliği riskli), `run`.
 
-### P5 — İngilizce Seviye Kursu  ⏳ (S–M)
+### P5 — İngilizce Seviye Kursu  ✅ tamam (2026-09-28, commit'i kullanıcı yapacak)
+
+> **Sonuç (2026-09-27/28, Opus 5.5):** 9 sayfa. Aşama 0: 18 satırlık eski site şablonu 9 sayfada birebir (özgün metin
+> 126–309 kelime), başlık hiyerarşisi bozuk (düzeltildi: bölümler h2), program listesindeki "Konuşma" linki yanlış hedefe.
+> Kararlar (kullanıcı): konuşma kursu → Dil Kursu konuşma sayfasına 301 (ilk paragraf + saat tablosu aynı, saatler çelişkili) ·
+> C2 sayfası yok (DDM: "Advanced (C1 – C2)", 5 kur) · B2 "Orta İleri Seviye" · yanlış genel bilgi düzeltildi (B2 IELTS 7.0 → 6.5,
+> FCE/CAE → B2 First / C1 Advanced, makine çevirisi terimleri) · tasarım **B · seviye kartı** (3 yön taslağı: cetvel / kart /
+> önce-şimdi-sonra) · hedef kitle ayrı kart ailesi · hub'daki B2 etiketi "şimdilik kalsın".
+> Sistem: seviye sayfası = açık hero + seviye kartı (kod, kelime / IELTS / Cambridge / kur, önceki · sonraki) → "neler
+> yapabilirsiniz" 4 fotoğraflı beceri kartı (CEFR) → [Neden B2/C1] → Çalışma Teknikleri (numaralı + DDM paneli) → Nedir
+> (kaynak cümle kartları + madde kutusu + renkli komşu seviye tablosu, ders saati çubuğu) → SSS + kaynaklar → gri bant (şubeler +
+> program listesi) → CTA; solda yapışkan merdiven (mobilde düğme şeridi). Hedef kitle: lacivert fotoğraflı hero → program
+> şeridi → açık mavi baskın panel (İlköğretim kartlar · Üniversite 6 adım · YKS soru dağılımı çubukları · Yaz Okulu büyük
+> rakamlar) → destek bölümleri (MEB tablosu / YÖK muafiyet kartları / YDT bir bakışta / konu etiketleri) → SSS → ortak bant.
+> Altyapı: `createGuideResolver` + `resolveTemplate` (şablon) + `takeTemplateCta` + tam sayı rakam bekçisi.
+> **P5'te öğrenilenler:** (1) H1 metni bir liste satırıyla aynıysa ayrıştırıcı onu başlık sayar ve listeyi böler — `resolveTemplate`
+> birleştiriyor. (2) "2. Dil" gibi sıra sayıları `sentencesOf`'ta cümle sonu sayılıyor → cümle aralığı ([1, 3]) ile al.
+> (3) Degrade zeminli ilk bölümde `background-origin: border-box` gerekir; yoksa header arkasındaki saydam üst kenarlıkta
+> degrade tekrarlanıp beyaz şerit görünür. (4) Rakam bekçisi alt dize değil tam sayı eşleşmeli ("5" ≠ "15").
+
 - **Kapsam (11):**
   - seviye: `elementary`, `pre-intermediate`, `intermediate`, `upper-intermediate`, `advanced`
     (`-ingilizce-kursu` ekiyle)

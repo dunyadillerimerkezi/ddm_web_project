@@ -42,7 +42,7 @@ export type GuidePage = {
 export type GuideSectionResolved = GuidePage["sections"][number];
 
 /** Cümle sonu: ". " + büyük harf ya da rakam. */
-function sentencesOf(line: string): string[] {
+export function sentencesOf(line: string): string[] {
   return line.split(/(?<=[.!?])\s+(?=[A-ZÇĞİÖŞÜ0-9])/u);
 }
 

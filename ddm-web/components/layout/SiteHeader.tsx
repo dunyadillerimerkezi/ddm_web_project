@@ -214,26 +214,58 @@ export function SiteHeader({ ctaLabel = "Kayıt Ol", ctaHref = "#kayit" }: SiteH
             onMouseEnter={cancelClose}
             onMouseLeave={scheduleClose}
           >
-            {navItems.map((item) => (
-              <button
-                key={item.key}
-                type="button"
-                className={`${styles.navButton} ${openKey === item.key ? styles.navButtonOpen : ""}`}
-                aria-expanded={openKey === item.key}
-                aria-haspopup="true"
-                onClick={() => {
-                  cancelClose();
-                  setOpenKey((k) => (k === item.key ? null : item.key));
-                }}
-                onMouseEnter={() => {
-                  cancelClose();
-                  setOpenKey(item.key);
-                }}
-              >
-                {item.short}
-                <UiIcon name="caretDown" size={10} strokeWidth={1.6} />
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const open = openKey === item.key;
+              const toggle = () => {
+                cancelClose();
+                setOpenKey((k) => (k === item.key ? null : item.key));
+              };
+              const hover = () => {
+                cancelClose();
+                setOpenKey(item.key);
+              };
+              /*
+               * Kullanıcı isteği (2026-09-28): başlığa basınca kategori sayfasına
+               * gidilir (menüdeki "Keşfet" bağlantısıyla aynı hedef). Menü üzerine
+               * gelince açılmaya devam eder; klavye ve dokunmatik için yanındaki
+               * ok ayrı bir düğme. Sayfası henüz yoksa başlık eskisi gibi düğme.
+               */
+              const href = item.promoLink.href;
+              return href ? (
+                <div
+                  key={item.key}
+                  className={`${styles.navItem} ${open ? styles.navItemOpen : ""}`}
+                  onMouseEnter={hover}
+                >
+                  <Link className={styles.navLink} href={href} onClick={() => setOpenKey(null)}>
+                    {item.short}
+                  </Link>
+                  <button
+                    type="button"
+                    className={styles.navCaret}
+                    aria-expanded={open}
+                    aria-haspopup="true"
+                    aria-label={`${item.short} menüsü`}
+                    onClick={toggle}
+                  >
+                    <UiIcon name="caretDown" size={10} strokeWidth={1.6} />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  key={item.key}
+                  type="button"
+                  className={`${styles.navButton} ${open ? styles.navButtonOpen : ""}`}
+                  aria-expanded={open}
+                  aria-haspopup="true"
+                  onClick={toggle}
+                  onMouseEnter={hover}
+                >
+                  {item.short}
+                  <UiIcon name="caretDown" size={10} strokeWidth={1.6} />
+                </button>
+              );
+            })}
           </nav>
 
           <Link className={styles.cta} href={ctaHref}>
@@ -410,24 +442,42 @@ export function SiteHeader({ ctaLabel = "Kayıt Ol", ctaHref = "#kayit" }: SiteH
               <div className={styles.drawerScroll}>
                 {navItems.map((item) => {
                   const tabOpen = drawerTab === item.key;
+                  const toggleTab = () => {
+                    setDrawerTab((k) => (k === item.key ? null : item.key));
+                    setDrawerNode(null);
+                  };
                   return (
                     <div className={styles.drawerGroup} key={item.key}>
-                      <button
-                        type="button"
-                        className={styles.drawerTop}
-                        aria-expanded={tabOpen}
-                        onClick={() => {
-                          setDrawerTab((k) => (k === item.key ? null : item.key));
-                          setDrawerNode(null);
-                        }}
-                      >
-                        {item.short}
-                        <span
-                          className={`${styles.drawerCaret} ${tabOpen ? styles.drawerCaretOpen : ""}`}
-                        >
-                          <UiIcon name="caretDown" size={12} strokeWidth={1.8} />
-                        </span>
-                      </button>
+                      {item.promoLink.href ? (
+                        // Başlık kategori sayfasına gider, sağdaki ok alt başlıkları açar.
+                        <div className={styles.drawerTopRow}>
+                          <Link className={styles.drawerTopLink} href={item.promoLink.href} onClick={closeDrawer}>
+                            {item.short}
+                          </Link>
+                          <button
+                            type="button"
+                            className={styles.drawerTopToggle}
+                            aria-expanded={tabOpen}
+                            aria-label={`${item.short} alt başlıkları`}
+                            onClick={toggleTab}
+                          >
+                            <span
+                              className={`${styles.drawerCaret} ${tabOpen ? styles.drawerCaretOpen : ""}`}
+                            >
+                              <UiIcon name="caretDown" size={12} strokeWidth={1.8} />
+                            </span>
+                          </button>
+                        </div>
+                      ) : (
+                        <button type="button" className={styles.drawerTop} aria-expanded={tabOpen} onClick={toggleTab}>
+                          {item.short}
+                          <span
+                            className={`${styles.drawerCaret} ${tabOpen ? styles.drawerCaretOpen : ""}`}
+                          >
+                            <UiIcon name="caretDown" size={12} strokeWidth={1.8} />
+                          </span>
+                        </button>
+                      )}
 
                       {tabOpen && (
                         <div className={styles.drawerPanel}>

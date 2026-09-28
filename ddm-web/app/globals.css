@@ -199,6 +199,18 @@ textarea {
   }
 }
 
+/* P5 — İngilizce seviye kartı: açılışta bir kez, alttan hafifçe yükselir. */
+@keyframes ddmLiftIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-shift));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes ddmChip {
   0%,
   100% {

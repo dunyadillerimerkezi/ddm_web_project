@@ -253,10 +253,21 @@
   --ddm-topic-min: 15rem; /* P4: konu kartı (topics) en dar genişliği — sütun sayısı buna göre akar */
   --ddm-guide-toc-w: 260px; /* P4 nedir: yapışkan soru listesi kolonu */
   --ddm-guide-article-w: 780px; /* P4 nedir: makale kolonu en geniş */
+  --ddm-level-ladder-w: 232px; /* P5: İngilizce seviye sayfası — soldaki yapışkan merdiven kolonu */
+  --ddm-level-code: clamp(76px, 8vw, 112px); /* P5: seviye kartındaki büyük CEFR kodu (B1) */
+  --ddm-level-skill-photo: 112px; /* P5: beceri kartı fotoğrafı (kare) */
+  --ddm-level-skill-photo-sm: 84px; /* P5: beceri kartı fotoğrafı — dar ekran */
+  --ddm-level-panel-photo-h: 180px; /* P5: firma panelinin fotoğraf yüksekliği */
+  --ddm-level-compare-min: 560px; /* P5: karşılaştırma tablosunun masaüstü en dar genişliği (altında yatay kaydırma) */
+  --ddm-program-card-min: 12rem; /* P5: program sayfası baskın paneli — 5 kart tek sırada (4 + 1 yetim kalmasın) */
+  --ddm-level-line: 1.5px; /* P5: rozet / etiket / C2 basamağı ince çerçevesi */
   --ddm-guide-table-narrow: 280px; /* P4 nedir: iki sütunlu küçük tablo (bant ↔ CEFR) */
   --ddm-answer-rule: 3px; /* P4 nedir: kısa cevabın solundaki mavi çizgi */
   --ddm-toc-rule: 2px; /* P4 nedir: soru listesinin sol çizgisi (aktif öğe onu örter) */
   --ddm-call-w: 300px; /* P4 online: hero'daki dekoratif canlı ders kartı */
+  --ddm-rail-head-h: 32px; /* Seviye rayı (İngilizce Kursları): başlık satırı yüksekliği — nokta ve çizgi bunun ortasında */
+  --ddm-rail-dot: 25px; /* Seviye rayı: nokta çapı (beyaz halka dahil) */
+  --ddm-rail-line: 3px; /* Seviye rayı: çizgi kalınlığı */
   --ddm-home-art-h: clamp(380px, 34vw, 470px); /* Ana Sayfa hero (2026-09-26): sağdaki selam bulutu yüksekliği */
   --ddm-home-glyph-size: clamp(56px, 7vw, 120px); /* Ana Sayfa hero: zeminde yüzen harfler */
   --ddm-home-orbit: 96%; /* Ana Sayfa hero: balonların arkasındaki yörünge çapı (bulut yüksekliğine oranla) */
@@ -368,6 +379,7 @@
   --kf-drift: ddmDrift;
   --kf-glyph-rise: ddmGlyphRise;
   --kf-greet: ddmGreet;
+  --kf-lift-in: ddmLiftIn; /* P5: seviye kartı açılışta bir kez yükselir */
   --float-shift: 8px; /* süzülme genliği */
 
   /* UI turu — fotoğraf/logo üstü okunabilirlik katmanları */

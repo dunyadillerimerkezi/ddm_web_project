@@ -140,6 +140,8 @@ const RETIRED_PAGES: [string, string][] = [
   ["/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-sinavi", "/sinav-hazirlik-egitimleri/proficiency-kursu#universiteler"],
   // P4 tekil (kullanıcı kararı, 2026-09-26): aynı metin iki adreste — kanonik /yabanci-dil-egitimleri/… .
   ["/ingilizce-kurslari/ingilizce-egitim-sistemi", "/yabanci-dil-egitimleri/ingilizce-kursu/ingilizce-egitim-sistemi"],
+  // P5 (kullanıcı kararı, 2026-09-27): ilk paragraf ve gün/saat tablosu Dil Kursu sayfasıyla aynı, saatler çelişiyor → tek sayfa.
+  ["/ingilizce-kurslari/ingilizce-konusma-kursu", "/yabanci-dil-egitimleri/ingilizce-konusma-kursu"],
   // P4 yurtdışı + diğer program (kullanıcı kararları, 2026-09-26): içeriği ana sayfada olan ya da kopya sayfalar;
   // "İngiltere'de Dil Okulları" yanlış adresinden (…/kanada-vancouver-2) doğru adresine.
   ["/yurtdisi-egitim/yurtdisi-ingilizce-egitimi/kanada-vancouver-2", "/yurtdisi-egitim/yurtdisi-ingilizce-egitimi/ingiltere"],

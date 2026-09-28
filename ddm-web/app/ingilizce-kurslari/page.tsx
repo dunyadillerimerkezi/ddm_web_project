@@ -20,8 +20,8 @@ import { absoluteUrl } from "@/lib/site";
  * P3 — İngilizce Kursları hub'ı. Karakteri: A1 → C2 seviye rayı (sayfanın
  * görsel omurgası), altında şube kurs tarihleri ve hedef kitle programları.
  *
- * Seviye ve program sayfalarının hepsi P5'te gelecek → kartlar soluk; şube
- * kurs tarihi sayfaları (6.6) üretilmiş → gerçek link.
+ * Seviye ve program sayfaları P5'te üretildi (2026-09-27; Konuşma kursu Dil Kursu
+ * sayfasına bağlanır); şube kurs tarihi sayfaları (6.6) üretilmiş → hepsi gerçek link.
  */
 
 const IK = "/ingilizce-kurslari";
@@ -39,7 +39,8 @@ const TARGETS: Record<string, string> = {
   "→ YKS Dil İngilizce": `${IK}/yks-dil-ingilizce`,
   "→ İlköğretim İngilizcesi": `${IK}/ilkogretim-ingilizce-kursu`,
   "→ Yaz Okulu İngilizce Programları": `${IK}/yaz-okulu-ingilizce-kursu`,
-  "→ İngilizce Konuşma Kursu | Eğitim Programı İngilizce Konuşma Öğrenme English Speaking": `${IK}/ingilizce-konusma-kursu`,
+  // P5 (kullanıcı, 2026-09-27): IK konuşma sayfası Dil Kursu sayfasına 301.
+  "→ İngilizce Konuşma Kursu | Eğitim Programı İngilizce Konuşma Öğrenme English Speaking": "/yabanci-dil-egitimleri/ingilizce-konusma-kursu",
 };
 
 /** Kaynak şube etiketindeki ad → courseDates şube anahtarı. */

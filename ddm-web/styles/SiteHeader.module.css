@@ -84,6 +84,47 @@
   color: var(--ddm-primary);
 }
 
+/* Başlık = bağlantı (kategori sayfası) + ok = menü düğmesi (2026-09-28).
+ * Görünüm .navButton ile aynı tek hap: zemin ve renk sarmalayıcıda. */
+.navItem {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 11px;
+  color: var(--ddm-gray-700);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.navItem:hover,
+.navItemOpen {
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-primary);
+}
+
+.navLink,
+.navCaret {
+  font-family: var(--ddm-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: inherit;
+  white-space: nowrap;
+  border-radius: inherit;
+}
+
+.navLink {
+  padding: 11px var(--space-1) 11px 11px;
+  text-decoration: none;
+}
+
+.navCaret {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  padding: 0 11px 0 var(--space-1);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 /* --- header CTA --- */
 .cta {
   flex: none;
@@ -529,6 +570,36 @@
   text-align: left;
 }
 
+/* Başlık bağlantı + ayrı açma düğmesi (2026-09-28). Satır .drawerTop ile aynı yükseklikte. */
+.drawerTopRow {
+  display: flex;
+  align-items: stretch;
+  min-height: 52px;
+}
+
+.drawerTopLink {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: var(--space-3) 0;
+  font-size: var(--space-4);
+  font-weight: 600;
+  color: var(--ddm-gray-800);
+  text-decoration: none;
+}
+
+.drawerTopToggle {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 52px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .drawerCaret {
   display: inline-flex;
   flex: none;
@@ -728,6 +799,15 @@
   .navButton {
     font-size: 13.5px;
     padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
+
+  .navLink {
+    font-size: 13.5px;
+    padding-left: var(--space-2);
+  }
+
+  .navCaret {
     padding-right: var(--space-2);
   }
 }

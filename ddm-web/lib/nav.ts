@@ -272,21 +272,22 @@ export const NAV_ITEMS: NavItem[] = [
       {
         title: "SEVİYELER",
         items: [
-          { label: "Advanced İngilizce Kursu", href: `${IK}/advanced-ingilizce-kursu`, soon: true },
-          { label: "Upper-Intermediate İngilizce Kursu", href: `${IK}/upper-intermediate-ingilizce-kursu`, soon: true },
-          { label: "Intermediate İngilizce Kursu", href: `${IK}/intermediate-ingilizce-kursu`, soon: true },
-          { label: "Pre-Intermediate İngilizce Kursu", href: `${IK}/pre-intermediate-ingilizce-kursu`, soon: true },
-          { label: "Elementary İngilizce Kursu", href: `${IK}/elementary-ingilizce-kursu`, soon: true },
+          { label: "Advanced İngilizce Kursu", href: `${IK}/advanced-ingilizce-kursu` },
+          { label: "Upper-Intermediate İngilizce Kursu", href: `${IK}/upper-intermediate-ingilizce-kursu` },
+          { label: "Intermediate İngilizce Kursu", href: `${IK}/intermediate-ingilizce-kursu` },
+          { label: "Pre-Intermediate İngilizce Kursu", href: `${IK}/pre-intermediate-ingilizce-kursu` },
+          { label: "Elementary İngilizce Kursu", href: `${IK}/elementary-ingilizce-kursu` },
         ],
       },
       {
         title: "ÖZEL PROGRAMLAR",
         items: [
-          { label: "Üniversite Hazırlık İngilizcesi", href: `${IK}/universite-ingilizce-kursu`, soon: true },
-          { label: "YKS Dil İngilizce", href: `${IK}/yks-dil-ingilizce`, soon: true },
-          { label: "İlköğretim İngilizcesi", href: `${IK}/ilkogretim-ingilizce-kursu`, soon: true },
-          { label: "Yaz Okulu İngilizce Programları", href: `${IK}/yaz-okulu-ingilizce-kursu`, soon: true },
-          { label: "İngilizce Konuşma Kursu", href: `${IK}/ingilizce-konusma-kursu`, soon: true },
+          { label: "Üniversite Hazırlık İngilizcesi", href: `${IK}/universite-ingilizce-kursu` },
+          { label: "YKS Dil İngilizce", href: `${IK}/yks-dil-ingilizce` },
+          { label: "İlköğretim İngilizcesi", href: `${IK}/ilkogretim-ingilizce-kursu` },
+          { label: "Yaz Okulu İngilizce Programları", href: `${IK}/yaz-okulu-ingilizce-kursu` },
+          // P5 (kullanıcı, 2026-09-27): içerik Dil Kursu sayfasıyla büyük ölçüde aynı → o sayfaya bağlanır, IK adresi 301.
+          { label: "İngilizce Konuşma Kursu", href: `${YD}/ingilizce-konusma-kursu` },
           { label: "İngilizce Eğitim Sistemi", href: `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi` }, // kanonik adres (P4, 2026-09-26)
         ],
       },

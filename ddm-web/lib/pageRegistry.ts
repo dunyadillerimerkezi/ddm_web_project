@@ -26,8 +26,10 @@ import { EXAMS } from "@/data/exams";
 import { examHref } from "@/lib/examContent";
 import { HUBS } from "@/data/hubs";
 import { RICH_PATHS } from "@/lib/richPages";
+import { ENGLISH_LEVEL_PATHS } from "@/data/englishLevels";
+import { ENGLISH_PROGRAM_PATHS } from "@/data/englishPrograms";
 
-export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub" | "rich";
+export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub" | "rich" | "english-level";
 
 export type PageRecord = {
   href: string;
@@ -82,6 +84,11 @@ function richPages(): PageRecord[] {
   return RICH_PATHS.map((href) => ({ href, kind: "rich" as const }));
 }
 
+/** P5 — İngilizce seviye kursları ve hedef kitle programları (`data/englishLevels.ts`, `data/englishPrograms.ts`). */
+function englishLevelPages(): PageRecord[] {
+  return [...ENGLISH_LEVEL_PATHS, ...ENGLISH_PROGRAM_PATHS].map((href) => ({ href, kind: "english-level" as const }));
+}
+
 /** Üretilen tüm sayfaların düz listesi (güncel sayı: `npm run build` çıktısı — burada elle tutulmaz). */
 export function getPageRegistry(): PageRecord[] {
   return [
@@ -93,6 +100,7 @@ export function getPageRegistry(): PageRecord[] {
     ...examPages(),
     ...hubPages(),
     ...richPages(),
+    ...englishLevelPages(),
   ];
 }
 

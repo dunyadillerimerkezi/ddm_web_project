@@ -26,7 +26,7 @@
 | 8 | Liste Sayfası | `/ogrenci-yorumlari.html?start=N`, `/duyurular.html` | **12** | `/ogrenci-yorumlari.html?start=12` | ⏳ P7 |
 | 9 | Duyuru Detay Sayfası | `/duyurular/{id}-{slug}.html` | **12** | `/duyurular/31-konusma-siniflari-speaking.html` | ⏳ P7 |
 | 10 | Dil Kursu Ana Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu.html` | **10** | `/yabanci-dil-egitimleri/ingilizce-kursu.html` | ✅ 6.4 — 10 sayfa |
-| 11 | İngilizce Seviye Kursu Sayfası | `/ingilizce-kurslari/{seviye}-ingilizce-kursu.html` | **11** | `/ingilizce-kurslari/elementary-ingilizce-kursu.html` | ⏳ P5 |
+| 11 | İngilizce Seviye Kursu Sayfası | `/ingilizce-kurslari/{seviye}-ingilizce-kursu.html` | **11** | `/ingilizce-kurslari/elementary-ingilizce-kursu.html` | ✅ P5 (9 sayfa; konuşma + eğitim sistemi 301) |
 | 12 | Yurtdışı Eğitim Alt Sayfası | `/yurtdisi-egitim/{konu}.html` | **11** | `/yurtdisi-egitim/yaz-okullari.html` | ✅ P4 (2026-09-26) — 9 sayfa ("biniş kartı"); Yurtdışı Dil Eğitimi + Tercih Edilen Ülkeler → ana sayfa 301; `…/kanada-vancouver-2` → yeni `…/ingiltere` |
 | 13 | Online Eğitim Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu/online-{dil}-egitimi.html` | **8** | `/yabanci-dil-egitimleri/rusca-kursu/online-rusca-egitimi.html` | ✅ P4 (2026-09-25, + çatı `/diger-program/online-dil-egitimi`) |
 | 14 | Kategori Hub Sayfası | `/{kategori}.html` (alt sayfa yok, kart listesi) | **6** | `/diger-program.html` | ✅ P3 — 7 hub (özel dersler dahil), `data/hubs.ts` + `lib/hubContent.ts` |
@@ -241,6 +241,11 @@ App Router pattern'ine dönüşecek — tasarımda "kart grid + sayfalama" bile�
 **Not:** "Dil Kursu Ana Sayfası" (tip 10) ile aynı ana kategori altında ama farklı
 bir eksende (dil bazlı değil, İngilizce'ye özel seviye bazlı) kırılım — Faz 5'te
 aynı görsel şablonu paylaşabilir, ayrı veri modeli gerekir.
+
+**Durum (P5, 2026-09-27/28):** 9 sayfa üretildi — seviye 5 (`EnglishLevelPage`, `data/englishLevels.ts`) ve hedef kitle 4
+(`EnglishProgramPage`, `data/englishPrograms.ts`), tek route `app/ingilizce-kurslari/[sayfa]`. `ingilizce-konusma-kursu` →
+`/yabanci-dil-egitimleri/ingilizce-konusma-kursu` (301, kullanıcı kararı); `ingilizce-egitim-sistemi` → P4 kanonik (301).
+9 sayfada ortak eski site şablonu (şube satırları + program listesi) `resolveTemplate` ile tek yerde çözülür.
 
 ---
 

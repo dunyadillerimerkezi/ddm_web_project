@@ -153,6 +153,12 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     da `topics` (kaynak başlığı + özet) ile gösterilir, metnin kendisi açılır "Ayrıntılı bilgi"de birebir durur. İş ortağı
     (Kaplan) rakamları kullanıcı kararıyla kaynaktaki gibi — düzeltmeden önce sor. Kaynaktaki başka firmanın metni (Tercüme'de
     Lavanda) gerekçeli `ignored`. Kaynak İngilizceyse sayfa `lang: "en"`.
+  - **İngilizce Kursları (P5, 2026-09-27, kullanıcı):** P4 kuralı. Firma metni (seviye tanıtımı, "Çalışma Teknikleri",
+    "Nedir?", öğretmen cümlesi) kaynaktan; yazım + makine çevirisi terimi + bayat şube adı `edits`; B2 H1 "Orta İleri Seviye"
+    (`headingEdits`). Genel bilgi `data/englishLevels.ts` `CEFR_EN` (CEFR, IELTS, Cambridge, ders saati) ve
+    `data/englishPrograms.ts` `info` / `table` bloklarında, kaynak yorumda. Kart / SSS rakamları kaynak metinde, DDM İngilizce
+    Kursu kaydında ya da sayfanın genel bilgi bloklarında TAM SAYI olarak geçmezse build düşer. 9 sayfada ortak şablon (şube
+    satırları, program listesi) `resolveTemplate` ile tek yerde; Konuşma kursu yayınlanmaz (Dil Kursu sayfasına 301).
   - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
     not barajı, sertifika) ekleme-çıkarma YOK; sayfada zaten yazılı olgular aynı anlamda yeniden
     cümlelenebilir (SSS cevapları `lib/languageFaq.ts` bunları o dilin kendi metninden regex'le okur,
@@ -216,6 +222,8 @@ ddm-web/
 │   ├── onlineLessons.ts     # P4 online eğitim — 8 dil + çatı (`ONLINE_HUB`), sınavların evden/merkezde bilgisi
 │   ├── examGuides.ts        # P4 "{Sınav} Nedir?" rehberleri (8) — genel bilgi, P2 kuralı, kaynak yorumda
 │   ├── singlePages.ts       # P4 tekil sayfalar (8) — pano (`board`) + soru satırları + şube bandı; kaynaklar yorumda
+│   ├── englishLevels.ts     # P5 İngilizce seviye sayfaları (A1–C1) + `CEFR_EN` genel bilgi + 9 sayfalık eski şablon satırları
+│   ├── englishPrograms.ts   # P5 hedef kitle programları (İlköğretim, Üniversite, YKS Dil, Yaz Okulu) — blok listesi
 │   ├── abroadPages.ts       # P4 yurtdışı (9) — biniş kartı panosu (`pass`), kart/tablo gövde; genel bilgi kaynakları yorumda
 │   ├── otherPrograms.ts     # P4 diğer program / kurumsal (4) — Business English, Çocuklar, Tercüme, Pegasus (lang en)
 ├── lib/
@@ -229,6 +237,8 @@ ddm-web/
 │   ├── onlineContent.ts     # P4 online çözücüsü (kaynak iskeletini doğrular, cümleleri hero + adımlara dağıtır)
 │   ├── guideContent.ts      # P4 nedir çözücüsü + `createGuideResolver` (nedir/tekil ortak kaynak sözleşmesi, cümle kapsaması)
 │   ├── singleContent.ts     # P4 tekil çözücüsü (görev `splits`, dosya rafı, şube kartı etiket denetimi)
+│   ├── englishLevelContent.ts   # P5 seviye çözücüsü + ortak `resolveTemplate` / `takeTemplateCta` / rakam bekçisi
+│   ├── englishProgramContent.ts # P5 hedef kitle çözücüsü
 │   ├── richPages.ts         # P4 tüm alt türlerin tek listesi (`RichEntry`: rich | guide) + dağıtıcı yardımcıları
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
 ├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
@@ -348,6 +358,13 @@ ddm-web/
 > lacivert koçan; ilk görünüşte bir kez yerine oturur). Diğer programlar aynı sayfa: `chips` (modül / dil etiketleri), `week`,
 > `compare` (grup / özel ders). Gövde kart ağırlıklı: `facets` (ikonlu açık mavi kartlar, 3'ün katı değilse iki sütun, tek kalan
 > kart satırı doldurur) ve `topics` (kenarlıklı konu kartları), altında açılır "Ayrıntılı bilgi". Kullanıcı: "düz yazı değil".
+> **İngilizce Kursları (P5, 2026-09-27, "B · seviye kartı"):** seviye sayfası `EnglishLevelPage` — açık mavi hero (degrade,
+> `background-origin: border-box` ile header arkasına kadar) + sağda lacivert seviye kartı (büyük kod, 4 bilgi, önceki/sonraki;
+> açılışta bir kez `--kf-lift-in`); gövdede solda yapışkan merdiven (C2 kesikli "Advanced kapsamında"), bölümler soru başlığı +
+> mavi çizgili kalın cevap + kart; komşu seviye tablosu renkli (rozet başlıklar, grup etiketleri, IELTS / Cambridge hapları,
+> ders saati çubuğu; mobilde satır satır). Hedef kitle `EnglishProgramPage` ayrı aile: `RichHero` görünümlü lacivert fotoğraflı
+> hero + program şeridi + açık mavi baskın panel; 3'ten fazla firma cümlesi açılır "Ayrıntılı bilgi"de. İki aile gri bandı
+> (`EnglishBand`: şubeler + program listesi) paylaşır.
 > **Nedir (2026-09-26):** sınav ana sayfalarından AYRI `GuidePage` — açık mavi hero, H1 altında büyük kısa cevap, sağda
 > lacivert "bir bakışta" `<dl>`; gövdede solda yapışkan soru listesi (`GuideToc`), her bölüm soru → kalın tek cümlelik
 > cevap → madde / bölüm kartı / tablo; uzun paragraf bloğu yok; fotoğraf ve hareket yok; sonda kaynaklar + son güncelleme.
