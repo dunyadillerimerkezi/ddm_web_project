@@ -359,6 +359,14 @@ ddm-web/
 >   seçenek kartı, uzun maddeler kart; grup başlıkları veride (`list.groups`, sekme ya da kart). Sonda tek gri bant:
 >   `ExamDirectory` — diğer sınavlar 4 grupta (`EXAM_GROUPS`, her sınav tam bir grupta, build denetler), kartta ad + kod ·
 >   kurum + ok; soldaki balon üzerine gelince dolar.
+> - **Proficiency üniversite (2026-09-28, "A · sınav akışı"):** aynı degrade hero + sağda o üniversitenin sınavı
+>   (`UniversityHero`: bölümler sırayla, oran — yüzde / puan / dakika — her bölümde aynı türden varsa çubuk, açılışta bir
+>   kez dolar; altında doğrulanmış 3 bilgi). Akış kaynağı: `data/universityExams.ts` (resmi kaynaktan GÜNCEL sınav; 19
+>   üniversite — kapanan İstanbul Şehir ve Süleyman Şah hariç) yoksa sayfanın kendi bölüm kartları (`lib/universityFlow.ts`); bölümü bilinmeyen sınavda kart yok. Gövde
+>   `UniversityBody` (ExamRows satırları): sınav yapısı → sık sorulanlar (güncel kayıt) → kaynak metnin bölümleri (kaynak
+>   eskimişse başta "Güncel durum" notu, kicker "ÖNCEKİ SINAV BİÇİMİ", metin kalın vurgusuz — kaynak metin DEĞİŞMEZ) →
+>   şubeler + Bilgi Al. "Tarih bekleniyor" takvim tablosu, "veri bekleniyor" rozetleri, gönderilemeyen form ve "Ücretsiz
+>   Seviye Tespit Sınavı" butonu yok.
 >   Metin değişmez — yalnız bölünür / vurgulanır.
 
 > **P4 notu (2026-09-25):** Zengin İçerik için 3 taslak yön sunuldu, kullanıcı **"B · seviye merdiveni"**ni seçti.

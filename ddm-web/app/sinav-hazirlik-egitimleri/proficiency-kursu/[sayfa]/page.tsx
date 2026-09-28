@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { SiteChrome } from "@/components/layout";
-import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
-import { ExamStructure } from "@/components/sections/ExamStructure";
-import { DetailSections } from "@/components/sections/DetailSections";
-import { PageSection } from "@/components/sections/PageSection";
-import { ScheduleTable } from "@/components/sections/ScheduleTable";
+import { UniversityHero } from "@/components/sections/UniversityHero";
+import { UniversityBody } from "@/components/sections/UniversityBody";
 import { UniversityGrid } from "@/components/sections/UniversityGrid";
 import { LinkRow } from "@/components/sections/LinkRow";
 import { CtaBand } from "@/components/sections/CtaBand";
@@ -15,14 +12,15 @@ import { CourseDatePage } from "@/components/sections/CourseDatePage";
 import { RichRoute } from "@/components/sections/RichRoute";
 import { assertNoSlugCollision, getRichPage, richMetadata, richPathsUnder } from "@/lib/richPages";
 import { UNIVERSITIES, UNIVERSITY_INDEX, getUniversityDef } from "@/data/universities";
-import type { HomeStat } from "@/data/home";
-import { BRANCH_LIST, DEFAULT_BRANCH } from "@/data/branches";
+import { getUniversityExam } from "@/data/universityExams";
+import { PROF_UNIVERSITIES } from "@/data/singlePages";
+import { DEFAULT_BRANCH } from "@/data/branches";
 import { getUniversityPage, type UniversityPage, type UniversityDef } from "@/lib/universityContent";
+import { universityFlow } from "@/lib/universityFlow";
 import { getCourseDatePage } from "@/lib/courseDateContent";
 import { COURSE_DATES, findCourseDateEntry } from "@/data/courseDates";
 import { absoluteUrl } from "@/lib/site";
-import type { Crumb, LinkRowItem, ScheduleColumn, ScheduleTableRow } from "@/lib/types";
-import { DataMissingNotice } from "@/components/ui";
+import type { Crumb, LinkRowItem } from "@/lib/types";
 
 /**
  * Faz 6.5 (üniversite proficiency) + Faz 6.6 (Kadıköy Proficiency kurs
@@ -42,38 +40,14 @@ import { DataMissingNotice } from "@/components/ui";
 const PROFICIENCY_PREFIX = "/sinav-hazirlik-egitimleri/proficiency-kursu/";
 const richPage = (sayfa: string) => getRichPage(`${PROFICIENCY_PREFIX}${sayfa}`);
 
-const SCHEDULE_COLUMNS: ScheduleColumn[] = [
-  { key: "sube", head: "ŞUBE", rowLabel: null },
-  { key: "tarih", head: "BAŞLANGIÇ TARİHİ", rowLabel: "BAŞLANGIÇ TARİHİ" },
-  { key: "gunSaat", head: "GÜN VE SAAT", rowLabel: null },
-  { key: "cta", head: "", rowLabel: null },
-];
+/** Izgaradaki rozet: doğrulanmış güncel kısa ad (OPAE, MÜYYES, ACUPEP PPT…) kaynaktaki eski kodun
+ *  (Acıbadem "AYES") önüne geçer; uzun adlar rozete sığmadığı için kaynak kodu / "Proficiency" kalır. */
+const GRID_ITEMS = UNIVERSITY_INDEX.map((u) => {
+  const exam = getUniversityExam(u.slug)?.exam;
+  return exam && exam.length <= 10 ? { ...u, examCode: exam } : u;
+});
 
-/** 21/21 üniversite kaydında tarih/saat verisi yok — hepsi "bekleniyor". */
-function scheduleRows(examLabel: string | null): ScheduleTableRow[] {
-  const note = examLabel ? `${examLabel} Proficiency hazırlık atlama` : "Proficiency hazırlık atlama";
-  return BRANCH_LIST.map((branch) => ({
-    key: branch.slug,
-    group: null,
-    cells: [
-      { kind: "title", title: branch.name, note },
-      { kind: "text", value: null, pending: "tarih bekleniyor" },
-      { kind: "text", value: null, pending: "gün / saat bekleniyor" },
-      { kind: "cta", label: "Ön Bilgi Formu", href: "#iletisim" },
-    ],
-  }));
-}
-
-/** Hızlı bakış şeridi — kaynakta olmayan olgu uydurulmaz, öğe düşer (§5). */
-function trustStats(page: UniversityPage): HomeStat[] {
-  const stats: HomeStat[] = [];
-  if (page.sections.length > 0) {
-    stats.push({ icon: "kullanim", value: String(page.sections.length), label: "sınav bölümü" });
-  }
-  stats.push({ icon: "konum", value: "5", label: "İstanbul şubesi" });
-  stats.push({ icon: "takvim", value: "1", label: "seviye tespit sınavıyla başlangıç" });
-  return stats;
-}
+const ORNEK_SORULAR = "/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-ornek-sinav-sorulari";
 
 const RELATED_PAGES: LinkRowItem[] = [
   { label: "Proficiency Nedir", href: "/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-nedir" },
@@ -134,6 +108,12 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   return {};
 }
 
+/**
+ * UI turu (2026-09-28, kullanıcı: "A · sınav akışı"): degrade hero + sağda sınav akışı
+ * (`UniversityHero`), satır gövdesi (`UniversityBody`: sınav yapısı → doğrulanmış sık sorulanlar →
+ * kaynak metnin bölümleri → şubeler). "Tarih bekleniyor" takvim tablosu ve gönderilemeyen form
+ * kaldırıldı; "Ücretsiz Seviye Tespit Sınavı" butonu dil kursundaki kararla kalktı.
+ */
 function UniversityPageBody({ def, page }: { def: UniversityDef; page: UniversityPage }) {
   const crumbs: Crumb[] = [
     { label: "Anasayfa", href: "/" },
@@ -141,59 +121,30 @@ function UniversityPageBody({ def, page }: { def: UniversityDef; page: Universit
     { label: "Proficiency Kursu", href: "/sinav-hazirlik-egitimleri/proficiency-kursu" },
     { label: def.name },
   ];
+  const info = getUniversityExam(def.slug);
+  // Sınavın güncel adı: doğrulanmış kayıt → P4 örnek sorular listesi → kaynak kodu.
+  const examName =
+    info?.exam ?? PROF_UNIVERSITIES.find((u) => u.slug === def.slug)?.exam ?? def.examCode ?? "İngilizce Yeterlik Sınavı";
+  const flow = universityFlow(examName, page.sections, info);
 
   return (
     <SiteChrome ctaLabel="İletişime Geçin" ctaHref="#iletisim">
-      <PageHero
+      <UniversityHero
         crumbs={crumbs}
-        code={def.examCode}
-        codeVariant="pill"
-        branchBadge="Hazırlık atlama · Proficiency"
-        showCertBadge={false}
-        outlineBadge="5 şubede"
-        titleSize="uni"
+        code={info?.exam ?? def.examCode}
         h1={page.h1}
         lead={page.metaDescription}
-        primary={{ label: "Ücretsiz Seviye Tespit Sınavı", href: "#iletisim" }}
-        secondary={{ label: "Bilgi Al", href: "#kurs-takvimi" }}
-        art={{ mode: "uni", name: def.illo, chip1: def.illoChip1, chip2: def.illoChip2 }}
-        stats={trustStats(page)}
+        primary={{ label: "Bilgi Al", href: "#iletisim" }}
+        secondary={{ label: "Kurs takvimi", href: "#kurs-takvimi" }}
+        flow={flow}
+        guide={{ label: "Örnek sınav soruları", href: ORNEK_SORULAR }}
       />
 
       <ProcessSteps steps={page.steps} />
 
-      {page.structureTitle && (
-        <ExamStructure
-          title={page.structureTitle}
-          lead={page.structureLead}
-          sections={page.sections}
-          detailIds={page.sectionDetailIds}
-        />
-      )}
+      <UniversityBody def={def} page={page} info={info} />
 
-      {page.details.length > 0 && <DetailSections details={page.details} />}
-
-      <PageSection
-        id="kurs-takvimi"
-        ground="gray"
-        kicker="KURS TAKVİMİ"
-        title={`${def.name} Proficiency Kursu Şube ve Takvimi`}
-        lead="Bu eğitim aşağıdaki şubelerimizde sunulmaktadır. Size uygun olan şubenin ön bilgi formundan ve şubelerin iletişim bölümünden bize yazın sorularınızı cevaplayalım."
-      >
-        <ScheduleTable
-          columns={SCHEDULE_COLUMNS}
-          rows={scheduleRows(def.examLabel)}
-          layout="uni4"
-          missingNotice={
-            <DataMissingNotice compact>
-              Proficiency programı kişiye özel olduğu için kaynak içerikte tarih/saat verisi yok; şube bazlı
-              takvim müşteriden bekleniyor.
-            </DataMissingNotice>
-          }
-        />
-      </PageSection>
-
-      <UniversityGrid items={UNIVERSITY_INDEX} current={def.slug} />
+      <UniversityGrid items={GRID_ITEMS} current={def.slug} />
 
       <LinkRow
         ground="gray"
@@ -205,7 +156,7 @@ function UniversityPageBody({ def, page }: { def: UniversityDef; page: Universit
 
       <CtaBand
         id="iletisim"
-        ground="light"
+        ground="gray"
         title="Bizimle İletişime Geçin — seviye tespit sınavıyla programınızı belirleyelim."
         sub={[DEFAULT_BRANCH.phone, DEFAULT_BRANCH.mail].filter(Boolean).join(" · ")}
         primary={{ label: "Bizimle İletişime Geçin", href: DEFAULT_BRANCH.href }}

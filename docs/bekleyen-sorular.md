@@ -41,6 +41,10 @@ Kaynaklar `data/examGlance.ts` yorumlarında. Firmaya ait / kursu tanıtan cüml
 > Çözüldü (2026-09-28, kullanıcı: "düzelt"): Almanca aile birleşimi (kurs zorunlu değil, Start Deutsch 1 / ÖSD, 12 ay, SGB II),
 > TOEFL Primary (8 yaş+, kâğıt ya da dijital, konuşma / yazma testleri, puanlama), TestDaF (sonuç portalda) — `data/exams.ts` `edits`.
 
+## UI turu · Proficiency üniversite (2026-09-28)
+
+1. **Kullanılmayan bileşenler** `DetailSections`, `ContactFormCard`, `ScheduleTable` silinsin mi?
+
 ## Önceki fazlardan açık kalanlar
 
 - İngilizce Kursları ana sayfasında B2 "İleri Seviye İngilizce" etiketi ("şimdilik kalsın" denmişti)

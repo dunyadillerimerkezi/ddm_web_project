@@ -38,7 +38,7 @@ export function ExamSectionCard({
 }: {
   num: number;
   section: ExamSection;
-  /** null → detay bloğu yok, link `#iletisim`e düşer. */
+  /** null → detay bloğu yok, link basılmaz. */
   anchor: string | null;
 }) {
   return (
@@ -74,9 +74,12 @@ export function ExamSectionCard({
         ))}
       </div>
 
-      <Link href={anchor ?? "#iletisim"} className={styles.footerLink}>
-        Bölüm detayını oku
-      </Link>
+      {/* Detay bloğu olmayan kart link taşımaz — "Bölüm detayını oku" iletişime gitmesin (UI turu 2026-09-28). */}
+      {anchor && (
+        <Link href={anchor} className={styles.footerLink}>
+          Bölüm detayını oku
+        </Link>
+      )}
     </article>
   );
 }

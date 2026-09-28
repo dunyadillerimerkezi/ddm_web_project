@@ -396,6 +396,7 @@
   --kf-greet: ddmGreet;
   --kf-lift-in: ddmLiftIn; /* P5: seviye kartı açılışta bir kez yükselir */
   --kf-bubble: ddmBubble; /* Sınav sayfası: optik formdaki cevap balonunun dolması */
+  --kf-bar-grow: ddmBarGrow; /* Üniversite sayfası: sınav akışındaki oran çubuğunun dolması */
   --float-shift: 8px; /* süzülme genliği */
 
   /* UI turu — fotoğraf/logo üstü okunabilirlik katmanları */
@@ -461,6 +462,8 @@
   --duration-bubble: 0.42s; /* bir balonun dolması */
   --delay-bubble-start: 0.35s; /* ilk balon, sayfa açıldıktan sonra */
   --delay-bubble-step: 0.2s; /* balonlar arası */
+  --duration-bar: 0.6s; /* üniversite sınav akışı: bir çubuğun dolması */
+  --ddm-uni-bar-h: 6px; /* sınav akışı oran çubuğu kalınlığı */
 }
 
 /*

@@ -55,7 +55,7 @@ function optionIcon(text: string): IconName {
  * Parçalar
  * ------------------------------------------------------------- */
 
-function Answer({ text }: { text: string }) {
+export function Answer({ text }: { text: string }) {
   return (
     <p className={styles.answer}>
       <Marked text={text} />
@@ -93,10 +93,10 @@ function leadSentence(first: string): [string, string | null] | null {
 
 /** Düz paragraf akışı: kısa ilk paragraf (ya da uzun paragrafın ilk cümlesi) kalın
  *  cevap, kalanı görünür / açılır. */
-function Flow({ paragraphs }: { paragraphs: string[] }) {
+function Flow({ paragraphs, emphasis = true }: { paragraphs: string[]; emphasis?: boolean }) {
   const [first, ...rest] = paragraphs;
   if (first === undefined) return null;
-  const split = first.length <= ANSWER_MAX ? ([first, null] as const) : leadSentence(first);
+  const split = !emphasis ? null : first.length <= ANSWER_MAX ? ([first, null] as const) : leadSentence(first);
   const lead = split ? <Answer text={split[0]} /> : null;
   const all = split ? (split[1] ? [split[1], ...rest] : rest) : paragraphs;
   const shown = VISIBLE_PARAGRAPHS - (lead ? 1 : 0);
@@ -115,7 +115,8 @@ function Flow({ paragraphs }: { paragraphs: string[] }) {
   );
 }
 
-function ProseBody({ paragraphs }: { paragraphs: string[] }) {
+/** `emphasis: false` → ilk cümle kalın cevap olmaz (ör. eskimiş "önceki sınav biçimi" metni). */
+export function ProseBody({ paragraphs, emphasis = true }: { paragraphs: string[]; emphasis?: boolean }) {
   const lines = joinFragments(paragraphs, true);
   // Metindeki soru satırları ("YÖKDİL sınavı ne zaman yapılır?") kart başlığı olur.
   const chunks: { head: string | null; paras: string[] }[] = [];
@@ -125,11 +126,11 @@ function ProseBody({ paragraphs }: { paragraphs: string[] }) {
     else chunks[chunks.length - 1].paras.push(line);
   }
   const headed = chunks.filter((c) => c.head !== null);
-  if (headed.length < 2) return <Flow paragraphs={lines} />;
+  if (headed.length < 2) return <Flow paragraphs={lines} emphasis={emphasis} />;
   const intro = chunks[0].head === null ? chunks[0].paras : [];
   return (
     <>
-      {intro.length > 0 && <Flow paragraphs={intro} />}
+      {intro.length > 0 && <Flow paragraphs={intro} emphasis={emphasis} />}
       <div className={styles.cards}>
         {headed.map((c) => (
           <article key={c.head} className={styles.card}>
@@ -270,7 +271,8 @@ function ListBody({ items, hint }: { items: string[]; hint: ListHint | null }) {
  * Satır
  * ------------------------------------------------------------- */
 
-function Row({
+/** Satır kabuğu — üniversite Proficiency sayfası da kullanır (`UniversityBody`). */
+export function Row({
   id,
   kicker,
   title,

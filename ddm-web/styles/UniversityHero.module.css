@@ -1,0 +1,102 @@
+/* ---------------------------------------------------------------
+ * UniversityHero — Proficiency üniversite hero'su (UI turu 2026-09-28,
+ * "A · sınav akışı"). Zemin ve kart kabuğu `ExamHero.module.css`ten; burada
+ * yalnız bölüm satırları (numara balonu, ad, oran etiketi, çubuk).
+ * ------------------------------------------------------------- */
+.single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-3);
+  row-gap: var(--space-2);
+}
+
+/* Numara balonu: optik formdaki gibi, sırası gelince dolar. */
+.num {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--ddm-exam-bubble);
+  height: var(--ddm-exam-bubble);
+  border-radius: var(--radius-pill);
+  border: var(--ddm-exam-bubble-line) solid var(--ddm-navy-300);
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-label);
+  color: var(--ddm-white);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Dolgu numaranın ALTINDA: numara dolan balonun içinde beyaz görünür. */
+.num::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--ddm-navy-900);
+  animation: var(--kf-bubble) var(--duration-bubble) var(--ease-out-soft)
+    calc(var(--delay-bubble-start) + var(--i) * var(--delay-bubble-step)) both;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-body);
+  line-height: 1.3;
+  color: var(--ddm-navy-900);
+}
+
+.note {
+  font-size: var(--ddm-text-caption);
+  line-height: 1.35;
+  color: var(--ddm-gray-500);
+}
+
+.label {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-sky-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Oran çubuğu satırın altında, numara hizasından başlar. */
+.track {
+  grid-column: 2 / -1;
+  height: var(--ddm-uni-bar-h);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-bg);
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  width: calc(var(--share) * 100%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--ddm-navy-600), var(--ddm-sky-base));
+  transform-origin: left center;
+  animation: var(--kf-bar-grow) var(--duration-bar) var(--ease-out-soft)
+    calc(var(--delay-bubble-start) + var(--i) * var(--delay-bubble-step)) both;
+}

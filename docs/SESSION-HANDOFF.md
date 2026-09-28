@@ -83,6 +83,23 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P6. Commit'i kul
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+### 2026-09-28 · Opus 5.5 · UI turu — Proficiency üniversite sayfaları (21, "A · sınav akışı") — commit bekliyor
+- **Sorun (kullanıcı + teşhis):** hero çizimi her sayfada aynı ve 7 sayfada yanlış ("3 bölüm" ↔ 2), "tarih bekleniyor"
+  tablosu + VERİ EKSİK kutusu, gönderilemeyen "Ön Bilgi Formu", 9 üniversitede çok az içerik, gri/beyaz bant + düz yazı.
+- **Karar (kullanıcı):** 3 yön (A sınav akışı / B cevap kâğıdı / C üniversite rozeti) → **A**.
+- **Yeni:** `UniversityHero`, `UniversityBody`, `lib/universityFlow.ts`, `data/universityExams.ts` (9 üniversite: Beykent,
+  Maltepe, Okan, Bahçeşehir, ODTÜ, Bilgi, YTÜ, Kadir Has, Marmara — resmi sayfa / yönerge, kaynak yorumda; güncel ad,
+  bölümler, 3 bilgi, 4–5 soru-cevap). `ExamRows`'tan `Row` / `ProseBody` / `Answer` dışa açıldı (`ProseBody emphasis`).
+  `ExamSectionCard`: detay çapası yoksa "Bölüm detayını oku" basılmaz (eskiden `#iletisim`e gidiyordu). Izgarada güncel
+  kısa ad rozeti. `PROF_UNIVERSITIES` dışa açıldı; ODTÜ ve Kadir Has resmi örnek bağlantıları eklendi.
+- **Bulgu:** araştırılan 9 sayfanın 7'sinde kaynak metin sınavın ESKİ biçimini anlatıyor (Okan, BAU, ODTÜ, Bilgi, YTÜ,
+  Kadir Has, Marmara; Beykent ve Maltepe güncel) → metne dokunulmadı, "Güncel durum" notu + güncel kartlar.
+- **Kullanılmayan:** `DetailSections`, `ContactFormCard`, `ScheduleTable` (silme kararı kullanıcıda).
+- **Devamı (kullanıcı: "araştırmaları yap"):** kalan 10 üniversite de eklendi → `data/universityExams.ts` 19 kayıt (kapanan
+  İstanbul Şehir ve Süleyman Şah hariç). 10'unun da kaynak metninde eskimiş bilgi var (Sabancı ve Yeditepe'de biçim aynı,
+  ayrıntılar eski). Boğaziçi tek IELTS kabul eden üniversite (Academic 6,5). Acıbadem'in güncel adı ACUPEP PPT ("AYES" resmi değil).
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ 206 · 21 sayfa × 1440/390/360: taşma yok, tek H1, "bekleniyor" / form yok, konsol temiz.
+
 ### 2026-09-28 · Opus 5.5 · UI turu — Sınav Hazırlık (16 sayfa, "A · optik form") — commit bekliyor
 - **Sorun (kullanıcı):** "başlık ve yazı hep tek düze, hareket yok, okuyası gelmiyor". Teşhis: metin sol yarıda, 11 bölüm aynı
   kalıp + gri/beyaz bant, madde duvarları, önemli rakamlar paragrafta gömülü, her sınavda aynı bina çizimi.

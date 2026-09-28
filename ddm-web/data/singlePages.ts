@@ -1142,18 +1142,21 @@ const A1_ORNEK: SinglePageDef = {
  * Sabancı https://sl.sabanciuniv.edu/en/more-elae-practice-sets · Yeditepe https://yabancidiller.yeditepe.edu.tr/…/files/exam.pdf
  * YTÜ https://ybd.yildiz.edu.tr/ogrenci/sinav-ornekleri
  */
-const PROF_UNIVERSITIES: FileUniversity[] = [
+/** Üniversite Proficiency hero'su da sınavın güncel adını buradan okur (UI turu 2026-09-28). */
+export const PROF_UNIVERSITIES: FileUniversity[] = [
   { key: "bau", name: "Bahçeşehir Üniversitesi", slug: "bahcesehir-universitesi", exam: "BAU İngilizce Yeterlik Sınavı", official: "https://bau.edu.tr/icerik/4188-hazirlik-okulu-ornek-sinavlar" },
   { key: "bilgi", name: "Bilgi Üniversitesi", slug: "bilgi-universitesi", exam: "BİLET", official: "https://www.bilgi.edu.tr/tr/bilgiyehosgeldiniz/ingilizce-dil-sinavi/" },
   { key: "boun", name: "Boğaziçi Üniversitesi", slug: "bogazici-universitesi", exam: "BUEPT (BÜYES)", official: "https://yadyok.bogazici.edu.tr/en/pages/buept-sample/2449" },
   { key: "dogus", name: "Doğuş Üniversitesi", slug: "dogus-universitesi", exam: "DÜİYES", official: "https://ydb.dogus.edu.tr/yabanci-diller/ingilizce-hazirlik-programi/ogrenciler-icin-bilgiler/sinav-ornekleri/duiyes" },
   { key: "isik", name: "Işık Üniversitesi", slug: "isik-universitesi", exam: "Işık English Proficiency Exam", official: "https://www.isikun.edu.tr/akademik/sfl/exam-samples" },
   { key: "itu", name: "İstanbul Teknik Üniversitesi", slug: "istanbul-teknik-universitesi", exam: "İTÜ İngilizce Yeterlik Sınavı", official: "https://ydy.itu.edu.tr/sinav-ornegi-ve-analizi" },
-  { key: "khas", name: "Kadir Has Üniversitesi", slug: "kadirhas-universitesi-hazirlik", exam: "KHAS-LPPE", official: null },
+  // 2026-09-28: resmi örnekler artık KHAS YDY sayfasında (dateModified 2026-09-16).
+  { key: "khas", name: "Kadir Has Üniversitesi", slug: "kadirhas-universitesi-hazirlik", exam: "KHAS-LPPE", official: "https://www.khas.edu.tr/ydy-khas-ingilizce-seviye-tespit-ve-yeterlilik-sinavi/" },
   { key: "kocaeli", name: "Kocaeli Üniversitesi", slug: "kocaeli-universitesi-hazirlik", exam: "İngilizce Yeterlik Sınavı (İYS)", official: "https://yabancidiller.kocaeli.edu.tr/sayfalar/ingilizce-yeterlik-sinav-ornekleri-519" },
   { key: "koc", name: "Koç Üniversitesi", slug: "koc-universitesi", exam: "KUEPE", official: null, note: "Koç Üniversitesi KUEPE için resmi örnek sınav yayımlamıyor." },
   { key: "marmara", name: "Marmara Üniversitesi", slug: "marmara-universitesi", exam: "MÜYYES", official: "https://ydil.marmara.edu.tr/ogrenci/sikca-sorulan-sorular/yeterlilik-sinav-ornekleri" },
-  { key: "odtu", name: "Orta Doğu Teknik Üniversitesi", slug: "ortadogu-teknik-universitesi", exam: "METU EPE (İYS)", official: null },
+  // 2026-09-28: epe.metu.edu.tr belge listesinde kitapçık ve örnek sınav dosyaları var.
+  { key: "odtu", name: "Orta Doğu Teknik Üniversitesi", slug: "ortadogu-teknik-universitesi", exam: "METU EPE (İYS)", official: "https://epe.metu.edu.tr" },
   { key: "ozu", name: "Özyeğin Üniversitesi", slug: "ozyegin-universitesi", exam: "TRACE", official: "https://www.ozyegin.edu.tr/en/preparatory-english-program/trace/practice-trace-example" },
   { key: "sabanci", name: "Sabancı Üniversitesi", slug: "sabanci-universitesi", exam: "ELAE", official: "https://sl.sabanciuniv.edu/en/more-elae-practice-sets" },
   { key: "yeditepe", name: "Yeditepe Üniversitesi", slug: "yeditepe-universitesi", exam: "Yeditepe İngilizce Yeterlik Sınavı", official: "https://yabancidiller.yeditepe.edu.tr/sites/yabancidiller.yeditepe.edu.tr/files/exam.pdf" },

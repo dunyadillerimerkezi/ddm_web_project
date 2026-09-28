@@ -278,6 +278,16 @@ textarea {
   }
 }
 
+/* Üniversite sınav akışı: oran çubuğu soldan dolar (bir kez). */
+@keyframes ddmBarGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
