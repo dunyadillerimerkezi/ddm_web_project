@@ -1,6 +1,6 @@
 import type { FlagCode } from "@/components/graphics/Flag";
 import type { IconName } from "@/components/graphics/icons";
-import type { ImageSlotData, NavLink, Testimonial } from "@/lib/types";
+import type { ImageSlotData, NavLink } from "@/lib/types";
 import { DEFAULT_BRANCH, BRANCH_LIST } from "@/data/branches";
 import { PROMO_PATHS } from "@/data/branchPromoPaths";
 import { BRANCH_PHOTOS } from "@/data/branchPhotos";
@@ -455,23 +455,7 @@ export const TESTIMONIALS_SECTION = {
   kicker: "ÖĞRENCİ YORUMLARI",
   title: "Öğrenci Yorumları",
   cta: { label: "Öğrenci Yorumlarını Oku", href: "/ogrenci-yorumlari" },
-  items: [
-    {
-      initials: "OS", name: "Onur Saygın", role: "IELTS Öğrencisi",
-      quote:
-        "İyi eğitimli, deneyimli ve güler yüzlü, Türk ve yabancı hocalarım ile çok kısa bir sürede eksiklerimi tespit edip, ve bu eksiklerimi tamamlayıp kısa sürede İngilizce seviyemi akademik düzeyde geliştirmeme...",
-    },
-    {
-      initials: "HO", name: "Hülya Osmanoğlu", role: "İngilizce Öğrencisi",
-      quote:
-        "İngilizce öğrenmedeki zorlu mücadelem, dil seviyemin ölçüldüğü ilk sınavlardaki başarısızlığımdan sonra 5 yıl kadar uzunca bir süre âdeta küsmüştüm İngilizce'ye. Bu vazgeçiş dönemimden sonra...",
-    },
-    {
-      initials: "ÇY", name: "Çağla Yorulmaz", role: "IELTS Öğrencisi",
-      quote:
-        "Arkadaşımın tavsiyesi üzerine Dünya Dilleri Merkezi’ne IELTS sınavına yönelik eğitim almak için görüşmeye gittiğimde IELTS sınavı hakkında detaylı bütün bilgileri benimle paylaştılar.",
-    },
-  ] satisfies Testimonial[],
+  // Yorumlar P7'den beri `data/testimonials.ts` (`home` sırası) — tek kaynak; `lib/testimonialContent.ts` getHomeTestimonials.
 };
 
 /* ---------------------------------------------------------------

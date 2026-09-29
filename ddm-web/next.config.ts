@@ -1,4 +1,10 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
 import type { NextConfig } from "next";
+
+// Göreli yol: config yükleyicisi `@/` takma adını çözmeyebilir. data/testimonials.ts içe aktarma yapmıyor (saf veri).
+import { TESTIMONIALS } from "./data/testimonials";
 
 /**
  * Faz 6.5 — 21 üniversite proficiency slug'ı (`lib/universityContent.ts`
@@ -131,6 +137,37 @@ const JOOMLA_GUIDES: [string, string, string][] = [
 ];
 
 /**
+ * P7 — Öğrenci yorumları. Tekil yorum sayfası üretilmiyor (kullanıcı kararı, 2026-09-29): kaynaktaki 51 tekil adres
+ * (43 yorum; 8'i aynı yorumun yüzde kodlu / kodsuz ikinci adresi) liste sayfasına 301. Adresler ELLE YAZILMAZ —
+ * `data/site_content.json`'dan okunur (eklenen / silinen kayıt kendiliğinden kurala yansır). Her adresin hem yüzde
+ * kodlu hem Türkçe karakterli biçimi kurala girer (tarayıcılar ikisini de gönderebilir; JOOMLA_CONTACT emsali).
+ * Yayındaki yorumun eski adresi doğrudan kartına iner (`#yorum-{id}`); yayında olmayanınki listenin başına.
+ *
+ * `?start=N` sayfalama varyantları (kaynakta 4…40, canlıda 0…40) ayrı kural istemiyor: Next eşleşmede sorguya bakmaz,
+ * `/ogrenci-yorumlari.html` kuralı hepsini yakalar (sorgu hedefe taşınır; sayfa aynı, canonical sorgusuz).
+ */
+const TESTIMONIALS_PATH = "/ogrenci-yorumlari";
+/** `lib/testimonialContent.ts` `RECORD_RE` ile AYNI desen. */
+const TESTIMONIAL_URL_RE = /^\/ogrenci-yorumlari\/(\d+)-[^/?]+\.html$/;
+const PUBLISHED_TESTIMONIALS = new Set(TESTIMONIALS.filter((t) => t.published).map((t) => t.id));
+
+function testimonialRedirects(): { source: string; destination: string; permanent: true }[] {
+  const records = JSON.parse(readFileSync(join(process.cwd(), "data", "site_content.json"), "utf8")) as { url: string }[];
+  const raw = records
+    .map((r) => r.url.replace(/^https?:\/\/[^/]+/, ""))
+    .filter((path) => TESTIMONIAL_URL_RE.test(path));
+  if (raw.length === 0) throw new Error("next.config: site_content.json içinde tekil öğrenci yorumu adresi bulunamadı.");
+  const bySource = new Map<string, string>();
+  for (const path of raw) {
+    const id = Number(TESTIMONIAL_URL_RE.exec(path)![1]);
+    const destination = PUBLISHED_TESTIMONIALS.has(id) ? `${TESTIMONIALS_PATH}#yorum-${id}` : TESTIMONIALS_PATH;
+    const decoded = decodeURI(path);
+    for (const source of [path, decoded, encodeURI(decoded)]) bySource.set(source, destination);
+  }
+  return [...bySource].map(([source, destination]) => ({ source, destination, permanent: true }));
+}
+
+/**
  * P4 — yayınlanmayan sayfalar (kullanıcı kararı, 2026-09-25): "YDS Kurs Dönemi"
  * (`yds-ozel-ders-2`) — iki bilgisi YDS Kursu sayfasına taşındı.
  */
@@ -211,7 +248,11 @@ const nextConfig: NextConfig = {
       { source, destination, permanent: true },
       { source: `${source}.html`, destination, permanent: true },
     ]);
-    return [...university, ...courseDates, ...contact, ...privateLessons, ...guides, ...retired];
+    const testimonials = [
+      { source: `${TESTIMONIALS_PATH}.html`, destination: TESTIMONIALS_PATH, permanent: true },
+      ...testimonialRedirects(),
+    ];
+    return [...university, ...courseDates, ...contact, ...privateLessons, ...guides, ...retired, ...testimonials];
   },
 };
 

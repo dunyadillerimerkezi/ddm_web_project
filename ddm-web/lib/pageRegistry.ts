@@ -32,8 +32,9 @@ import { RICH_PATHS } from "@/lib/richPages";
 import { ENGLISH_LEVEL_PATHS } from "@/data/englishLevels";
 import { ENGLISH_PROGRAM_PATHS } from "@/data/englishPrograms";
 import { BRANCH_PROMO_PATHS } from "@/data/branchPromo";
+import { TESTIMONIALS_PAGE } from "@/data/testimonials";
 
-export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub" | "rich" | "english-level" | "branch-promo";
+export type PageKind = "home" | "language" | "university" | "course-date" | "branch-contact" | "exam" | "hub" | "rich" | "english-level" | "branch-promo" | "testimonials";
 
 export type PageRecord = {
   href: string;
@@ -104,6 +105,11 @@ function branchPromoPages(): PageRecord[] {
   return BRANCH_PROMO_PATHS.map((href) => ({ href, kind: "branch-promo" as const }));
 }
 
+/** P7 — Öğrenci Yorumları (tek liste sayfası; tekil yorumlar buraya 301). */
+function testimonialPages(): PageRecord[] {
+  return [{ href: TESTIMONIALS_PAGE.path, kind: "testimonials" }];
+}
+
 /** Üretilen tüm sayfaların düz listesi (güncel sayı: `npm run build` çıktısı — burada elle tutulmaz). */
 export function getPageRegistry(): PageRecord[] {
   return [
@@ -117,6 +123,7 @@ export function getPageRegistry(): PageRecord[] {
     ...richPages(),
     ...englishLevelPages(),
     ...branchPromoPages(),
+    ...testimonialPages(),
   ];
 }
 

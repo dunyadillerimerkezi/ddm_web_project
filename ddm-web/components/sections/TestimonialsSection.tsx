@@ -1,6 +1,7 @@
 import { Kicker, ButtonLink, Carousel } from "@/components/ui";
 import { TestimonialCard } from "@/components/cards/TestimonialCard";
 import { TESTIMONIALS_SECTION } from "@/data/home";
+import { getHomeTestimonials } from "@/lib/testimonialContent";
 import styles from "@/styles/TestimonialsSection.module.css";
 
 /**
@@ -8,7 +9,8 @@ import styles from "@/styles/TestimonialsSection.module.css";
  * Kaynak: `DDM Ana Sayfa.dc.html` bölüm 9.
  */
 export function TestimonialsSection() {
-  const { kicker, title, cta, items } = TESTIMONIALS_SECTION;
+  const { kicker, title, cta } = TESTIMONIALS_SECTION;
+  const items = getHomeTestimonials();
 
   return (
     <section className={styles.section}>
@@ -28,7 +30,7 @@ export function TestimonialsSection() {
           }
         >
           {items.map((item) => (
-            <TestimonialCard item={item} key={item.name} />
+            <TestimonialCard item={item} key={item.id} />
           ))}
         </Carousel>
       </div>

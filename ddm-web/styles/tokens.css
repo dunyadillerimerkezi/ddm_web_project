@@ -464,6 +464,22 @@
   --delay-bubble-step: 0.2s; /* balonlar arası */
   --duration-bar: 0.6s; /* üniversite sınav akışı: bir çubuğun dolması */
   --ddm-uni-bar-h: 6px; /* sınav akışı oran çubuğu kalınlığı */
+
+  /* P7 · Öğrenci Yorumları (2026-09-29, "C · portre duvarı") — lacivert hero'da öğrenci fotoğrafı duvarı,
+   * altında süzgeç + kart ızgarası. Kart metni sabit satırda kesilir, tamamı "Devamını oku" penceresinde. */
+  --ddm-review-photo: 72px; /* kart başındaki fotoğraf / baş harf karesi — TestimonialCard.tsx `PHOTO_SIZES` ile aynı */
+  --ddm-review-photo-sm: 56px; /* tam metin penceresi + Ana Sayfa kartı — TestimonialCard.tsx `PHOTO_SIZES` ile aynı */
+  --ddm-review-lines: 5; /* kartta gösterilen satır */
+  --ddm-review-card-min: 340px; /* ızgarada kart en dar genişlik — 1320 px kapta 3 sütun */
+  --ddm-review-quote-rule: 3px; /* alıntının solundaki çizgi */
+  --ddm-review-tile-gap: 10px; /* portre duvarı aralığı */
+  --ddm-review-pop-w: 680px; /* tam metin penceresi en geniş */
+  --ddm-review-pop-h: min(84vh, 780px); /* tam metin penceresi en yüksek (uzunu içinde kayar) */
+  --ddm-review-pop-pad-x: clamp(20px, 4vw, 40px);
+  --ddm-review-pop-pad-y: clamp(24px, 4vw, 36px);
+  --ddm-review-backdrop: rgba(22, 24, 74, 0.45); /* pencerenin arkası */
+  --ddm-review-lift: -3px; /* kartın üzerine gelince yükselmesi */
+  --delay-review-tile: 35ms; /* portreler açılışta arka arkaya */
 }
 
 /*

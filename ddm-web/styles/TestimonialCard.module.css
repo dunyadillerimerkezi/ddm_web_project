@@ -1,6 +1,8 @@
 /* ---------------------------------------------------------------
- * TestimonialCard — paylaşılan bileşen (Ana Sayfa + Faz 6.4+)
- * Kaynak: DDM Ana Sayfa.dc.html bölüm 9.
+ * TestimonialCard — paylaşılan bileşen.
+ *  .card  → Ana Sayfa kaydırıcısı (DDM Ana Sayfa.dc.html bölüm 9)
+ *  .wall  → P7 /ogrenci-yorumlari ızgarası ("C · portre duvarı")
+ *  .pop   → iki görünümün ortak tam metin penceresi (popover)
  * ------------------------------------------------------------- */
 .card {
   scroll-snap-align: start;
@@ -16,7 +18,8 @@
   transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
 }
 
-.card:hover {
+/* Pencere kartın içinde (DOM'da) — açıkken arkadaki kart kıpırdamasın. */
+.card:not(:has(:popover-open)):hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
 }
@@ -37,40 +40,280 @@
   flex: 1;
 }
 
+/* Kaydırıcıda tam metin varsa: sabit satırda kes, kart boyları eşit kalsın. */
+.clamp {
+  flex: 0 1 auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--ddm-review-lines);
+  line-clamp: var(--ddm-review-lines);
+  overflow: hidden;
+}
+
 .caption {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-}
-
-.initials {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-pill);
-  background: var(--ddm-primary);
-  color: var(--ddm-white);
-  font-family: var(--ddm-font-heading);
-  font-weight: 800;
-  font-size: 15px;
-  flex: none;
+  margin-top: auto;
 }
 
 .who {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .name {
   font-family: var(--ddm-font-heading);
   font-weight: 700;
   font-size: 16px;
+  line-height: 1.3;
   color: var(--ddm-navy-900);
 }
 
 .role {
   font-size: var(--ddm-text-body-s);
+  color: var(--ddm-gray-600);
+}
+
+/* --- fotoğraf / baş harf --- */
+.photoSm,
+.photoLg {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.photoSm {
+  width: var(--ddm-review-photo-sm);
+  height: var(--ddm-review-photo-sm);
+  border-radius: var(--radius-pill);
+}
+
+.photoLg {
+  width: var(--ddm-review-photo);
+  height: var(--ddm-review-photo);
+  border-radius: var(--radius-xl);
+}
+
+.photoImg {
+  object-fit: cover;
+  object-position: 50% 25%;
+}
+
+.initials {
+  font-family: var(--ddm-font-heading);
+  font-weight: 800;
+  color: var(--ddm-white);
+  background: var(--ddm-primary);
+  font-size: var(--ddm-text-h5);
+}
+
+.photoLg.initials {
+  background: var(--ddm-sky-bg);
+  border: 1px solid var(--ddm-sky-200);
+  color: var(--ddm-primary);
+  font-size: var(--ddm-text-h3);
+}
+
+/* --- ızgara kartı (P7) --- */
+.wall {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--ddm-white);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: var(--ddm-sticky-top); /* portreden atlayınca yapışkan header kartı örtmesin */
+  /* Reveal `transform`u kullanıyor; yükselme ayrı `translate` özelliğinde, çakışmasın. */
+  transition:
+    translate var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft);
+}
+
+/* Reveal'ın `.root [data-reveal="shown"]` geçişi (0-2-0) yukarıdaki listeyi ezmesin: ikisini birden, daha özgül
+ * seçiciyle ver (görünme: opacity + transform, gecikmeli; yükselme: translate + gölge, gecikmesiz). */
+.wall.wall[data-reveal] {
+  transition:
+    opacity var(--duration-reveal) var(--ease-out-soft) var(--reveal-delay, 0ms),
+    transform var(--duration-reveal) var(--ease-out-soft) var(--reveal-delay, 0ms),
+    translate var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft);
+}
+
+/* Süzgeç `hidden` verir; yukarıdaki `display: flex` tarayıcının gizlemesini ezmesin. */
+.wall[hidden] {
+  display: none;
+}
+
+.wall:not(:has(:popover-open)):hover {
+  translate: 0 var(--ddm-review-lift);
+  box-shadow: var(--shadow-hover);
+}
+
+.wall:target {
+  box-shadow: 0 0 0 3px var(--ddm-sky-base);
+}
+
+.wallHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.wallHead .name {
+  font-size: var(--ddm-text-h5);
+}
+
+.wallQuote {
+  margin: 0;
+  padding-left: var(--space-4);
+  border-left: var(--ddm-review-quote-rule) solid var(--ddm-sky-line);
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.7;
+  color: var(--ddm-gray-800);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--ddm-review-lines);
+  line-clamp: var(--ddm-review-lines);
+  overflow: hidden;
+}
+
+.wallFoot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  flex-wrap: wrap;
+}
+
+.tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tags li {
+  font-size: var(--ddm-text-caption);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+  background: var(--ddm-sky-bg);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+}
+
+.more {
+  min-height: var(--ddm-touch-min);
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-sky-ink);
+  cursor: pointer;
+}
+
+.card .more {
+  margin-left: 0;
+  align-self: flex-start;
+  margin-top: calc(-1 * var(--space-3));
+}
+
+.more:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.more:focus-visible,
+.close:focus-visible {
+  outline: 2px solid var(--ddm-sky-base);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.moreArrow {
+  font-size: var(--ddm-text-h5);
+  line-height: 1;
+}
+
+/* --- tam metin penceresi --- */
+.pop {
+  width: min(var(--ddm-review-pop-w), calc(100vw - 2 * var(--ddm-gutter)));
+  max-height: var(--ddm-review-pop-h);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-white);
+  box-shadow: var(--shadow-lg);
+  color: var(--ddm-gray-800);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.pop::backdrop {
+  background: var(--ddm-review-backdrop);
+}
+
+.pop:popover-open {
+  animation: var(--kf-lift-in) var(--duration-slow) var(--ease-out-soft) both;
+}
+
+.close {
+  position: sticky;
+  top: var(--space-3);
+  float: right;
+  margin: var(--space-3) var(--space-3) 0 0;
+  width: var(--ddm-touch-min);
+  height: var(--ddm-touch-min);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--ddm-sky-bg);
+  color: var(--ddm-navy-900);
+  font-size: var(--ddm-text-h3);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.popHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--ddm-review-pop-pad-y) var(--ddm-review-pop-pad-x) 0;
+}
+
+.popBody {
+  padding: var(--space-5) var(--ddm-review-pop-pad-x) var(--ddm-review-pop-pad-y);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.popBody p {
+  margin: 0;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.75;
+}
+
+.popBody .sign {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--ddm-gray-100);
+  font-size: var(--ddm-text-body);
+  line-height: 1.6;
   color: var(--ddm-gray-600);
 }

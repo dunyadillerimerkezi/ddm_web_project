@@ -67,7 +67,7 @@
 | **P4** | Zengin İçerik Alt Sayfa | ~78 | 29 (`has: query`) | L | §3 route işi, karar #1 |
 | **P5** | İngilizce Seviye Kursu | 9 (+2 → 301) | 1 (konuşma) | S–M | ✅ tamam (2026-09-28) |
 | **P6** | Şube Tanıtım | 4 | — | M | P1, karar #5 |
-| **P7** | Öğrenci Yorumu + Duyuru | 51 + 12 + 2 liste | 10 (`?start=`) | M | Karar #2 |
+| **P7** | Öğrenci Yorumu + Duyuru | yorumlar ✅ 1 liste (2026-09-29); duyurular 12 + 1 liste ⏳ | yorum 51 + liste (`?start=` dahil) ✅ | M | Karar #2 yorumlar için verildi |
 | **P8** | Faz 8 SEO taşıma + 6.7 Temizlik | — | genel kural | L | Hepsi |
 | **P9** | Kesişen işler (JSON-LD, OG, analytics, a11y, CWV) + Faz 9 QA | — | — | M | Karar #6 |
 
@@ -655,7 +655,19 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `frontend-design:frontend-design`, `run`.
 
-### P7 — Öğrenci Yorumu + Duyuru  ⏳ (M) — karar #2
+### P7 — Öğrenci Yorumu + Duyuru  ½ (M) — karar #2
+
+> **Yorumlar ✅ (2026-09-29, kullanıcı kararları):** tekil sayfa YOK, tek liste sayfası `/ogrenci-yorumlari` (sayfalama yok,
+> 25 kart tek sayfada + program süzgeci). 51 kaynak kaydı = 43 yorum (8'i aynı yorumun yüzde kodlu ikinci adresi); 25'i
+> yayında (ölçüt: somut sonuç, ≥50 kelime, program dengesi, fotoğraf), 18'i `published: false`. Kartta şube / tarih etiketi
+> yok, isimler kaynaktaki gibi. Fotoğraf: canlı liste sayfalarında 29 gerçek öğrenci fotoğrafı (brief'teki 15 + `?start=4,12…`
+> ara sayfalarından 14); tekil sayfalardaki Joomla stok görselleri kullanılmadı. Tasarım "C · portre duvarı" (3 yön: sonuç
+> kartları / program rafları / portre duvarı). Ana Sayfa kaydırıcısı aynı veriden (6 yorum; `data/home.ts`'teki 3 elle yazılmış
+> yorum kalktı). 301: `next.config.ts` adresleri `site_content.json`'dan üretir (yayındaki yorum → `#yorum-{id}`); `?start=`
+> ayrı kural istemedi (Next eşleşmede sorguya bakmaz). Dosyalar: `data/testimonials.ts`, `lib/testimonialContent.ts`,
+> `TestimonialsPage`, `TestimonialFilter`, `TestimonialCard` (`wall` görünümü), `public/assets/testimonials/`.
+> JSON-LD `Review` eklenmedi (karar #6, P9). **Kalan:** `/duyurular` + 12 duyuru, `/aktivite-aktiviteler`.
+
 - **Kapsam:**
   - `/ogrenci-yorumlari` liste + 10 `?start=N` sayfalama varyantı
   - 51 tekil `/ogrenci-yorumlari/{id}-{ad}`

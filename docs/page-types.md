@@ -17,13 +17,13 @@
 | # | Sayfa Tipi | URL Deseni (örnek) | ~Adet | Temsili Örnek URL | Durum |
 |---|---|---|---|---|---|
 | 1 | Şube Kurs Tarihi Sayfası | `/{kategori}/{kurs}/{sube}-subesi-kurs-tarihi.html` | **84** | `/yabanci-dil-egitimleri/ingilizce-kursu/besiktas-subesi-kurs-tarihi.html` | ✅ 6.6 — 72 sayfa + 16 Joomla 301 |
-| 2 | Öğrenci Yorumu (Tekil) | `/ogrenci-yorumlari/{id}-{ad-soyad}.html` | **51** | `/ogrenci-yorumlari/16-sibiya-sayeste.html` | ⏳ P7 |
+| 2 | Öğrenci Yorumu (Tekil) | `/ogrenci-yorumlari/{id}-{ad-soyad}.html` | **51** | `/ogrenci-yorumlari/16-sibiya-sayeste.html` | ✅ P7 (2026-09-29) — tekil sayfa yok; 51 adres (43 yorum) → `/ogrenci-yorumlari` 301, yayındaki 25'inin adresi doğrudan kartına (`#yorum-{id}`) |
 | 3 | Üniversite Proficiency Sayfası | `/sinav-hazirlik-egitimleri/proficiency-kursu/{universite}.html` (+ kök dizin eş kopyası) | **42** (21 üniversite × 2 URL) | `/sinav-hazirlik-egitimleri/proficiency-kursu/bogazici-universitesi.html` | ✅ 6.5 — 21 sayfa + 42 redirect |
 | 4 | Kurs Alt İçerik Sayfası (Nedir / Program / Seviye / Örnek Sınav) | `/{kategori}/{kurs}/{kurs}-nedir.html`, `.../{kurs}-2.html` | **42** | `/sinav-hazirlik-egitimleri/sat-kursu/sat-nedir.html` | ✅ P4 — 8 nedir + 8 tekil (2026-09-26: program, seviye, eğitim sistemi, "zor mu", A1 ve proficiency örnek sınav; `proficiency-sinavi` → 301); 18 "-2" sayfası yayınlanmadı → kendi kurs sayfasına 301 |
 | 5 | Özel Ders Sayfası | `/{kategori}/{kurs}/{kurs}-ozel-ders.html` (+ eski Joomla `?id=` varyantı) | **39** | `/yabanci-dil-egitimleri/fransizca-kursu/fransizca-ozel-ders.html` | ✅ P4 — 18 sayfa (9 dil + 9 sınav) + 21 Joomla `?id=` 301; `yds-ozel-ders-2` yayınlanmadı → 301 YDS Kursu |
 | 6 | Sınav Hazırlık Kursu Ana Sayfası | `/sinav-hazirlik-egitimleri/{sinav}-kursu.html` | **16** | `/sinav-hazirlik-egitimleri/toefl-kursu.html` | ✅ 6.9 (P2) |
 | 7 | Şube İletişim Sayfası | `/ddm-iletisim/{sube}.html` (+ eski `/component/content/article/...`) | **13** | `/ddm-iletisim/1-kadikoy.html` | ✅ P1 — hub + 5 sayfa + 6 Joomla 301 (form gövdesi sona bırakıldı) |
-| 8 | Liste Sayfası | `/ogrenci-yorumlari.html?start=N`, `/duyurular.html` | **12** | `/ogrenci-yorumlari.html?start=12` | ⏳ P7 |
+| 8 | Liste Sayfası | `/ogrenci-yorumlari.html?start=N`, `/duyurular.html` | **12** | `/ogrenci-yorumlari.html?start=12` | ½ P7 — `/ogrenci-yorumlari` ✅ (tek sayfa, 25 kart + süzgeç; `.html` ve tüm `?start=` → 301); `/duyurular` ⏳ |
 | 9 | Duyuru Detay Sayfası | `/duyurular/{id}-{slug}.html` | **12** | `/duyurular/31-konusma-siniflari-speaking.html` | ⏳ P7 |
 | 10 | Dil Kursu Ana Sayfası | `/yabanci-dil-egitimleri/{dil}-kursu.html` | **10** | `/yabanci-dil-egitimleri/ingilizce-kursu.html` | ✅ 6.4 — 10 sayfa |
 | 11 | İngilizce Seviye Kursu Sayfası | `/ingilizce-kurslari/{seviye}-ingilizce-kursu.html` | **11** | `/ingilizce-kurslari/elementary-ingilizce-kursu.html` | ✅ P5 (9 sayfa; konuşma + eğitim sistemi 301) |
@@ -194,6 +194,9 @@ Joomla (`/component/content/article/...`) URL'i var → tekilleştirme gerekiyor
 - Sayfa numarası / offset (`?start=`)
 - Listelenen kart sayısı ve içeriği (öğrenci yorumu veya duyuru özetleri)
 - Title/meta description tüm sayfalama varyantlarında **aynı** ("Öğrenci Yorumları" / jenerik metin)
+
+**P7 (2026-09-29):** öğrenci yorumları sayfalamasız tek sayfa oldu (`/ogrenci-yorumlari`, "C · portre duvarı": 25 kart,
+program süzgeci, tam metin açılır pencerede). Aşağıdaki not eski öngörü.
 
 **Not:** Yeni sitede bu tip muhtemelen query-param'lı sayfalama yerine tek bir
 `/ogrenci-yorumlari` sayfasında client-side/infinite-scroll veya `/ogrenci-yorumlari?page=N`

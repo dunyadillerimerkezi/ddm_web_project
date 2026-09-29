@@ -75,7 +75,8 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
   (`next.config.ts` → `redirects()`). Genel `.html` → temiz URL kuralı **Faz 8'de**
   gelecek; ondan önce her tip kendi özel redirect'lerini **o tipin fazında**
   ekler (şu an dolu: 6.5 → 21 üniversite kök URL'i × `.html`/`.html`siz = 42;
-  6.6 + P0 → 16 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla; kaynaktaki 61 query'li URL'in tam envanteri:
+  6.6 + P0 → 16 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla; P7 → 51 öğrenci yorumu adresi
+  `site_content.json`'dan üretilir, `?start=` sayfalaması tek `.html` kuralında — hedef aynıysa `has: query` gerekmez; kaynaktaki 61 query'li URL'in tam envanteri:
   `../docs/remaining-pages-plan.md` §4). Yeni tip
   eklerken kalıp: tip fazında ilgili eski URL'leri `redirects()`'e ekle, Faz 8'de
   genel kurala bırakma.
@@ -165,6 +166,13 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     "Beşiktaş"). Form + KVKK (`ignoredBlocks`) ve `fas fa-*` gösterilmez. **Onaylı sapma:** `title` / `description` yerel arama
     için yeniden yazıldı ("Kadıköy Dil Kursu | Dünya Dilleri Merkezi Kadıköy"; gerekçe `meta.reasons`). Ulaşım genel bilgi
     (resmi hat sayfası + OSM, kuş uçuşu; doğrulanamayan otobüs hattı / açılmamış M12 yazılmaz). İçerik soruları iş bitince toplu sorulur.
+  - **Öğrenci yorumları (P7, 2026-09-29, kullanıcı):** yorum öğrencinin kendi sözü — yazım hatası dahil DOKUNULMAZ; metin
+    `data/testimonials.ts`'e yazılmaz, `lib/testimonialContent.ts` kaynaktan okur (ilk satır ad, son `signLines` satır imza).
+    Tek dokunuş eski HTML'in kelime ortası kırılması (`edits`, kullanılmayan anahtar build'i düşürür). İsimler kaynaktaki gibi
+    ("Öykü HIZAL"). Etiket (program) yalnız yorumun metninde geçen addan; şube ve tarih etiketi YOK. Kartta kesme yalnız CSS
+    (satır sayısı), tam metin "Devamını oku" penceresinde. Yayında olmayan yorum silinmez (`published: false`). Tekil yorum
+    sayfası açılmaz. Title / description yeniden yazıldı (kaynak açıklama form çağrısı; gerekçe `TESTIMONIALS_PAGE.meta.reasons`).
+    JSON-LD `Review` / puan eklenmez (karar #6). Fotoğraf yalnız öğrencinin kendi fotoğrafı (Joomla stok görseli değil).
   - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
     not barajı, sertifika) ekleme-çıkarma YOK; sayfada zaten yazılı olgular aynı anlamda yeniden
     cümlelenebilir (SSS cevapları `lib/languageFaq.ts` bunları o dilin kendi metninden regex'le okur,
@@ -211,7 +219,7 @@ ddm-web/
 │   ├── sections/   # Sayfa bölümleri: PageHero (modlar dil/uni/sube), ScheduleTable,
 │   │               # WeekGrid, CourseDatePage, DetailSections, ProcessSteps,
 │   │               # ContactFormCard, BranchContactPage, BranchHub, UniversityGrid, LanguageGrid,
-│   │               # LevelExplorer, PricingPanel, CtaBand, TestimonialsCarousel…
+│   │               # LevelExplorer, PricingPanel, CtaBand, TestimonialsPage…
 │   └── graphics/   # Icon + ikon kaydı, Illustration (200×200 set), Flag, LanguageGlobe
 ├── styles/
 │   ├── tokens.css  # TÜM tasarım tokenları (§1) — tek kaynak
@@ -403,6 +411,13 @@ ddm-web/
 > dokunmatik iletişim kutuları (ara / WhatsApp / e-posta / yol tarifi; WhatsApp'ı olmayan şubede 3 kutu), sağda semt fotoğraflı kart +
 > tanıtım bağlantısı; harita + ulaşım (`data/branchTransit.ts`, tanıtımla ortak); diğer şubeler. Hub `BranchHub`: semt fotoğraflı
 > 3 + 2 kart. Semt fotoğrafları tek kaynak `data/branchPhotos.ts`. Form hâlâ yok (karar #4).
+> **Öğrenci Yorumları (P7, 2026-09-29, "C · portre duvarı"):** `TestimonialsPage` — sınav sayfalarının degrade lacivert hero'su
+> (`PageHero` kabuğu) + sağda öğrencilerin kendi fotoğraflarından duvar (6×3, mobilde 5×3; kare o kişinin kartına iner, açılışta
+> bir kez sırayla belirir). Tek baskın bölüm: gri zeminde program süzgeci (`TestimonialFilter`, düğmeler sunucuda basılır — CLS
+> yok; gizli karta gidilirse süzgeç sıfırlanır) + 3 sütun kart (`TestimonialCard variant="wall"`: fotoğraf / baş harf karesi,
+> ad, okul ya da program, `--ddm-review-lines` satırda kesilen alıntı, etiketler, "Devamını oku"). Tam metin `popover`
+> penceresinde (JS'siz; Esc / dışarı tıklama kapatır). Sonda `CtaBand`. Ana Sayfa kaydırıcısı aynı kart (`slide`) + aynı
+> pencere, veri `home` sırasıyla. Hover yükselmesi `translate` ile (Reveal'ın `transform`uyla çakışmasın).
 > **Nedir (2026-09-26):** sınav ana sayfalarından AYRI `GuidePage` — açık mavi hero, H1 altında büyük kısa cevap, sağda
 > lacivert "bir bakışta" `<dl>`; gövdede solda yapışkan soru listesi (`GuideToc`), her bölüm soru → kalın tek cümlelik
 > cevap → madde / bölüm kartı / tablo; uzun paragraf bloğu yok; fotoğraf ve hareket yok; sonda kaynaklar + son güncelleme.

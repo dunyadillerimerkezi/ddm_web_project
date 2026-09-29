@@ -118,6 +118,27 @@ export type Testimonial = {
   name: string;
   role: string;
   initials: string;
+  /** P7: öğrencinin kendi fotoğrafı (`/assets/testimonials/…`). Yoksa baş harf rozeti. */
+  photo?: TestimonialPhoto;
+};
+
+export type TestimonialPhoto = {
+  src: string;
+  /** Küçük karede yüzün yeri (CSS object-position), ör. "82% 30%". */
+  focus?: string;
+};
+
+/** P7 — kaynaktan çözülmüş tam yorum (`lib/testimonialContent.ts`). `quote` = paragraflar tek satırda (kart kısaltır). */
+export type StudentTestimonial = Testimonial & {
+  id: number;
+  /** Tam metin, imza hariç — öğrencinin sözü birebir. */
+  paragraphs: string[];
+  /** İmza satırları (ad, okul, puan satırı) — yalnız tam metin penceresinde. */
+  sign: string[];
+  tags: string[];
+  /** Süzgeç anahtarları (`TESTIMONIAL_FILTERS`). */
+  filters: string[];
+  lang?: "en";
 };
 
 /** Bölüm 11 SSS — soru kaynak başlığın birebir kendisi, cevap kaynak

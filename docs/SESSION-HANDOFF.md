@@ -7,43 +7,42 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-28, P6 · Şube Tanıtım — 4 sayfa bitti, Ümraniye bilgi bekliyor; commit kullanıcı onayında)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-29, P7 · Öğrenci Yorumları bitti; commit kullanıcı onayında)*
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `0e81888` (kullanıcı; P5 dahil). **P6 kodu çalışma ağacında, commit'lenmedi** — kullanıcıya sorulacak. |
-| **Son döküman commit'i** | `0e81888`; P6 döküman güncellemeleri commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**206 statik sayfa**, 202'den; Ümraniye gelince 207) · `check-links` **3 benzersiz / 204 çift** (değişmedi; yalnız P7) · sitemap'te 4 tanıtım adresi · 4 sayfa × 1440/390/360 taşma yok, tek H1, konsol temiz · 478–537 görünen / 547–864 toplam kelime |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 (form hariç; 2026-09-28 yeni görünüm "A · hızlı iletişim") · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · **P6 Şube Tanıtım 4/5** (Kadıköy, Bağdat Caddesi, Levent / Etiler, Ataşehir) |
-| **Aktif faz** | P6 — Ümraniye kaldı (kaynakta tanıtım kaydı yok, bilgi kullanıcıdan) |
-| **Bir sonraki somut adım** | Kullanıcının toplu cevaplarını al (aşağıda "Bekleyen kullanıcı kararları") → `data/branchPromo.ts`'e Ümraniye tanımı (`source: null`, kapsama muaf — `lib/branchPromoContent.ts` `resolve()` şu an kaynaksız tanımı reddediyor, o dal yazılacak) + `data/branchPromoPaths.ts` satırı + `app/umraniye-tanitim-sayfasi/page.tsx`. |
-| **Yarım kalan iş** | **Ümraniye tanıtım sayfası** — kod yazılmadı (yarım kod yok). Beklenen: fotoğraflar (dış cephe + 2–3 iç mekân), açılış yılı (Ana Sayfa kaynağı "15 yıllık tecrübe" diyor), açılan diller / programlar, derslik/kapasite, otopark, kurs takvimi yayınlanacak mı. Ulaşım araştırıldı: M8 Mevlana ~1,3 km (yürüme mesafesinde metro yok), M12 yapımda. |
-| **Engeller** | Kalan 3 ölü hedef: `/ogrenci-yorumlari` (footer), `/aktivite-aktiviteler`, `/duyurular` → P7 |
-| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md)** (kullanıcı toplu soracak). Özet — **P6:** dil listesi çelişkisi (Kadıköy 9 dil, Ataşehir 8, Levent 15, menü 10, footer "19 farklı dil") · "25 yıl" (Bağdat Caddesi başlığı + Levent maddesi) ↔ "2003'ten bu yana" · Levent metni "Etiler" diyor, adres Levent tarafında (Nispetiye Cad., PK 34330) · `sube-1..5.jpeg` iç mekân fotoğraflarının şubesi (şu an kullanılmıyor) · "Öğrenme Garantisi" bağlantısı (ayrı sayfa yok, Eğitim Sistemi'ne gidiyor) · Ümraniye bilgileri · JSON-LD `LocalBusiness` (#6) · **Önceki fazlardan:** İngilizce Kursları hub B2 etiketi · `summer_school.jpg` 800×450 · Çocuklar İçin İngilizce 6/5 saat · Kaplan ortaklığı / rakamları · Yurtdışı Enforex · üniversite sayfalarında eski sınav adları · GMAT/GRE grup büyüklüğü · online çatı fotoğrafı · #2 yorum/duyuru · #4 form |
-| **Bilinen veri notları** | P6: form + KVKK (1249 kelime) 4 kayıtta birebir — %75 benzerliğin kaynağı; gerçek tanıtım metinleri %3–10 benzer. Kaynakta h1 yok → şube adını taşıyan satır H1 (Levent'te "Etiler Şubesi" → "Levent / Etiler Şubesi" `edits`). Kurs tarihi sayfalarındaki tarihler 2022'den (P6 yalnız bağlantı veriyor). Eski sitede Ataşehir harita işaretçisi Maltepe'yi gösteriyor — kullanılmadı; harita sorgusu `data/branches.ts` adresinden (posta kodu atılarak). `kadikoy.jpg`'de "@bildrone" filigranı (kullanıcı: "boşver"). 6 `tanitim-icerik/*` kaydı = eski tanıtım sayfalarının 6 sekmesinin içerikleri (Faz 8). İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/` |
-| **Kalıcı kurallar** | P4/P5/P6 içerik kuralı (CLAUDE.md §5; P6: firma metni birebir "Ayrıntılı bilgi"de, üstteki kısa metinler kaynak parçası `match`) · P6 tasarım (CLAUDE.md §9, "B · şube künyesi") · `soon` bayrağı (§10) · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
+| **Son kod commit'i** | `60eed63` (kullanıcı; P6 + UI turları dahil — önceki §A "commit'lenmedi" diyordu, eskimişti). **P7 kodu çalışma ağacında, commit'lenmedi** — kullanıcıya sorulacak. |
+| **Son döküman commit'i** | `60eed63`; P7 döküman güncellemeleri + kullanıcının `bekleyen-sorular.md` Ümraniye düzenlemesi commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**207 statik sayfa**, 206'dan) · `check-links` **2 benzersiz** (`/duyurular`, `/aktivite-aktiviteler`) · sitemap'te `/ogrenci-yorumlari` · 62 eski yorum adresi test edildi: 30'u kartına (`#yorum-{id}`), 32'si listeye, 0 hata · 1440 / 390 / 360 taşma yok, tek H1, konsol temiz |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · P6 Şube Tanıtım 4/5 · **P7 Öğrenci Yorumları** (tek sayfa + Ana Sayfa bölümü) |
+| **Aktif faz** | P7 yarısı bitti (yorumlar). Kalan: `/duyurular` + 12 duyuru, `/aktivite-aktiviteler` — ayrı oturum. P6 Ümraniye hâlâ kullanıcı bilgisi bekliyor. |
+| **Bir sonraki somut adım** | Kullanıcıya commit'i sor (kod / döküman ayrı). Sonra P7 duyurular: `site_content.json`'daki `/duyurular` kayıtlarını dök (12 tekil + liste), `/aktivite-aktiviteler` kararını al; yorumlardaki desen örnek (`data/testimonials.ts` + `lib/testimonialContent.ts` + `next.config.ts` kaynaktan üretilen 301). |
+| **Yarım kalan iş** | Yok (P7 yorumlar bitti). Ümraniye tanıtım sayfası yazılmadı (P6, bilgi bekliyor). |
+| **Engeller** | Kalan 2 ölü hedef: `/duyurular`, `/aktivite-aktiviteler` (footer / Ana Sayfa kartları) |
+| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** P7: JSON-LD `Review` (karar #6, P9) · yorumlarda eski çalışan adları (bilgi) · seçilmeyenlerde ad yazımı çelişkisi. P6 + önceki fazlardan açık kalanlar aynen duruyor (Ümraniye en başta). |
+| **Bilinen veri notları** | P7: 51 kaynak kaydı = 43 yorum (8'i aynı yorumun yüzde kodlu / ASCII ikinci adresi, metinler birebir aynı — build denetler). Kaynaktaki `?start=` 4'er (4…40), canlıda 8'er (0…40); canlıda sayfa başına yalnız ilk 4 yorumun içeriği (ve fotoğrafı) açık → fotoğraflar `?start=4,12,…` ara sayfalarında da var. 29 gerçek fotoğraf `public/assets/testimonials/` (kişi adıyla ASCII, EXIF silinmiş, ≤640 px, toplam 1,2 MB; 19'u yayında). Yorumlar 2015–2018 arası. İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/` |
+| **Kalıcı kurallar** | CLAUDE.md §5 (P7 yorum kuralı: metin dokunulmaz, isim kaynaktaki gibi, şube / tarih etiketi yok) · §9 ("C · portre duvarı") · §3 (kaynaktan üretilen 301) · `soon` bayrağı (§10) · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
 
 
-**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-09-28):**
+**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-09-29):**
 
 ```
-P6 devam · Ümraniye tanıtım sayfası (/umraniye-tanitim-sayfasi) + P6 toplu soruların cevapları.
+P7 devam · Duyurular (/duyurular + 12 tekil) ve /aktivite-aktiviteler.
 
 OTURUM BAŞI
-- Oku: docs/SESSION-HANDOFF.md §A (Bekleyen kararlar + Yarım kalan iş), ddm-web/CLAUDE.md §5 (P6), §9 (P6 notu),
-  docs/remaining-pages-plan.md §5 P6. git status / git log -5. Türkçe ve kısa yaz.
+- Oku: docs/SESSION-HANDOFF.md §A, ddm-web/CLAUDE.md §3 (301), §5 (P7 notu), §9 (P7 notu), docs/remaining-pages-plan.md §5 P7,
+  docs/bekleyen-sorular.md. git status / git log -5. Türkçe ve kısa yaz.
 
-YAPILANLAR (örnek al)
-- data/branchPromo.ts (4 tanım, blok listesi: intro / programs / highlights / corporate / gallery), lib/branchPromoContent.ts
-  (createGuideResolver + Excerpt.match bekçisi + kapsama), BranchPromoPage + BranchMap, 4 kök klasör, data/branchPromoPaths.ts.
+ÖRNEK AL (P7 yorumlar)
+- data/testimonials.ts (tanım + published bayrağı; metin kaynaktan), lib/testimonialContent.ts (build denetimleri),
+  next.config.ts testimonialRedirects() (adresler site_content.json'dan üretilir, elle yazılmaz), TestimonialsPage.
 
 BU OTURUMUN İŞİ
-- Kullanıcının cevaplarını uygula (dil listesi, 25 yıl, Etiler/Levent adı, sube-1..5 fotoğrafları, Öğrenme Garantisi).
-- Ümraniye: kaynak kaydı yok → source: null dalı (assertCoverage muaf, metin kullanıcıdan; uydurma yok). Fotoğraf yoksa ImageSlot.
-  Kurs tarihi verisi yok → bölüm gösterilmez. Build 206 → 207, check-links 3'te kalmalı.
-- İletişim → Ümraniye sayfasından ve Ana Sayfa kartından bağlantı (data/branchPromoPaths.ts'e satır eklemek yeterli).
+- Aşama 0: duyuru kayıtlarını dök (başlık, tarih, kelime, eskimiş mi — ör. "kar tatili"). Tekil sayfa mı / liste + 301 mi →
+  kullanıcıya sor (yorumlarda tekil sayfa açılmadı). /aktivite-aktiviteler için kaynakta ne var, karar al.
+- Tasarım: 2-3 yön taslağı (scratchpad, 1440 + 390), kullanıcı seçimi, sonra kod. check-links 2 → 0.
 
-KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P6. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
+KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P7. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
 ```
 
 ---
@@ -82,6 +81,33 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P6. Commit'i kul
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-29 · Opus 5.5 · P7 — Öğrenci Yorumları (tek sayfa + Ana Sayfa bölümü) — commit bekliyor
+- **Aşama 0:** 62 kayıt = 1 liste + 10 `?start=` + 51 tekil; 51 tekil = **43 yorum** (8'i aynı yorumun yüzde kodlu / ASCII ikinci
+  adresi). Fotoğraf: brief 15 diyordu, canlı liste sayfalarında **29** gerçek öğrenci fotoğrafı (ara `?start=4,12,20,28,36`
+  sayfaları gözden kaçmıştı; canlıda her sayfada yalnız ilk 4 yorumun içeriği açık). İki fotoğraf yalnız sayfadaki yerinden
+  eşleşti (`ddm-ogrenci` → Cemal Uçar, `ece-ogrenci` → Ece Ertürk; ikisi de yayında değil). Yorumlarda geçen şubeler: Bağdat
+  Caddesi, Kadıköy, Ataşehir, Beşiktaş, Kurtköy — Ümraniye ve Levent / Etiler yok. Tarihler 2015–2018.
+- **Kararlar (kullanıcı):** 25'lik seçim onaylı (somut sonuç, ≥50 kelime, program dengesi, fotoğraf) · kartta şube ve tarih
+  etiketi yok · isimler kaynaktaki gibi · tasarım **C · portre duvarı** (3 yön: sonuç kartları / program rafları / portre duvarı).
+- **Yeni:** `data/testimonials.ts` (43 tanım, `published`, `signLines`, `tags`, `affiliation`, `photo`, `home`, `edits`;
+  `TESTIMONIAL_FILTERS`, `TESTIMONIALS_PAGE`), `lib/testimonialContent.ts` (kaynaktan çözer; build denetimleri: kapsama, iki
+  adreste aynı metin, ilk satır = başlık, kullanılmayan `edits`, imzada `affiliation`, diskte fotoğraf, Ana Sayfa sırası),
+  `TestimonialsPage`, `TestimonialFilter` (istemci; gizli karta gidilirse süzgeç sıfırlanır ve kaydırır),
+  `TestimonialCard` `wall` görünümü + fotoğraf + JS'siz `popover` tam metin, `app/ogrenci-yorumlari/page.tsx`
+  (`generateMetadata`, ≤60 / ≤155 bekçisi), `PageKind` `testimonials`, P7 tokenları (`--ddm-review-*`),
+  `public/assets/testimonials/` (29 dosya). Ana Sayfa kaydırıcısı `getHomeTestimonials()` (6: Dora, Onur, Mehmet Akif, Çağla,
+  Öykü, Tuğçe) — `data/home.ts`'teki elle yazılmış ve "…" ile kesilmiş 3 yorum kalktı (Hülya seçim dışı).
+- **301:** `next.config.ts` `testimonialRedirects()` adresleri `site_content.json`'dan üretir (her adresin yüzde kodlu + Türkçe
+  karakterli biçimi); yayındaki yorum → `/ogrenci-yorumlari#yorum-{id}`, diğerleri → liste. `/ogrenci-yorumlari.html` tek kural
+  tüm `?start=` varyantlarını kapsar (Next eşleşmede sorguya bakmaz; `has: query` gerekmedi).
+- **Kaynak düzeltmeleri (`edits`, eski HTML'in kelime ortası kırılması):** Salih "Th / ank you", Tuğçe "bölümü / ne", Ece Özdemir
+  "applied to / DDM". Title / description yeniden yazıldı (kaynak açıklama form çağrısıydı). Tuğçe'nin boy fotoğrafı yüzüne göre kırpıldı.
+- **code-review (high):** 10 bulgunun 9'u düzeltildi — gizli karta portreden gidince kaydırma yoktu · yapışkan header kartı
+  örtüyordu (`--ddm-sticky-top`) · Reveal geçişi hover geçişini eziyordu · Ana Sayfa kartında figcaption son çocuk değildi ·
+  pencere açıkken arkadaki kart hover'da kıpırdıyordu · eski adres yalnız listeye gidiyordu (artık kartına) · yorumlar iki kez
+  çözülüyordu · adres deseni iki yerde farklıydı · ham px token'a. Kullanılmayan `TestimonialsCarousel` (+ CSS) kullanıcı kararıyla silindi.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ 207 · check-links 2 · 62 eski adres 0 hata · 3 genişlik taşma yok, tek H1, konsol temiz.
 
 ### 2026-09-28 · Opus 5.5 · UI turu — Proficiency üniversite sayfaları (21, "A · sınav akışı") — commit bekliyor
 - **Sorun (kullanıcı + teşhis):** hero çizimi her sayfada aynı ve 7 sayfada yanlış ("3 bölüm" ↔ 2), "tarih bekleniyor"

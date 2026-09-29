@@ -1,0 +1,168 @@
+/* ---------------------------------------------------------------
+ * TestimonialsPage — P7 Öğrenci Yorumları ("C · portre duvarı").
+ * Hero kabuğu `PageHero.module.css`ten (kırıntı, ızgara, başlık, lead);
+ * burada yalnız degrade zemin, portre duvarı, süzgeç ve kart ızgarası.
+ * ------------------------------------------------------------- */
+.hero {
+  background: var(--ddm-exam-hero-bg);
+  /* Degrade header'ın arkasındaki saydam kenarlıktan başlasın (globals.css). */
+  background-origin: border-box;
+}
+
+/* PageHero `.grid` kolonlarını ezmek için iki sınıf. */
+.hero .heroGrid {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+/* --- portre duvarı --- */
+.faces {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--ddm-review-tile-gap);
+}
+
+.faces li {
+  animation: var(--kf-lift-in) var(--duration-slow) var(--ease-out-soft) both;
+  animation-delay: calc(var(--i) * var(--delay-review-tile));
+}
+
+.face {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--ddm-navy-800);
+}
+
+.face img {
+  object-fit: cover;
+  object-position: 50% 25%;
+  transition: scale var(--duration-zoom) var(--ease-out-soft);
+}
+
+.face:hover img {
+  scale: 1.06;
+}
+
+.face:focus-visible {
+  outline: 2px solid var(--ddm-sky-400);
+  outline-offset: 3px;
+}
+
+/* --- gövde --- */
+.body {
+  background: var(--ddm-gray-50);
+  padding: var(--space-10) var(--ddm-gutter) var(--ddm-section-y);
+}
+
+.inner {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+}
+
+.filterBar {
+  margin-bottom: var(--space-6);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  min-height: var(--ddm-touch-min);
+  padding: 0 var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid var(--ddm-sky-200);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-white);
+  color: var(--ddm-navy-900);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.chip:hover {
+  border-color: var(--ddm-sky-line);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--ddm-sky-base);
+  outline-offset: 2px;
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--ddm-primary);
+  border-color: var(--ddm-primary);
+  color: var(--ddm-white);
+}
+
+.chipCount {
+  font-size: var(--ddm-text-caption);
+  font-weight: 600;
+  color: var(--ddm-gray-500);
+}
+
+.chip[aria-pressed="true"] .chipCount {
+  color: var(--ddm-navy-200);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--ddm-review-card-min)), 1fr));
+  gap: var(--space-5);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 999px) {
+  .hero .heroGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .faces {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .faces li:nth-child(n + 16) {
+    display: none;
+  }
+
+  .face {
+    border-radius: var(--radius-md);
+  }
+
+  /* Düğmeler tek satırda yana kayar; kenarlar sayfa boşluğuna kadar uzar. */
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0 calc(-1 * var(--ddm-gutter));
+    padding: var(--space-1) var(--ddm-gutter) var(--space-2);
+    scrollbar-width: none;
+  }
+}
