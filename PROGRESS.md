@@ -365,12 +365,13 @@ ki koda çevirince veri-tabanlı üretebileyim.
 - [x] **6.12 · P5 İngilizce Kursları** (9 sayfa; 2026-09-27/28) — seviye 5 (Elementary A1 → Advanced C1) + hedef kitle 4 (İlköğretim, Üniversite Hazırlık, YKS Dil, Yaz Okulu). İngilizce Konuşma Kursu Dil Kursu'nun konuşma sayfasına 301 (içerik aynı, saatler çelişkili); İngilizce Eğitim Sistemi P4'te (301). Tasarım: seviye "B · seviye kartı" (açık hero + B1 kartı + yapışkan merdiven + renkli A2·B1·B2 karşılaştırması), hedef kitle ayrı aile (lacivert fotoğraflı hero + program şeridi + baskın panel: kartlar / adımlar / soru dağılımı / rakamlar). Genel bilgi resmi kaynaklı (CEFR, IELTS, Cambridge, ÖSYM YDT, YÖK hazırlık, MEB). `data/englishLevels.ts`, `data/englishPrograms.ts`, `lib/englishLevelContent.ts`, `lib/englishProgramContent.ts`, `EnglishLevelPage`, `EnglishProgramPage`, `PageKind` `english-level`. **202 statik sayfa**, check-links 3/200. Commit'i kullanıcı yapacak.
 - [~] **6.13 · P6 Şube Tanıtım** — 4/5 (2026-09-28: Kadıköy, Bağdat Caddesi, Levent / Etiler, Ataşehir; Ümraniye kullanıcı bilgisi bekliyor)
 - [~] **6.14 · P7 Öğrenci Yorumu + Duyuru** — yorumlar ✅ (2026-09-29): tek sayfa `/ogrenci-yorumlari` ("C · portre duvarı"; 43 yorumdan 25'i yayında, 18'i `published: false`; 19'u fotoğraflı, program süzgeci, tam metin açılır pencerede), Ana Sayfa kaydırıcısı aynı veriden (6 yorum), 51 tekil adres + `.html` / `?start=` → 301 (yayındakiler kartına `#yorum-{id}`). **207 statik sayfa**, check-links **2** (`/duyurular`, `/aktivite-aktiviteler`). Duyurular ⏳ (ayrı oturum).
+- [~] **PF · İletişim / ön bilgi formu** — **görsel yarı ✅ (2026-09-29), arka uç YOK** (karar #4'ün görsel yarısı). Tasarım "A · lacivert yan panel"; `ContactForm` kurs tarihi sayfaları hariç **131 sayfada** (`CtaBand` yerine; Şube İletişim'de hero altında), şube / kurs sayfaya göre hazır seçili, 36 kurs seçeneği (`data/courseOptions.ts`), KVKK metni `/ddm-iletisim` sonunda (kaynaktan). Basınca "Form henüz açılmadı" notu + şube telefonu — veri gitmez. Eski `ContactFormCard` / `DetailSections` silindi. **207 statik sayfa** (değişmedi), check-links **2** (değişmedi).
 - [ ] **6.15 · P8 Faz 8 SEO taşıma + 6.7 Temizlik** (genel `.html` 301, 384 URL taraması, metadata denetimi)
 - [ ] **6.16 · P9 Kesişen işler + Faz 9 QA** (JSON-LD, OG, analytics, a11y, CWV)
 
 **Açık kararlar (kullanıcıdan):** yeni şablonların tasarım kaynağı (Claude Design turu
 mu, mevcut atomlarla kod mu) · yorum/duyuru tekil sayfa mı 301 mi · iletişim/ön kayıt formu
-gönderim yöntemi · şube galeri görselleri ve eksik adres/telefon verisi. Detay: plan §5.
+gönderim yöntemi (form görsel olarak hazır, PF) · şube galeri görselleri ve eksik adres/telefon verisi. Detay: plan §5.
 
 **Bağımlılık notu:** paylaşılan bileşenler ilk ihtiyaç duyulan aşamada doğar,
 sonrakiler yeniden kullanır. Bu sırayla: Carousel + TestimonialCard 6.3'te,

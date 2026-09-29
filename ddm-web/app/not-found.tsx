@@ -11,7 +11,7 @@ import { ButtonLink } from "@/components/ui";
  */
 export default function NotFound() {
   return (
-    <SiteChrome>
+    <SiteChrome ctaHref="/ddm-iletisim">
       <PageSection kicker="404" title="Bu sayfayı bulamadık" ground="light">
         <p style={{ maxWidth: 560, color: "var(--ddm-gray-600)", marginBottom: 24 }}>
           Aradığınız sayfa taşınmış ya da henüz yayınlanmamış olabilir. Ana sayfaya

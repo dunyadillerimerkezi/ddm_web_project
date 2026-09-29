@@ -6,7 +6,8 @@ import { ExamHero } from "./ExamHero";
 import { ExamRow } from "./ExamRows";
 import { ExamDirectory } from "./ExamDirectory";
 import { UniversityGrid } from "./UniversityGrid";
-import { CtaBand } from "./CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 import { EXAM_GUIDES } from "@/data/examGuides";
 import { getExamGlance } from "@/data/examGlance";
@@ -28,7 +29,6 @@ import styles from "@/styles/ExamRows.module.css";
  * blok sırasıdır. CTA'lar 6.6 kararı: fiyat CTA'sı yok, "Bilgi Al" → `/ddm-iletisim`.
  */
 
-const CONTACT_HREF = "/ddm-iletisim";
 
 export function examMetadata(def: ExamDef): Metadata {
   const page = getExamPage(def);
@@ -59,13 +59,13 @@ export function ExamCoursePage({ def }: { def: ExamDef }) {
   const guide = guideLink(def);
 
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <ExamHero
         crumbs={crumbs}
         code={def.code ?? def.name}
         h1={page.h1}
         lead={page.heroLead}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        primary={{ label: "Bilgi Al", href: FORM_HREF }}
         secondary={hasDates ? { label: "Kurs tarihleri", href: "#kurs-tarihleri" } : undefined}
         glance={getExamGlance(def.slug)}
         guide={guide}
@@ -82,13 +82,7 @@ export function ExamCoursePage({ def }: { def: ExamDef }) {
 
       <ExamDirectory current={def.slug} />
 
-      <CtaBand
-        id="kayit"
-        ground="gray"
-        title={`${def.name} kursu hakkında bilgi alın`}
-        sub="Size en yakın şubemizi seçin, eğitim danışmanlarımız program ve kurs tarihleri hakkında bilgi versin."
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
-      />
+      <ContactForm title={`${def.name} kursu hakkında bilgi alın`} course={examHref(def.slug)} />
     </SiteChrome>
   );
 }

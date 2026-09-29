@@ -14,7 +14,8 @@ import { TeachingCycle } from "@/components/sections/TeachingCycle";
 import { FaqAside } from "@/components/sections/FaqAside";
 import { CourseDateList } from "@/components/sections/CourseDateList";
 import { LanguageLinks, type LanguageLinkItem } from "@/components/sections/LanguageLinks";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { LANGUAGES, getLanguageDef } from "@/data/languages";
 import { LANGUAGE_EXTRAS } from "@/data/languageExtras";
 import type { HomeStat } from "@/data/home";
@@ -133,7 +134,7 @@ export default async function DilKursuPage({
   ];
 
   return (
-    <SiteChrome ctaLabel="Kayıt Ol" ctaHref="#kayit">
+    <SiteChrome ctaLabel="Kayıt Ol">
       <PageHero
         crumbs={crumbs}
         code={def.code}
@@ -141,7 +142,7 @@ export default async function DilKursuPage({
         showCertBadge={page.certification !== null}
         h1={page.h1}
         lead={page.heroLead.join(" ") || null}
-        primary={{ label: "Bilgi Al", href: "#kurs-takvimi" }}
+        primary={{ label: "Bilgi Al", href: FORM_HREF }}
         secondary={{ label: "", href: null }}
         art={{
           name: def.key,
@@ -184,7 +185,7 @@ export default async function DilKursuPage({
       )}
 
       <PageSection id="kurs-takvimi" ground="light" kicker="KURS TAKVİMİ" title={def.content.programSchedule.heading}>
-        <WeekSchedule slots={slots} cta={{ label: "Ön Bilgi Formu", href: "#kayit" }} />
+        <WeekSchedule slots={slots} cta={{ label: "Ön Bilgi Formu", href: FORM_HREF }} />
       </PageSection>
 
       <WhyDdm
@@ -224,12 +225,8 @@ export default async function DilKursuPage({
 
       <LanguageLinks kicker="DİĞER DİLLER" title="Yabancı Dil Kursları" items={otherLanguageItems(def)} />
 
-      <CtaBand
-        id="kayit"
-        ground="gray"
-        title={page.teachingModel.closingCta}
-        primary={{ label: "İletişime Geçin", href: "/ddm-iletisim" }}
-      />
+      {/* Kaynağın kapanış çağrısı (eski şeridin başlığıydı) — uzun cümle, başlık değil alt satır. */}
+      <ContactForm lead={page.teachingModel.closingCta} course={`/yabanci-dil-egitimleri/${def.slug}`} />
     </SiteChrome>
   );
 }

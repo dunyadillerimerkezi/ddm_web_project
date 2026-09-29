@@ -4,11 +4,10 @@ import Image from "next/image";
 import { TestimonialCard } from "@/components/cards/TestimonialCard";
 import { SiteChrome } from "@/components/layout";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
 import { TestimonialFilter } from "@/components/sections/TestimonialFilter";
 import { Reveal } from "@/components/ui/Reveal";
 import { TESTIMONIALS_PAGE } from "@/data/testimonials";
-import { CONTACT_HREF } from "@/lib/hubLinks";
 import { getPublishedTestimonials, getTestimonialFilters } from "@/lib/testimonialContent";
 import hero from "@/styles/PageHero.module.css";
 import styles from "@/styles/TestimonialsPage.module.css";
@@ -26,7 +25,7 @@ export function TestimonialsPage() {
   const faces = items.filter((t) => t.photo).slice(0, WALL_TILES);
 
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <section className={`${hero.section} ${styles.hero}`}>
         <div className={hero.glow} aria-hidden="true" />
         <div className={hero.crumbWrap}>
@@ -68,11 +67,9 @@ export function TestimonialsPage() {
         </div>
       </section>
 
-      <CtaBand
-        ground="gray"
+      <ContactForm
         title="Hedefinizi birlikte planlayalım"
-        sub="Sınavınızı ya da öğrenmek istediğiniz dili size en yakın şubemizle konuşun."
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        lead="Sınavınızı ya da öğrenmek istediğiniz dili size en yakın şubemizle konuşun."
       />
     </SiteChrome>
   );

@@ -7,7 +7,14 @@
 .body {
   max-width: var(--ddm-container);
   margin: 0 auto;
-  padding: var(--space-4) var(--ddm-gutter) var(--space-24);
+  padding: var(--space-4) var(--ddm-gutter) 0;
+}
+
+/* PF: form şube kartlarının altında kendi bandında; KVKK metni en sonda. */
+.kvkk {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  padding: 0 var(--ddm-gutter) var(--space-24);
 }
 
 .grid {

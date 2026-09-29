@@ -10,8 +10,8 @@ import { OtherProgramsSection } from "@/components/sections/OtherProgramsSection
 import { VideoPromo } from "@/components/sections/VideoPromo";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { LettersSection } from "@/components/sections/LettersSection";
-import { CtaBand } from "@/components/sections/CtaBand";
-import { HOME_STATS, HOME_CTA_BAND } from "@/data/home";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { HOME_STATS } from "@/data/home";
 import { absoluteUrl } from "@/lib/site";
 import siteContent from "@/data/site_content.json";
 
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
  */
 export default function Home() {
   return (
-    <SiteChrome ctaLabel="İletişim" ctaHref="#iletisim">
+    <SiteChrome ctaLabel="İletişim">
       <HomeHero />
       <StatStrip items={HOME_STATS} />
       <ExamSection />
@@ -59,12 +59,7 @@ export default function Home() {
       <VideoPromo />
       <TestimonialsSection />
       <LettersSection />
-      <CtaBand
-        title={HOME_CTA_BAND.title}
-        sub={HOME_CTA_BAND.sub}
-        primary={HOME_CTA_BAND.primary}
-        secondary={HOME_CTA_BAND.secondary}
-      />
+      <ContactForm />
     </SiteChrome>
   );
 }

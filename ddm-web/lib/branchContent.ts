@@ -33,7 +33,8 @@ const METADATA_FIXES: Record<string, { title?: string; metaDescription?: string 
   },
 };
 
-function findRecord(sourcePath: string): SiteContentRecord {
+/** `site_content.json`'ta adresi `sourcePath` ile biten kayıt (yoksa build düşer). PF: KVKK metni de bunu kullanır. */
+export function findRecord(sourcePath: string): SiteContentRecord {
   const rec = RECORDS.find((r) => r.url.endsWith(sourcePath));
   if (!rec) {
     throw new Error(`branchContent: kayıt bulunamadı — "${sourcePath}"`);

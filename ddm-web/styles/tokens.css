@@ -480,6 +480,29 @@
   --ddm-review-backdrop: rgba(22, 24, 74, 0.45); /* pencerenin arkası */
   --ddm-review-lift: -3px; /* kartın üzerine gelince yükselmesi */
   --delay-review-tile: 35ms; /* portreler açılışta arka arkaya */
+
+  /* PF · İletişim / ön bilgi formu (2026-09-29, "A · lacivert yan panel") — solda lacivert panel (neden yazmalı +
+   * seçilen şubenin telefonu), sağda form. Tasarım Sistemi 4.4: alan 52 px, köşe 12, kenarlık 1.5 px gri-300. */
+  --ddm-form-field-h: 52px;
+  --ddm-form-section-pad: clamp(48px, 7vw, 88px); /* geniş boy bandının üst / alt dolgusu (CtaBand ile aynı ritim) */
+  --ddm-form-side-pad: clamp(28px, 3.6vw, 48px) clamp(22px, 3.2vw, 44px); /* lacivert panel */
+  --ddm-form-body-pad: clamp(24px, 3.4vw, 44px) clamp(20px, 3.4vw, 48px); /* form kolonu */
+  --ddm-form-line: 1.5px; /* alan kenarlığı kalınlığı */
+  --ddm-form-textarea-h: 112px; /* mesaj alanı en az yükseklik (geniş boyda 3 satır) */
+  --ddm-form-focus-ring: 0 0 0 4px var(--ddm-sky-200); /* odak: lacivert kenarlık + açık mavi hale */
+  --ddm-form-error-ring: 0 0 0 4px var(--ddm-error-bg);
+  --ddm-form-check: 20px; /* onay kutusu */
+  --ddm-form-caret-gap: 44px; /* açılır listede sağdaki ok payı */
+  --ddm-form-caret: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%232a2d7c' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ddm-form-panel-bg: linear-gradient(
+    160deg,
+    var(--ddm-navy-950) 0%,
+    var(--ddm-navy-900) 45%,
+    var(--ddm-navy-600) 100%
+  );
+  --ddm-form-panel-ring: rgba(147, 206, 238, 0.25); /* paneldeki kesikli daire (sky-line, saydam) */
+  --ddm-form-panel-ring-d: 320px;
+  --ddm-form-narrow-w: 380px; /* dar boy: kenar sütunu genişliği */
 }
 
 /*

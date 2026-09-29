@@ -9,12 +9,13 @@ import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { HubCards } from "@/components/sections/HubCards";
 import { HubAbout } from "@/components/sections/HubAbout";
 import { LanguageStrip } from "@/components/sections/HubLanguages";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { ABROAD_HUB, ABROAD_HUB_ADDED } from "@/data/hubs";
 import { ABROAD_SECTION } from "@/data/home";
 import { getCategoryHubPage, stripArrow } from "@/lib/hubContent";
-import { CONTACT_HREF, hubRelated, languageLinks, linkIfProduced } from "@/lib/hubLinks";
+import { hubRelated, languageLinks, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -56,13 +57,13 @@ export default function YurtdisiEgitimHubPage() {
   });
 
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
         crumbs={[{ label: "Anasayfa", href: "/" }, { label: ABROAD_HUB.label }]}
         h1={page.h1}
         lead={ABROAD_SECTION.panelText}
         primary={{ label: "Dile göre okullar", href: "#diller" }}
-        secondary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        secondary={{ label: "Bilgi Al", href: FORM_HREF }}
         note={<PartnerLogos logos={added.logos} note="resmi kayıt ofisi" />}
         media={<HubPhoto {...added.photo} />}
       />
@@ -148,11 +149,11 @@ export default function YurtdisiEgitimHubPage() {
         aside={<Accordion items={added.faq} name="sss" />}
       />
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={s.contact[0] ?? "Bizimle İletişime Geçin"}
-        sub={added.ctaSub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        lead={added.ctaSub}
+        course="/yurtdisi-egitim"
       />
 
       <LanguageStrip

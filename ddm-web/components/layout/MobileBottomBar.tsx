@@ -1,8 +1,9 @@
-import Link from "next/link";
 import type { Branch } from "@/lib/types";
 import { contactBranch, telHref, waHref } from "@/data/branches";
 import { Icon } from "@/components/graphics/Icon";
+import { PageLink } from "@/components/ui/PageLink";
 import styles from "@/styles/MobileBottomBar.module.css";
+import { FORM_HREF } from "@/lib/formAnchor";
 
 /**
  * Mobilde ekranın altına sabitlenen Ara / WhatsApp / Kayıt çubuğu.
@@ -11,7 +12,7 @@ import styles from "@/styles/MobileBottomBar.module.css";
 export function MobileBottomBar({
   branch,
   ctaLabel = "Kayıt Ol",
-  ctaHref = "#kayit",
+  ctaHref = FORM_HREF,
 }: {
   branch?: Branch;
   ctaLabel?: string;
@@ -35,9 +36,9 @@ export function MobileBottomBar({
           WhatsApp
         </a>
       )}
-      <Link className={styles.primary} href={ctaHref}>
+      <PageLink className={styles.primary} href={ctaHref}>
         {ctaLabel}
-      </Link>
+      </PageLink>
     </div>
   );
 }

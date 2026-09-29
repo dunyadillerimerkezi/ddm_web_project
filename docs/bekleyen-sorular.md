@@ -32,6 +32,65 @@ Ayrıca düzeltilecek kaynak hatası: Ümraniye iletişim kaydının başlığı
 *(Not: Ümraniye'nin telefonu Ataşehir'in ikinci hattıyla aynı — kaynak hatası değil,
 `data/branches.ts` notunda açıklanmış, dokunulmayacak.)*
 
+## PF · İletişim / ön bilgi formu (2026-09-29) — form GÖRSEL, arka uç yok
+
+> Çözüldü (kullanıcı): tasarım "A · lacivert yan panel" · zorunlu alanlar Ad Soyad, Telefon, Kurs, Şube (E-posta ve Mesaj
+> isteğe bağlı) · KVKK için eski sitenin metni · kurs listesine sitedeki tüm kurslar (36) · yerleşim tablosu · lacivert
+> şerit (`CtaBand`) yalnız kurs tarihi sayfalarında kalır · "Bilgi Al" düğmeleri sayfadaki forma iner · dar boy şimdilik kullanılmaz.
+
+1. **KVKK metninde eksik cümle** (İletişim → en altta "KVKK Aydınlatma Metni") — "Kişisel verilerinizin ne tarafımızdan
+   işlenebilecektir." cümlesinin ortası eski sitede de eksik (canlıda kontrol edildi). Uydurulmadı. Doğru metni hukukçunuz /
+   şirket verebilir mi?
+2. **KVKK metni güncel mi?** 2016 tarihli; "Veri Sorumlusu Temsilcisi yasal altyapı sağlandığında ilan edilecek", Twitter
+   gibi eskimiş ifadeler var. Ayrıca formdaki tek zorunlu kutu hem "okudum" hem pazarlama izni (açık rıza) anlamına geliyor —
+   KVKK uygulamasında pazarlama izninin ayrı ve isteğe bağlı kutu olması önerilir. Form çalışır hâle gelmeden hukuki kontrol
+   önerilir. *(Metin şimdilik kaynaktaki gibi; yalnız 7 bariz yazım / satır bölme düzeltmesi `lib/kvkkContent.ts` `EDITS`.)*
+3. **"Flemenkçe" → "Felemenkçe"** — sitenin veri dosyasında dilin adı "Flemenkçe" (menü, kartlar); kaynak başlıklar ve eski
+   form "Felemenkçe" (TDK yazımı). Formda "Felemenkçe" kullanıldı. Site genelinde de düzeltilsin mi?
+4. **Arka uç (karar #4)** — form şu an hiçbir yere göndermiyor; basınca "Form henüz açılmadı" notu + şube telefonu çıkıyor.
+   Gönderim yöntemi (e-posta servisi / form servisi) ve başvuruların hangi adrese gideceği sonraki oturumun işi.
+5. **Bilgi (sorulmayacak):** Ana Sayfa ve üniversite sayfalarının alt şeridindeki merkez e-posta / adres satırı form ile
+   kalktı; bu bilgiler footer'da duruyor. Kullanılmayan `StickyToc` bileşeni kaldı (silinsin mi — `ScheduleTable` ile birlikte). Dil özel ders sayfalarında
+   (ör. Yabancı Dil → Almanca → Almanca Özel Ders) formda hazır seçili gelen kurs "Özel Dersler" değil o dil (Almanca) — sayfa
+   dilin adresi altında duruyor; sınav özel derslerinde de o sınav (IELTS). Yerleşim tablosundan küçük sapma, istenirse değişir.
+
+## P7 · Duyurular ve Aktiviteler — içerik güncel değil, ne koyacağız?
+
+Öğrenci Yorumları bitti. Geriye bu iki ölü hedef kaldı: **Duyurular** ve **Aktiviteler**.
+Kaynaktaki içerik eskimiş, olduğu gibi yayınlanmaz. **Müşteriye sorulacak:** bu sayfalar
+kalacak mı, kalacaksa yerine ne konacak?
+
+**Duyurular** — 12 kayıt, 17–240 kelime (ortalama 68). Kaynaktaki başlıklar:
+
+| Duyuru | Kelime | Durum |
+|---|---|---|
+| DDM Kar Tatilinde | 17 | tek seferlik, tarihi geçmiş |
+| YKS Dil Sınavı Başvuru Tarihleri | 27 | tarih içeriyor, bayat |
+| PEARSON PTE Kursları | 20 | kurs tanıtımı |
+| Fransızca / Rusça / İspanyolca / İngilizce Kursları | 29–91 | kurs tanıtımı, ilgili kurs sayfasında zaten var |
+| YDS / Proficiency / TOEFL–IELTS Kursları | 29–240 | kurs tanıtımı, sınav sayfalarında zaten var |
+| Aile Birleşimi Kursları | 30 | kurs tanıtımı |
+| Konuşma Sınıfları – Speaking Club | 118 | tek gerçek "duyuru" sayılabilecek içerik |
+
+Yani 12 duyurunun 9'u aslında **kurs tanıtımı** ve o kursun kendi sayfasında zaten
+anlatılıyor; 2'si tarihi geçmiş tek seferlik duyuru.
+
+**Aktiviteler** — tek kayıt, 74 kelime. Ana Sayfa'daki "Aktiviteler" kartı buraya
+bağlanıyor.
+
+**Sorulacaklar:**
+- [ ] **Duyurular sayfası kalsın mı?** Kalacaksa güncel duyuru/kampanya metinleri
+      gerekiyor — kim yazacak, ne sıklıkla güncellenecek?
+- [ ] Kalmayacaksa: 12 duyuru URL'i nereye yönlendirilsin (kurs duyuruları kendi kurs
+      sayfasına, gerisi ana sayfaya)?
+- [ ] **Aktiviteler sayfası kalsın mı?** 74 kelime içerik var; fotoğraf/etkinlik listesi
+      verilirse anlamlı bir sayfa olur, verilmezse Ana Sayfa'daki kart kaldırılır.
+- [ ] Yerine ne konsun — kampanya/indirim sayfası mı, blog mu, hiçbiri mi?
+
+*Not: Ana Sayfa'daki "Mektuplar" kartı da ayrı sayfası olmadığı için Öğrenci
+Yorumları'na bağlanıyor. Duyurular/Aktiviteler kararıyla birlikte o kart da gözden
+geçirilecek.*
+
 ## P6 · Şube Tanıtım
 
 1. **Dil listesi** — Kadıköy 9 dil ("… Japonca ve Korece"), Levent 15 (Arapça, Yunanca, İsveççe, Bulgarca dahil), Ataşehir 8,
@@ -65,7 +124,7 @@ Kaynaklar `data/examGlance.ts` yorumlarında. Firmaya ait / kursu tanıtan cüml
 
 ## UI turu · Proficiency üniversite (2026-09-28)
 
-1. **Kullanılmayan bileşenler** `DetailSections`, `ContactFormCard`, `ScheduleTable` silinsin mi?
+1. **Kullanılmayan bileşen** `ScheduleTable` silinsin mi? *(`DetailSections` + `ContactFormCard` PF'de kullanıcı brief'iyle silindi.)*
 
 ## P7 · Öğrenci Yorumları (2026-09-29)
 
@@ -91,4 +150,4 @@ Kaynaklar `data/examGlance.ts` yorumlarında. Firmaya ait / kursu tanıtan cüml
 - Yurtdışı ana sayfasındaki Enforex yanlışı
 - Üniversite sayfalarında eski sınav adları + kapanmış 2 üniversite
 - GMAT/GRE grup büyüklüğü · online çatı fotoğrafı
-- #2 duyurular (yorumlar P7'de çözüldü) · #4 iletişim formu
+- #2 duyurular (yorumlar P7'de çözüldü) · #4 iletişim formu → görsel yarısı PF'de bitti, arka uç açık (yukarıda PF #4)

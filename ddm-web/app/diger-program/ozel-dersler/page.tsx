@@ -7,13 +7,14 @@ import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { SplitColumns, type SplitItem } from "@/components/sections/HubBlocks";
 import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { HubAbout } from "@/components/sections/HubAbout";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { PRIVATE_HUB, PRIVATE_HUB_ADDED } from "@/data/hubs";
 import { EXAMS } from "@/data/exams";
 import { LANGUAGES } from "@/data/languages";
 import { getCategoryHubPage } from "@/lib/hubContent";
-import { CONTACT_HREF, hubRelated, linkIfProduced } from "@/lib/hubLinks";
+import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -54,13 +55,13 @@ export default function OzelDerslerHubPage() {
   }));
 
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
         crumbs={[{ label: "Anasayfa", href: "/" }, { label: "Diğer Programlar", href: "/diger-program" }, { label: PRIVATE_HUB.label }]}
         h1={page.h1}
         lead={page.slots.intro[0] ?? null}
         primary={{ label: "Özel dersleri incele", href: "#dersler" }}
-        secondary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        secondary={{ label: "Bilgi Al", href: FORM_HREF }}
         media={<HubPhoto {...added.photo} />}
       />
 
@@ -105,11 +106,11 @@ export default function OzelDerslerHubPage() {
         aside={<Accordion items={added.faq} name="sss" />}
       />
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={added.ctaTitle}
-        sub={added.ctaSub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        lead={added.ctaSub}
+        course="/diger-program/ozel-dersler"
       />
 
       <RelatedLinks

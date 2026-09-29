@@ -5,13 +5,13 @@ import { SiteChrome } from "@/components/layout";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Icon } from "@/components/graphics/Icon";
 import type { IconName } from "@/components/graphics/icons";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { EnglishBand } from "@/components/sections/EnglishLevelPage";
 import { SourcesFooter } from "@/components/sections/SourcesFooter";
 import { Accordion, ButtonLink } from "@/components/ui";
 import { Reveal } from "@/components/ui/Reveal";
 import { LEVEL_COPY as COPY } from "@/data/englishLevels";
-import { CONTACT_HREF } from "@/lib/hubLinks";
 import type { EnglishProgramPage as PageData, ProgramResolvedBlock } from "@/lib/englishProgramContent";
 import hero from "@/styles/RichHero.module.css";
 import styles from "@/styles/EnglishProgramPage.module.css";
@@ -26,7 +26,7 @@ const BRANCHES_ID = "kurs-tarihleri";
  */
 export function EnglishProgramPage({ page }: { page: PageData }) {
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <section className={hero.section}>
         <div className={hero.photo}>
           <Image
@@ -45,7 +45,7 @@ export function EnglishProgramPage({ page }: { page: PageData }) {
             <h1 className={hero.title}>{page.h1}</h1>
             <p className={hero.lead}>{page.hero.lead}</p>
             <div className={hero.actions}>
-              <ButtonLink href={CONTACT_HREF} variant="onDark" size="lg" arrow>
+              <ButtonLink href={FORM_HREF} variant="onDark" size="lg" arrow>
                 Bilgi Al
               </ButtonLink>
               <ButtonLink href={`#${BRANCHES_ID}`} variant="outlineDark" size="lg">
@@ -115,12 +115,12 @@ export function EnglishProgramPage({ page }: { page: PageData }) {
 
       <EnglishBand id={BRANCHES_ID} branches={page.branches} programs={page.programs} />
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={COPY.cta.title}
-        sub={COPY.cta.sub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
-        secondary={{ label: "İngilizce Kursları", href: "/ingilizce-kurslari" }}
+        lead={COPY.cta.sub}
+        course={page.href}
+        link={{ label: "İngilizce Kursları", href: "/ingilizce-kurslari" }}
       />
     </SiteChrome>
   );

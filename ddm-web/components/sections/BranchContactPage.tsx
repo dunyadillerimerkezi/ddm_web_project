@@ -6,6 +6,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Icon, UiIcon } from "@/components/graphics/Icon";
 import type { IconName } from "@/components/graphics/icons";
 import { BranchMap } from "@/components/sections/BranchMap";
+import { ContactForm } from "@/components/sections/ContactForm";
 import { TransitList } from "@/components/sections/TransitList";
 import { BRANCH_LIST, directionsHref, mapQuery, telHref, waHref } from "@/data/branches";
 import { BRANCH_PHOTOS } from "@/data/branchPhotos";
@@ -42,7 +43,7 @@ export function BranchContactPage({ page, lead }: { page: BranchPage; lead: stri
   const others = BRANCH_LIST.filter((b) => b.slug !== branch.slug);
 
   return (
-    <SiteChrome branch={branch} ctaLabel="Bilgi Al" ctaHref={branch.href}>
+    <SiteChrome branch={branch} ctaLabel="Bilgi Al">
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div>
@@ -96,6 +97,9 @@ export function BranchContactPage({ page, lead }: { page: BranchPage; lead: stri
           </article>
         </div>
       </section>
+
+      {/* PF: sayfanın asıl işi iletişim — form hero'nun hemen altında, şube hazır seçili. */}
+      <ContactForm ground="white" branch={branch.slug} />
 
       <div className={styles.body}>
         {query && directions && (

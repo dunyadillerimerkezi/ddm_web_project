@@ -7,14 +7,14 @@ import { UniversityHero } from "@/components/sections/UniversityHero";
 import { UniversityBody } from "@/components/sections/UniversityBody";
 import { UniversityGrid } from "@/components/sections/UniversityGrid";
 import { LinkRow } from "@/components/sections/LinkRow";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { CourseDatePage } from "@/components/sections/CourseDatePage";
 import { RichRoute } from "@/components/sections/RichRoute";
 import { assertNoSlugCollision, getRichPage, richMetadata, richPathsUnder } from "@/lib/richPages";
 import { UNIVERSITIES, UNIVERSITY_INDEX, getUniversityDef } from "@/data/universities";
 import { getUniversityExam } from "@/data/universityExams";
 import { PROF_UNIVERSITIES } from "@/data/singlePages";
-import { DEFAULT_BRANCH } from "@/data/branches";
 import { getUniversityPage, type UniversityPage, type UniversityDef } from "@/lib/universityContent";
 import { universityFlow } from "@/lib/universityFlow";
 import { getCourseDatePage } from "@/lib/courseDateContent";
@@ -128,13 +128,13 @@ function UniversityPageBody({ def, page }: { def: UniversityDef; page: Universit
   const flow = universityFlow(examName, page.sections, info);
 
   return (
-    <SiteChrome ctaLabel="İletişime Geçin" ctaHref="#iletisim">
+    <SiteChrome ctaLabel="İletişime Geçin">
       <UniversityHero
         crumbs={crumbs}
         code={info?.exam ?? def.examCode}
         h1={page.h1}
         lead={page.metaDescription}
-        primary={{ label: "Bilgi Al", href: "#iletisim" }}
+        primary={{ label: "Bilgi Al", href: FORM_HREF }}
         secondary={{ label: "Kurs takvimi", href: "#kurs-takvimi" }}
         flow={flow}
         guide={{ label: "Örnek sınav soruları", href: ORNEK_SORULAR }}
@@ -154,14 +154,7 @@ function UniversityPageBody({ def, page }: { def: UniversityDef; page: Universit
         density="cards"
       />
 
-      <CtaBand
-        id="iletisim"
-        ground="gray"
-        title="Bizimle İletişime Geçin — seviye tespit sınavıyla programınızı belirleyelim."
-        sub={[DEFAULT_BRANCH.phone, DEFAULT_BRANCH.mail].filter(Boolean).join(" · ")}
-        primary={{ label: "Bizimle İletişime Geçin", href: DEFAULT_BRANCH.href }}
-        secondary={{ label: "Şubelerimiz", href: "/ddm-iletisim" }}
-      />
+      <ContactForm course="/sinav-hazirlik-egitimleri/proficiency-kursu" />
     </SiteChrome>
   );
 }

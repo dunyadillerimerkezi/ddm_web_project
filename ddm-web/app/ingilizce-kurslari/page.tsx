@@ -8,12 +8,12 @@ import { BranchDateRows, type BranchDateRow } from "@/components/sections/Branch
 import { HubCards } from "@/components/sections/HubCards";
 import { HubAbout } from "@/components/sections/HubAbout";
 import { LanguageStrip } from "@/components/sections/HubLanguages";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { ENGLISH_HUB, ENGLISH_HUB_ADDED, IK_H1 } from "@/data/hubs";
 import { COURSE_DATES } from "@/data/courseDates";
 import { getCategoryHubPage, stripArrow } from "@/lib/hubContent";
-import { CONTACT_HREF, hubRelated, languageLinks, linkIfProduced } from "@/lib/hubLinks";
+import { hubRelated, languageLinks, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -115,7 +115,7 @@ export default function IngilizceKurslariHubPage() {
   });
 
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
         crumbs={[{ label: "Anasayfa", href: "/" }, { label: ENGLISH_HUB.label }]}
         h1={page.h1}
@@ -161,11 +161,11 @@ export default function IngilizceKurslariHubPage() {
         aside={<Accordion items={added.faq} name="sss" />}
       />
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={page.slots.contact[0] ?? "Bizimle İletişime Geçin"}
-        sub={added.ctaSub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        lead={added.ctaSub}
+        course="/ingilizce-kurslari"
       />
 
       <LanguageStrip

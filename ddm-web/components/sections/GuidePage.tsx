@@ -1,5 +1,6 @@
 import { SiteChrome } from "@/components/layout";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { GuideBlock } from "@/components/sections/GuideBlock";
 import { GuideHero } from "@/components/sections/GuideHero";
 import { GuideToc } from "@/components/sections/GuideToc";
@@ -50,8 +51,8 @@ function related(page: GuidePageData) {
  */
 export function GuidePage({ page }: { page: GuidePageData }) {
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
-      <GuideHero page={page} contactHref={CONTACT_HREF} />
+    <SiteChrome ctaLabel="Bilgi Al">
+      <GuideHero page={page} contactHref={FORM_HREF} />
 
       <div className={styles.body}>
         <div className={styles.container}>
@@ -75,12 +76,12 @@ export function GuidePage({ page }: { page: GuidePageData }) {
         </div>
       </div>
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={`${page.exam} hazırlığınızı birlikte planlayalım`}
-        sub="Hedef puanınızı ve sınav tarihinizi size en yakın şubemizle konuşun."
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
-        secondary={{ label: page.course.label, href: page.course.href }}
+        lead="Hedef puanınızı ve sınav tarihinizi size en yakın şubemizle konuşun."
+        course={page.course.href}
+        link={page.course}
       />
       <RelatedLinks title="İlgili sayfalar" groups={related(page)} />
     </SiteChrome>

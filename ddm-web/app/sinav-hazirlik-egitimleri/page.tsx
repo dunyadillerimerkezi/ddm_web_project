@@ -7,7 +7,8 @@ import { HubHero, HubPhoto } from "@/components/sections/HubHero";
 import { HubGuide, type HubGuideGroup } from "@/components/sections/HubGuide";
 import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { HubAbout } from "@/components/sections/HubAbout";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { EXAM_HUB, EXAM_HUB_ADDED } from "@/data/hubs";
 import { EXAMS, getExamDef } from "@/data/exams";
@@ -15,7 +16,7 @@ import { BRANCH_LIST } from "@/data/branches";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 import { examHref } from "@/lib/examContent";
 import { getCategoryHubPage } from "@/lib/hubContent";
-import { CONTACT_HREF, hubRelated, linkIfProduced, onlyProduced } from "@/lib/hubLinks";
+import { hubRelated, linkIfProduced, onlyProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
 import uniStyles from "@/styles/HubUniversities.module.css";
 
@@ -130,13 +131,13 @@ export default function SinavHazirlikHubPage() {
   });
 
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
         crumbs={[{ label: "Anasayfa", href: "/" }, { label: EXAM_HUB.label }]}
         h1={page.h1}
         lead={page.slots.lead[0] ?? null}
         primary={{ label: "Sınavları incele", href: "#amaca-gore" }}
-        secondary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        secondary={{ label: "Bilgi Al", href: FORM_HREF }}
         links={heroLinks}
         linksLabel="Öne çıkan kurslar"
         media={
@@ -188,11 +189,10 @@ export default function SinavHazirlikHubPage() {
         aside={<Accordion items={added.faq} name="sss" />}
       />
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={page.slots.contact[0] ?? "Bizimle İletişime Geçin"}
-        sub={added.ctaSub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        lead={added.ctaSub}
       />
 
       <RelatedLinks title="İlgili sayfalar" groups={related} />

@@ -1,7 +1,7 @@
 import type { FlagCode } from "@/components/graphics/Flag";
 import type { IconName } from "@/components/graphics/icons";
 import type { ImageSlotData, NavLink } from "@/lib/types";
-import { DEFAULT_BRANCH, BRANCH_LIST } from "@/data/branches";
+import { BRANCH_LIST } from "@/data/branches";
 import { PROMO_PATHS } from "@/data/branchPromoPaths";
 import { BRANCH_PHOTOS } from "@/data/branchPhotos";
 
@@ -494,16 +494,3 @@ export const LETTERS_SECTION: SimpleLinkCard[] = [
     href: "/duyurular",
   },
 ];
-
-/* ---------------------------------------------------------------
- * Bölüm 11 · Alt CTA şeridi
- * ------------------------------------------------------------- */
-
-const ctaBranch = DEFAULT_BRANCH;
-
-export const HOME_CTA_BAND = {
-  title: ctaBranch.address ? `${ctaBranch.name} Merkez · ${ctaBranch.address}` : `${ctaBranch.name} Merkez`,
-  sub: [ctaBranch.phone, ctaBranch.mail].filter(Boolean).join(" · "),
-  primary: { label: "İletişim", href: "#iletisim" } satisfies NavLink,
-  secondary: { label: "Şubelerimiz", href: "#subeler" } satisfies NavLink,
-};

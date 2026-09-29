@@ -1,0 +1,479 @@
+/* ---------------------------------------------------------------
+ * ContactForm — PF (2026-09-29, "A · lacivert yan panel")
+ * Geniş: solda lacivert panel (neden yazmalı + seçilen şubenin telefonu), sağda form.
+ * Dar: lacivert başlık şeridi + tek kolon form (kenar sütunu).
+ * Alanlar Tasarım Sistemi 4.4: 52 px, köşe 12, kenarlık 1.5 px gri-300, odakta lacivert + açık mavi hale.
+ * ------------------------------------------------------------- */
+
+.section {
+  background: var(--ddm-gray-50);
+  padding: var(--ddm-form-section-pad) var(--ddm-gutter);
+}
+
+.sectionWhite {
+  composes: section;
+  background: var(--ddm-white);
+}
+
+/* Menüdeki "Bilgi Al" (#kayit) karta iner — yapışkan header'ın altında kalmasın. */
+.card,
+.narrow {
+  scroll-margin-top: calc(var(--ddm-sticky-top) + var(--space-4));
+}
+
+.card {
+  max-width: var(--ddm-container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  background: var(--ddm-white);
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+}
+
+/* ---------- Sol panel ---------- */
+.side {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--ddm-form-side-pad);
+  background: var(--ddm-form-panel-bg);
+  color: var(--ddm-navy-200);
+}
+
+/* Köşede kesikli daire — Ana Sayfa hero'sundaki yörünge çizgisinin sessiz yankısı. */
+.side::after {
+  content: "";
+  position: absolute;
+  right: calc(var(--ddm-form-panel-ring-d) / -4);
+  bottom: calc(var(--ddm-form-panel-ring-d) / -2.6);
+  width: var(--ddm-form-panel-ring-d);
+  height: var(--ddm-form-panel-ring-d);
+  border-radius: 50%;
+  border: var(--ddm-form-line) dashed var(--ddm-form-panel-ring);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.title {
+  font-size: var(--ddm-text-h2-sm);
+  line-height: 1.15;
+  letter-spacing: var(--ddm-tracking-h2);
+  font-weight: 800;
+  color: var(--ddm-white);
+}
+
+.lead {
+  margin: 0;
+  max-width: 38ch;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.65;
+}
+
+.more {
+  align-self: flex-start;
+  margin-top: calc(-1 * var(--space-2));
+  font-weight: 700;
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-sky-400);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.more:hover {
+  color: var(--ddm-white);
+}
+
+.asks ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.asks li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-weight: 600;
+  font-size: var(--ddm-text-body-l);
+  color: var(--ddm-white);
+}
+
+.asks svg {
+  box-sizing: content-box;
+  flex: none;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--ddm-panel-chip);
+  border: 1px solid var(--ddm-panel-chip-line);
+  color: var(--ddm-sky-400);
+}
+
+.reach {
+  margin-top: auto;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--ddm-navy-line);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.reachLabel {
+  margin: 0;
+  font-size: var(--ddm-text-body-s);
+}
+
+.reachLabel b {
+  color: var(--ddm-white);
+}
+
+.reachRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Panel ve nottaki düğmeler `Button` bileşeni (onDark / outlineDark / primary); burada yalnız ölçü. */
+.act {
+  min-height: var(--ddm-touch-min);
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+/* ---------- Form ---------- */
+.form {
+  padding: var(--ddm-form-body-pad);
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+  min-width: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  min-width: 0;
+}
+
+.field label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.3;
+  color: var(--ddm-gray-700);
+  transition: color var(--duration-fast) var(--ease-out-soft);
+}
+
+.field:focus-within label {
+  color: var(--ddm-primary);
+}
+
+.req {
+  color: var(--ddm-primary);
+  font-weight: 800;
+}
+
+.opt {
+  margin-left: var(--space-1);
+  font-weight: 500;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+.input {
+  width: 100%;
+  min-height: var(--ddm-form-field-h);
+  padding: var(--space-3) var(--space-4);
+  font: inherit;
+  font-weight: 500;
+  font-size: var(--ddm-text-body-l);
+  line-height: 1.4;
+  color: var(--ddm-gray-800);
+  background: var(--ddm-white);
+  border: var(--ddm-form-line) solid var(--ddm-gray-300);
+  border-radius: var(--radius-md);
+  appearance: none;
+  transition:
+    border-color var(--duration-fast) var(--ease-out-soft),
+    box-shadow var(--duration-fast) var(--ease-out-soft);
+}
+
+.input::placeholder {
+  color: var(--ddm-gray-500);
+  opacity: 1;
+}
+
+.input:hover {
+  border-color: var(--ddm-gray-400);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--ddm-primary);
+  box-shadow: var(--ddm-form-focus-ring);
+}
+
+.select {
+  padding-right: var(--ddm-form-caret-gap);
+  cursor: pointer;
+  background: var(--ddm-white) var(--ddm-form-caret) no-repeat right var(--space-4) center;
+}
+
+/* Seçim yapılmamışken yer tutucu rengi ("Kurs seçin", "Şube seçin"). */
+.select:invalid {
+  color: var(--ddm-gray-500);
+}
+
+.select option,
+.select optgroup {
+  color: var(--ddm-gray-800);
+}
+
+.textarea {
+  min-height: var(--ddm-form-textarea-h);
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* Hata görünümü — arka uç gelince: alana aria-invalid="true", altına <p class="error" id="…">. */
+.field:has([aria-invalid="true"]) label {
+  color: var(--ddm-error-ink);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--ddm-error);
+}
+
+.input[aria-invalid="true"]:focus {
+  border-color: var(--ddm-error);
+  box-shadow: var(--ddm-form-error-ring);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-weight: 600;
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-error-ink);
+}
+
+/* Onay kutusu */
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-height: var(--ddm-touch-min);
+  padding-top: var(--space-1);
+  font-size: var(--ddm-text-body-s);
+  line-height: 1.5;
+  color: var(--ddm-gray-600);
+  cursor: pointer;
+}
+
+.check input {
+  flex: none;
+  width: var(--ddm-form-check);
+  height: var(--ddm-form-check);
+  margin: 0;
+  accent-color: var(--ddm-primary);
+}
+
+.check a {
+  color: var(--ddm-sky-ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.legend {
+  font-size: var(--ddm-text-caption);
+  color: var(--ddm-gray-500);
+}
+
+.submit {
+  min-height: var(--ddm-form-field-h);
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* "Form henüz açılmadı" notu — sahte başarı DEĞİL; seçilen şubeye yönlendirir. */
+.notice {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-bg);
+  border: var(--ddm-form-line) solid var(--ddm-sky-200);
+  font-size: var(--ddm-text-body);
+  color: var(--ddm-gray-700);
+  animation: var(--kf-panel-in) var(--duration-slow) var(--ease-out-soft);
+}
+
+.notice[hidden] {
+  display: none;
+}
+
+/* Not açılınca odak programla buraya taşınır — fare kullanıcısına çerçeve gösterme; klavyede globals.css kuralı. */
+.notice:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.notice strong {
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body-l);
+  color: var(--ddm-navy-900);
+}
+
+.noticeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+/* WhatsApp: Button'da yeşil varyant yok — primary'nin rengi burada ezilir. */
+.act.wa {
+  background: var(--ddm-success-bg);
+  color: var(--ddm-success-ink);
+}
+
+.act.wa:hover {
+  background: var(--ddm-success-line);
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Dar boy ---------- */
+.narrow {
+  width: 100%;
+  max-width: var(--ddm-form-narrow-w);
+  background: var(--ddm-white);
+  border: 1px solid var(--ddm-border-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.narrowTop {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-6) var(--space-5);
+  background: var(--ddm-form-panel-bg);
+}
+
+.narrowTitle {
+  font-size: var(--ddm-text-h4);
+  line-height: 1.25;
+  font-weight: 800;
+  color: var(--ddm-white);
+}
+
+.narrow .reachRow > a {
+  flex: 1 1 0;
+}
+
+.narrow .form {
+  padding: var(--space-5) var(--space-6) var(--space-6);
+}
+
+.narrow .grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.narrow .submit {
+  width: 100%;
+}
+
+.narrow .legend {
+  order: 2;
+}
+
+/* ---------- Mobil ---------- */
+@media (max-width: 959px) {
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+    border-radius: var(--radius-card);
+  }
+
+  .side {
+    gap: var(--space-5);
+  }
+
+  .asks {
+    display: none;
+  }
+
+  .reach {
+    margin-top: 0;
+    padding-top: var(--space-5);
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .submit {
+    width: 100%;
+  }
+
+  .legend {
+    order: 2;
+  }
+}
+
+@media (max-width: 399px) {
+  .narrowTop,
+  .narrow .form {
+    padding-inline: var(--space-5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notice {
+    animation: none;
+  }
+
+  .input,
+  .field label {
+    transition: none;
+  }
+}

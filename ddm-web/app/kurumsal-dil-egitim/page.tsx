@@ -8,11 +8,12 @@ import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { PageSection } from "@/components/sections/PageSection";
 import { HubCards } from "@/components/sections/HubCards";
 import { HubAbout } from "@/components/sections/HubAbout";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { CORPORATE_HUB, CORPORATE_HUB_ADDED } from "@/data/hubs";
 import { getCategoryHubPage } from "@/lib/hubContent";
-import { CONTACT_HREF, hubRelated, linkIfProduced } from "@/lib/hubLinks";
+import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -41,13 +42,13 @@ export default function KurumsalHubPage() {
   }));
 
   return (
-    <SiteChrome ctaLabel="Teklif Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Teklif Al">
       <HubHero
         tone="dark"
         crumbs={[{ label: "Anasayfa", href: "/" }, { label: "Diğer Programlar", href: "/diger-program" }, { label: CORPORATE_HUB.label }]}
         h1={page.h1}
         lead={s.lead[0] ?? null}
-        primary={{ label: "Kurumsal teklif alın", href: CONTACT_HREF }}
+        primary={{ label: "Kurumsal teklif alın", href: FORM_HREF }}
         secondary={{ label: "Süreci inceleyin", href: "#surec" }}
         media={<HubPhoto {...added.photo} />}
       />
@@ -85,11 +86,11 @@ export default function KurumsalHubPage() {
         aside={<Accordion items={added.faq} name="sss" />}
       />
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={s.contact[0] ?? "Bizimle İletişime Geçin"}
-        sub={s.closing[0]}
-        primary={{ label: "Kurumsal teklif alın", href: CONTACT_HREF }}
+        lead={s.closing[0]}
+        course="/kurumsal-dil-egitim"
       />
 
       <RelatedLinks

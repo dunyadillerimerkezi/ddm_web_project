@@ -7,11 +7,12 @@ import { IndexCard } from "@/components/sections/HubBlocks";
 import { HubCards, type HubCardItem } from "@/components/sections/HubCards";
 import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { HubAbout } from "@/components/sections/HubAbout";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { OTHER_PROGRAMS_HUB, OTHER_PROGRAMS_HUB_ADDED } from "@/data/hubs";
 import { getCategoryHubPage } from "@/lib/hubContent";
-import { CONTACT_HREF, hubRelated, linkIfProduced } from "@/lib/hubLinks";
+import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -114,13 +115,13 @@ export default function DigerProgramHubPage() {
   });
 
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
         crumbs={[{ label: "Anasayfa", href: "/" }, { label: OTHER_PROGRAMS_HUB.label }]}
         h1={page.h1}
         lead={page.slots.intro[0] ?? null}
         primary={{ label: "Programları incele", href: "#programlar" }}
-        secondary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        secondary={{ label: "Bilgi Al", href: FORM_HREF }}
         media={<IndexCard title="Programlarımız" items={index} />}
       />
 
@@ -153,11 +154,10 @@ export default function DigerProgramHubPage() {
         aside={<Accordion items={added.faq} name="sss" />}
       />
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={page.slots.contact[0] ?? "Bizimle İletişime Geçin"}
-        sub={added.ctaSub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        lead={added.ctaSub}
       />
 
       <RelatedLinks

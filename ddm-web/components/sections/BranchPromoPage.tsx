@@ -4,7 +4,8 @@ import Link from "next/link";
 import { SiteChrome } from "@/components/layout";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Icon, UiIcon } from "@/components/graphics/Icon";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { BranchMap } from "@/components/sections/BranchMap";
 import { TransitList } from "@/components/sections/TransitList";
 import { ButtonLink } from "@/components/ui";
@@ -32,7 +33,7 @@ export function BranchPromoPage({ page }: { page: PageData }) {
   const nearest = page.visit.transit[0];
 
   return (
-    <SiteChrome branch={branch} ctaLabel="Bilgi Al" ctaHref={page.contactHref}>
+    <SiteChrome branch={branch} ctaLabel="Bilgi Al">
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.copy}>
@@ -40,7 +41,7 @@ export function BranchPromoPage({ page }: { page: PageData }) {
             <h1 className={styles.title}>{page.h1}</h1>
             <p className={styles.lead}>{hero.lead}</p>
             <div className={styles.actions}>
-              <ButtonLink href={page.contactHref} variant="primary" size="lg" arrow>
+              <ButtonLink href={FORM_HREF} variant="primary" size="lg" arrow>
                 Bilgi Al
               </ButtonLink>
               <ButtonLink href={`#${COURSES_ID}`} variant="outlineLight" size="lg">
@@ -188,12 +189,11 @@ export function BranchPromoPage({ page }: { page: PageData }) {
         </section>
       </div>
 
-      <CtaBand
+      <ContactForm
+        ground="white"
         title={`${branch.name} şubemizle görüşün`}
-        sub="Programlar, seviye ve kurs tarihleri için şubemize ulaşın."
-        primary={{ label: "Bilgi Al", href: page.contactHref }}
-        secondary={tel && branch.phone ? { label: branch.phone, href: tel } : undefined}
-        ground="light"
+        lead="Programlar, seviye ve kurs tarihleri için şubemize ulaşın."
+        branch={branch.slug}
       />
     </SiteChrome>
   );

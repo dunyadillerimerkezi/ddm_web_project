@@ -217,8 +217,8 @@ ddm-web/
 │   ├── cards/      # BranchCard, CourseChipCard, ExamSectionCard, FeatureCard,
 │   │               # LanguageCard, MediaCard, ProgramCard, TestimonialCard
 │   ├── sections/   # Sayfa bölümleri: PageHero (modlar dil/uni/sube), ScheduleTable,
-│   │               # WeekGrid, CourseDatePage, DetailSections, ProcessSteps,
-│   │               # ContactFormCard, BranchContactPage, BranchHub, UniversityGrid, LanguageGrid,
+│   │               # WeekGrid, CourseDatePage, ProcessSteps, ContactForm (+ ContactFormFields, KvkkSection),
+│   │               # BranchContactPage, BranchHub, UniversityGrid, LanguageGrid,
 │   │               # LevelExplorer, PricingPanel, CtaBand, TestimonialsPage…
 │   └── graphics/   # Icon + ikon kaydı, Illustration (200×200 set), Flag, LanguageGlobe
 ├── styles/
@@ -418,6 +418,19 @@ ddm-web/
 > ad, okul ya da program, `--ddm-review-lines` satırda kesilen alıntı, etiketler, "Devamını oku"). Tam metin `popover`
 > penceresinde (JS'siz; Esc / dışarı tıklama kapatır). Sonda `CtaBand`. Ana Sayfa kaydırıcısı aynı kart (`slide`) + aynı
 > pencere, veri `home` sırasıyla. Hover yükselmesi `translate` ile (Reveal'ın `transform`uyla çakışmasın).
+> **İletişim / ön bilgi formu (PF, 2026-09-29, "A · lacivert yan panel"):** sitenin TEK formu `ContactForm` (sunucu) +
+> `ContactFormFields` (istemci). **Görsel aşama: hiçbir yere göndermez** — basınca sahte başarı değil "Form henüz açılmadı,
+> bilgileriniz gönderilmedi" notu + seçilen şubenin telefonu / WhatsApp'ı (şube seçilince soldaki panel de o şubeye döner).
+> Kurs tarihi sayfaları HARİÇ her sayfada, eski `CtaBand`'ın yerinde (başlık / alt satır aynen taşındı); Şube İletişim
+> sayfalarında hero'nun hemen altında (asıl öğe). `CtaBand` yalnız kurs tarihi sayfalarında kalır. Çapa `lib/formAnchor.ts`
+> (`#kayit`) — `SiteHeader` / `MobileBottomBar` varsayılanı; sayfadaki "Bilgi Al" düğmeleri de `FORM_HREF`'e gider; formsuz
+> sayfa `ctaHref` verir. Kurs listesi `data/courseOptions.ts` (yayındaki sayfalardan türer, sayfası kalkan seçenek build'i
+> düşürür; ön seçim sayfanın adresinden, üst adreslere çıkarak). Zorunlu: Ad Soyad, Telefon, Kurs, Şube, KVKK onayı; E-posta ve
+> Mesaj isteğe bağlı. KVKK metni YALNIZ `/ddm-iletisim` sonunda (`KvkkSection`, kaynaktan `lib/kvkkContent.ts`, 5 şubede aynı
+> olduğu denetlenir); form ona yeni sekmede bağlanır. `narrow` boy hazır ama kullanılmıyor (kullanıcı kararı). Hata stilleri
+> hazır (`aria-invalid` + `.error`), arka uçla kullanılacak. Form kütüphanesi yok.
+> Sayfa içi çapa (`#kayit`, `#kurs-takvimi`) `next/link` ile DEĞİL `components/ui/PageLink.tsx` ile basılır (düz `<a>`;
+> `ButtonLink`, header ve alt çubuk bunu kullanır) — `next/link` adres zaten aynı çapadayken ikinci tıklamada kaydırmıyordu.
 > **Nedir (2026-09-26):** sınav ana sayfalarından AYRI `GuidePage` — açık mavi hero, H1 altında büyük kısa cevap, sağda
 > lacivert "bir bakışta" `<dl>`; gövdede solda yapışkan soru listesi (`GuideToc`), her bölüm soru → kalın tek cümlelik
 > cevap → madde / bölüm kartı / tablo; uzun paragraf bloğu yok; fotoğraf ve hareket yok; sonda kaynaklar + son güncelleme.

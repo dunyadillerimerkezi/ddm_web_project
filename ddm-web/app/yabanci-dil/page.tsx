@@ -7,12 +7,13 @@ import { PageSection } from "@/components/sections/PageSection";
 import { GreetingWall, LanguageTiles } from "@/components/sections/HubLanguages";
 import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { HubAbout } from "@/components/sections/HubAbout";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { LANGUAGE_HUB, LANGUAGE_HUB_ADDED } from "@/data/hubs";
 import { LANGUAGES } from "@/data/languages";
 import { getCategoryHubPage } from "@/lib/hubContent";
-import { CONTACT_HREF, hubRelated, languageLinks, languageTiles, linkIfProduced } from "@/lib/hubLinks";
+import { hubRelated, languageLinks, languageTiles, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
 import blocks from "@/styles/HubBlocks.module.css";
 
@@ -49,13 +50,13 @@ export default function YabanciDilHubPage() {
   });
 
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
         crumbs={[{ label: "Anasayfa", href: "/" }, { label: LANGUAGE_HUB.label }]}
         h1={page.h1}
         lead={page.slots.intro[0] ?? null}
         primary={{ label: "Dilini seç", href: "#diller" }}
-        secondary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        secondary={{ label: "Bilgi Al", href: FORM_HREF }}
         media={<GreetingWall items={wall} />}
       />
 
@@ -97,11 +98,10 @@ export default function YabanciDilHubPage() {
         aside={<Accordion items={added.faq} name="sss" />}
       />
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={page.slots.contact[0] ?? "Bizimle İletişime Geçin"}
-        sub={added.ctaSub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        lead={added.ctaSub}
       />
 
       <RelatedLinks

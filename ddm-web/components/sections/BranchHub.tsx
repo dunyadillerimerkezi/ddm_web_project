@@ -3,22 +3,24 @@ import Link from "next/link";
 
 import { SiteChrome } from "@/components/layout";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { BRANCH_LIST, DEFAULT_BRANCH, telHref } from "@/data/branches";
+import { BRANCH_LIST, telHref } from "@/data/branches";
 import { BRANCH_PHOTOS } from "@/data/branchPhotos";
 import { PROMO_PATHS } from "@/data/branchPromoPaths";
 import type { HubPage } from "@/lib/branchContent";
 import type { Crumb } from "@/lib/types";
+import { ContactForm } from "./ContactForm";
+import { KvkkSection } from "./KvkkSection";
 import hero from "@/styles/BranchContactPage.module.css";
 import styles from "@/styles/BranchHub.module.css";
 
 /**
  * `/ddm-iletisim` — şubeler iletişim ana sayfası (P1; UI turu 2026-09-28, iletişim "A" ailesi). Açık hero + 5 şube semt
  * fotoğraflı kartta (3 + 2): adres, telefon, "İletişim" ve (varsa) "Şubeyi tanıyın". Başlık / açıklama kaynaktan
- * (`getHubPage`). Önceki header düğmesi "Kayıt Ol" → "#kayit" hiçbir yere gitmiyordu → "Bilgi Al" (merkez şube).
+ * (`getHubPage`). Header "Bilgi Al" → sayfadaki form (PF, varsayılan `FORM_HREF`); en sonda KVKK metni (`KvkkSection`).
  */
 export function BranchHub({ page, crumbs }: { page: HubPage; crumbs: Crumb[] }) {
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={DEFAULT_BRANCH.href}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <section className={hero.hero}>
         <div className={styles.heroInner}>
           <Breadcrumb items={crumbs} tone="onLight" />
@@ -59,6 +61,10 @@ export function BranchHub({ page, crumbs }: { page: HubPage; crumbs: Crumb[] }) 
             );
           })}
         </ul>
+      </div>
+      <ContactForm ground="white" kvkkInPage />
+      <div className={styles.kvkk}>
+        <KvkkSection />
       </div>
     </SiteChrome>
   );

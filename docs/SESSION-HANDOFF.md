@@ -7,42 +7,43 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-29, P7 · Öğrenci Yorumları bitti; commit kullanıcı onayında)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-29, PF · İletişim / ön bilgi formu — GÖRSEL yarı bitti; commit kullanıcı onayında)*
+
+> ⚠ **FORM GÖRSEL, ARKA UÇ YOK.** `ContactForm` 131 sayfada duruyor ama HİÇBİR YERE veri göndermiyor; basınca "Form henüz
+> açılmadı, bilgileriniz gönderilmedi" notu + seçilen şubenin telefonu / WhatsApp'ı çıkıyor. Gönderim = karar #4, açık.
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `60eed63` (kullanıcı; P6 + UI turları dahil — önceki §A "commit'lenmedi" diyordu, eskimişti). **P7 kodu çalışma ağacında, commit'lenmedi** — kullanıcıya sorulacak. |
-| **Son döküman commit'i** | `60eed63`; P7 döküman güncellemeleri + kullanıcının `bekleyen-sorular.md` Ümraniye düzenlemesi commit'lenmedi |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**207 statik sayfa**, 206'dan) · `check-links` **2 benzersiz** (`/duyurular`, `/aktivite-aktiviteler`) · sitemap'te `/ogrenci-yorumlari` · 62 eski yorum adresi test edildi: 30'u kartına (`#yorum-{id}`), 32'si listeye, 0 hata · 1440 / 390 / 360 taşma yok, tek H1, konsol temiz |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · P6 Şube Tanıtım 4/5 · **P7 Öğrenci Yorumları** (tek sayfa + Ana Sayfa bölümü) |
-| **Aktif faz** | P7 yarısı bitti (yorumlar). Kalan: `/duyurular` + 12 duyuru, `/aktivite-aktiviteler` — ayrı oturum. P6 Ümraniye hâlâ kullanıcı bilgisi bekliyor. |
-| **Bir sonraki somut adım** | Kullanıcıya commit'i sor (kod / döküman ayrı). Sonra P7 duyurular: `site_content.json`'daki `/duyurular` kayıtlarını dök (12 tekil + liste), `/aktivite-aktiviteler` kararını al; yorumlardaki desen örnek (`data/testimonials.ts` + `lib/testimonialContent.ts` + `next.config.ts` kaynaktan üretilen 301). |
-| **Yarım kalan iş** | Yok (P7 yorumlar bitti). Ümraniye tanıtım sayfası yazılmadı (P6, bilgi bekliyor). |
-| **Engeller** | Kalan 2 ölü hedef: `/duyurular`, `/aktivite-aktiviteler` (footer / Ana Sayfa kartları) |
-| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** P7: JSON-LD `Review` (karar #6, P9) · yorumlarda eski çalışan adları (bilgi) · seçilmeyenlerde ad yazımı çelişkisi. P6 + önceki fazlardan açık kalanlar aynen duruyor (Ümraniye en başta). |
-| **Bilinen veri notları** | P7: 51 kaynak kaydı = 43 yorum (8'i aynı yorumun yüzde kodlu / ASCII ikinci adresi, metinler birebir aynı — build denetler). Kaynaktaki `?start=` 4'er (4…40), canlıda 8'er (0…40); canlıda sayfa başına yalnız ilk 4 yorumun içeriği (ve fotoğrafı) açık → fotoğraflar `?start=4,12,…` ara sayfalarında da var. 29 gerçek fotoğraf `public/assets/testimonials/` (kişi adıyla ASCII, EXIF silinmiş, ≤640 px, toplam 1,2 MB; 19'u yayında). Yorumlar 2015–2018 arası. İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/` |
-| **Kalıcı kurallar** | CLAUDE.md §5 (P7 yorum kuralı: metin dokunulmaz, isim kaynaktaki gibi, şube / tarih etiketi yok) · §9 ("C · portre duvarı") · §3 (kaynaktan üretilen 301) · `soon` bayrağı (§10) · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
+| **Son kod commit'i** | `7fe005c` (kullanıcı; P7 yorumlar dahil — önceki §A "commit'lenmedi" diyordu, eskimişti). **PF kodu çalışma ağacında, commit'lenmedi** — kullanıcıya sorulacak. |
+| **Son döküman commit'i** | `7fe005c`; PF döküman güncellemeleri + önceki oturumdan kalan `bekleyen-sorular.md` P7 duyurular eklemesi commit'lenmedi |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**207 statik sayfa**, değişmedi) · `check-links` **2 benzersiz** (değişmedi: `/duyurular`, `/aktivite-aktiviteler`) · form 131 sayfada (formsuz yalnız 72 kurs tarihi) · 1440 / 390 / 360 taşma yok · klavye sırası + odak halkası denendi · sayfa başına ≈ +2,6 KB HTML, +2,1 KB JS (gzip); `/ddm-iletisim` +12 KB (KVKK metni yalnız orada) |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · P6 Şube Tanıtım 4/5 · P7 Öğrenci Yorumları · **PF form (görsel)** |
+| **Aktif faz** | PF görsel yarı bitti. Kalan: PF arka uç (karar #4) · P7 duyurular (`/duyurular` + 12, `/aktivite-aktiviteler`) · P6 Ümraniye (kullanıcı bilgisi bekliyor). |
+| **Bir sonraki somut adım** | Kullanıcıya commit'i sor (kod / döküman ayrı). Sonra kullanıcının seçtiği iş: ya PF arka uç (`components/sections/ContactFormFields.tsx` `onSubmit` → Route Handler + e-posta servisi; önce `form.reportValidity()`; KVKK hukuki kontrolü bekleyen-sorular PF #1–2) ya da P7 duyurular (§D P7 kaydı). |
+| **Yarım kalan iş** | Yok (görsel yarı bitti). Arka uç bilinçli olarak yapılmadı. |
+| **Engeller** | Kalan 2 ölü hedef: `/duyurular`, `/aktivite-aktiviteler` |
+| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** PF: KVKK metnindeki eksik cümle + metnin güncelliği / açık rıza kutusu (hukuki) · "Flemenkçe" → "Felemenkçe" site geneli · arka uç yöntemi · `StickyToc` / `ScheduleTable` silinsin mi. Önceki fazlardan açık kalanlar aynen (Ümraniye en başta). |
+| **Bilinen veri notları** | Eski formun kurs listesi 5 şubede aynı (23 kalem); KVKK metni 5 şubede aynı (Levent'te form alanlarından sonra). KVKK'de canlıda da eksik cümle var ("Kişisel verilerinizin ne … tarafımızdan işlenebilecektir"). Dil özel ders sayfaları dilin adresi altında → formda o dil hazır seçili. İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/` |
+| **Kalıcı kurallar** | CLAUDE.md §9 PF notu (tek form, `CtaBand` yalnız kurs tarihinde, çapa `lib/formAnchor.ts`, sayfa içi çapa `PageLink`, KVKK tek yerde) · §5 · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
 
 
 **Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-09-29):**
 
 ```
-P7 devam · Duyurular (/duyurular + 12 tekil) ve /aktivite-aktiviteler.
+PF devam · İletişim formunun arka ucu (karar #4) — ya da P7 Duyurular (hangisini istersen).
 
 OTURUM BAŞI
-- Oku: docs/SESSION-HANDOFF.md §A, ddm-web/CLAUDE.md §3 (301), §5 (P7 notu), §9 (P7 notu), docs/remaining-pages-plan.md §5 P7,
-  docs/bekleyen-sorular.md. git status / git log -5. Türkçe ve kısa yaz.
+- Oku: docs/SESSION-HANDOFF.md §A (FORM GÖRSEL, ARKA UÇ YOK), ddm-web/CLAUDE.md §2 (output export yok), §4, §9 PF notu,
+  docs/bekleyen-sorular.md PF bölümü. git status / git log -5. AGENTS.md: Route Handler yazmadan önce
+  node_modules/next/dist/docs/ altındaki rehberi oku. Türkçe ve kısa yaz.
 
-ÖRNEK AL (P7 yorumlar)
-- data/testimonials.ts (tanım + published bayrağı; metin kaynaktan), lib/testimonialContent.ts (build denetimleri),
-  next.config.ts testimonialRedirects() (adresler site_content.json'dan üretilir, elle yazılmaz), TestimonialsPage.
+BU OTURUMUN İŞİ (PF arka uç)
+- Önce sor: gönderim yöntemi (Route Handler + e-posta servisi / form servisi), başvurular hangi adrese (şubeye göre mi?),
+  spam koruması, KVKK metninin hukuki kontrolü yapıldı mı (bekleyen-sorular PF #1–2).
+- ContactFormFields.tsx onSubmit: önce reportValidity, sonra gönderim; hata stilleri hazır (aria-invalid + .error).
+  Başarı mesajı ANCAK gerçekten gönderildiğinde. Sayfa sayısı 207 kalsın, check-links artmasın.
 
-BU OTURUMUN İŞİ
-- Aşama 0: duyuru kayıtlarını dök (başlık, tarih, kelime, eskimiş mi — ör. "kar tatili"). Tekil sayfa mı / liste + 301 mi →
-  kullanıcıya sor (yorumlarda tekil sayfa açılmadı). /aktivite-aktiviteler için kaynakta ne var, karar al.
-- Tasarım: 2-3 yön taslağı (scratchpad, 1440 + 390), kullanıcı seçimi, sonra kod. check-links 2 → 0.
-
-KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P7. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
+KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
 ```
 
 ---
@@ -81,6 +82,37 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS, page-types, plan P7. Commit'i kul
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-29 · Opus 5.5 · PF — İletişim / ön bilgi formu (GÖRSEL yarı; arka uç yok) — commit bekliyor
+- **Adım 1:** `ContactFormCard` + `DetailSections` (+ CSS) silindi — hiçbir sayfada kullanılmıyordu (grep + tsc + build ile teyit, 207 sayfa
+  değişmedi). `UniversityGrid` arama kutusuna dokunulmadı. Artık kullanılmayan: `StickyToc` (soruldu).
+- **Adım 2 (tasarım):** 3 taslak scratchpad'de (A lacivert yan panel · B ön bilgi fişi + şube koçanı · C önce şube kartları + WhatsApp'tan
+  gönder) → kullanıcı **A**. Zorunlu: Ad Soyad, Telefon, Kurs, Şube (+ KVKK onayı); E-posta, Mesaj isteğe bağlı. KVKK: "var olan yazıyı
+  kullan". Kurs listesine sitedeki tüm kurslar (eski formun 23 kalemi + PTE, YÖKDİL, TOEFL Essentials / Primary, TestDaF, İngiltere Vize,
+  Fransızca Aile Birleşimi, 4 İngilizce programı, Online, Kurumsal) = 36 seçenek / 4 grup.
+- **Adım 3 (yerleşim, kullanıcı onaylı):** kurs tarihi (72) hariç her tipte geniş boy, `CtaBand`'ın yerinde (başlık / alt satır / ikinci
+  bağlantı taşındı; dil kursunun kaynak kapanış cümlesi alt satırda); Şube İletişim'de hero altında, hub'da kartların altında. `CtaBand`
+  yalnız kurs tarihinde. Menü / mobil çubuk / sayfa içi "Bilgi Al" düğmeleri forma iner. Dar boy hazır, kullanılmıyor.
+- **Yeni:** `components/sections/ContactForm.tsx` (sunucu) + `ContactFormFields.tsx` (istemci: şube izleme, not), `KvkkSection.tsx`,
+  `components/ui/HashDetails.tsx` (çapa gelince `<details>` açılır), `data/courseOptions.ts` (yayındaki sayfalardan türer; ön seçim üst
+  adreslere çıkarak; `/ingilizce-kurslari` → İngilizce), `lib/kvkkContent.ts` (5 şube kaydında aynı metin denetimi, 7 `EDITS`, başlık listesi),
+  `lib/kvkkConsent.ts`, `lib/formAnchor.ts`, `styles/ContactForm.module.css`, `KvkkSection.module.css`, `--ddm-form-*` tokenları.
+  `lib/branchContent.ts` `findRecord` dışa açıldı. `data/home.ts` `HOME_CTA_BAND` kalktı.
+- **Kullanıcı geri bildirimi (aynı gün):** (1) dil kursu hero'sundaki "Bilgi Al" takvime (`#kurs-takvimi`) gidiyordu → forma. (2) "Bilgi Al"a
+  ikinci kez basınca (adres zaten `#kayit`) sayfa kaymıyordu — `next/link` aynı çapayı yok sayıyor. Yeni `components/ui/PageLink.tsx`:
+  `#…` adresini düz `<a>` basar; `ButtonLink`, `SiteHeader`, `MobileBottomBar` kullanır. Playwright: 1440 header + hero, 390 alt çubuk,
+  3 ardışık tıklama → her seferinde form başlığı header'ın altında.
+- **Bulgu:** dil kursu sayfasındaki "Ön Bilgi Formu" ve menüdeki "Kayıt Ol" düğmeleri zaten `#kayit`'e gidiyordu (lacivert şerit) — artık
+  gerçek forma iner. Üniversite hero'sundaki "Bilgi Al" `#iletisim`'e (footer) düşüyordu → forma. 404 sayfasının menü düğmesi ölü `#kayit`
+  idi → `/ddm-iletisim`.
+- **code-review (high):** 10 bulgu; düzeltildi: üniversite düğmesi, KVKK kapalı kutuya iniyordu (`HashDetails`), aynı adlı "Bilgi Al"
+  düğmeleri farklı yere gidiyordu, dar boy kaydırma payı, ham px → token, onay etiketi, sr sınıfı. Bilinçli bırakıldı: boş form
+  gönderilince de not çıkar (görsel aşama; arka uçla `reportValidity`), Ana Sayfa şeridindeki merkez e-posta / adres (footer'da var).
+  **simplify:** çapa tek sabit + menü varsayılanı (18 tekrar silindi), düğmeler ortak `Button` / `ButtonAnchor`, uzun başlık eşiği
+  kalktı, KVKK modülü sadeleşti. Bırakıldı: dar boy (kullanıcı kararı), hata stilleri (brief), kurs tarihi sayfalarına gelen +2 KB JS
+  (`[sayfa]` rotası `RichRoute` ile paylaşılıyor, düşük öncelik).
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ 207 · check-links 2 · form 131 sayfa · ön seçimler denendi (IELTS, Proficiency, Almanca, Yurtdışı,
+  İngilizce seviye, şube) · Levent'te WhatsApp gizleniyor · 1440 / 390 / 360 taşma yok · klavye sırası + odak.
 
 ### 2026-09-29 · Opus 5.5 · P7 — Öğrenci Yorumları (tek sayfa + Ana Sayfa bölümü) — commit bekliyor
 - **Aşama 0:** 62 kayıt = 1 liste + 10 `?start=` + 51 tekil; 51 tekil = **43 yorum** (8'i aynı yorumun yüzde kodlu / ASCII ikinci

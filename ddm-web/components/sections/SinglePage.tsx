@@ -3,7 +3,8 @@ import Link from "next/link";
 import { SiteChrome } from "@/components/layout";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Icon } from "@/components/graphics/Icon";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { SourcesFooter } from "@/components/sections/SourcesFooter";
 import { SingleBlock } from "@/components/sections/SingleBlocks";
@@ -27,7 +28,7 @@ const BRANCHES_ID = "subeler";
 export function SinglePage({ page }: { page: SinglePageData }) {
   const lang = page.lang ?? undefined;
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.copy}>
@@ -39,7 +40,7 @@ export function SinglePage({ page }: { page: SinglePageData }) {
               {page.hero.lead}
             </p>
             <div className={styles.actions}>
-              <ButtonLink href={CONTACT_HREF} variant="primary" size="lg" arrow>
+              <ButtonLink href={FORM_HREF} variant="primary" size="lg" arrow>
                 Bilgi Al
               </ButtonLink>
               {page.branches ? (
@@ -110,12 +111,12 @@ export function SinglePage({ page }: { page: SinglePageData }) {
       )}
 
 
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={page.cta.title}
-        sub={page.cta.sub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
-        secondary={{ label: page.course.label, href: page.course.href }}
+        lead={page.cta.sub}
+        course={page.href}
+        link={page.course}
       />
       <RelatedLinks
         title="İlgili sayfalar"

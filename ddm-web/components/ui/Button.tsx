@@ -1,6 +1,6 @@
-import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { UiIcon } from "@/components/graphics/Icon";
+import { PageLink } from "@/components/ui/PageLink";
 import styles from "@/styles/Button.module.css";
 
 export type ButtonVariant = "primary" | "onDark" | "outlineDark" | "outlineLight" | "link";
@@ -34,15 +34,15 @@ function Tail({ arrow }: { arrow: Common["arrow"] }) {
   return <UiIcon name="arrowRight" size={14} strokeWidth={1.6} />;
 }
 
-type ButtonLinkProps = Common & Omit<ComponentProps<typeof Link>, "className" | "children">;
+type ButtonLinkProps = Common & Omit<ComponentProps<typeof PageLink>, "className" | "children">;
 
-/** İç bağlantı butonu — tüm iç linkler next/link üzerinden (CLAUDE.md §4). */
+/** İç bağlantı butonu — tüm iç linkler next/link üzerinden (CLAUDE.md §4); sayfa içi çapa düz `<a>` (`PageLink`). */
 export function ButtonLink({ variant, size, arrow, block, children, className, ...rest }: ButtonLinkProps) {
   return (
-    <Link className={classes({ variant, size, block, className, children })} {...rest}>
+    <PageLink className={classes({ variant, size, block, className, children })} {...rest}>
       {children}
       <Tail arrow={arrow} />
-    </Link>
+    </PageLink>
   );
 }
 

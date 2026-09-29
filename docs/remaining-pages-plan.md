@@ -690,6 +690,17 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `programmatic-seo`, `frontend-design:frontend-design`, `schema` (Review, karar #6).
 
+### PF — İletişim / ön bilgi formu (görsel yarı)  ✅ (2026-09-29) — karar #4'ün görsel yarısı, planda ayrı faz değildi
+
+> **Sonuç (Opus 5.5):** eski `ContactFormCard` + `DetailSections` (hiçbir sayfada kullanılmıyordu) silindi. 3 taslak (A lacivert
+> yan panel · B ön bilgi fişi + koçan · C önce şube kartları + WhatsApp'tan gönder) → kullanıcı **A**. Tek bileşen
+> `ContactForm` (geniş / dar; dar şimdilik kullanılmıyor). 131 sayfa (kurs tarihi 72 hariç hepsi): `CtaBand`'ın yerinde, Şube
+> İletişim'de hero altında. Kurs listesi 36 seçenek / 4 grup (`data/courseOptions.ts`, eski formun 23 kalemi + sitede sayfası
+> olup listede olmayanlar). KVKK: eski metin kaynaktan (`lib/kvkkContent.ts`, 7 `EDITS`), tek yerde `/ddm-iletisim` sonunda.
+> Menü / mobil çubuk / sayfa içi "Bilgi Al" düğmeleri forma iner (`lib/formAnchor.ts`). Maliyet: sayfa başına ≈ +2,6 KB HTML,
+> +2,1 KB JS (gzip). **Arka uç YOK** — sonraki iş: gönderim yöntemi (karar #4), doğrulama (`reportValidity`), KVKK hukuki
+> kontrolü (bekleyen-sorular PF).
+
 ### P8 — Faz 8 SEO taşıma + 6.7 Temizlik  ⏳ (L)
 - **Genel `.html → temiz` kuralı** (`/:path*.html → /:path*`). Sırası önemli: özel
   kurallardan (üniversite kök, Joomla) SONRA gelir. `urls.csv`'deki 384 URL'in her biri için
@@ -777,7 +788,7 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
 | 1 | Yeni şablonların tasarım kaynağı: Claude Design turu mu, mevcut atomlarla doğrudan kod mu? | P1 ve P4 için kısa Design turu (gerçek içerikle); P2/P3/P5/P7 mevcut atomlarla kodda | P1, P4 |
 | 2 | 51 yorum + 12 duyuru: tekil sayfa mı, liste sayfasına 301 mi? | Tekil sayfalar (URL/SEO korunur, şablon ucuz) | P7 |
 | 3 | Kurs tarihi ücret satırları (~170) yayınlanmıyor. Kalıcı mı? | **Karar (2026-09-23):** DDM'nin kendi kurs ücretleri yayınlanmıyor; **sınavların resmî ücretleri** (TOEFL 185 USD, YÖKDİL 1.200 TL vb.) bilgi amaçlı yayınlanıyor, yanına güncellik uyarısı konuyor. TOEFL'un güncel tutarı kullanıcıdan bekleniyor | — |
-| 4 | **İletişim/ön kayıt formu gönderimi:** `ContactFormCard` hiçbir yere göndermiyor. Seçenekler: Next.js Route Handler + e-posta servisi, harici form servisi, `mailto:`/WhatsApp | Route Handler + e-posta servisi (SSG'yi bozmaz) | P1'in adres/telefon kısmı formsuz tamamlandı (2026-09-22) — form/KVKK gövdesi hâlâ bu karara bağlı, sona bırakıldı |
+| 4 | **İletişim/ön kayıt formu gönderimi.** Seçenekler: Next.js Route Handler + e-posta servisi, harici form servisi, `mailto:`/WhatsApp | Route Handler + e-posta servisi (SSG'yi bozmaz) | **Görsel yarısı bitti (PF, 2026-09-29):** `ContactForm` 131 sayfada, KVKK metni `/ddm-iletisim`'de. **Gönderim (arka uç) hâlâ açık** — form şu an hiçbir yere göndermiyor |
 | 5 | Şube galeri görselleri ve eksik adres/telefon verisini kim sağlayacak? | Önce P1 Aşama 0'da kaynaktan çıkar; kalanları kullanıcı sağlar | P1, P6 |
 | 6 | JSON-LD yapısal veri eklensin mi? | Evet; metin değişmez, SEO artısı | P9 (ve P1/P2'de erken) |
 | 7 | `lib/pageRegistry.ts` refactor'u ne zaman? | P0'da iskelet (davranış değişmeden) | P2, P4 |

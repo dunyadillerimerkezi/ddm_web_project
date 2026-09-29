@@ -8,7 +8,8 @@ import { OnlineCatalog } from "@/components/sections/OnlineCatalog";
 import { RichAbout } from "@/components/sections/RichAbout";
 import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { RichFaq } from "@/components/sections/RichFaq";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { ContactForm } from "@/components/sections/ContactForm";
+import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { BRANCH_LIST } from "@/data/branches";
 import { byCourse } from "@/data/courseDates";
@@ -87,20 +88,20 @@ function related(page: RichPage) {
 
 export function RichContentPage({ page }: { page: RichPage }) {
   return (
-    <SiteChrome ctaLabel="Bilgi Al" ctaHref={CONTACT_HREF}>
+    <SiteChrome ctaLabel="Bilgi Al">
       <RichHero
         page={page}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        primary={{ label: "Bilgi Al", href: FORM_HREF }}
         secondary={page.hero.secondary}
       />
       {page.blocks.map((b) => (
         <Block key={b.id} block={b} />
       ))}
-      <CtaBand
-        ground="light"
+      <ContactForm
+        ground="white"
         title={`${page.label} programınızı birlikte planlayalım`}
-        sub={page.cta.sub}
-        primary={{ label: "Bilgi Al", href: CONTACT_HREF }}
+        lead={page.cta.sub}
+        course={page.href}
       />
       <RelatedLinks title="İlgili sayfalar" groups={related(page)} />
     </SiteChrome>

@@ -6,7 +6,9 @@ import Image from "next/image";
 import type { NavChildGroup, NavItem, NavLink as NavLinkData, NavNode } from "@/lib/types";
 import { getNavTree } from "@/lib/navTree";
 import { UiIcon } from "@/components/graphics/Icon";
+import { PageLink } from "@/components/ui/PageLink";
 import styles from "@/styles/SiteHeader.module.css";
+import { FORM_HREF } from "@/lib/formAnchor";
 
 type SiteHeaderProps = {
   /** Header CTA — Ana Sayfa "İletişim", iç sayfalar "Kayıt Ol". */
@@ -52,7 +54,7 @@ function ChildGroup({ group }: { group: NavChildGroup }) {
  */
 const isDenseGroup = (group: NavChildGroup) => group.items.every((i) => i.label.length <= 16);
 
-export function SiteHeader({ ctaLabel = "Kayıt Ol", ctaHref = "#kayit" }: SiteHeaderProps) {
+export function SiteHeader({ ctaLabel = "Kayıt Ol", ctaHref = FORM_HREF }: SiteHeaderProps) {
   /*
    * Ağaç burada süzülüyor (sunucuda değil): `lib/navTree.ts` saf, yalnız
    * `lib/nav.ts`'e bağlı. Sunucuda süzüp prop geçmek ~18 KB'lık ağacı 126
@@ -268,12 +270,12 @@ export function SiteHeader({ ctaLabel = "Kayıt Ol", ctaHref = "#kayit" }: SiteH
             })}
           </nav>
 
-          <Link className={styles.cta} href={ctaHref}>
+          <PageLink className={styles.cta} href={ctaHref}>
             {ctaLabel}
             <span className={styles.ctaChip}>
               <UiIcon name="arrowRight" size={12} strokeWidth={1.6} />
             </span>
-          </Link>
+          </PageLink>
 
           <button
             type="button"
@@ -603,9 +605,9 @@ export function SiteHeader({ ctaLabel = "Kayıt Ol", ctaHref = "#kayit" }: SiteH
               </div>
 
               <div className={styles.drawerFoot}>
-                <Link className={styles.drawerCta} href={ctaHref} onClick={closeDrawer}>
+                <PageLink className={styles.drawerCta} href={ctaHref} onClick={closeDrawer}>
                   {ctaLabel}
-                </Link>
+                </PageLink>
               </div>
             </div>
           </>
