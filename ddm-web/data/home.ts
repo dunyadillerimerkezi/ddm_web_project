@@ -38,7 +38,7 @@ export const HOME_HERO = {
   primaryCard: {
     icon: "dunya",
     title: "Yabancı Dil Programları",
-    text: "Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca, Arapça ve Farsça dil eğitimleri vermektedir.",
+    text: "Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca ve Farsça dil eğitimleri vermektedir.",
     cta: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "#dil-kurslari" },
     slot: {
       src: `${IMG}/yabancı-dil2.jpg`,
@@ -191,7 +191,7 @@ const YD = "/yabanci-dil-egitimleri";
 export const LANGUAGE_SECTION = {
   kicker: "YABANCI DİL KURSLARI",
   title: "19 dilde eğitim, 2003’ten bugüne Dünya Dilleri Merkezi farkıyla yabancı dil eğitimleri",
-  lead: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca, Arapça ve Farsça dil eğitimleri vermektedir.",
+  lead: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca ve Farsça dil eğitimleri vermektedir.",
   cta: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "/yabanci-dil" },
   cards: [
     {

@@ -168,6 +168,13 @@ Kaynaklar `data/examGlance.ts` yorumlarında. Firmaya ait / kursu tanıtan cüml
 > Çözüldü (2026-09-28, kullanıcı: "düzelt"): Almanca aile birleşimi (kurs zorunlu değil, Start Deutsch 1 / ÖSD, 12 ay, SGB II),
 > TOEFL Primary (8 yaş+, kâğıt ya da dijital, konuşma / yazma testleri, puanlama), TestDaF (sonuç portalda) — `data/exams.ts` `edits`.
 
+## "Arapça" çıkarıldı — dil sayısı (2026-09-30)
+
+1. **"19 dil" rakamı** — Arapça listelerden çıkınca metinlerde 18 dil adı kaldı, ama cümleler hâlâ "Türkiye'de 19 farklı dil
+   eğitimi veren tek dil okuluyuz" / "19 dilde eğitim" diyor (Ana Sayfa üst alan + rakam şeridi, Yabancı Dil, İngilizce
+   Kursları, Yurtdışı Eğitim, Tercüme "19 dilde çeviri", footer). Seçenekler: (a) yabancılar için Türkçe sayılır → 18 + Türkçe
+   = 19, listeye "Türkçe" eklenir, rakam kalır · (b) rakam 18 olur · (c) Arapça'nın yerine başka bir dil yazılır.
+
 ## UI turu · Proficiency üniversite (2026-09-28)
 
 1. **Kullanılmayan bileşen** `ScheduleTable` silinsin mi? *(`DetailSections` + `ContactFormCard` PF'de kullanıcı brief'iyle silindi.)*

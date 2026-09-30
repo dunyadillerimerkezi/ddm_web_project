@@ -83,6 +83,24 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+### 2026-09-30 · Opus 5.5 · "Arapça" sözcüğü DDM'nin dil listelerinden çıkarıldı — commit bekliyor
+- **İstek:** kullanıcı "Yabancı Dil sayfasında Arapça yazıyor, Arapça kelimelerini kaldır" (önceki istek: "uygulama içinde
+  Arapça olan ne varsa kaldır") → site genelinde DDM'nin KENDİ dil listeleri.
+- **Yapılan (kaynak `site_content.json` değişmedi, hepsi `edits` / veri):**
+  - `data/hubs.ts`: `LANGUAGE_LIST_EDITS` (yeni; "… Bulgarca, Arapça ve Farsça dil eğitimleri" → "… Bulgarca ve Farsça …") —
+    Yabancı Dil, İngilizce Kursları, Yurtdışı Eğitim hub'larına eklendi · `OTHER_LANGUAGES` 11 → 10 (kutu + cümle) · SSS cevabı.
+  - `data/home.ts`: hero kartı metni + dil kursları bölümünün girişi (aynı cümle, 2 yer).
+  - `data/branchPromo.ts`: Levent / Etiler "Dil eğitimleri" cümlesi (`edits`) + etiket listesi (`tags.match`).
+  - `data/otherPrograms.ts`: Tercüme — "Çeviri dilleri" kutuları 17 → 16 + kaynak cümle (`edits`).
+  - `lib/hubContent.ts`: geliştirmede (`next dev`) sayfa önbelleği kullanılmıyor — `data/hubs.ts` değişince eski metin
+    ekranda kalıyordu (üretimde önbellek aynen duruyor).
+- **Dokunulmadı:** YDS Nedir ("YDS/1: Almanca, Arapça, …") ve YÖKDİL ("… Fransızca, Arapça olarak da düzenlenecektir") —
+  ÖSYM'nin sınav dili bilgisi, DDM'nin kurs listesi değil.
+- **AÇIK (bekleyen-sorular.md):** metinler hâlâ "19 farklı dil / 19 dilde" diyor, listelerde 18 ad kaldı (Tercüme'de 16).
+  Rakam müşterinin onayladığı rakam olduğu için değiştirilmedi.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (207) · üretilen HTML'de "Arap" yalnız o 2 sınav sayfasında · 6 sayfa × 1440 / 390 /
+  360: taşma yok, tek H1, konsol hatası yok.
+
 ### 2026-09-30 · Opus 5.5 · Ana Sayfa — dil kursları ↔ sınav hazırlık yer değiştirdi — commit bekliyor
 - **Yapılan:** `app/page.tsx`te `<LanguageGrid />` ile `<ExamSection />` yer değiştirdi (kullanıcı isteği). Yeni sıra:
   hero → rakamlar → dil kursları → yurtdışı → sınav hazırlık → şubeler → … Zeminler aynı dizide kaldı (beyaz / gri / beyaz);

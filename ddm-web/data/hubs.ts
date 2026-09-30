@@ -294,6 +294,16 @@ const FEATURE_BODY_EDITS = {
 };
 
 /**
+ * Dil listesinden "Arapça" çıkarıldı (kullanıcı, 2026-09-30). Aynı cümle 3 hub'da (Yabancı Dil,
+ * İngilizce Kursları, Yurtdışı Eğitim) birebir tekrar ediyor. "19 farklı dil" rakamına dokunulmadı
+ * (müşterinin onayladığı rakam) — listede 18 ad kaldı, `docs/bekleyen-sorular.md`.
+ */
+const LANGUAGE_LIST_EDITS = {
+  "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca, Arapça ve Farsça dil eğitimleri vermektedir.":
+    "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca ve Farsça dil eğitimleri vermektedir.",
+};
+
+/**
  * Eski sitenin 3 hub'ında (Yabancı Dil, İngilizce Kursları, Yurtdışı Eğitim)
  * birebir tekrar eden dil kartı bloğu: h5 kod ("EN") + h5 başlık + "- …" alt
  * satırları. Yeni sitede bu blok dil kartları / "19 dilde eğitim" şeridiyle
@@ -354,7 +364,7 @@ export const LANGUAGE_HUB: HubDef = {
   },
   features: FEATURES_STANDARD({ heading: "Dünya Dilleri Merkezi Yabancı Dil Kursları", take: [1] }),
   headingEdits: FEATURE_HEADING_EDITS,
-  edits: FEATURE_BODY_EDITS,
+  edits: { ...FEATURE_BODY_EDITS, ...LANGUAGE_LIST_EDITS },
   ignored: [
     ICON_ARTIFACT,
     { line: "Yabancı Dil Kursları", reason: "şablon üst etiketi; kırıntı ve H1 aynı bilgiyi taşıyor" },
@@ -365,8 +375,8 @@ export const LANGUAGE_HUB: HubDef = {
   ],
 };
 
-/** Kaynak listedeki 19 dilden ayrı kurs sayfası OLMAYANLAR (sıra kaynaktaki gibi). */
-const OTHER_LANGUAGES = ["Japonca", "Yunanca", "Korece", "İsveççe", "Portekizce", "Hırvatça", "Boşnakça", "Slovakça", "Bulgarca", "Arapça", "Farsça"];
+/** Kaynak listedeki dillerden ayrı kurs sayfası OLMAYANLAR (sıra kaynaktaki gibi; "Arapça" çıkarıldı — kullanıcı, 2026-09-30). */
+const OTHER_LANGUAGES = ["Japonca", "Yunanca", "Korece", "İsveççe", "Portekizce", "Hırvatça", "Boşnakça", "Slovakça", "Bulgarca", "Farsça"];
 
 export const LANGUAGE_HUB_ADDED = {
   ctaSub: "Ücretsiz seviye tespit sınavı ve kurs tarihleri için size en yakın şubemizle görüşün.",
@@ -403,7 +413,7 @@ export const LANGUAGE_HUB_ADDED = {
     {
       question: "Kaç farklı dilde eğitim veriyorsunuz?",
       answer: [
-        "19 dilde: İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca, Arapça ve Farsça. Bunlara yabancılar için Türkçe kursu da eklenir.",
+        "19 dilde: İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca ve Farsça. Bunlara yabancılar için Türkçe kursu da eklenir.",
       ],
     },
     {
@@ -710,6 +720,7 @@ export const ENGLISH_HUB: HubDef = {
   headingEdits: FEATURE_HEADING_EDITS,
   edits: {
     ...FEATURE_BODY_EDITS,
+    ...LANGUAGE_LIST_EDITS,
     // "Türkiye'nin En Çok Tercih Edilen…" doğrulanamayan üstünlük iddiası + yarım cümle ("…Öğrenilir.").
     "Türkiye'nin En Çok Tercih Edilen Dil Okulunda Öğrenilir. Dünya Dilleri Merkezi farkıyla İngilizce öğrenin. Türk ve yabancı öğretmenler eşliğinde, grup veya özel ders programlarıyla İngilizce öğrenebilirsiniz.":
       "Dünya Dilleri Merkezi farkıyla İngilizce öğrenin. Türk ve yabancı öğretmenler eşliğinde, grup veya özel ders programlarıyla başlangıçtan ileri seviyeye kadar İngilizce öğrenebilirsiniz.",
@@ -861,6 +872,7 @@ export const ABROAD_HUB: HubDef = {
   },
   edits: {
     ...FEATURE_BODY_EDITS,
+    ...LANGUAGE_LIST_EDITS,
     // Kaynakta başlık iki kez yapışmış + "alman isteyen" yazım hatası.
     "Yetişkinler için İngilizce Dil KurslarıYetişkinler için İngilizce Dil Kurslarıİngilizce konuşulan bir ülkede dil eğitimi alman isteyen öğrenciler için geniş çapta İngilizce dil kursları sunuyoruz. Uluslararası eğitim kurumları tarafından akredite edilmiş Genel İngilizce Kursları, Sınav Hazırlık Kursları, İş İngilizcesi Kursları veya Uzun Dönem kurslar arasından seçim yapabilirsiniz.":
       "İngilizce konuşulan bir ülkede dil eğitimi almak isteyen öğrenciler için geniş çapta İngilizce dil kursları sunuyoruz. Uluslararası eğitim kurumları tarafından akredite edilmiş Genel İngilizce, Sınav Hazırlık, İş İngilizcesi ya da Uzun Dönem kurslar arasından seçim yapabilirsiniz.",

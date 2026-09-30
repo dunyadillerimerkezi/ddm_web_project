@@ -574,7 +574,7 @@ const LEVENT: BranchPromoDef = {
           rows: [{ label: "Biçim", text: { match: "Talebe göre birebir veya kurumsal programlar da planlanabilmektedir." } }],
           tags: {
             match:
-              "İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Arapça, yabancılar için Türkçe, Felemenkçe (Hollandaca), Japonca, Korece, Yunanca, İsveççe ve Bulgarca",
+              "İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, yabancılar için Türkçe, Felemenkçe (Hollandaca), Japonca, Korece, Yunanca, İsveççe ve Bulgarca",
           },
         },
         {
@@ -640,6 +640,9 @@ const LEVENT: BranchPromoDef = {
     "Dünya Dilleri Merkezi Etiler Şubesi": "Dünya Dilleri Merkezi Levent / Etiler Şubesi",
     // Başlık satırının sonunda kalmış kapanış tırnağı.
     "Etiler’de Konum ve Öğrenme Atmosferi”": "Etiler’de Konum ve Öğrenme Atmosferi",
+    // Dil listesinden "Arapça" çıkarıldı (kullanıcı, 2026-09-30).
+    "Levent Şubemizde farklı yaş gruplarına ve hedeflere yönelik İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Arapça, yabancılar için Türkçe, Felemenkçe (Hollandaca), Japonca, Korece, Yunanca, İsveççe ve Bulgarca dil eğitimleri sunulmaktadır. Talebe göre birebir veya kurumsal programlar da planlanabilmektedir.":
+      "Levent Şubemizde farklı yaş gruplarına ve hedeflere yönelik İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, yabancılar için Türkçe, Felemenkçe (Hollandaca), Japonca, Korece, Yunanca, İsveççe ve Bulgarca dil eğitimleri sunulmaktadır. Talebe göre birebir veya kurumsal programlar da planlanabilmektedir.",
   },
   headingEdits: {
     // Kopyala-yapıştır artığı: Levent sayfasında "Kadıköy'de" (Aşama 0, kullanıcı bildirdi) → sayfanın kendi dili "Etiler'de".

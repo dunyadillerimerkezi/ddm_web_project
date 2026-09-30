@@ -56,7 +56,8 @@ function findRecord(path: string): SiteContentRecord {
 const cache = new Map<string, CategoryHubPage>();
 
 export function getCategoryHubPage(def: HubDef): CategoryHubPage {
-  const hit = cache.get(def.path);
+  // Geliştirmede önbellek kullanılmaz: `data/hubs.ts` değişince bu modül yeniden yüklenmez, eski metin kalırdı.
+  const hit = process.env.NODE_ENV === "production" ? cache.get(def.path) : undefined;
   if (hit) return hit;
 
   const context = `hub${def.path}`;

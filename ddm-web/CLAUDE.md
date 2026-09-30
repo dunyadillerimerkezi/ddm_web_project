@@ -344,6 +344,9 @@ ddm-web/
 >   şubeler "3+2", video "fotoğrafsız kapak, tıklayınca sayfa içi oynatıcı".
 > - Ana Sayfa bölüm sırası (kullanıcı, 2026-09-30): hero → rakamlar → **dil kursları → yurtdışı → sınav hazırlık** →
 >   şubeler → … (önce sınav hazırlık üstte, dil kursları alttaydı; ikisi yer değiştirdi).
+> - **"Arapça" DDM'nin dil listelerinde yok (kullanıcı, 2026-09-30):** kaynakta geçen yerler `edits` ile çıkarıldı
+>   (`data/hubs.ts` `LANGUAGE_LIST_EDITS`, `home.ts`, `branchPromo.ts`, `otherPrograms.ts`); Arap harfli selam da şeritten
+>   kalktı. Yeni sayfada dil listesine Arapça EKLEMEYİN. İstisna: ÖSYM'nin sınav dili listeleri (YDS Nedir, YÖKDİL) aynen kalır.
 > - Ortam hareketleri yalnız transform + token (`--duration-kenburns/-float/-marquee`);
 >   globals.css reduced-motion kuralı hepsini durdurur.
 > - **Dil Kursu (2026-09-25):** her dilin İKİ ayrı fotoğrafı var (`heroPhoto` yatay, `benefitsPhoto` kareye yakın;

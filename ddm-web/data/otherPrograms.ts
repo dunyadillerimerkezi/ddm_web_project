@@ -400,10 +400,10 @@ const TRANSLATION: SinglePageDef = {
       kind: "chips",
       title: "Çeviri dilleri",
       sub: "İhtiyacınıza göre çeviri ve tercüme",
-      // Kaynaktaki dil listesi (sırası korunarak).
+      // Kaynaktaki dil listesi (sırası korunarak; "Arapça" çıkarıldı — kullanıcı, 2026-09-30).
       items: [
         "İngilizce", "Almanca", "İspanyolca", "Fransızca", "Rusça", "Çince", "Japonca", "Korece", "Yunanca",
-        "Bulgarca", "İsveççe", "Portekizce", "Hırvatça", "Boşnakça", "Farsça", "Slovakça", "Arapça",
+        "Bulgarca", "İsveççe", "Portekizce", "Hırvatça", "Boşnakça", "Farsça", "Slovakça",
       ],
       // "2003 yılından bugüne 19 dilde"
       facts: [
@@ -498,6 +498,9 @@ const TRANSLATION: SinglePageDef = {
     // Yazım: "bir çok".
     "Dünya Dilleri Merkezi olarak 2003 yılından bugüne 19 dilde çeviri ve tercüme hizmeti vermekteyiz. Sağlık sektörü başta olmak üzere bir çok alanda kurumsal ve bireysel olarak hizmetlerimizden faydalanabilirsiniz.":
       "Dünya Dilleri Merkezi olarak 2003 yılından bugüne 19 dilde çeviri ve tercüme hizmeti vermekteyiz. Sağlık sektörü başta olmak üzere birçok alanda kurumsal ve bireysel olarak hizmetlerimizden faydalanabilirsiniz.",
+    // Dil listesinden "Arapça" çıkarıldı (kullanıcı, 2026-09-30).
+    "İngilizce, Almanca, İspanyolca, Fransızca, Rusça, Çince, Japonca, Korece, Yunanca, Bulgarca, İsveççe, Portekizce, Hırvatça, Boşnakça, Farsça, Slovakça, Arapça dillerinde ihtiyaç ve beklentilerinize yönelik çeviri ve tercüme süreçlerinizi başlatabilirsiniz.":
+      "İngilizce, Almanca, İspanyolca, Fransızca, Rusça, Çince, Japonca, Korece, Yunanca, Bulgarca, İsveççe, Portekizce, Hırvatça, Boşnakça, Farsça ve Slovakça dillerinde ihtiyaç ve beklentilerinize yönelik çeviri ve tercüme süreçlerinizi başlatabilirsiniz.",
   },
   ignored: LAVANDA_LINES.map((line) => ({ line, reason: LAVANDA_REASON })),
 };
