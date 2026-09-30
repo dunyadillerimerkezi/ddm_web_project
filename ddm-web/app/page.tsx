@@ -51,9 +51,9 @@ export default function Home() {
     <SiteChrome ctaLabel="İletişim">
       <HomeHero />
       <StatStrip items={HOME_STATS} />
-      <ExamSection />
-      <AbroadSection />
       <LanguageGrid />
+      <AbroadSection />
+      <ExamSection />
       <BranchSection />
       <OtherProgramsSection />
       <VideoPromo />

@@ -7,22 +7,22 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-29, PF · İletişim / ön bilgi formu — GÖRSEL yarı bitti; commit kullanıcı onayında)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-30, müşteri cevapları not edildi — kod değişmedi; öncesi 2026-09-29 PF görsel yarı)*
 
 > ⚠ **FORM GÖRSEL, ARKA UÇ YOK.** `ContactForm` 131 sayfada duruyor ama HİÇBİR YERE veri göndermiyor; basınca "Form henüz
 > açılmadı, bilgileriniz gönderilmedi" notu + seçilen şubenin telefonu / WhatsApp'ı çıkıyor. Gönderim = karar #4, açık.
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `7fe005c` (kullanıcı; P7 yorumlar dahil — önceki §A "commit'lenmedi" diyordu, eskimişti). **PF kodu çalışma ağacında, commit'lenmedi** — kullanıcıya sorulacak. |
-| **Son döküman commit'i** | `7fe005c`; PF döküman güncellemeleri + önceki oturumdan kalan `bekleyen-sorular.md` P7 duyurular eklemesi commit'lenmedi |
+| **Son kod commit'i** | `2e135ed` (kullanıcı; PF form görsel yarısı + eski `ContactFormCard`/`DetailSections` temizliği). Öncesi `7fe005c` = P7 yorumlar. **Çalışma ağacı temiz.** |
+| **Son döküman commit'i** | `2e135ed` (PROGRESS.md 6.14 + PF, plan öncelik tablosu, `page-types.md`, `bekleyen-sorular.md` P7 duyurular + Ümraniye önceliği — hepsi işlendi) |
 | **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**207 statik sayfa**, değişmedi) · `check-links` **2 benzersiz** (değişmedi: `/duyurular`, `/aktivite-aktiviteler`) · form 131 sayfada (formsuz yalnız 72 kurs tarihi) · 1440 / 390 / 360 taşma yok · klavye sırası + odak halkası denendi · sayfa başına ≈ +2,6 KB HTML, +2,1 KB JS (gzip); `/ddm-iletisim` +12 KB (KVKK metni yalnız orada) |
 | **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · P6 Şube Tanıtım 4/5 · P7 Öğrenci Yorumları · **PF form (görsel)** |
-| **Aktif faz** | PF görsel yarı bitti. Kalan: PF arka uç (karar #4) · P7 duyurular (`/duyurular` + 12, `/aktivite-aktiviteler`) · P6 Ümraniye (kullanıcı bilgisi bekliyor). |
-| **Bir sonraki somut adım** | Kullanıcıya commit'i sor (kod / döküman ayrı). Sonra kullanıcının seçtiği iş: ya PF arka uç (`components/sections/ContactFormFields.tsx` `onSubmit` → Route Handler + e-posta servisi; önce `form.reportValidity()`; KVKK hukuki kontrolü bekleyen-sorular PF #1–2) ya da P7 duyurular (§D P7 kaydı). |
+| **Aktif faz** | PF görsel yarı bitti. **Müşteri cevapları geldi (2026-09-30, 20/21 kapandı) — henüz koda işlenmedi.** Kalan: cevapların işlenmesi (aşağıda) · PF arka uç (karar #4; e-posta adresleri kullanıcıdan gelecek, KVKK olduğu gibi kalıyor) · P7 duyurular + aktiviteler (**kalkacak**) · P6 Ümraniye (**tanıtım sayfası yapılmayacak**). |
+| **Bir sonraki somut adım** | **(0) Müşteri cevaplarını işle** (`bekleyen-sorular.md` en baştaki tablo): 19 dil / tek liste (`data/branchPromo.ts` `tags`, footer) · "25 yıl" → 2003'ten bugüne (`branchPromo.ts` `CAD_INTRO` + Levent maddesi, `data/home.ts` Levent kartı) · şube adı "Etiler" · "Öğrenme Garantisi" bağlantısını kaldır · Duyurular + Aktiviteler'i kaldır (Ana Sayfa kartları, yönlendirmeler, "Mektuplar" kartı) · kapanmış 2 üniversite sayfasını kaldır · üniversite sayfalarında eski metinleri güncelle · Ümraniye: tanıtım sayfası ve kurs takvimi yok, yalnız iletişim sayfası (Ana Sayfa kartı iletişim sayfasına; "Ataşehir Şubesi" başlık hatası düzeltilecek). Dokunulmayacaklar: Enforex cümlesi, Kaplan metni / rakamları, Fransızca Aile Birleşimi, KVKK metni + tek onay kutusu. Sonra sırasıyla: **(1)** ~~P6 Ümraniye~~ — tanıtım sayfası yapılmayacak · **(2)** ~~P7 duyurular + aktiviteler~~ — kalkacak (yukarıda) · **(3)** PF arka uç (`components/sections/ContactFormFields.tsx` `onSubmit` → Route Handler + e-posta servisi; önce `form.reportValidity()`; KVKK hukuki kontrolü) · **(4)** P8 SEO taşıma + temizlik · **(5)** P9 kesişen işler (JSON-LD/GEO-AEO, OG, analytics, a11y, CWV) + QA. |
 | **Yarım kalan iş** | Yok (görsel yarı bitti). Arka uç bilinçli olarak yapılmadı. |
 | **Engeller** | Kalan 2 ölü hedef: `/duyurular`, `/aktivite-aktiviteler` |
-| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** PF: KVKK metnindeki eksik cümle + metnin güncelliği / açık rıza kutusu (hukuki) · "Flemenkçe" → "Felemenkçe" site geneli · arka uç yöntemi · `StickyToc` / `ScheduleTable` silinsin mi. Önceki fazlardan açık kalanlar aynen (Ümraniye en başta). |
+| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md)** — en başta 2026-09-30 müşteri cevapları tablosu (20/21 kapandı). **Hâlâ açık:** form e-posta adresleri (kullanıcı sonra verecek) · forma alınmayanlar (fotoğraflar, Felemenkçe, B2 etiketi, TOEFL Essentials, GMAT/GRE, çocuk kursu saatleri). Eski özet → PF: KVKK metnindeki eksik cümle + metnin güncelliği / açık rıza kutusu (hukuki) · "Flemenkçe" → "Felemenkçe" site geneli · arka uç yöntemi · `StickyToc` / `ScheduleTable` silinsin mi. Önceki fazlardan açık kalanlar aynen (Ümraniye en başta). |
 | **Bilinen veri notları** | Eski formun kurs listesi 5 şubede aynı (23 kalem); KVKK metni 5 şubede aynı (Levent'te form alanlarından sonra). KVKK'de canlıda da eksik cümle var ("Kişisel verilerinizin ne … tarafımızdan işlenebilecektir"). Dil özel ders sayfaları dilin adresi altında → formda o dil hazır seçili. İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/` |
 | **Kalıcı kurallar** | CLAUDE.md §9 PF notu (tek form, `CtaBand` yalnız kurs tarihinde, çapa `lib/formAnchor.ts`, sayfa içi çapa `PageLink`, KVKK tek yerde) · §5 · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
 
@@ -82,6 +82,35 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-09-30 · Opus 5.5 · Ana Sayfa — dil kursları ↔ sınav hazırlık yer değiştirdi — commit bekliyor
+- **Yapılan:** `app/page.tsx`te `<LanguageGrid />` ile `<ExamSection />` yer değiştirdi (kullanıcı isteği). Yeni sıra:
+  hero → rakamlar → dil kursları → yurtdışı → sınav hazırlık → şubeler → … Zeminler aynı dizide kaldı (beyaz / gri / beyaz);
+  hero kartlarının `#dil-kurslari` ve `#sinav-hazirlik` çapaları çalışıyor. Başka dosya değişmedi.
+- **Karar:** sıra `CLAUDE.md` §9'a yazıldı.
+- **Arap harfli yazı kaldırıldı** (kullanıcı: "arapça olan ne varsa kaldır"): tek yer video kapağındaki kayan selam şeridiydi —
+  `data/home.ts` `VIDEO_SECTION.greetings` 2. satırından Arapça ve Farsça selam (Arap harfli iki söz) çıkarıldı. Şerit hâlâ
+  dikişsiz dönüyor (yarı genişlik 2361px ≥ kapak 1000px). Üretilen 205 HTML'de Arap harfi yok.
+  **Dokunulmadı, soruldu:** dil listelerindeki "Arapça" SÖZCÜĞÜ (Ana Sayfa, Yabancı Dil, İngilizce Kursları, Levent tanıtım,
+  Tercüme, Yurtdışı; ayrıca YDS / YÖKDİL sınav dili listeleri) — çıkarsa müşterinin onayladığı "19 dil" 18'e iner.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (207) · 1440 / 390 / 360: taşma yok, tek H1, konsol hatası yok.
+
+### 2026-09-29/30 · Opus 5.5 · Müşteri soru formu + cevapların not edilmesi — kod değişmedi, commit yok
+- **Form:** `docs/musteri-sorulari-2026-09-29.docx` (A4, 21 soru, 5 bölüm; teknik terim yok, menü yolu + sitedeki alıntı).
+  İlk sürüm 30 soruydu; kullanıcı isteğiyle şıklar, resim soruları, yazım / etiket soruları ve TOEFL Essentials, GMAT/GRE,
+  çocuk kursu saati soruları çıkarıldı, Duyurular + Aktiviteler tek soruya indi. Sonda "Müşteriden alınacak dosyalar" ve
+  "Müşteriye sorulmayacak — bizim kararımız" (9 madde) ekleri.
+- **Cevaplar (2026-09-30):** kullanıcı formu Pages'te doldurdu (`docs/musteri-sorulari-2026-09-29.pages`); 14/21 cevap
+  Word dosyasının "Cevap" sütununa ve `bekleyen-sorular.md`'ye (en başta tablo + ilgili maddelerin altında) işlendi.
+  Özet: Ümraniye tanıtım sayfası **olmayacak** · tüm şubelerde **19 dil** + sınav hazırlık, tek liste · **2003'ten bugüne
+  23 yıl** · şube adı **Etiler** · "Öğrenme Garantisi" bağlantısı kalkacak · **Duyurular + Aktiviteler kalkacak** · Kaplan
+  metni ve rakamları şimdilik kalsın · Enforex "kalacak" · kapanmış 2 üniversite sayfası kaldırılacak · üniversite
+  sayfalarında eski metinler güncellenecek · Fransızca Aile Birleşimi şimdilik kalsın.
+- **Netleştirme (kullanıcı, 2026-09-30):** KVKK'de sorun yok → metin + tek onay kutusu olduğu gibi kalır (19–21 kapandı) ·
+  Ümraniye'de tanıtım sayfası yok, **yalnız iletişim sayfası** (3–5 gereksiz, kurs takvimi yok) · Enforex cümlesi **kalsın** ·
+  üniversite sayfalarında eskimiş bilgiler **güncellenecek**.
+- **Tek açık soru:** form başvurularının gideceği e-posta adresleri (18) — kullanıcı sonra verecek.
+- **Yapılmadı:** hiçbir cevap koda / veriye işlenmedi; build çalıştırılmadı (kod değişmedi).
 
 ### 2026-09-29 · Opus 5.5 · PF — İletişim / ön bilgi formu (GÖRSEL yarı; arka uç yok) — commit bekliyor
 - **Adım 1:** `ContactFormCard` + `DetailSections` (+ CSS) silindi — hiçbir sayfada kullanılmıyordu (grep + tsc + build ile teyit, 207 sayfa

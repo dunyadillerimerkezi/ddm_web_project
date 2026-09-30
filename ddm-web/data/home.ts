@@ -441,7 +441,7 @@ export const VIDEO_SECTION = {
    */
   greetings: [
     ["Hello", "Hallo", "Bonjour", "Hola", "Ciao", "Привет", "你好", "Merhaba", "Hej", "Olá"],
-    ["Γειά σου", "안녕하세요", "مرحبا", "سلام", "Dobrý deň", "Здравей", "Bok", "こんにちは", "Hallo"],
+    ["Γειά σου", "안녕하세요", "Dobrý deň", "Здравей", "Bok", "こんにちは", "Hallo"],
   ],
   caption: "Dünya Dilleri Merkezi tanıtım filmi",
   sub: "YouTube’da izle · youtube.com/watch?v=plKWRTzefC8",

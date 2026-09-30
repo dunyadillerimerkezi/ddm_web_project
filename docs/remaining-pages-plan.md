@@ -66,8 +66,9 @@
 | **P3** | Kategori Hub'ları | 6–7 | — | S | P2 / P4 ile birlikte |
 | **P4** | Zengin İçerik Alt Sayfa | ~78 | 29 (`has: query`) | L | §3 route işi, karar #1 |
 | **P5** | İngilizce Seviye Kursu | 9 (+2 → 301) | 1 (konuşma) | S–M | ✅ tamam (2026-09-28) |
-| **P6** | Şube Tanıtım | 4 | — | M | P1, karar #5 |
+| **P6** | Şube Tanıtım | 4 ✅ (2026-09-28) + Ümraniye ⏳ | — | M | Ümraniye kullanıcı bilgisi bekliyor |
 | **P7** | Öğrenci Yorumu + Duyuru | yorumlar ✅ 1 liste (2026-09-29); duyurular 12 + 1 liste ⏳ | yorum 51 + liste (`?start=` dahil) ✅ | M | Karar #2 yorumlar için verildi |
+| **PF** | İletişim / ön bilgi formu | — (131 sayfaya yerleşti) | — | M | Görsel ✅ (2026-09-29); **arka uç ⏳ karar #4** |
 | **P8** | Faz 8 SEO taşıma + 6.7 Temizlik | — | genel kural | L | Hepsi |
 | **P9** | Kesişen işler (JSON-LD, OG, analytics, a11y, CWV) + Faz 9 QA | — | — | M | Karar #6 |
 

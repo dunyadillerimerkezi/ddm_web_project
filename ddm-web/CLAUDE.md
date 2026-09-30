@@ -342,6 +342,8 @@ ddm-web/
 > - Ana Sayfa: hero "büyük fotoğraflı kart + iki yatay kart", sınav kartı "logo tüm kart + alt
 >   katman", dil kursları "5×2 fotoğraf kutusu + tek detay paneli" (bağlantılar HTML'de kalır),
 >   şubeler "3+2", video "fotoğrafsız kapak, tıklayınca sayfa içi oynatıcı".
+> - Ana Sayfa bölüm sırası (kullanıcı, 2026-09-30): hero → rakamlar → **dil kursları → yurtdışı → sınav hazırlık** →
+>   şubeler → … (önce sınav hazırlık üstte, dil kursları alttaydı; ikisi yer değiştirdi).
 > - Ortam hareketleri yalnız transform + token (`--duration-kenburns/-float/-marquee`);
 >   globals.css reduced-motion kuralı hepsini durdurur.
 > - **Dil Kursu (2026-09-25):** her dilin İKİ ayrı fotoğrafı var (`heroPhoto` yatay, `benefitsPhoto` kareye yakın;
