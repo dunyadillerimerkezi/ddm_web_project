@@ -30,9 +30,11 @@
 .grid {
   display: grid;
   grid-template-columns: var(--space-12) repeat(7, minmax(0, 1fr));
-  grid-template-rows: auto repeat(var(--week-rows), minmax(0, 1fr)) 0;
+  /* Yarım saatlik satırın alt sınırı: 2,5 saatlik blokta (5 satır) başlangıç + bitiş saati sığsın. Saat aralığı
+   * genişse (Çocuklar İçin İngilizce: 09–23) kart uzar; dar aralıkta eski yükseklik korunur. */
+  grid-template-rows: auto repeat(var(--week-rows), minmax(var(--ddm-week-row-min), 1fr)) 0;
   column-gap: var(--space-1);
-  height: calc(var(--space-30) * 2 + var(--space-8));
+  min-height: calc(var(--space-30) * 2 + var(--space-8));
   margin-top: var(--space-6);
 }
 

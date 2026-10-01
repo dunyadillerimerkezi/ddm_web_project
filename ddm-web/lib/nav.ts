@@ -271,12 +271,13 @@ export const NAV_ITEMS: NavItem[] = [
     columns: [
       {
         title: "SEVİYELER",
+        // Düşükten yükseğe (kullanıcı, 2026-10-01): A1 Elementary → C1 Advanced.
         items: [
-          { label: "Advanced İngilizce Kursu", href: `${IK}/advanced-ingilizce-kursu` },
-          { label: "Upper-Intermediate İngilizce Kursu", href: `${IK}/upper-intermediate-ingilizce-kursu` },
-          { label: "Intermediate İngilizce Kursu", href: `${IK}/intermediate-ingilizce-kursu` },
-          { label: "Pre-Intermediate İngilizce Kursu", href: `${IK}/pre-intermediate-ingilizce-kursu` },
           { label: "Elementary İngilizce Kursu", href: `${IK}/elementary-ingilizce-kursu` },
+          { label: "Pre-Intermediate İngilizce Kursu", href: `${IK}/pre-intermediate-ingilizce-kursu` },
+          { label: "Intermediate İngilizce Kursu", href: `${IK}/intermediate-ingilizce-kursu` },
+          { label: "Upper-Intermediate İngilizce Kursu", href: `${IK}/upper-intermediate-ingilizce-kursu` },
+          { label: "Advanced İngilizce Kursu", href: `${IK}/advanced-ingilizce-kursu` },
         ],
       },
       {

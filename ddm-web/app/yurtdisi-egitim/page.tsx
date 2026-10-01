@@ -8,14 +8,13 @@ import { HubGuide } from "@/components/sections/HubGuide";
 import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { HubCards } from "@/components/sections/HubCards";
 import { HubAbout } from "@/components/sections/HubAbout";
-import { LanguageStrip } from "@/components/sections/HubLanguages";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { ABROAD_HUB, ABROAD_HUB_ADDED } from "@/data/hubs";
 import { ABROAD_SECTION } from "@/data/home";
 import { getCategoryHubPage, stripArrow } from "@/lib/hubContent";
-import { hubRelated, languageLinks, linkIfProduced } from "@/lib/hubLinks";
+import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -154,15 +153,6 @@ export default function YurtdisiEgitimHubPage() {
         title={s.contact[0] ?? "Bizimle İletişime Geçin"}
         lead={added.ctaSub}
         course="/yurtdisi-egitim"
-      />
-
-      <LanguageStrip
-        id="diger-diller"
-        label={s.otherLabel[0]}
-        title={page.heading("19 dilde eğitim, 2003’ten bugüne Dünya Dilleri Merkezi farkıyla yabancı dil eğitimleri")}
-        lead={s.stripTitle[0]}
-        items={languageLinks("course")}
-        cta={linkIfProduced("/yabanci-dil") ? { label: s.stripCta[0] ?? "", href: "/yabanci-dil" } : null}
       />
 
       <RelatedLinks

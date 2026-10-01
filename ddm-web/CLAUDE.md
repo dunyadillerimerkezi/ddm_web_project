@@ -364,6 +364,9 @@ ddm-web/
 > scratchpad'de 2-3 taslak → kullanıcı seçimi → kod. Bu oturumlarda görsel karar alınabilir;
 > metin değişmez. Kalıcı kararlar:
 > - **Lacivert üst bar (TopBar) tüm siteden kaldırıldı.**
+> - **Sekme simgesi (2026-10-01):** `app/favicon.ico` (16/32/48), `app/icon.png` (512, yuvarlak köşe), `app/apple-icon.png`
+>   (180) — Next dosya kuralı, `<head>` etiketlerini kendisi basar. Lacivert (`--ddm-navy-600` #2a2d7c) zemin üzerinde beyaz
+>   "DDM" harfleri; `ddm-logo-lacivert.png`'nin saydamlık kanalından üretildi (beyaz logo dosyası lekeli, kullanılmadı).
 > - **Telefon numaraları yalnız şube sayfalarında (kullanıcı, 2026-10-01).** Şube iletişim sayfaları (+ `/ddm-iletisim`) ve
 >   şube tanıtım sayfaları. Şube KURS TARİHİ sayfalarında (dil + sınav, 72) telefon ve e-posta YOK: lacivert CTA kartı ve
 >   "veri eksik" kutusu doğrudan şubenin iletişim sayfasına gider ("{Şube} Şubesine Ulaşın"). Dil / sınav sayfalarında,

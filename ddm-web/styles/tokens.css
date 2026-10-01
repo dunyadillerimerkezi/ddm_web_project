@@ -451,6 +451,7 @@
   --ddm-exam-bubble: 22px; /* cevap balonu çapı */
   --ddm-exam-bubble-line: 1.5px; /* balon çerçevesi */
   --ddm-touch-min: 44px; /* en küçük dokunma hedefi (sekme, açılır kutu, bağlantı) */
+  --ddm-week-row-min: 10px; /* WeekBoard yarım saat satırı — 5 satır = başlangıç + bitiş saati */
   --ddm-exam-fact-value: clamp(24px, 2.4vw, 32px); /* kâğıttaki büyük rakam */
   --ddm-exam-chip-min: 200px; /* program seçeneği kartı en dar genişlik */
   --ddm-exam-card-min: 260px; /* bilgi kartı en dar genişlik */

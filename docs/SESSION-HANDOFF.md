@@ -87,6 +87,36 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+### 2026-10-01 (6) · Opus 5.5 · Haftalık ders programı panosu — kesik saatler düzeltildi — commit bekliyor
+- **Sorun (kullanıcı ekran görüntüsü):** Çocuklar İçin İngilizce hero panosunda 19:00–21:30 bloklarının bitiş saati kesik.
+  Neden: ızgara sabit yükseklikte, saat aralığı geniş (09–23 = 28 yarım saat satırı) → 2,5 saatlik blok ~43px, iki satır sığmıyor.
+- **Yapılan:** `styles/WeekBoard.module.css` — satır `minmax(var(--ddm-week-row-min), 1fr)`, ızgara `height` → `min-height`;
+  yeni token `--ddm-week-row-min: 10px`. Geniş aralıkta kart uzar (Çocuklar: 618px), dar aralıkta eski yükseklik korunur.
+- **Doğrulama:** build ✅ (208) · panolu 3 sayfa (Çocuklar İçin İngilizce, Almanca Konuşma, Hızlandırılmış Almanca) × 1440 / 1100 /
+  390: kesik blok 0, taşma yok, konsol hatası yok (390'da pano liste görünümünde, ızgara yok).
+
+### 2026-10-01 (5) · Opus 5.5 · Menü — İngilizce seviyeleri düşükten yükseğe — commit bekliyor
+- **Yapılan:** `lib/nav.ts` İngilizce menüsü "SEVİYELER": Elementary → Pre-Intermediate → Intermediate → Upper-Intermediate →
+  Advanced (önce tersiydi). Masaüstü mega menü ve mobil çekmece aynı veriden okuyor.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (208) · 1440'ta menü açılıp sıra okundu.
+
+### 2026-10-01 (4) · Opus 5.5 · Yurtdışı Eğitim — en alttaki dil şeridi kaldırıldı — commit bekliyor
+- **İstek:** "Yurtdışı Eğitim kısmında en altta dil kısmı var, bunu kaldır."
+- **Yapılan:** `app/yurtdisi-egitim/page.tsx`'ten `LanguageStrip` ("19 dilde eğitim…" + dil kartları + "Diğer Yabancı Dil
+  Kursunu Keşfet") çıktı; sayfa artık form → "İlgili sayfalar" ile bitiyor. `data/hubs.ts` `ABROAD_HUB`: `otherLabel` /
+  `stripTitle` / `stripCta` slotları silindi, 4 kaynak satırı (H19 başlığı dahil) gerekçeyle `ignored`'a; artık kullanılmayan
+  `LANGUAGE_LIST_EDITS` bu hub'dan çıktı (Yabancı Dil + İngilizce Kursları'nda duruyor). Yabancı Dil sayfasındaki şerit aynen.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (208) · `/yurtdisi-egitim` 1440 / 390 / 360: şerit yok, taşma yok, tek H1, konsol hatası yok.
+
+### 2026-10-01 (3) · Opus 5.5 · Sekme simgesi (favicon) — commit bekliyor
+- **İstek:** "sekme logosu yok, koyar mısın".
+- **Yapılan:** `app/favicon.ico` (16/32/48 PNG girdili ICO), `app/icon.png` (512×512, yuvarlak köşe), `app/apple-icon.png`
+  (180×180, köşesiz — iOS kendisi yuvarlar). Lacivert #2a2d7c zemin, beyaz "DDM" (alt yazı küçük boyda okunmadığı için yok).
+  Kaynak `public/assets/ddm-logo-lacivert.png`'nin saydamlık kanalı (beyaz logo dosyasında leke/gürültü var). sharp ile üretildi;
+  kod değişmedi, yalnız 3 yeni dosya.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (208 = 205 sayfa + 3 simge yolu) · `<head>`'de favicon / icon / apple-touch-icon
+  etiketleri var, üç dosya 200 dönüyor.
+
 ### 2026-10-01 (2) · Opus 5.5 · Numaralar yalnız şube sayfalarında + kurumsal mail + tek WhatsApp hattı — commit bekliyor
 - **İstek:** hiçbir dil / sınav sayfasında Kadıköy numarası olmasın, numaralar yalnız şube sayfalarında; İngilizce kursu şube
   kurs tarihlerinde olabilir, "TOEFL sayfasında numara olmasın" · footer'a "kurumsal mail info@dunyadillerimerkezi.com" ·

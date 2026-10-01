@@ -295,8 +295,8 @@ const FEATURE_BODY_EDITS = {
 };
 
 /**
- * Dil listesinden "Arapça" çıkarıldı (kullanıcı, 2026-09-30). Aynı cümle 3 hub'da (Yabancı Dil,
- * İngilizce Kursları, Yurtdışı Eğitim) birebir tekrar ediyor. "19 farklı dil" rakamına dokunulmadı
+ * Dil listesinden "Arapça" çıkarıldı (kullanıcı, 2026-09-30). Aynı cümle Yabancı Dil ve İngilizce Kursları
+ * hub'larında birebir tekrar ediyor (Yurtdışı Eğitim'de de vardı; orada dil şeridi 2026-10-01'de kalktı). "19 farklı dil" rakamına dokunulmadı
  * (müşterinin onayladığı rakam) — listede 18 ad kaldı, `docs/bekleyen-sorular.md`.
  */
 const LANGUAGE_LIST_EDITS = {
@@ -856,9 +856,6 @@ export const ABROAD_HUB: HubDef = {
     es: { heading: YE_ES, take: [0, 1, 2, 3, 4] },
     // 0-5 kısa program listesi (ignored) · 6-29 ülke/şehir çiftleri · 30 özellik gövdesi
     countries: { heading: YE_COUNTRIES, take: Array.from({ length: 24 }, (_, i) => i + 6) },
-    otherLabel: { heading: "→ Esnek öğrenme", take: [0] },
-    stripTitle: { heading: H19, take: [0] },
-    stripCta: { heading: H19, take: [1] },
   },
   features: FEATURES_STANDARD({ heading: YE_COUNTRIES, take: [30] }),
   headingEdits: {
@@ -870,7 +867,6 @@ export const ABROAD_HUB: HubDef = {
   },
   edits: {
     ...FEATURE_BODY_EDITS,
-    ...LANGUAGE_LIST_EDITS,
     // Kaynakta başlık iki kez yapışmış + "alman isteyen" yazım hatası.
     "Yetişkinler için İngilizce Dil KurslarıYetişkinler için İngilizce Dil Kurslarıİngilizce konuşulan bir ülkede dil eğitimi alman isteyen öğrenciler için geniş çapta İngilizce dil kursları sunuyoruz. Uluslararası eğitim kurumları tarafından akredite edilmiş Genel İngilizce Kursları, Sınav Hazırlık Kursları, İş İngilizcesi Kursları veya Uzun Dönem kurslar arasından seçim yapabilirsiniz.":
       "İngilizce konuşulan bir ülkede dil eğitimi almak isteyen öğrenciler için geniş çapta İngilizce dil kursları sunuyoruz. Uluslararası eğitim kurumları tarafından akredite edilmiş Genel İngilizce, Sınav Hazırlık, İş İngilizcesi ya da Uzun Dönem kurslar arasından seçim yapabilirsiniz.",
@@ -888,6 +884,11 @@ export const ABROAD_HUB: HubDef = {
     // Danışmanlığı" kartlarında (programLinks) zaten basılıyor; ikinci kez basılmaz.
     ...["→ Yurtdışı İngilizce", "→ Yüksek Öğrenim", "→ Sınav Hazırlık", "→ Yaz Okulları", "→ Pathway Programı", "→ Yurtdışı Dil Eğitimi"].map(
       (line) => ({ line, reason: "program menüsünün tekrarı — Danışmanlık kartlarında basılıyor" }),
+    ),
+    // Sayfa sonundaki "19 dilde eğitim" dil şeridi kaldırıldı (kullanıcı, 2026-10-01: "Yurtdışı Eğitim'de en alttaki dil
+    // kısmını kaldır"). Aynı içerik Yabancı Dil sayfasında duruyor.
+    ...[H19, "Diğer Dil Eğitim Programları", "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca, Arapça ve Farsça dil eğitimleri vermektedir.", "Diğer Yabancı Dil Kursunu Keşfet"].map(
+      (line) => ({ line, reason: "dil şeridi Yurtdışı Eğitim sayfasından kaldırıldı (kullanıcı, 2026-10-01)" }),
     ),
     ...LANGUAGE_CARD_BOILERPLATE,
   ],
