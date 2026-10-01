@@ -9,8 +9,10 @@ import { FORM_HREF } from "@/lib/formAnchor";
 import { BranchMap } from "@/components/sections/BranchMap";
 import { TransitList } from "@/components/sections/TransitList";
 import { ButtonLink } from "@/components/ui";
-import { telHref, waHref } from "@/data/branches";
-import type { BranchPromoPage as PageData, PromoResolvedBlock, PromoTag } from "@/lib/branchPromoContent";
+import { PageLink } from "@/components/ui/PageLink";
+import { ALL_BRANCHES_LINE, ALL_BRANCHES_OFFER, telHref, waHref } from "@/data/branches";
+import { SINCE_FOUNDING, yearsSinceFounding } from "@/data/company";
+import { OFFER_IDS, type BranchPromoPage as PageData, type PromoResolvedBlock, type PromoTag } from "@/lib/branchPromoContent";
 import styles from "@/styles/BranchPromoPage.module.css";
 
 const COURSES_ID = "kurs-tarihleri";
@@ -22,7 +24,9 @@ const BULLET = "* ";
  * P6 — Şube tanıtım sayfası (kullanıcı, 2026-09-28: "B · şube künyesi"). Açık hero + sağda şubenin künye kartı
  * (semt fotoğrafı, adres / telefon `data/branches.ts`'ten, şubeye özgü iki satır, en yakın ulaşım); gövde şubenin
  * kendi blok dizisi (`blocks`: tanıtım kartları, program sütunları, madde panelleri, kurumsal, ders fotoğrafları) →
- * ulaşım + gömülü harita / şubenin kurs tarihi sayfaları → ortak 6 bağlantı → kaynak metnin tamamı "Ayrıntılı bilgi"de → CTA.
+ * ulaşım + gömülü harita / şubenin kurs tarihi sayfaları → dört sayfada AYNI "Dünya Dilleri Merkezi'nde eğitim" bölümü
+ * (19 dil + sınav hazırlık listesi, 6 ortak başlık — müşteri kararı 2026-09-30: liste şubeye göre değişmez, bu yüzden
+ * şubeyi anlatan blokların içinde değil sonda) → kaynak metnin tamamı "Ayrıntılı bilgi"de → CTA.
  * Tek hareket: künye kartı açılışta bir kez yükselir (reduced-motion'da yok). Zeminler sırayla gri/beyaz dönmez.
  * İletişim sayfasıyla (P1) bilinçli ayrım: burada form yok, adres/telefon yalnız künyede; iki sayfa birbirine bağlanır.
  */
@@ -78,6 +82,19 @@ export function BranchPromoPage({ page }: { page: PageData }) {
                   <dd>{tel ? <a href={tel}>{branch.phone}</a> : branch.phone}</dd>
                 </div>
               )}
+              {/* Tüm şubelerde aynı iki bilgi (kullanıcı, 2026-10-01) — `data/branches.ts` / `data/company.ts`. */}
+              <div className={styles.cardRow}>
+                <dt>Eğitimler</dt>
+                <dd>
+                  <a href={`#${OFFER_IDS.languages}`}>{ALL_BRANCHES_OFFER}</a>
+                </dd>
+              </div>
+              <div className={styles.cardRow}>
+                <dt>Deneyim</dt>
+                <dd>
+                  {SINCE_FOUNDING} · {yearsSinceFounding()} yıl
+                </dd>
+              </div>
               {page.card.map((row) => (
                 <div key={row.label} className={styles.cardRow}>
                   <dt>{row.label}</dt>
@@ -157,12 +174,27 @@ export function BranchPromoPage({ page }: { page: PageData }) {
           <h2 id="sube-egitim" className={styles.h2Small}>
             Dünya Dilleri Merkezi&apos;nde eğitim
           </h2>
+          <p className={styles.sub}>{ALL_BRANCHES_LINE}</p>
+          <div className={styles.offer}>
+            <div id={OFFER_IDS.languages} className={styles.offerGroup}>
+              <h3 className={styles.offerTitle}>{page.offer.languages.length} dil</h3>
+              <Tags tags={page.offer.languages} label="Eğitim verilen diller" />
+            </div>
+            <div id={OFFER_IDS.exams} className={styles.offerGroup}>
+              <h3 className={styles.offerTitle}>Sınav hazırlık</h3>
+              <Tags tags={page.offer.exams} label="Sınav hazırlık kursları" />
+            </div>
+          </div>
           <ul className={styles.shared}>
             {page.shared.map((l) => (
               <li key={l.label}>
-                <Link href={l.href} className={styles.sharedLink}>
-                  {l.label}
-                </Link>
+                {l.href ? (
+                  <Link href={l.href} className={styles.sharedLink}>
+                    {l.label}
+                  </Link>
+                ) : (
+                  <span className={styles.sharedText}>{l.label}</span>
+                )}
               </li>
             ))}
           </ul>
@@ -276,7 +308,10 @@ function Block({ block: b }: { block: PromoResolvedBlock }) {
                     </div>
                   ))}
                 </dl>
-                <Tags tags={c.tags} label={`${c.title} kapsamı`} />
+                <PageLink href={c.more.href} className={styles.columnMore}>
+                  {c.more.label}
+                  <UiIcon name="arrowRight" size={14} strokeWidth={2} />
+                </PageLink>
               </article>
             ))}
           </div>

@@ -197,7 +197,7 @@ const ALMANCA_RELATED = {
 
 /** Almanca program sayfalarında kaynaktaki şube kurs tarihi satırı (Beşiktaş → bugünkü adı, data/branches.ts). */
 const ALMANCA_BRANCH_EDITS = {
-  "Beşiktaş Şubesi Almanca Eğitim Plan Tablosu ve Kurs Tarihi": "Levent / Etiler Şubesi Almanca Eğitim Plan Tablosu ve Kurs Tarihi",
+  "Beşiktaş Şubesi Almanca Eğitim Plan Tablosu ve Kurs Tarihi": "Etiler Şubesi Almanca Eğitim Plan Tablosu ve Kurs Tarihi",
 };
 
 /** Almanca program sayfalarının "Plan Tablosu" bölümündeki üç program bağlantısı. */
@@ -356,9 +356,9 @@ const HIZLANDIRILMIS: SinglePageDef = {
     // Yazım: cümle ortasında büyük harf ("Formasyonlu hocalar").
     "Hızlı bir şekilde Almanca öğrenmek istiyorsunuz, işte tam bu noktada Dünya Dilleri Merkezi size özel bir program hazırladı. DDM şubelerinde hafta içi pazartesi, salı, çarşamba ve perşembe günleri sabah 10:00/14:00 saatleri arasında Formasyonlu hocalar tarafından düzenlenen Hızlandırılmış Almanca kursu programları ile sizlere kısa sürede Almanca konuşma fırsatı sunuyoruz.":
       "Hızlı bir şekilde Almanca öğrenmek istiyorsunuz, işte tam bu noktada Dünya Dilleri Merkezi size özel bir program hazırladı. DDM şubelerinde hafta içi pazartesi, salı, çarşamba ve perşembe günleri sabah 10:00/14:00 saatleri arasında formasyonlu hocalar tarafından düzenlenen Hızlandırılmış Almanca kursu programları ile sizlere kısa sürede Almanca konuşma fırsatı sunuyoruz.",
-    // Bayat şube adı: Beşiktaş → Levent / Etiler (data/branches.ts). Ümraniye'de Almanca kurs tarihi yok, eklenmedi.
+    // Bayat şube adı: Beşiktaş → Etiler (data/branches.ts). Ümraniye'de Almanca kurs tarihi yok, eklenmedi.
     "Hızlandırılmış Almanca kurslarına İstanbul’da Kadıköy, Bağdat Caddesi, Beşiktaş ve Ataşehir şubelerimizde katılabilirsiniz. Program hakkında daha detaylı bilgi almak için şubelerimizi arayabilir ya da ziyaret edebilirsiniz.":
-      "Hızlandırılmış Almanca kurslarına İstanbul’da Kadıköy, Bağdat Caddesi, Levent / Etiler ve Ataşehir şubelerimizde katılabilirsiniz. Program hakkında daha detaylı bilgi almak için şubelerimizi arayabilir ya da ziyaret edebilirsiniz.",
+      "Hızlandırılmış Almanca kurslarına İstanbul’da Kadıköy, Bağdat Caddesi, Etiler ve Ataşehir şubelerimizde katılabilirsiniz. Program hakkında daha detaylı bilgi almak için şubelerimizi arayabilir ya da ziyaret edebilirsiniz.",
     ...ALMANCA_BRANCH_EDITS,
   },
   ignored: [{ line: "almanca kursu", reason: "Joomla etiket bağlantısı (/component/tags/…), içerik değil." }],
@@ -455,9 +455,9 @@ const KONUSMA: SinglePageDef = {
     // Yazım: "gerekçeri" → "gereçleri".
     "Ders esnasında kullanılacak olan tüm ders materyalleri öğretim görevlilerimiz tarafından özel olarak hazırlanmaktadır. Tüm eğitim araç gerekçeri DDM tarafından öğrencilerine ücretsiz olarak verilmektedir.":
       "Ders esnasında kullanılacak olan tüm ders materyalleri öğretim görevlilerimiz tarafından özel olarak hazırlanmaktadır. Tüm eğitim araç gereçleri DDM tarafından öğrencilerine ücretsiz olarak verilmektedir.",
-    // Bayat şube adı: Beşiktaş → Levent / Etiler.
+    // Bayat şube adı: Beşiktaş → Etiler.
     "Almanca konuşma kurslarına İstanbul’da Kadıköy, Bağdat Caddesi, Beşiktaş ve Ataşehir şubelerimizde katılabilirsiniz. Program hakkında daha detaylı bilgi almak için şubelerimizi arayabilir ya da ziyaret edebilirsiniz.":
-      "Almanca konuşma kurslarına İstanbul’da Kadıköy, Bağdat Caddesi, Levent / Etiler ve Ataşehir şubelerimizde katılabilirsiniz. Program hakkında daha detaylı bilgi almak için şubelerimizi arayabilir ya da ziyaret edebilirsiniz.",
+      "Almanca konuşma kurslarına İstanbul’da Kadıköy, Bağdat Caddesi, Etiler ve Ataşehir şubelerimizde katılabilirsiniz. Program hakkında daha detaylı bilgi almak için şubelerimizi arayabilir ya da ziyaret edebilirsiniz.",
     ...ALMANCA_BRANCH_EDITS,
   },
   ignored: [],
@@ -795,8 +795,8 @@ const INGILIZCE_SISTEM: SinglePageDef = {
     // Yazım: "kazanmasını sağlanır" → "kazanmasını sağlar".
     "Önce duyarak, ardından okuyarak ve son olarak yazarak tamamlanan bu süreç İngilizce eğitiminde öğrencinin her tür meziyeti kazanmasını sağlanır. Bu şekilde bir eğitim, İngilizce konuşmaktan çekinmeyen, okuduğunu anlayan ve yazabilen öğrencilerin yetişmesini sağlıyoruz.":
       "Önce duyarak, ardından okuyarak ve son olarak yazarak tamamlanan bu süreç İngilizce eğitiminde öğrencinin her tür meziyeti kazanmasını sağlar. Bu şekilde bir eğitim, İngilizce konuşmaktan çekinmeyen, okuduğunu anlayan ve yazabilen öğrencilerin yetişmesini sağlıyoruz.",
-    // Bayat şube adı: Beşiktaş → Levent / Etiler (hedef sayfa aynı: besiktas-subesi-kurs-tarihi).
-    "Beşiktaş Şubesi İngilizce Kurs Tarihleri": "Levent / Etiler Şubesi İngilizce Kurs Tarihleri",
+    // Bayat şube adı: Beşiktaş → Etiler (hedef sayfa aynı: besiktas-subesi-kurs-tarihi).
+    "Beşiktaş Şubesi İngilizce Kurs Tarihleri": "Etiler Şubesi İngilizce Kurs Tarihleri",
   },
   ignored: [
     { line: "Dünya Dilleri Merkezi Kadıköy şubesi", reason: "Şube iletişim bağlantısı — gri banttaki şube kartları ve 'Şubelerimiz' aynı hedefleri taşır." },

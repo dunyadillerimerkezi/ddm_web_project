@@ -24,6 +24,7 @@ import {
   parseRecord,
   type SiteContentRecord,
 } from "@/lib/contentSections";
+import { currentBranchName } from "@/data/branches";
 import { COURSE_DATES } from "@/data/courseDates";
 import type { Faq, SectionRef } from "@/lib/types";
 import type { IconName } from "@/components/graphics/icons";
@@ -150,7 +151,7 @@ export type StatsBlockRef = {
   icon: IconName;
 };
 
-/** 21 üniversite ızgarası (kaynaktaki "… Hazırladığımız Üniversiteler"
+/** Üniversite ızgarası (19) (kaynaktaki "… Hazırladığımız Üniversiteler"
  *  satırının hedefi). Kaynak satır tüketmez, gezinme bölümüdür. */
 export type UniversitiesBlockRef = { kind: "universities" };
 
@@ -274,8 +275,6 @@ export type ExamPage = {
 
 const CATEGORY = "sinav-hazirlik-egitimleri";
 
-/** Kaynak etiketindeki şube adı → `courseDates.ts` şube anahtarı. Etiket
- *  metni birebir korunur ("Beşiktaş Şubesi"), yalnız hedef bulunur. */
 /** Kurs-tarihi sayfasındaki program bloğu → satır altı bilgisi. */
 const PROGRAM_LABELS: Record<string, string> = {
   haftaici: "Hafta içi",
@@ -283,10 +282,14 @@ const PROGRAM_LABELS: Record<string, string> = {
   birebir: "Birebir",
 };
 
+/** Kaynak etiketindeki şube adı → `courseDates.ts` şube anahtarı. Hedef kaynak satırından bulunur; ekrana giden
+ *  etikette bayat şube adı ("Beşiktaş Şubesi") bugünkü adına çevrilir (`data/branches.ts` `currentBranchName`). */
 const BRANCH_KEYS: [string, string][] = [
   ["Kadıköy", "kadikoy"],
   ["Bağdat Caddesi", "bagdat"],
   ["Beşiktaş", "etiler"],
+  // Kaynak kayıt tazelenip şubeyi bugünkü adıyla anarsa bağlantı sessizce düşmesin.
+  ["Etiler", "etiler"],
   ["Ataşehir", "atasehir"],
 ];
 
@@ -481,7 +484,7 @@ export function getExamPage(def: ExamDef): ExamPage {
           // Satır altı bilgisi hedef sayfanın GERÇEK verisinden gelir (uydurma yok).
           const meta = entry.programs.map((pr) => PROGRAM_LABELS[pr.kind]).filter(Boolean);
           return {
-            label: clean(line),
+            label: currentBranchName(clean(line)),
             href: `/${entry.category}/${entry.courseSlug}/${entry.pageSlug}`,
             meta,
             kind: "branch",

@@ -10,6 +10,7 @@
  * karakter. Aşılırsa build düşer (sessizce kesilmez).
  */
 
+import { currentBranchName } from "@/data/branches";
 import siteContent from "@/data/site_content.json";
 import {
   ContentSectionsError,
@@ -128,7 +129,7 @@ export function getCategoryHubPage(def: HubDef): CategoryHubPage {
 
   // Metadata (CLAUDE.md §6) — kaynak, yoksa gerekçeli düzeltme
   const title = norm(def.meta.title ?? record.title);
-  const description = norm(def.meta.description ?? record.meta_description);
+  const description = norm(def.meta.description ?? currentBranchName(record.meta_description));
   if (title.length > TITLE_MAX) throw new ContentSectionsError(`${context}: title ${title.length} karakter (≤${TITLE_MAX}).`);
   if (description.length > DESCRIPTION_MAX) {
     throw new ContentSectionsError(`${context}: description ${description.length} karakter (≤${DESCRIPTION_MAX}).`);

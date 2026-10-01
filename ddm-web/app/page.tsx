@@ -9,8 +9,8 @@ import { BranchSection } from "@/components/sections/BranchSection";
 import { OtherProgramsSection } from "@/components/sections/OtherProgramsSection";
 import { VideoPromo } from "@/components/sections/VideoPromo";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
-import { LettersSection } from "@/components/sections/LettersSection";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { currentBranchName } from "@/data/branches";
 import { HOME_STATS } from "@/data/home";
 import { absoluteUrl } from "@/lib/site";
 import siteContent from "@/data/site_content.json";
@@ -30,7 +30,8 @@ if (!HOME_RECORD) {
 
 export const metadata: Metadata = {
   title: HOME_RECORD.title,
-  description: HOME_RECORD.meta_description,
+  // Kaynak açıklama aynı şubeyi "Levent, Etiler" diye iki kez sayıyor → `currentBranchName` (müşteri kararı 2026-09-30).
+  description: currentBranchName(HOME_RECORD.meta_description),
   alternates: { canonical: absoluteUrl("/") },
 };
 
@@ -58,7 +59,6 @@ export default function Home() {
       <OtherProgramsSection />
       <VideoPromo />
       <TestimonialsSection />
-      <LettersSection />
       <ContactForm />
     </SiteChrome>
   );

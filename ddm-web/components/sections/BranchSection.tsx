@@ -11,7 +11,7 @@ import styles from "@/styles/BranchSection.module.css";
  * notuydu (gerçek içerik değil) — koda taşınmadı.
  */
 export function BranchSection() {
-  const { kicker, title, cards } = BRANCH_SECTION;
+  const { kicker, title, lead, cards } = BRANCH_SECTION;
 
   return (
     <section id="subeler" className={styles.section}>
@@ -19,6 +19,7 @@ export function BranchSection() {
         <div className={styles.head}>
           <Kicker tone="dark">{kicker}</Kicker>
           <h2 className={styles.title}>{title}</h2>
+          <p className={styles.lead}>{lead}</p>
         </div>
         <div className={styles.grid}>
           {cards.map((branch) => (

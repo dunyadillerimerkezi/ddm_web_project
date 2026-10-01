@@ -28,6 +28,7 @@ import {
   parseRecord,
   type SiteContentRecord,
 } from "@/lib/contentSections";
+import { UNIVERSITY_EXAMS } from "@/data/universityExams";
 import type { SectionRef } from "@/lib/types";
 import type { IconName } from "@/components/graphics/icons";
 import type { IllustrationName } from "@/components/graphics/Illustration";
@@ -41,7 +42,6 @@ export const UNIVERSITY_SLUGS = [
   "bogazici-universitesi",
   "sabanci-universitesi",
   "ozyegin-universitesi",
-  "istanbul-sehir-universitesi",
   "istanbul-teknik-universitesi",
   "yeditepe-universitesi",
   "isik-universitesi",
@@ -53,7 +53,6 @@ export const UNIVERSITY_SLUGS = [
   "kadirhas-universitesi-hazirlik",
   "yildiz-teknik-universitesi",
   "bilgi-universitesi",
-  "suleymansah-universitesi",
   "ortadogu-teknik-universitesi",
   "bahcesehir-universitesi",
   "okan-universitesi",
@@ -100,7 +99,7 @@ export type UniversityContentMap = {
   details: DetailRef[];
   /** SINAV YAPISI h2 başlığı — kaynaktaki "...İçeriği:" başlığından sondaki
    *  iki nokta düşürülerek elle yazılır. null → SINAV YAPISI hiç render
-   *  edilmez (Koç, Acıbadem, Süleyman Şah — kaynakta bölüm ayrımı yok). */
+   *  edilmez (Koç, Acıbadem — kaynakta bölüm ayrımı yok). */
   structureTitle: string | null;
   /** Kaynakta birebir geçen özet cümle — yoksa null, uydurulmaz. */
   structureLead: string | null;
@@ -121,7 +120,7 @@ export type UniversityDef = {
   /** Izgara rozetindeki baş harfler — TÜRETİLMEZ, elle atanır (İ/ı ve çok
    *  kelimeli adlarda otomatik türetme bozulur). */
   initials: string;
-  /** null → kaynakta sınav kodu yok (13/21) — hero rozeti render edilmez. */
+  /** null → kaynakta sınav kodu yok (11/19) — hero rozeti render edilmez. */
   examCode: string | null;
   /** "BÜYES/BUEPT" gibi metin-içi etiket; examCode'dan farklıysa. examCode
    *  ile aynıysa da elle yazılır (drift'e karşı tek kaynak değil, iki ayrı
@@ -196,10 +195,22 @@ export function getUniversityPage(def: UniversityDef): UniversityPage {
     console.warn(`[Faz 6.5] ${def.slug}: H1 eksik — ilk başlığa düşüldü.`);
   }
 
+  // Eskimiş kaynak satırı → güncel karşılığı (`data/universityExams.ts` `edits`, müşteri kararı 2026-09-30).
+  // `null` → satır gösterilmez. Kapsama denetimi HAM satırlarla yapılır; düzeltme yalnız ekrana gideni değiştirir.
+  const edits = UNIVERSITY_EXAMS[def.slug]?.edits ?? {};
+  const usedEdits = new Set<string>();
+  const fix = (lines: string[]): string[] =>
+    lines.flatMap((line) => {
+      if (!(line in edits)) return [line];
+      usedEdits.add(line);
+      const next = edits[line];
+      return next === null ? [] : [next];
+    });
+
   // Giriş paragrafları (titleHeading'in gövdesi) → 3 sabit adım.
   const introLines = resolver.take({ heading: c.titleHeading }, `${context}/titleHeading`) ?? [];
   const steps: ProcessStepResolved[] = c.steps.map((idxs, i) => {
-    const body = idxs.map((idx) => introLines[idx]).filter((p): p is string => p !== undefined);
+    const body = fix(idxs.map((idx) => introLines[idx]).filter((p): p is string => p !== undefined));
     if (body.length === 0) {
       throw new ContentSectionsError(
         `${context}/steps[${i}]: paragraf indeksleri (${idxs.join(",")}) giriş bloğunda (${introLines.length} satır) karşılık bulamadı.`,
@@ -215,12 +226,22 @@ export function getUniversityPage(def: UniversityDef): UniversityPage {
       { heading: d.heading, take: d.take ?? "all", allowEmpty: d.allowEmpty ?? false },
       `${context}/details[${d.id}]`,
     );
-    if (!d.hidden) {
-      details.push({ id: d.id, icon: d.icon, title: d.label, paragraphs: lines ?? [] });
+    // Gizli blokta da çalışır: satır basılmaz ama `edits` anahtarı "kullanıldı" sayılır (kaynak satırı orada duruyor).
+    const paragraphs = fix(lines ?? []);
+    // Bütün satırları kalkan blok (bugün karşılığı olmayan bölüm) başlığıyla birlikte düşer.
+    if (!d.hidden && (paragraphs.length > 0 || (lines ?? []).length === 0)) {
+      details.push({ id: d.id, icon: d.icon, title: d.label, paragraphs });
     }
   }
 
   resolver.assertCoverage(c.ignored, context);
+
+  const unusedEdits = Object.keys(edits).filter((k) => !usedEdits.has(k));
+  if (unusedEdits.length > 0) {
+    throw new ContentSectionsError(
+      `${context}: edits anahtarı sayfanın bölüm metninde yok — ${unusedEdits.map((k) => `"${k.slice(0, 60)}…"`).join(", ")}. data/universityExams.ts'i güncelleyin.`,
+    );
+  }
 
   return {
     def,

@@ -16,11 +16,12 @@ import { CourseDateList } from "@/components/sections/CourseDateList";
 import { LanguageLinks, type LanguageLinkItem } from "@/components/sections/LanguageLinks";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { FORM_HREF } from "@/lib/formAnchor";
+import { yearsSinceFounding } from "@/data/company";
 import { LANGUAGES, getLanguageDef } from "@/data/languages";
 import { LANGUAGE_EXTRAS } from "@/data/languageExtras";
 import type { HomeStat } from "@/data/home";
 import { getLanguagePage, type LanguageDef } from "@/lib/languageContent";
-import { buildLanguageFaqs, courseFacts, factTiles, parseSchedule, yearsOfExperience } from "@/lib/languageFaq";
+import { buildLanguageFaqs, courseFacts, factTiles, parseSchedule } from "@/lib/languageFaq";
 import { absoluteUrl } from "@/lib/site";
 import type { Crumb } from "@/lib/types";
 
@@ -193,7 +194,7 @@ export default async function DilKursuPage({
         title={page.whyChooseDDM.title}
         intro={page.whyChooseDDM.intro}
         items={page.whyChooseDDM.items}
-        years={yearsOfExperience(page.whyChooseDDM.intro)}
+        years={yearsSinceFounding()}
       />
 
       <TeachingCycle

@@ -21,7 +21,9 @@
 
 ## 1. Şu an nerede duruyoruz
 
-`npm run build` temiz, **106 statik sayfa** üretiliyor.
+`npm run build` temiz, **106 statik sayfa** üretiliyor. *(Bu bölüm 2026-09-21 tarihli başlangıç fotoğrafıdır. Güncel durum
+2026-09-30: **205 statik sayfa**, check-links **0 ölü hedef**, P1–P7 + PM + PF görsel yarı ✅; kalan PF arka uç, P8, P9 —
+`SESSION-HANDOFF.md` §A.)*
 
 | Tip | Sayfa | Redirect | Faz | Route |
 |---|---|---|---|---|
@@ -66,8 +68,8 @@
 | **P3** | Kategori Hub'ları | 6–7 | — | S | P2 / P4 ile birlikte |
 | **P4** | Zengin İçerik Alt Sayfa | ~78 | 29 (`has: query`) | L | §3 route işi, karar #1 |
 | **P5** | İngilizce Seviye Kursu | 9 (+2 → 301) | 1 (konuşma) | S–M | ✅ tamam (2026-09-28) |
-| **P6** | Şube Tanıtım | 4 ✅ (2026-09-28) + Ümraniye ⏳ | — | M | Ümraniye kullanıcı bilgisi bekliyor |
-| **P7** | Öğrenci Yorumu + Duyuru | yorumlar ✅ 1 liste (2026-09-29); duyurular 12 + 1 liste ⏳ | yorum 51 + liste (`?start=` dahil) ✅ | M | Karar #2 yorumlar için verildi |
+| **P6** | Şube Tanıtım | 4 ✅ (2026-09-28) | — | M | ✅ kapandı — Ümraniye'nin tanıtım sayfası yapılmayacak (müşteri, 2026-09-30) |
+| **P7** | Öğrenci Yorumu + Duyuru | yorumlar ✅ 1 liste (2026-09-29); duyurular + aktiviteler **yayınlanmıyor** | yorum 51 + liste ✅ · duyuru 12 + 2 liste ✅ (2026-09-30) | M | ✅ kapandı — müşteri: "Duyurular aktiviteler kalkacak" |
 | **PF** | İletişim / ön bilgi formu | — (131 sayfaya yerleşti) | — | M | Görsel ✅ (2026-09-29); **arka uç ⏳ karar #4** |
 | **P8** | Faz 8 SEO taşıma + 6.7 Temizlik | — | genel kural | L | Hepsi |
 | **P9** | Kesişen işler (JSON-LD, OG, analytics, a11y, CWV) + Faz 9 QA | — | — | M | Karar #6 |
@@ -629,14 +631,18 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `frontend-design:frontend-design`, `run`.
 
-### P6 — Şube Tanıtım  🟡 4/5 (2026-09-28) — Ümraniye bilgi bekliyor
+### P6 — Şube Tanıtım  ✅ kapandı (4 sayfa, 2026-09-28) — Ümraniye'nin tanıtım sayfası yapılmayacak (müşteri, 2026-09-30)
+
+> **2026-09-30 (müşteri cevapları):** dört sayfada şubeye özel dil / sınav etiketleri kalktı, sonda ortak "19 dil + sınav
+> hazırlık" bölümü (`data/languages.ts` `ALL_LANGUAGE_NAMES`, `EXAMS`) · "25 yıl" → "2003'ten bugüne" · şubenin adı "Etiler"
+> (adres ve `/levent-tanitim-sayfasi` değişmedi) · "Öğrenme Garantisi" düz metin · Ümraniye: yalnız iletişim sayfası.
 
 > **Sonuç (2026-09-28, Opus 5.5):** 4 sayfa kök dizinde ayrı klasör. Aşama 0: %75 benzerliğin kaynağı form + KVKK (1249 kelime,
 > yayınlanmıyor); gerçek tanıtım metinleri %3–10 benzer, ortak tek blok 6 sekme başlığı. Tasarım **B · şube künyesi** (açık hero +
 > künye kartı); gövde şube başına farklı blok dizisi (`intro` / `programs` / `highlights` / `corporate` / `gallery`), ulaşım
 > (resmi hat sayfaları + OSM, kuş uçuşu) + gömülü harita (açık gelir, kullanıcı 2026-09-28), şubenin kurs tarihi sayfaları, 6 ortak bağlantı, kaynak
 > metnin tamamı "Ayrıntılı bilgi"de. Ana Sayfa şube kartları ve iletişim sayfaları tanıtıma bağlandı (`data/branchPromoPaths.ts`).
-> Ümraniye: kaynak kaydı yok; kullanıcıdan bilgi bekleniyor (SESSION-HANDOFF §A). Toplu sorular §A'da.
+> Ümraniye: kaynak kaydı yok; müşteri kararıyla (2026-09-30) tanıtım sayfası yapılmayacak. Toplu sorular `bekleyen-sorular.md`'de.
 > **P6'da öğrenilenler:** (1) "Benzerlik" ölçümü sayfanın yayınlanmayan bloklarını da sayar — önce yayınlanacak metni ayır.
 > (2) Kalın yazılı kelimeler kaynağı satırlara böler → `DetailPara.join`. (3) h5 olarak işaretlenmiş paragraf → `PromoTitle.split`
 > (başlık + paragraf) ya da `DetailPara.heading`. (4) Harita sorgusunda posta kodu ve arayüz adı geocoding'i bozar.
@@ -656,7 +662,13 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   ```
 - **Skill:** `frontend-design:frontend-design`, `run`.
 
-### P7 — Öğrenci Yorumu + Duyuru  ½ (M) — karar #2
+### P7 — Öğrenci Yorumu + Duyuru  ✅ kapandı (2026-09-30) — karar #2
+
+> **Duyurular + Aktiviteler (2026-09-30, müşteri: "Duyurular aktiviteler kalkacak"):** sayfalar yayınlanmıyor. Ana Sayfa'daki
+> Mektuplar / Aktiviteler / Duyurular bölümü kalktı. 301 (`next.config.ts` `ANNOUNCEMENTS`, kullanıcı onaylı tablo): 9 kurs
+> duyurusu kendi kurs / sınav sayfasına · Speaking Club → İngilizce Konuşma · YKS Dil → YKS Dil İngilizce · TOEFL-IELTS →
+> Sınav Hazırlık hub'ı · Kar Tatili, `/duyurular`, `/aktivite-aktiviteler` → Ana Sayfa · `/duyurular/:rest*` güvenlik ağı.
+> check-links 2 → 0.
 
 > **Yorumlar ✅ (2026-09-29, kullanıcı kararları):** tekil sayfa YOK, tek liste sayfası `/ogrenci-yorumlari` (sayfalama yok,
 > 25 kart tek sayfada + program süzgeci). 51 kaynak kaydı = 43 yorum (8'i aynı yorumun yüzde kodlu ikinci adresi); 25'i

@@ -16,7 +16,7 @@ export type UniversityIndexEntry = {
 };
 
 /**
- * "DİĞER ÜNİVERSİTELER" — 21 kart + Türkçe-duyarlı arama.
+ * "DİĞER ÜNİVERSİTELER" — 19 kart + Türkçe-duyarlı arama.
  *
  * Kaynak: `DDM Üniversite Proficiency Sayfası.dc.html` bölüm 11. Üniversite
  * arması/logosu KULLANILMAZ — rozet baş harf + sınav kodu pill'iyle temsil

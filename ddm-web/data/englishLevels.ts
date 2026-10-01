@@ -222,7 +222,7 @@ export const SYSTEM_HREF = `${YD}/ingilizce-kursu/ingilizce-egitim-sistemi`;
 /** Şablon satırlarının 9 sayfada ortak düzeltmeleri (her sayfanın `edits`ine eklenir). */
 export const TEMPLATE_EDITS: Record<string, string> = {
   // Bayat şube adı → data/branches.ts.
-  "Beşiktaş Şubesi İngilizce Eğitim Plan Tablosu ve Kurs Tarihi": "Levent / Etiler Şubesi İngilizce Eğitim Plan Tablosu ve Kurs Tarihi",
+  "Beşiktaş Şubesi İngilizce Eğitim Plan Tablosu ve Kurs Tarihi": "Etiler Şubesi İngilizce Eğitim Plan Tablosu ve Kurs Tarihi",
   // Kullanıcı kararı (2026-09-27): B2 "Orta İleri Seviye" (gövde ve CEFR ile uyumlu; "İleri Seviye" C1'in adı).
   "Upper-Intermediate İngilizce Kursu | İleri Seviye İngilizce": "Upper-Intermediate İngilizce Kursu | Orta İleri Seviye İngilizce",
 };

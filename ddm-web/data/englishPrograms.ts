@@ -9,6 +9,8 @@
  * hero + program şeridi + sayfaya özgü tek baskın blok (kartlar / adımlar / soru dağılımı / rakamlar).
  */
 
+import { SERVING } from "@/data/company";
+import { LANGUAGE_COUNT } from "@/data/languages";
 import type { GuideText } from "@/data/examGuides";
 import type { SlotRef } from "@/data/privateLessonsShared";
 import type { IconName } from "@/components/graphics/icons";
@@ -419,7 +421,9 @@ const YKS: EnglishProgramDef = {
   ],
   edits: {
     // Yazım: kesme işaretleri.
-    [YKS_INTRO]: YKS_INTRO.replace("YÖK ün", "YÖK'ün").replace("MEB in", "MEB'in"),
+    // Yazım + müşterinin rakamı (2026-09-30: "Hepsinde 19 dil"; kaynak "8 farklı dilde") ve tek yıl kalıbı (kullanıcı 2026-10-01).
+    [YKS_INTRO]: YKS_INTRO.replace("YÖK ün", "YÖK'ün").replace("MEB in", "MEB'in")
+      .replace("2003 yılından bugüne 8 farklı dilde", `${SERVING} ${LANGUAGE_COUNT} farklı dilde`),
     // Yazım: virgülden sonra boşluk.
     "Dilbilgisi (10 Soru) (4 Soru Zamanlar,2 Soru Preposition, 3 Soru Conjunction, 1 Soru Quantifiers)":
       "Dilbilgisi (10 Soru) (4 Soru Zamanlar, 2 Soru Preposition, 3 Soru Conjunction, 1 Soru Quantifiers)",

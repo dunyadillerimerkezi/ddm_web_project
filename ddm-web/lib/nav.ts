@@ -1,5 +1,6 @@
 import type { FooterColumn, NavItem } from "@/lib/types";
 import { BRANCH_LIST } from "@/data/branches";
+import { SERVING } from "@/data/company";
 
 /**
  * Mega menü + footer link ağacı — TEK KAYNAK.
@@ -455,7 +456,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "Kadıköy", href: `${SH}/sat-kursu/kadikoy-subesi-sat-kurs-tarihi` },
                   { label: "Bağdat Caddesi", href: `${SH}/sat-kursu/bagdat-caddesi-subesi-sat-kurs-tarihi` },
-                  { label: "Beşiktaş", href: `${SH}/sat-kursu/besiktas-subesi-sat-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/sat-kursu/besiktas-subesi-sat-kurs-tarihi` },
                   { label: "Ataşehir", href: `${SH}/sat-kursu/atasehir-subesi-sat-kurs-tarihi` },
                 ],
               },
@@ -511,7 +512,7 @@ export const NAV_ITEMS: NavItem[] = [
                 items: [
                   { label: "Kadıköy", href: `${SH}/aile-birlesimi-egitimi/kadikoy-subesi-aile-birlesimi-kurs-tarihi` },
                   { label: "Bağdat Caddesi", href: `${SH}/aile-birlesimi-egitimi/bagdat-caddesi-subesi-aile-birlesimi-kurs-tarihi` },
-                  { label: "Beşiktaş", href: `${SH}/aile-birlesimi-egitimi/besiktas-subesi-aile-birlesimi-kurs-tarihi` },
+                  { label: "Etiler", href: `${SH}/aile-birlesimi-egitimi/besiktas-subesi-aile-birlesimi-kurs-tarihi` },
                   { label: "Ataşehir", href: `${SH}/aile-birlesimi-egitimi/atasehir-subesi-aile-birlesimi-kurs-tarihi` },
                 ],
               },
@@ -695,10 +696,8 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   },
 ];
 
-export const BRAND_BLURB =
-  "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. 2003 yılından bugüne İstanbul’daki 5 şubemizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.";
+export const BRAND_BLURB = `Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. ${SERVING} İstanbul’daki 5 şubemizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.`;
 
-export const FOOTER_LEGAL_LEFT =
-  "Dünya Dilleri Merkezi · Kadıköy · Bağdat Caddesi · Levent / Etiler · Ataşehir · Ümraniye";
+export const FOOTER_LEGAL_LEFT = ["Dünya Dilleri Merkezi", ...BRANCH_LIST.map((b) => b.name)].join(" · ");
 
 export const FOOTER_LEGAL_RIGHT = "KAPLAN INTERNATIONAL ve ILSC resmi kayıt ofisi";

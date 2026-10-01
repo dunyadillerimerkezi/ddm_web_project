@@ -412,6 +412,26 @@ export const LANGUAGES: LanguageDef[] = [
   },
 ];
 
+/**
+ * Kurs sayfası OLMAYAN diller — program ve ders saatleri şubeden öğrenilir (Yabancı Dil sayfası "diğer diller" kutusu).
+ * "Arapça" listede yok (kullanıcı, 2026-09-30).
+ */
+export const OTHER_LANGUAGE_NAMES = ["Japonca", "Yunanca", "Korece", "İsveççe", "Portekizce", "Hırvatça", "Boşnakça", "Slovakça", "Bulgarca", "Farsça"];
+
+/** Müşterinin rakamı: "Hepsinde 19 dil ve sınava hazırlık kursları" (2026-09-30). */
+export const LANGUAGE_COUNT = 19;
+
+/**
+ * DDM'nin eğitim verdiği dillerin TEK listesi: kurs sayfası olan diller ("İngilizce Konuşma" bir dil değil, sayılmaz)
+ * + kurs sayfası olmayanlar. Şube tanıtım sayfalarının dördü de bunu gösterir (müşteri kararı 2026-09-30: tüm şubeler
+ * tüm dilleri verir). Elle ikinci bir liste yazmayın; ad eklenir / çıkarsa rakam tutmaz ve build düşer.
+ */
+export const ALL_LANGUAGE_NAMES: string[] = [...LANGUAGES.filter((l) => l.key !== "speak").map((l) => l.name), ...OTHER_LANGUAGE_NAMES];
+
+if (ALL_LANGUAGE_NAMES.length !== LANGUAGE_COUNT || new Set(ALL_LANGUAGE_NAMES).size !== LANGUAGE_COUNT) {
+  throw new Error(`data/languages.ts: dil listesi ${ALL_LANGUAGE_NAMES.length} ad taşıyor, müşterinin rakamı ${LANGUAGE_COUNT}.`);
+}
+
 export function getLanguageDef(slug: string): LanguageDef | undefined {
   return LANGUAGES.find((l) => l.slug === slug);
 }

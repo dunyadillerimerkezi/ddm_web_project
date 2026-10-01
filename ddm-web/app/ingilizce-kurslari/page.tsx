@@ -47,7 +47,7 @@ const TARGETS: Record<string, string> = {
 const BRANCH_KEYS: [string, string][] = [
   ["Kadıköy", "kadikoy"],
   ["Bağdat Caddesi", "bagdat"],
-  ["Levent / Etiler", "etiler"],
+  ["Etiler", "etiler"],
   ["Ataşehir", "atasehir"],
 ];
 

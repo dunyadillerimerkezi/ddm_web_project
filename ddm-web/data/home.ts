@@ -1,9 +1,11 @@
 import type { FlagCode } from "@/components/graphics/Flag";
 import type { IconName } from "@/components/graphics/icons";
 import type { ImageSlotData, NavLink } from "@/lib/types";
-import { BRANCH_LIST } from "@/data/branches";
+import { ALL_BRANCHES_LINE, BRANCH_LIST } from "@/data/branches";
+import { EXPERIENCE, yearsSinceFounding } from "@/data/company";
 import { PROMO_PATHS } from "@/data/branchPromoPaths";
 import { BRANCH_PHOTOS } from "@/data/branchPhotos";
+import { joinTr } from "@/lib/listText";
 
 /**
  * Ana Sayfa içerik verisi — Faz 6.3.
@@ -34,7 +36,8 @@ export const HOME_HERO = {
   badge: "Sınav Hazırlık ve Yabancı Dil Eğitimleri",
   /** Sayfanın tek h1'i (Faz 6.3 H1 kararı — bkz. plan). Kaynakta h2 idi. */
   h1: "19 dilde eğitim, 2003’ten bugüne Dünya Dilleri Merkezi farkıyla yabancı dil eğitimleri",
-  lead: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. Kadıköy, Bağdat Caddesi, Levent, Ataşehir ve Ümraniye şubelerimizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.",
+  // Şube adları `data/branches.ts`'ten ("Levent" → "Etiler", müşteri kararı 2026-09-30).
+  lead: `Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. ${joinTr(BRANCH_LIST.map((b) => b.name))} şubelerimizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.`,
   primaryCard: {
     icon: "dunya",
     title: "Yabancı Dil Programları",
@@ -94,7 +97,8 @@ export type HomeStat = {
 /** Sayılar statik — `data-count` sayaç animasyonu tasarımda kaldırılmıştı. */
 export const HOME_STATS: HomeStat[] = [
   { icon: "sohbet", value: "19", label: "farklı dilde eğitim" },
-  { icon: "takvim", value: "2003", label: "yılından bugüne" },
+  // Kullanıcı (2026-10-01): "2003'ten bu yana yani 23 yıldır" — rakam kuruluş yılından hesaplanır.
+  { icon: "takvim", value: String(yearsSinceFounding()), label: "yıldır, 2003’ten bu yana" },
   { icon: "konum", value: "5", label: "İstanbul şubesi" },
   { icon: "kupa", value: "8", label: "sınav hazırlık programı" },
 ];
@@ -334,12 +338,13 @@ const BRANCH_PROMO = [
     slotHint: "Bağdat Caddesi şubesi",
   },
   {
-    // Kaynakta başlık "Beşiktaş Şubesi" ama slug/şube "levent" — birebir korundu (§5).
-    tag: "LEVENT BEŞİKTAŞ",
-    title: "Dünya Dilleri Merkezi Beşiktaş Şubesi",
-    short: "25 yılı aşkın deneyimiyle bireysel ve kurumsal dil eğitimlerinde güvenilir bir adres.",
-    cta: "Levent Şubemizi Keşfet",
-    slotHint: "Levent / Etiler şubesi",
+    // MÜŞTERİ KARARLARI 2026-09-30 — kaynak: "Levent Beşiktaş" / "Dünya Dilleri Merkezi Beşiktaş Şubesi" /
+    // "25 yılı aşkın deneyimiyle…" / "Levent Şubemizi Keşfet". Şubenin adı "Etiler"; "25 yıl" → "2003'ten bugüne".
+    tag: "ETİLER",
+    title: "Dünya Dilleri Merkezi Etiler Şubesi",
+    short: `${EXPERIENCE} deneyimiyle bireysel ve kurumsal dil eğitimlerinde güvenilir bir adres.`,
+    cta: "Etiler Şubemizi Keşfet",
+    slotHint: "Etiler şubesi",
   },
   {
     tag: "ATAŞEHİR",
@@ -351,8 +356,10 @@ const BRANCH_PROMO = [
   {
     tag: "ÜMRANİYE",
     title: "Dünya Dilleri Merkezi Ümraniye şubesi",
-    short: "15 yıllık tecrübe deneyimli eğitmen kadromuzla sizlere dünyanın kapılarını aralıyoruz.",
-    cta: "Ümraniye Şubesi",
+    // Kaynak: "15 yıllık tecrübe …" — kullanıcı (2026-10-01): tüm şubeler "2003’ten bu yana 23 yıl" (`data/company.ts`).
+    short: `${EXPERIENCE} tecrübe ve deneyimli eğitmen kadromuzla sizlere dünyanın kapılarını aralıyoruz.`,
+    // Tanıtım sayfası yok ve olmayacak (müşteri kararı 2026-09-30) → kart iletişim sayfasına gider; düğme bunu söyler.
+    cta: "Ümraniye Şubesi İletişim",
     slotHint: "Ümraniye şubesi",
   },
 ];
@@ -360,7 +367,8 @@ const BRANCH_PROMO = [
 export const BRANCH_SECTION = {
   kicker: "ŞUBELERİMİZ",
   title: "Dünya Dilleri Merkezi Şubeler",
-  /** `href`: tanıtım sayfası olan şubede `data/branchPromoPaths.ts` (P6), olmayanda `data/branches.ts` iletişim sayfası. */
+  lead: ALL_BRANCHES_LINE,
+  /** `href`: tanıtım sayfası olan 4 şubede `data/branchPromoPaths.ts` (P6); Ümraniye'de `data/branches.ts` iletişim sayfası. */
   cards: BRANCH_LIST.map((branch, i) => {
     const promo = BRANCH_PROMO[i];
     return {
@@ -458,39 +466,8 @@ export const TESTIMONIALS_SECTION = {
   // Yorumlar P7'den beri `data/testimonials.ts` (`home` sırası) — tek kaynak; `lib/testimonialContent.ts` getHomeTestimonials.
 };
 
-/* ---------------------------------------------------------------
- * Bölüm 10 · Mektuplar / Aktiviteler / Duyurular
- * ------------------------------------------------------------- */
-
-export type SimpleLinkCard = {
-  icon: IconName;
-  title: string;
-  text: string;
-  cta: string;
-  href: string;
-};
-
-export const LETTERS_SECTION: SimpleLinkCard[] = [
-  {
-    icon: "mail",
-    title: "Mektuplar",
-    text: "Sitemizde yayınlanması için bir yorum veya bir fikriniz mi var?",
-    cta: "Keşfet",
-    // Eski sitede ayrı sayfa yok; canlı sitede bu kart fiilen buraya bağlanıyor.
-    href: "/ogrenci-yorumlari",
-  },
-  {
-    icon: "aktivite",
-    title: "Aktiviteler",
-    text: "Dünya Dilleri Merkezi Ders ve Sosyal Aktiviteleri",
-    cta: "Keşfet",
-    href: "/aktivite-aktiviteler",
-  },
-  {
-    icon: "duyuru",
-    title: "Duyurular",
-    text: "Dünya Dilleri Merkezi Duyuru, Haber ve Kampanyaları",
-    cta: "Keşfet",
-    href: "/duyurular",
-  },
-];
+/*
+ * Bölüm 10 (Mektuplar / Aktiviteler / Duyurular) KALDIRILDI — müşteri kararı 2026-09-30: "Duyurular aktiviteler
+ * kalkacak". "Mektuplar"ın ayrı sayfası yoktu (Öğrenci Yorumları'na gidiyordu; o bölüm hemen üstte). Eski adresler
+ * `next.config.ts`'te 301.
+ */

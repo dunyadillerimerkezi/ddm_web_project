@@ -17,8 +17,9 @@ import styles from "@/styles/UniversityBody.module.css";
  * Proficiency üniversite sayfasının gövdesi (UI turu 2026-09-28, "A · sınav akışı").
  * Sınav sayfalarıyla aynı satır dili (`ExamRows`): tek beyaz zemin, solda yapışkan
  * başlık, sağda kısa cevap + kart. Sıra: sınav yapısı → sık sorulanlar (doğrulanmış
- * güncel bilgi, varsa) → kaynak metnin bölüm detayları (eskimişse başında "Güncel
- * durum" notu) → kurs takvimi (şubeler + Bilgi Al; "tarih bekleniyor" tablosu yok).
+ * güncel bilgi, varsa) → sayfa metninin bölüm detayları (eskimiş satırlar
+ * `data/universityExams.ts` `edits` ile güncel; doğrulanamayan ayrıntı kaldıysa başında
+ * `caveat` notu) → kurs takvimi (şubeler + Bilgi Al; "tarih bekleniyor" tablosu yok).
  */
 
 const PART_ICONS: [RegExp, IconName][] = [
@@ -124,9 +125,9 @@ export function UniversityBody({
       )}
 
       {page.details.map((d, i) => (
-        <Row key={d.id} id={d.id} kicker={info?.outdated ? "ÖNCEKİ SINAV BİÇİMİ" : "SINAV HAKKINDA"} title={d.title}>
-          {i === 0 && info?.outdated && <p className={styles.update}>{info.outdated}</p>}
-          <ProseBody paragraphs={d.paragraphs} emphasis={!info?.outdated} />
+        <Row key={d.id} id={d.id} kicker="SINAV HAKKINDA" title={d.title}>
+          {i === 0 && info?.caveat && <p className={styles.update}>{info.caveat}</p>}
+          <ProseBody paragraphs={d.paragraphs} emphasis />
         </Row>
       ))}
 

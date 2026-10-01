@@ -1,5 +1,10 @@
 /**
- * Faz 6.5 — 21 üniversite proficiency sayfasının TEK kaynağı.
+ * Faz 6.5 — 19 üniversite proficiency sayfasının TEK kaynağı.
+ *
+ * KALDIRILDI (müşteri kararı 2026-09-30: "Kaldır"): kapanmış iki üniversite — İstanbul Şehir (2020) ve Süleyman Şah
+ * (2016). Sayfaları, içerik eşlemeleri ve ızgara kartları yok; eski adresleri (nested + kök, `.html`'li ve `.html`siz)
+ * `next.config.ts` `CLOSED_UNIVERSITY_SLUGS` ile Proficiency Kursu'nun üniversiteler bölümüne 301. Kaynak kayıtları
+ * `site_content.json`'da duruyor (salt okunur), okunmuyor.
  *
  * Gövde metni burada YOKTUR (CLAUDE.md §5) — yalnız `site_content.json`daki
  * başlıklara giden referanslar ve kaynakta birebir geçen sayısal olgular
@@ -9,22 +14,26 @@
  * `throw` ile build düşer (bkz. `SectionResolver.assertCoverage`).
  *
  * Kaynak: `ddm-web/data/site_content.json` (proficiency-kursu/ altındaki 21
- * üniversite kaydı — kök `/{slug}.html` kopyaları içerik olarak birebir
+ * üniversite kaydından yayındaki 19'u — kök `/{slug}.html` kopyaları içerik olarak birebir
  * aynı, ayrıca okunmaz, yalnız 301 kaynağıdır). Href doğrulaması yok — bu
  * sayfa tipinde iç link ağı henüz kapsam dışı (hub/ilgili sayfalar Faz 6.5
  * sonrasına bırakıldı, bkz. plan §4).
  *
- * KAPSAM DURUMU (plan §12 Aşama sırası): şu an yalnız Boğaziçi (pilot) dolu.
- * Kalan 20 üniversite onay sonrası katman sırasıyla eklenecek — A (Özyeğin →
- * Bilgi → Doğuş → Sabancı → İstanbul Şehir), B (Maltepe, ODTÜ, Beykent, Koç,
- * Acıbadem, Yeditepe, Işık, İTÜ, YTÜ, Kadir Has, Kocaeli, Marmara, Bahçeşehir,
- * Okan), C (Koç, Acıbadem, Süleyman Şah — bkz. Aşama 0 denetim raporu).
+ * KAPSAM: 19 üniversitenin hepsi dolu. Katmanlar (Aşama 0 denetimi): A (Boğaziçi, Özyeğin, Bilgi, Doğuş, Sabancı),
+ * B (Maltepe, ODTÜ, Beykent, Yeditepe, Işık, İTÜ, YTÜ, Kadir Has, Kocaeli, Marmara, Bahçeşehir, Okan),
+ * C (Koç, Acıbadem — kaynakta bölüm ayrımı yok).
  */
 
+/*
+ * BÖLÜM ETİKETLERİ (`details[].label`) arayüz etiketidir. 2026-09-30'da sınavı değişen üniversitelerde (Doğuş, İTÜ,
+ * ODTÜ, YTÜ, Kadir Has, Işık, Marmara, Acıbadem) etiketler güncel sınava göre yeniden adlandırıldı; gövde satırlarının
+ * güncel karşılığı `data/universityExams.ts` `edits`'te. `structureLead` / `sections` kaynak metnin eski hâlini taşır ve
+ * yalnız `UNIVERSITY_EXAMS` kaydı OLMAYAN üniversitede basılır (bugün 19 üniversitenin hepsinin kaydı var).
+ */
 import type { UniversityContentMap, UniversityDef } from "@/lib/universityContent";
 
 /* ---------------------------------------------------------------
- * Izgara/hero indeksi — 21 üniversitenin TEMEL kimliği (Aşama 0 denetiminde
+ * Izgara/hero indeksi — 19 üniversitenin TEMEL kimliği (Aşama 0 denetiminde
  * doğrulanmış: ad, baş harf, sınav kodu). "DİĞER ÜNİVERSİTELER" ızgarası ve
  * hero rozeti bu alanları kullanır; henüz `content` dolu olmayan
  * üniversiteler de burada listelenir (ızgara linki verir, kendi sayfası
@@ -42,7 +51,6 @@ export const UNIVERSITY_INDEX: UniversityIndexEntry[] = [
   { slug: "bogazici-universitesi", name: "Boğaziçi Üniversitesi", initials: "BÜ", examCode: "BUEPT" },
   { slug: "sabanci-universitesi", name: "Sabancı Üniversitesi", initials: "SÜ", examCode: "ELAE" },
   { slug: "ozyegin-universitesi", name: "Özyeğin Üniversitesi", initials: "ÖÜ", examCode: "TRACE" },
-  { slug: "istanbul-sehir-universitesi", name: "İstanbul Şehir Üniversitesi", initials: "İŞ", examCode: "STEP" },
   { slug: "istanbul-teknik-universitesi", name: "İstanbul Teknik Üniversitesi", initials: "İT", examCode: null },
   { slug: "yeditepe-universitesi", name: "Yeditepe Üniversitesi", initials: "YÜ", examCode: null },
   { slug: "isik-universitesi", name: "Işık Üniversitesi", initials: "IÜ", examCode: null },
@@ -54,7 +62,6 @@ export const UNIVERSITY_INDEX: UniversityIndexEntry[] = [
   { slug: "kadirhas-universitesi-hazirlik", name: "Kadir Has Üniversitesi", initials: "KH", examCode: null },
   { slug: "yildiz-teknik-universitesi", name: "Yıldız Teknik Üniversitesi", initials: "YT", examCode: null },
   { slug: "bilgi-universitesi", name: "Bilgi Üniversitesi", initials: "BÜ", examCode: "BİLET" },
-  { slug: "suleymansah-universitesi", name: "Süleyman Şah Üniversitesi", initials: "SŞ", examCode: null },
   { slug: "ortadogu-teknik-universitesi", name: "Orta Doğu Teknik Üniversitesi", initials: "OD", examCode: null },
   { slug: "bahcesehir-universitesi", name: "Bahçeşehir Üniversitesi", initials: "BÜ", examCode: null },
   { slug: "okan-universitesi", name: "Okan Üniversitesi", initials: "OÜ", examCode: null },
@@ -339,8 +346,8 @@ const dogusContent: UniversityContentMap = {
       heading: "Doğuş Üniversitesi Hazırlık Atlama DÜİYES Sınavlarının İçeriği:",
       hidden: true,
     },
-    { id: "duiyes-1", label: "DÜİYES I", icon: "dilbilgisi", heading: "Birinci Aşama DÜİYES I" },
-    { id: "duiyes-2", label: "DÜİYES II", icon: "yazma", heading: "İkinci Aşama ise DÜİYES II" },
+    { id: "duiyes-1", label: "Düzey Belirleme Sınavı (DBS)", icon: "dilbilgisi", heading: "Birinci Aşama DÜİYES I" },
+    { id: "duiyes-2", label: "DÜİYES", icon: "yazma", heading: "İkinci Aşama ise DÜİYES II" },
     {
       id: "ara-sinav-tipleri",
       label: "Ara Sınav Soru Tipleri",
@@ -349,7 +356,7 @@ const dogusContent: UniversityContentMap = {
     },
     {
       id: "yilsonu-tipleri",
-      label: "Yılsonu Yeterlik Sınavı Soru Tipleri",
+      label: "DÜİYES Soru Tipleri",
       icon: "kullanim",
       heading: "Yılsonu Yeterlik Sınavı Soru Tipleri",
     },
@@ -522,172 +529,12 @@ const sabanciContent: UniversityContentMap = {
 };
 
 /* ---------------------------------------------------------------
- * İstanbul Şehir — istanbul-sehir-universitesi (1077 kelime, Katman A,
- * en zengin sayfa — DBS + STEP, iki ayrı sınav)
- *
- * "İngilizce Düzey Belirleme Sınavı (DBS)" başlığı kaynakta İKİ kez geçiyor:
- * ilk geçiş yalnız 1 satırlık bir dizin öğesi ("İngilizce Yeterlilik Sınavı
- * (STEP...)"), ikinci geçiş DBS'in gerçek gövdesi. `SectionResolver.take()`
- * her çağrıda başlığın TÜM occurrence'larını birleştirip KENDİ `take`
- * seçicisini uyguladığı için aynı başlığa iki ayrı `take` indeksiyle iki
- * kez başvurulabiliyor (dizin satırı `take:[0]` ile gizli tüketilir, gerçek
- * gövde `take:"rest"` ile görünür bloğa gider) — bkz. `lib/universityContent.ts`
- * `SectionResolver.take()` davranışı. Aynı teknik, tek geçişli "Konuşma
- * Bölümü % 20" başlığının gövdesini (konuşma özeti + ödeme/kimlik bilgisi
- * karışık) iki ayrı bloğa bölmek için de kullanıldı.
- * ------------------------------------------------------------- */
-const istanbulSehirContent: UniversityContentMap = {
-  titleHeading: "İstanbul Şehir Üniversitesi DBS ve STEP Hazırlık Atlama Sınavı Kursu",
-  steps: [[0, 1], [2], [3]],
-  details: [
-    {
-      id: "icerik-genel",
-      label: "Sınavın Genel İçeriği",
-      icon: "belge",
-      heading: "İstanbul Şehir Üniversitesi Hazırlık Atlama Sınavının İçeriği:",
-    },
-    {
-      id: "dbs-index",
-      label: "",
-      icon: "belge",
-      heading: "İngilizce Düzey Belirleme Sınavı (DBS)",
-      take: [0],
-      hidden: true,
-    },
-    {
-      id: "dbs-detay",
-      label: "İngilizce Düzey Belirleme Sınavı (DBS)",
-      icon: "dilbilgisi",
-      heading: "İngilizce Düzey Belirleme Sınavı (DBS)",
-      take: "rest",
-    },
-    {
-      id: "step-genel",
-      label: "STEP Genel Bilgi",
-      icon: "belge",
-      heading: "İstanbul Şehir Üniversitesi İngilizce Yeterlilik Sınavı (STEP)",
-    },
-    {
-      id: "step-okuma",
-      label: "STEP — Okuma Bölümü",
-      icon: "okuma",
-      heading: "Okuma bölümü, yüzde 35 ağırlığa sahip olup 80 dakika sürecektir. Bu bölüm üç okuma parçasından oluşmaktadır.",
-    },
-    {
-      id: "step-dinleme-yazma",
-      label: "STEP — Dinleme ve Yazma Bölümleri",
-      icon: "dinleme",
-      heading:
-        "Dinleme bölümü, yüzde 25 ağırlığa sahip olup yaklaşık 35 dakika sürecektir. Bu bölüm iki dinleme parçasından oluşmaktadır.",
-    },
-    {
-      id: "step-konusma",
-      label: "STEP — Konuşma Bölümü (Sözlü)",
-      icon: "konusma",
-      heading: "Konuşma bölümü, üç kısımdan oluşup, yüzde 20 ağırlığa sahiptir. Her aday için 15-20 dakika sürecektir.",
-    },
-    { id: "step-okuma-ozet", label: "STEP — Okuma Özeti", icon: "okuma", heading: "Okuma Bölümü: % 35" },
-    { id: "step-dinleme-ozet", label: "STEP — Dinleme Özeti", icon: "dinleme", heading: "Dinleme Bölümü % 25" },
-    { id: "step-yazma-ozet", label: "STEP — Yazma Özeti", icon: "yazma", heading: "Yazma Bölümü % 20" },
-    {
-      id: "step-konusma-ozet",
-      label: "STEP — Konuşma Özeti",
-      icon: "konusma",
-      heading: "Konuşma Bölümü % 20",
-      take: [0, 1, 2, 3],
-    },
-    {
-      id: "step-odeme",
-      label: "STEP — Sınav Ücreti ve Kimlik Bilgisi",
-      icon: "belge",
-      heading: "Konuşma Bölümü % 20",
-      take: [4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-  ],
-  structureTitle: "İstanbul Şehir Üniversitesi Hazırlık Atlama Sınavının İçeriği",
-  structureLead: null,
-  sections: [
-    {
-      name: "Düzey Belirleme Sınavı (DBS)",
-      skill: "Ücretsiz ön eleme",
-      icon: "dilbilgisi",
-      parts: [{ title: "Tek oturum", meta: [{ icon: "sure", text: "50 dk" }] }],
-    },
-    {
-      name: "Okuma",
-      skill: "STEP — Yazılı",
-      icon: "okuma",
-      parts: [
-        {
-          title: "3 okuma parçası",
-          meta: [
-            { icon: "puan", text: "%35 ağırlık" },
-            { icon: "sure", text: "80 dk" },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Dinleme",
-      skill: "STEP — Yazılı",
-      icon: "dinleme",
-      parts: [
-        {
-          title: "2 dinleme parçası",
-          meta: [
-            { icon: "puan", text: "%25 ağırlık" },
-            { icon: "sure", text: "~35 dk" },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Yazma",
-      skill: "STEP — Yazılı",
-      icon: "yazma",
-      parts: [
-        {
-          title: "Kompozisyon",
-          meta: [
-            { icon: "puan", text: "%20 ağırlık" },
-            { icon: "sure", text: "70 dk" },
-            { icon: "soru", text: "350+ kelime" },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Konuşma",
-      skill: "STEP — Sözlü",
-      icon: "konusma",
-      parts: [
-        {
-          title: "3 kısım",
-          meta: [
-            { icon: "puan", text: "%20 ağırlık" },
-            { icon: "sure", text: "15–20 dk" },
-          ],
-        },
-      ],
-    },
-  ],
-  sectionDetailIds: [
-    "dbs-detay",
-    "step-okuma-ozet",
-    "step-dinleme-ozet",
-    "step-yazma-ozet",
-    "step-konusma-ozet",
-  ],
-  ignored: [],
-};
-
-/* ---------------------------------------------------------------
  * İTÜ — istanbul-teknik-universitesi (408 kelime, Katman B — zengin veri)
  *
  * Kaynakta bölüm başına AYRI başlık yok — tek "...İçeriği:" başlığı altında
  * 19 paragraf. `SectionResolver.take()`in her çağrıda başlığın TÜM
  * gövdesini yeniden birleştirip KENDİ `take` indeks seçicisini uyguladığı
- * özelliği kullanılarak (bkz. İstanbul Şehir yorum notu) bu 19 satır 7 ayrı
+ * özelliği kullanılarak (aynı başlığa farklı `take` indeksleriyle birden çok kez başvurulabilir) bu 19 satır 7 ayrı
  * detay bloğuna bölündü — hepsi AYNI başlığa farklı indeks dizileriyle
  * başvuruyor.
  * ------------------------------------------------------------- */
@@ -704,7 +551,7 @@ const ituContent: UniversityContentMap = {
     },
     {
       id: "itu-asama1",
-      label: "Birinci Aşama — Restatement + Reading",
+      label: "Birinci Aşama — Dil Kullanımı + Okuma",
       icon: "dilbilgisi",
       heading: "İstanbul Teknik Üniversitesi Hazırlık Atlama Sınavının İçeriği:",
       take: [2, 3, 4],
@@ -739,7 +586,7 @@ const ituContent: UniversityContentMap = {
     },
     {
       id: "itu-writing",
-      label: "Essay Writing Detayı",
+      label: "Yazma Bölümü Detayı",
       icon: "yazma",
       heading: "İstanbul Teknik Üniversitesi Hazırlık Atlama Sınavının İçeriği:",
       take: [17, 18],
@@ -810,14 +657,14 @@ const odtuContent: UniversityContentMap = {
   details: [
     {
       id: "odtu-sabah",
-      label: "Sabah Oturumu — Dinlediğini Anlama + Okuma",
+      label: "Birinci Oturum — Dinleme, Okuma, Not Alma, Yazma",
       icon: "dinleme",
       heading: "Orta Doğu Teknik Üniversitesi ODTÜ Hazırlık Atlama Sınavının İçeriği:",
       take: [0, 1, 2],
     },
     {
       id: "odtu-oglen",
-      label: "Öğleden Sonra Oturumu — Dilin Kullanımı + Not Tutma ve Yazma",
+      label: "İkinci Oturum — Konuşma",
       icon: "kullanim",
       heading: "Orta Doğu Teknik Üniversitesi ODTÜ Hazırlık Atlama Sınavının İçeriği:",
       take: [3, 4],
@@ -872,42 +719,42 @@ const ytuContent: UniversityContentMap = {
     },
     {
       id: "ytu-1",
-      label: "1. Bölüm — Dilbilgisi (Cloze Test)",
+      label: "Dil Kullanımı — Cloze Test",
       icon: "dilbilgisi",
       heading: "YTÜ Hazırlık Atlama Sınavının İçeriği:",
       take: [1],
     },
     {
       id: "ytu-2",
-      label: "2. Bölüm — Reading",
+      label: "Okuma — Reading Parçaları",
       icon: "okuma",
       heading: "YTÜ Hazırlık Atlama Sınavının İçeriği:",
       take: [2],
     },
     {
       id: "ytu-3",
-      label: "3. Bölüm — Yakın Anlamlı Cümle",
+      label: "Dil Kullanımı — Yakın Anlamlı Cümle",
       icon: "dilbilgisi",
       heading: "YTÜ Hazırlık Atlama Sınavının İçeriği:",
       take: [3],
     },
     {
       id: "ytu-4",
-      label: "4. Bölüm — Paragraf Tamamlama",
+      label: "Okuma — Paragraf Tamamlama",
       icon: "okuma",
       heading: "YTÜ Hazırlık Atlama Sınavının İçeriği:",
       take: [4],
     },
     {
       id: "ytu-5",
-      label: "5. Bölüm — Listening",
+      label: "Dinleme (Listening)",
       icon: "dinleme",
       heading: "YTÜ Hazırlık Atlama Sınavının İçeriği:",
       take: [5],
     },
     {
       id: "ytu-6",
-      label: "6. Bölüm — Writing",
+      label: "Yazma (Writing)",
       icon: "yazma",
       heading: "YTÜ Hazırlık Atlama Sınavının İçeriği:",
       take: [6],
@@ -980,7 +827,7 @@ const kadirhasContent: UniversityContentMap = {
     },
     {
       id: "kh-asamalar",
-      label: "KHAS-STS ve KHAS-İYS Aşamaları",
+      label: "KHAS-STS ve KHAS-YS Aşamaları",
       icon: "dilbilgisi",
       heading: "Kadir Has Üniversitesi Hazırlık Atlama Sınavının İçeriği:",
       take: [5, 6, 7],
@@ -1064,21 +911,21 @@ const isikContent: UniversityContentMap = {
     },
     {
       id: "isik-bolum2-okuma",
-      label: "2. Bölüm — Okuma",
+      label: "1. Bölüm — Okuma",
       icon: "okuma",
       heading: "Işık Üniversitesi İngilizce Yerleştirme Sınavı",
       take: [4, 5],
     },
     {
       id: "isik-bolum3-dinleme",
-      label: "3. Bölüm — Dinleme",
+      label: "2. Bölüm — Dinleme",
       icon: "dinleme",
       heading: "Işık Üniversitesi İngilizce Yerleştirme Sınavı",
       take: [6, 7, 8],
     },
     {
       id: "isik-bolum4-yazma",
-      label: "4. Bölüm — Yazma",
+      label: "3. Bölüm — Yazma",
       icon: "yazma",
       heading: "Işık Üniversitesi İngilizce Yerleştirme Sınavı",
       take: [9],
@@ -1195,14 +1042,14 @@ const marmaraContent: UniversityContentMap = {
   details: [
     {
       id: "marmara-asama1",
-      label: "Birinci Aşama — Okuduğunu / Duyduğunu Anlama",
+      label: "Sınavın Yapısı",
       icon: "okuma",
       heading: "Marmara Üniversitesi Hazırlık Atlama Sınavının İçeriği:",
       take: [0, 1, 2, 3],
     },
     {
       id: "marmara-asama2",
-      label: "İkinci Aşama — Yazma ve Konuşma",
+      label: "Yazma Bölümü ve Geçme Notu",
       icon: "yazma",
       heading: "Marmara Üniversitesi Hazırlık Atlama Sınavının İçeriği:",
       take: [4, 5, 6],
@@ -1542,7 +1389,7 @@ const acibademContent: UniversityContentMap = {
   details: [
     {
       id: "acibadem-icerik",
-      label: "APPT Sınavı Hakkında",
+      label: "ACUPEP PPT Hakkında",
       icon: "belge",
       heading: "Acıbadem Üniversitesi Sınavının İçeriği:",
     },
@@ -1551,28 +1398,6 @@ const acibademContent: UniversityContentMap = {
       label: "Eşdeğer Puan Denklikleri",
       icon: "belge",
       heading: "AYES Sınavına Eşdeğer Kabul Edilen Puan Denklikleri:",
-    },
-  ],
-  structureTitle: null,
-  structureLead: null,
-  sections: [],
-  sectionDetailIds: [],
-  ignored: [],
-};
-
-/* ---------------------------------------------------------------
- * Süleyman Şah — suleymansah-universitesi (207 kelime, Katman C — bölüm
- * ayrımı yok)
- * ------------------------------------------------------------- */
-const suleymansahContent: UniversityContentMap = {
-  titleHeading: "Süleyman Şah Üniversitesi Hazırlık Atlama Sınavı Kursu",
-  steps: [[0], [1], [2, 3]],
-  details: [
-    {
-      id: "suleymansah-icerik",
-      label: "Seviye Tespit ve Yeterlilik Süreci",
-      icon: "dilbilgisi",
-      heading: "Süleyman Şah Üniversitesi Hazırlık Atlama Sınavının İçeriği:",
     },
   ],
   structureTitle: null,
@@ -1637,17 +1462,6 @@ export const UNIVERSITIES: UniversityDef[] = [
     illoChip1: "Seviye tespiti",
     illoChip2: "Sınav tekniği",
     content: sabanciContent,
-  },
-  {
-    slug: "istanbul-sehir-universitesi",
-    name: "İstanbul Şehir Üniversitesi",
-    initials: "İŞ",
-    examCode: "STEP",
-    examLabel: "DBS/STEP",
-    illo: "dort-beceri",
-    illoChip1: "Okuma · Yazma",
-    illoChip2: "Dinleme",
-    content: istanbulSehirContent,
   },
   {
     slug: "istanbul-teknik-universitesi",
@@ -1802,17 +1616,6 @@ export const UNIVERSITIES: UniversityDef[] = [
     illoChip1: "3 bölüm",
     illoChip2: "Sınav formatı",
     content: acibademContent,
-  },
-  {
-    slug: "suleymansah-universitesi",
-    name: "Süleyman Şah Üniversitesi",
-    initials: "SŞ",
-    examCode: null,
-    examLabel: null,
-    illo: "kampus",
-    illoChip1: "Seviye tespiti",
-    illoChip2: "Sınav tekniği",
-    content: suleymansahContent,
   },
 ];
 

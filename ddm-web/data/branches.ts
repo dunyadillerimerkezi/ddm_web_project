@@ -1,4 +1,6 @@
 import type { Branch, BranchSlug } from "@/lib/types";
+import { SERVING } from "@/data/company";
+import { LANGUAGE_COUNT } from "@/data/languages";
 
 /**
  * 5 İstanbul şubesi.
@@ -17,8 +19,12 @@ import type { Branch, BranchSlug } from "@/lib/types";
  *
  * NOT: Ümraniye'nin telefonu (0216 548 14 11) Ataşehir'in İKİNCİ hattıyla
  * birebir aynı — hem hub listesinde hem Ümraniye'nin kendi sayfasında tutarlı,
- * yani kaynak hatası değil (muhtemelen ortak bir hat). Etiler/Levent şubesinin
+ * yani kaynak hatası değil (muhtemelen ortak bir hat). Etiler şubesinin
  * WhatsApp hattı yok (kaynakta "WhatsApp Hattı" satırı yalnız diğer 4 şubede var).
+ *
+ * ÜMRANİYE (müşteri kararı 2026-09-30): yalnız İLETİŞİM sayfası var. Tanıtım sayfası yapılmayacak
+ * (`data/branchPromoPaths.ts`), kurs takvimi de yok ve olmayacak (`data/courseDates.ts`'te 0 kayıt) —
+ * ikisi de eksik değil, karar.
  */
 export const BRANCHES: Record<BranchSlug, Branch> = {
   kadikoy: {
@@ -43,8 +49,10 @@ export const BRANCHES: Record<BranchSlug, Branch> = {
   },
   etiler: {
     slug: "etiler",
-    name: "Levent / Etiler",
-    kicker: "LEVENT / ETİLER ŞUBESİ",
+    // Müşteri kararı 2026-09-30: şubenin adı "Etiler" (önce "Levent / Etiler"). Adres Levent tarafında (Nispetiye Cad.);
+    // adres, telefon ve sayfa adresleri (`/ddm-iletisim/3-levent`, `/levent-tanitim-sayfasi`) DEĞİŞMEDİ.
+    name: "Etiler",
+    kicker: "ETİLER ŞUBESİ",
     href: "/ddm-iletisim/3-levent",
     address: "Nispetiye Cad. No:32/12 Pk.34330 Beşiktaş",
     phone: "0212 283 19 14",
@@ -74,6 +82,28 @@ export const BRANCHES: Record<BranchSlug, Branch> = {
     wa: "902165481411",
   },
 };
+
+/**
+ * Kaynak metinde şubenin ESKİ adı → bugünkü adı. Müşteri kararı 2026-09-30: şubenin adı "Etiler"; kullanıcı onayı (aynı gün):
+ * kaynakta "Beşiktaş Şubesi" diye geçen yerler de "Etiler" olur. YALNIZ şube adı kalıpları değişir:
+ *   "Beşiktaş Şubesi …" / "Beşiktaş Levent şubesi" → "Etiler Şubesi …" · şube listesinde "Levent, Etiler" → "Etiler".
+ * Semt adı olarak "Beşiktaş" / "Levent" (adres, ulaşım, öğrenci yorumu, "Levent, Akatlar, Ulus…") DEĞİŞMEZ.
+ * Kullananlar: kurs sayfalarındaki şube satırları (`lib/languageContent.ts`, `lib/examContent.ts`), kurs tarihi sayfalarının
+ * başlıkları (`lib/courseDateContent.ts`), iletişim hub'ı (`lib/branchContent.ts`). Sayfa ADRESLERİ değişmez
+ * (`…/besiktas-subesi-…-kurs-tarihi`).
+ */
+export function currentBranchName(text: string): string {
+  const name = BRANCHES.etiler.name;
+  return text.replace(/Beşiktaş(?: Levent)?(?= [Şş]ube)/g, name).replace(/Levent, Etiler/g, name);
+}
+
+/**
+ * Tüm şubeler için aynı (müşteri: "Hepsinde 19 dil ve sınava hazırlık kursları"; kullanıcı 2026-10-01: "tüm şubelerde tüm
+ * diller … 2003'ten bu yana yani 23 yıldır hizmet veriliyor diye yaz"). Ana Sayfa şube bölümü, şube iletişim ve tanıtım
+ * sayfaları buradan okur.
+ */
+export const ALL_BRANCHES_OFFER = `${LANGUAGE_COUNT} dilde eğitim ve sınav hazırlık kursları`;
+export const ALL_BRANCHES_LINE = `Tüm şubelerimizde ${ALL_BRANCHES_OFFER} veriyoruz; ${SERVING} hizmetinizdeyiz.`;
 
 /** Menü/footer sırası — tasarımdaki sıra. */
 export const BRANCH_ORDER: BranchSlug[] = [
@@ -122,7 +152,7 @@ export function contactBranch(branch: Branch = DEFAULT_BRANCH): Branch {
 }
 
 /**
- * Harita / yol tarifi sorgusu — yalnız sokak adresi: posta kodu ("Pk.34330") ve arayüz adı ("Levent / Etiler")
+ * Harita / yol tarifi sorgusu — yalnız sokak adresi: posta kodu ("Pk.34330") ve arayüz adı ("Etiler")
  * geocoding'i şaşırtıyor (P6 code-review). Adres yoksa null.
  */
 export function mapQuery(branch: Branch): string | null {

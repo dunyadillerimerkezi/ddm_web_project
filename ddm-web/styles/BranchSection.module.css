@@ -19,6 +19,14 @@
   margin-bottom: clamp(26px, 3vw, 38px);
 }
 
+.lead {
+  max-width: 44em;
+  margin: 0;
+  font-size: var(--ddm-text-lead);
+  line-height: 1.6;
+  color: var(--ddm-navy-200);
+}
+
 .title {
   margin: 0;
   font-family: var(--ddm-font-heading);

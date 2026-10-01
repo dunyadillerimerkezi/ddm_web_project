@@ -7,41 +7,45 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-30, müşteri cevapları not edildi — kod değişmedi; öncesi 2026-09-29 PF görsel yarı)*
+## §A — Güncel durum  *(son güncelleme: 2026-09-30, müşteri cevapları koda işlendi — commit bekliyor)*
 
 > ⚠ **FORM GÖRSEL, ARKA UÇ YOK.** `ContactForm` 131 sayfada duruyor ama HİÇBİR YERE veri göndermiyor; basınca "Form henüz
 > açılmadı, bilgileriniz gönderilmedi" notu + seçilen şubenin telefonu / WhatsApp'ı çıkıyor. Gönderim = karar #4, açık.
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `2e135ed` (kullanıcı; PF form görsel yarısı + eski `ContactFormCard`/`DetailSections` temizliği). Öncesi `7fe005c` = P7 yorumlar. **Çalışma ağacı temiz.** |
-| **Son döküman commit'i** | `2e135ed` (PROGRESS.md 6.14 + PF, plan öncelik tablosu, `page-types.md`, `bekleyen-sorular.md` P7 duyurular + Ümraniye önceliği — hepsi işlendi) |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**207 statik sayfa**, değişmedi) · `check-links` **2 benzersiz** (değişmedi: `/duyurular`, `/aktivite-aktiviteler`) · form 131 sayfada (formsuz yalnız 72 kurs tarihi) · 1440 / 390 / 360 taşma yok · klavye sırası + odak halkası denendi · sayfa başına ≈ +2,6 KB HTML, +2,1 KB JS (gzip); `/ddm-iletisim` +12 KB (KVKK metni yalnız orada) |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency 21 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · P6 Şube Tanıtım 4/5 · P7 Öğrenci Yorumları · **PF form (görsel)** |
-| **Aktif faz** | PF görsel yarı bitti. **Müşteri cevapları geldi (2026-09-30, 20/21 kapandı) — henüz koda işlenmedi.** Kalan: cevapların işlenmesi (aşağıda) · PF arka uç (karar #4; e-posta adresleri kullanıcıdan gelecek, KVKK olduğu gibi kalıyor) · P7 duyurular + aktiviteler (**kalkacak**) · P6 Ümraniye (**tanıtım sayfası yapılmayacak**). |
-| **Bir sonraki somut adım** | **(0) Müşteri cevaplarını işle** (`bekleyen-sorular.md` en baştaki tablo): 19 dil / tek liste (`data/branchPromo.ts` `tags`, footer) · "25 yıl" → 2003'ten bugüne (`branchPromo.ts` `CAD_INTRO` + Levent maddesi, `data/home.ts` Levent kartı) · şube adı "Etiler" · "Öğrenme Garantisi" bağlantısını kaldır · Duyurular + Aktiviteler'i kaldır (Ana Sayfa kartları, yönlendirmeler, "Mektuplar" kartı) · kapanmış 2 üniversite sayfasını kaldır · üniversite sayfalarında eski metinleri güncelle · Ümraniye: tanıtım sayfası ve kurs takvimi yok, yalnız iletişim sayfası (Ana Sayfa kartı iletişim sayfasına; "Ataşehir Şubesi" başlık hatası düzeltilecek). Dokunulmayacaklar: Enforex cümlesi, Kaplan metni / rakamları, Fransızca Aile Birleşimi, KVKK metni + tek onay kutusu. Sonra sırasıyla: **(1)** ~~P6 Ümraniye~~ — tanıtım sayfası yapılmayacak · **(2)** ~~P7 duyurular + aktiviteler~~ — kalkacak (yukarıda) · **(3)** PF arka uç (`components/sections/ContactFormFields.tsx` `onSubmit` → Route Handler + e-posta servisi; önce `form.reportValidity()`; KVKK hukuki kontrolü) · **(4)** P8 SEO taşıma + temizlik · **(5)** P9 kesişen işler (JSON-LD/GEO-AEO, OG, analytics, a11y, CWV) + QA. |
-| **Yarım kalan iş** | Yok (görsel yarı bitti). Arka uç bilinçli olarak yapılmadı. |
-| **Engeller** | Kalan 2 ölü hedef: `/duyurular`, `/aktivite-aktiviteler` |
-| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md)** — en başta 2026-09-30 müşteri cevapları tablosu (20/21 kapandı). **Hâlâ açık:** form e-posta adresleri (kullanıcı sonra verecek) · forma alınmayanlar (fotoğraflar, Felemenkçe, B2 etiketi, TOEFL Essentials, GMAT/GRE, çocuk kursu saatleri). Eski özet → PF: KVKK metnindeki eksik cümle + metnin güncelliği / açık rıza kutusu (hukuki) · "Flemenkçe" → "Felemenkçe" site geneli · arka uç yöntemi · `StickyToc` / `ScheduleTable` silinsin mi. Önceki fazlardan açık kalanlar aynen (Ümraniye en başta). |
-| **Bilinen veri notları** | Eski formun kurs listesi 5 şubede aynı (23 kalem); KVKK metni 5 şubede aynı (Levent'te form alanlarından sonra). KVKK'de canlıda da eksik cümle var ("Kişisel verilerinizin ne … tarafımızdan işlenebilecektir"). Dil özel ders sayfaları dilin adresi altında → formda o dil hazır seçili. İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/` |
-| **Kalıcı kurallar** | CLAUDE.md §9 PF notu (tek form, `CtaBand` yalnız kurs tarihinde, çapa `lib/formAnchor.ts`, sayfa içi çapa `PageLink`, KVKK tek yerde) · §5 · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
+| **Son kod commit'i** | `c77e031` (kullanıcı; "Arapça" dil listelerinden çıkarıldı). 2026-10-01: tek yıl kalıbı + üniversite düzeltmeleri de commit bekliyor. Öncesi `6ce4e9d` (Ana Sayfa sırası + müşteri cevaplarının notu), `2e135ed` (PF görsel yarı). **Çalışma ağacında commit'lenmemiş iş var:** müşteri cevaplarının işlenmesi (kod + döküman) — kullanıcıya soruldu. |
+| **Son döküman commit'i** | `c77e031`. Bu oturumun döküman değişiklikleri (bu dosya, `bekleyen-sorular.md`, `PROGRESS.md`, `page-types.md`, `remaining-pages-plan.md`, `ddm-web/CLAUDE.md`) commit bekliyor — koddan AYRI commit. |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**205 statik sayfa**; 207'den 2 üniversite kalktı) · `check-links` **0 ölü hedef** (ilk kez sıfır) · 33 sayfa × 1440 / 390 / 360: taşma yok, tek H1, konsol hatası yok · yeni yönlendirmelerin hepsi tek adımda 200'e gidiyor (8 üniversite + 29 duyuru / aktivite adresi, `curl` ile denendi) |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency **19** · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · **P6 Şube Tanıtım 4 (kapandı)** · **P7 Öğrenci Yorumları (kapandı; Duyurular + Aktiviteler kaldırıldı)** · PF form (görsel) |
+| **Aktif faz** | Müşteri cevapları işlendi (20 / 21). Kalan: **PF arka uç** (karar #4 — e-posta adresleri kullanıcıdan bekleniyor) · P8 SEO taşıma + temizlik · P9 kesişen işler + QA. |
+| **Bir sonraki somut adım** | **(1)** Bu oturumun işini commit'le (önce kod, sonra döküman; push yok) · **(2)** PF arka uç: `components/sections/ContactFormFields.tsx` `onSubmit` → Route Handler + e-posta servisi (önce `form.reportValidity()`; adresler gelince) · **(3)** P8: genel `.html` → temiz adres 301 kuralı + `remaining-pages-plan.md` §4'teki kalan sorgulu adresler · **(4)** P9: JSON-LD / OG / analytics / a11y / CWV + QA. |
+| **Yarım kalan iş** | Yok. |
+| **Engeller** | Yok (ölü hedef 0). PF arka ucu için e-posta adresleri bekleniyor. |
+| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** Müşteriden: form e-posta adresleri. Bir sonraki toplu soruda: Ümraniye "15 yıllık tecrübe" · Bağdat Caddesi "20 yıldır" · "19 farklı dil" cümlesinde 18 ad · "8 farklı dilde" cümlesi · üniversite sayfalarında DDM tanıtım paragrafları (speaking / listening) · Acıbadem "AYES" adı · "Flemenkçe" → "Felemenkçe" · 16 üniversitede doğrulanamayan ayrıntı tablosu. |
+| **Bilinen veri notları** | **19 dil** = kursu olan 9 dil + diğer 10 dil (`data/languages.ts` `ALL_LANGUAGE_NAMES`; ad eklenir / çıkarsa build düşer). **Kuruluş yılı** `data/company.ts` (2003; "Neden DDM" kartındaki yıl sayısı build gününde hesaplanır — yılbaşından sonra yeniden build gerekir). **Şube adı** "Etiler" (`data/branches.ts`; kaynaktaki "Beşiktaş Şubesi" / "Levent, Etiler" `currentBranchName` ile çevrilir; adresler ve `levent@…` e-postası değişmedi). **Üniversite sınav bilgisi** 30.09.2026'da 19 üniversitenin resmi sitesinden yeniden doğrulandı (`data/universityExams.ts` yorumlarında kaynak + alıntı); sınav ayları / tarihleri her akademik yıl değişir. Ümraniye: tanıtım sayfası ve kurs takvimi yok — karar. İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/`. |
+| **Kalıcı kurallar** | CLAUDE.md §5 "Müşteri kararları 2026-09-30" (dokunulmayacaklar dahil) · §5 Proficiency üniversite: eskimiş satır `edits` ile güncellenir, doğrulanamayan değişmez (`caveat`) · §9 PF notu · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
 
 
-**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-09-29):**
+**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-09-30):**
 
 ```
-PF devam · İletişim formunun arka ucu (karar #4) — ya da P7 Duyurular (hangisini istersen).
+PF devam · İletişim formunun arka ucu (karar #4) — ya da P8 SEO taşıma (hangisini istersen).
 
 OTURUM BAŞI
-- Oku: docs/SESSION-HANDOFF.md §A (FORM GÖRSEL, ARKA UÇ YOK), ddm-web/CLAUDE.md §2 (output export yok), §4, §9 PF notu,
-  docs/bekleyen-sorular.md PF bölümü. git status / git log -5. AGENTS.md: Route Handler yazmadan önce
-  node_modules/next/dist/docs/ altındaki rehberi oku. Türkçe ve kısa yaz.
+- Oku: docs/SESSION-HANDOFF.md §A (FORM GÖRSEL, ARKA UÇ YOK), ddm-web/CLAUDE.md §2 (output export yok), §4, §5 "Müşteri
+  kararları 2026-09-30", §9 PF notu, docs/bekleyen-sorular.md. git status / git log -5. AGENTS.md: Route Handler yazmadan
+  önce node_modules/next/dist/docs/ altındaki rehberi oku. Türkçe ve kısa yaz.
+- Başlangıç sayıları: npm run build (205 sayfa) · node scripts/check-links.mjs (0 ölü hedef).
 
 BU OTURUMUN İŞİ (PF arka uç)
-- Önce sor: gönderim yöntemi (Route Handler + e-posta servisi / form servisi), başvurular hangi adrese (şubeye göre mi?),
-  spam koruması, KVKK metninin hukuki kontrolü yapıldı mı (bekleyen-sorular PF #1–2).
+- Önce sor: başvurular hangi adrese (şubeye göre mi?), gönderim yöntemi (Route Handler + e-posta servisi / form servisi),
+  spam koruması.
 - ContactFormFields.tsx onSubmit: önce reportValidity, sonra gönderim; hata stilleri hazır (aria-invalid + .error).
-  Başarı mesajı ANCAK gerçekten gönderildiğinde. Sayfa sayısı 207 kalsın, check-links artmasın.
+  Başarı mesajı ANCAK gerçekten gönderildiğinde. Sayfa sayısı 205 kalsın, check-links 0 kalsın.
+
+DOKUNULMAYACAKLAR (müşteri "kalsın" dedi): Enforex cümlesi · Kaplan metni ve rakamları · Fransızca Aile Birleşimi sayfası ·
+KVKK metni ve tek onay kutusu.
 
 KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
 ```
@@ -83,7 +87,74 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
-### 2026-09-30 · Opus 5.5 · "Arapça" sözcüğü DDM'nin dil listelerinden çıkarıldı — commit bekliyor
+### 2026-10-01 · Opus 5.5 · Kullanıcı düzeltmesi: tek yıl kalıbı + üniversitelerde kalan yanlışlar — commit bekliyor
+- **Kullanıcı:** "2003'te kuruldu dedim, bunca sayfada düzeltmedin mi" · "tüm şubeler için 2003'ten bu yana yani 23 yıldır
+  hizmet veriliyor diye yaz" · "üniversitelerde eksik / yanlış bilgi varsa düzenle".
+- **Eksik kalanlar (önceki tur):** yalnız "25 yıl" geçen yerler düzeltilmişti; Ümraniye "15 yıllık", Bağdat Caddesi "20 yıldır
+  aynı adreste", Proficiency "18 yıllık", TOEIC "13 yıllık tecrübemiz" duruyordu ve şube sayfalarında yıl / 19 dil bilgisi
+  görünür bir yerde yoktu. Üniversitelerde çelişen resmi kaynaklarda eski satır bırakılmış, kurs tanıtım cümlelerindeki yanlış
+  bölüm adlarına "firma metni" diye dokunulmamıştı.
+- **Yapılan:** `data/company.ts` `EXPERIENCE` / `SERVING` ("2003’ten bu yana 23 yıllık / yıldır") — Ana Sayfa rakam şeridi (23
+  yıldır), Etiler ve Ümraniye kartları, footer, Bağdat Caddesi (başlık "23 Yıllık Güven…", "23 yıldır hizmette"), Etiler,
+  Ataşehir (3 cümle), 10 dil kursu "Neden DDM", Proficiency ve TOEIC sınav sayfaları, YKS Dil ("23 yıldır 19 farklı dilde").
+  `data/branches.ts` `ALL_BRANCHES_LINE` ("Tüm şubelerimizde 19 dilde eğitim ve sınav hazırlık kursları veriyoruz; 2003’ten
+  bu yana 23 yıldır hizmetinizdeyiz.") → Ana Sayfa şube bölümü, 5 şube iletişim sayfası, 4 tanıtım sayfası; tanıtım künye
+  kartına "Eğitimler" ve "Deneyim" satırları.
+- **Üniversiteler:** kurs tanıtımında yanlış bölüm sayan 7 cümle (Bahçeşehir, ODTÜ, Kadir Has, Marmara, Doğuş, Kocaeli,
+  Acıbadem) güncel bölümlere çevrildi; çelişkilerde en yeni resmi belge esas: Sabancı not alma 15 → 5 dk, Özyeğin TOEFL / PTE
+  alt puanları kalktı, Acıbadem "20 TWE" kalktı, Yeditepe 50 puan bölümleri, Kadir Has kaldırılmış kayıt dondurma ve ders
+  muafiyeti kuralları, Boğaziçi okuma kısımları; YTÜ'nün çelişen bölüm ağırlıkları kaldırıldı. Eksik bilgiler eklendi: Beykent
+  asgari puanlar + 2026-27 sınav tarihleri, YTÜ ek kabul edilen sınavlar + 85 dk + Eylül barajı, Kocaeli Linguaskill / OTE,
+  Özyeğin Düzey 4 muafiyeti + devlet üniversitesi binası şartı + dinleme ~35 dk, Işık ek oturumlar, Yeditepe dil bölümleri,
+  Acıbadem konuşma 15 dk. Beş `caveat` notunun hepsi kalktı.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ 205 · check-links 0 · Ana Sayfa, Bağdat Caddesi, Ümraniye, Kadir Has 1280 / 390 taşma yok.
+- **Not:** scratchpad tarih değişiminde temizlendi; 16 üniversitenin doğrulama JSON'ları gitti — kaynak ve alıntılar
+  `data/universityExams.ts` yorumlarında duruyor.
+
+### 2026-09-30 · Opus 5.5 · Müşteri cevapları koda işlendi (8 madde) — commit bekliyor
+- **Sonuç:** 207 → **205 sayfa** · check-links 2 → **0** · tsc / lint / build ✅ · 33 sayfa × 3 genişlik temiz.
+- **Madde 1 · 19 dil, tek liste:** `data/languages.ts` `ALL_LANGUAGE_NAMES` = kursu olan 9 dil ("İngilizce Konuşma" sayılmaz) +
+  `OTHER_LANGUAGE_NAMES` 10 dil = 19 (rakam tutmazsa build düşer; kullanıcı listeyi onayladı). Şube tanıtım sayfalarında
+  şubeye özel dil / sınav etiketleri (`ProgramColumn.tags`) kalktı; dört sayfanın sonunda AYNI "Dünya Dilleri Merkezi'nde
+  eğitim" bölümü (19 dil + `EXAMS` 16 sınav + 6 ortak başlık), program sütunlarının altında oraya inen tek satır. Şubenin
+  dillerini sayarak sınırlayan iki kaynak cümlesi (Kadıköy, Etiler) aynı listeye çevrildi (`edits`); "başta olmak üzere"
+  diyen cümleler aynen. "8 Dilde Eğitim" etiketi → "19 Dilde Eğitim".
+- **Madde 2 · "25 yıl" → "2003'ten bugüne":** 3 değil **15 yerdeydi** (Ana Sayfa 1, Bağdat Caddesi 2, Etiler 2, 10 dil kursu
+  sayfasının "Neden DDM" girişi). `data/company.ts` (yeni): `FOUNDED_YEAR`, `yearsSinceFounding()`, `FOUNDING_EDIT`. Büyük rakam
+  artık metinden okunmuyor, 2003'ten hesaplanıyor (bugün 23; `lib/languageFaq.ts` `yearsOfExperience` silindi).
+- **Madde 3 · şubenin adı "Etiler":** `data/branches.ts` ad + kicker; elle yazılmış kopyalar (Ana Sayfa kartı ve giriş cümlesi,
+  footer alt satırı, P3 / P4 / P5 `edits`'leri) temizlendi. Kullanıcı onayıyla kaynaktaki "Beşiktaş Şubesi" de "Etiler":
+  `currentBranchName()` (kurs sayfalarındaki şube satırları, kurs tarihi başlıkları, iletişim hub'ı, 8 meta açıklamasındaki
+  "Levent, Etiler"), IELTS cümlesi (`edits`), menüde 2 etiket. Tanıtım sayfasının Google başlığı "Etiler Dil Kursu | Dünya
+  Dilleri Merkezi Etiler (Levent)". Adres, telefon, e-posta ve sayfa adresleri değişmedi.
+- **Madde 4 · "Öğrenme Garantisi":** bağlantı kalktı, düz metin (`SHARED_LINKS` `href` isteğe bağlı). Aynı desendeki "Gündüz,
+  Akşam ve Hafta Sonu Dersleri" bağlantısı kullanıcı kararıyla kaldı.
+- **Madde 5 · Duyurular + Aktiviteler + Mektuplar:** Ana Sayfa Bölüm 10 tümüyle kalktı (kullanıcı: "mektuplar ve duyuruları
+  kaldır"; `LettersSection` + CSS silindi). `next.config.ts` `ANNOUNCEMENTS`: 9 kurs duyurusu kendi kurs / sınav sayfasına,
+  Speaking Club → İngilizce Konuşma, YKS Dil → YKS Dil İngilizce, TOEFL-IELTS → Sınav Hazırlık hub'ı, Kar Tatili + iki liste
+  sayfası → Ana Sayfa; her biri `.html`'li ve `.html`siz + `/duyurular/:rest*` güvenlik ağı (tablo kullanıcı onaylı).
+- **Madde 6 · kapanmış 2 üniversite:** İstanbul Şehir ve Süleyman Şah `data/universities.ts`, `lib/universityContent.ts`,
+  `next.config.ts`'ten çıktı (21 → 19). `CLOSED_UNIVERSITY_SLUGS`: kök + nested, `.html`'li ve `.html`siz 8 adres tek adımda
+  Proficiency Kursu'nun `#universiteler` bölümüne. Menüde üniversite bağlantısı yok (teyit).
+- **Madde 7 · eskimiş sınav bilgileri:** 19 üniversitenin hepsi resmi sitelerinden yeniden doğrulandı (her biri ayrı araştırma;
+  alıntı + adres `data/universityExams.ts` yorumlarında). Yeni düzenek: `UniversityExamInfo.edits` (kaynak satırı → güncel
+  satır, `null` = satır kalkar; kullanılmayan anahtar build'i düşürür, `lib/universityContent.ts`). ~100 satır güncellendi;
+  "Önceki sınav biçimi" başlığı ve `outdated` notu kalktı, yerine yalnız doğrulanamayan ayrıntı kalan 5 sayfada `caveat`
+  notu. Doğrulama 2 gün önceki kayıtta da hata buldu (Okan TOEFL 79 → 72, Kocaeli "tek oturum 120 dk", ODTÜ "yılda altı kez",
+  Boğaziçi geçme koşulu, Doğuş ağırlıkları…). Sınavı değişen 8 üniversitede bölüm etiketleri yeniden adlandırıldı.
+- **Madde 8 · Ümraniye:** tanıtım sayfası ve kurs takvimi YOK — karar (kod notları güncellendi, `source: string | null` kalktı).
+  Ana Sayfa kartı iletişim sayfasına gidiyordu; düğme "Ümraniye Şubesi İletişim" oldu. "Ataşehir Şubesi" başlık hatası zaten
+  düzeltilmişti (`lib/branchContent.ts` `METADATA_FIXES`).
+- **Dokunulmadı (müşteri "kalsın"):** Enforex cümlesi · Kaplan metni ve rakamları · Fransızca Aile Birleşimi · KVKK metni +
+  tek onay kutusu.
+- **code-review (high):** 10 bulgu. Düzeltildi: doğrulanmamış satırların "güncel" gibi basılması (`caveat`), meta
+  açıklamalarında "Levent, Etiler", sınav sayfası şube eşlemesi ("Etiler" eklendi), `edits`'in gizli blok / giriş
+  paragraflarında da çalışması, ölü etiket eşlemeleri ve `.tagsFlat`, kullanılmayan `branchLabel` (72 kayıt), `joinTr`
+  yardımcısı (`lib/listText.ts`), belge tutarlılığı. Bilinçli bırakıldı: yıl sayısının build gününe bağlı olması (kullanıcı
+  isteği: sabit yazılmasın).
+- **Onay sayfası (artifact):** değişen ekranlar + yönlendirme tablosu + üniversite pilotu kullanıcıya tek sayfada gösterildi.
+
+### 2026-09-30 · Opus 5.5 · "Arapça" sözcüğü DDM'nin dil listelerinden çıkarıldı — `c77e031`
 - **İstek:** kullanıcı "Yabancı Dil sayfasında Arapça yazıyor, Arapça kelimelerini kaldır" (önceki istek: "uygulama içinde
   Arapça olan ne varsa kaldır") → site genelinde DDM'nin KENDİ dil listeleri.
 - **Yapılan (kaynak `site_content.json` değişmedi, hepsi `edits` / veri):**
@@ -101,7 +172,7 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 - **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (207) · üretilen HTML'de "Arap" yalnız o 2 sınav sayfasında · 6 sayfa × 1440 / 390 /
   360: taşma yok, tek H1, konsol hatası yok.
 
-### 2026-09-30 · Opus 5.5 · Ana Sayfa — dil kursları ↔ sınav hazırlık yer değiştirdi — commit bekliyor
+### 2026-09-30 · Opus 5.5 · Ana Sayfa — dil kursları ↔ sınav hazırlık yer değiştirdi — `6ce4e9d`
 - **Yapılan:** `app/page.tsx`te `<LanguageGrid />` ile `<ExamSection />` yer değiştirdi (kullanıcı isteği). Yeni sıra:
   hero → rakamlar → dil kursları → yurtdışı → sınav hazırlık → şubeler → … Zeminler aynı dizide kaldı (beyaz / gri / beyaz);
   hero kartlarının `#dil-kurslari` ve `#sinav-hazirlik` çapaları çalışıyor. Başka dosya değişmedi.

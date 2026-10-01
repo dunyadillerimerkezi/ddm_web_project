@@ -74,7 +74,8 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
 - Eski `.html` URL'lerinden yeni URL'lere **301 redirect zorunlu**
   (`next.config.ts` → `redirects()`). Genel `.html` → temiz URL kuralı **Faz 8'de**
   gelecek; ondan önce her tip kendi özel redirect'lerini **o tipin fazında**
-  ekler (şu an dolu: 6.5 → 21 üniversite kök URL'i × `.html`/`.html`siz = 42;
+  ekler (şu an dolu: 6.5 → 19 üniversite kök URL'i × `.html`/`.html`siz = 38 + kapanmış 2 üniversitenin 8 adresi
+  Proficiency Kursu'nun `#universiteler` bölümüne; duyurular + aktiviteler → 29 kural, `ANNOUNCEMENTS` (2026-09-30);
   6.6 + P0 → 16 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla; P7 → 51 öğrenci yorumu adresi
   `site_content.json`'dan üretilir, `?start=` sayfalaması tek `.html` kuralında — hedef aynıysa `has: query` gerekmez; kaynaktaki 61 query'li URL'in tam envanteri:
   `../docs/remaining-pages-plan.md` §4). Yeni tip
@@ -174,12 +175,37 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     sayfası açılmaz. Title / description yeniden yazıldı (kaynak açıklama form çağrısı; gerekçe `TESTIMONIALS_PAGE.meta.reasons`).
     JSON-LD `Review` / puan eklenmez (karar #6). Fotoğraf yalnız öğrencinin kendi fotoğrafı (Joomla stok görseli değil).
   - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
-    not barajı, sertifika) ekleme-çıkarma YOK; sayfada zaten yazılı olgular aynı anlamda yeniden
+    not barajı, sertifika) ekleme-çıkarma YOK (tek istisna müşterinin kendi düzeltmesi: "25 yıllık" → "2003’ten
+    bugüne", `data/company.ts` `FOUNDING_EDIT`, 2026-09-30); sayfada zaten yazılı olgular aynı anlamda yeniden
     cümlelenebilir (SSS cevapları `lib/languageFaq.ts` bunları o dilin kendi metninden regex'le okur,
     olgu yoksa soru düşer). Dilin kendisi hakkında evrensel bilgi (CEFR, dilin nerede konuşulduğu,
     neden öğrenilmeli) yeni metin olarak eklenebilir — `data/languageExtras.ts`. Kaynak metindeki
     bariz kopyala-yapıştır hatası (ör. Türkçe sayfasında "Korece") kullanıcı onayıyla
     `data/languages.ts` → `edits` ile düzeltilir; kullanılmayan anahtar build'i düşürür.
+  - **Müşteri kararları (2026-09-30 — 21 soruluk formun cevapları; tekrar sormaya gerek yok):**
+    - **DOKUNULMAYACAKLAR ("kalsın"):** Enforex cümlesi ("Kaplan ailesinin parçası" dahil) · Kaplan metni ve rakamları ·
+      Fransızca Aile Birleşimi sayfası ve metni (sınav 2016'da kalkmış olsa da) · KVKK metni ve tek onay kutusu (eksik cümle
+      dahil; ayrı pazarlama kutusu yok). "İyileştirme" de yapılmaz.
+    - **19 dil, tüm şubelerde aynı liste:** tek kaynak `data/languages.ts` `ALL_LANGUAGE_NAMES` (kursu olan 9 dil + diğer 10
+      dil; ad eklenir / çıkarsa build düşer). Şubeye özel dil / sınav listesi YAZMAYIN.
+    - **"2003’ten bu yana 23 yıl" — TÜM şubeler için aynı kalıp** (kullanıcı, 2026-10-01: "şubelerin hepsi 2003'te açılmadı
+      ama kurucu 2003'ten beri bu işi yapıyor"). Kaynaktaki her kurum / şube yıl iddiası ("25 yıllık", "25 yılı aşkın",
+      "18 / 13 / 15 yıllık", "20 yıldır") bu kalıba çevrilir: `data/company.ts` `EXPERIENCE` ("2003’ten bu yana 23 yıllık"),
+      `SERVING` ("… 23 yıldır"), `yearsSinceFounding()`. Elle "23" yazmayın (build günü hesaplanır). Şube sayfalarının künye
+      kartında ve iletişim / Ana Sayfa şube bölümünde ortak cümle: `data/branches.ts` `ALL_BRANCHES_LINE`.
+    - **Şubenin adı "Etiler"** (adres Levent tarafında; adres, e-posta ve sayfa adresleri değişmedi). Kaynakta "Beşiktaş
+      Şubesi" / "Levent, Etiler" diye geçen şube adı `data/branches.ts` `currentBranchName()` ile çevrilir; semt adı olarak
+      "Beşiktaş" / "Levent" (adres, ulaşım, öğrenci yorumu) aynen kalır.
+    - **Yayınlanmayanlar:** Duyurular, Aktiviteler, Ana Sayfa "Mektuplar" bölümü; kapanmış İstanbul Şehir ve Süleyman Şah
+      üniversite sayfaları; Ümraniye tanıtım sayfası ve kurs takvimi (yalnız iletişim sayfası). Hepsinin eski adresi 301.
+    - **Proficiency üniversite — eskimiş sınav bilgisi güncellenir:** sayfanın kaynak metnindeki eskimiş satır
+      `data/universityExams.ts` `edits` ile güncel karşılığına çevrilir (satır → satır, `null` = satır kalkar; kullanılmayan
+      anahtar build'i düşürür). Her değer üniversitenin KENDİ resmi sitesinden doğrulanır; alıntı + adres yorumda.
+      Resmi kaynaklar ÇELİŞİRSE üniversitenin EN YENİ tarihli resmi belgesi esas alınır (kullanıcı, 2026-10-01: "eksik /
+      yanlış bilgi varsa düzenle"); hiçbir resmi kaynakta bulunmayan rakam yazılmaz (gerekirse cümleden çıkar) ve
+      `docs/bekleyen-sorular.md`'ye işlenir; ender durumda `caveat` notu. DDM'nin kurs tanıtım paragraflarında
+      üniversite sınavının BÖLÜMLERİNİ sayan cümleler de güncel bölümlere çevrilir (DDM'nin kendi seviye sınavını anlatan
+      cümleler aynen).
   Bunların dışında yeni bir sapma gerekirse önce kullanıcıya danış.
 - Belirsiz/çelişkili firma bilgisi (ör. "kaç yıldır faaliyette" — bkz.
   `../docs/brand-context.md` [doğrula] bölümü) sayfa içeriğine **uydurma bir
@@ -206,7 +232,7 @@ ddm-web/
 │   ├── yabanci-dil-egitimleri/[kurs]/page.tsx     # Dil Kursu Ana, 10 dil (6.4)
 │   ├── yabanci-dil-egitimleri/[kurs]/[sayfa]/     # Şube Kurs Tarihi — dil tarafı (6.6)
 │   ├── sinav-hazirlik-egitimleri/[kurs]/[sayfa]/  # Şube Kurs Tarihi — sınav tarafı (6.6)
-│   ├── sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/  # 21 üniversite + tarih dağıtıcısı (6.5/6.6)
+│   ├── sinav-hazirlik-egitimleri/proficiency-kursu/[sayfa]/  # 19 üniversite + tarih dağıtıcısı (6.5/6.6)
 │   ├── yurtdisi-egitim/[...sayfa]/                # P4 yurtdışı (1–2 seviye; catch-all yalnız bu prefix altında)
 │   └── diger-program/[sayfa]/, kurumsal-dil-egitim/[sayfa]/  # P4 diğer program / kurumsal (kendi klasörü olanlar hariç)
 ├── components/     # Paylaşılan UI bileşenleri — Faz 6'da doluyor
@@ -228,8 +254,10 @@ ddm-web/
 │   ├── site_content.json   # Crawl edilmiş TÜM sayfa içeriği (384 kayıt) — salt okunur kaynak
 │   ├── urls.csv             # URL + title + meta + H1 + kelime sayısı (SEO referansı)
 │   ├── branches.ts          # 5 şube — adres/telefon eksikse null (§5)
-│   ├── universities.ts      # 21 üniversite (proficiency şablonu)
-│   ├── languages.ts         # 10 dil — illüstrasyon + bayrak eşlemesi
+│   ├── universities.ts      # 19 üniversite (proficiency şablonu; kapanmış 2'si 2026-09-30'da kalktı)
+│   ├── universityExams.ts   # 19 üniversitenin GÜNCEL sınav bilgisi + eskimiş kaynak satırlarının `edits`'i (kaynak yorumda)
+│   ├── languages.ts         # 10 dil kursu sayfası + 19 dilin tek listesi (`ALL_LANGUAGE_NAMES`)
+│   ├── company.ts           # kuruluş yılı (2003) — yıl sayısı buradan hesaplanır
 │   ├── courseDates.ts       # 72 şube×kurs kaydı (üretim betiğiyle çıkarıldı)
 │   └── home.ts              # Ana Sayfa verisi
 │   ├── privateLessons.ts    # P4 özel ders birleşik listesi (+ Shared / Language / Exam tanımları)
@@ -241,7 +269,7 @@ ddm-web/
 │   ├── abroadPages.ts       # P4 yurtdışı (9) — biniş kartı panosu (`pass`), kart/tablo gövde; genel bilgi kaynakları yorumda
 │   ├── otherPrograms.ts     # P4 diğer program / kurumsal (4) — Business English, Çocuklar, Tercüme, Pegasus (lang en)
 │   ├── branchPromo.ts       # P6 şube tanıtım (4) — blok listesi, Excerpt.match, ulaşım (kaynak yorumda)
-│   ├── branchPromoPaths.ts  # P6 yayındaki tanıtım adresleri — hafif (Ana Sayfa kartı + iletişim sayfası okur)
+│   ├── branchPromoPaths.ts  # P6 yayındaki 4 tanıtım adresi — hafif (Ana Sayfa kartı + iletişim sayfası okur; Ümraniye yok)
 │   ├── branchPhotos.ts      # 5 şubenin semt fotoğrafı — tek kaynak (Ana Sayfa, tanıtım, iletişim)
 │   ├── branchTransit.ts     # 5 şubeye ulaşım (genel bilgi, kaynaklar yorumda) — tanıtım + iletişim
 ├── lib/
@@ -376,11 +404,11 @@ ddm-web/
 >   (`UniversityHero`: bölümler sırayla, oran — yüzde / puan / dakika — her bölümde aynı türden varsa çubuk, açılışta bir
 >   kez dolar; altında doğrulanmış 3 bilgi). Akış kaynağı: `data/universityExams.ts` (resmi kaynaktan GÜNCEL sınav; 19
 >   üniversite — kapanan İstanbul Şehir ve Süleyman Şah hariç) yoksa sayfanın kendi bölüm kartları (`lib/universityFlow.ts`); bölümü bilinmeyen sınavda kart yok. Gövde
->   `UniversityBody` (ExamRows satırları): sınav yapısı → sık sorulanlar (güncel kayıt) → kaynak metnin bölümleri (kaynak
->   eskimişse başta "Güncel durum" notu, kicker "ÖNCEKİ SINAV BİÇİMİ", metin kalın vurgusuz — kaynak metin DEĞİŞMEZ) →
->   şubeler + Bilgi Al. "Tarih bekleniyor" takvim tablosu, "veri bekleniyor" rozetleri, gönderilemeyen form ve "Ücretsiz
->   Seviye Tespit Sınavı" butonu yok.
->   Metin değişmez — yalnız bölünür / vurgulanır.
+>   `UniversityBody` (ExamRows satırları): sınav yapısı → sık sorulanlar (güncel kayıt) → sayfa metninin bölümleri (kicker
+>   "SINAV HAKKINDA"; eskimiş satırlar `edits` ile güncel — §5 "Müşteri kararları 2026-09-30"; doğrulanamayan ayrıntı
+>   kaldıysa başta `caveat` notu; eski "ÖNCEKİ SINAV BİÇİMİ" başlığı 2026-09-30'da kalktı) → şubeler + Bilgi Al. "Tarih
+>   bekleniyor" takvim tablosu, "veri bekleniyor" rozetleri, gönderilemeyen form ve "Ücretsiz Seviye Tespit Sınavı" butonu yok.
+>   Bölüm etiketleri (`data/universities.ts` `label`) arayüz etiketidir; sınav değişince yeniden adlandırılır.
 
 > **P4 notu (2026-09-25):** Zengin İçerik için 3 taslak yön sunuldu, kullanıcı **"B · seviye merdiveni"**ni seçti.
 > Sistem: lacivert hero (sağda dilin şehri / sınav fotoğrafı, header'ın arkasından) → **1 baskın bölüm** (dilde
@@ -410,8 +438,12 @@ ddm-web/
 > **Şube Tanıtım (P6, 2026-09-28, "B · şube künyesi"):** `BranchPromoPage` — açık hero + sağda künye kartı (semt fotoğrafı,
 > adres / telefon `data/branches.ts`, şubeye özgü 2 satır, en yakın ulaşım; açılışta bir kez `--kf-lift-in`). Gövde şubenin kendi
 > blok dizisi (tanıtım kartları + alıntı, iki program sütunu, açık / lacivert madde paneli, dile göre sınavlar, kurumsal müşteri
-> kutuları, ders fotoğrafları) → ulaşım + `BranchMap` (açık gelen gömülü harita, `loading="lazy"` + "Yol tarifi al") | kurs tarihi sayfaları → 6 ortak
-> bağlantı → "Ayrıntılı bilgi". Sayfalar birbirinden blok sırasıyla ayrışır; gri/beyaz bant dizilmez.
+> kutuları, ders fotoğrafları) → ulaşım + `BranchMap` (açık gelen gömülü harita, `loading="lazy"` + "Yol tarifi al") | kurs tarihi sayfaları →
+> dört sayfada AYNI "Dünya Dilleri Merkezi'nde eğitim" bölümü (19 dil + 16 sınav etiketi, 6 ortak başlık; liste şubeye göre
+> değişmediği için şubeyi anlatan blokların içinde değil sonda — 2026-09-30; program sütunlarının altında oraya inen tek satır;
+> sayfası olmayan başlık "Öğrenme Garantisi" bağlantısız, kesik çizgili) → "Ayrıntılı bilgi". Sayfalar birbirinden blok
+> sırasıyla ayrışır; gri/beyaz bant dizilmez. 4 sayfa; Ümraniye'nin tanıtım sayfası yok.
+> **Ana Sayfa sonu (2026-09-30):** Mektuplar / Aktiviteler / Duyurular bölümü yok; Öğrenci Yorumları'ndan sonra doğrudan form.
 > **Şube İletişim (UI turu 2026-09-28, "A · hızlı iletişim"):** `BranchContactPage` — tanıtım ailesiyle aynı açık hero; başlık altında
 > dokunmatik iletişim kutuları (ara / WhatsApp / e-posta / yol tarifi; WhatsApp'ı olmayan şubede 3 kutu), sağda semt fotoğraflı kart +
 > tanıtım bağlantısı; harita + ulaşım (`data/branchTransit.ts`, tanıtımla ortak); diğer şubeler. Hub `BranchHub`: semt fotoğraflı

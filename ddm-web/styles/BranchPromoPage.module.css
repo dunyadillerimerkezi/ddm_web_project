@@ -352,12 +352,37 @@
   color: var(--ddm-gray-800);
 }
 
+/* Sütunun altı: ortak listeye (sayfa sonu) inen bağlantı — liste şubeye özel değil, burada tekrarlanmaz. */
+.columnMore {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding: var(--space-5) var(--space-8) var(--space-6);
+  font-size: var(--ddm-text-body-l);
+  font-weight: 700;
+  color: var(--ddm-navy-800);
+  text-decoration: none;
+}
+
+.columnMore svg {
+  flex: none;
+  color: var(--ddm-sky-base);
+  rotate: 90deg;
+}
+
+.columnMore:hover,
+.columnMore:focus-visible {
+  color: var(--ddm-sky-ink);
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
   margin: 0;
-  padding: var(--space-5) var(--space-8) var(--space-8);
+  padding: 0;
   list-style: none;
 }
 
@@ -504,6 +529,33 @@
   color: var(--ddm-sky-ink);
 }
 
+/* --- ortak: 19 dil + sınav hazırlık (dört sayfada aynı) --- */
+.offer {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--space-8) var(--space-12);
+  margin-top: var(--space-8);
+  padding: var(--space-8);
+  border-radius: var(--radius-2xl);
+  background: var(--ddm-gray-50);
+}
+
+.offerGroup {
+  scroll-margin-top: var(--ddm-sticky-top);
+}
+
+.offerTitle {
+  margin: 0 0 var(--space-4);
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-h3);
+  font-weight: 800;
+  color: var(--ddm-navy-900);
+}
+
+.offer .tag {
+  background: var(--ddm-white);
+}
+
 /* --- ortak 6 bağlantı --- */
 .shared {
   display: flex;
@@ -530,6 +582,18 @@
 .sharedLink:hover,
 .sharedLink:focus-visible {
   border-color: var(--ddm-navy-600);
+}
+
+/* Sayfası olmayan başlık ("Öğrenme Garantisi") — bağlantı değil, düz metin. */
+.sharedText {
+  composes: sharedLink;
+  border-style: dashed;
+  font-weight: 600;
+  color: var(--ddm-gray-600);
+}
+
+.sharedText:hover {
+  border-color: var(--ddm-gray-200);
 }
 
 .section :global(details) {
@@ -817,6 +881,7 @@
   .quote,
   .columns,
   .split,
+  .offer,
   .panelSky,
   .panelNavy,
   .corporate {
@@ -875,9 +940,13 @@
 
   .columnHead,
   .columnRows,
-  .tags {
+  .columnMore {
     padding-left: var(--space-5);
     padding-right: var(--space-5);
+  }
+
+  .offer {
+    padding: var(--space-6) var(--space-5);
   }
 
   .columnRow {

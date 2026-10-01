@@ -43,6 +43,8 @@ import type {
   SectionRef,
 } from "@/lib/types";
 import type { FlagCode } from "@/components/graphics/Flag";
+import { currentBranchName } from "@/data/branches";
+import { FOUNDING_EDIT, yearsSinceFounding } from "@/data/company";
 
 /* ---------------------------------------------------------------
  * Dil sözleşmesi
@@ -365,7 +367,8 @@ export function getLanguagePage(def: LanguageDef): LanguagePage {
     });
 
     branchLinks = {
-      branch: branchLines.map((line, i) => ({ label: line, href: bl.branchHrefs[i] })),
+      // Etiket kaynaktan; bayat şube adı ("Beşiktaş Şubesi") bugünkü adına çevrilir (`data/branches.ts`).
+      branch: branchLines.map((line, i) => ({ label: currentBranchName(line), href: bl.branchHrefs[i] })),
       extra: extraRefs.map((ref) => ({ label: ref.label, href: ref.href })),
     };
   }
@@ -383,6 +386,17 @@ export function getLanguagePage(def: LanguageDef): LanguagePage {
     return line;
   };
   whyChooseDDM.items = whyChooseDDM.items.map(fix);
+  // Müşteri kararı 2026-09-30 + kullanıcı 2026-10-01: "25 yıllık" → "2003’ten bu yana 23 yıllık" (`data/company.ts`).
+  if (whyChooseDDM.intro !== null) {
+    if (!whyChooseDDM.intro.includes(FOUNDING_EDIT.from)) {
+      throw new ContentSectionsError(`${context}/whyChooseDDM: girişte "${FOUNDING_EDIT.from}" yok — data/company.ts FOUNDING_EDIT'i güncelleyin.`);
+    }
+    whyChooseDDM.intro = whyChooseDDM.intro.replace(FOUNDING_EDIT.from, FOUNDING_EDIT.to);
+    const stale = [...whyChooseDDM.intro.matchAll(/(\d+)\s*yıl(?:lık|ı aşkın)/g)].find((m) => Number(m[1]) !== yearsSinceFounding());
+    if (stale) {
+      throw new ContentSectionsError(`${context}/whyChooseDDM: girişte kuruluş yılıyla uyuşmayan yıl sayısı var — "${stale[0]}"`);
+    }
+  }
   const fixedAbout = about.map(fix);
   const fixedCertification = certification?.map(fix) ?? null;
   const fixedWhyLearn = whyLearn?.map(fix) ?? null;

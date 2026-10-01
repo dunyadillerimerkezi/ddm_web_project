@@ -23,7 +23,7 @@ function iconFor(text: string): IconName {
 /**
  * Dil Kursu · "Neden Dünya Dilleri Merkezi'ni Tercih Etmelisiniz?" — UI turu
  * (2026-09-25, kullanıcı seçimi "A"): solda lacivert kart (kaynak girişi +
- * girişte yazılı yıl rakamı büyük), sağda maddeler — her biri metnine göre
+ * kuruluştan bugüne geçen yıl büyük rakamla), sağda maddeler — her biri metnine göre
  * kendi ikonuyla (eskiden hepsi aynı belge ikonuydu).
  */
 export function WhyDdm({
@@ -37,20 +37,18 @@ export function WhyDdm({
   title: string;
   intro: string | null;
   items: string[];
-  /** Girişte "25 yıllık" geçiyorsa "25"; yoksa büyük rakam basılmaz. */
-  years: string | null;
+  /** Kuruluştan bugüne geçen yıl (`data/company.ts` — 2003'ten hesaplanır, metinden okunmaz). */
+  years: number;
 }) {
   return (
     <PageSection ground="light" kicker={kicker} title={title}>
       <div className={styles.grid}>
         {intro && (
           <div className={styles.card}>
-            {years && (
-              <p className={styles.years} aria-hidden="true">
-                {years}
-                <span className={styles.yearsLabel}>yıl</span>
-              </p>
-            )}
+            <p className={styles.years} aria-hidden="true">
+              {years}
+              <span className={styles.yearsLabel}>yıl</span>
+            </p>
             <p className={styles.intro}>{intro}</p>
           </div>
         )}

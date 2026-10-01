@@ -5,7 +5,7 @@ import styles from "@/styles/ExamStructure.module.css";
 /**
  * "SINAV YAPISI" bölümü — bölüm kartı ızgarası. Kart SAYISI `sections`
  * dizisinin uzunluğundan gelir, sabit 3 varsayımı yok (Boğaziçi 3, Özyeğin 4,
- * Yıldız Teknik 6, Süleyman Şah/Koç/Acıbadem 0 — bu durumda bölüm hiç
+ * Yıldız Teknik 6, Koç/Acıbadem 0 — bu durumda bölüm hiç
  * render edilmez, bkz. çağıran sayfa).
  *
  * Kaynak: `DDM Üniversite Proficiency Sayfası.dc.html` bölüm 6.

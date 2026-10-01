@@ -64,7 +64,7 @@ export function PageHero({
   stats,
 }: {
   crumbs: Crumb[];
-  /** null → kaynakta sınav kodu yok (13/21 üniversite); rozet hiç basılmaz. */
+  /** null → kaynakta sınav kodu yok (11/19 üniversite); rozet hiç basılmaz. */
   code: string | null;
   /** "square" = dil kursu 44×44 kare (varsayılan) · "pill" = Faz 6.5 yatay
    *  dolgulu rozet — 5-6 karakterli sınav kodları (BUEPT, DÜİYES) için. */

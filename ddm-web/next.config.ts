@@ -7,7 +7,7 @@ import type { NextConfig } from "next";
 import { TESTIMONIALS } from "./data/testimonials";
 
 /**
- * Faz 6.5 — 21 üniversite proficiency slug'ı (`lib/universityContent.ts`
+ * Faz 6.5 — 19 üniversite proficiency slug'ı (`lib/universityContent.ts`
  * `UNIVERSITY_SLUGS` ile birebir aynı sırada tutulur). next.config.ts'in
  * kendi modül yükleyicisi `@/` takma adını çözmeyebileceği için burada
  * KASITLI OLARAK tekrar tanımlı — data/universities.ts'ten import edilmiyor.
@@ -25,7 +25,6 @@ const UNIVERSITY_SLUGS = [
   "bogazici-universitesi",
   "sabanci-universitesi",
   "ozyegin-universitesi",
-  "istanbul-sehir-universitesi",
   "istanbul-teknik-universitesi",
   "yeditepe-universitesi",
   "isik-universitesi",
@@ -37,13 +36,21 @@ const UNIVERSITY_SLUGS = [
   "kadirhas-universitesi-hazirlik",
   "yildiz-teknik-universitesi",
   "bilgi-universitesi",
-  "suleymansah-universitesi",
   "ortadogu-teknik-universitesi",
   "bahcesehir-universitesi",
   "okan-universitesi",
   "maltepe-universitesi",
   "beykent-universitesi",
 ];
+
+/**
+ * Kapanmış iki üniversite (İstanbul Şehir 2020, Süleyman Şah 2016) — sayfaları kaldırıldı (müşteri kararı 2026-09-30).
+ * Dört eski adresin hepsi (nested + kök, `.html`'li ve `.html`siz) TEK ADIMDA Proficiency Kursu'nun üniversiteler
+ * bölümüne gider; kök adres önce nested adrese uğramaz (zincir yok).
+ */
+const CLOSED_UNIVERSITY_SLUGS = ["istanbul-sehir-universitesi", "suleymansah-universitesi"];
+const PROFICIENCY_PATH = "/sinav-hazirlik-egitimleri/proficiency-kursu";
+const UNIVERSITY_LIST_PATH = `${PROFICIENCY_PATH}#universiteler`;
 
 /**
  * Faz 6.6 — 16 eski Joomla kurs-tarihi URL'i (`{kurs}.html?view=article&id=...`).
@@ -174,7 +181,7 @@ function testimonialRedirects(): { source: string; destination: string; permanen
 const RETIRED_PAGES: [string, string][] = [
   ["/sinav-hazirlik-egitimleri/yds-kursu/yds-ozel-ders-2", "/sinav-hazirlik-egitimleri/yds-kursu"],
   // P4 tekil (kullanıcı kararı, 2026-09-26): içeriği yalnız 21 üniversite listesi → Proficiency Kursu'nun üniversiteler bölümü.
-  ["/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-sinavi", "/sinav-hazirlik-egitimleri/proficiency-kursu#universiteler"],
+  ["/sinav-hazirlik-egitimleri/proficiency-kursu/proficiency-sinavi", UNIVERSITY_LIST_PATH],
   // P4 tekil (kullanıcı kararı, 2026-09-26): aynı metin iki adreste — kanonik /yabanci-dil-egitimleri/… .
   ["/ingilizce-kurslari/ingilizce-egitim-sistemi", "/yabanci-dil-egitimleri/ingilizce-kursu/ingilizce-egitim-sistemi"],
   // P5 (kullanıcı kararı, 2026-09-27): ilk paragraf ve gün/saat tablosu Dil Kursu sayfasıyla aynı, saatler çelişiyor → tek sayfa.
@@ -193,6 +200,32 @@ const RETIRED_PAGES: [string, string][] = [
   ...["academic-pte", "gmat-kursu", "gre-kursu", "ielts-kursu", "proficiency-kursu", "sat-kursu", "toefl-kursu", "toeic-kursu", "yds-kursu"].map(
     (k): [string, string] => [`/sinav-hazirlik-egitimleri/${k}/${k}-2`, `/sinav-hazirlik-egitimleri/${k}`],
   ),
+];
+
+/**
+ * Duyurular + Aktiviteler — sayfalar kaldırıldı (müşteri kararı 2026-09-30: "Duyurular aktiviteler kalkacak"; eşleştirme
+ * tablosu kullanıcı onaylı). Kurs tanıtımı olan duyuru kendi kurs / sınav sayfasına, tarihi geçmiş tek seferlik duyuru
+ * ve iki liste sayfası Ana Sayfa'ya. [eski yol (`.html`siz), hedef] — her biri `.html`'li ve `.html`siz yazılır;
+ * `?start=` sayfalama varyantları ayrı kural istemez (Next eşleşmede sorguya bakmaz).
+ */
+const ANNOUNCEMENTS: [string, string][] = [
+  ["/duyurular/26-fransizca-kurslari", "/yabanci-dil-egitimleri/fransizca-kursu"],
+  ["/duyurular/27-rusca-kurslar", "/yabanci-dil-egitimleri/rusca-kursu"],
+  ["/duyurular/28-ispanyolca-kurslari", "/yabanci-dil-egitimleri/ispanyolca-kursu"],
+  ["/duyurular/29-ingilizce-kurslari", "/yabanci-dil-egitimleri/ingilizce-kursu"],
+  ["/duyurular/24-yds-kurslari", "/sinav-hazirlik-egitimleri/yds-kursu"],
+  ["/duyurular/25-proficiency-kurslari", PROFICIENCY_PATH],
+  ["/duyurular/22-pearson-pte-kursu", "/sinav-hazirlik-egitimleri/academic-pte"],
+  // Duyuru "Aile Birleşimi Almanca A1 Eğitimi" diyor.
+  ["/duyurular/23-aile-birlesimi-kurslar", "/sinav-hazirlik-egitimleri/aile-birlesimi-egitimi"],
+  // İki sınavı karşılaştırıyor; ikisi de hub'da.
+  ["/duyurular/30-toefl-ielts-hazirlik-kurslari", "/sinav-hazirlik-egitimleri"],
+  ["/duyurular/31-konusma-siniflari-speaking", "/yabanci-dil-egitimleri/ingilizce-konusma-kursu"],
+  ["/duyurular/425-yks-dil-sinavi-basvuru-tarihleri", "/ingilizce-kurslari/yks-dil-ingilizce"],
+  // 2017 tarihli tek seferlik duyuru — karşılığı yok.
+  ["/duyurular/391-ddm-kar-tatili", "/"],
+  ["/duyurular", "/"],
+  ["/aktivite-aktiviteler", "/"],
 ];
 
 const nextConfig: NextConfig = {
@@ -215,12 +248,19 @@ const nextConfig: NextConfig = {
   // TEK istisna: Faz 6.5 üniversite kök URL'leri (yukarı bkz).
   async redirects() {
     const university = UNIVERSITY_SLUGS.flatMap((slug) => {
-      const destination = `/sinav-hazirlik-egitimleri/proficiency-kursu/${slug}`;
+      const destination = `${PROFICIENCY_PATH}/${slug}`;
       return [
         { source: `/${slug}`, destination, permanent: true },
         { source: `/${slug}.html`, destination, permanent: true },
       ];
     });
+    const closedUniversity = CLOSED_UNIVERSITY_SLUGS.flatMap((slug) =>
+      [`/${slug}`, `/${slug}.html`, `${PROFICIENCY_PATH}/${slug}`, `${PROFICIENCY_PATH}/${slug}.html`].map((source) => ({
+        source,
+        destination: UNIVERSITY_LIST_PATH,
+        permanent: true,
+      })),
+    );
     const courseDates = JOOMLA_COURSE_DATES.map(([kurs, id, pageSlug]) => ({
       source: `/sinav-hazirlik-egitimleri/${kurs}.html`,
       has: [{ type: "query" as const, key: "id", value: id }],
@@ -252,7 +292,16 @@ const nextConfig: NextConfig = {
       { source: `${TESTIMONIALS_PATH}.html`, destination: TESTIMONIALS_PATH, permanent: true },
       ...testimonialRedirects(),
     ];
-    return [...university, ...courseDates, ...contact, ...privateLessons, ...guides, ...retired, ...testimonials];
+    const announcements = [
+      ...ANNOUNCEMENTS.flatMap(([source, destination]) => [
+        { source, destination, permanent: true },
+        { source: `${source}.html`, destination, permanent: true },
+      ]),
+      // Güvenlik ağı: crawl'da yakalanmamış başka bir duyuru adresi (liste 13 başlık sayıyor, 12'sinin adresi var).
+      // Yukarıdaki özel kurallardan SONRA gelmeli — ilk eşleşen kural kazanır.
+      { source: "/duyurular/:rest*", destination: "/", permanent: true },
+    ];
+    return [...university, ...closedUniversity, ...announcements, ...courseDates, ...contact, ...privateLessons, ...guides, ...retired, ...testimonials];
   },
 };
 

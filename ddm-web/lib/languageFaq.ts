@@ -89,11 +89,6 @@ export function factTiles(facts: CourseFacts): { value: string; label: string }[
   return tiles;
 }
 
-/** "Neden DDM" kartındaki büyük rakam ("25 yıllık") — bölümün kaynak girişinden okunur. */
-export function yearsOfExperience(intro: string | null): string | null {
-  return intro?.match(/(\d+)\s*yıllık/)?.[1] ?? null;
-}
-
 /* ---------------------------------------------------------------
  * SSS
  * ------------------------------------------------------------- */

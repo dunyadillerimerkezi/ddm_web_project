@@ -8,7 +8,7 @@
  */
 
 import type { IconName } from "@/components/graphics/icons";
-import { BRANCHES } from "@/data/branches";
+import { BRANCHES, currentBranchName } from "@/data/branches";
 import { byCourse } from "@/data/courseDates";
 import type { FacetItem, SingleBlock, SingleBoard, SinglePageDef, TaskRef } from "@/data/singlePages";
 import { ContentSectionsError } from "@/lib/contentSections";
@@ -230,7 +230,7 @@ export function getSinglePage(def: SinglePageDef): SinglePage {
   }
 
   const title = norm(def.meta.title ?? r.record.title);
-  const description = norm(def.meta.description ?? r.record.meta_description);
+  const description = norm(def.meta.description ?? currentBranchName(r.record.meta_description));
   checkMeta(title, description, context);
 
   const course = def.parent ?? parentCourse(def.path, context);

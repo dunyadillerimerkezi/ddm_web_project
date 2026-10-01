@@ -23,6 +23,7 @@
  * burada `kind`den türetilir — 72 kayıt × 3 blokta yazım hatası riski kalkar.
  */
 
+import { BRANCHES, currentBranchName } from "@/data/branches";
 import siteContent from "@/data/site_content.json";
 import { parseRecord, SectionResolver, ContentSectionsError, type SiteContentRecord } from "./contentSections";
 import type {
@@ -74,7 +75,6 @@ export type ProgramBlockEntry = {
 
 export type CourseDateEntry = {
   branch: CourseDatePage["branch"];
-  branchLabel: string;
   courseSlug: string;
   courseName: string;
   category: CourseDatePage["category"];
@@ -158,7 +158,7 @@ export function getCourseDatePage(entry: CourseDateEntry): CourseDatePage {
     const block: ProgramBlock = {
       kind: p.kind,
       kicker: KIND_KICKER[p.kind],
-      title: p.heading,
+      title: currentBranchName(p.heading),
       icon: KIND_ICON[p.kind],
       days: p.days,
       slots: p.slots,
@@ -177,11 +177,14 @@ export function getCourseDatePage(entry: CourseDateEntry): CourseDatePage {
   const category = entry.category;
   const href = `/${category}/${entry.courseSlug}/${entry.pageSlug}`;
 
+  // Şube adı tek kaynaktan (`data/branches.ts`): kaynak başlıklardaki bayat "Beşiktaş" → "Etiler" (müşteri kararı 2026-09-30).
+  const branchLabel = BRANCHES[entry.branch].name;
+
   const crumbs: Crumb[] = [
     { label: "Anasayfa", href: "/" },
     { label: entry.crumbRoot, href: entry.crumbRootHref },
     { label: entry.crumbCourse, href: entry.crumbCourseHref },
-    { label: `${entry.branchLabel} Şubesi` },
+    { label: `${branchLabel} Şubesi` },
   ];
 
   const diagnostics: ContentDiagnostic[] = h1Fallback
@@ -190,19 +193,18 @@ export function getCourseDatePage(entry: CourseDateEntry): CourseDatePage {
 
   return {
     branch: entry.branch,
-    branchLabel: entry.branchLabel,
     courseSlug: entry.courseSlug,
     courseName: entry.courseName,
     category,
     pageSlug: entry.pageSlug,
     href,
-    title: record.title,
-    metaDescription: record.meta_description,
-    h1: titleHeading,
+    title: currentBranchName(record.title),
+    metaDescription: currentBranchName(record.meta_description),
+    h1: currentBranchName(titleHeading),
     h1Fallback,
     crumbs,
     intro: introParas,
-    programsTitle: `${entry.courseName} Kursu ${entry.branchLabel} Ders Programı Seçenekleri`,
+    programsTitle: `${entry.courseName} Kursu ${branchLabel} Ders Programı Seçenekleri`,
     programs,
     groupSize: entry.groupSize,
     months: entry.months,
@@ -213,7 +215,7 @@ export function getCourseDatePage(entry: CourseDateEntry): CourseDatePage {
     schema: {
       courseName: entry.courseName,
       courseCode: null,
-      branchName: entry.branchLabel,
+      branchName: branchLabel,
       startDates: programs.map((p) => p.startDate).filter((d): d is string => d !== null),
     },
     diagnostics,

@@ -77,7 +77,7 @@ export function ExamCoursePage({ def }: { def: ExamDef }) {
         ))}
       </Reveal>
 
-      {/* Proficiency: 21 üniversite ızgarası (arama kutulu) satır düzenine sığmaz, tam genişlik. */}
+      {/* Proficiency: üniversite ızgarası (arama kutulu) satır düzenine sığmaz, tam genişlik. */}
       {hasUniversities && <UniversityGrid items={UNIVERSITY_INDEX} current="" />}
 
       <ExamDirectory current={def.slug} />

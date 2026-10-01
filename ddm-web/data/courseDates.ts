@@ -17,7 +17,6 @@ import type { CourseDateEntry } from "@/lib/courseDateContent";
 export const COURSE_DATES: CourseDateEntry[] = [
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "yabancila-icin-turkce-kurs",
     "courseName": "Türkçe",
     "category": "yabanci-dil-egitimleri",
@@ -158,7 +157,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "ingilizce-kursu",
     "courseName": "İngilizce",
     "category": "yabanci-dil-egitimleri",
@@ -287,7 +285,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "ingilizce-kursu",
     "courseName": "İngilizce",
     "category": "yabanci-dil-egitimleri",
@@ -438,7 +435,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "gmat-kursu",
     "courseName": "GMAT",
     "category": "sinav-hazirlik-egitimleri",
@@ -576,7 +572,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "rusca-kursu",
     "courseName": "Rusça",
     "category": "yabanci-dil-egitimleri",
@@ -717,7 +712,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "ispanyolca-kursu",
     "courseName": "İspanyolca",
     "category": "yabanci-dil-egitimleri",
@@ -846,7 +840,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "cince-kursu",
     "courseName": "Çince",
     "category": "yabanci-dil-egitimleri",
@@ -985,7 +978,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "yabancila-icin-turkce-kurs",
     "courseName": "Türkçe",
     "category": "yabanci-dil-egitimleri",
@@ -1126,7 +1118,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "toefl-kursu",
     "courseName": "TOEFL",
     "category": "sinav-hazirlik-egitimleri",
@@ -1290,7 +1281,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "fransizca-kursu",
     "courseName": "Fransızca",
     "category": "yabanci-dil-egitimleri",
@@ -1421,7 +1411,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "gre-kursu",
     "courseName": "GRE",
     "category": "sinav-hazirlik-egitimleri",
@@ -1558,7 +1547,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "yabancila-icin-turkce-kurs",
     "courseName": "Türkçe",
     "category": "yabanci-dil-egitimleri",
@@ -1699,7 +1687,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "yds-kursu",
     "courseName": "YDS",
     "category": "sinav-hazirlik-egitimleri",
@@ -1832,7 +1819,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "aile-birlesimi-egitimi",
     "courseName": "Aile Birleşimi",
     "category": "sinav-hazirlik-egitimleri",
@@ -1967,7 +1953,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "toeic-kursu",
     "courseName": "TOEIC",
     "category": "sinav-hazirlik-egitimleri",
@@ -2102,7 +2087,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "yds-kursu",
     "courseName": "YDS",
     "category": "sinav-hazirlik-egitimleri",
@@ -2235,7 +2219,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "rusca-kursu",
     "courseName": "Rusça",
     "category": "yabanci-dil-egitimleri",
@@ -2364,7 +2347,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "ielts-kursu",
     "courseName": "IELTS",
     "category": "sinav-hazirlik-egitimleri",
@@ -2523,7 +2505,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "ingilizce-konusma-kursu",
     "courseName": "İngilizce Konuşma",
     "category": "yabanci-dil-egitimleri",
@@ -2669,7 +2650,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "cince-kursu",
     "courseName": "Çince",
     "category": "yabanci-dil-egitimleri",
@@ -2808,7 +2788,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "yds-kursu",
     "courseName": "YDS",
     "category": "sinav-hazirlik-egitimleri",
@@ -2943,7 +2922,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "toefl-kursu",
     "courseName": "TOEFL",
     "category": "sinav-hazirlik-egitimleri",
@@ -3107,7 +3085,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "toeic-kursu",
     "courseName": "TOEIC",
     "category": "sinav-hazirlik-egitimleri",
@@ -3242,7 +3219,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "sat-kursu",
     "courseName": "SAT",
     "category": "sinav-hazirlik-egitimleri",
@@ -3381,7 +3357,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Beşiktaş",
     "courseSlug": "aile-birlesimi-egitimi",
     "courseName": "Aile Birleşimi",
     "category": "sinav-hazirlik-egitimleri",
@@ -3517,7 +3492,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "fransizca-kursu",
     "courseName": "Fransızca",
     "category": "yabanci-dil-egitimleri",
@@ -3658,7 +3632,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "italyanca-kursu",
     "courseName": "İtalyanca",
     "category": "yabanci-dil-egitimleri",
@@ -3797,7 +3770,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "cince-kursu",
     "courseName": "Çince",
     "category": "yabanci-dil-egitimleri",
@@ -3936,7 +3908,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "italyanca-kursu",
     "courseName": "İtalyanca",
     "category": "yabanci-dil-egitimleri",
@@ -4077,7 +4048,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "rusca-kursu",
     "courseName": "Rusça",
     "category": "yabanci-dil-egitimleri",
@@ -4216,7 +4186,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "italyanca-kursu",
     "courseName": "İtalyanca",
     "category": "yabanci-dil-egitimleri",
@@ -4345,7 +4314,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "fransizca-kursu",
     "courseName": "Fransızca",
     "category": "yabanci-dil-egitimleri",
@@ -4476,7 +4444,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "sat-kursu",
     "courseName": "SAT",
     "category": "sinav-hazirlik-egitimleri",
@@ -4613,7 +4580,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "toeic-kursu",
     "courseName": "TOEIC",
     "category": "sinav-hazirlik-egitimleri",
@@ -4748,7 +4714,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "gmat-kursu",
     "courseName": "GMAT",
     "category": "sinav-hazirlik-egitimleri",
@@ -4884,7 +4849,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "ispanyolca-kursu",
     "courseName": "İspanyolca",
     "category": "yabanci-dil-egitimleri",
@@ -5013,7 +4977,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "almanca-kursu",
     "courseName": "Almanca",
     "category": "yabanci-dil-egitimleri",
@@ -5142,7 +5105,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "aile-birlesimi-egitimi",
     "courseName": "Aile Birleşimi",
     "category": "sinav-hazirlik-egitimleri",
@@ -5279,7 +5241,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "proficiency-kursu",
     "courseName": "PROFICIENCY",
     "category": "sinav-hazirlik-egitimleri",
@@ -5437,7 +5398,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "gmat-kursu",
     "courseName": "GMAT",
     "category": "sinav-hazirlik-egitimleri",
@@ -5573,7 +5533,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "cince-kursu",
     "courseName": "Çince",
     "category": "yabanci-dil-egitimleri",
@@ -5712,7 +5671,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "aile-birlesimi-egitimi",
     "courseName": "Aile Birleşimi",
     "category": "sinav-hazirlik-egitimleri",
@@ -5847,7 +5805,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "ispanyolca-kursu",
     "courseName": "İspanyolca",
     "category": "yabanci-dil-egitimleri",
@@ -5988,7 +5945,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "sat-kursu",
     "courseName": "SAT",
     "category": "sinav-hazirlik-egitimleri",
@@ -6125,7 +6081,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "gmat-kursu",
     "courseName": "GMAT",
     "category": "sinav-hazirlik-egitimleri",
@@ -6261,7 +6216,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "ispanyolca-kursu",
     "courseName": "İspanyolca",
     "category": "yabanci-dil-egitimleri",
@@ -6400,7 +6354,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "yabancila-icin-turkce-kurs",
     "courseName": "Türkçe",
     "category": "yabanci-dil-egitimleri",
@@ -6542,7 +6495,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "almanca-kursu",
     "courseName": "Almanca",
     "category": "yabanci-dil-egitimleri",
@@ -6671,7 +6623,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "ingilizce-konusma-kursu",
     "courseName": "İngilizce Konuşma",
     "category": "yabanci-dil-egitimleri",
@@ -6815,7 +6766,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "toefl-kursu",
     "courseName": "TOEFL",
     "category": "sinav-hazirlik-egitimleri",
@@ -6981,7 +6931,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "gre-kursu",
     "courseName": "GRE",
     "category": "sinav-hazirlik-egitimleri",
@@ -7118,7 +7067,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "rusca-kursu",
     "courseName": "Rusça",
     "category": "yabanci-dil-egitimleri",
@@ -7247,7 +7195,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "ingilizce-kursu",
     "courseName": "İngilizce",
     "category": "yabanci-dil-egitimleri",
@@ -7376,7 +7323,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "ingilizce-kursu",
     "courseName": "İngilizce",
     "category": "yabanci-dil-egitimleri",
@@ -7506,7 +7452,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "toeic-kursu",
     "courseName": "TOEIC",
     "category": "sinav-hazirlik-egitimleri",
@@ -7641,7 +7586,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "ielts-kursu",
     "courseName": "IELTS",
     "category": "sinav-hazirlik-egitimleri",
@@ -7802,7 +7746,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "yds-kursu",
     "courseName": "YDS",
     "category": "sinav-hazirlik-egitimleri",
@@ -7935,7 +7878,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "fransizca-kursu",
     "courseName": "Fransızca",
     "category": "yabanci-dil-egitimleri",
@@ -8076,7 +8018,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "almanca-kursu",
     "courseName": "Almanca",
     "category": "yabanci-dil-egitimleri",
@@ -8205,7 +8146,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "ielts-kursu",
     "courseName": "IELTS",
     "category": "sinav-hazirlik-egitimleri",
@@ -8364,7 +8304,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "toefl-kursu",
     "courseName": "TOEFL",
     "category": "sinav-hazirlik-egitimleri",
@@ -8528,7 +8467,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "ingilizce-konusma-kursu",
     "courseName": "İngilizce Konuşma",
     "category": "yabanci-dil-egitimleri",
@@ -8670,7 +8608,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "proficiency-kursu",
     "courseName": "PROFICIENCY",
     "category": "sinav-hazirlik-egitimleri",
@@ -8827,7 +8764,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "etiler",
-    "branchLabel": "Etiler",
     "courseSlug": "proficiency-kursu",
     "courseName": "PROFICIENCY",
     "category": "sinav-hazirlik-egitimleri",
@@ -8984,7 +8920,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "almanca-kursu",
     "courseName": "Almanca",
     "category": "yabanci-dil-egitimleri",
@@ -9125,7 +9060,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "ielts-kursu",
     "courseName": "IELTS",
     "category": "sinav-hazirlik-egitimleri",
@@ -9284,7 +9218,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "sat-kursu",
     "courseName": "SAT",
     "category": "sinav-hazirlik-egitimleri",
@@ -9422,7 +9355,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "bagdat",
-    "branchLabel": "Bağdat Caddesi",
     "courseSlug": "gre-kursu",
     "courseName": "GRE",
     "category": "sinav-hazirlik-egitimleri",
@@ -9561,7 +9493,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "proficiency-kursu",
     "courseName": "PROFICIENCY",
     "category": "sinav-hazirlik-egitimleri",
@@ -9718,7 +9649,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "ingilizce-konusma-kursu",
     "courseName": "İngilizce Konuşma",
     "category": "yabanci-dil-egitimleri",
@@ -9862,7 +9792,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "atasehir",
-    "branchLabel": "Ataşehir",
     "courseSlug": "italyanca-kursu",
     "courseName": "İtalyanca",
     "category": "yabanci-dil-egitimleri",
@@ -9991,7 +9920,6 @@ export const COURSE_DATES: CourseDateEntry[] = [
   },
   {
     "branch": "kadikoy",
-    "branchLabel": "Kadıköy",
     "courseSlug": "gre-kursu",
     "courseName": "GRE",
     "category": "sinav-hazirlik-egitimleri",

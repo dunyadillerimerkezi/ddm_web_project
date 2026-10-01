@@ -1,7 +1,10 @@
 import type { IconName } from "@/components/graphics/icons";
 import type { Photo, SlotRef } from "@/data/privateLessonsShared";
+import { EXPERIENCE, SERVING, yearsSinceFounding } from "@/data/company";
 import { SYSTEM_HREF } from "@/data/englishLevels";
+import { ALL_LANGUAGE_NAMES, LANGUAGE_COUNT } from "@/data/languages";
 import { PROMO_PATHS } from "@/data/branchPromoPaths";
+import { joinTr } from "@/lib/listText";
 import type { BranchSlug } from "@/lib/types";
 
 /**
@@ -14,18 +17,26 @@ import type { BranchSlug } from "@/lib/types";
  * aranır, bulunmazsa build düşer. Kart başlıkları ("Kişiye özel plan"), künye / sütun etiketleri arayüz etiketidir.
  *
  * AYRIŞMA: her şube kendi bloklarını (`blocks`) kendi sırasıyla dizer — Kadıköy tanıtım + programlar, Ataşehir
- * programlar önce, Bağdat Caddesi "dile göre sınavlar" paneli + kurumsal müşteriler, Levent / Etiler eğitim yapısı +
- * eğitim modeli + kurumsal alanlar. Ortak metin yalnız 6 bağlantı başlığı (`SHARED_LINKS`).
+ * programlar önce, Bağdat Caddesi "dile göre sınavlar" paneli + kurumsal müşteriler, Etiler eğitim yapısı +
+ * eğitim modeli + kurumsal alanlar. ORTAK (dört sayfada aynı): 19 dil + sınav hazırlık listesi ve 6 bağlantı başlığı
+ * (`SHARED_LINKS`) — sayfanın sonundaki "Dünya Dilleri Merkezi'nde eğitim" bölümü.
  *
  * GENEL BİLGİ: ulaşım kaynakta yok — `data/branchTransit.ts` (resmi hat sayfaları + OSM, kaynaklar orada).
  *
  * AŞAMA 0 (2026-09-28): 4 kaydın ~%75 benzerliği form + KVKK bloğundan (1249 kelime, P1 kararıyla yayınlanmıyor);
  * gerçek tanıtım metinleri birbirine %3–10 benziyor.
  *
- * KULLANICIYA SORULACAK (en sonda toplu, kullanıcı 2026-09-28 — o zamana kadar kaynak metin aynen): dil listesi
- * (Kadıköy 9, Ataşehir 8, Levent 15 dil) · Bağdat Caddesi ve Levent'teki "25 yıl" ↔ site geneli "2003'ten bu yana" ·
- * Levent metni "Etiler" diyor ama adres Levent tarafında (Nispetiye Cad., PK 34330) · `sube-1..5` iç mekân
- * fotoğraflarının şubesi · "Öğrenme Garantisi" bağlantı hedefi.
+ * MÜŞTERİ KARARLARI (2026-09-30 — aşağıda "müşteri kararı" diye işaretli her `edits` bunlara dayanır):
+ *   - "Hepsinde 19 dil ve sınava hazırlık kursları": şubeye özel dil / sınav etiket listeleri kalktı; dört sayfa aynı
+ *     listeyi gösterir (`data/languages.ts` `ALL_LANGUAGE_NAMES`, `data/exams.ts` `EXAMS`). Kaynakta şubenin dillerini
+ *     SAYARAK sınırlayan iki cümle (Kadıköy, Etiler) aynı listeye çevrildi; "başta olmak üzere" diyen cümleler aynen.
+ *   - "2003'ten bugüne - 23 yıl" (+ kullanıcı 2026-10-01: tüm şubeler aynı kalıpla): "25 Yıllık", "25 yılı aşkın",
+ *     Bağdat Caddesi "20 yıldır" → "2003’ten bu yana 23 yıllık / yıldır" (`data/company.ts`); Ataşehir'in "2003 yılından bu
+ *     yana" cümlelerine "23 yıldır" eklendi.
+ *   - Şubenin adı "Etiler" (adres Levent tarafında, Nispetiye Cad. — adres ve sayfa adresi değişmedi).
+ *   - "Öğrenme Garantisi" bağlantısı kalktı, madde düz metin.
+ *   - Ümraniye için tanıtım sayfası YAPILMAYACAK (yalnız iletişim sayfası) — bu dosya 4 şubeyle kapandı.
+ * AÇIK: `sube-1..5` iç mekân fotoğraflarının şubesi (`docs/bekleyen-sorular.md`).
  */
 
 /** Kaynak metinden birebir parça (edits uygulanmış "Ayrıntılı bilgi" metninde aranır). */
@@ -55,8 +66,8 @@ export type ProgramColumn = {
   title: string;
   badge?: Excerpt;
   rows: { label: string; text: Excerpt }[];
-  /** Dil / sınav listesi — kaynaktaki virgüllü liste; "ve" ile biten son öge de ayrılır. */
-  tags: Excerpt;
+  /** Sütunun altındaki bağlantının indiği ortak liste (sayfa sonu; liste şubeye özel DEĞİL — müşteri kararı 2026-09-30). */
+  list: "languages" | "exams";
 };
 
 export type PromoBlock =
@@ -87,8 +98,8 @@ export type PromoBlock =
 export type BranchPromoDef = {
   branch: BranchSlug;
   path: string;
-  /** Kaynak kayıt yolu. Ümraniye'de `null` olacak: tanıtım kaydı yok → `assertCoverage` muaf. */
-  source: string | null;
+  /** Kaynak kayıt yolu. */
+  source: string;
   meta: { title: string; description: string; reasons: string[] };
   /** Kaynakta h1 yok — şubenin tam adını taşıyan başlık / satır H1'e yükseltilir (CLAUDE.md §6, loglanır). */
   h1: PromoTitle;
@@ -120,16 +131,21 @@ const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i)
 /**
  * Eski sitenin 4 tanıtım sayfasında da aynı olan 6 sekme başlığı. İçerikleri `tanitim-icerik/*` kayıtlarındaydı
  * (Faz 8 temizliğine bırakıldı); burada yalnız başlık + sitedeki ilgili sayfaya bağlantı — 5 sayfada metin tekrarı yok.
- * TODO(kullanıcı): "Öğrenme Garantisi" için ayrı sayfa yok; şimdilik Eğitim Sistemi sayfasına gidiyor.
+ * Müşteri kararı 2026-09-30: "Öğrenme Garantisi"nin ayrı sayfası yok → bağlantı kalktı, madde düz metin (`href` yok).
+ * "8 Dilde Eğitim" etiketi müşterinin rakamıyla "19 Dilde Eğitim" (aynı bölümde 19 dilin listesi duruyor).
  */
-export const SHARED_LINKS: { line: string; label: string; href: string }[] = [
+export const SHARED_LINKS: { line: string; label: string; href?: string }[] = [
   { line: "Eğitim Sistemi", label: "Eğitim Sistemi", href: SYSTEM_HREF },
   { line: "Gündüz, Akşam ve Hafta Sonu Dersleri", label: "Gündüz, Akşam ve Hafta Sonu Dersleri", href: "/yabanci-dil" },
   { line: "Özel Dersler", label: "Özel Dersler", href: "/diger-program/ozel-dersler" },
-  { line: "8 Dilde Eğitim", label: "8 Dilde Eğitim", href: "/yabanci-dil" },
+  { line: "8 Dilde Eğitim", label: `${LANGUAGE_COUNT} Dilde Eğitim`, href: "/yabanci-dil" },
   { line: "Sınav Hazırlık Programları", label: "Sınav Hazırlık Programları", href: "/sinav-hazirlik-egitimleri" },
-  { line: "Öğrenme Garantisi", label: "Öğrenme Garantisi", href: SYSTEM_HREF },
+  { line: "Öğrenme Garantisi", label: "Öğrenme Garantisi" },
 ];
+
+/** "İngilizce, Almanca, … ve Farsça" — 19 dilin tek listesi (`data/languages.ts`), cümle içinde. */
+const LANGUAGES_TEXT = joinTr(ALL_LANGUAGE_NAMES);
+// Yıl ifadeleri `data/company.ts`'ten: "2003’ten bu yana 23 yıllık / yıldır" — tüm şubelerde aynı kalıp.
 
 const FORM_REASON = "İletişim formu alanları + KVKK aydınlatma metni — P1 kararıyla yayınlanmıyor (form işi #4 bekliyor)";
 const NOISE = "eski sitenin ikon kodu (Font Awesome sınıf adı) metne karışmış — ekranda gösterilmez";
@@ -234,7 +250,7 @@ const KADIKOY: BranchPromoDef = {
             { label: "Tempo", text: { match: "haftada iki gün, üçer saatlik derslerle yaklaşık 2,5 ayda" } },
             { label: "Sınıf", text: { match: "Küçük sınıf yapısı, etkileşim odaklı dersler ve düzenli gelişim takibi" } },
           ],
-          tags: { match: "İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca ve Korece" },
+          list: "languages",
         },
         {
           title: "Uluslararası Sınav Hazırlık Programları",
@@ -243,7 +259,7 @@ const KADIKOY: BranchPromoDef = {
             { label: "Plan", text: { match: "hedef puanları, sınava kalan süreleri ve bireysel ihtiyaçları doğrultusunda" } },
             { label: "Takip", text: { match: "Düzenli deneme sınavları, birebir geri bildirimler ve stratejik çalışma planlarıyla" } },
           ],
-          tags: { match: "IELTS, TOEFL, PTE Academic, Goethe, TestDaF, TELC, SAT, IMAT, TOLC" },
+          list: "exams",
         },
       ],
     },
@@ -284,6 +300,9 @@ const KADIKOY: BranchPromoDef = {
   edits: {
     // Başlık satırında eski tasarımın ayırıcı çizgisi ("Dil | Eğitimi") metne karışmış.
     "Kadıköy’de Dil | Eğitimi. Biz Kimiz? Eğitim Felsefemiz?": "Kadıköy’de Dil Eğitimi. Biz Kimiz? Eğitim Felsefemiz?",
+    // Müşteri kararı 2026-09-30 (19 dil, tüm şubelerde aynı liste): kaynak 9 dil sayıyordu.
+    "Genel dil programlarımız; İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca ve Korece dillerinde sunulmaktadır.":
+      `Genel dil programlarımız; ${LANGUAGES_TEXT} dillerinde sunulmaktadır.`,
   },
   ignored: [
     ...COMMON_IGNORED,
@@ -319,7 +338,7 @@ const ATASEHIR: BranchPromoDef = {
   hero: {
     lead: {
       match:
-        "2003 yılından bu yana İstanbul Ataşehir'de yabancı dil eğitimi sunan Dünya Dilleri Merkezi (DDM) Ataşehir şubesi, Milli Eğitim Bakanlığı (MEB) onaylı bir dil okuludur.",
+        `${SERVING} İstanbul Ataşehir'de yabancı dil eğitimi sunan Dünya Dilleri Merkezi (DDM) Ataşehir şubesi, Milli Eğitim Bakanlığı (MEB) onaylı bir dil okuludur.`,
     },
     badge: { match: "Milli Eğitim Bakanlığı (MEB) onaylı" },
   },
@@ -341,7 +360,7 @@ const ATASEHIR: BranchPromoDef = {
             { label: "Hedef", text: { match: "öğrencilerin dili günlük yaşamda ve iş hayatında etkin kullanabilmelerini sağlamaktadır" } },
             { label: "Seviye", text: { match: "her seviyeye uygun program seçenekleriyle" } },
           ],
-          tags: { match: "İngilizce, Almanca, Fransızca, İspanyolca, Rusça, İtalyanca, Çince ve Yabancılar İçin Türkçe" },
+          list: "languages",
         },
         {
           title: "Akademik sınav hazırlığı",
@@ -349,7 +368,7 @@ const ATASEHIR: BranchPromoDef = {
             { label: "Destek", text: { match: "çeşitli akademik sınavlara hazırlık programlarıyla da öğrencilerine kapsamlı destek sunulmaktadır" } },
             { label: "Plan", text: { match: "size özel programlar hazırlayarak öğrenci memnuniyetini ve başarıyı ön planda tutan kurum" } },
           ],
-          tags: { match: "IELTS, TOEFL, YDS, Proficiency" },
+          list: "exams",
         },
       ],
     },
@@ -376,7 +395,7 @@ const ATASEHIR: BranchPromoDef = {
       quote: {
         text: {
           match:
-            "Dünya Dilleri Merkezi Ataşehir 2003 yılından bu yana yabancı dil öğrenmek, akademik hedeflerine ulaşmak veya kariyerinde yeni fırsatlar yakalamak isteyen herkes için güvenilir bir eğitim partneridir.",
+            `Dünya Dilleri Merkezi Ataşehir ${SERVING} yabancı dil öğrenmek, akademik hedeflerine ulaşmak veya kariyerinde yeni fırsatlar yakalamak isteyen herkes için güvenilir bir eğitim partneridir.`,
         },
       },
     },
@@ -390,6 +409,13 @@ const ATASEHIR: BranchPromoDef = {
     { title: { source: ATA_PROGRAMS }, paras: range(0, 6).map((i) => ({ src: { heading: ATA_PROGRAMS, take: [i] } })) },
   ],
   edits: {
+    // Müşteri kararı 2026-09-30 + kullanıcı 2026-10-01: tüm şubeler "2003’ten bu yana 23 yıldır" (`data/company.ts`).
+    "2003 yılından bu yana İstanbul Ataşehir'de yabancı dil eğitimi sunan Dünya Dilleri Merkezi (DDM) Ataşehir şubesi, Milli Eğitim Bakanlığı (MEB) onaylı bir dil okuludur.":
+      `${SERVING} İstanbul Ataşehir'de yabancı dil eğitimi sunan Dünya Dilleri Merkezi (DDM) Ataşehir şubesi, Milli Eğitim Bakanlığı (MEB) onaylı bir dil okuludur.`,
+    "2003 yılından bu yana faaliyet gösteren Dünya Dilleri Merkezi, İngilizce, Almanca, Fransızca, İspanyolca, Rusça, İtalyanca, Çince ve Yabancılar İçin Türkçe başta olmak üzere birçok dilde eğitim vermektedir.":
+      `${SERVING} faaliyet gösteren Dünya Dilleri Merkezi, İngilizce, Almanca, Fransızca, İspanyolca, Rusça, İtalyanca, Çince ve Yabancılar İçin Türkçe başta olmak üzere birçok dilde eğitim vermektedir.`,
+    "Dünya Dilleri Merkezi Ataşehir 2003 yılından bu yana yabancı dil öğrenmek, akademik hedeflerine ulaşmak veya kariyerinde yeni fırsatlar yakalamak isteyen herkes için güvenilir bir eğitim partneridir.":
+      `Dünya Dilleri Merkezi Ataşehir ${SERVING} yabancı dil öğrenmek, akademik hedeflerine ulaşmak veya kariyerinde yeni fırsatlar yakalamak isteyen herkes için güvenilir bir eğitim partneridir.`,
     // Yazım: virgülden sonra boşluk yok.
     "Ayrıca IELTS, TOEFL,YDS, Proficiency başta olmak üzere çeşitli akademik sınavlara hazırlık programlarıyla da öğrencilerine kapsamlı destek sunulmaktadır.":
       "Ayrıca IELTS, TOEFL, YDS, Proficiency başta olmak üzere çeşitli akademik sınavlara hazırlık programlarıyla da öğrencilerine kapsamlı destek sunulmaktadır.",
@@ -407,7 +433,7 @@ const ATASEHIR: BranchPromoDef = {
  * Bağdat Caddesi — akademik şube: dile göre sınavlar paneli → tanıtım kartları → kurumsal müşteriler → fotoğraflar
  * ===================================================================== */
 
-const CAD_INTRO = "25 Yıllık Güven, Akademik Başarı, Köklü Deneyim, Uluslararası Standartlar";
+const CAD_INTRO = "25 Yıllık Güven, Akademik Başarı, Köklü Deneyim, Uluslararası Standartlar"; // kaynak başlık — `headingEdits` düzeltir
 const CAD_H5 = "Online canlı ders altyapısı (Zoom, Skype vb.)";
 const CAD_HIGHLIGHTS = "Öne Çıkan Sınav Odaklı Eğitim ve Yurtdışı Program";
 
@@ -472,7 +498,7 @@ const CADDE: BranchPromoDef = {
           },
         },
         { title: "Canlı ders altyapısı", icon: "kamera", text: { match: "Online canlı ders altyapısı (Zoom, Skype vb.)" } },
-        { title: "Aynı adreste", icon: "konum", text: { match: "Şube, Suadiye / Şaşkınbakkal ışıklarda 20 yıldır aynı adreste hizmet vermektedir." } },
+        { title: "23 yıldır hizmette", icon: "konum", text: { match: `Şube, Suadiye / Şaşkınbakkal ışıklarda ${SERVING} hizmet vermektedir.` } },
       ],
     },
     {
@@ -504,33 +530,47 @@ const CADDE: BranchPromoDef = {
     { title: { line: { heading: CAD_HIGHLIGHTS, take: [6] } }, paras: [{ src: { heading: WRONG_KICKER, take: [0] } }] },
     { title: { line: { heading: WRONG_KICKER, take: [1] } }, paras: [{ src: { heading: WRONG_KICKER, take: [2] } }] },
   ],
+  edits: {
+    // Müşteri kararı 2026-09-30 + kullanıcı 2026-10-01: tüm şubeler "2003’ten bu yana 23 yıldır" (kaynak: "20 yıldır aynı adreste").
+    "Dünya Dilleri Merkezi Bağdat Caddesi, İstanbul Anadolu Yakası’nda özellikle akademik yabancı dil eğitimleri ve sınav hazırlık programlarıyla öne çıkan köklü bir dil okuludur. Şube, Suadiye / Şaşkınbakkal ışıklarda 20 yıldır aynı adreste hizmet vermektedir.":
+      `Dünya Dilleri Merkezi Bağdat Caddesi, İstanbul Anadolu Yakası’nda özellikle akademik yabancı dil eğitimleri ve sınav hazırlık programlarıyla öne çıkan köklü bir dil okuludur. Şube, Suadiye / Şaşkınbakkal ışıklarda ${SERVING} hizmet vermektedir.`,
+    "2003 yılından bu yana faaliyet gösteren Dünya Dilleri Merkezi (DDM) zincirinin Bağdat Caddesi şubesidir ve özellikle IELTS, TOEFL, Üniversite Hazırlık Atlama ve TESTDAF, TELC, CELI / CILS hazırlık kurslarıyla tanınır. Modern öğretim yöntemleriyle bireysel ve kurumsal dil eğitimleri sunar.":
+      `${SERVING} faaliyet gösteren Dünya Dilleri Merkezi (DDM) zincirinin Bağdat Caddesi şubesidir ve özellikle IELTS, TOEFL, Üniversite Hazırlık Atlama ve TESTDAF, TELC, CELI / CILS hazırlık kurslarıyla tanınır. Modern öğretim yöntemleriyle bireysel ve kurumsal dil eğitimleri sunar.`,
+    // Müşteri kararı 2026-09-30 ("2003'ten bugüne - 23 yıl").
+    "25 yılı aşkın deneyimiyle kurum, bireysel ve kurumsal dil eğitim programları sunar. Yüz yüze ve online seçenekler, Türk ve yabancı eğitmen kadrosu, küçük gruplar ve birebir özel ders imkânlarıyla öğrencilerin farklı ihtiyaçlarına yanıt verir.":
+      `${EXPERIENCE} deneyimiyle kurum, bireysel ve kurumsal dil eğitim programları sunar. Yüz yüze ve online seçenekler, Türk ve yabancı eğitmen kadrosu, küçük gruplar ve birebir özel ders imkânlarıyla öğrencilerin farklı ihtiyaçlarına yanıt verir.`,
+  },
+  headingEdits: {
+    // Müşteri kararı 2026-09-30 ("2003'ten bugüne - 23 yıl").
+    [CAD_INTRO]: CAD_INTRO.replace("25 Yıllık", `${yearsSinceFounding()} Yıllık`),
+  },
   ignored: [...COMMON_IGNORED, WRONG_KICKER_IGNORED],
   ignoredBlocks: [{ from: "Bağdat Caddesi Şubesi İletişim", to: KVKK_END, reason: FORM_REASON }],
   updated: UPDATED,
 };
 
 /* =====================================================================
- * Levent / Etiler — butik dil okulu: eğitim yapısı → programlar → eğitim modeli paneli → kurumsal alanlar → fotoğraflar
+ * Etiler (adres Levent tarafında; sayfa adresi `/levent-tanitim-sayfasi` değişmedi) — butik dil okulu: eğitim yapısı → programlar → eğitim modeli paneli → kurumsal alanlar → fotoğraflar
  * ===================================================================== */
 
 const LEV_STRUCTURE = "Etiler Şubesi Eğitim Yapısı";
 const LEV_H5 = KAD_H5; // Levent sayfasındaki h5, Kadıköy'ünkünün birebir kopyası ("Kadıköy'de" dahil) — headingEdits düzeltir.
-const LEV_PROGRAMS = "Levent Şubesinde Dil ve Sınav Programları";
+const LEV_PROGRAMS = "Levent Şubesinde Dil ve Sınav Programları"; // kaynak başlık — `headingEdits` "Etiler" yapar
 
 const LEVENT: BranchPromoDef = {
   branch: "etiler",
   path: "/levent-tanitim-sayfasi",
   source: "/levent-tanitim-sayfasi",
   meta: {
-    title: "Levent Etiler Dil Kursu | Dünya Dilleri Merkezi Levent",
+    title: "Etiler Dil Kursu | Dünya Dilleri Merkezi Etiler (Levent)",
     description:
-      "Dünya Dilleri Merkezi Levent / Etiler Şubesi: en fazla 6–8 kişilik butik sınıflar, birebir ve kurumsal dil eğitimi, IELTS, TOEFL, GMAT, GRE hazırlık.",
+      "Dünya Dilleri Merkezi Etiler Şubesi, Levent: en fazla 6–8 kişilik butik sınıflar, birebir ve kurumsal dil eğitimi, IELTS, TOEFL, GMAT, GRE hazırlık.",
     reasons: [
-      'title: kaynak "Beşiktaş Şubesi Tanıtım Sayfası" — bayat şube adı (Beşiktaş şubesi yok); data/branches.ts adı "Levent / Etiler" (Aşama 0, kullanıcı bildirdi)',
+      'title: kaynak "Beşiktaş Şubesi Tanıtım Sayfası" — bayat şube adı (Beşiktaş şubesi yok); şubenin adı "Etiler" (müşteri kararı 2026-09-30). "Levent" yerel arama için kaldı: adres Levent tarafında',
       'description: kaynak "Dünya Dilleri Merkezi Beşiktaş Levent Şubesi" — bayat ad düzeltildi, sayfanın kendi olgularıyla genişletildi',
     ],
   },
-  // Form bloğunun ardındaki bölüm üst yazısı ("… Etiler Şubesi") — `edits` ile "Levent / Etiler".
+  // Form bloğunun ardındaki bölüm üst yazısı ("… Etiler Şubesi") — şubenin adı kaynakta da "Etiler".
   h1: { line: { heading: LEV_H5, take: [103] } },
   hero: {
     lead: {
@@ -550,7 +590,7 @@ const LEVENT: BranchPromoDef = {
       title: { source: LEV_STRUCTURE },
       lead: { match: "Dil öğrenmenin herkes için farklı bir yolculuk olduğuna inanıyoruz." },
       items: [
-        "25 yılı aşkın eğitim deneyimi",
+        `${EXPERIENCE} eğitim deneyimi`,
         "Bireysel ve kurumsal dil eğitimleri",
         "Yüz yüze ve online eğitim seçenekleri",
         "Türk ve yabancı eğitmenlerden oluşan uzman kadro",
@@ -563,7 +603,7 @@ const LEVENT: BranchPromoDef = {
     {
       kind: "programs",
       title: { source: LEV_PROGRAMS },
-      lead: { match: "Levent Şubemizde farklı yaş gruplarına ve hedeflere yönelik" },
+      lead: { match: "Etiler Şubemizde farklı yaş gruplarına ve hedeflere yönelik" },
       approach: {
         title: { match: "Eğitim Yaklaşımımız" },
         text: { match: "her eğitim programı, öğrencinin hedeflerine ulaşmasını sağlayacak şekilde titizlikle planlanır." },
@@ -572,15 +612,12 @@ const LEVENT: BranchPromoDef = {
         {
           title: "Dil eğitimleri",
           rows: [{ label: "Biçim", text: { match: "Talebe göre birebir veya kurumsal programlar da planlanabilmektedir." } }],
-          tags: {
-            match:
-              "İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, yabancılar için Türkçe, Felemenkçe (Hollandaca), Japonca, Korece, Yunanca, İsveççe ve Bulgarca",
-          },
+          list: "languages",
         },
         {
           title: "Ulusal ve uluslararası sınavlar",
           rows: [{ label: "Biçim", text: { match: "küçük grup veya bireysel programlar" } }],
-          tags: { match: "IELTS, TOEFL, PTE Academic, YDS, YÖKDİL, SAT, GMAT, GRE, TestDaF, TELC, DELF, DELE, CELI, CILS ve OET" },
+          list: "exams",
         },
       ],
     },
@@ -636,17 +673,22 @@ const LEVENT: BranchPromoDef = {
     { title: { line: { heading: WRONG_KICKER, take: [28] } }, paras: [{ src: { heading: WRONG_KICKER, take: [29] } }] },
   ],
   edits: {
-    // H1: bayat / eksik şube adı → data/branches.ts adı "Levent / Etiler" (Aşama 0, kullanıcı bildirdi).
-    "Dünya Dilleri Merkezi Etiler Şubesi": "Dünya Dilleri Merkezi Levent / Etiler Şubesi",
     // Başlık satırının sonunda kalmış kapanış tırnağı.
     "Etiler’de Konum ve Öğrenme Atmosferi”": "Etiler’de Konum ve Öğrenme Atmosferi",
-    // Dil listesinden "Arapça" çıkarıldı (kullanıcı, 2026-09-30).
+    // Müşteri kararları 2026-09-30: şubenin adı "Etiler" + 19 dil, tüm şubelerde aynı liste (kaynak 15 dil sayıyordu;
+    // "Arapça" ayrıca çıkarılmıştı).
     "Levent Şubemizde farklı yaş gruplarına ve hedeflere yönelik İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Arapça, yabancılar için Türkçe, Felemenkçe (Hollandaca), Japonca, Korece, Yunanca, İsveççe ve Bulgarca dil eğitimleri sunulmaktadır. Talebe göre birebir veya kurumsal programlar da planlanabilmektedir.":
-      "Levent Şubemizde farklı yaş gruplarına ve hedeflere yönelik İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, yabancılar için Türkçe, Felemenkçe (Hollandaca), Japonca, Korece, Yunanca, İsveççe ve Bulgarca dil eğitimleri sunulmaktadır. Talebe göre birebir veya kurumsal programlar da planlanabilmektedir.",
+      `Etiler Şubemizde farklı yaş gruplarına ve hedeflere yönelik ${LANGUAGES_TEXT} dil eğitimleri sunulmaktadır. Talebe göre birebir veya kurumsal programlar da planlanabilmektedir.`,
+    // Müşteri kararı 2026-09-30 ("2003'ten bugüne - 23 yıl") — iki satır.
+    "İstanbul Avrupa Yakası’nın en merkezi noktalarından biri olan Etiler’de, bireysel ve kurumsal yabancı dil eğitimleri alanında hizmet veren butik bir dil okuludur. 25 yılı aşkın eğitim deneyimine sahip Dünya Dilleri Merkezi çatısı altında faaliyet gösteren şubemiz, öğrenci odaklı yaklaşımı, deneyimli eğitmen kadrosu ve yüksek memnuniyet anlayışıyla dil eğitiminde kişiye özel çözümler sunmaktadır.":
+      `İstanbul Avrupa Yakası’nın en merkezi noktalarından biri olan Etiler’de, bireysel ve kurumsal yabancı dil eğitimleri alanında hizmet veren butik bir dil okuludur. ${EXPERIENCE} eğitim deneyimine sahip Dünya Dilleri Merkezi çatısı altında faaliyet gösteren şubemiz, öğrenci odaklı yaklaşımı, deneyimli eğitmen kadrosu ve yüksek memnuniyet anlayışıyla dil eğitiminde kişiye özel çözümler sunmaktadır.`,
+    "* 25 yılı aşkın eğitim deneyimi": `* ${EXPERIENCE} eğitim deneyimi`,
   },
   headingEdits: {
     // Kopyala-yapıştır artığı: Levent sayfasında "Kadıköy'de" (Aşama 0, kullanıcı bildirdi) → sayfanın kendi dili "Etiler'de".
     [LEV_H5]: LEV_H5.replace("Merkezi Kadıköy'de", "Merkezi Etiler'de"),
+    // Müşteri kararı 2026-09-30: şubenin adı "Etiler".
+    [LEV_PROGRAMS]: LEV_PROGRAMS.replace("Levent", "Etiler"),
   },
   ignored: [
     ...COMMON_IGNORED,
@@ -658,7 +700,7 @@ const LEVENT: BranchPromoDef = {
   updated: UPDATED,
 };
 
-/** Menü / footer sırası (`data/branches.ts` `BRANCH_ORDER`). */
+/** Menü / footer sırası (`data/branches.ts` `BRANCH_ORDER`). Ümraniye YOK: tanıtım sayfası yapılmayacak (müşteri kararı 2026-09-30). */
 export const BRANCH_PROMOS: BranchPromoDef[] = [KADIKOY, CADDE, LEVENT, ATASEHIR];
 
 export const BRANCH_PROMO_PATHS: string[] = BRANCH_PROMOS.map((p) => p.path);

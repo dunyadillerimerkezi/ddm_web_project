@@ -11,7 +11,7 @@ import { RichFaq } from "@/components/sections/RichFaq";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
-import { BRANCH_LIST } from "@/data/branches";
+import { BRANCHES, BRANCH_LIST } from "@/data/branches";
 import { byCourse } from "@/data/courseDates";
 import { CONTACT_HREF, linkIfProduced, onlyProduced } from "@/lib/hubLinks";
 import type { RichBlock, RichPage } from "@/lib/richContent";
@@ -72,7 +72,7 @@ function related(page: RichPage) {
       title: page.parent.label,
       links: onlyProduced([
         { label: page.parent.label, href: page.parent.href },
-        ...byCourse(courseSlug).map((e) => ({ label: `${e.branchLabel} şubesi kurs tarihi`, href: `/${e.category}/${e.courseSlug}/${e.pageSlug}` })),
+        ...byCourse(courseSlug).map((e) => ({ label: `${BRANCHES[e.branch].name} şubesi kurs tarihi`, href: `/${e.category}/${e.courseSlug}/${e.pageSlug}` })),
       ]),
     },
     { title: page.family.title, links: onlyProduced(page.family.links) },

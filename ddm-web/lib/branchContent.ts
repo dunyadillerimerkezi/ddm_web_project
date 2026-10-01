@@ -14,6 +14,7 @@
  * kuralı gereği title'a düşülür, konsola loglanır.
  */
 
+import { currentBranchName } from "@/data/branches";
 import siteContent from "@/data/site_content.json";
 import type { SiteContentRecord } from "./contentSections";
 import type { Branch, Crumb } from "./types";
@@ -88,7 +89,8 @@ export type HubPage = {
  * §6 kuralıyla ona düşülür, loglanır. `lead` kaydın `meta_description`'ı —
  * kaynağın kendi metni, uydurulmadı (Ümraniye'yi saymaması kaynağın kendi
  * eksikliği, "bariz hata" değil — CLAUDE.md §5 istisnası burada uygulanmaz,
- * olduğu gibi bırakıldı).
+ * olduğu gibi bırakıldı). Tek düzeltme: kaynak "Levent, Etiler" diye aynı şubeyi iki
+ * kez sayıyor → "Etiler" (`currentBranchName`, müşteri kararı 2026-09-30).
  */
 export function getHubPage(): HubPage {
   const record = findRecord("/ddm-iletisim.html");
@@ -101,8 +103,8 @@ export function getHubPage(): HubPage {
   }
   return {
     title: record.title,
-    metaDescription: record.meta_description,
+    metaDescription: currentBranchName(record.meta_description),
     h1: h1Heading.text,
-    lead: record.meta_description,
+    lead: currentBranchName(record.meta_description),
   };
 }

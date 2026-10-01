@@ -12,6 +12,7 @@
  * diğerleri `app/sinav-hazirlik-egitimleri/[kurs]/page.tsx` üzerinden üretilir.
  */
 
+import { EXPERIENCE } from "@/data/company";
 import type { ExamDef } from "@/lib/examContent";
 
 /** P4'te yayınlanan alt sayfalar (Nedir / Özel Ders / Örnek Sorular) — `extraHrefs` hedefleri. */
@@ -138,7 +139,7 @@ const YOKDIL: ExamDef = {
     // Şube listesi düzeltmesi: kaynakta "Pendik" geçiyor ama bugünkü şubeler
     // data/branches.ts'te (Pendik yok, Ümraniye var).
     "YÖKDİL sınav hazırlık eğitimlerimiz maksimum 12 kişilik özel gruplarda ya da istediğiniz gün ve saatlerde birebir özel dersler şeklinde düzenlenmektedir. Programı yürüten hocalarımız Türkiye çapında bilinen akademik başarısı tescilli öğretim üyelerinden oluşmaktadır. YÖKDİL sınavına İstanbul'da Kadıköy, Bağdat Caddesi, Beşiktaş, Pendik ve Ataşehir şubelerimizde hazırlanabilirsiniz.":
-      "YÖKDİL sınav hazırlık eğitimlerimiz maksimum 12 kişilik özel gruplarda ya da istediğiniz gün ve saatlerde birebir özel dersler şeklinde düzenlenmektedir. Programı yürüten hocalarımız Türkiye çapında bilinen akademik başarısı tescilli öğretim üyelerinden oluşmaktadır. YÖKDİL sınavına İstanbul'da Kadıköy, Bağdat Caddesi, Levent / Etiler, Ataşehir ve Ümraniye şubelerimizde hazırlanabilirsiniz.",
+      "YÖKDİL sınav hazırlık eğitimlerimiz maksimum 12 kişilik özel gruplarda ya da istediğiniz gün ve saatlerde birebir özel dersler şeklinde düzenlenmektedir. Programı yürüten hocalarımız Türkiye çapında bilinen akademik başarısı tescilli öğretim üyelerinden oluşmaktadır. YÖKDİL sınavına İstanbul'da Kadıköy, Bağdat Caddesi, Etiler, Ataşehir ve Ümraniye şubelerimizde hazırlanabilirsiniz.",
     // 2020 takvimi bayat; YÖKDİL artık ÖSYM tarafından yılda iki kez yapılıyor
     // (2026: 8 Mart ve 9 Ağustos). Tarih blokları evergreen metne çevrildi.
     "YÖKDİL 1 Sınav Tarihleri 2020": "YÖKDİL sınavı ne zaman yapılır?",
@@ -254,6 +255,11 @@ const PROFICIENCY: ExamDef = {
   code: "Proficiency",
   illustration: "kampus",
   hero: { heading: null },
+  edits: {
+    // Kurum tecrübesi: kaynak "18 yıllık" → "2003’ten bu yana 23 yıllık" (kullanıcı 2026-10-01, `data/company.ts`).
+    "18 yıllık tecrübemiz ve akademik başarısı tescilli eğitmenlerimiz ile sizleri istediğiniz skora götürecek programı hazırlamaktayız.":
+      `${EXPERIENCE} tecrübemiz ve akademik başarısı tescilli eğitmenlerimiz ile sizleri istediğiniz skora götürecek programı hazırlamaktayız.`,
+  },
   blocks: [
     {
       kind: "prose",
@@ -605,6 +611,9 @@ const TOEIC: ExamDef = {
     },
   ],
   edits: {
+    // Kurum tecrübesi: kaynak "13 yıllık" → "2003’ten bu yana 23 yıllık" (kullanıcı 2026-10-01, `data/company.ts`).
+    "13 yıllık tecrübemiz ve akademik başarısı tescilli eğitmenlerimiz ile sizleri istediğiniz skora götürecek programı hazırlamaktayız. Programda kullanılacak materyaller DDM tarafından katılımcılara ücretsiz temin edilir.":
+      `${EXPERIENCE} tecrübemiz ve akademik başarısı tescilli eğitmenlerimiz ile sizleri istediğiniz skora götürecek programı hazırlamaktayız. Programda kullanılacak materyaller DDM tarafından katılımcılara ücretsiz temin edilir.`,
     "Toplam 100 sorudan oluşur, yaklaşık 45 dk sürer ve dinleme cd üzerinden yapılır.":
       "Toplam 100 sorudan oluşur, yaklaşık 45 dakika sürer ve dinleme bölümü ses kaydı üzerinden yapılır.",
   },
@@ -838,6 +847,11 @@ const IELTS: ExamDef = {
   code: "IELTS",
   illustration: "kampus",
   hero: { heading: null },
+  edits: {
+    // Bayat şube adı: Beşiktaş → Etiler (müşteri kararı 2026-09-30).
+    "Eğitimler hafta sonu ve hafta içi programları şeklinde olup dersler İstanbul'da Kadıköy, Bağdat Caddesi, Beşiktaş ve Ataşehir şubelerimizde düzenlenmektedir. Gruplardaki katılımcıların dil beceri düzeyinin homojen olması esastır. Seviye tespit sınavı sonucuna göre hafta içi günleri ders alacak öğrenciler ve hafta sonu ders alacak öğrenciler belirlenerek gruplar oluşturulur. Her katılımcı ayrı ayrı yazılı ve sözlü sınava tabi tutulmaktadır. Toplam 10 hafta süren ve 60 dersten oluşan, her ders saatinin 50 dakika olduğu eğitim sistemiyle İngilizcenizi geliştirmeniz ve IELTS sınavına hazırlanmanız için dil okulumuz mükemmel bir fırsat sunmaktadır.":
+      "Eğitimler hafta sonu ve hafta içi programları şeklinde olup dersler İstanbul'da Kadıköy, Bağdat Caddesi, Etiler ve Ataşehir şubelerimizde düzenlenmektedir. Gruplardaki katılımcıların dil beceri düzeyinin homojen olması esastır. Seviye tespit sınavı sonucuna göre hafta içi günleri ders alacak öğrenciler ve hafta sonu ders alacak öğrenciler belirlenerek gruplar oluşturulur. Her katılımcı ayrı ayrı yazılı ve sözlü sınava tabi tutulmaktadır. Toplam 10 hafta süren ve 60 dersten oluşan, her ders saatinin 50 dakika olduğu eğitim sistemiyle İngilizcenizi geliştirmeniz ve IELTS sınavına hazırlanmanız için dil okulumuz mükemmel bir fırsat sunmaktadır.",
+  },
   blocks: [
     { kind: "prose", heading: "IELTS Kursu Sınav Hazırlık Dersleri Eğitim Fiyatları", kicker: "EĞİTİM PROGRAMI", title: "IELTS hazırlık programımız", take: "rest" },
     { kind: "prose", heading: "IELTS Hazırlık Eğitimi İçeriği", kicker: "EĞİTİM İÇERİĞİ", format: "list" },

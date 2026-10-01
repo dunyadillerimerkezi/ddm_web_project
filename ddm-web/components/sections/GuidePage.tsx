@@ -6,7 +6,7 @@ import { GuideHero } from "@/components/sections/GuideHero";
 import { GuideToc } from "@/components/sections/GuideToc";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { SourcesFooter } from "@/components/sections/SourcesFooter";
-import { BRANCH_LIST } from "@/data/branches";
+import { BRANCHES, BRANCH_LIST } from "@/data/branches";
 import { byCourse } from "@/data/courseDates";
 import { EXAM_GUIDES } from "@/data/examGuides";
 import { PRIVATE_LESSONS } from "@/data/privateLessons";
@@ -24,7 +24,7 @@ function related(page: GuidePageData) {
         page.course,
         ...(privateLesson ? [{ label: privateLesson.label, href: privateLesson.path }] : []),
         ...byCourse(courseSlug).map((e) => ({
-          label: `${e.branchLabel} şubesi kurs tarihi`,
+          label: `${BRANCHES[e.branch].name} şubesi kurs tarihi`,
           href: `/${e.category}/${e.courseSlug}/${e.pageSlug}`,
         })),
       ]),

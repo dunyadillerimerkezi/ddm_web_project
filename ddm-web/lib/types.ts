@@ -364,8 +364,6 @@ export type ContentDiagnostic = {
 export type CourseDatePage = {
   /* --- kimlik --- */
   branch: BranchSlug;
-  /** Kaynak başlıkta geçen şube adı, birebir ("Etiler" / "Beşiktaş"). */
-  branchLabel: string;
   courseSlug: string;
   /** "PROFICIENCY" — kaynaktaki yazımıyla. */
   courseName: string;

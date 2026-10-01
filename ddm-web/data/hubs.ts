@@ -19,6 +19,9 @@
 
 import { BRANCH_LIST } from "@/data/branches";
 import { LANGUAGE_SECTION } from "@/data/home";
+import { OTHER_LANGUAGE_NAMES as OTHER_LANGUAGES } from "@/data/languages";
+import { UNIVERSITY_INDEX } from "@/data/universities";
+import { joinTr } from "@/lib/listText";
 import type { SectionRef } from "@/lib/types";
 
 type Take = SectionRef["take"];
@@ -59,11 +62,8 @@ export type HubDef = {
   ignored: { line: string; reason: string }[];
 };
 
-/** "Kadıköy, Bağdat Caddesi, Levent / Etiler, Ataşehir ve Ümraniye" */
-const BRANCH_NAMES = (() => {
-  const names = BRANCH_LIST.map((b) => b.name);
-  return `${names.slice(0, -1).join(", ")} ve ${names[names.length - 1]}`;
-})();
+/** "Kadıköy, Bağdat Caddesi, Etiler, Ataşehir ve Ümraniye" */
+const BRANCH_NAMES = joinTr(BRANCH_LIST.map((b) => b.name));
 
 /** `firstBody`: ilk açıklama satırı ("Alanında uzman…") şablon bloğundan
  *  önceki son başlığın gövdesine düşüyor; konumu hub'a göre değişir. */
@@ -270,7 +270,8 @@ export const EXAM_HUB_ADDED = {
     {
       question: "Proficiency kursu hangi üniversiteler için?",
       answer: [
-        "Üniversitelerin kendi hazırlık atlama sınavlarına yönelik programlarımız var; Boğaziçi BUEPT, Koç KUEPE, Sabancı ELAE ve Özyeğin TRACE başta olmak üzere 21 üniversitenin sınavı için ayrı sayfa bulunuyor.",
+        // Sayı `data/universities.ts`'ten (kapanmış iki üniversite kaldırıldı — müşteri kararı 2026-09-30: 21 → 19).
+        `Üniversitelerin kendi hazırlık atlama sınavlarına yönelik programlarımız var; Boğaziçi BUEPT, Koç KUEPE, Sabancı ELAE ve Özyeğin TRACE başta olmak üzere ${UNIVERSITY_INDEX.length} üniversitenin sınavı için ayrı sayfa bulunuyor.`,
       ],
     },
   ],
@@ -375,15 +376,12 @@ export const LANGUAGE_HUB: HubDef = {
   ],
 };
 
-/** Kaynak listedeki dillerden ayrı kurs sayfası OLMAYANLAR (sıra kaynaktaki gibi; "Arapça" çıkarıldı — kullanıcı, 2026-09-30). */
-const OTHER_LANGUAGES = ["Japonca", "Yunanca", "Korece", "İsveççe", "Portekizce", "Hırvatça", "Boşnakça", "Slovakça", "Bulgarca", "Farsça"];
-
 export const LANGUAGE_HUB_ADDED = {
   ctaSub: "Ücretsiz seviye tespit sınavı ve kurs tarihleri için size en yakın şubemizle görüşün.",
   gridLead:
     "Şubelerimizde düzenli program açtığımız 10 dil kursu. Her kartta seviyeler, gün ve saatler, kur sınavları ve sertifikalar için ilgili bölüme doğrudan gidebilirsiniz.",
   otherLanguages: OTHER_LANGUAGES,
-  otherText: `${OTHER_LANGUAGES.slice(0, -1).join(", ")} ve ${OTHER_LANGUAGES[OTHER_LANGUAGES.length - 1]} eğitimlerimizin program ve ders saatlerini şubelerimizden öğrenebilirsiniz.`,
+  otherText: `${joinTr(OTHER_LANGUAGES)} eğitimlerimizin program ve ders saatlerini şubelerimizden öğrenebilirsiniz.`,
   tableTitle: "Dil kurslarımız bir bakışta",
   tableLead:
     "Kur süresi, sınıf büyüklüğü ve kur sonunda girebileceğiniz uluslararası sınavlar — her dilin kendi kurs sayfasındaki bilgilerden derlendi.",
@@ -724,9 +722,9 @@ export const ENGLISH_HUB: HubDef = {
     // "Türkiye'nin En Çok Tercih Edilen…" doğrulanamayan üstünlük iddiası + yarım cümle ("…Öğrenilir.").
     "Türkiye'nin En Çok Tercih Edilen Dil Okulunda Öğrenilir. Dünya Dilleri Merkezi farkıyla İngilizce öğrenin. Türk ve yabancı öğretmenler eşliğinde, grup veya özel ders programlarıyla İngilizce öğrenebilirsiniz.":
       "Dünya Dilleri Merkezi farkıyla İngilizce öğrenin. Türk ve yabancı öğretmenler eşliğinde, grup veya özel ders programlarıyla başlangıçtan ileri seviyeye kadar İngilizce öğrenebilirsiniz.",
-    // Bayat şube: Beşiktaş → Levent / Etiler (data/branches.ts). Hedef sayfa aynı (besiktas-subesi-kurs-tarihi).
+    // Bayat şube: Beşiktaş → Etiler (data/branches.ts). Hedef sayfa aynı (besiktas-subesi-kurs-tarihi).
     "→ Beşiktaş Şubesi İngilizce Eğitim Plan Tablosu ve Kurs Tarihi":
-      "→ Levent / Etiler Şubesi İngilizce Eğitim Plan Tablosu ve Kurs Tarihi",
+      "→ Etiler Şubesi İngilizce Eğitim Plan Tablosu ve Kurs Tarihi",
     "İngilizce C1 seviyesi eğitmenlerimiz ve en deneyimli ve nitelikli İngilizce öğretmenlerimizden oluşan kadromuz ve bu kurs için özel bir program oluşturdu.":
       "C1 seviyesi için en deneyimli ve nitelikli İngilizce öğretmenlerimizden oluşan kadromuz özel bir program oluşturdu.",
   },

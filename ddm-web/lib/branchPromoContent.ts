@@ -5,10 +5,12 @@
  *   - `details` kaynağın firma metnini birebir taşır; kapsama `assertCoverage` ile — her satır ya tüketilir ya
  *     gerekçeli `ignored` / `ignoredBlocks` / ortak 6 sekme başlığı (`SHARED_LINKS`) içindedir.
  *   - Sayfanın üstündeki her kısa metin (`Excerpt.match`) düzeltilmiş `details` metninde birebir aranır.
- *   - Dil / sınav etiketleri kaynak listeden bölünür; yalnız sitede sayfası olanlar bağlantı alır (`isProducedPage`).
+ *   - Dil / sınav listesi DÖRT SAYFADA AYNI (müşteri kararı 2026-09-30: "Hepsinde 19 dil ve sınava hazırlık kursları"):
+ *     diller `data/languages.ts` `ALL_LANGUAGE_NAMES`, sınavlar `data/exams.ts` `EXAMS`; yalnız sitede sayfası olanlar
+ *     bağlantı alır (`isProducedPage`). "Dile göre sınavlar" (Bağdat Caddesi) kaynak cümlesinden bölünmeye devam eder.
  *   - H1 şubenin `data/branches.ts` adını taşımak zorunda (bayat "Beşiktaş" gibi adlar build'i düşürür).
  *   - title >60 / description >155, kullanılmayan `edits`, kaynakta başlık olmayan anahtar build'i düşürür.
- * Ümraniye (kaynak kaydı yok, `source: null`) geldiğinde kapsama denetiminden muaf olacak — tanıtım metni kullanıcıdan.
+ * Ümraniye'nin tanıtım sayfası yok ve olmayacak (müşteri kararı 2026-09-30) — yalnız iletişim sayfası.
  */
 
 import { BRANCHES, directionsHref, mapQuery } from "@/data/branches";
@@ -17,7 +19,7 @@ import { BRANCH_TRANSIT, type TransitItem } from "@/data/branchTransit";
 import { BRANCH_PROMOS, SHARED_LINKS, type BranchPromoDef, type Excerpt, type PromoBlock, type PromoTitle } from "@/data/branchPromo";
 import { COURSE_DATES } from "@/data/courseDates";
 import { EXAMS } from "@/data/exams";
-import { LANGUAGES } from "@/data/languages";
+import { ALL_LANGUAGE_NAMES, LANGUAGES } from "@/data/languages";
 import type { Photo } from "@/data/privateLessonsShared";
 import type { IconName } from "@/components/graphics/icons";
 import { ContentSectionsError } from "@/lib/contentSections";
@@ -44,7 +46,7 @@ export type PromoResolvedBlock =
       title: string;
       lead: string | null;
       approach: { title: string | null; text: string } | null;
-      columns: { title: string; badge: string | null; rows: { label: string; text: string }[]; tags: PromoTag[] }[];
+      columns: { title: string; badge: string | null; rows: { label: string; text: string }[]; more: { label: string; href: string } }[];
     }
   | {
       kind: "highlights";
@@ -70,7 +72,9 @@ export type BranchPromoPage = {
   blocks: PromoResolvedBlock[];
   visit: { place: { title: string; text: string } | null; transit: TransitItem[] };
   courses: { title: string; items: { label: string; href: string }[] }[];
-  shared: { label: string; href: string }[];
+  /** Dört sayfada aynı: 19 dil + sınav hazırlık listesi ve 6 ortak başlık (`href` yoksa düz metin). */
+  offer: { languages: PromoTag[]; exams: PromoTag[] };
+  shared: { label: string; href?: string }[];
   /** "Ayrıntılı bilgi": kaynak metnin tamamı; "* " ile başlayan kaynak satırları madde olarak gösterilir. */
   details: { title: string; paragraphs: string[] }[];
   contactHref: string;
@@ -79,33 +83,27 @@ export type BranchPromoPage = {
   updated: string;
 };
 
-/** Sınav / dil etiketi → sitedeki sayfa (yalnız sayfası olanlar; Goethe, DELF, Japonca… düz metin kalır). */
+/** "Dile göre sınavlar" satırlarındaki sınav etiketi → sitedeki sayfa (yalnız sayfası olanlar; TELC, CELI… düz metin kalır). */
 const TAG_SLUG: Record<string, string> = {
   IELTS: "ielts-kursu",
   TOEFL: "toefl-kursu",
-  "PTE Academic": "academic-pte",
-  TestDaF: "testdaf-kursu",
   TESTDAF: "testdaf-kursu",
-  SAT: "sat-kursu",
-  YDS: "yds-kursu",
   YÖKDİL: "yokdil-sinavi-kursu",
-  GMAT: "gmat-kursu",
-  GRE: "gre-kursu",
-  Proficiency: "proficiency-kursu",
-};
-const LANGUAGE_ALIAS: Record<string, string> = {
-  "Yabancılar İçin Türkçe": "Türkçe",
-  "yabancılar için Türkçe": "Türkçe",
-  "Felemenkçe (Hollandaca)": "Flemenkçe",
 };
 
 function tag(label: string, context: string): PromoTag {
-  const name = LANGUAGE_ALIAS[label] ?? label;
-  const lang = LANGUAGES.find((l) => l.name === name);
+  const lang = LANGUAGES.find((l) => l.name === label);
   const href = lang ? `/yabanci-dil-egitimleri/${lang.slug}` : TAG_SLUG[label] ? examHref(TAG_SLUG[label]) : undefined;
   if (href && !isProducedPage(href)) throw new ContentSectionsError(`${context}: etiket hedefi üretilmemiş — "${href}"`);
   return href ? { label, href } : { label };
 }
+
+/** Ortak listelerin sayfadaki çapaları (program sütunlarının altındaki bağlantı buraya iner). */
+export const OFFER_IDS = { languages: "diller", exams: "sinavlar" } as const;
+const OFFER_MORE = {
+  languages: { label: `${ALL_LANGUAGE_NAMES.length} dilin tamamı`, href: `#${OFFER_IDS.languages}` },
+  exams: { label: "Tüm sınav hazırlık kursları", href: `#${OFFER_IDS.exams}` },
+};
 
 /** "A, B, C ve D" / "CELI / CILS" → ayrı etiketler. */
 function splitList(list: string): string[] {
@@ -144,7 +142,6 @@ function slugify(s: string): string {
 
 function resolve(def: BranchPromoDef): BranchPromoPage {
   const context = `tanitim${def.path}`;
-  if (!def.source) throw new ContentSectionsError(`${context}: kaynaksız tanıtım sayfası henüz desteklenmiyor (Ümraniye bilgisi bekleniyor).`);
   const branch = BRANCHES[def.branch];
   const r = createGuideResolver(def.source, def, context);
 
@@ -226,7 +223,7 @@ function resolve(def: BranchPromoDef): BranchPromoPage {
             title: c.title,
             badge: opt(c.badge, `${slot}.columns[${i}].badge`),
             rows: c.rows.map((row, j) => ({ label: row.label, text: ex(row.text, `${slot}.columns[${i}].rows[${j}]`) })),
-            tags: splitList(ex(c.tags, `${slot}.columns[${i}].tags`)).map((l) => tag(l, `${slot}.columns[${i}]`)),
+            more: OFFER_MORE[c.list],
           })),
         };
       }
@@ -285,7 +282,7 @@ function resolve(def: BranchPromoDef): BranchPromoPage {
   const description = norm(def.meta.description);
   checkMeta(pageTitle, description, context);
   for (const l of SHARED_LINKS) {
-    if (!isProducedPage(l.href)) throw new ContentSectionsError(`${context}: ortak bağlantı hedefi üretilmemiş — "${l.href}"`);
+    if (l.href && !isProducedPage(l.href)) throw new ContentSectionsError(`${context}: ortak bağlantı hedefi üretilmemiş — "${l.href}"`);
   }
 
   const branchDates = COURSE_DATES.filter((c) => c.branch === def.branch);
@@ -321,6 +318,14 @@ function resolve(def: BranchPromoDef): BranchPromoPage {
     blocks,
     visit: { place, transit: BRANCH_TRANSIT[def.branch] },
     courses,
+    offer: {
+      languages: ALL_LANGUAGE_NAMES.map((name) => tag(name, "offer.languages")),
+      exams: EXAMS.map((e) => {
+        const href = examHref(e.slug);
+        if (!isProducedPage(href)) throw new ContentSectionsError(`${context}: sınav etiketi hedefi üretilmemiş — "${href}"`);
+        return { label: e.name, href };
+      }),
+    },
     shared: SHARED_LINKS.map(({ label, href }) => ({ label, href })),
     details,
     contactHref: branch.href,
