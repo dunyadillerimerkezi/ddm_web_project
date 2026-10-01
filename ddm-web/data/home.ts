@@ -324,7 +324,7 @@ export type HomeBranchCard = {
 
 const BRANCH_PROMO = [
   {
-    tag: "KADIKÖY MERKEZ",
+    tag: "KADIKÖY", // "Merkez" yazmaz (kullanıcı, 2026-10-01)
     title: "Dünya Dilleri Merkezi Kadıköy Şubesi",
     short: "Yabancı dil eğitimi ve uluslararası sınav hazırlığında akademik kaliteyi esas alan seçkin bir kurumdur.",
     cta: "Kadıköy Şubemizi Keşfet",

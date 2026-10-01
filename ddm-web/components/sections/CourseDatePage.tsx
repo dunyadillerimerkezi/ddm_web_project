@@ -4,7 +4,7 @@ import { CtaBand } from "./CtaBand";
 import { WeekGrid } from "./WeekGrid";
 import { ProgramCard } from "@/components/cards/ProgramCard";
 import { SectionHeading, DataMissingNotice, ButtonLink } from "@/components/ui";
-import { BRANCHES, telHref } from "@/data/branches";
+import { BRANCHES } from "@/data/branches";
 import type { CourseDatePage as CourseDatePageData } from "@/lib/types";
 import { weekGridRows } from "@/lib/courseDateContent";
 import pageSection from "@/styles/PageSection.module.css";
@@ -34,9 +34,11 @@ export function CourseDatePage({ page }: { page: CourseDatePageData }) {
   const branch = BRANCHES[page.branch];
   const rows = weekGridRows(page);
   const hasPrograms = page.programs.length > 0;
+  // Bu sayfada telefon / e-posta YOK — düğmeler doğrudan şubenin iletişim sayfasına gider (kullanıcı, 2026-10-01).
+  const toBranch = `${branch.name} Şubesine Ulaşın`;
 
   return (
-    <SiteChrome branch={branch} ctaLabel="Bilgi Al" ctaHref={branch.href}>
+    <SiteChrome ctaLabel="Bilgi Al" ctaHref={branch.href}>
       <PageHero
         crumbs={page.crumbs}
         code={null}
@@ -77,11 +79,9 @@ export function CourseDatePage({ page }: { page: CourseDatePageData }) {
               <DataMissingNotice
                 label="VERİ EKSİK — DERS PROGRAMI"
                 action={
-                  telHref(branch) && (
-                    <ButtonLink href={telHref(branch)!} variant="primary" size="sm" arrow>
-                      Şubeyi Arayın
-                    </ButtonLink>
-                  )
+                  <ButtonLink href={branch.href} variant="primary" size="sm" arrow>
+                    {toBranch}
+                  </ButtonLink>
                 }
               >
                 {branch.name} şubesi {page.courseName} Kursu için gün, saat ve ücret bilgisi henüz
@@ -104,8 +104,8 @@ export function CourseDatePage({ page }: { page: CourseDatePageData }) {
         id="kayit"
         ground="gray"
         title={`${page.courseName} Kursu ${branch.name} programı için güncel bilgi alın.`}
-        sub={branch.phone ? `${branch.phone} · ${branch.mail}` : branch.mail}
-        primary={{ label: "Bilgi Al", href: branch.href }}
+        sub={`Adres, telefon ve yol tarifi ${branch.name} şubemizin iletişim sayfasında.`}
+        primary={{ label: toBranch, href: branch.href }}
       />
     </SiteChrome>
   );

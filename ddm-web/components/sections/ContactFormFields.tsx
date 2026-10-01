@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 
-import { Button, ButtonAnchor } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { BRANCH_LIST, BRANCHES, contactBranch, telHref, waHref } from "@/data/branches";
+import { BRANCH_LIST, BRANCHES } from "@/data/branches";
 import type { CourseGroup } from "@/data/courseOptions";
 import { FORM_ID } from "@/lib/formAnchor";
 import type { ConsentParts } from "@/lib/kvkkConsent";
@@ -13,8 +13,8 @@ import type { BranchSlug } from "@/lib/types";
 import styles from "@/styles/ContactForm.module.css";
 
 /**
- * `ContactForm`'un istemci parçası (PF, 2026-09-29). Tek iş: seçilen şubeyi izlemek (paneldeki telefon / WhatsApp ve
- * not o şubeye döner) ve "Ön bilgi iste"ye basınca notu açmak. VERİ GÖNDERMEZ — arka uç gelince `onSubmit` değişecek
+ * `ContactForm`'un istemci parçası (PF, 2026-09-29). Tek iş: seçilen şubeyi izlemek (not o şubenin iletişim sayfasına
+ * yönlendirir) ve "Ön bilgi iste"ye basınca notu açmak. VERİ GÖNDERMEZ — arka uç gelince `onSubmit` değişecek
  * ve ÖNCE doğrulama eklenecek (`form.reportValidity()`; `required` alanlar + KVKK onayı). Şimdi doğrulanmıyor: form
  * zaten hiçbir şey göndermiyor, not bunu söylüyor.
  *
@@ -32,7 +32,6 @@ type Props = {
   branch: BranchSlug | null;
   consent: ConsentParts;
   kvkkHref: string;
-  icons: { phone: ReactNode; wa: ReactNode };
   asks: ReactNode;
 };
 
@@ -48,17 +47,15 @@ function Opt() {
   return <span className={styles.opt}>isteğe bağlı</span>;
 }
 
-export function ContactFormFields({ size, ground, heading, lead, link, courses, course, branch, consent, kvkkHref, icons, asks }: Props) {
+export function ContactFormFields({ size, ground, heading, lead, link, courses, course, branch, consent, kvkkHref, asks }: Props) {
   const uid = useId();
   const f = (name: string) => `${uid}-${name}`;
   const [slug, setSlug] = useState<BranchSlug | "">(branch ?? "");
   const [sent, setSent] = useState(false);
   const notice = useRef<HTMLDivElement>(null);
 
-  // Şube seçilmediyse merkez şube (site geneli iletişim noktası — `contactBranch`).
-  const b = contactBranch(slug ? BRANCHES[slug] : undefined);
-  const tel = telHref(b);
-  const wa = waHref(b);
+  // Formda telefon / WhatsApp yok (kullanıcı, 2026-10-01): not seçilen şubenin, yoksa şubeler sayfasına yönlendirir.
+  const b = slug ? BRANCHES[slug] : null;
   const wide = size === "wide";
   const titleId = `${FORM_ID}-baslik`;
 
@@ -68,23 +65,6 @@ export function ContactFormFields({ size, ground, heading, lead, link, courses, 
     // Not zaten açıksa da odağı ona taşı — ekran okuyucu yeniden okusun.
     requestAnimationFrame(() => notice.current?.focus());
   }
-
-  const reach = (
-    <div className={styles.reachRow}>
-      {tel && (
-        <ButtonAnchor variant="onDark" size="md" className={styles.act} href={tel}>
-          {icons.phone}
-          {b.phone}
-        </ButtonAnchor>
-      )}
-      {wa && (
-        <ButtonAnchor variant="outlineDark" size="md" className={styles.act} href={wa} target="_blank" rel="noopener noreferrer">
-          {icons.wa}
-          WhatsApp
-        </ButtonAnchor>
-      )}
-    </div>
-  );
 
   const form = (
     <form className={styles.form} onSubmit={onSubmit} noValidate aria-labelledby={titleId}>
@@ -206,21 +186,12 @@ export function ContactFormFields({ size, ground, heading, lead, link, courses, 
       <div ref={notice} className={styles.notice} role="status" tabIndex={-1} hidden={!sent}>
         <strong>Form henüz açılmadı, bilgileriniz gönderilmedi.</strong>
         <span>
-          Şimdilik <b>{b.name}</b> şubemize {wa ? "telefonla ya da WhatsApp'tan" : "telefonla"} ulaşın.
+          Şimdilik {b ? <><b>{b.name}</b> şubemizin</> : "şubelerimizin"} iletişim bilgilerinden bize ulaşın.
         </span>
         <span className={styles.noticeRow}>
-          {tel && (
-            <ButtonAnchor variant="primary" size="md" className={styles.act} href={tel}>
-              {icons.phone}
-              Ara · {b.phone}
-            </ButtonAnchor>
-          )}
-          {wa && (
-            <ButtonAnchor variant="primary" size="md" className={`${styles.act} ${styles.wa}`} href={wa} target="_blank" rel="noopener noreferrer">
-              {icons.wa}
-              WhatsApp&apos;tan yaz
-            </ButtonAnchor>
-          )}
+          <ButtonLink variant="primary" size="md" className={styles.act} href={b ? b.href : "/ddm-iletisim"} arrow>
+            {b ? `${b.name} iletişim` : "Şubelerimiz"}
+          </ButtonLink>
         </span>
       </div>
     </form>
@@ -233,7 +204,6 @@ export function ContactFormFields({ size, ground, heading, lead, link, courses, 
           <h2 id={titleId} className={styles.narrowTitle}>
             {heading}
           </h2>
-          {reach}
         </div>
         {form}
       </div>
@@ -254,12 +224,6 @@ export function ContactFormFields({ size, ground, heading, lead, link, courses, 
             </Link>
           )}
           <div className={styles.asks}>{asks}</div>
-          <div className={styles.reach}>
-            <p className={styles.reachLabel}>
-              Beklemeden konuşmak için <b>{b.name}</b> şubemiz
-            </p>
-            {reach}
-          </div>
         </div>
         {form}
       </div>

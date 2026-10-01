@@ -114,30 +114,7 @@
   color: var(--ddm-sky-400);
 }
 
-.reach {
-  margin-top: auto;
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--ddm-navy-line);
-  display: grid;
-  gap: var(--space-3);
-}
-
-.reachLabel {
-  margin: 0;
-  font-size: var(--ddm-text-body-s);
-}
-
-.reachLabel b {
-  color: var(--ddm-white);
-}
-
-.reachRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-/* Panel ve nottaki düğmeler `Button` bileşeni (onDark / outlineDark / primary); burada yalnız ölçü. */
+/* Nottaki düğme `Button` bileşeni (primary); burada yalnız ölçü. */
 .act {
   min-height: var(--ddm-touch-min);
   gap: var(--space-2);
@@ -358,16 +335,6 @@
   margin-top: var(--space-1);
 }
 
-/* WhatsApp: Button'da yeşil varyant yok — primary'nin rengi burada ezilir. */
-.act.wa {
-  background: var(--ddm-success-bg);
-  color: var(--ddm-success-ink);
-}
-
-.act.wa:hover {
-  background: var(--ddm-success-line);
-}
-
 .sr {
   position: absolute;
   width: 1px;
@@ -405,10 +372,6 @@
   color: var(--ddm-white);
 }
 
-.narrow .reachRow > a {
-  flex: 1 1 0;
-}
-
 .narrow .form {
   padding: var(--space-5) var(--space-6) var(--space-6);
 }
@@ -439,11 +402,6 @@
 
   .asks {
     display: none;
-  }
-
-  .reach {
-    margin-top: 0;
-    padding-top: var(--space-5);
   }
 
   .grid {

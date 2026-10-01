@@ -1,27 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Branch } from "@/lib/types";
-import { DEFAULT_BRANCH, telHref } from "@/data/branches";
-import {
-  BRAND_BLURB,
-  FOOTER_COLUMNS,
-  FOOTER_LEGAL_LEFT,
-  FOOTER_LEGAL_RIGHT,
-} from "@/lib/nav";
+import { BRAND_BLURB, CORPORATE_MAIL, FOOTER_COLUMNS, FOOTER_LEGAL } from "@/lib/nav";
 import styles from "@/styles/SiteFooter.module.css";
 
 /**
- * Footer — dört şablonda da aynı.
- *
- * Tek fark: Ana Sayfa şube bloğunu ÜMRANİYE olarak sabitlemişti, Şube
- * şablonu sayfanın şubesinden alıyordu. Burada prop; verilmezse merkez.
- *
- * Şubenin adresi/telefonu kaynak içerikte yoksa BURADA yedeğe düşülmez —
- * eksiklik olduğu gibi gösterilir (CLAUDE.md §5).
+ * Footer — her sayfada aynı. Şube adresi / telefonu / e-postası ve "Şubeler" kolonu YOK (kullanıcı, 2026-10-01):
+ * şube iletişimi yalnız şubelerin kendi iletişim sayfalarında. Yalnız kurumsal mail (info@) ve tek cümlelik alt satır.
  */
-export function SiteFooter({ branch = DEFAULT_BRANCH }: { branch?: Branch }) {
-  const tel = telHref(branch);
-
+export function SiteFooter() {
   return (
     <footer className={styles.footer} id="iletisim">
       <div className={styles.inner}>
@@ -37,23 +23,10 @@ export function SiteFooter({ branch = DEFAULT_BRANCH }: { branch?: Branch }) {
               className={styles.logo}
             />
             <p className={styles.blurb}>{BRAND_BLURB}</p>
-
-            <div className={styles.branchBlock}>
-              <span className={styles.kicker}>{branch.kicker}</span>
-              {branch.address ? (
-                <span className={styles.address}>{branch.address}</span>
-              ) : (
-                <span className={styles.pending}>adres bekleniyor</span>
-              )}
-              {branch.phone && tel ? (
-                <a className={styles.phone} href={tel}>
-                  {branch.phone}
-                </a>
-              ) : (
-                <span className={styles.pending}>telefon bekleniyor</span>
-              )}
-              <a className={styles.mail} href={`mailto:${branch.mail}`}>
-                {branch.mail}
+            <div className={styles.contact}>
+              <span className={styles.kicker}>KURUMSAL İLETİŞİM</span>
+              <a className={styles.mail} href={`mailto:${CORPORATE_MAIL}`}>
+                {CORPORATE_MAIL}
               </a>
             </div>
           </div>
@@ -79,8 +52,7 @@ export function SiteFooter({ branch = DEFAULT_BRANCH }: { branch?: Branch }) {
         </div>
 
         <div className={styles.legal}>
-          <span className={styles.legalText}>{FOOTER_LEGAL_LEFT}</span>
-          <span className={styles.legalText}>{FOOTER_LEGAL_RIGHT}</span>
+          <span className={styles.legalText}>{FOOTER_LEGAL}</span>
         </div>
       </div>
     </footer>

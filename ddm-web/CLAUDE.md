@@ -363,7 +363,16 @@ ddm-web/
 > "UI iyileştirme" oturumlarında düzeltiliyor — akış: ekran görüntüsü (1440 + 390) → teşhis →
 > scratchpad'de 2-3 taslak → kullanıcı seçimi → kod. Bu oturumlarda görsel karar alınabilir;
 > metin değişmez. Kalıcı kararlar:
-> - **Lacivert üst bar (TopBar) tüm siteden kaldırıldı.** Telefon mobil alt çubukta ve footer'da.
+> - **Lacivert üst bar (TopBar) tüm siteden kaldırıldı.**
+> - **Telefon numaraları yalnız şube sayfalarında (kullanıcı, 2026-10-01).** Şube iletişim sayfaları (+ `/ddm-iletisim`) ve
+>   şube tanıtım sayfaları. Şube KURS TARİHİ sayfalarında (dil + sınav, 72) telefon ve e-posta YOK: lacivert CTA kartı ve
+>   "veri eksik" kutusu doğrudan şubenin iletişim sayfasına gider ("{Şube} Şubesine Ulaşın"). Dil / sınav sayfalarında,
+>   footer'da, formda ve mobil çubukta da numara yok.
+>   Varsayılan "merkez şube" yok (`DEFAULT_BRANCH` / `contactBranch` silindi); `SiteChrome`'un `branch` prop'u kalktı.
+>   Footer: tek iletişim "KURUMSAL MAİL · info@dunyadillerimerkezi.com" (`lib/nav.ts` `CORPORATE_MAIL`); şube bloğu ve
+>   "Şubeler" kolonu yok; alt satır "Dünya Dilleri Merkezi Yabancı Dil Okulları. Tüm hakları saklıdır." Formda telefon /
+>   WhatsApp yok. Mobil alt çubuk her sayfada tek düğme: telefon ikonlu "Biz Sizi Arayalım" (forma gider).
+>   WhatsApp tek hat, tüm şubelerde aynı: `data/branches.ts` `WHATSAPP` (0537 370 87 18). "Kadıköy Merkez" adı kullanılmaz.
 > - **Header'ın altında şerit yok:** her sayfanın ilk bölümü header'ın arkasından başlar —
 >   `app/globals.css` `main > :first-child` (negatif margin + saydam üst kenarlık,
 >   `--ddm-header-flow-h`). Yeni hero yazarken üst dolguya header payı EKLEMEYİN, kural veriyor.

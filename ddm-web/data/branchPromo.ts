@@ -181,10 +181,11 @@ const KADIKOY: BranchPromoDef = {
   meta: {
     title: "Kadıköy Dil Kursu | Dünya Dilleri Merkezi Kadıköy",
     description:
-      "Dünya Dilleri Merkezi Kadıköy Merkez Şube: A1'den C2'ye genel dil eğitimleri, IELTS, TOEFL, SAT gibi sınavlara özel ders formatında hazırlık.",
+      "Dünya Dilleri Merkezi Kadıköy Şubesi: A1'den C2'ye genel dil eğitimleri, IELTS, TOEFL, SAT gibi sınavlara özel ders formatında hazırlık.",
     reasons: [
       'title: kaynak "Kadıköy Merkez Tanıtım Sayfası" — yerel arama için şube + hizmet adı (kullanıcı onayı, 2026-09-28)',
       'description: kaynak yalnız "Dünya Dilleri Merkezi Kadıköy Merkez Şubesi" (43 karakter) — sayfanın kendi olgularıyla genişletildi',
+      'description: "Kadıköy Merkez Şube" → "Kadıköy Şubesi" (kullanıcı, 2026-10-01: "Kadıköy Merkez" yazmaz)',
     ],
   },
   h1: { source: KAD_MAIN },
@@ -304,6 +305,8 @@ const KADIKOY: BranchPromoDef = {
     "Genel dil programlarımız; İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca ve Korece dillerinde sunulmaktadır.":
       `Genel dil programlarımız; ${LANGUAGES_TEXT} dillerinde sunulmaktadır.`,
   },
+  // Hero rozeti: "Kadıköy Merkez" yazmaz (kullanıcı, 2026-10-01).
+  headingEdits: { "Kadıköy Merkez Şube": "Kadıköy Şubesi" },
   ignored: [
     ...COMMON_IGNORED,
     { line: "Dünya Dilleri Merkezi Kadıköy Merkez Şube", reason: "bölüm üst yazısı; aynı bilgi H1 ve künye kartında" },

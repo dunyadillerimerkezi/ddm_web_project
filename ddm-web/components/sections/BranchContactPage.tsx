@@ -8,7 +8,7 @@ import type { IconName } from "@/components/graphics/icons";
 import { BranchMap } from "@/components/sections/BranchMap";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { TransitList } from "@/components/sections/TransitList";
-import { BRANCH_LIST, directionsHref, mapQuery, telHref, waHref } from "@/data/branches";
+import { BRANCH_LIST, WHATSAPP, directionsHref, mapQuery, telHref, waHref } from "@/data/branches";
 import { BRANCH_PHOTOS } from "@/data/branchPhotos";
 import { PROMO_PATHS } from "@/data/branchPromoPaths";
 import { BRANCH_TRANSIT } from "@/data/branchTransit";
@@ -28,13 +28,13 @@ export function BranchContactPage({ page, lead }: { page: BranchPage; lead: stri
   const photo = BRANCH_PHOTOS[branch.slug];
   const promo = PROMO_PATHS[branch.slug];
   const tel = telHref(branch);
-  const wa = waHref(branch);
+  const wa = waHref();
   const directions = directionsHref(branch);
   const query = mapQuery(branch);
 
   const candidates: (Action | null)[] = [
     tel && branch.phone ? { icon: "telefon", label: "Bizi arayın", value: branch.phone, href: tel, primary: true } : null,
-    wa && branch.phone ? { icon: "whatsapp", label: "WhatsApp'tan yazın", value: branch.phone, href: wa, external: true } : null,
+    { icon: "whatsapp", label: "WhatsApp'tan yazın", value: WHATSAPP.display, href: wa, external: true },
     { icon: "mail", label: "E-posta", value: branch.mail, href: `mailto:${branch.mail}` },
     directions ? { icon: "konum", label: "Yol tarifi al", value: "Google Haritalar'da açılır", href: directions, external: true } : null,
   ];
@@ -43,7 +43,7 @@ export function BranchContactPage({ page, lead }: { page: BranchPage; lead: stri
   const others = BRANCH_LIST.filter((b) => b.slug !== branch.slug);
 
   return (
-    <SiteChrome branch={branch} ctaLabel="Bilgi Al">
+    <SiteChrome ctaLabel="Bilgi Al">
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div>

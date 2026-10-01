@@ -13,15 +13,14 @@
   right: 0;
   bottom: 0;
   z-index: 70;
-  align-items: center;
-  gap: var(--space-2);
   padding: 10px 14px;
   background: var(--ddm-white);
   border-top: 1px solid var(--ddm-gray-200);
   box-shadow: var(--shadow-bar);
 }
 
-.action {
+/* Tek düğme: "Biz Sizi Arayalım" (kullanıcı, 2026-10-01). */
+.primary {
   flex: 1;
   display: inline-flex;
   align-items: center;
@@ -29,20 +28,13 @@
   gap: 7px;
   font-size: 14px;
   font-weight: 700;
-  color: var(--ddm-primary);
-  background: var(--ddm-sky-bg);
-  border: 1px solid var(--ddm-sky-200);
+  white-space: nowrap;
+  color: var(--ddm-white);
+  background: var(--ddm-primary);
+  border: 1px solid var(--ddm-primary);
   border-radius: var(--radius-md);
   padding: 13px 10px;
   min-height: 46px;
-}
-
-.primary {
-  composes: action;
-  flex: 1.2;
-  color: var(--ddm-white);
-  background: var(--ddm-primary);
-  border-color: var(--ddm-primary);
 }
 
 .primary:hover {

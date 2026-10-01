@@ -37,10 +37,21 @@
   max-width: 42ch;
 }
 
-.branchBlock {
+.contact {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: var(--space-2);
+}
+
+.mail {
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-white);
+  overflow-wrap: anywhere;
+}
+
+.mail:hover {
+  color: var(--ddm-sky-line);
 }
 
 .kicker {
@@ -49,39 +60,6 @@
   font-weight: 800;
   letter-spacing: var(--ddm-tracking-label);
   color: var(--ddm-sky-400);
-}
-
-.address {
-  font-size: var(--ddm-text-body-s);
-  line-height: var(--ddm-leading-body);
-  color: var(--ddm-navy-200);
-}
-
-.phone {
-  font-size: var(--ddm-text-body-s);
-  font-weight: 700;
-  color: var(--ddm-white);
-}
-
-.phone:hover {
-  color: var(--ddm-sky-line);
-}
-
-.mail {
-  font-size: var(--ddm-text-body-s);
-  color: var(--ddm-navy-200);
-}
-
-.mail:hover {
-  color: var(--ddm-white);
-}
-
-/* Kaynak içerikte olmayan alan — "bekleniyor" durumu. */
-.pending {
-  font-size: var(--ddm-text-body-s);
-  line-height: var(--ddm-leading-body);
-  color: var(--ddm-navy-300);
-  font-style: italic;
 }
 
 .col {

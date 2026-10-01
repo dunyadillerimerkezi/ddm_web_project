@@ -30,12 +30,11 @@ export const BRANCHES: Record<BranchSlug, Branch> = {
   kadikoy: {
     slug: "kadikoy",
     name: "Kadıköy",
-    kicker: "KADIKÖY MERKEZ",
+    kicker: "KADIKÖY ŞUBESİ", // "Merkez" yazmaz (kullanıcı, 2026-10-01)
     href: "/ddm-iletisim/1-kadikoy",
     address: "Mühürdar Cad. Akmar Çarşısı No:70 Kat:3 Pk.34710 Kadıköy",
     phone: "0216 330 12 17",
     mail: "kadikoy@dunyadillerimerkezi.com",
-    wa: "902163301217",
   },
   bagdat: {
     slug: "bagdat",
@@ -45,7 +44,6 @@ export const BRANCHES: Record<BranchSlug, Branch> = {
     address: "Bağdat Caddesi, Zümrüt Apt. No:386/7 Pk.34740 Suadiye",
     phone: "0216 368 07 03",
     mail: "cadde@dunyadillerimerkezi.com",
-    wa: "902163680703",
   },
   etiler: {
     slug: "etiler",
@@ -57,8 +55,6 @@ export const BRANCHES: Record<BranchSlug, Branch> = {
     address: "Nispetiye Cad. No:32/12 Pk.34330 Beşiktaş",
     phone: "0212 283 19 14",
     mail: "levent@dunyadillerimerkezi.com",
-    /** Kaynakta bu şube için "WhatsApp Hattı" satırı yok (diğer 4 şubede var) — uydurulmadı. */
-    wa: null,
   },
   atasehir: {
     slug: "atasehir",
@@ -68,7 +64,6 @@ export const BRANCHES: Record<BranchSlug, Branch> = {
     address: "Atatürk Mah. Girne Cad. No:9 Pk.34758 Ataşehir",
     phone: "0216 548 14 10",
     mail: "atasehir@dunyadillerimerkezi.com",
-    wa: "902165481410",
   },
   umraniye: {
     slug: "umraniye",
@@ -79,7 +74,6 @@ export const BRANCHES: Record<BranchSlug, Branch> = {
       "Şerifali Mah. Çetin Cad. Kızkalesi Sok. Şua Elite Plaza. No:1 A - Blok. Kat: 6 Ümraniye",
     phone: "0216 548 14 11",
     mail: "umraniye@dunyadillerimerkezi.com",
-    wa: "902165481411",
   },
 };
 
@@ -116,9 +110,6 @@ export const BRANCH_ORDER: BranchSlug[] = [
 
 export const BRANCH_LIST: Branch[] = BRANCH_ORDER.map((s) => BRANCHES[s]);
 
-/** Şubesi belli olmayan sayfalarda gösterilecek varsayılan iletişim. */
-export const DEFAULT_BRANCH = BRANCHES.kadikoy;
-
 /**
  * `tel:` href'i — telefon yoksa null.
  *
@@ -133,22 +124,15 @@ export function telHref(branch: Branch): string | null {
   return `tel:+90${digits}`;
 }
 
-/** WhatsApp href'i — numara yoksa null. */
-export function waHref(branch: Branch): string | null {
-  return branch.wa ? `https://wa.me/${branch.wa}` : null;
-}
-
 /**
- * İletişim gösterilecek şubeyi seçer.
- *
- * `branch.phone` `null` olduğunda (şu an hiçbir şubede değil, ama gelecekte
- * yeni bir şube eklenip verisi eksik gelirse) üst bar ve mobil çubuk gibi
- * site geneli iletişim noktalarında "telefon bekleniyor" göstermek yerine
- * merkez şubeye düşülür. Şubeye ÖZEL alanlarda (şube bilgi kartı) bu yedek
- * KULLANILMAZ — orada eksiklik olduğu gibi gösterilir (CLAUDE.md §5).
+ * Tek WhatsApp hattı — tüm şubeler için aynı (kullanıcı, 2026-10-01: "whatsapp numarasına 05373708718"). Önceden her şube
+ * kendi sabit hattını WhatsApp diye veriyordu (Etiler'de yoktu). Yalnız şube sayfalarında gösterilir.
  */
-export function contactBranch(branch: Branch = DEFAULT_BRANCH): Branch {
-  return branch.phone ? branch : DEFAULT_BRANCH;
+export const WHATSAPP = { digits: "905373708718", display: "0537 370 87 18" };
+
+/** WhatsApp href'i. */
+export function waHref(): string {
+  return `https://wa.me/${WHATSAPP.digits}`;
 }
 
 /**

@@ -87,6 +87,56 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+### 2026-10-01 (2) · Opus 5.5 · Numaralar yalnız şube sayfalarında + kurumsal mail + tek WhatsApp hattı — commit bekliyor
+- **İstek:** hiçbir dil / sınav sayfasında Kadıköy numarası olmasın, numaralar yalnız şube sayfalarında; İngilizce kursu şube
+  kurs tarihlerinde olabilir, "TOEFL sayfasında numara olmasın" · footer'a "kurumsal mail info@dunyadillerimerkezi.com" ·
+  mobil çubuktaki üçlü düğme şube sayfalarından da kalksın · WhatsApp numarası 0537 370 87 18.
+- **Yapılan:**
+  - `CourseDatePage`: `showPhone = category === "yabanci-dil-egitimleri"` — sınav kursu şube sayfalarında (36) CTA alt yazısı
+    yalnız e-posta, "Şubeyi Arayın" yerine şube iletişim sayfasına "Şubeyle İletişime Geçin". Dil kursu şube sayfaları (36) aynen.
+  - `MobileBottomBar`: her sayfada yalnız "Biz Sizi Arayalım"; `branch` prop'u ve `SiteChrome`'un `branch` prop'u kalktı
+    (3 çağıran güncellendi), CSS sadeleşti (`.action`, `.label` yok).
+  - `data/branches.ts`: şube başına `wa` alanı (4'ü sabit hattın kendisiydi, Etiler'de yoktu) → tek `WHATSAPP` sabiti; `waHref()`
+    argümansız. Şube iletişim kartı WhatsApp satırında artık bu numara yazıyor; Etiler'de de WhatsApp var; iletişim sayfası
+    giriş cümlesi her şubede "adres, telefon ve WhatsApp".
+  - Footer: logo + tanıtım altında "KURUMSAL MAİL · info@dunyadillerimerkezi.com" (`CORPORATE_MAIL`).
+- **Tarama (205 HTML):** numara geçen sayfalar yalnız iletişim (6, hub dahil), tanıtım (4), dil kursu şube tarihi (36).
+  Genel sayfa ve sınav kursu şube sayfası 0. (TOEIC sayfasındaki ETS sınav merkezi telefonları DDM'nin değil, kaldı.)
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (205) · 6 sayfa × 1440 / 390 / 360 (`next start` :3400): taşma yok, tek H1,
+  konsol hatası yok, mobil düğme 52px.
+- **Ek (aynı gün, kullanıcı: "lacivert kartlarda numara e-mail yazmasın, direkt şubeye yönlendirsin, şube kurs sayfalarında da"):**
+  `CourseDatePage` — `showPhone` kalktı; dil kursu şube sayfaları dahil 72 kurs tarihi sayfasında telefon / e-posta yok.
+  Lacivert CTA kartı: alt yazı "Adres, telefon ve yol tarifi {Şube} şubemizin iletişim sayfasında.", düğme "{Şube} Şubesine
+  Ulaşın" → şube iletişim sayfası; "veri eksik" kutusundaki "Şubeyi Arayın" (tel:) da aynı düğme oldu. Tarama: numara / şube
+  e-postası / WhatsApp yalnız iletişim (6) + tanıtım (4) sayfalarında. Lacivert kartlarda başka numara / e-posta yoktu.
+  build ✅ (205) · 2 sayfa × 1440 / 390 / 360 taşma yok, konsol hatası yok.
+
+### 2026-10-01 · Opus 5.5 · Footer + Kadıköy "merkez" iletişimi kaldırıldı — commit bekliyor
+- **İstek (kullanıcı):** (1) footer'da şube iletişim linkleri olmasın · (2) şubelerin kendi iletişim sayfaları dışında
+  "Kadıköy Merkez" ve telefonu hiçbir yerde yazmasın; formdaki "Beklemeden konuşmak için Kadıköy şubemiz · 0216 330 12 17 ·
+  WhatsApp" silinsin · (3) en alt satır "Dünya Dilleri Merkezi Yabancı Dil Okulları. Tüm hakları saklıdır." — şube adları ve
+  "KAPLAN INTERNATIONAL ve ILSC resmi kayıt ofisi" kalksın.
+- **Yapılan:**
+  - `SiteFooter`: şube bloğu (KADIKÖY MERKEZ + adres + telefon + e-posta) ve `branch` prop'u silindi; `lib/nav.ts`
+    `FOOTER_COLUMNS`'tan "ŞUBELER" kolonu çıktı; `FOOTER_LEGAL_LEFT/RIGHT` → tek `FOOTER_LEGAL`. CSS'te kullanılmayan sınıflar silindi.
+  - `ContactFormFields`: paneldeki "Beklemeden konuşmak için…" + telefon / WhatsApp düğmeleri (geniş ve dar form) silindi;
+    gönderim notu artık numara vermiyor → seçilen şubenin iletişim sayfasına, şube seçilmediyse `/ddm-iletisim`'e düğme.
+    `icons` prop'u ve `.reach*`, `.act.wa` CSS'i kalktı.
+  - `MobileBottomBar`: şubesi olmayan sayfada Kadıköy'e düşmüyor; şube sayfalarında o şubenin Ara / WhatsApp'ı. Ana düğme her
+    sayfada telefon ikonlu "Biz Sizi Arayalım" (önce sayfaya göre "Kayıt Ol / Bilgi Al / İletişim"; `ctaLabel` artık yalnız header'da).
+    Kısa süre eklenen "Şubeler" düğmesi kullanıcı isteğiyle kaldırıldı. ≤419px'te 3 düğme sığsın diye WhatsApp yalnız ikon
+    (ad ekran okuyucuda); düğmeler tek satır, eşit boy (52px).
+  - `data/branches.ts`: `DEFAULT_BRANCH` + `contactBranch` silindi; Kadıköy `kicker` "KADIKÖY ŞUBESİ".
+  - Mega menü İletişim kutusu: "Kadıköy Merkez · adres · 0216 330 12 17" → "İstanbul'daki 5 şubemizden size en yakın olanı seçin."
+  - Ana Sayfa şube kartı etiketi "KADIKÖY MERKEZ" → "KADIKÖY"; Kadıköy tanıtım rozeti + meta description "Kadıköy Merkez Şube" →
+    "Kadıköy Şubesi" (`headingEdits`).
+- **Dokunulmadı, kullanıcıya soruldu:** Kadıköy'ün kendi kurs tarihi sayfaları (9) ve tanıtım sayfası kendi telefonunu gösteriyor
+  (diğer şubelerinkiler de öyle) · `/ddm-iletisim` şube listesi ve her şube iletişim sayfasındaki "diğer şubeler" listesi 5 şubenin
+  telefonunu gösteriyor · KVKK aydınlatma metnindeki veri sorumlusu "Telefon: 0216 330 12 17" (yasal metin, 2026-09-30 kararı:
+  olduğu gibi kalır) · Ana Sayfa ve Yurtdışı Eğitim gövdesindeki Kaplan / ILSC cümlesi (istek yalnız sayfa altı içindi).
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (205) · 5 sayfa × 1440 / 390 / 360 (`next start` :3400): footer'da telefon / e-posta /
+  Kadıköy yok, formda numara yok, mobil çubuk dokunma hedefleri ≥44px, taşma yok, tek H1, konsol hatası yok.
+
 ### 2026-10-01 · Opus 5.5 · Kullanıcı düzeltmesi: tek yıl kalıbı + üniversitelerde kalan yanlışlar — commit bekliyor
 - **Kullanıcı:** "2003'te kuruldu dedim, bunca sayfada düzeltmedin mi" · "tüm şubeler için 2003'ten bu yana yani 23 yıldır
   hizmet veriliyor diye yaz" · "üniversitelerde eksik / yanlış bilgi varsa düzenle".

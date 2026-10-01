@@ -90,7 +90,7 @@ export type Branch = {
   slug: BranchSlug;
   /** "Kadıköy" */
   name: string;
-  /** Kicker formu: "KADIKÖY MERKEZ" */
+  /** Kicker formu: "KADIKÖY ŞUBESİ" */
   kicker: string;
   /** Şube iletişim sayfası — eski sitedeki gerçek URL */
   href: string;
@@ -99,8 +99,6 @@ export type Branch = {
   /** null → "telefon bekleniyor" */
   phone: string | null;
   mail: string;
-  /** WhatsApp numarası, ülke kodu dahil rakam: "902163301217". null → WhatsApp yok */
-  wa: string | null;
 };
 
 /* ---------------------------------------------------------------

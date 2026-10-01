@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { BranchContactPage } from "@/components/sections/BranchContactPage";
-import { BRANCH_LIST, waHref, ALL_BRANCHES_LINE } from "@/data/branches";
+import { BRANCH_LIST, ALL_BRANCHES_LINE } from "@/data/branches";
 import { getBranchPage } from "@/lib/branchContent";
 import { absoluteUrl } from "@/lib/site";
 
@@ -48,12 +48,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   if (!branch) notFound();
 
   const page = getBranchPage(branch);
-  const wa = waHref(branch);
-  // Etiler/Levent'in WhatsApp hattı yok (branches.ts) — cümle o şube için
-  // olmayan bir kanalı vaat etmesin diye koşullu kuruluyor.
-  const contact = wa
-    ? `${branch.name} şubemizin adres, telefon ve WhatsApp bilgilerine aşağıdan ulaşabilirsiniz.`
-    : `${branch.name} şubemizin adres ve telefon bilgilerine aşağıdan ulaşabilirsiniz.`;
+  // WhatsApp tüm şubelerde aynı hat (`data/branches.ts` WHATSAPP, 2026-10-01) — artık her şubede var.
+  const contact = `${branch.name} şubemizin adres, telefon ve WhatsApp bilgilerine aşağıdan ulaşabilirsiniz.`;
   // Tüm şubeler için aynı cümle (`data/branches.ts` ALL_BRANCHES_LINE, kullanıcı 2026-10-01).
   const lead = `${ALL_BRANCHES_LINE} ${contact}`;
 

@@ -68,7 +68,6 @@ export function ContactForm({
       branch={branch ?? null}
       consent={CONSENT_PARTS}
       kvkkHref={kvkkInPage ? `#${KVKK_ID}` : KVKK_HREF}
-      icons={{ phone: <Icon name="telefon" size={18} />, wa: <Icon name="whatsapp" size={18} /> }}
       asks={
         <ul>
           <li>

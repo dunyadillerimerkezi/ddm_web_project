@@ -1,5 +1,4 @@
 import type { FooterColumn, NavItem } from "@/lib/types";
-import { BRANCH_LIST } from "@/data/branches";
 import { SERVING } from "@/data/company";
 
 /**
@@ -627,8 +626,8 @@ export const NAV_ITEMS: NavItem[] = [
     short: "İletişim",
     label: "İLETİŞİM",
     layout: "columns",
-    promoTitle:
-      "Kadıköy Merkez · Mühürdar Cad. Akmar Çarşısı No:70 Kat:3 · 0216 330 12 17",
+    // Kadıköy adresi / telefonu yazmaz (kullanıcı, 2026-10-01) — şube iletişimi şubelerin kendi sayfalarında.
+    promoTitle: "İstanbul’daki 5 şubemizden size en yakın olanı seçin.",
     promoLink: { label: "Tüm Şubelerimizi Gör", href: IL },
     columns: [
       {
@@ -677,13 +676,6 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     ],
   },
   {
-    title: "ŞUBELER",
-    items: BRANCH_LIST.map((b) => ({
-      label: b.slug === "kadikoy" ? "Kadıköy Merkez" : b.name,
-      href: b.href,
-    })),
-  },
-  {
     title: "DİĞER PROGRAMLAR",
     items: [
       { label: "Özel Dersler", href: `${DP}/ozel-dersler` },
@@ -698,6 +690,8 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
 
 export const BRAND_BLURB = `Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. ${SERVING} İstanbul’daki 5 şubemizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.`;
 
-export const FOOTER_LEGAL_LEFT = ["Dünya Dilleri Merkezi", ...BRANCH_LIST.map((b) => b.name)].join(" · ");
+/** Footer'daki tek iletişim: kurumsal mail (kullanıcı, 2026-10-01). */
+export const CORPORATE_MAIL = "info@dunyadillerimerkezi.com";
 
-export const FOOTER_LEGAL_RIGHT = "KAPLAN INTERNATIONAL ve ILSC resmi kayıt ofisi";
+/** Footer alt satırı (kullanıcı, 2026-10-01): şube adları ve "KAPLAN INTERNATIONAL ve ILSC resmi kayıt ofisi" kalktı. */
+export const FOOTER_LEGAL = "Dünya Dilleri Merkezi Yabancı Dil Okulları. Tüm hakları saklıdır.";

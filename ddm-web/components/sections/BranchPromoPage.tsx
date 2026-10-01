@@ -33,11 +33,11 @@ const BULLET = "* ";
 export function BranchPromoPage({ page }: { page: PageData }) {
   const { branch, hero } = page;
   const tel = telHref(branch);
-  const wa = waHref(branch);
+  const wa = waHref();
   const nearest = page.visit.transit[0];
 
   return (
-    <SiteChrome branch={branch} ctaLabel="Bilgi Al">
+    <SiteChrome ctaLabel="Bilgi Al">
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.copy}>
@@ -117,11 +117,9 @@ export function BranchPromoPage({ page }: { page: PageData }) {
               <a href={page.directionsHref} target="_blank" rel="noopener noreferrer">
                 Yol tarifi al
               </a>
-              {wa && (
-                <a href={wa} target="_blank" rel="noopener noreferrer">
-                  WhatsApp
-                </a>
-              )}
+              <a href={wa} target="_blank" rel="noopener noreferrer">
+                WhatsApp
+              </a>
               <Link href={page.contactHref}>İletişim</Link>
             </div>
           </article>
