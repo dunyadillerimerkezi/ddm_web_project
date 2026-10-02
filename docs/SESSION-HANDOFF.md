@@ -88,6 +88,20 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+### 2026-10-02 (2) · Opus 5.5 · Dil sayfalarından fiyat sözleri kaldırıldı — commit bekliyor
+- **İstek:** "dil sayfalarında fiyat kelimeleri geçiyor, varsa kaldır".
+- **Bulunan (8 eski dil: İngilizce, Almanca, Fransızca, İtalyanca, İspanyolca, Rusça, Çince, Türkçe):** H1 ve `<title>`
+  "… Eğitim Sistemi ve Ders Fiyatları" · sertifika paragrafında "sınavlara ücret karşılığında girebilir" · İngilizce
+  açıklamasında "güncel ders ücretleri". Kaynaktaki fiyat bölümleri ("25.000 TL" vb.) zaten basılmıyordu.
+- **Yapılan:** `data/languages.ts` — 8 dile `h1Edit` (yeni diller 2026-10-01'de aynı kalıpla yapılmıştı; `H1_PRICE_REASON`
+  dosyanın başına taşındı) + "ücret karşılığında" `edits`; İngilizce'ye `meta` (başlık + açıklama, gerekçeli).
+  `app/yabanci-dil-egitimleri/[kurs]/page.tsx`: `h1Edit` kaynak `<title>`'a da uygulanıyor. `data/hubs.ts` Yabancı Dil hub
+  tablo notundan "ücret karşılığında" çıktı.
+- **Kalan (dokunulmadı, kullanıcıya bildirildi):** Almanca Konuşma "ders araç gereçleri ücretsiz" (fiyat değil). Sınav
+  sayfalarında H1 / title "… Fiyatları" (IELTS, YDS, GRE, SAT, PTE) — istenirse aynı düzeltme. Sınav / vize ücretleri (ÖSYM,
+  ETS, ABD, gov.uk) DDM'nin fiyatı değil, resmi bilgi.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (209) · dil sayfalarında fiyat / ücret sözü 0 · 3 sayfa × 1440 / 390 taşma yok, tek H1.
+
 ### 2026-10-02 · Opus 5.5 · Ana Sayfa yabancı dil bölümü — müşterinin yeni metni — commit bekliyor
 - **İstek:** müşterinin verdiği başlık ("Yabancı dil, Dünya Dilleri Merkezi'nde öğrenilir. M.E.B Onaylı Dil Okuluyuz.") ve
   iki paragraflık alt yazı bölüme uyarlanıp eklensin.

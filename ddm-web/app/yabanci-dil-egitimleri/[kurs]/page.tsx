@@ -126,8 +126,11 @@ export async function generateMetadata({
   // ddmcadde kaynaklı dillerde yeniden yazılan başlık / açıklama (gerekçe `data/languages.ts` `meta.reasons`).
   const meta = def.content.meta;
   if (meta) checkMeta(meta.title, meta.description, def.slug);
+  // H1'den çıkarılan "Ders Fiyatları" (`h1Edit`) kaynak başlıkta da var → aynı düzeltme <title>'a (sitede fiyat yok).
+  const h1Edit = def.content.h1Edit;
+  const sourceTitle = h1Edit ? page.record.title.replace(h1Edit.from, h1Edit.to) : page.record.title;
   return {
-    title: meta?.title ?? page.record.title,
+    title: meta?.title ?? sourceTitle,
     description: meta?.description ?? page.record.meta_description,
     alternates: { canonical: absoluteUrl(`/yabanci-dil-egitimleri/${kurs}`) },
   };

@@ -25,12 +25,24 @@ import type { LanguageContentMap, LanguageDef } from "@/lib/languageContent";
 
 const YD = "/yabanci-dil-egitimleri";
 
+const H1_PRICE_REASON = "H1'deki \"Ders Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı kararı 2026-10-01)";
+
 /* ---------------------------------------------------------------
  * İngilizce — ingilizce-kursu (K yok, D altında 5 artık satır, "İngilizce
  * Kursu" h2'si gövdesiz)
  * ------------------------------------------------------------- */
 const en: LanguageContentMap = {
   heroLead: { heading: "İngilizce Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  h1Edit: { from: "İngilizce Kursu Eğitim Sistemi ve Ders Fiyatları", to: "İngilizce Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
+  meta: {
+    title: "İngilizce Kursu Eğitim Sistemi | Dünya Dilleri Merkezi",
+    description:
+      "İngilizce kursu: Kadıköy ve Bağdat Caddesi şubelerinde A1'den C2'ye tüm seviyelerde grup ve birebir İngilizce eğitimi, kur sınavları ve sertifika.",
+    reasons: [
+      "title: kaynaktaki \"ve Ders Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı, 2026-10-02)",
+      "description: kaynaktaki \"ve güncel ders ücretleri\" çıkarıldı — sitede fiyat yok (kullanıcı, 2026-10-02)",
+    ],
+  },
   about: { heading: "İngilizce Eğitim Programı Hakkında Bilgi" },
   programSchedule: { heading: "Size Uygun İngilizce Ders Programını Seçin" },
   certification: { heading: "İngilizce Kur Sınavları ve Uluslararası Sertifikalar", take: [0, 1] },
@@ -56,6 +68,11 @@ const en: LanguageContentMap = {
     "Proficiency Seviyesi İngilizce | Yeterlik Sınavı",
     "Akademik İngilizce | IELTS ve TOEFL",
   ],
+  edits: {
+    // Fiyat sözü çıkarıldı (kullanıcı, 2026-10-02: "dil sayfalarında fiyat kelimelerini kaldır").
+    "Katılmış olduğu İngilizce seviyeyi tamamlayan öğrencilerimiz kur bitiminde uluslararası ve yerel geçerliliğe sahip TOEFL, IELTS, YDS, YÖKDİL, E-TEP sınavlarına ücret karşılığında girebilir, İngilizce seviyesini belirleyen Sertifika elde edebilirler. İngilizce eğitim seviyeleri ortak Avrupa Dil Referans Çerçevesi (CEFR), dil yeteneğini tanımlayan uluslararası bir standart eğitim seviyeleri olan A1, A2, B1, B2, C1 ve C2 şeklindedir.":
+      "Katılmış olduğu İngilizce seviyeyi tamamlayan öğrencilerimiz kur bitiminde uluslararası ve yerel geçerliliğe sahip TOEFL, IELTS, YDS, YÖKDİL, E-TEP sınavlarına girebilir, İngilizce seviyesini belirleyen Sertifika elde edebilirler. İngilizce eğitim seviyeleri ortak Avrupa Dil Referans Çerçevesi (CEFR), dil yeteneğini tanımlayan uluslararası bir standart eğitim seviyeleri olan A1, A2, B1, B2, C1 ve C2 şeklindedir.",
+  },
 };
 
 /* ---------------------------------------------------------------
@@ -63,6 +80,7 @@ const en: LanguageContentMap = {
  * ------------------------------------------------------------- */
 const de: LanguageContentMap = {
   heroLead: { heading: "Almanca Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  h1Edit: { from: "Almanca Kursu Eğitim Sistemi ve Ders Fiyatları", to: "Almanca Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
   about: { heading: "Almanca Dil Eğitim Programı Hakkında Bilgi" },
   programSchedule: { heading: "Size Uygun Almanca Ders Programını Seçin" },
   certification: { heading: "Almanca Seviyesi Kur Sınavları ve Uluslararası Sertifikalar" },
@@ -92,6 +110,11 @@ const de: LanguageContentMap = {
     ],
   },
   ignored: [],
+  edits: {
+    // Fiyat sözü çıkarıldı (kullanıcı, 2026-10-02: "dil sayfalarında fiyat kelimelerini kaldır").
+    "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde Goethe Enstitüsü’nün düzenlediği uluslararası geçerliliğe sahip sınavlara ücret karşılığında girebilir ve Goethe TELC Sertifikası, Aile Birleşimi A1 Sertifikası ya da TESTDAF belgesi elde edebilirler. Almanca TESTDAF TDN 4 ve TDN 5 eğitimleri birebir özel dersler şeklinde verilmektedir.":
+      "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde Goethe Enstitüsü’nün düzenlediği uluslararası geçerliliğe sahip sınavlara girebilir ve Goethe TELC Sertifikası, Aile Birleşimi A1 Sertifikası ya da TESTDAF belgesi elde edebilirler. Almanca TESTDAF TDN 4 ve TDN 5 eğitimleri birebir özel dersler şeklinde verilmektedir.",
+  },
 };
 
 /* ---------------------------------------------------------------
@@ -99,6 +122,7 @@ const de: LanguageContentMap = {
  * ------------------------------------------------------------- */
 const fr: LanguageContentMap = {
   heroLead: { heading: "Fransızca Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  h1Edit: { from: "Fransızca Kursu Eğitim Sistemi ve Ders Fiyatları", to: "Fransızca Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
   about: { heading: "Fransızca Eğitim Programı Hakkında Bilgi" },
   programSchedule: { heading: "Size Uygun Fransızca Ders Programını Seçin" },
   certification: { heading: "Fransızca Kur Sınavları ve Uluslararası Sınavlar" },
@@ -123,6 +147,11 @@ const fr: LanguageContentMap = {
     ],
   },
   ignored: [],
+  edits: {
+    // Fiyat sözü çıkarıldı (kullanıcı, 2026-10-02: "dil sayfalarında fiyat kelimelerini kaldır").
+    "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde Fransız Kültür Merkezi’nin düzenlediği uluslararası geçerliliğe sahip DELF sınavlarına ücret karşılığında girebilir ve DELF Sertifikası elde edebilirler. Fransızca DELF sınavına yönelik eğitimler Fransız öğretmenlerimiz tarafından birebir özel ders şeklinde verilmektedir.":
+      "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde Fransız Kültür Merkezi’nin düzenlediği uluslararası geçerliliğe sahip DELF sınavlarına girebilir ve DELF Sertifikası elde edebilirler. Fransızca DELF sınavına yönelik eğitimler Fransız öğretmenlerimiz tarafından birebir özel ders şeklinde verilmektedir.",
+  },
 };
 
 /* ---------------------------------------------------------------
@@ -130,6 +159,7 @@ const fr: LanguageContentMap = {
  * ------------------------------------------------------------- */
 const it: LanguageContentMap = {
   heroLead: { heading: "İtalyanca Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  h1Edit: { from: "İtalyanca Kursu Eğitim Sistemi ve Ders Fiyatları", to: "İtalyanca Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
   about: { heading: "İtalyanca Eğitim Programı Hakkında Bilgi" },
   programSchedule: { heading: "Size Uygun İtalyanca Ders Programını Seçin" },
   certification: { heading: "İtalyanca Düzeyi Sertifikaları ve Uluslararası Sınavlar" },
@@ -158,6 +188,11 @@ const it: LanguageContentMap = {
     // sayfaları bu fazın kapsamında değil, ayrı bir link mekanizması yok.
     "İtalyanca Kursu | İtalyanca Özel Ders | Kampanyalı İtalyanca Kursları | Hızlandırılmış İtalyanca Eğitimi | Online İtalyanca Kursu | İtalyanca Eğitim Seviyeleri | İtalyanca Öğrenmek Zor Mu? | İtalyan Kültürü",
   ],
+  edits: {
+    // Fiyat sözü çıkarıldı (kullanıcı, 2026-10-02: "dil sayfalarında fiyat kelimelerini kaldır").
+    "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde İtalyan Kültür Merkezi ve Perucia Yabancılar Üniversitesi tarafından verilen CELI ile Siena Yabancılar Üniversitesi tarafından verilen İtalyanca CILS sınavlarına ücret karşılığında girebilir CELI ve CILS sertifikası elde edebilirler. İtalyanca CELI ve CILS sınavına yönelik eğitimler İtalyan öğretmenlerimiz tarafından birebir özel ders şeklinde verilmektedir.":
+      "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde İtalyan Kültür Merkezi ve Perucia Yabancılar Üniversitesi tarafından verilen CELI ile Siena Yabancılar Üniversitesi tarafından verilen İtalyanca CILS sınavlarına girebilir CELI ve CILS sertifikası elde edebilirler. İtalyanca CELI ve CILS sınavına yönelik eğitimler İtalyan öğretmenlerimiz tarafından birebir özel ders şeklinde verilmektedir.",
+  },
 };
 
 /* ---------------------------------------------------------------
@@ -165,6 +200,7 @@ const it: LanguageContentMap = {
  * ------------------------------------------------------------- */
 const es: LanguageContentMap = {
   heroLead: { heading: "İspanyolca Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  h1Edit: { from: "İspanyolca Kursu Eğitim Sistemi ve Ders Fiyatları", to: "İspanyolca Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
   about: { heading: "İspanyolca Eğitim Programı Hakkında Bilgi" },
   programSchedule: { heading: "Size Uygun İspanyolca Ders Programını Seçin" },
   certification: { heading: "İspanyolca Düzeyi Kur Sınav Sertifikaları ve Uluslararası Sınavlar" },
@@ -189,6 +225,11 @@ const es: LanguageContentMap = {
     ],
   },
   ignored: [],
+  edits: {
+    // Fiyat sözü çıkarıldı (kullanıcı, 2026-10-02: "dil sayfalarında fiyat kelimelerini kaldır").
+    "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde İspanyol Kültür Merkezi (Cervantes)’in düzenlediği uluslararası geçerliliğe sahip DELE sınavlarına ücret karşılığında girebilir ve DELE Sertifikası elde edebilirler. DELE sınavına yönelik eğitimler İspanyol öğretmenlerimiz tarafından birebir özel ders şeklinde verilmektedir.":
+      "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde İspanyol Kültür Merkezi (Cervantes)’in düzenlediği uluslararası geçerliliğe sahip DELE sınavlarına girebilir ve DELE Sertifikası elde edebilirler. DELE sınavına yönelik eğitimler İspanyol öğretmenlerimiz tarafından birebir özel ders şeklinde verilmektedir.",
+  },
 };
 
 /* ---------------------------------------------------------------
@@ -196,6 +237,7 @@ const es: LanguageContentMap = {
  * ------------------------------------------------------------- */
 const ru: LanguageContentMap = {
   heroLead: { heading: "Rusça Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  h1Edit: { from: "Rusça Kursu Eğitim Sistemi ve Ders Fiyatları", to: "Rusça Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
   about: { heading: "Rusça Eğitim Programı Hakkında Bilgi" },
   programSchedule: { heading: "Size Uygun Rusça Ders Programı Hangisi?" },
   certification: { heading: "Rusça Düzeyi Sertifikaları ve Uluslararası Sınavlar" },
@@ -220,6 +262,11 @@ const ru: LanguageContentMap = {
     ],
   },
   ignored: [],
+  edits: {
+    // Fiyat sözü çıkarıldı (kullanıcı, 2026-10-02: "dil sayfalarında fiyat kelimelerini kaldır").
+    "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde Okan Üniversitesi'nde düzenlenen uluslararası geçerliliğe sahip TORFL sınavlarına ücret karşılığında girebilir ve TORFL Sertifikası elde edebilirler. TORFL sınavına yönelik eğitimler Rus öğretmenlerimiz tarafından birebir özel ders şeklinde verilmektedir.":
+      "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde Okan Üniversitesi'nde düzenlenen uluslararası geçerliliğe sahip TORFL sınavlarına girebilir ve TORFL Sertifikası elde edebilirler. TORFL sınavına yönelik eğitimler Rus öğretmenlerimiz tarafından birebir özel ders şeklinde verilmektedir.",
+  },
 };
 
 /* ---------------------------------------------------------------
@@ -227,6 +274,7 @@ const ru: LanguageContentMap = {
  * ------------------------------------------------------------- */
 const zh: LanguageContentMap = {
   heroLead: { heading: "Çince Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  h1Edit: { from: "Çince Kursu Eğitim Sistemi ve Ders Fiyatları", to: "Çince Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
   about: { heading: "Çince Eğitim Programı Hakkında Bilgi" },
   programSchedule: { heading: "Size Uygun Çince Ders Programını Seçin" },
   certification: { heading: "Çince Düzeyi Sertifikaları ve Uluslararası Sınavlar" },
@@ -255,6 +303,9 @@ const zh: LanguageContentMap = {
   // → British Council "Languages for the Future" (2017): İngiltere'nin en çok ihtiyaç duyduğu 5 dilden biri
   // — https://www.britishcouncil.org/research-insight/languages-future-2017
   edits: {
+    // Fiyat sözü çıkarıldı (kullanıcı, 2026-10-02: "dil sayfalarında fiyat kelimelerini kaldır").
+    "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde Çin Kültür Merkezi’nin düzenlediği uluslararası geçerliliğe sahip sınavlara ücret karşılığında girebilir Çince seviyesini belirtir Sertifika elde edebilirler.":
+      "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde Çin Kültür Merkezi’nin düzenlediği uluslararası geçerliliğe sahip sınavlara girebilir Çince seviyesini belirtir Sertifika elde edebilirler.",
     "Dünya üzerinde en çok konuşulan dil Çince'dir. Dünya'da iki milyar insan Çince konuşmaktadır. Gelişmekte ve ekonomisiyle dünyanın süper gücü olma yolunda emin adımlarla ilerlemektedir. Özellikle Türkiye ile Çin Halk Cumhuriyeti arasındaki siyasi, ekonomik ve kültürel ilişkiler gün geçtikçe daha da gelişmektedir. Çin ile ilişkilerde daha verimli sonuçlar alınabilmesi için mutlaka Çince öğrenilmelidir.":
       "Ana dili olarak en çok konuşulan dil Mandarin Çincesidir; ikinci dil olarak konuşanlar da sayıldığında İngilizceden sonra ikinci sıradadır. Çin, ekonomisiyle dünyanın süper gücü olma yolunda emin adımlarla ilerlemektedir. Özellikle Türkiye ile Çin Halk Cumhuriyeti arasındaki siyasi, ekonomik ve kültürel ilişkiler gün geçtikçe daha da gelişmektedir. Çin ile ilişkilerde daha verimli sonuçlar alınabilmesi için mutlaka Çince öğrenilmelidir.",
     "İngiltere ve ABD'de, Çince en çok talep edilen yabancı dil olduğu bilinmektedir. Bu doğrultuda Türkiye'de de talep hızla artıyor. Yakın gelecekte daha da önemli hale gelecek olan Çince'yi öğrenmenin gençler için çok önemli bir yatırım olduğu birçok önemli iş adamları tarafından belirtiliyor.":
@@ -286,6 +337,7 @@ const nl: LanguageContentMap = {
  * ------------------------------------------------------------- */
 const tr: LanguageContentMap = {
   heroLead: { heading: "Türkçe Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  h1Edit: { from: "Türkçe Kursu Eğitim Sistemi ve Ders Fiyatları", to: "Türkçe Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
   about: { heading: "Türkçe Dil Eğitim Programı Hakkında Bilgi" },
   programSchedule: { heading: "Size Uygun Türkçe Ders Programını Seçin" },
   certification: { heading: "Türkçe Düzeyi Sertifikaları ve Uluslararası Sınavlar" },
@@ -311,6 +363,9 @@ const tr: LanguageContentMap = {
   ],
   // Kaynakta kopyala-yapıştır hatası: Türkçe sayfasında "Korece" (kullanıcı onayı, 2026-09-25).
   edits: {
+    // Fiyat sözü çıkarıldı (kullanıcı, 2026-10-02: "dil sayfalarında fiyat kelimelerini kaldır").
+    "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde uluslararası ve yerel geçerliliğe sahip sınavlara Türkçe Öğrenim Merkezi (TÖMER)'de ücret karşılığında girebilir, Türkçe seviyesini belirleyen Sertifika elde edebilirler.":
+      "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde uluslararası ve yerel geçerliliğe sahip sınavlara Türkçe Öğrenim Merkezi (TÖMER)'de girebilir, Türkçe seviyesini belirleyen Sertifika elde edebilirler.",
     "Yüz yüze Korece eğitimleri": "Yüz yüze Türkçe eğitimleri",
   },
 };
@@ -356,7 +411,6 @@ const speak: LanguageContentMap = {
  * `data/languageExtras.ts`, resmi kaynaklar orada yorumda.
  * ------------------------------------------------------------- */
 
-const H1_PRICE_REASON = "H1'deki \"Ders Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı kararı 2026-10-01)";
 
 const ja: LanguageContentMap = {
   source: "ddmcadde",

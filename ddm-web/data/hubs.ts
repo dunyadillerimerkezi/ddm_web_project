@@ -424,7 +424,7 @@ export const LANGUAGE_HUB_ADDED = {
       return { slug: l.slug, duration: `${facts.kurMonths} ay · ${facts.kurHours} saat`, group: "—", exams: "—" };
     }),
   ],
-  tableNote: "Uluslararası sınavlara kur bitiminde, sınavı düzenleyen kurumda ücret karşılığında girilir.",
+  tableNote: "Uluslararası sınavlara kur bitiminde, sınavı düzenleyen kurumda girilir.", // "ücret karşılığında" çıktı (kullanıcı, 2026-10-02)
   aboutParagraphs: [
     "Programlarımız Avrupa Ortak Dil Çerçevesi'nin (CEFR) A1–C2 seviyelerine göre kurlara ayrılır. Kursa ücretsiz seviye tespit sınavıyla başlar, her kurun sonunda yapılan kur bitirme sınavıyla bir sonraki seviyeye geçersiniz.",
     "Hafta içi sabah ve akşam, hafta sonu sabah ve öğleden sonra gruplarının yanı sıra birebir özel ders ve online eğitim seçenekleriyle programınızı kendi takviminize göre kurabilirsiniz.",
