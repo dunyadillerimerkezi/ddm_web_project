@@ -158,6 +158,33 @@
   line-height: var(--ddm-leading-body);
 }
 
+/* Sertifika kutusundaki sınav hazırlık bağlantıları (DELE → İspanyolca…) — ExamHero `.guide` ile aynı dil. */
+.certLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.certLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--ddm-touch-min);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-s);
+  color: var(--ddm-sky-ink);
+  text-decoration: none;
+}
+
+.certLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 @media (max-width: 899px) {
   .grid {
     grid-template-columns: minmax(0, 1fr);

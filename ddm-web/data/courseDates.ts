@@ -12,9 +12,10 @@
  * sapmasında build'i düşürür.
  */
 
+import { isHiddenPath } from "@/data/hiddenPages";
 import type { CourseDateEntry } from "@/lib/courseDateContent";
 
-export const COURSE_DATES: CourseDateEntry[] = [
+const ALL_COURSE_DATES: CourseDateEntry[] = [
   {
     "branch": "atasehir",
     "courseSlug": "yabancila-icin-turkce-kurs",
@@ -10055,6 +10056,9 @@ export const COURSE_DATES: CourseDateEntry[] = [
     ]
   }
 ];
+
+/** Yayındaki kayıtlar — gizli sınavların şube tarihleri (TOEIC) dosyada durur, burada süzülür (`data/hiddenPages.ts`). */
+export const COURSE_DATES: CourseDateEntry[] = ALL_COURSE_DATES.filter((e) => !isHiddenPath(`/${e.category}/${e.courseSlug}`));
 
 export function findCourseDateEntry(
   category: CourseDateEntry["category"],

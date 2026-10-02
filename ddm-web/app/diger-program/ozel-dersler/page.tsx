@@ -12,7 +12,8 @@ import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { PRIVATE_HUB, PRIVATE_HUB_ADDED } from "@/data/hubs";
 import { EXAMS } from "@/data/exams";
-import { LANGUAGES } from "@/data/languages";
+import { isHiddenPath } from "@/data/hiddenPages";
+import { LANGUAGE_PAGES } from "@/data/languages";
 import { getCategoryHubPage } from "@/lib/hubContent";
 import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
@@ -39,7 +40,7 @@ function parentCourse(href: string): { label: string; href: string } | null {
   const [, category, slug] = href.split("/");
   const parentHref = `/${category}/${slug}`;
   if (!linkIfProduced(parentHref)) return null;
-  const label = LANGUAGES.find((l) => l.slug === slug)?.label ?? EXAMS.find((e) => e.slug === slug)?.label;
+  const label = LANGUAGE_PAGES.find((l) => l.slug === slug)?.label ?? EXAMS.find((e) => e.slug === slug)?.label;
   return label ? { label, href: parentHref } : null;
 }
 
@@ -47,7 +48,8 @@ export default function OzelDerslerHubPage() {
   const page = getCategoryHubPage(PRIVATE_HUB);
   const added = PRIVATE_HUB_ADDED;
 
-  const items: (SplitItem & { lang: boolean })[] = page.sourceLinks.map((l) => ({
+  // Gizli sınavların özel dersleri (TOEIC; `data/hiddenPages.ts`) listede hiç görünmez.
+  const items: (SplitItem & { lang: boolean })[] = page.sourceLinks.filter((l) => !isHiddenPath(l.href)).map((l) => ({
     label: l.label,
     href: linkIfProduced(l.href),
     parent: parentCourse(l.href),

@@ -26,11 +26,14 @@ function AnswerSheet({
   code,
   glance,
   guide,
+  language,
 }: {
   code: string;
   glance: ExamGlance | null;
   guide: NavLink | null;
+  language: NavLink | null;
 }) {
+  const links = [guide, language].filter((l): l is NavLink => Boolean(l?.href));
   return (
     <aside className={styles.sheet} aria-label={`${code} bir bakışta`}>
       <div className={styles.sheetHead}>
@@ -66,19 +69,19 @@ function AnswerSheet({
         </dl>
       )}
 
-      {(glance || guide?.href) && (
+      {(glance || links.length > 0) && (
         <div className={styles.sheetFoot}>
           {glance && (
             <span className={styles.source}>
               Kaynak: {glance.source} · {glance.checked}
             </span>
           )}
-          {guide?.href && (
-            <Link href={guide.href} className={styles.guide}>
-              {guide.label}
+          {links.map((l) => (
+            <Link key={l.href} href={l.href!} className={styles.guide}>
+              {l.label}
               <UiIcon name="arrowRight" size={12} />
             </Link>
-          )}
+          ))}
         </div>
       )}
     </aside>
@@ -94,6 +97,7 @@ export function ExamHero({
   secondary,
   glance,
   guide,
+  language = null,
 }: {
   crumbs: Crumb[];
   /** Rozet ve kâğıt başlığı: "TOEFL iBT". */
@@ -105,6 +109,8 @@ export function ExamHero({
   glance: ExamGlance | null;
   /** Sınavın "Nedir?" rehberi varsa kâğıdın altından bağlantı. */
   guide: NavLink | null;
+  /** Sınavın dilinin kurs sayfası (DELE → İspanyolca Kursu) — aynı yerde ikinci bağlantı. */
+  language?: NavLink | null;
 }) {
   return (
     <section className={`${hero.section} ${styles.section}`}>
@@ -135,7 +141,7 @@ export function ExamHero({
           </div>
         </div>
 
-        <AnswerSheet code={code} glance={glance} guide={guide} />
+        <AnswerSheet code={code} glance={glance} guide={guide} language={language} />
       </div>
     </section>
   );

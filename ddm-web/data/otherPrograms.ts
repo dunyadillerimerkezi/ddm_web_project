@@ -15,7 +15,6 @@ import type { SinglePageDef } from "@/data/singlePages";
 
 const DP = "/diger-program";
 const KD = "/kurumsal-dil-egitim";
-const SH = "/sinav-hazirlik-egitimleri";
 const YD = "/yabanci-dil-egitimleri";
 const UPDATED = "2026-09-26";
 
@@ -136,13 +135,6 @@ const BUSINESS_ENGLISH: SinglePageDef = {
             ["Linguaskill Business", "Cambridge", "B1–C2 arası iş İngilizcesi; çevrim içi, modüler"],
           ],
           note: "Cambridge'in BEC sınavları (B1 / B2 / C1 Business) Çin dışında kaldırıldı; LCCI English for Business 2021 sonunda sona erdi.",
-        },
-        {
-          kind: "links",
-          items: [
-            { label: "TOEIC Kursu", href: `${SH}/toeic-kursu` },
-            { label: "TOEIC Nedir?", href: `${SH}/toeic-kursu/toeic-nedir` },
-          ],
         },
       ],
     },
@@ -314,7 +306,6 @@ const KIDS_ENGLISH: SinglePageDef = {
       links: [
         { label: "İngilizce Kursu", href: `${YD}/ingilizce-kursu` },
         { label: "İlköğretim İngilizcesi", href: "/ingilizce-kurslari/ilkogretim-ingilizce-kursu" },
-        { label: "TOEFL Primary Eğitimi", href: `${SH}/cocuklar-icin-toefl-primary-egitimi` },
         { label: "Yaz Okulları (12–17 yaş)", href: "/yurtdisi-egitim/yaz-okullari" },
       ],
     },

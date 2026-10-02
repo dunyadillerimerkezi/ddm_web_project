@@ -761,7 +761,6 @@ const INGILIZCE_SISTEM: SinglePageDef = {
           items: [
             { label: "TOEFL Nedir?", href: `${SH}/toefl-kursu/toefl-nedir` },
             { label: "IELTS Nedir?", href: `${SH}/ielts-kursu/ielts-nedir` },
-            { label: "TOEIC Nedir?", href: `${SH}/toeic-kursu/toeic-nedir` },
             { label: "YDS Nedir?", href: `${SH}/yds-kursu/yds-nedir` },
             { label: "Proficiency Nedir?", href: `${SH}/proficiency-kursu/proficiency-nedir` },
           ],

@@ -1,5 +1,6 @@
 import { PageSection } from "@/components/sections/PageSection";
-import { Icon } from "@/components/graphics/Icon";
+import Link from "next/link";
+import { Icon, UiIcon } from "@/components/graphics/Icon";
 import type { IconName } from "@/components/graphics/icons";
 import type { CertBox } from "@/components/sections/AboutCertification";
 import styles from "@/styles/AboutBento.module.css";
@@ -110,6 +111,18 @@ export function AboutBento({
             </span>
             <h3 className={styles.certTitle}>{box.title}</h3>
             <p className={styles.certBody}>{box.body}</p>
+            {box.links && box.links.length > 0 && (
+              <ul className={styles.certLinks}>
+                {box.links.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className={styles.certLink}>
+                      {l.label}
+                      <UiIcon name="arrowRight" size={12} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ))}
       </div>

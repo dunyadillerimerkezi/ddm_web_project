@@ -430,6 +430,11 @@ export const ILLUSTRATIONS = {
 
 export type IllustrationName = keyof typeof ILLUSTRATIONS;
 
+/** Motifi olmayan anahtar (2026-10-01'de eklenen ja / ko / el / bg / sv) genel "dört beceri" motifine düşer. */
+export function illustrationFor(key: string): IllustrationName {
+  return key in ILLUSTRATIONS ? (key as IllustrationName) : "dort-beceri";
+}
+
 export function Illustration({
   name,
   maxWidth = 340,

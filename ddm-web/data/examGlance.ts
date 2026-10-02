@@ -26,6 +26,84 @@ const CHECKED = "Eylül 2026";
 
 /** Anahtar: `data/exams.ts` slug'ı. */
 export const EXAM_GLANCE: Record<string, ExamGlance> = {
+  // France Éducation international — DELF A1–B2 + DALF C1–C2, 4 beceri, geçme 50/100. 2026-10-01.
+  "delf-dalf-kursu": {
+    issuer: "France Éducation international",
+    source: "france-education-international.fr",
+    checked: "Ekim 2026",
+    facts: [
+      { value: "6", label: "seviye · A1–C2" },
+      { value: "4", label: "beceri" },
+      { value: "50", label: "geçme puanı / 100" },
+    ],
+  },
+  // Siena (CILS) + Perugia (CELI) — 6 seviye, CILS 5 beceri, üniversite için B2. 2026-10-01.
+  "cils-celi-kursu": {
+    issuer: "Siena · Perugia",
+    source: "unistrasi.it · unistrapg.it",
+    checked: "Ekim 2026",
+    facts: [
+      { value: "6", label: "seviye · A1–C2" },
+      { value: "5", label: "beceri · CILS" },
+      { value: "B2", label: "üniversite için" },
+    ],
+  },
+  // osd.at — ÖSD Zertifikat A1–C2; Zertifikat B1 dört modül, her modül en az %60 (ZB1 Durchführungsbestimmungen 10/2023). 2026-10-02.
+  "osd-kursu": {
+    issuer: "ÖSD · Viyana",
+    source: "osd.at",
+    checked: "Ekim 2026",
+    facts: [
+      { value: "6", label: "seviye · A1–C2" },
+      { value: "4", label: "modül · B1" },
+      { value: "60", label: "% geçme notu" },
+    ],
+  },
+  // telc.net — telc Deutsch B1: yazılı 150 dk, sözlü ~15 dk, geçme %60 (yazılı + sözlü ayrı). 2026-10-01.
+  "telc-kursu": {
+    issuer: "telc gGmbH",
+    source: "telc.net",
+    checked: "Ekim 2026",
+    facts: [
+      { value: "150", label: "dk yazılı · B1" },
+      { value: "~15", label: "dk sözlü · B1" },
+      { value: "60", label: "% geçme notu" },
+    ],
+  },
+  // ÖSYM 2026 e-TEP Kılavuzu — 4 bölüm, 2 oturum, 120 puan. 2026-10-01.
+  "e-tep-kursu": {
+    issuer: "ÖSYM",
+    source: "osym.gov.tr",
+    checked: "Ekim 2026",
+    facts: [
+      { value: "4", label: "bölüm" },
+      { value: "2", label: "oturum" },
+      { value: "120", label: "toplam puan" },
+    ],
+  },
+  // OET Test Handbook 2026 — 4 bölüm, 12 meslek, 0–500. 2026-10-01.
+  "oet-kursu": {
+    issuer: "CBLA",
+    source: "oet.com",
+    checked: "Ekim 2026",
+    facts: [
+      { value: "4", label: "bölüm" },
+      { value: "12", label: "sağlık mesleği" },
+      { value: "500", label: "en yüksek puan" },
+    ],
+  },
+  // Instituto Cervantes — examenes.cervantes.es/es/dele/que-es (A1–C2 altı seviye, dört beceri); geçme: B2 sınav
+  // rehberi, 100 üzerinden 60 (+ her grupta 30). Kâğıt hücresi kısa sayı ister ("A1–C2" / "Süresiz" kırılıyordu). 2026-10-01.
+  "dele-kursu": {
+    issuer: "Instituto Cervantes",
+    source: "examenes.cervantes.es",
+    checked: "Ekim 2026",
+    facts: [
+      { value: "6", label: "seviye · A1–C2" },
+      { value: "4", label: "beceri" },
+      { value: "60", label: "geçme puanı / 100" },
+    ],
+  },
   // ETS — examGuides TOEFL (Ocak 2026 formatı: 4 bölüm, ~2 saat, 1–6 bant).
   "toefl-kursu": {
     issuer: "ETS",

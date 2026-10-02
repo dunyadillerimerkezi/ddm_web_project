@@ -13,6 +13,7 @@ import { EXAM_GUIDES } from "@/data/examGuides";
 import { getExamGlance } from "@/data/examGlance";
 import { examHref, getExamPage, type ExamDef } from "@/lib/examContent";
 import { absoluteUrl } from "@/lib/site";
+import { checkMeta } from "@/lib/richContent";
 import type { Crumb, NavLink } from "@/lib/types";
 import styles from "@/styles/ExamRows.module.css";
 
@@ -32,9 +33,11 @@ import styles from "@/styles/ExamRows.module.css";
 
 export function examMetadata(def: ExamDef): Metadata {
   const page = getExamPage(def);
+  // ddmcadde kaynaklı sınavlarda yeniden yazılan başlık / açıklama (gerekçe `data/exams.ts` `meta.reasons`).
+  if (def.meta) checkMeta(def.meta.title, def.meta.description, `exam/${def.slug}`);
   return {
-    title: page.record.title,
-    description: page.record.meta_description,
+    title: def.meta?.title ?? page.record.title,
+    description: def.meta?.description ?? page.record.meta_description,
     alternates: { canonical: absoluteUrl(examHref(def.slug)) },
   };
 }
@@ -69,6 +72,7 @@ export function ExamCoursePage({ def }: { def: ExamDef }) {
         secondary={hasDates ? { label: "Kurs tarihleri", href: "#kurs-tarihleri" } : undefined}
         glance={getExamGlance(def.slug)}
         guide={guide}
+        language={def.language ?? null}
       />
 
       <Reveal className={styles.body}>

@@ -145,10 +145,10 @@ function cefrFaq(def: LanguageDef): Faq {
 }
 
 /**
- * Sıra: kimler katılabilir (kaynak) → kur süresi → sertifika → gün/saat → CEFR.
+ * Sıra: kimler katılabilir (kaynak) → kur süresi → sertifika → gün/saat → dile özgü genel sorular → CEFR.
  * "Neden … Öğrenmelisiniz?" UI turunda SSS'den çıkıp kendi bölümüne taşındı.
  */
-export function buildLanguageFaqs(def: LanguageDef, page: LanguagePage, slots: ScheduleSlot[]): Faq[] {
+export function buildLanguageFaqs(def: LanguageDef, page: LanguagePage, slots: ScheduleSlot[], added: Faq[] = []): Faq[] {
   const facts = courseFacts(def, page);
   const faqs: (Faq | null)[] = [
     def.content.whoCanJoin && page.whoCanJoin
@@ -157,6 +157,8 @@ export function buildLanguageFaqs(def: LanguageDef, page: LanguagePage, slots: S
     durationFaq(def, facts),
     certificateFaq(def, page),
     scheduleFaq(slots),
+    // Dile özgü genel bilgi (yazı sistemi, sınav…) — `data/languageExtras.ts` `faqAdded`, kaynaklar orada.
+    ...added,
     cefrFaq(def),
   ];
   return faqs.filter((f): f is Faq => f !== null);

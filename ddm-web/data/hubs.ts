@@ -18,8 +18,11 @@
  */
 
 import { BRANCH_LIST } from "@/data/branches";
+import { isHiddenExam } from "@/data/hiddenPages";
 import { LANGUAGE_SECTION } from "@/data/home";
-import { OTHER_LANGUAGE_NAMES as OTHER_LANGUAGES } from "@/data/languages";
+import { EXTRA_LANGUAGES, OTHER_LANGUAGE_NAMES as OTHER_LANGUAGES } from "@/data/languages";
+import { getLanguagePage } from "@/lib/languageContent";
+import { courseFacts } from "@/lib/languageFaq";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 import { joinTr } from "@/lib/listText";
 import type { SectionRef } from "@/lib/types";
@@ -116,8 +119,9 @@ export const EXAM_HUB: HubDef = {
   },
   edits: {
     // Tüketici hukuku riski (kullanıcı kararı: yumuşat) — "başarıyı garanti ediyoruz" çıktı.
+    // 2026-10-02: TOEIC yayından kalktı (`data/hiddenPages.ts`) — listeden çıktı.
     "Dünya Dilleri Merkezi olarak uluslararası ve yerel yabancı dil sınavlarına yönelik, akademik başarısı tescilli, konusunda uzmanlaşmış öğretmen kadromuz ile TOEFL, IELTS, TOEIC, GRE, GMAT, SAT, YDS, DELE, DELF, TESTDAF, CELI, CILS ve Aile Birleşimi sınavlarına yönelik eğitimlerimizle sizlere başarıyı garanti ediyoruz.":
-      "Dünya Dilleri Merkezi olarak uluslararası ve yerel yabancı dil sınavlarına yönelik, akademik başarısı tescilli, konusunda uzmanlaşmış öğretmen kadromuzla TOEFL, IELTS, TOEIC, GRE, GMAT, SAT, YDS, DELE, DELF, TESTDAF, CELI, CILS ve Aile Birleşimi sınavlarına yönelik eğitimler veriyoruz. Her programı sınavın bölümlerine, soru tiplerine ve hedeflediğiniz puana göre planlıyoruz.",
+      "Dünya Dilleri Merkezi olarak uluslararası ve yerel yabancı dil sınavlarına yönelik, akademik başarısı tescilli, konusunda uzmanlaşmış öğretmen kadromuzla TOEFL, IELTS, GRE, GMAT, SAT, YDS, DELE, DELF, TESTDAF, CELI, CILS ve Aile Birleşimi sınavlarına yönelik eğitimler veriyoruz. Her programı sınavın bölümlerine, soru tiplerine ve hedeflediğiniz puana göre planlıyoruz.",
     // İstanbul Şehir Üniversitesi 2020'de kapatıldı — listeden çıkarıldı.
     "Özyeğin Üniversitesi TRACE Sınavı, KOÇ Üniversitesi KUEPE Sınavı, Sabancı Üniversitesi ELAE Sınavı, Boğaziçi Üniversitesi BUEPT Sınavı, Bilgi Üniversitesi BILET Sınavı, İstanbul Şehir Üniversitesi STEP ve DBS Sınavı, Doğuş Üniversitesi DÜYES Sınavı, Yeditepe Üniversitesi Proficiency Sınavı kurslarımıza başvuru yapabilirsiniz.":
       "Özyeğin Üniversitesi TRACE Sınavı, Koç Üniversitesi KUEPE Sınavı, Sabancı Üniversitesi ELAE Sınavı, Boğaziçi Üniversitesi BUEPT Sınavı, Bilgi Üniversitesi BILET Sınavı, Doğuş Üniversitesi DÜYES Sınavı ve Yeditepe Üniversitesi Proficiency Sınavı kurslarımıza başvuru yapabilirsiniz.",
@@ -160,13 +164,13 @@ export const EXAM_HUB_ADDED = {
     "Sınav hazırlık kursu; TOEFL, IELTS, YDS gibi dil yeterlik sınavlarında hedef puana ulaşmanız için sınavın formatına, soru tiplerine ve zaman yönetimine odaklanan programdır.",
   guideTitle: "Amacınıza göre sınav seçin",
   guideLead:
-    "Hangi sınava gireceğinizi, belgeyi nerede kullanacağınız belirler. Aşağıda 16 sınav hazırlık programımızı kullanım amacına göre grupladık.",
+    "Hangi sınava gireceğinizi, belgeyi nerede kullanacağınız belirler. Aşağıda sınav hazırlık programlarımızı kullanım amacına göre grupladık.",
   groups: [
     {
       key: "yurtdisi",
       label: "Yurtdışında eğitim",
       intro:
-        "Yurtdışında lisans ya da dil okulu başvurusu için çoğu kurum TOEFL, IELTS veya PTE puanı ister; ABD'deki lisans programları buna ek olarak SAT sonucuna bakar. Almanya'da eğitim için TestDaF belgesi tüm üniversitelerde geçerlidir.",
+        "Yurtdışında lisans ya da dil okulu başvurusu için çoğu kurum TOEFL, IELTS veya PTE puanı ister; ABD'deki lisans programları buna ek olarak SAT sonucuna bakar. Almanya'da eğitim için TestDaF belgesi tüm üniversitelerde geçerlidir. İspanya, Fransa ve İtalya'da okumak için ülkenin dilinde resmî bir diploma istenir: DELE, DELF / DALF ya da CILS / CELI. Avusturya için ÖSD belgesi kullanılır.",
     },
     {
       key: "hazirlik",
@@ -184,18 +188,18 @@ export const EXAM_HUB_ADDED = {
       key: "kamu",
       label: "Kamu ve akademik kariyer",
       intro:
-        "Kamu kurumlarında, akademik atama ve yükseltmelerde ÖSYM'nin YDS'si ile YÖKDİL kullanılır.",
+        "Kamu kurumlarında, akademik atama ve yükseltmelerde ÖSYM'nin YDS, YÖKDİL ve e-TEP sınavları kullanılır.",
     },
     {
       key: "is",
-      label: "İş hayatı",
-      intro: "Şirketler iş başvurularında ve çalışanlarının seviyesini belirlemek için iş İngilizcesini ölçen sınavlara başvurur.",
+      label: "Meslek ve iş hayatı",
+      intro: "Bazı meslekleri yurtdışında yapmak için mesleğe özgü bir dil belgesi istenir; sağlık çalışanları için bu sınav OET'dir.",
     },
     {
       key: "vize",
       label: "Vize ve aile birleşimi",
       intro:
-        "Almanya, Fransa ve İngiltere'ye aile birleşimi vizesiyle gitmek için başlangıç (A1) düzeyinde dil bildiğinizi resmi bir sınavla belgelemeniz gerekir.",
+        "Almanya'ya aile birleşimi vizesiyle gitmek için başlangıç (A1) düzeyinde Almanca bildiğinizi resmî bir sınavla belgelemeniz gerekir.",
     },
     {
       key: "cocuk",
@@ -220,21 +224,29 @@ export const EXAM_HUB_ADDED = {
     { slug: "toefl-essentials-kursu", goals: ["yurtdisi", "is"], use: "Yarısı akademik, yarısı günlük hayatta kullanılan İngilizce üzerine kurulu, daha kısa bir TOEFL sınavı.", measures: "Akademik ve günlük İngilizce", validity: "—", online: true, logo: null },
     { slug: "sat-kursu", goals: ["yurtdisi"], use: "ABD başta olmak üzere yurtdışındaki lisans programlarına başvuru.", measures: "Okuma-yazma ve matematik", validity: "Kuruma göre", online: false, logo: "/assets/home_page_images/SAT_logo.png" },
     { slug: "testdaf-kursu", goals: ["yurtdisi"], use: "Almanya'daki tüm üniversitelerde geçerli sayılan Almanca yeterlik belgesi.", measures: "Akademik Almanca, dört beceri", validity: "Süresiz", online: true, logo: null },
+    // 2026-10-02: ddmcadde kaynaklı sınavlar — kullanım / geçerlilik sınav sayfalarının resmi kaynaklı metninden (`data/exams.ts` yorumları).
+    { slug: "telc-kursu", goals: ["yurtdisi", "is"], use: "Almanca seviyesini A1'den C2'ye belgeler; üniversiteye giriş (C1 Hochschule), iş hayatı ve sağlık meslekleri için ayrı sürümleri vardır.", measures: "Genel ve mesleki Almanca", validity: "Süre yazmaz", online: false, logo: null },
+    { slug: "osd-kursu", goals: ["yurtdisi", "vize"], use: "Avusturya'nın devlet onaylı Almanca sınavı; Avusturya'da üniversite başvurusu, oturum öncesi A1 belgesi ve Almanya'da eş birleşiminde kullanılır.", measures: "Genel ve mesleki Almanca", validity: "Süresiz", online: true, logo: null },
+    { slug: "delf-dalf-kursu", goals: ["yurtdisi"], use: "Fransa Milli Eğitim Bakanlığı'nın resmî Fransızca diplomaları; DELF B2 ve DALF C1 Fransızca eğitim veren üniversitelere başvuruda kullanılır.", measures: "Dört beceride Fransızca", validity: "Süresiz", online: false, logo: null },
+    { slug: "dele-kursu", goals: ["yurtdisi"], use: "Instituto Cervantes'in verdiği resmî İspanyolca diploması; İspanya'da üniversite ve yüksek lisans başvurularında kullanılır.", measures: "Dört beceride İspanyolca", validity: "Süresiz", online: false, logo: null },
+    { slug: "cils-celi-kursu", goals: ["yurtdisi"], use: "Siena ve Perugia Yabancılar Üniversitelerinin resmî İtalyanca sertifikaları; İtalya'da üniversiteye kayıtta B2 seviyesi kabul edilir.", measures: "Dört beceride İtalyanca", validity: "Süresiz", online: false, logo: null },
     { slug: "proficiency-kursu", goals: ["hazirlik"], use: "Üniversitelerin İngilizce hazırlık atlama, hazırlık bitirme ve yüksek lisans kabul sınavları.", measures: "Üniversitenin kendi sınavı", validity: "Üniversiteye göre", online: false, logo: null },
     { slug: "gre-kursu", goals: ["lisansustu"], use: "Yüksek lisans, doktora ve MBA başvurularında kabul heyetlerinin kullandığı sınav.", measures: "Sözel, sayısal, analitik yazma", validity: "5 yıl", online: false, logo: null },
     { slug: "gmat-kursu", goals: ["lisansustu"], use: "MBA, finans ve muhasebe yüksek lisansı gibi işletme programlarına kabul.", measures: "Nicel, sözel, veri analizi", validity: "5 yıl", online: false, logo: "/assets/home_page_images/GMAT_logo.png" },
     { slug: "yds-kursu", goals: ["kamu", "lisansustu"], use: "Kamu kurumları, üniversiteler ve özel sektörde geçerli ÖSYM sınavı; araştırma görevlisi atamaları.", measures: "Okuma, kelime, dil bilgisi", validity: "5 yıl*", online: false, logo: null },
     { slug: "yokdil-sinavi-kursu", goals: ["kamu", "lisansustu"], use: "Akademik personel ve lisansüstü öğrencilere yönelik; fen, sağlık ve sosyal alanlarda ayrı sınav.", measures: "Alan odaklı okuma", validity: "5 yıl*", online: true, logo: null },
+    { slug: "e-tep-kursu", goals: ["kamu", "lisansustu"], use: "ÖSYM'nin dört beceriyi bilgisayarda ölçen İngilizce sınavı; akademik atama, doçentlik ve lisansüstü başvurularında YDS karşılığıyla kullanılır.", measures: "Dört beceride İngilizce", validity: "2 yıl*", online: false, logo: null },
     { slug: "toeic-kursu", goals: ["is"], use: "İş hayatında İngilizce; firmalar iş başvurularında ve personel seviye tespitinde kullanır.", measures: "İş İngilizcesi", validity: "2 yıl", online: false, logo: "/assets/home_page_images/toeic-logo.png" },
+    { slug: "oet-kursu", goals: ["is", "yurtdisi"], use: "Doktor, hemşire, eczacı gibi sağlık çalışanlarının İngiltere, Avustralya, Yeni Zelanda ve İrlanda'da mesleki kayıt başvuruları.", measures: "Sağlık alanında İngilizce", validity: "—", online: false, logo: null },
     { slug: "ingiltere-vize-sinavi-ingilizce-a1kursu", goals: ["vize"], use: "İngiltere aile birleşimi vizesi için istenen A1 düzeyi İngilizce belgesi.", measures: "Konuşma ve dinleme, A1", validity: "—", online: false, logo: null },
     { slug: "aile-birlesimi-egitimi", goals: ["vize"], use: "Almanya'ya aile birleşimi vizesi için istenen A1 düzeyi Almanca belgesi.", measures: "Temel Almanca, A1", validity: "—", online: false, logo: null },
     { slug: "fransizca-aile-birlesimi-kursu", goals: ["vize"], use: "Fransa'ya aile birleşimi başvurusunda Fransızca ve Cumhuriyet değerleri değerlendirmesi.", measures: "Temel Fransızca, A1", validity: "—", online: false, logo: null },
     { slug: "cocuklar-icin-toefl-primary-egitimi", goals: ["cocuk"], use: "İlkokul öğrencileri için tasarlanmış, uluslararası geçerli İngilizce test sistemi.", measures: "Çocuklar için İngilizce", validity: "—", online: true, logo: null },
-  ] as ExamCatalogEntry[],
+  ].filter((c) => !isHiddenExam(c.slug)) as ExamCatalogEntry[], // gizli sınavlar `data/hiddenPages.ts`
   /** Kaynak listesindeki üniversiteler (Şehir hariç) → mevcut sayfa slug'ı. */
   universities: ["ozyegin-universitesi", "koc-universitesi", "sabanci-universitesi", "bogazici-universitesi", "bilgi-universitesi", "dogus-universitesi", "yeditepe-universitesi"],
   tableTitle: "Hangi sınava girmelisiniz?",
-  tableLead: "16 sınavı kullanım amacı, ölçtüğü beceri ve sonuç belgesinin geçerlilik süresine göre karşılaştırın. Bir sınav birden çok amaç için kullanılabilir.",
+  tableLead: "Sınavları kullanım amacı, ölçtüğü beceri ve sonuç belgesinin geçerlilik süresine göre karşılaştırın. Bir sınav birden çok amaç için kullanılabilir.",
   tableNote:
     "Geçerlilik süresi sınavı düzenleyen kurumun kuralıdır; başvuracağınız kurum daha kısa ya da uzun bir süre kabul edebilir. * ÖSYM sınavlarında süreyi kullanılan kurum belirler.",
   /** SSS — cevaplar sınav sayfalarının kaynak metninden (6 kişi, ücretsiz materyal, online program). */
@@ -264,7 +276,7 @@ export const EXAM_HUB_ADDED = {
     {
       question: "Sınav sonucum ne kadar süre geçerli?",
       answer: [
-        "TOEFL iBT, IELTS, PTE ve TOEIC sonuçları genellikle 2 yıl, GRE ve GMAT 5 yıl, YDS ve YÖKDİL 5 yıl geçerlidir; TestDaF belgesinin süre sınırı yoktur. Başvuracağınız kurum farklı bir süre isteyebilir, bu yüzden son kararı kurumun ilanına göre verin.",
+        "TOEFL iBT, IELTS ve PTE sonuçları genellikle 2 yıl, GRE ve GMAT 5 yıl, YDS ve YÖKDİL 5 yıl geçerlidir; TestDaF belgesinin süre sınırı yoktur. Başvuracağınız kurum farklı bir süre isteyebilir, bu yüzden son kararı kurumun ilanına göre verin.",
       ],
     },
     {
@@ -338,6 +350,7 @@ const LANGUAGE_CARD_BOILERPLATE: { line: string; reason: string }[] = [
   ),
 ];
 
+const YD_PATH = "/yabanci-dil-egitimleri";
 const H19 = "19 dilde eğitim, 2003’ten bugüne Dünya Dilleri Merkezi farkıyla yabancı dil eğitimleri";
 
 /* ---------------------------------------------------------------
@@ -381,7 +394,9 @@ export const LANGUAGE_HUB_ADDED = {
   gridLead:
     "Şubelerimizde düzenli program açtığımız 10 dil kursu. Her kartta seviyeler, gün ve saatler, kur sınavları ve sertifikalar için ilgili bölüme doğrudan gidebilirsiniz.",
   otherLanguages: OTHER_LANGUAGES,
-  otherText: `${joinTr(OTHER_LANGUAGES)} eğitimlerimizin program ve ders saatlerini şubelerimizden öğrenebilirsiniz.`,
+  // 2026-10-01: sayfası açılan 5 dil (ddmcadde kaynaklı) bağlantılı, kalanlar şubeden.
+  extraLanguages: EXTRA_LANGUAGES.map((l) => ({ label: l.label, href: `${YD_PATH}/${l.slug}` })),
+  otherText: `${joinTr(EXTRA_LANGUAGES.map((l) => l.name))} kurslarımızın ayrıntıları kendi sayfalarında; ${joinTr(OTHER_LANGUAGES)} eğitimlerimizin program ve ders saatlerini şubelerimizden öğrenebilirsiniz.`,
   tableTitle: "Dil kurslarımız bir bakışta",
   tableLead:
     "Kur süresi, sınıf büyüklüğü ve kur sonunda girebileceğiniz uluslararası sınavlar — her dilin kendi kurs sayfasındaki bilgilerden derlendi.",
@@ -401,6 +416,13 @@ export const LANGUAGE_HUB_ADDED = {
     { slug: "cince-kursu", duration: "2,5 ay · 60 saat", group: "8 kişi", exams: "Çin Kültür Merkezi sınavları" },
     { slug: "flemenkce-kursu", duration: "2,5 ay · 60 saat", group: "—", exams: "—" },
     { slug: "yabancila-icin-turkce-kurs", duration: "Kurlara bölünmeden", group: "6 kişi ya da birebir", exams: "TÖMER sınavları" },
+    // 2026-10-01 — süre dilin kendi kaynağından (`data/ddmcadde_content.json`, `courseFacts`: "1 kur 2,5 ay olup 60
+    // saat"); grup büyüklüğü ve kur sonu uluslararası sınav kaynakta yazmıyor → "—" (dilin sınavı sayfasında genel bilgi).
+    ...EXTRA_LANGUAGES.map((l) => {
+      const facts = courseFacts(l, getLanguagePage(l));
+      if (!facts.kurMonths || !facts.kurHours) throw new Error(`[hubs] ${l.slug}: kaynakta kur süresi / saati yok.`);
+      return { slug: l.slug, duration: `${facts.kurMonths} ay · ${facts.kurHours} saat`, group: "—", exams: "—" };
+    }),
   ],
   tableNote: "Uluslararası sınavlara kur bitiminde, sınavı düzenleyen kurumda ücret karşılığında girilir.",
   aboutParagraphs: [
@@ -773,7 +795,6 @@ export const ENGLISH_HUB_ADDED = {
       label: "İngilizce Konuşma Kursu sayfası",
       href: "/yabanci-dil-egitimleri/ingilizce-konusma-kursu",
     },
-    "→ İlköğretim İngilizcesi": { label: "TOEFL Primary eğitimi", href: "/sinav-hazirlik-egitimleri/cocuklar-icin-toefl-primary-egitimi" },
   } as Record<string, { label: string; href: string }>,
   faq: [
     {
@@ -1027,6 +1048,9 @@ export const CORPORATE_HUB: HubDef = {
     "Her öğrencinin yabancı dil öğrenimindeki kişisel amacına ve takvim":
       "Her öğrencinin yabancı dil öğrenimindeki kişisel amacına ve takvim uygunluğuna önem vererek tasarlanmış Kişiye Özel Çalışma Planı",
     "Uygunluğuna önem vererek tasarlanmış Kişiye Özel Çalışma Planı": "",
+    // 2026-10-02: TOEIC yayından kalktı (`data/hiddenPages.ts`).
+    "Birebir gerçeğine yakın olarak hazırlanmış ve stratejik ipuçlarıyla birlikte sunulan TOEFL, IELTS, TOEIC, SAT, GRE, GMAT, PTE ve YDS testleri.":
+      "Birebir gerçeğine yakın olarak hazırlanmış ve stratejik ipuçlarıyla birlikte sunulan TOEFL, IELTS, SAT, GRE, GMAT, PTE ve YDS testleri.",
     "Öğrencilerin yabancı dilde Yazma, Konuşma, Okuma ve Dinleme gibi becerilerini çok sayıda alıştırma yaparak geliştirebilecekleri beceri geliştirme merkezi .":
       "Öğrencilerin yabancı dilde yazma, konuşma, okuma ve dinleme becerilerini çok sayıda alıştırma yaparak geliştirebilecekleri beceri geliştirme merkezi.",
     // "Türkiye'nin En Çok Tercih Edilen Dil Okuluyuz" doğrulanamayan üstünlük iddiası.
@@ -1064,7 +1088,7 @@ export const CORPORATE_HUB_ADDED = {
     { title: "Business English", href: "/diger-program/business-english", text: "İş İngilizcesinin sözcüklerine, dil yapısına ve şirketler arası yazışmalara odaklanan program." },
     { title: "Exclusive For Pegasus Pilots", href: "/kurumsal-dil-egitim/turkish-course-pegasus-pilots", text: "Pegasus pilotlarına özel Türkçe kursu." },
     { title: "Özel Dersler", href: "/diger-program/ozel-dersler", text: "Yöneticiler ve çalışanlar için, tercihe göre iş yerinde verilen birebir dersler." },
-    { title: "Sınav Hazırlık Kursları", href: "/sinav-hazirlik-egitimleri", text: "TOEFL, IELTS, TOEIC, GRE, GMAT, PTE ve YDS sınavlarına hazırlık." },
+    { title: "Sınav Hazırlık Kursları", href: "/sinav-hazirlik-egitimleri", text: "TOEFL, IELTS, GRE, GMAT, PTE ve YDS sınavlarına hazırlık." },
   ],
   faq: [
     {
@@ -1092,7 +1116,7 @@ export const CORPORATE_HUB_ADDED = {
     {
       question: "Sınav hazırlığı da kurumsal programa dahil edilebilir mi?",
       answer: [
-        "Evet. TOEFL, IELTS, TOEIC, SAT, GRE, GMAT, PTE ve YDS için gerçeğine yakın hazırlanmış deneme testleri ve strateji çalışmaları programa eklenebilir.",
+        "Evet. TOEFL, IELTS, SAT, GRE, GMAT, PTE ve YDS için gerçeğine yakın hazırlanmış deneme testleri ve strateji çalışmaları programa eklenebilir.",
       ],
     },
   ],

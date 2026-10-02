@@ -5,12 +5,14 @@ import type { ReactNode } from "react";
  *
  * Kaynak: `DDM Ana Sayfa.dc.html` bölüm 5 (dil kartları) ve dil küresindeki
  * inline SVG'ler. Geometriler birebir taşındı, yalnız `<Icon>` ailesiyle
- * tutarlı olsun diye tek bileşene toplandı.
+ * tutarlı olsun diye tek bileşene toplandı. jp / kr / gr / bg / se (2026-10-01) tasarım kaynağında yoktu —
+ * resmi oranlardan 60×40'a sadeleştirildi.
+ * Beyaz zeminli bayraklara (jp, kr) beyaz kartta kaybolmasınlar diye ince kenar çizgisi eklendi.
  *
  * 60×40 viewBox, fill tabanlı (bayrak — stroke ailesine girmiyor), dekoratif
  * → her zaman `aria-hidden`. Anlamı yanındaki kod rozeti/metin taşıyor.
  */
-export const FLAG_CODES = ["gb", "de", "fr", "ru", "es", "it", "cn", "tr", "nl"] as const;
+export const FLAG_CODES = ["gb", "de", "fr", "ru", "es", "it", "cn", "tr", "nl", "jp", "kr", "gr", "bg", "se"] as const;
 
 export type FlagCode = (typeof FLAG_CODES)[number];
 
@@ -103,6 +105,68 @@ const FLAG_PATHS: Record<FlagCode, ReactNode> = {
       <rect width="60" height="13.34" fill="#AE1C28" />
       <rect y="13.34" width="60" height="13.33" fill="#FFFFFF" />
       <rect y="26.67" width="60" height="13.33" fill="#21468B" />
+    </>
+  ),
+  jp: (
+    <>
+      <rect x="0.5" y="0.5" width="59" height="39" fill="#FFFFFF" stroke="#D5DAE3" />
+      <circle cx="30" cy="20" r="12" fill="#BC002D" />
+    </>
+  ),
+  kr: (
+    <>
+      <rect x="0.5" y="0.5" width="59" height="39" fill="#FFFFFF" stroke="#D5DAE3" />
+      <g transform="rotate(33.69 30 20)">
+        <circle cx="30" cy="20" r="10" fill="#CD2E3A" />
+        <path d="M20 20a10 10 0 0 0 20 0a5 5 0 0 0-10 0a5 5 0 0 1-10 0z" fill="#0047A0" />
+      </g>
+      {/* Köşelerde dört trigram: sol üst ☰, sağ alt ☷, sağ üst ☵, sol alt ☲ (true = düz çizgi, false = kesik). */}
+      {(
+        [
+          [15.9, 10.6, -56.31, [true, true, true]],
+          [44.1, 29.4, -56.31, [false, false, false]],
+          [44.1, 10.6, 56.31, [false, true, false]],
+          [15.9, 29.4, 56.31, [true, false, true]],
+        ] as [number, number, number, boolean[]][]
+      ).map(([x, y, a, bars]) => (
+        <g key={`${x}-${y}`} transform={`translate(${x} ${y}) rotate(${a})`} fill="#000">
+          {bars.map((solid, i) =>
+            solid ? (
+              <rect key={i} x="-5" y={-3.4 + i * 2.6} width="10" height="1.6" />
+            ) : (
+              <g key={i}>
+                <rect x="-5" y={-3.4 + i * 2.6} width="4.4" height="1.6" />
+                <rect x="0.6" y={-3.4 + i * 2.6} width="4.4" height="1.6" />
+              </g>
+            ),
+          )}
+        </g>
+      ))}
+    </>
+  ),
+  gr: (
+    <>
+      <rect width="60" height="40" fill="#0D5EAF" />
+      {[1, 3, 5, 7].map((i) => (
+        <rect key={i} y={(i * 40) / 9} width="60" height={40 / 9} fill="#FFFFFF" />
+      ))}
+      <rect width={200 / 9} height={200 / 9} fill="#0D5EAF" />
+      <rect x={80 / 9} width={40 / 9} height={200 / 9} fill="#FFFFFF" />
+      <rect y={80 / 9} width={200 / 9} height={40 / 9} fill="#FFFFFF" />
+    </>
+  ),
+  bg: (
+    <>
+      <rect width="60" height="13.34" fill="#FFFFFF" />
+      <rect y="13.34" width="60" height="13.33" fill="#00966E" />
+      <rect y="26.67" width="60" height="13.33" fill="#D62612" />
+    </>
+  ),
+  se: (
+    <>
+      <rect width="60" height="40" fill="#006AA7" />
+      <rect x="18.75" width="7.5" height="40" fill="#FECC00" />
+      <rect y="16" width="60" height="8" fill="#FECC00" />
     </>
   ),
 };

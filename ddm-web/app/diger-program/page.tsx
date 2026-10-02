@@ -72,7 +72,6 @@ export default function DigerProgramHubPage() {
       text: page.slots.kids[0] ?? "",
       image: { src: `${IMG}/ddm-kids.jpg`, alt: "Çocuklar için İngilizce sınıfı" },
       feature: true,
-      alt: { label: "TOEFL Primary eğitimi", href: "/sinav-hazirlik-egitimleri/cocuklar-icin-toefl-primary-egitimi" },
     },
     {
       title: "Online Dil Eğitimi",
@@ -168,7 +167,6 @@ export default function DigerProgramHubPage() {
             { label: "Özel Dersler", href: `${DP}/ozel-dersler` },
             { label: "Kurumsal Dil Eğitimi", href: "/kurumsal-dil-egitim" },
             { label: "İngilizce Konuşma Kursu", href: "/yabanci-dil-egitimleri/ingilizce-konusma-kursu" },
-            { label: "TOEFL Primary eğitimi", href: "/sinav-hazirlik-egitimleri/cocuklar-icin-toefl-primary-egitimi" },
           ],
         })}
       />

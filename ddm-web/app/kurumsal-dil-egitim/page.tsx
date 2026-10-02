@@ -99,7 +99,7 @@ export default function KurumsalHubPage() {
           title: "Kurumlar için",
           links: [
             { label: "Özel Dersler", href: "/diger-program/ozel-dersler" },
-            { label: "TOEIC Kursu", href: "/sinav-hazirlik-egitimleri/toeic-kursu" },
+            { label: "Business English", href: "/diger-program/business-english" },
             { label: "İngilizce Kursu", href: "/yabanci-dil-egitimleri/ingilizce-kursu" },
             { label: "Yabancılar için Türkçe", href: "/yabanci-dil-egitimleri/yabancila-icin-turkce-kurs" },
           ],

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import { SiteChrome } from "@/components/layout";
@@ -11,7 +12,7 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { FORM_HREF } from "@/lib/formAnchor";
 import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { LANGUAGE_HUB, LANGUAGE_HUB_ADDED } from "@/data/hubs";
-import { LANGUAGES } from "@/data/languages";
+import { LANGUAGE_PAGES } from "@/data/languages";
 import { getCategoryHubPage } from "@/lib/hubContent";
 import { hubRelated, languageLinks, languageTiles, linkIfProduced } from "@/lib/hubLinks";
 import { absoluteUrl } from "@/lib/site";
@@ -37,10 +38,10 @@ export default function YabanciDilHubPage() {
   const added = LANGUAGE_HUB_ADDED;
 
   // Selam duvarı: 9 dil (İngilizce Konuşma ayrı bir dil değil — kartlarda duruyor).
-  const wall = languageLinks("short", ["ingilizce-konusma-kursu"]);
+  const wall = languageLinks("short", ["ingilizce-konusma-kursu"], "core");
 
   const rows = added.table.map((r) => {
-    const lang = LANGUAGES.find((l) => l.slug === r.slug);
+    const lang = LANGUAGE_PAGES.find((l) => l.slug === r.slug);
     if (!lang) throw new Error(`[yabanci-dil] data/languages.ts'te "${r.slug}" yok.`);
     return {
       name: lang.label,
@@ -66,6 +67,13 @@ export default function YabanciDilHubPage() {
 
       <PageSection id="diger-diller" ground="gray" title={page.slots.otherTitle[0] ?? ""} lead={added.otherText} headingSize="sm">
         <ul className={blocks.otherLangs} aria-label="Diğer diller">
+          {added.extraLanguages.map((l) => (
+            <li key={l.href}>
+              <Link href={l.href} className={blocks.otherLangLink}>
+                {l.label}
+              </Link>
+            </li>
+          ))}
           {added.otherLanguages.map((l) => (
             <li key={l} className={blocks.otherLang}>
               {l}

@@ -7,6 +7,7 @@
  * birebir; yazım düzeltmeleri `edits`te (orijinal → yeni).
  */
 
+import { isHiddenPath } from "@/data/hiddenPages";
 import { PRIVATE_LESSON_PHOTO, type PrivateLessonDef } from "@/data/privateLessonsShared";
 
 const SH = "/sinav-hazirlik-egitimleri";
@@ -739,4 +740,7 @@ const SAT: PrivateLessonDef = {
   ignored: [],
 };
 
-export const EXAM_PRIVATE_LESSONS: PrivateLessonDef[] = [TOEFL, IELTS, TOEIC, PTE, YDS, PROFICIENCY, GRE, GMAT, SAT];
+// Gizli sınavların özel ders sayfaları (TOEIC) dosyada durur, yayından süzülür — `data/hiddenPages.ts`.
+export const EXAM_PRIVATE_LESSONS: PrivateLessonDef[] = [TOEFL, IELTS, TOEIC, PTE, YDS, PROFICIENCY, GRE, GMAT, SAT].filter(
+  (d) => !isHiddenPath(d.path),
+);

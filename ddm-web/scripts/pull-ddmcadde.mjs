@@ -7,6 +7,7 @@
  *   node scripts/pull-ddmcadde.mjs               # 9 dilin hepsi, yazar
  *   node scripts/pull-ddmcadde.mjs --dry-run      # 9 dilin hepsi, sadece diff basar
  *   node scripts/pull-ddmcadde.mjs almanca-kursu  # tek dil
+ *   node scripts/pull-ddmcadde.mjs --new          # eski sitede olmayan 5 dil + 6 sınav → data/ddmcadde_content.json
  *
  * Bkz. plan: docs/faz6.4-dil-kursu-prompt.md ve oturum planı
  * (~/.claude/plans/imdi-ben-nceden-yabanc-transient-sunset.md).
@@ -35,6 +36,34 @@ const LANGUAGES = [
   { src: "turkce", slug: "yabancila-icin-turkce-kurs", linkHeading: "Türkçe Eğitim Plan Tablosu ve Kurs Tarihleri" },
   { src: "konusma", slug: "ingilizce-konusma-kursu", linkHeading: "İngilizce Konuşma Eğitim Plan Tablosu ve Kurs Tarihleri" },
 ];
+
+/**
+ * Eski sitede (dunyadillerimerkezi.com) sayfası OLMAYAN 5 dil (kullanıcı isteği, 2026-10-01). Kaynakları
+ * `site_content.json`a değil ayrı `data/ddmcadde_content.json`a yazılır — eski sitenin crawl'ı ile karışmasın
+ * (301 / sayım betikleri o dosyayı eski sitenin envanteri sayar). `--new` ile çalışır.
+ * Fiyat bölümü ("… Fiyatları") dosyaya HİÇ alınmaz (kullanıcı kararı: sitede fiyat yok).
+ */
+const NEW_LANGUAGES = [
+  { src: "dil/japonca-kursu", slug: "japonca-kursu" },
+  { src: "dil/korece-kursu", slug: "korece-kursu" },
+  { src: "dil/yunanca-kursu", slug: "yunanca-kursu" },
+  { src: "dil/bulgarca-kursu", slug: "bulgarca-kursu" },
+  { src: "dil/isveccekursu", slug: "isvecce-kursu" },
+  // Sınavlar (2026-10-01) — aynı kural: fiyat / ücret satırı ve kurs başlangıç tarihi alınmaz.
+  { src: "sinav/almanca-telc-kursu", slug: "telc-kursu" },
+  { src: "sinav/delf-kursu", slug: "delf-dalf-kursu" },
+  { src: "sinav/delesinavikursu", slug: "dele-kursu" },
+  { src: "sinav/cils-celi-sinav-kurslari", slug: "cils-celi-kursu" },
+  { src: "sinav/e-tep-kursu", slug: "e-tep-kursu" },
+  { src: "sinav/oet-kursu", slug: "oet-kursu" },
+  // Eski sitede sayfası OLAN ama metni çok kısa sınav (kullanıcı, 2026-10-01: "testdaf sayfasının yazısı çok az,
+  // ddmcadde'den bilgi alarak eklemeler yapabilirsin"). Ana kaynak site_content.json kalır; bu kayıt EK kaynaktır.
+  { src: "sinav/testdaf", slug: "testdaf-kursu" },
+  // 2026-10-02 (kullanıcı): ÖSD — aynı şubenin Almanca sitesinden (aynı Joomla şablonu, aynı kurallar).
+  { src: "sinav/osd-kursu", slug: "osd-kursu", origin: "https://almancakurslari.com" },
+];
+const DDMCADDE = "https://www.ddmcadde.com";
+const NEW_CONTENT_PATH = path.join(__dirname, "..", "data", "ddmcadde_content.json");
 
 const MARK = '<div class="com-content-article__body">';
 
@@ -116,8 +145,8 @@ function extractLines(articleHtml) {
   return out;
 }
 
-async function fetchLines(src) {
-  const res = await fetch(`https://www.ddmcadde.com/dil/${src}`, {
+async function fetchLines(src, origin = DDMCADDE) {
+  const res = await fetch(`${origin}/${src.includes("/") ? src : `dil/${src}`}`, {
     headers: { "User-Agent": "Mozilla/5.0 (compatible; ddm-web-content-sync/1.0)" },
   });
   if (!res.ok) throw new Error(`${src}: HTTP ${res.status}`);
@@ -208,9 +237,75 @@ function diffLines(oldText, newText, label) {
   if (changed > preview.length / 2) console.log("  ...");
 }
 
+/**
+ * Fiyat bölümünü (başlık + altındaki satırlar, bir sonraki h2'ye kadar) ve tek tek fiyat satırlarını ("Eğitim
+ * Ücreti: 30.000 TL") atar. Kurs başlangıç tarihi ("Kurs Başlama: …") da alınmaz — dönemlik, eskir.
+ * H1'deki "… ve Ders Fiyatları" kalır; sayfada `h1Edit` ile izlenebilir biçimde çıkarılır.
+ */
+function dropPricing(lines) {
+  const out = [];
+  let skipping = false;
+  for (const l of lines) {
+    if (l.level === "h2") skipping = /Fiyat/i.test(l.text);
+    if (skipping) continue;
+    if (!l.level.startsWith("h") && (/Ücreti\s*:|Fiyat|\d[\d.]*\s*TL\b/i.test(l.text) || /Kurs Başlama/i.test(l.text))) continue;
+    out.push(l);
+  }
+  return out;
+}
+
+async function pullNew(dryRun, requested) {
+  const targets = requested.length ? NEW_LANGUAGES.filter((l) => requested.includes(l.slug)) : NEW_LANGUAGES;
+  const records = [];
+  for (const { src, slug, origin = DDMCADDE } of targets) {
+    const { lines: all, sourceTitle } = await fetchLines(src, origin);
+    // Satır başındaki süs işareti ("✅ Kurs Günleri: …") metin değil — "Etiket: değer" kartına temiz düşsün.
+    const lines = dropPricing(all).map((l) => ({ ...l, text: l.text.replace(/^✅\s*/u, "") }));
+    const h1 = lines.find((l) => l.level === "h1");
+    if (!h1) throw new Error(`${slug}: h1 bulunamadı`);
+    const text = lines.map((l) => l.text).join("\n");
+    records.push({
+      url: `${origin}/${src}`,
+      slug,
+      status: 200,
+      // title / description sayfada `data/languages.ts` `meta` ile yeniden yazılır; burada kaynağın kendi başlığı durur.
+      title: sourceTitle ?? h1.text,
+      meta_description: "",
+      canonical: "",
+      headings: lines.filter((l) => l.level.startsWith("h")).map((l) => ({ level: l.level, text: l.text })),
+      text,
+      word_count: text.split(/\s+/).filter(Boolean).length,
+    });
+    console.log(`== ${slug} (kaynak: /${src}) — ${all.length - lines.length} fiyat / tarih satırı atıldı, ${lines.length} satır`);
+  }
+  if (dryRun) {
+    console.log("\n--dry-run: dosya yazılmadı.");
+    return;
+  }
+  // Yalnız "dosya yok" boş sayılır; bozuk JSON'da durulur (aksi halde diğer kayıtlar sessizce silinirdi).
+  let existing = [];
+  try {
+    existing = JSON.parse(readFileSync(NEW_CONTENT_PATH, "utf-8"));
+  } catch (err) {
+    if (err.code !== "ENOENT") throw err;
+  }
+  const merged = [...existing.filter((r) => !records.some((n) => n.slug === r.slug)), ...records].sort(
+    (a, b) => NEW_LANGUAGES.findIndex((l) => l.slug === a.slug) - NEW_LANGUAGES.findIndex((l) => l.slug === b.slug),
+  );
+  writeFileSync(NEW_CONTENT_PATH, JSON.stringify(merged, null, 2) + "\n", "utf-8");
+  console.log(`\n${NEW_CONTENT_PATH} güncellendi.`);
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
+  if (args.includes("--new")) {
+    await pullNew(
+      dryRun,
+      args.filter((a) => !a.startsWith("--")),
+    );
+    return;
+  }
   const requested = args.filter((a) => !a.startsWith("--"));
   const targets = requested.length ? LANGUAGES.filter((l) => requested.includes(l.slug)) : LANGUAGES;
 

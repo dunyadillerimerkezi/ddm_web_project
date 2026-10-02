@@ -346,6 +346,172 @@ const speak: LanguageContentMap = {
 };
 
 /* ---------------------------------------------------------------
+ * Eski sitede sayfası OLMAYAN diller (kullanıcı isteği, 2026-10-01)
+ *
+ * Metin Bağdat Caddesi şubesinin sitesinden (ddmcadde.com/dil/…) `scripts/pull-ddmcadde.mjs --new` ile
+ * `data/ddmcadde_content.json`a çekildi; kullanıcı: "firma hakkında bilgi varsa fiyat dışında koyabilirsin".
+ * Fiyat bölümü kaynağa hiç alınmadı. Kaynaktaki "25 yıllık" → `FOUNDING_EDIT` (diğer dillerle aynı), şube
+ * cümlesi ("Bağdat Caddesi şubemizde verilmektedir") fiyat bölümündeydi, o da yok. Eski sitede adresi yok → 301 yok.
+ * Kaynakta OLMAYAN bölümler (neden öğrenmeli, seviyeler, ikinci sertifika kutusu, dile özgü SSS) genel bilgidir:
+ * `data/languageExtras.ts`, resmi kaynaklar orada yorumda.
+ * ------------------------------------------------------------- */
+
+const H1_PRICE_REASON = "H1'deki \"Ders Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı kararı 2026-10-01)";
+
+const ja: LanguageContentMap = {
+  source: "ddmcadde",
+  h1Edit: { from: "Japonca Kursu Eğitim Sistemi ve Ders Fiyatları", to: "Japonca Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
+  meta: {
+    title: "Japonca Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "Japonca kursu: 6 kur, kur başına 60 saat; hafta içi ve hafta sonu grupları. Hiragana ve katakanadan JLPT seviyelerine Japonca, İstanbul'daki 5 şubemizde.",
+    reasons: [
+      "title: kaynak başlık \"Japonca Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi (diğer kurs sayfalarıyla aynı kalıp)",
+      "description: kaynak açıklama yok (ddmcadde'ninki fiyatsız ama başka sitenin metni); kaynaktaki olgulardan (6 kur, 60 saat, gün/saat) yeniden yazıldı",
+    ],
+  },
+  heroLead: { heading: "Japonca Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  about: { heading: "Japonca Dil Eğitim Programı Hakkında Bilgi" },
+  // Sertifika başlığının 2. paragrafı uluslararası sınavı değil eğitim modelini anlatıyor → Hakkında kutularına.
+  aboutAlso: { heading: "Japonca Düzeyi Kur Sınav Sertifikaları ve Uluslararası Sınavlar", take: [1] },
+  programSchedule: { heading: "Size Uygun Japonca Ders Programını Seçin" },
+  certification: { heading: "Japonca Düzeyi Kur Sınav Sertifikaları ve Uluslararası Sınavlar", take: [0] },
+  whyLearn: null,
+  whyChooseDDM: { heading: "Neden Dünya Dilleri Merkezi'ni Tercih Etmelisiniz?" },
+  levelGroups: [],
+  levelGroupsHeading: null,
+  whoCanJoin: { heading: "Japonca Kurslarımıza Kimler Katılabilir?", introTake: null },
+  teachingModel: { heading: "Japonca Derslerinde Eğitim Modelimiz" },
+  pricing: null,
+  branchLinks: null,
+  ignored: [],
+};
+
+const ko: LanguageContentMap = {
+  source: "ddmcadde",
+  h1Edit: { from: "Korece Kursu Eğitim Sistemi ve Ders Fiyatları", to: "Korece Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
+  meta: {
+    title: "Korece Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "Korece kursu: 6 kur, kur başına 60 saat; hafta içi ve hafta sonu grupları. Hangıl alfabesinden TOPIK seviyelerine Korece, İstanbul'daki 5 şubemizde.",
+    reasons: [
+      "title: kaynak başlık \"Korece Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi",
+      "description: kaynak açıklama yok; kaynaktaki olgulardan (6 kur, 60 saat, gün/saat) yeniden yazıldı",
+    ],
+  },
+  heroLead: { heading: "Korece Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  about: { heading: "Korece Eğitim Programı Hakkında Bilgi" },
+  programSchedule: { heading: "Size Uygun Korece Ders Programını Seçin" },
+  certification: { heading: "Korece Düzeyi Sertifikaları ve Uluslararası Sınavlar" },
+  whyLearn: null,
+  whyChooseDDM: { heading: "Neden Dünya Dilleri Merkezi'ni Tercih Etmelisiniz?" },
+  levelGroups: [],
+  levelGroupsHeading: null,
+  whoCanJoin: { heading: "Korece Kurslarımıza Kimler Katılabilir?", introTake: null },
+  teachingModel: { heading: "Korece Derslerinde Eğitim Modelimiz" },
+  pricing: null,
+  branchLinks: null,
+  ignored: [],
+};
+
+const el: LanguageContentMap = {
+  source: "ddmcadde",
+  h1Edit: { from: "Yunanca Kursu Eğitim Sistemi ve Ders Fiyatları", to: "Yunanca Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
+  meta: {
+    title: "Yunanca Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "Yunanca kursu: 6 kur, kur başına 60 saat; hafta içi ve hafta sonu grupları. Yunan alfabesinden A1–C2 seviyelerine Yunanca, İstanbul'daki 5 şubemizde.",
+    reasons: [
+      "title: kaynak başlık \"Yunanca Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi",
+      "description: kaynak açıklama yok; kaynaktaki olgulardan (6 kur, 60 saat, gün/saat) yeniden yazıldı",
+    ],
+  },
+  heroLead: { heading: "Yunanca Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  about: { heading: "Yunanca Eğitim Programı Hakkında Bilgi" },
+  aboutAlso: { heading: "Yunanca Kur Sınavları ve Uluslararası Sertifikalar", take: [1] },
+  programSchedule: { heading: "Size Uygun Yunanca Ders Programını Seçin" },
+  certification: { heading: "Yunanca Kur Sınavları ve Uluslararası Sertifikalar", take: [0] },
+  whyLearn: null,
+  whyChooseDDM: { heading: "Neden Dünya Dilleri Merkezi'ni Tercih Etmelisiniz?" },
+  levelGroups: [],
+  levelGroupsHeading: null,
+  whoCanJoin: { heading: "Yunanca Derslerimize Kimler Katılabilir?", introTake: null },
+  teachingModel: { heading: "Yunanca Derslerinde Eğitim Modelimiz" },
+  pricing: null,
+  branchLinks: null,
+  ignored: [
+    // ddmcadde'nin kendi alt sayfalarına giden link satırı — bu sayfalar bizim sitede yok (özel ders, alfabe, kültür).
+    "Yunanca Hakkında Faydalı Bilgiler",
+    "Yunanca Özel Ders | Yunanca Öğrenmek Zor mu? | Yunan Alfabesi | Yunan Kültürü | Yunanca Kursu",
+  ],
+};
+
+const bg: LanguageContentMap = {
+  source: "ddmcadde",
+  h1Edit: { from: "Bulgarca Kursu Eğitim ve Ders Fiyatları", to: "Bulgarca Kursu Eğitim Sistemi", reason: `${H1_PRICE_REASON}; diğer dillerle aynı kalıp` },
+  meta: {
+    title: "Bulgarca Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "Bulgarca kursu: 6 kur, kur başına 60 saat; hafta içi ve hafta sonu grupları. Kiril alfabesinden ileri seviyeye Bulgarca, İstanbul'daki 5 şubemizde.",
+    reasons: [
+      "title: kaynak başlık \"Bulgarca Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi",
+      "description: kaynak açıklama yok; kaynaktaki olgulardan (6 kur, 60 saat, gün/saat) yeniden yazıldı",
+    ],
+  },
+  heroLead: { heading: "Bulgarca Kursu Eğitim ve Ders Fiyatları" },
+  about: { heading: "Bulgarca Eğitim Programı Hakkında Bilgi" },
+  aboutAlso: { heading: "Bulgarca Düzeyi Kur Sınavları ve Uluslararası Sertifikalar", take: [1] },
+  programSchedule: { heading: "Size Uygun Bulgarca Ders Programını Seçin" },
+  certification: { heading: "Bulgarca Düzeyi Kur Sınavları ve Uluslararası Sertifikalar", take: [0] },
+  whyLearn: null,
+  whyChooseDDM: { heading: "Neden Dünya Dilleri Merkezini Tercih Etmelisiniz?" },
+  levelGroups: [],
+  levelGroupsHeading: null,
+  whoCanJoin: { heading: "Bulgarca Kurslarımıza Kimler Katılabilir?", introTake: null },
+  teachingModel: { heading: "Bulgarca Derslerinde Eğitim Modelimiz" },
+  pricing: null,
+  branchLinks: null,
+  ignored: [],
+  edits: {
+    // Kurum üstünlük iddiası ("İstanbul'daki en iyi") taşınmaz (kullanıcı, 2026-10-01: "kurum iddialarını taşıma").
+    "Bulgar öğretmenlerle Bulgarca öğrenmeye hemen başlayın. Siz de Bulgarca konuşarak dünyaya daha güçlü bağlanmak, kariyerinizi geliştirmek ve yeni kültürleri keşfetmek için İstanbul'daki en iyi Bulgarca kurslarımızdaki yerinizi ayırtın.":
+      "Bulgar öğretmenlerle Bulgarca öğrenmeye hemen başlayın. Siz de Bulgarca konuşarak dünyaya daha güçlü bağlanmak, kariyerinizi geliştirmek ve yeni kültürleri keşfetmek için Bulgarca kurslarımızdaki yerinizi ayırtın.",
+  },
+};
+
+const sv: LanguageContentMap = {
+  source: "ddmcadde",
+  h1Edit: { from: "İsveççe Kursu Eğitim Sistemi ve Ders Fiyatları", to: "İsveççe Kursu Eğitim Sistemi", reason: H1_PRICE_REASON },
+  meta: {
+    title: "İsveççe Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "İsveççe kursu: 6 kur, kur başına 60 saat; hafta içi ve hafta sonu grupları. Başlangıçtan ileri seviyeye İsveççe, İstanbul'daki 5 şubemizde.",
+    reasons: [
+      "title: kaynak başlık \"İsveççe Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi",
+      "description: kaynak açıklama yok; kaynaktaki olgulardan (6 kur, 60 saat, gün/saat) yeniden yazıldı",
+    ],
+  },
+  heroLead: { heading: "İsveççe Kursu Eğitim Sistemi ve Ders Fiyatları" },
+  about: { heading: "İsveççe Dil Eğitim Programı Hakkında Bilgi" },
+  programSchedule: { heading: "Size Uygun İsveççe Ders Programını Seçin" },
+  certification: { heading: "İsveççe Düzeyi Sertifikaları ve Uluslararası Sınavlar", take: [0] },
+  whyLearn: null,
+  whyChooseDDM: { heading: "Neden Dünya Dilleri Merkezi'ni Tercih Etmelisiniz?" },
+  levelGroups: [],
+  levelGroupsHeading: null,
+  whoCanJoin: { heading: "İsveççe Kurslarımıza Kimler Katılabilir?", introTake: null },
+  teachingModel: { heading: "İsveççe Derslerinde Eğitim Modelimiz" },
+  pricing: null,
+  branchLinks: null,
+  ignored: [
+    // Doğrulanamadı: Türkiye'de İsveççe sınavı düzenleyen bir "İsveç Kültür Merkezi" bulunamadı (resmi İsveççe sınavları
+    // Swedex — Folkuniversitetet, Tisus — İsveç üniversiteleri). Yerine genel bilgi: languageExtras `sv.certAdded`.
+    // Kullanıcıya soruldu: docs/bekleyen-sorular.md.
+    "Katılmış olduğu seviyeyi tamamlayan öğrencilerimiz kur bitiminde İsveç Kültür Merkezi’nin düzenlediği uluslararası geçerliliğe sahip sınavlarına ücret karşılığında girebilir Sertifikası elde edebilirler.",
+  ],
+};
+
+/* ---------------------------------------------------------------
  * 10 dilin tam kaydı — sıra `docs/faz6.4-dil-kursu-prompt.md` tablosuyla aynı
  * ------------------------------------------------------------- */
 
@@ -413,10 +579,51 @@ export const LANGUAGES: LanguageDef[] = [
 ];
 
 /**
+ * Eski sitede olmayan, kaynağı ddmcadde olan dil sayfaları (2026-10-01). Ana Sayfa dil ızgarası, Yabancı Dil
+ * selam duvarı ve hero balonları `LANGUAGES` (10 dil) okumaya devam eder — 5×2 düzenleri bozulmasın; kurs
+ * sayfası, menü, form, sitemap ve "diğer diller" `LANGUAGE_PAGES` okur.
+ */
+export const EXTRA_LANGUAGES: LanguageDef[] = [
+  {
+    slug: "japonca-kursu", key: "ja", name: "Japonca", label: "Japonca Kursu",
+    code: "JA", flag: "jp", greeting: "こんにちは", skill: "話す",
+    scaleChip: "A1 → C2", kurCount: 6, kurHours: 60, groupSize: null,
+    content: ja,
+  },
+  {
+    slug: "korece-kursu", key: "ko", name: "Korece", label: "Korece Kursu",
+    code: "KO", flag: "kr", greeting: "안녕하세요", skill: "말하기",
+    scaleChip: "A1 → C2", kurCount: 6, kurHours: 60, groupSize: null,
+    content: ko,
+  },
+  {
+    slug: "yunanca-kursu", key: "el", name: "Yunanca", label: "Yunanca Kursu",
+    code: "EL", flag: "gr", greeting: "Γεια σας!", skill: "Ομιλία",
+    scaleChip: "A1 → C2", kurCount: 6, kurHours: 60, groupSize: null,
+    content: el,
+  },
+  {
+    slug: "bulgarca-kursu", key: "bg", name: "Bulgarca", label: "Bulgarca Kursu",
+    code: "BG", flag: "bg", greeting: "Здравейте!", skill: "Говорене",
+    scaleChip: "A1 → C2", kurCount: 6, kurHours: 60, groupSize: null,
+    content: bg,
+  },
+  {
+    slug: "isvecce-kursu", key: "sv", name: "İsveççe", label: "İsveççe Kursu",
+    code: "SV", flag: "se", greeting: "Hej!", skill: "Tala",
+    scaleChip: "A1 → C2", kurCount: 6, kurHours: 60, groupSize: null,
+    content: sv,
+  },
+];
+
+/** Kurs sayfası olan TÜM diller — route, menü, form, sitemap. */
+export const LANGUAGE_PAGES: LanguageDef[] = [...LANGUAGES, ...EXTRA_LANGUAGES];
+
+/**
  * Kurs sayfası OLMAYAN diller — program ve ders saatleri şubeden öğrenilir (Yabancı Dil sayfası "diğer diller" kutusu).
  * "Arapça" listede yok (kullanıcı, 2026-09-30).
  */
-export const OTHER_LANGUAGE_NAMES = ["Japonca", "Yunanca", "Korece", "İsveççe", "Portekizce", "Hırvatça", "Boşnakça", "Slovakça", "Bulgarca", "Farsça"];
+export const OTHER_LANGUAGE_NAMES = ["Portekizce", "Hırvatça", "Boşnakça", "Slovakça", "Farsça"];
 
 /** Müşterinin rakamı: "Hepsinde 19 dil ve sınava hazırlık kursları" (2026-09-30). */
 export const LANGUAGE_COUNT = 19;
@@ -426,12 +633,12 @@ export const LANGUAGE_COUNT = 19;
  * + kurs sayfası olmayanlar. Şube tanıtım sayfalarının dördü de bunu gösterir (müşteri kararı 2026-09-30: tüm şubeler
  * tüm dilleri verir). Elle ikinci bir liste yazmayın; ad eklenir / çıkarsa rakam tutmaz ve build düşer.
  */
-export const ALL_LANGUAGE_NAMES: string[] = [...LANGUAGES.filter((l) => l.key !== "speak").map((l) => l.name), ...OTHER_LANGUAGE_NAMES];
+export const ALL_LANGUAGE_NAMES: string[] = [...LANGUAGE_PAGES.filter((l) => l.key !== "speak").map((l) => l.name), ...OTHER_LANGUAGE_NAMES];
 
 if (ALL_LANGUAGE_NAMES.length !== LANGUAGE_COUNT || new Set(ALL_LANGUAGE_NAMES).size !== LANGUAGE_COUNT) {
   throw new Error(`data/languages.ts: dil listesi ${ALL_LANGUAGE_NAMES.length} ad taşıyor, müşterinin rakamı ${LANGUAGE_COUNT}.`);
 }
 
 export function getLanguageDef(slug: string): LanguageDef | undefined {
-  return LANGUAGES.find((l) => l.slug === slug);
+  return LANGUAGE_PAGES.find((l) => l.slug === slug);
 }

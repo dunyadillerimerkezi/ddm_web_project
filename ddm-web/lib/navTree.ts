@@ -1,5 +1,6 @@
 import type { NavChildGroup, NavColumn, NavItem, NavLink, NavNode } from "@/lib/types";
 import { NAV_ITEMS } from "@/lib/nav";
+import { isHiddenPath } from "@/data/hiddenPages";
 
 /**
  * Menü süzgeci — `lib/nav.ts`'teki TAM ağacı, ÜRETİLMİŞ sayfalara göre süzer.
@@ -37,6 +38,8 @@ export const DEFAULT_NAV_MODE: NavRenderMode = "inert";
 function resolveLinks(items: NavLink[], mode: NavRenderMode): NavLink[] {
   const out: NavLink[] = [];
   for (const item of items) {
+    // Yayından kaldırılan sınavlar (`data/hiddenPages.ts`) her modda düşer — düz metin olarak da görünmez.
+    if (isHiddenPath(item.href)) continue;
     if (item.soon && mode === "hide") continue;
     out.push({ label: item.label, href: item.soon ? null : item.href });
   }
@@ -56,6 +59,7 @@ function resolveGroups(groups: NavChildGroup[], mode: NavRenderMode): NavChildGr
 function resolveNodes(items: NavNode[], mode: NavRenderMode): NavNode[] {
   const out: NavNode[] = [];
   for (const node of items) {
+    if (isHiddenPath(node.href)) continue;
     const href = node.soon ? null : node.href;
     const children = node.children ? resolveGroups(node.children, mode) : undefined;
     // Ne kendisi gidilebilir ne de altında gidilebilir bir şey kaldıysa kalem düşer.

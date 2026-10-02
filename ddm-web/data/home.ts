@@ -128,7 +128,6 @@ export const EXAM_SECTION = {
   courses: [
     { code: "TOEFL", name: "TOEFL Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/toefl-kursu`, logo: "toefl-logo.png" },
     { code: "IELTS", name: "IELTS Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/ielts-kursu`, logo: "IELTS_logo.png" },
-    { code: "TOEIC", name: "TOEIC", group: "Dil Yeterliliği Çözümleri", href: `${SH}/toeic-kursu`, logo: "toeic_logo.jpg" },
     { code: "GRE", name: "GRE Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/gre-kursu`, logo: "gre_logo.png" },
     { code: "SAT", name: "SAT Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/sat-kursu`, logo: "SAT_logo.png" },
     { code: "GMAT", name: "GMAT Kursu", group: "Sınav Hazırlık Programları", href: `${SH}/gmat-kursu`, logo: "GMAT_logo.png" },

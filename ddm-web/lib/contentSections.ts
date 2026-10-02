@@ -164,3 +164,23 @@ export class SectionResolver {
     }
   }
 }
+
+/* ---------------------------------------------------------------
+ * ddmcadde kaynaklı sayfalar (2026-10-01) — dil + sınav çözücülerinin ortak parçaları
+ * ------------------------------------------------------------- */
+
+/** `data/ddmcadde_content.json` kaydı (eski sitede sayfası olmayan dil / sınav; `scripts/pull-ddmcadde.mjs --new`). */
+export function findDdmcaddeRecord(slug: string, records: unknown): SiteContentRecord {
+  const record = (records as (SiteContentRecord & { slug: string })[]).find((r) => r.slug === slug);
+  if (!record) {
+    throw new ContentSectionsError(`data/ddmcadde_content.json içinde "${slug}" kaydı yok — node scripts/pull-ddmcadde.mjs --new ${slug}`);
+  }
+  return record;
+}
+
+/** H1 düzeltmesi — kaynak H1 birebir `from` değilse build düşer (düzeltme izlenebilir kalsın). */
+export function applyH1Edit(h1: string, edit: { from: string; to: string } | undefined, context: string): string {
+  if (!edit) return h1;
+  if (h1 !== edit.from) throw new ContentSectionsError(`${context}: h1Edit.from kaynak H1 ile uyuşmuyor — kaynak "${h1}".`);
+  return edit.to;
+}

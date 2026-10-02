@@ -398,6 +398,24 @@
   color: var(--ddm-gray-600);
 }
 
+/* Sayfası olan dil (2026-10-01) — kesikli "şubeden öğrenin" çipinden ayrışsın: düz kenar, bağlantı rengi, ≥44px. */
+.otherLangLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--ddm-touch-min);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--ddm-sky-ink);
+  border-radius: var(--radius-pill);
+  background: var(--ddm-white);
+  font-weight: 700;
+  color: var(--ddm-sky-ink);
+  text-decoration: none;
+}
+
+.otherLangLink:hover {
+  background: var(--ddm-sky-bg);
+}
+
 /* Duyarlı ------------------------------------------------------ */
 @media (max-width: 899px) {
   .split {

@@ -21,7 +21,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 
-import { LANGUAGES } from "@/data/languages";
+import { LANGUAGE_PAGES } from "@/data/languages";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 import { COURSE_DATES } from "@/data/courseDates";
 import { BRANCH_LIST } from "@/data/branches";
@@ -46,7 +46,7 @@ function homePages(): PageRecord[] {
 }
 
 function languagePages(): PageRecord[] {
-  return LANGUAGES.map((l) => ({
+  return LANGUAGE_PAGES.map((l) => ({
     href: `/yabanci-dil-egitimleri/${l.slug}`,
     kind: "language",
   }));

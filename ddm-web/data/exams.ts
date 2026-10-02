@@ -13,6 +13,7 @@
  */
 
 import { EXPERIENCE } from "@/data/company";
+import { isHiddenExam } from "@/data/hiddenPages";
 import type { ExamDef } from "@/lib/examContent";
 
 /** P4'te yayınlanan alt sayfalar (Nedir / Özel Ders / Örnek Sorular) — `extraHrefs` hedefleri. */
@@ -189,17 +190,105 @@ const INGILTERE_VIZE: ExamDef = {
   ignored: [],
 };
 
+/*
+ * TestDaF — kullanıcı (2026-10-01): "yazısı çok az, ddmcadde'den bilgi alarak eklemeler yapabilirsin". ddmcadde'nin
+ * TestDaF sayfası (data/ddmcadde_content.json `testdaf-kursu`) bu sayfanın kaynağıyla AYNI metin; yalnız paragrafları soru
+ * başlıkları altında tekrar ediyor ("TDN 4 veya TDN 5 Puanı Nedir?", "Nerede Girilir?", "Kaç Kere Girilir?"). Yeni firma
+ * bilgisi yok → kaynak metin o soru başlıklarına göre bölündü (başlıklar arayüz etiketi), genel bilgi resmi kaynaktan
+ * `prepend` / `append` / `added*` ile eklendi. Kaynaklar (2026-10-01):
+ * - Dijital TestDaF bölümleri: https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/aufbau-des-digitalen-testdaf/
+ *   (Lesen 7 Aufgaben · 34 Items · ca. 55 Min; Hören 7 · 30 · ca. 40; Schreiben 2 · ca. 60; Sprechen 7 · ca. 35)
+ * - "reine Prüfungszeit 3 Stunden und 15 Minuten"; kâğıt + dijital iki sürüm:
+ *   https://www.testdaf.de/de/teilnehmende/mein-testdaf/faq/faq-allgemein/ — dijital 22.10.2020'den beri (testdaf.de Neuigkeiten)
+ * - TDN 3–5 ↔ GER B2 ve C1; sonuç dijital ~3, kâğıt ~6 hafta; "unbegrenzt gültig":
+ *   https://www.testdaf.de/de/teilnehmende/mein-testdaf/faq/faq-ergebnisse-und-zertifikat/
+ * - Tüm bölümlerde TDN 4 = tüm programlara kabul (RO-DT § 4 Abs. 5); bazı programlar bir bölümde TDN 3 kabul eder:
+ *   https://www.testdaf.de/de/hochschulen/der-testdaf-und-hochschulen/nachweis-der-deutschkenntnisse-fuer-das-studium/
+ * - Türkiye sınav merkezleri (g.a.s.t. merkez araması, TR): Ankara, İstanbul, İzmir, Antalya, Adana, Bursa, Erzurum, Eskişehir
+ *   — https://www.testdaf.de/de/teilnehmende/mein-testdaf/testzentrum-finden/
+ * - Firma cümlesi "Almanca TESTDAF TDN 4 ve TDN 5 eğitimleri birebir özel dersler şeklinde verilmektedir." — bu sitenin
+ *   Almanca Kursu kaynağından (site_content.json, almanca-kursu, sertifika bölümü), birebir.
+ */
 const TESTDAF: ExamDef = {
   slug: "testdaf-kursu",
   name: "TestDaF",
   label: "TestDaF Kursu",
   code: "TestDaF",
   illustration: "de",
+  language: { label: "Almanca Kursu", href: "/yabanci-dil-egitimleri/almanca-kursu" },
+  meta: {
+    title: "TestDaF Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "TestDaF sınavına hazırlık: TDN 4 ve TDN 5 için birebir özel dersler. Dijital TestDaF'ın bölümleri, TDN seviyeleri ve Türkiye'deki sınav merkezleri.",
+    reasons: [
+      "title: kaynak \"TESTDAF Kursu\" (13 karakter) — kullanıcı sayfanın güçlendirilmesini istedi (2026-10-01); diğer kurs sayfalarıyla aynı kalıp",
+      "description: kaynak açıklama genel bir cümleydi; sayfanın firma cümlesi (birebir özel ders) + genel bilgi bloklarından yeniden yazıldı",
+    ],
+  },
   hero: { heading: null },
   blocks: [
-    // Kaynakta tek başlık var; gövdenin kalanı kendi bölüm başlığıyla basılır
-    // (başlık silinmiyor, H1 olarak duruyor — bu yalnız bölüm etiketi).
-    { kind: "prose", heading: "TESTDAF Kursu", kicker: "SINAV HAKKINDA", title: "TestDaF sertifikası ve sınav yapısı", take: "rest" },
+    {
+      kind: "addedStructure",
+      title: "Dijital TestDaF'ın bölümleri",
+      lead: "TestDaF okuma, dinleme, yazma ve konuşmayı dört ayrı bölümde ölçer; dijital sınavın saf süresi 3 saat 15 dakikadır.",
+      sections: [
+        { name: "Okuma", skill: "Lesen", icon: "okuma", parts: [{ title: "", meta: [{ icon: "sure", text: "~55 dk" }, { icon: "kisim", text: "7 görev" }, { icon: "soru", text: "34 soru" }] }] },
+        { name: "Dinleme", skill: "Hören", icon: "dinleme", parts: [{ title: "", meta: [{ icon: "sure", text: "~40 dk" }, { icon: "kisim", text: "7 görev" }, { icon: "soru", text: "30 soru" }] }] },
+        { name: "Yazma", skill: "Schreiben", icon: "yazma", parts: [{ title: "", meta: [{ icon: "sure", text: "~60 dk" }, { icon: "kisim", text: "2 görev" }] }] },
+        { name: "Konuşma", skill: "Sprechen", icon: "konusma", parts: [{ title: "", meta: [{ icon: "sure", text: "~35 dk" }, { icon: "kisim", text: "7 görev" }] }] },
+      ],
+    },
+    // Kaynakta tek başlık var; gövde ddmcadde'deki soru başlıklarına göre bölündü (başlık silinmiyor, H1 olarak duruyor).
+    { kind: "prose", heading: "TESTDAF Kursu", kicker: "SINAV HAKKINDA", title: "TestDaF neyi ölçer?", take: [2, 3, 4] },
+    {
+      kind: "prose",
+      heading: "TESTDAF Kursu",
+      kicker: "PUANLAMA",
+      title: "TDN 4 ve TDN 5 ne anlama gelir?",
+      take: [1],
+      prepend: [
+        "Sonuçlar her bölüm için ayrı ayrı TDN 3, TDN 4 ya da TDN 5 olarak verilir; bu seviyeler Avrupa Ortak Dil Çerçevesi'nin B2 ve C1 seviyelerine karşılık gelir.",
+        "Dört bölümün hepsinde en az TDN 4 alan aday, Almanya'daki tüm bölüm ve programlara kayıt için gereken dil yeterliliğini kanıtlamış sayılır; bazı programlar bir bölümde TDN 3'ü de kabul eder.",
+      ],
+    },
+    {
+      kind: "prose",
+      heading: "TESTDAF Kursu",
+      kicker: "SINAV YERİ",
+      title: "TestDaF'a nerede girilir?",
+      take: [5, 6, 8, 9],
+      append: [
+        "Türkiye'de TestDaF sınav merkezleri Ankara, İstanbul, İzmir, Antalya, Adana, Bursa, Erzurum ve Eskişehir'de; aralarında Goethe-Institut'lar ve üniversiteler var. Güncel merkezler ve tarihler için testdaf.de'deki sınav merkezi aramasını kullanabilirsiniz.",
+        "Sınav dijital olarak ve kâğıt üzerinde yapılır; dijital TestDaF 2020'den beri sunuluyor.",
+      ],
+    },
+    { kind: "prose", heading: "TESTDAF Kursu", kicker: "HAZIRLIK", title: "Nasıl hazırlanılır, kaç kez girilir?", take: [7, 10] },
+    {
+      kind: "prose",
+      heading: "TESTDAF Kursu",
+      kicker: "EĞİTİM PROGRAMI",
+      title: "Dünya Dilleri Merkezi'nde TestDaF hazırlığı",
+      take: [11],
+      append: ["Almanca TESTDAF TDN 4 ve TDN 5 eğitimleri birebir özel dersler şeklinde verilmektedir."],
+    },
+    {
+      kind: "addedFaq",
+      title: "TestDaF hakkında sık sorulanlar",
+      items: [
+        {
+          question: "Dijital ve kâğıt TestDaF arasında fark var mı?",
+          answer: [
+            "İki sürüm de okuma, dinleme, yazma ve konuşmayı ölçer ve sonuç TDN 3–5 olarak verilir. Dijital sınavda sonuçlar yaklaşık üç haftada, kâğıt sınavda yaklaşık altı haftada açıklanır.",
+          ],
+        },
+        {
+          question: "TestDaF'a hangi seviyede girilmeli?",
+          answer: [
+            "TestDaF, B2 ve C1 aralığını ölçer; sonuç bu aralıkta TDN 3, 4 ya da 5 olarak verilir. Bu aralığın altında kalan bölüm \"TDN 3 altı\" olarak gösterilir.",
+          ],
+        },
+      ],
+    },
   ],
   // UI turu (2026-09-28, kullanıcı: "düzelt"): sonuç bildirimi resmi TestDaF sayfasından.
   edits: {
@@ -1020,7 +1109,830 @@ const AILE_BIRLESIMI: ExamDef = {
 };
 
 /** Üretilen sınav sayfaları — sıra "diğer sınavlar" ızgarasının sırasıdır. */
-export const EXAMS: ExamDef[] = [TOEFL, IELTS, PROFICIENCY, GRE, GMAT, SAT, YDS, TOEIC, AILE_BIRLESIMI, PTE, FRANSIZCA_AILE, YOKDIL, TOEFL_ESSENTIALS, INGILTERE_VIZE, TESTDAF, TOEFL_PRIMARY];
+/* ---------------------------------------------------------------
+ * Eski sitede sayfası OLMAYAN sınavlar (kullanıcı isteği, 2026-10-01)
+ *
+ * Firma metni (hazırlık içeriği, kurs sistemi) Bağdat Caddesi şubesinin sitesinden (ddmcadde.com/sinav/…)
+ * `scripts/pull-ddmcadde.mjs --new` ile `data/ddmcadde_content.json`a çekildi — kullanıcı: "firma hakkında bilgi varsa
+ * fiyat dışında koyabilirsin". Ücret satırları ve kurs başlangıç tarihleri kaynağa alınmadı. Kaynak sayfalar çok kısa
+ * (~200 kelime) → sınavın yapısı / puanlaması / SSS'si genel bilgi olarak `added*` bloklarında, resmi kaynak yorumda.
+ * Kaynaktaki olgu hatası P2 kuralıyla `edits`te düzeltilir.
+ * ------------------------------------------------------------- */
+
+const ES = "/yabanci-dil-egitimleri/ispanyolca-kursu";
+
+/*
+ * DELE — resmi kaynaklar (2026-10-01'de kontrol edildi):
+ * - Ne olduğu, kim verdiği, süresiz geçerlilik: https://examenes.cervantes.es/es/dele/que-es ("otorga el Instituto
+ *   Cervantes en nombre del Ministerio de Educación, Formación Profesional y Deportes de España" · "validez oficial,
+ *   vigencia indefinida y reconocimiento internacional")
+ * - B2 yapısı: https://examenes.cervantes.es/es/dele/examenes/b2 (lectura 70 min · 4 tareas · 36 ítems · 25 p;
+ *   auditiva 40 min · 5 tareas · 30 ítems · 25 p; escritas 80 min · 2 tareas · 25 p; orales 20 min + 20 prep · 3 tareas · 25 p)
+ * - Puanlama: B2 sınav rehberi (guia_examen_dele_b2) — APTO için 60 / 100 ve iki grubun her birinde en az 30
+ *   (grup 1 okuma + yazma, grup 2 dinleme + konuşma): https://examenes.cervantes.es/sites/default/files/guia_examen_dele_b2_0.pdf
+ * - Sonuç süresi (~2 ay; mayıs ve kasım ~3 ay), diploma e-postayla dijital: https://examenes.cervantes.es/es/dele/calificaciones
+ * - İstanbul sınav merkezi + okul çağı (11–17) A1 ve A2/B1 sınavları: https://clicestambul.cervantes.es/es/convocatorias
+ */
+const DELE: ExamDef = {
+  slug: "dele-kursu",
+  name: "DELE",
+  label: "DELE Kursu",
+  code: "DELE",
+  illustration: "es",
+  source: "ddmcadde",
+  language: { label: "İspanyolca Kursu", href: ES },
+  meta: {
+    title: "DELE Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "DELE sınavına hazırlık: hedef seviyenize göre birebir özel dersler, Türk ve İspanyol öğretmenler. DELE'nin bölümleri, puanlaması ve sınav merkezi.",
+    reasons: [
+      "title: kaynak başlık \"DELE Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi (diğer kurs sayfalarıyla aynı kalıp)",
+      "description: kaynak açıklama başka sitenin metni; kaynaktaki olgulardan (birebir ders, Türk ve İspanyol öğretmen) + sayfanın genel bilgi bloklarından yeniden yazıldı",
+    ],
+  },
+  hero: { heading: null },
+  blocks: [
+    {
+      kind: "addedStructure",
+      title: "DELE sınavının bölümleri",
+      lead: "DELE her seviyede okuma, dinleme, yazma ve konuşma becerilerini ölçer. Örnek olarak B2 seviyesinin yapısı:",
+      sections: [
+        {
+          name: "Okuma",
+          skill: "Comprensión de lectura",
+          icon: "okuma",
+          parts: [{ title: "", meta: [{ icon: "sure", text: "70 dk" }, { icon: "soru", text: "36 soru" }, { icon: "puan", text: "25 puan" }] }],
+        },
+        {
+          name: "Dinleme",
+          skill: "Comprensión auditiva",
+          icon: "dinleme",
+          parts: [{ title: "", meta: [{ icon: "sure", text: "40 dk" }, { icon: "soru", text: "30 soru" }, { icon: "puan", text: "25 puan" }] }],
+        },
+        {
+          name: "Yazma",
+          skill: "Expresión e interacción escritas",
+          icon: "yazma",
+          parts: [{ title: "", meta: [{ icon: "sure", text: "80 dk" }, { icon: "kisim", text: "2 görev" }, { icon: "puan", text: "25 puan" }] }],
+        },
+        {
+          name: "Konuşma",
+          skill: "Expresión e interacción orales",
+          icon: "konusma",
+          parts: [
+            { title: "", meta: [{ icon: "sure", text: "20 dk + 20 dk hazırlık" }, { icon: "kisim", text: "3 görev" }, { icon: "puan", text: "25 puan" }] },
+          ],
+        },
+      ],
+    },
+    { kind: "prose", heading: "DELE Sınavı Hazırlık Kursunun İçeriği", kicker: "EĞİTİM PROGRAMI" },
+    { kind: "prose", heading: "DELE Kurs Sistemi Hakkında Bilgi", kicker: "KURS SİSTEMİ" },
+    {
+      kind: "addedProse",
+      kicker: "PUANLAMA",
+      title: "DELE nasıl puanlanır?",
+      paragraphs: [
+        "DELE'de sonuç \"APTO\" (başarılı) ya da \"NO APTO\" (başarısız) olarak verilir. B2 sınavında her bölüm 25, toplam 100 puandır; başarılı sayılmak için toplam 60 puan ve iki grubun her birinde en az 30 puan gerekir.",
+        "Birinci grup okuma ve yazma, ikinci grup dinleme ve konuşma bölümlerinden oluşur.",
+        "Sonuçlar sınavdan yaklaşık iki ay sonra, mayıs ve kasım dönemlerinde yaklaşık üç ay sonra açıklanır. Diploma dijital olarak e-postayla gönderilir.",
+      ],
+    },
+    {
+      kind: "addedFaq",
+      title: "DELE hakkında sık sorulanlar",
+      items: [
+        {
+          question: "DELE diploması ne kadar geçerli?",
+          answer: [
+            "Süresiz. DELE diplomaları resmî geçerliliğe sahiptir, süresi dolmaz ve uluslararası alanda tanınır.",
+          ],
+        },
+        {
+          question: "DELE'ye Türkiye'de nerede girebilirim?",
+          answer: [
+            "İstanbul'daki Instituto Cervantes bir DELE sınav merkezidir. Sınav dönemleri ve hangi dönemde hangi seviyenin yapılacağı her yıl ilan edilir; kayıt Instituto Cervantes'in sitesinden yapılır.",
+            "Sözlü sınav, yazılı sınavdan farklı bir günde olabilir.",
+          ],
+        },
+        {
+          question: "Hangi seviyeye girmeliyim?",
+          answer: [
+            "Her seviye ayrı bir sınavdır; hangi seviyeye gireceğinizi kayıtta siz seçersiniz. Başvuracağınız okulun ya da kurumun istediği seviyeyi kontrol edin; hazırlık öncesindeki seviye belirleme sınavı da size uygun seviyeyi gösterir.",
+          ],
+        },
+        {
+          question: "Okul çağındaki öğrenciler için DELE var mı?",
+          answer: [
+            "Evet. 11–17 yaş arası öğrenciler için okul sürümü (DELE para escolares) A1 ve A2/B1 seviyelerinde yapılır; diplomalar genel DELE ile aynı geçerliliğe sahiptir.",
+          ],
+        },
+      ],
+    },
+  ],
+  edits: {
+    // Kaynakta olgu hatası: DELE yalnız İspanya'da yüksek öğrenim için değil; düzenleyen "Milli Eğitim Bakanlığı
+    // yönetmeliği" değil, İspanya Eğitim Bakanlığı adına Instituto Cervantes (examenes.cervantes.es/es/dele/que-es).
+    "DELE, İspanya’da üniversite veya yüksek öğrenim, Master düzeyinde eğitimini devam ettirmek isteyen öğrencilerin girmesi gereken İspanyolca dil sınavıdır. DELE sertifikasının İspanya’nın yanı sıra tüm dünyada geçerliliği kabul edilmiş İspanya Milli Eğitim Bakanlığı yönetmeliklerine göre düzenlenmiş İspanyolca dil seviyesini belirtmektedir.":
+      "DELE (Diplomas de Español como Lengua Extranjera), İspanyolca seviyenizi A1'den C2'ye belgeleyen resmî diplomadır; İspanya Eğitim Bakanlığı adına Instituto Cervantes tarafından verilir. İspanya'da üniversite ya da yüksek lisans eğitimi planlayanların İspanyolca seviyesini belgelediği sınavdır; diploma süresiz geçerlidir ve uluslararası alanda tanınır.",
+  },
+  ignored: [],
+};
+
+const DE = "/yabanci-dil-egitimleri/almanca-kursu";
+
+/*
+ * TELC — resmi kaynaklar (2026-10-01):
+ * - telc gGmbH, DVV'nin yan kuruluşu: https://www.telc.net/wir-sind-telc/die-zukunft-spricht-telc/
+ * - Almanca sınav listesi: https://www.telc.net/sprachpruefungen/zertifikatspruefung/deutsch/
+ * - telc Deutsch B1 yapısı (Lesen 3 + Sprachbausteine 2 = 90 dk, Hören 3 · ca. 30, Schreiben 1 · 30; Sprechen 3 · ca. 15 +
+ *   20 dk hazırlık): https://www.telc.net/sprachpruefungen/deutsch/zertifikat-deutsch-telc-deutsch-b1/
+ * - Yazılı 150 dk; 300 puan (sözlü 75); geçme yazılı 135 + sözlü 45 (%60): telc Deutsch B1 Übungstest 1, s. 29 / 40 —
+ *   https://shop.telc.net/media/catalog/product/file/telc_deutsch_b1_zd_uebungstest_1.pdf
+ * - Sözlü aynı gün ya da 7 gün içinde; sertifikada geçerlilik süresi yazmaz: Prüfungsordnung —
+ *   https://www.telc.net/fileadmin/user_upload/pdfs/AGB_Pruefungsordnung/9994-P00-150010.pdf
+ * - Sonuç 4–6 hafta: https://www.telc.net/sprachpruefungen/sprachpruefungen-support-faqs/
+ * - C1 Hochschule (üniversiteye giriş sınavı): https://www.telc.net/sprachpruefungen/zertifikatspruefung/deutsch/telc-deutsch-c1-hochschule/
+ * - Türkiye'de lisanslı merkezler (Ankara, İstanbul, İzmir, Adana, Antalya): https://www.telc.net/sprachpruefungen/pruefungszentrum-finden/
+ */
+const TELC: ExamDef = {
+  slug: "telc-kursu",
+  name: "TELC",
+  label: "TELC Kursu",
+  code: "telc",
+  illustration: "de",
+  source: "ddmcadde",
+  language: { label: "Almanca Kursu", href: DE },
+  h1Edit: { from: "TELC Kursu Sınav Hazırlık Eğitimi ve Ders Fiyatları", to: "TELC Kursu Sınav Hazırlık Eğitimi", reason: "H1'deki \"ve Ders Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı kararı)" },
+  meta: {
+    title: "TELC Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "telc Almanca sınavına hazırlık: hedef seviyenize göre birebir özel dersler. telc Deutsch B1'in bölümleri, puanlaması ve Türkiye'deki sınav merkezleri.",
+    reasons: [
+      "title: kaynak başlık \"TELC Kursu İstanbul | TELC Sınavına Hazırlık Eğitimi Özel Ders\" 60 karakteri aşıyor — diğer kurs sayfalarıyla aynı kalıp",
+      "description: kaynak açıklama başka sitenin metni; kaynaktaki olgulardan (birebir özel ders) + genel bilgi bloklarından yeniden yazıldı",
+    ],
+  },
+  hero: { heading: null },
+  blocks: [
+    {
+      kind: "addedStructure",
+      title: "telc Deutsch B1 sınavının bölümleri",
+      lead: "telc sınavları yazılı ve sözlü iki kısımdan oluşur. Örnek olarak telc Deutsch B1 (Zertifikat Deutsch):",
+      sections: [
+        { name: "Okuma ve dil yapıları", skill: "Lesen · Sprachbausteine", icon: "okuma", parts: [{ title: "", meta: [{ icon: "sure", text: "90 dk" }, { icon: "kisim", text: "5 bölüm" }] }] },
+        { name: "Dinleme", skill: "Hören", icon: "dinleme", parts: [{ title: "", meta: [{ icon: "sure", text: "~30 dk" }, { icon: "kisim", text: "3 bölüm" }] }] },
+        { name: "Yazma", skill: "Schreiben", icon: "yazma", parts: [{ title: "", meta: [{ icon: "sure", text: "30 dk" }, { icon: "kisim", text: "1 görev" }] }] },
+        { name: "Konuşma", skill: "Sprechen", icon: "konusma", parts: [{ title: "", meta: [{ icon: "sure", text: "~15 dk + 20 dk hazırlık" }, { icon: "kisim", text: "3 bölüm" }] }] },
+      ],
+    },
+    { kind: "prose", heading: "TELC Sınavı Hazırlık Eğitimi İçeriği", kicker: "EĞİTİM PROGRAMI" },
+    { kind: "prose", heading: "Almanca TELC Kurs Sistemi", kicker: "KURS SİSTEMİ" },
+    {
+      kind: "addedProse",
+      kicker: "PUANLAMA",
+      title: "telc nasıl puanlanır?",
+      paragraphs: [
+        "telc Deutsch B1'de toplam 300 puan vardır: yazılı sınav 225, sözlü sınav 75 puan. Geçmek için yazılı ve sözlü sınavın her birinde ayrı ayrı en az %60 (135 ve 45 puan) gerekir.",
+        "Sonuçlar sınavdan 4–6 hafta sonra açıklanır. Sertifikanın üzerinde geçerlilik süresi yazmaz; eski bir sertifikanın kabul edilip edilmediğine onu isteyen kurum karar verir.",
+      ],
+    },
+    {
+      kind: "addedProse",
+      kicker: "SINAV TÜRLERİ",
+      title: "Hangi telc sınavına girmeliyim?",
+      format: "list",
+      paragraphs: [
+        "Genel Almanca: Start Deutsch 1 (A1), A2, Zertifikat Deutsch (B1), B2, C1 ve C2",
+        "Üniversiteye giriş: telc Deutsch C1 Hochschule",
+        "İş hayatı: A2'den C1'e Beruf sınavları",
+        "Sağlık: B1·B2 Pflege ve B2·C1 Medizin",
+        "Okul çağı: A1 Junior, A2 Schule ve B1 Schule",
+      ],
+    },
+    {
+      kind: "addedFaq",
+      title: "TELC hakkında sık sorulanlar",
+      items: [
+        {
+          question: "telc sınavına Türkiye'de nerede girebilirim?",
+          answer: [
+            "telc'in Türkiye'de Ankara, İstanbul, İzmir, Adana ve Antalya'da lisanslı sınav merkezleri var. Hangi merkezde hangi sınavın yapıldığını telc.net'teki sınav merkezi aramasından kontrol edebilirsiniz.",
+          ],
+        },
+        {
+          question: "Sözlü sınav yazılıyla aynı gün mü?",
+          answer: ["Sözlü sınav, yazılı sınavla aynı gün ya da en geç yedi takvim günü sonra yapılabilir."],
+        },
+        {
+          question: "telc Deutsch C1 Hochschule ne işe yarar?",
+          answer: [
+            "Almanya'da üniversiteye girişte dil yeterliliğini göstermek için hazırlanmış telc sınavıdır; okuma, dinleme, yazma ve konuşmayı akademik konularla ölçer.",
+          ],
+        },
+      ],
+    },
+  ],
+  edits: {
+    // Kaynaktaki süreler yalnız B1 için doğru (telc.net) — hangi sınavı anlattığı ve sözlünün tarih sınırı netleştirildi.
+    "Almanca TELC sınavı yazılı ve sözlü olmak üzere iki kısımdan oluşmaktadır. Yazılı bölüm 2 saat 30 dakikadır. Sözlü sınav başlamadan önce 20 dakika hazırlık süresi vardır. Sözlü sınav, yazılı sınavla aynı günde veya başka bir günde yapılabilmektedir.":
+      "Almanca telc sınavları yazılı ve sözlü olmak üzere iki kısımdan oluşur. telc Deutsch B1 sınavında yazılı bölüm 2 saat 30 dakikadır; sözlü sınav başlamadan önce 20 dakika hazırlık süresi vardır. Sözlü sınav, yazılı sınavla aynı günde ya da en geç yedi gün sonra yapılabilir.",
+  },
+  ignored: [],
+};
+
+const FR = "/yabanci-dil-egitimleri/fransizca-kursu";
+const IT = "/yabanci-dil-egitimleri/italyanca-kursu";
+
+/*
+ * ÖSD — resmi kaynaklar (2026-10-02; firma metni almancakurslari.com/sinav/osd-kursu, aynı şubenin Almanca sitesi):
+ * - Kurum: "Verein Österreichisches Sprachdiplom Deutsch", Viyana; 1 Aralık 1994; "state-approved examination and
+ *   assessment system", BMEIA + BMBWF kurullarda: https://osd.at/en/about-us/ · https://www.osd.at/impressum/
+ * - Sınav listesi (ZA1–ZC2, ZDÖ B1, C2 / Wirtschaftssprache Deutsch, B2 · C1 Pflege und medizinische Berufe, KID A1 · A2,
+ *   B1–C1 Jugendliche; B1 "gemeinsam mit GI"): https://www.osd.at/die-pruefungen/osd-prufungen/
+ * - Zertifikat B1 (Goethe-Institut, ÖSD ve Fribourg Üniversitesi ortak): Lesen 65, Hören ~40, Schreiben 60 dk; Sprechen
+ *   çift ~15 / tek ~10 dk + 15 dk hazırlık; 4 modül "einzeln oder in jeder Kombination"; her modül en az 60 / %60;
+ *   100–90 sehr gut · 89–80 gut · 79–70 befriedigend · 69–60 ausreichend; 2024'ten beri dijital de:
+ *   https://www.osd.at/wp-content/uploads/2023/09/ZB1-Durchfuhrungsbestimmungen_10_2023.pdf
+ * - Zertifikat B2: yazılı (70 puan, en az 42) + sözlü (30 puan, en az 18) iki modül; "Jedes Modul kann beliebig oft
+ *   abgelegt bzw. wiederholt werden": https://www.osd.at/wp-content/uploads/2023/09/ZB2-Durchfuhrungsbestimmungen_10_2023.pdf
+ * - Geçerlilik: "Auf dem Zertifikat wird keine Gültigkeitsdauer angegeben" (Prüfungsordnung 01.08.2026) ·
+ *   "Grundsätzlich sind ÖSD-Zertifikate unbefristet gültig": https://osd.at/faq/
+ * - Avusturya "Deutsch vor Zuzug" A1 — ÖSD, Goethe, telc, ÖIF; belge 1 yıldan eski olmamalı:
+ *   https://www.oesterreich.gv.at/en/themen/menschen_aus_anderen_staaten/aufenthalt/3/Seite.120260
+ * - Avusturya üniversiteleri: başvuruda A2, öğrenimde "B1 to C1, depending on the university": https://osd.at/en/worldwide-recognition/
+ * - Modul 2 / Daueraufenthalt: ÖSD B1 yalnız 30.05.2021'den önce; artık yalnız ÖIF:
+ *   https://www.migration.gv.at/de/leben-und-arbeiten-in-oesterreich/rahmenbedingungen-der-integration/integrationsvereinbarung/
+ * - Vatandaşlık: B1 yalnız 29.05.2018–30.05.2021 arası; B2 ve üstü ÖSD kabul: https://www.wien.gv.at/zusammenleben/staatsbuergerschaft-deutschkenntnisse
+ * - Almanya eş birleşimi: BAMF listesinde "„Grundstufe Deutsch 1" des Österreichischen Sprachdiploms (ÖSD)" (ÖSD A1'in eski
+ *   adı); karar "ausschließlich die deutsche Auslandsvertretung":
+ *   https://www.bamf.de/SharedDocs/Anlagen/DE/MigrationAufenthalt/Ehegattennachzug/ehegattennachzug.pdf?__blob=publicationFile&v=9
+ * - Türkiye'deki merkezler (İstanbul 4, Ankara 2, Bursa, İzmir, Adana, Antalya): https://osd.at/pruefungszentren/?country=177
+ * - Sonuç süresi resmi kaynakta yok — yazılmadı.
+ */
+const OSD: ExamDef = {
+  slug: "osd-kursu",
+  name: "ÖSD",
+  label: "ÖSD Kursu",
+  code: "ÖSD",
+  illustration: "de",
+  source: "ddmcadde",
+  language: { label: "Almanca Kursu", href: DE },
+  h1Edit: { from: "ÖSD Kursu Sınav Sistemi ve Ders Fiyatları", to: "ÖSD Kursu Sınav Sistemi", reason: "H1'deki \"ve Ders Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı kararı)" },
+  meta: {
+    title: "ÖSD Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "Avusturya'nın Almanca sınavı ÖSD'ye hazırlık: A1–C1 seviyeleri, online ve yüz yüze eğitim. ÖSD'nin bölümleri, puanlaması ve geçerli olduğu yerler.",
+    reasons: [
+      "title: kaynak başlık \"ÖSD Kursu - Almanca ÖSD Sınavına Hazırlık Eğitimi\" — diğer kurs sayfalarıyla aynı kalıp",
+      "description: kaynak açıklama şube adı taşıyor (şube bilgisi o siteden alınmaz); kaynaktaki olgulardan (A1–C1, online / yüz yüze) + genel bilgi bloklarından yeniden yazıldı",
+    ],
+  },
+  hero: { heading: null },
+  blocks: [
+    {
+      kind: "prose",
+      heading: "ÖSD Kursu Sınav Sistemi ve Ders Fiyatları",
+      kicker: "SINAV HAKKINDA",
+      title: "ÖSD nedir?",
+      take: "rest",
+      prepend: [
+        "ÖSD (Österreichisches Sprachdiplom Deutsch), Avusturya'nın devlet onaylı Almanca sınav sistemidir. Merkezi Viyana'da olan kâr amacı gütmeyen ÖSD derneği tarafından 1994'ten beri düzenlenir; Avusturya Dışişleri ve Eğitim bakanlıkları derneğin kurullarında yer alır.",
+      ],
+    },
+    {
+      kind: "addedStructure",
+      title: "ÖSD Zertifikat B1 sınavının bölümleri",
+      lead: "ÖSD her seviyede okuma, dinleme, yazma ve konuşmayı ölçer. Örnek olarak Goethe-Institut ve Fribourg Üniversitesi ile ortak geliştirilen Zertifikat B1:",
+      sections: [
+        { name: "Okuma", skill: "Lesen", icon: "okuma", parts: [{ title: "", meta: [{ icon: "sure", text: "65 dk" }] }] },
+        { name: "Dinleme", skill: "Hören", icon: "dinleme", parts: [{ title: "", meta: [{ icon: "sure", text: "~40 dk" }] }] },
+        { name: "Yazma", skill: "Schreiben", icon: "yazma", parts: [{ title: "", meta: [{ icon: "sure", text: "60 dk" }] }] },
+        { name: "Konuşma", skill: "Sprechen", icon: "konusma", parts: [{ title: "", meta: [{ icon: "sure", text: "~15 dk + 15 dk hazırlık" }, { icon: "kisim", text: "çift sınav" }] }] },
+      ],
+    },
+    { kind: "prose", heading: "ÖSD Kursları Program İçeriği", kicker: "EĞİTİM PROGRAMI", format: "list" },
+    { kind: "prose", heading: "ÖSD Sınavı Hazırlık Seviyeleri", kicker: "SEVİYELER", format: "list" },
+    {
+      kind: "addedProse",
+      kicker: "SINAV TÜRLERİ",
+      title: "Hangi ÖSD sınavına girmeliyim?",
+      format: "list",
+      paragraphs: [
+        "Genel Almanca: ÖSD Zertifikat A1, A2, B1, B2, C1 ve C2",
+        "Avusturya'ya özgü: Zertifikat Deutsch Österreich B1 (ZDÖ B1)",
+        "Gençler için: KID A1, KID A2 ve B1, B2, C1 Jugendliche",
+        "Sağlık meslekleri: B2 ve C1 Pflege und medizinische Berufe",
+        "İş Almancası: C2 / Wirtschaftssprache Deutsch",
+      ],
+    },
+    {
+      kind: "addedProse",
+      kicker: "PUANLAMA",
+      title: "ÖSD nasıl puanlanır?",
+      paragraphs: [
+        "Zertifikat B1 dört modülden oluşur: okuma, dinleme, yazma ve konuşma. Modüller tek tek ya da birlikte alınabilir; her modülü geçmek için en az 60 puan (%60) gerekir. B1 sınavı 2024'ten beri dijital olarak da yapılabilir.",
+        "B1'de notlar: 90–100 çok iyi (sehr gut), 80–89 iyi (gut), 70–79 orta (befriedigend), 60–69 yeterli (ausreichend); 60'ın altı başarısızdır.",
+        "Zertifikat B2 yazılı ve sözlü iki modüldür: yazılıda 70 puandan en az 42, sözlüde 30 puandan en az 18 puan gerekir. Her modül istendiği kadar tekrarlanabilir.",
+      ],
+    },
+    { kind: "prose", heading: "Neden Dünya Dilleri Merkezi ÖSD Kursları?", kicker: "NEDEN DDM", title: "ÖSD hazırlığında neden DDM?", format: "list" },
+    { kind: "prose", heading: "ÖSD Kurslarına Kimler Katılabilir?", kicker: "KİMLER İÇİN", take: [0, 1, 2, 3, 4], format: "list" },
+    {
+      kind: "drop",
+      heading: "ÖSD Kurslarına Kimler Katılabilir?",
+      take: [5, 6],
+      reason: "pazarlama kapanışı + doğrulanamayan kampanya (\"Kontenjanlar sınırlıdır. Erken kayıt avantajları\") — sayfa sonundaki form aynı işi görüyor",
+    },
+    {
+      kind: "addedFaq",
+      title: "ÖSD hakkında sık sorulanlar",
+      items: [
+        {
+          question: "ÖSD belgesi ne kadar geçerli?",
+          answer: [
+            "ÖSD sertifikalarının süresi dolmaz; sertifikanın üzerinde geçerlilik süresi yazmaz. Eski bir belgenin kabul edilip edilmediğine onu isteyen kurum karar verir.",
+            "Avusturya'ya oturum başvurusunda istenen A1 belgesi (Deutsch vor Zuzug) ise bir yıldan eski olmamalıdır.",
+          ],
+        },
+        {
+          question: "ÖSD aile birleşiminde geçerli mi?",
+          answer: [
+            "Avusturya'ya gelmeden önce istenen A1 belgesi (Deutsch vor Zuzug) için ÖSD kabul edilir. Almanya'da eş birleşiminde ÖSD A1 belgesi (eski adıyla Grundstufe Deutsch 1) BAMF'ın kabul edilen sınavlar listesindedir; son kararı Alman temsilciliği verir.",
+          ],
+        },
+        {
+          question: "ÖSD B1, Avusturya vatandaşlığı için yeterli mi?",
+          answer: [
+            "30 Mayıs 2021'den sonra alınan ÖSD B1 belgesi Avusturya vatandaşlığı ve uzun süreli oturum (Integrationsvereinbarung Modul 2) için kabul edilmez; bu sınavlar artık yalnız ÖIF tarafından yapılır. Vatandaşlık başvurusunda B2 ve üstü ÖSD belgesi kabul edilir.",
+          ],
+        },
+        {
+          question: "Avusturya'da üniversite için hangi seviye gerekir?",
+          answer: [
+            "Başvuruda genellikle A2 düzeyinde Almanca belgesi istenir; öğrenime başlamak için üniversiteye göre B1 ile C1 arası bir seviye gerekir.",
+          ],
+        },
+        {
+          question: "ÖSD mi, Goethe mi?",
+          answer: [
+            "ÖSD Avusturya'nın, Goethe-Institut Almanya'nın sınavıdır; Zertifikat B1 ise iki kurumun Fribourg Üniversitesi ile birlikte geliştirdiği ortak sınavdır. Başvuracağınız kurumun hangi belgeyi kabul ettiğini kontrol edin.",
+          ],
+        },
+        {
+          question: "ÖSD'ye Türkiye'de nerede girebilirim?",
+          answer: [
+            "ÖSD'nin resmi sitesindeki merkez listesinde İstanbul, Ankara, İzmir, Bursa, Adana ve Antalya'da sınav merkezleri var. Güncel merkezleri ve sınav tarihlerini osd.at'teki merkez aramasından kontrol edin.",
+          ],
+        },
+      ],
+    },
+  ],
+  edits: {},
+  ignored: [],
+};
+
+/*
+ * DELF | DALF — resmi kaynaklar (2026-10-01; france-education-international.fr bot koruması → aynı resmi sayfaların
+ * web.archive.org kopyaları, 2026-04/06/08):
+ * - DELF A1–B2 "diplôme officiel délivré par le ministère de l'éducation nationale", "valable à vie"; DELF B2 ve giderek
+ *   DALF C1 üniversiteye giriş; Prim / junior sürümleri: https://www.france-education-international.fr/diplome/delf-tout-public
+ * - DALF C1 + C2: https://www.france-education-international.fr/diplome/dalf
+ * - DELF B2 yapısı (oral 30 dk · 2 alıştırma; écrits 1 sa · 2; production écrite 1 sa · en az 250 kelime; production orale
+ *   20 dk + 30 dk hazırlık; her bölüm 25; en az 50/100, bölümde 5/25 altı eleyici):
+ *   https://www.france-education-international.fr/diplome/delf-tout-public/niveau-b2
+ * - Türkiye: Institut français İstanbul / Ankara / İzmir — https://www.ifturquie.org/istanbul/sinav-ve-diplomalar/delf-dalf-2/
+ */
+const DELF_DALF: ExamDef = {
+  slug: "delf-dalf-kursu",
+  name: "DELF | DALF",
+  label: "DELF | DALF Kursu",
+  code: "DELF · DALF",
+  illustration: "fr",
+  source: "ddmcadde",
+  language: { label: "Fransızca Kursu", href: FR },
+  meta: {
+    title: "DELF DALF Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "DELF ve DALF sınavlarına hazırlık: hedef seviyenize göre birebir özel dersler. DELF B2'nin bölümleri, puanlaması ve Türkiye'deki sınav merkezleri.",
+    reasons: [
+      "title: kaynak \"DELF - DALF Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi",
+      "description: kaynak açıklama başka sitenin metni; kaynaktaki olgulardan (birebir özel ders) + genel bilgi bloklarından yeniden yazıldı",
+    ],
+  },
+  hero: { heading: null },
+  blocks: [
+    {
+      kind: "addedStructure",
+      title: "DELF B2 sınavının bölümleri",
+      lead: "Her seviyede dört beceri ölçülür; her bölüm 25, toplam 100 puandır. Örnek olarak DELF B2:",
+      sections: [
+        { name: "Dinleme", skill: "Compréhension de l'oral", icon: "dinleme", parts: [{ title: "", meta: [{ icon: "sure", text: "30 dk" }, { icon: "kisim", text: "2 alıştırma" }, { icon: "puan", text: "25 puan" }] }] },
+        { name: "Okuma", skill: "Compréhension des écrits", icon: "okuma", parts: [{ title: "", meta: [{ icon: "sure", text: "60 dk" }, { icon: "kisim", text: "2 alıştırma" }, { icon: "puan", text: "25 puan" }] }] },
+        { name: "Yazma", skill: "Production écrite", icon: "yazma", parts: [{ title: "", meta: [{ icon: "sure", text: "60 dk" }, { icon: "kisim", text: "en az 250 kelime" }, { icon: "puan", text: "25 puan" }] }] },
+        { name: "Konuşma", skill: "Production orale", icon: "konusma", parts: [{ title: "", meta: [{ icon: "sure", text: "20 dk + 30 dk hazırlık" }, { icon: "kisim", text: "2 bölüm" }, { icon: "puan", text: "25 puan" }] }] },
+      ],
+    },
+    { kind: "prose", heading: "DELF Sınavı Hazırlık Kursunun İçeriği", kicker: "EĞİTİM PROGRAMI" },
+    { kind: "prose", heading: "DELF Kurs Sistemi Hakkında Bilgi", kicker: "KURS SİSTEMİ" },
+    {
+      kind: "addedProse",
+      kicker: "PUANLAMA",
+      title: "DELF ve DALF nasıl puanlanır?",
+      paragraphs: [
+        "Her bölüm 25 puandır. Diploma için toplam 100 üzerinden en az 50 puan ve her bölümde en az 5 puan gerekir; bir bölümde 5 puanın altında kalmak sınavı kaybettirir.",
+        "DELF A1, A2, B1 ve B2; DALF C1 ve C2 seviyelerinden oluşur. Her seviye ayrı bir diplomadır ve ömür boyu geçerlidir.",
+      ],
+    },
+    {
+      kind: "addedFaq",
+      title: "DELF ve DALF hakkında sık sorulanlar",
+      items: [
+        {
+          question: "DELF ve DALF'a Türkiye'de nerede girebilirim?",
+          answer: [
+            "İstanbul, Ankara ve İzmir'deki Institut français merkezlerinde. Sınav takvimi her yıl Institut français Türkiye'nin sitesinde yayımlanır.",
+          ],
+        },
+        {
+          question: "Üniversite için hangi seviye gerekir?",
+          answer: [
+            "DELF B2 ve giderek daha çok DALF C1, Fransa'daki, Avrupa'daki ve Fransızca eğitim veren üniversitelere ve bazı grandes écoles'e girişte kullanılır. Başvuracağınız okulun şartını kontrol edin.",
+          ],
+        },
+        {
+          question: "Çocuklar ve gençler için DELF var mı?",
+          answer: ["Evet. Çocuklar için DELF Prim, gençler için DELF junior / scolaire sürümleri vardır."],
+        },
+      ],
+    },
+  ],
+  edits: {
+    // Kaynakta olgu hatası: yalnız Fransa'da yüksek öğrenim için değil; "Milli Eğitim Bakanlığı yönetmeliği" değil, Fransa
+    // Milli Eğitim Bakanlığı'nın verdiği diploma; DALF hiç anılmıyordu (france-education-international.fr).
+    "DELF, Fransa’da üniversite veya yüksek öğrenim, Master düzeyinde eğitimini devam ettirmek isteyen öğrencilerin girmesi gereken Fransızca dil sınavıdır. DELF sertifikasının Fransa’nın yanı sıra tüm dünyada geçerliliği kabul edilmiş Fransa Milli Eğitim Bakanlığı yönetmeliklerine göre düzenlenmiş Fransızca dil seviyesini belirtmektedir.":
+      "DELF ve DALF, Fransa Milli Eğitim Bakanlığı'nın verdiği resmî Fransızca diplomalarıdır: DELF A1'den B2'ye, DALF C1 ve C2 seviyelerini belgeler. Diplomalar dünya genelinde tanınır ve ömür boyu geçerlidir; DELF B2 ve DALF C1, Fransız ve Fransızca eğitim veren üniversitelere başvuruda kullanılır.",
+  },
+  ignored: [],
+};
+
+/*
+ * CILS | CELI — resmi kaynaklar (2026-10-01):
+ * - CILS seviyeleri (A1, A2, UNO-B1, DUE-B2, TRE-C1, QUATTRO-C2): https://cils.unistrasi.it/1/79/73/Livello-CILS-UNO-B1.htm
+ * - CILS beş beceri: https://cils.unistrasi.it/1/83/15/Le_prove.htm ; her beceri ayrı geçilir, geçilen bölümler 18 ay
+ *   saklanır: https://cils.unistrasi.it/1/117/83/La_valutazione.htm ; "non ha scadenza", B1–C2 mayıs/haziran + aralık:
+ *   https://cils.unistrasi.it/public/articoli/204/Istruzioni%20per%20le%20sedi%20di%20esame.pdf
+ * - DUE-B2 "livello minimo … per l'accesso al sistema universitario italiano": https://cils.unistrasi.it/1/79/74/Livello__CILS_DUE-B2.htm
+ * - CELI seviyeleri + CELI 3 üniversiteye kayıt (MIUR): https://cvcl.unistrapg.it/pagine/esami-celi-generici ;
+ *   "non hanno scadenza": https://cvcl.unistrapg.it/pagine/esami-celi-lingua-italiana ; yazılı + sözlü ayrı en düşük puan,
+ *   kısmi başarı 1 yıl, A/B/C notları, haziran + kasım (mart yalnız A1–B2):
+ *   https://www.unistrapg.it/sites/default/files/docs/certificazioni/regolamento-esami-celi-parte-pubblica.pdf
+ * - Türkiye: İstanbul İtalyan Kültür Merkezi "ente certificatore CILS e CELI" + Ankara / İstanbul / İzmir'de diğer merkezler —
+ *   https://ambankara.esteri.it/it/italia-e-turchia/diplomazia-culturale/lingua-e-cultura-italiana/corsi/
+ */
+const CILS_CELI: ExamDef = {
+  slug: "cils-celi-kursu",
+  name: "CILS | CELI",
+  label: "CILS | CELI Kursu",
+  code: "CILS · CELI",
+  illustration: "it",
+  source: "ddmcadde",
+  language: { label: "İtalyanca Kursu", href: IT },
+  meta: {
+    title: "CILS CELI Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "CILS ve CELI sınavlarına hazırlık: İtalyan öğretmenlerle birebir özel dersler. İki sınavın seviyeleri, değerlendirmesi ve Türkiye'deki sınav merkezleri.",
+    reasons: [
+      "title: kaynak \"CELI - CILS Kursu | Dünya Dilleri Merkezi\" — sayfa adıyla aynı sıra + \"İstanbul\"",
+      "description: kaynak açıklama başka sitenin metni; kaynaktaki olgulardan (birebir özel ders, Türk ve İtalyan öğretmen) yeniden yazıldı",
+    ],
+  },
+  hero: { heading: null },
+  blocks: [
+    {
+      kind: "addedProse",
+      kicker: "SEVİYELER",
+      title: "CILS ve CELI seviyeleri",
+      format: "list",
+      paragraphs: [
+        "CILS (Siena Yabancılar Üniversitesi): A1, A2, UNO-B1, DUE-B2, TRE-C1 ve QUATTRO-C2",
+        "CELI (Perugia Yabancılar Üniversitesi): CELI Impatto (A1), CELI 1 (A2), CELI 2 (B1), CELI 3 (B2), CELI 4 (C1) ve CELI 5 (C2)",
+        "İtalyan üniversitelerine kayıt için B2 seviyesi (CILS DUE-B2 ya da CELI 3) istenir.",
+      ],
+    },
+    { kind: "prose", heading: "CILS ve CELI Sınavı Hazırlık Kursunun İçeriği", kicker: "EĞİTİM PROGRAMI" },
+    { kind: "prose", heading: "CILS ve CELI Kurs Sistemi", kicker: "KURS SİSTEMİ" },
+    {
+      kind: "addedProse",
+      kicker: "DEĞERLENDİRME",
+      title: "Sınavlar nasıl değerlendirilir?",
+      paragraphs: [
+        "CILS'te dinleme, okuma, dil yapıları, yazma ve konuşma ayrı ayrı değerlendirilir ve her becerinin geçilmesi gerekir. Geçilen bölümler 18 ay saklanır; bu sürede yalnız geçilemeyen bölümlere yeniden girilebilir.",
+        "CELI'de yazılı ve sözlü bölümün her birinde en düşük puan aranır; kısmi başarı bir yıl saklanır. Notlar A (çok iyi), B (iyi) ve C (yeterli) olarak verilir.",
+        "İki sertifikanın da süresi dolmaz.",
+      ],
+    },
+    {
+      kind: "addedFaq",
+      title: "CILS ve CELI hakkında sık sorulanlar",
+      items: [
+        {
+          question: "CILS ve CELI'ye Türkiye'de nerede girebilirim?",
+          answer: [
+            "İstanbul'daki İtalyan Kültür Merkezi hem CILS hem CELI sınav merkezidir. İtalya'nın Ankara Büyükelçiliği'nin listesinde Ankara, İstanbul ve İzmir'de başka merkezler de yer alır.",
+          ],
+        },
+        {
+          question: "Sınavlar ne zaman yapılıyor?",
+          answer: [
+            "CILS'te B1–C2 sınavları yılda iki kez, mayıs/haziran ve aralıkta yapılır. CELI'de tüm seviyeler haziran ve kasımda, A1–B2 seviyeleri ayrıca martta yapılır.",
+          ],
+        },
+        {
+          question: "CILS mi, CELI mi?",
+          answer: [
+            "İkisi de A1'den C2'ye seviye belgeleyen, süresi dolmayan resmî İtalyanca sertifikalarıdır ve B2 seviyeleri üniversiteye kayıtta kabul edilir. Seçimi çoğunlukla sınav tarihine ve merkeze göre yapabilirsiniz; başvuracağınız kurumun özel bir şartı olup olmadığını kontrol edin.",
+          ],
+        },
+      ],
+    },
+  ],
+  edits: {
+    // Kaynakta kopyala-yapıştır hatası ("İspanyolca dil sınavı", "İspanyolca dil seviyesi") ve yanlış kurum ("İtalya Milli
+    // Eğitim Bakanlığı yönetmelikleri") — CILS Siena, CELI Perugia Yabancılar Üniversitesi (cils.unistrasi.it, cvcl.unistrapg.it).
+    "CILS / CELI, İtalya’da üniversite veya yüksek öğrenim, Master düzeyinde eğitimini devam ettirmek isteyen öğrencilerin girmesi gereken İspanyolca dil sınavıdır. CILS / CELI sertifikasının İtalya’nın yanı sıra tüm dünyada geçerliliği kabul edilmiş İtalya Milli Eğitim Bakanlığı yönetmeliklerine göre düzenlenmiş İspanyolca dil seviyesini belirtmektedir.":
+      "CILS (Siena Yabancılar Üniversitesi) ve CELI (Perugia Yabancılar Üniversitesi), İtalyanca seviyenizi A1'den C2'ye belgeleyen resmî sertifikalardır. Sertifikaların süresi dolmaz; İtalya'da üniversite ya da yüksek lisans eğitimi için B2 seviyesi istenir.",
+    // Yazım: "içermektedrr".
+    "CILS veya CELI sınavına yönelik eğitimlerimiz gireceğiniz A1, A2, B1, B2, C1, C2 seviyelerine uygun olarak hazırlanmaktadır. CILS ve CELI özel derslerin içeriği Genel İtalyanca, dil bilgisi, gramer tekrarı, kelime bilgisi, okuma, yazma, konuşma ve dinleme etütleri bu eğitimlerin yanı sıra sınav tekniği içermektedrr. Eğitimler Türk ve İtalyan öğretmenlerimiz tarafından düzenlenmektedir.":
+      "CILS veya CELI sınavına yönelik eğitimlerimiz gireceğiniz A1, A2, B1, B2, C1, C2 seviyelerine uygun olarak hazırlanmaktadır. CILS ve CELI özel derslerin içeriği Genel İtalyanca, dil bilgisi, gramer tekrarı, kelime bilgisi, okuma, yazma, konuşma ve dinleme etütleri bu eğitimlerin yanı sıra sınav tekniği içermektedir. Eğitimler Türk ve İtalyan öğretmenlerimiz tarafından düzenlenmektedir.",
+  },
+  ignored: [],
+};
+
+const EN = "/yabanci-dil-egitimleri/ingilizce-kursu";
+
+/*
+ * e-TEP — resmi kaynaklar (2026-10-01):
+ * - 2026 e-TEP Kılavuzu: https://dokuman.osym.gov.tr/pdfdokuman/2026/e-TEP/kilavuz_tepd07042026.pdf ("iki oturum ve dört
+ *   bölüm"; okuma 30 soru 60 dk, dinleme 30 soru 30-33 dk, konuşma 4 görev 11-13 dk, yazma 2 görev 45-50 dk; her bölüm 30,
+ *   "120 üzerinden"; sonuç "en geç 30 gün"; merkezler Adana, Ankara, İstanbul, İzmir e-Sınav Merkezleri; geçerlilik "2 yıl
+ *   … önerilmektedir", akademik atama / doçentlikte "sürekli geçerlilik")
+ * - YÖK kararı (haber 11.07.2025): https://www.yok.gov.tr/tr/news/elektronik-ingilizce-yeterlik-sinavi-e-tep-yuksekogretim-kurulu-tarafindan-kabul-edilen-merkezi-yabanci-dil-sinavlari-arasina-girdi-8JUht
+ * - YDS eşdeğerliği, tek yönlü; 66 → 75: https://dokuman.osym.gov.tr/pdfdokuman/2025/e-TEP/esdegerlik_21082025.pdf
+ */
+const ETEP: ExamDef = {
+  slug: "e-tep-kursu",
+  name: "e-TEP",
+  label: "E-TEP Kursu",
+  code: "e-TEP",
+  illustration: "dort-beceri",
+  source: "ddmcadde",
+  language: { label: "İngilizce Kursu", href: EN },
+  h1Edit: { from: "E-TEP Kursu Eğitim Sistemi ve Ders Fiyatları", to: "E-TEP Kursu Eğitim Sistemi", reason: "H1'deki \"Ders Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı kararı)" },
+  meta: {
+    title: "E-TEP Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "E-TEP hazırlık kursu: hafta sonu 8 kişilik gruplar, 60 ders / 2,5 ay. ÖSYM e-TEP sınavının dört bölümü, puanlaması ve YDS eşdeğerliği.",
+    reasons: [
+      "title: kaynak başlık \"E-TEP Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi",
+      "description: kaynaktaki olgulardan (8 kişilik grup, 60 ders / 2,5 ay) + sayfanın genel bilgi bloklarından yeniden yazıldı",
+    ],
+  },
+  hero: { heading: null },
+  blocks: [
+    {
+      kind: "addedStructure",
+      title: "e-TEP sınavının bölümleri",
+      lead: "ÖSYM'nin e-TEP sınavı bilgisayar ortamında, iki oturumda dört bölümden oluşur; her bölüm 30, toplam 120 puandır.",
+      sections: [
+        { name: "Okuma", skill: "1. oturum", icon: "okuma", parts: [{ title: "", meta: [{ icon: "sure", text: "60 dk" }, { icon: "soru", text: "30 soru" }] }] },
+        { name: "Dinleme", skill: "1. oturum", icon: "dinleme", parts: [{ title: "", meta: [{ icon: "sure", text: "30–33 dk" }, { icon: "soru", text: "30 soru" }] }] },
+        { name: "Konuşma", skill: "2. oturum", icon: "konusma", parts: [{ title: "", meta: [{ icon: "sure", text: "11–13 dk" }, { icon: "kisim", text: "4 görev" }] }] },
+        { name: "Yazma", skill: "2. oturum", icon: "yazma", parts: [{ title: "", meta: [{ icon: "sure", text: "45–50 dk" }, { icon: "kisim", text: "2 görev" }] }] },
+      ],
+    },
+    { kind: "prose", heading: "E-TEP Kursu Eğitim Sistemi ve Ders Fiyatları", kicker: "PROGRAM HAKKINDA", title: "E-TEP hazırlık programı", take: "rest" },
+    {
+      kind: "prose",
+      heading: "E-TEP Sınav Hazırlık Program İçeriği",
+      kicker: "EĞİTİM PROGRAMI",
+      format: "list",
+      list: {
+        groups: [
+          "Diagnostic & Level Analysis",
+          "Academic Reading Skills",
+          "Listening & Note-Taking",
+          "Academic Writing",
+          "Speaking & Pronunciation",
+          "Integrated Exam Practice",
+        ],
+        groupsAs: "columns",
+      },
+    },
+    {
+      kind: "facts",
+      heading: "E-TEP Sınavı Hazırlık Program Detayları",
+      kicker: "KURS DÜZENİ",
+      icon: "takvim",
+      leadTake: null,
+      icons: ["takvim", "saat", "sure", "sure", "grup"],
+    },
+    {
+      kind: "addedProse",
+      kicker: "PUANLAMA",
+      title: "e-TEP nasıl puanlanır, nerede geçerlidir?",
+      paragraphs: [
+        "Her bölüm 30, toplam 120 puan üzerinden değerlendirilir. Sonuç belgesinde her bölümün puanı ve karşılık gelen dil düzeyi ile genel dil düzeyiniz (B1, B2 ya da C1) ayrı ayrı gösterilir; sonuçlar en geç 30 gün içinde açıklanır.",
+        "YÖK, e-TEP'i Temmuz 2025'te kabul edilen merkezî yabancı dil sınavları arasına aldı: öğretim elemanı atamaları, doçentlik başvuruları, yabancı dille eğitim yapılan programlar ve lisansüstü başvurularında kullanılabilir.",
+        "e-TEP puanına YDS eşdeğerliği verilir; eşdeğerlik tek yönlüdür, YDS puanına e-TEP eşdeğerliği verilmez. Örneğin e-TEP'te 66 puan, YDS'de 75 puana karşılık gelir.",
+        "Sonuçların sınav tarihinden itibaren 2 yıl geçerli sayılması önerilir; öğretim elemanı atamaları ve doçentlik başvurularında ise sonuç süresiz geçerlidir.",
+      ],
+    },
+    {
+      kind: "addedFaq",
+      title: "e-TEP hakkında sık sorulanlar",
+      items: [
+        {
+          question: "e-TEP'e nerede girilir?",
+          answer: [
+            "Adana, Ankara, İstanbul ve İzmir'deki ÖSYM Elektronik Sınav Merkezlerinde, bilgisayar başında. Sınav yılda birkaç dönem yapılır (2026'da dört dönem); güncel tarihler için ÖSYM'nin sınav takvimine bakın.",
+          ],
+        },
+        {
+          question: "e-TEP ile YDS arasındaki fark nedir?",
+          answer: [
+            "YDS çoktan seçmeli sorularla okuma, dil bilgisi ve kelime bilgisini ölçer. e-TEP ise okuma, dinleme, konuşma ve yazma becerilerinin dördünü de bilgisayar ortamında ölçer.",
+          ],
+        },
+        {
+          question: "Kaç puan almam gerekir?",
+          answer: [
+            "Gereken puan başvurduğunuz kurumun ya da programın şartına bağlıdır. Akademik başvurularda çoğunlukla YDS karşılığı istenir; ÖSYM'nin eşdeğerlik tablosu e-TEP puanınızın YDS karşılığını gösterir.",
+          ],
+        },
+      ],
+    },
+  ],
+  edits: {
+    // Yazım: hitap tutarsızlığı ("geliştirmezsiniz … hazırlanırsın").
+    "Bu programda sadece İngilizcenizi geliştirmezsiniz, doğrudan E-TEP sınavına hazırlanırsın. Her ders gerçek sınav formatında çalışır, performansınız detaylı analiz edilir ve tamamen skor hedefli özel bir gelişim planı uygulanır.":
+      "Bu programda sadece İngilizcenizi geliştirmezsiniz, doğrudan E-TEP sınavına hazırlanırsınız. Her ders gerçek sınav formatında çalışır, performansınız detaylı analiz edilir ve tamamen skor hedefli özel bir gelişim planı uygulanır.",
+  },
+  ignored: [],
+};
+
+/*
+ * OET — resmi kaynaklar (2026-10-01; occupationalenglishtest.org → oet.com):
+ * - OET Test Handbook 2026: https://cdn-aus.aglty.io/oet/pdf-files/OET%20Test%20Handbook%202026.pdf (CBLA; 12 meslek;
+ *   Listening ~40 dk · 3 bölüm · 42 soru, Reading 60 dk · 3 bölüm · 42 soru, Writing 45 dk (5 dk okuma) · 1 görev, Speaking
+ *   ~20 dk · 2 rol oyunu; Listening + Reading tüm meslekler için aynı; 0–500, 10'luk; A 450-500 · B 350-440 · C+ 300-340 ·
+ *   C 200-290 · D 100–190 · E 0–90; bilgisayar / evden sonuç çoğunlukla 6 gün, kâğıt ~13 gün)
+ * - Üç biçim (kâğıt, bilgisayar, OET@Home): https://oet.com/en-us/test/test-overview
+ * - NMC: Yazma C+ + diğerleri B — https://oet.com/en-us/post/nmc-amends-oet-writing-to-c ; ECFMG: her bölümde 350 (B) —
+ *   https://oet.com/en-us/post/oet-accepted-in-the-us-for-both-doctors-and-nurses
+ * - Türkiye'deki sınav merkezleri DOĞRULANAMADI → yazılmadı.
+ */
+const OET: ExamDef = {
+  slug: "oet-kursu",
+  name: "OET",
+  label: "OET Kursu",
+  code: "OET",
+  illustration: "dort-beceri",
+  source: "ddmcadde",
+  language: { label: "İngilizce Kursu", href: EN },
+  h1Edit: { from: "OET Kursu Sınavı Hazırlık Eğitimi ve Fiyatları", to: "OET Kursu Sınavı Hazırlık Eğitimi", reason: "H1'deki \"ve Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı kararı)" },
+  meta: {
+    title: "OET Kursu İstanbul | Dünya Dilleri Merkezi",
+    description:
+      "Sağlık profesyonelleri için OET hazırlık kursu: hafta sonu 12 kişilik gruplar, 72 ders / 3 ay. OET'nin bölümleri, not sistemi ve istenen notlar.",
+    reasons: [
+      "title: kaynak başlık \"OET Kursu | Dünya Dilleri Merkezi\" — yerel arama için \"İstanbul\" eklendi",
+      "description: kaynaktaki olgulardan (12 kişilik grup, 72 ders / 3 ay) + sayfanın genel bilgi bloklarından yeniden yazıldı",
+    ],
+  },
+  hero: { heading: null },
+  blocks: [
+    {
+      kind: "prose",
+      heading: "OET Kursu Sınavı Hazırlık Eğitimi ve Fiyatları",
+      kicker: "SINAV HAKKINDA",
+      title: "OET kimler için, nerede geçerli?",
+      take: "rest",
+      append: [
+        "OET 12 sağlık mesleği için yapılır: diş hekimliği, diyetetik, tıp, hemşirelik, ergoterapi, optometri, eczacılık, fizyoterapi, podiatri, radyografi, dil ve konuşma terapisi ve veteriner hekimlik.",
+      ],
+    },
+    {
+      kind: "addedStructure",
+      title: "OET sınavının bölümleri",
+      lead: "Dinleme ve Okuma tüm meslekler için aynıdır; Yazma ve Konuşma adayın mesleğine göre hazırlanır.",
+      sections: [
+        { name: "Dinleme", skill: "Listening", icon: "dinleme", parts: [{ title: "", meta: [{ icon: "sure", text: "~40 dk" }, { icon: "kisim", text: "3 bölüm" }, { icon: "soru", text: "42 soru" }] }] },
+        { name: "Okuma", skill: "Reading", icon: "okuma", parts: [{ title: "", meta: [{ icon: "sure", text: "60 dk" }, { icon: "kisim", text: "3 bölüm" }, { icon: "soru", text: "42 soru" }] }] },
+        { name: "Yazma", skill: "Writing", icon: "yazma", parts: [{ title: "", meta: [{ icon: "sure", text: "45 dk" }, { icon: "kisim", text: "1 mektup" }] }] },
+        { name: "Konuşma", skill: "Speaking", icon: "konusma", parts: [{ title: "", meta: [{ icon: "sure", text: "~20 dk" }, { icon: "kisim", text: "2 rol oyunu" }] }] },
+      ],
+    },
+    {
+      kind: "prose",
+      heading: "OET Sınavının Bölümleri",
+      kicker: "BÖLÜM İÇERİKLERİ",
+      title: "Bölümlerde neler çıkar?",
+      format: "list",
+      list: { lead: 1, groups: ["Listening (Dinleme)", "Reading (Okuma)", "Writing (Yazma)", "Speaking (Konuşma)"] },
+    },
+    { kind: "prose", heading: "OET Kursu Kimler İçin Uygundur?", kicker: "KİMLER İÇİN", format: "list" },
+    { kind: "prose", heading: "OET Sınavının Avantajları", kicker: "AVANTAJLAR", format: "list" },
+    { kind: "prose", heading: "OET Skor Sistemi", kicker: "PUANLAMA", title: "OET not sistemi", take: [0, 1, 2, 3, 4], format: "list" },
+    {
+      kind: "prose",
+      heading: "OET Skor Sistemi",
+      kicker: "GEREKEN NOT",
+      title: "Hangi not isteniyor?",
+      take: [5],
+      append: [
+        "OET 0–500 ölçeğinde, 10 puanlık aralıklarla puanlanır; dört bölümün her biri ayrı not alır.",
+        "Sonuçlar bilgisayarda ve evden yapılan sınavda çoğunlukla 6 gün içinde, kâğıt sınavda yaklaşık iki hafta sonra açıklanır.",
+      ],
+    },
+    {
+      kind: "drop",
+      heading: "OET Skor Sistemi",
+      take: [6],
+      reason: "pazarlama çağrısı (\"doğru yerdesiniz!\") — sayfa sonundaki form aynı işi görüyor; kurum iddiası taşınmaz",
+    },
+    { kind: "prose", heading: "OET Sınav Hazırlık İçin Neden DDM?", kicker: "NEDEN DDM", title: "OET hazırlığında neden DDM?", take: [0, 1, 2, 3, 4], format: "list" },
+    {
+      kind: "prose",
+      heading: "OET Sınav Hazırlık İçin Neden DDM?",
+      kicker: "EĞİTİM SİSTEMİ",
+      // Kaynak satırı "Size Özel Eğitim Sistemi" bu bloğun başlığı (aşağıda ignored).
+      title: "Size özel eğitim sistemi",
+      take: [6, 7, 8, 9],
+      format: "list",
+      list: { lead: 1 },
+    },
+    {
+      kind: "facts",
+      heading: "OET Grup Eğitimi Program Detayları",
+      kicker: "KURS DÜZENİ",
+      icon: "takvim",
+      leadTake: null,
+      icons: ["takvim", "saat", "sure", "sure", "grup"],
+    },
+    {
+      kind: "addedFaq",
+      title: "OET hakkında sık sorulanlar",
+      items: [
+        {
+          question: "OET'ye nasıl girilir?",
+          answer: [
+            "Üç biçimde: kâğıt üzerinde, sınav merkezinde bilgisayarda ya da evden (OET@Home). Sınav tarihleri ve merkezler OET'nin resmi sitesinden (oet.com) seçilir.",
+          ],
+        },
+        {
+          question: "OET mi, IELTS mi?",
+          answer: [
+            "IELTS genel ve akademik İngilizceyi, OET ise sağlık ortamında kullanılan mesleki İngilizceyi ölçer. Birçok sağlık kurumu ikisini de kabul eder; hangisinin ve hangi notun istendiğini başvuracağınız kurumdan kontrol edin.",
+          ],
+        },
+        {
+          question: "Her bölümde B notu şart mı?",
+          answer: [
+            "Kuruma göre değişir. Örneğin İngiltere'de hemşire kaydı (NMC) Dinleme, Okuma ve Konuşmada en az B, Yazmada en az C+ kabul eder; ABD'de ECFMG her bölümde en az 350 puan (B) ister.",
+          ],
+        },
+      ],
+    },
+  ],
+  edits: {
+    // Ülke adları Türkçe.
+    "Doktorlar, hemşireler, diş hekimleri, eczacılar ve diğer sağlık çalışanlarının mesleki İngilizce becerilerini ölçer. Özellikle United Kingdom, Australia, New Zealand ve Ireland gibi ülkelerde kabul görmektedir.":
+      "Doktorlar, hemşireler, diş hekimleri, eczacılar ve diğer sağlık çalışanlarının mesleki İngilizce becerilerini ölçer. Özellikle Birleşik Krallık, Avustralya, Yeni Zelanda ve İrlanda gibi ülkelerde kabul görmektedir.",
+    // Kaynaktaki not bantları 0–100 ölçeğinde ve yanlış — resmi ölçek 0–500 (OET Test Handbook 2026).
+    "A (90–100)": "A (450–500)",
+    "B (80–89)": "B (350–440)",
+    "C+ (70–79)": "C+ (300–340)",
+    "C (60–69)": "C (200–290)",
+    "D / E (60 altı)": "D (100–190) / E (0–90)",
+    // "Genellikle en az B" kurumdan kuruma değişiyor (NMC Yazma'da C+ kabul ediyor).
+    "Genellikle sağlık kurumları en az B seviyesi talep eder.":
+      "Sağlık kurumlarının çoğu bölümlerde en az B (350) notu ister; bazı kurumlar tek bir bölümde C+ kabul eder.",
+  },
+  ignored: [
+    "Size Özel Eğitim Sistemi", // "Size özel eğitim sistemi" bloğunun başlığı olarak basılıyor.
+    // "Kimler İçin Uygundur?" bölümünün tekrarı + pazarlama kapanışı.
+    "OET Sınavına Kimler Katılmalı?",
+    "Yurtdışında çalışmak isteyen sağlık profesyonelleri",
+    "OET sınavından yüksek skor hedefleyenler",
+    "IELTS yerine mesleki sınav tercih edenler",
+    "OET odaklı profesyonel eğitimimiz ile daha hızlı öğrenin, daha yüksek skor alın, yurtdışı mesleki yaşam fırsatlarından yararlanın.",
+  ],
+};
+
+/** Yayındaki sınavlar — gizlenenler (`data/hiddenPages.ts`) tanımlarıyla dosyada durur, burada süzülür. */
+const ALL_EXAMS: ExamDef[] = [TOEFL, IELTS, PROFICIENCY, GRE, GMAT, SAT, YDS, TOEIC, AILE_BIRLESIMI, PTE, FRANSIZCA_AILE, YOKDIL, TOEFL_ESSENTIALS, INGILTERE_VIZE, TESTDAF, TOEFL_PRIMARY, DELE, ETEP, OET, TELC, OSD, DELF_DALF, CILS_CELI];
+
+export const EXAMS: ExamDef[] = ALL_EXAMS.filter((e) => !isHiddenExam(e.slug));
 
 /**
  * "Diğer sınavlar" dizininin grupları (UI turu 2026-09-28). Başlıklar arayüz etiketi;
@@ -1029,15 +1941,19 @@ export const EXAMS: ExamDef[] = [TOEFL, IELTS, PROFICIENCY, GRE, GMAT, SAT, YDS,
 export const EXAM_GROUPS: { title: string; slugs: string[] }[] = [
   {
     title: "Uluslararası İngilizce sınavları",
-    slugs: ["toefl-kursu", "ielts-kursu", "academic-pte", "toeic-kursu", "toefl-essentials-kursu", "cocuklar-icin-toefl-primary-egitimi"],
+    slugs: ["toefl-kursu", "ielts-kursu", "academic-pte", "toeic-kursu", "toefl-essentials-kursu", "cocuklar-icin-toefl-primary-egitimi", "oet-kursu"],
   },
-  { title: "Türkiye'deki sınavlar", slugs: ["yds-kursu", "yokdil-sinavi-kursu", "proficiency-kursu"] },
+  { title: "Türkiye'deki sınavlar", slugs: ["yds-kursu", "yokdil-sinavi-kursu", "e-tep-kursu", "proficiency-kursu"] },
   { title: "Yurt dışında üniversite", slugs: ["sat-kursu", "gre-kursu", "gmat-kursu", "testdaf-kursu"] },
+  // 2026-10-01: eski sitede olmayan, ddmcadde kaynaklı Avrupa dili sınavları.
+  { title: "Avrupa dillerinde sınavlar", slugs: ["telc-kursu", "osd-kursu", "delf-dalf-kursu", "dele-kursu", "cils-celi-kursu"] },
   {
     title: "Vize ve aile birleşimi",
     slugs: ["ingiltere-vize-sinavi-ingilizce-a1kursu", "aile-birlesimi-egitimi", "fransizca-aile-birlesimi-kursu"],
   },
-];
+]
+  .map((g) => ({ ...g, slugs: g.slugs.filter((s) => !isHiddenExam(s)) }))
+  .filter((g) => g.slugs.length > 0);
 
 export function getExamDef(slug: string): ExamDef | undefined {
   return EXAMS.find((e) => e.slug === slug);

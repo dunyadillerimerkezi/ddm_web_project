@@ -10,7 +10,7 @@
 import { BRANCH_LIST } from "@/data/branches";
 import { LANGUAGE_SECTION } from "@/data/home";
 import { HUB_DIRECTORY } from "@/data/hubs";
-import { LANGUAGES } from "@/data/languages";
+import { LANGUAGES, LANGUAGE_PAGES } from "@/data/languages";
 import type { LanguageLink, LanguageTileData } from "@/components/sections/HubLanguages";
 import { isProducedPage } from "@/lib/pageRegistry";
 
@@ -55,8 +55,13 @@ const languageHref = (slug: string) => `/yabanci-dil-egitimleri/${slug}`;
  * 10 dil (6.4 sayfaları) — bayrak, kod ve selam `data/languages.ts`ten.
  * `label: "short"` → "İngilizce", `"course"` → "İngilizce Kursu".
  */
-export function languageLinks(label: "short" | "course", exclude: string[] = []): LanguageLink[] {
-  return LANGUAGES.filter((l) => !exclude.includes(l.slug) && isProducedPage(languageHref(l.slug))).map((l) => ({
+export function languageLinks(
+  label: "short" | "course",
+  exclude: string[] = [],
+  /** "core": Yabancı Dil hero'sundaki selam duvarı 10 dile göre tasarlandı; "all": sayfası olan tüm diller. */
+  set: "all" | "core" = "all",
+): LanguageLink[] {
+  return (set === "core" ? LANGUAGES : LANGUAGE_PAGES).filter((l) => !exclude.includes(l.slug) && isProducedPage(languageHref(l.slug))).map((l) => ({
     name: label === "short" ? l.name : l.label,
     href: languageHref(l.slug),
     flag: l.flag,

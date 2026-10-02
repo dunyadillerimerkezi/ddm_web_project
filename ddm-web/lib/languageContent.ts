@@ -19,7 +19,7 @@
  *   H whoCanJoin      — "… Kurslarımıza Kimler Katılabilir?" (opsiyonel)
  *   I teachingModel   — "… Derslerinde Eğitim Modelimiz" (her zaman var; kapanış
  *                        CTA cümlesi son satır — alt CTA bandında ayrıca kullanılır)
- *   J pricing         — "… Kurs ve Özel Ders Fiyatları" (her zaman var)
+ *   J pricing         — "… Kurs ve Özel Ders Fiyatları" (eski sitenin 10 dilinde var; basılmaz)
  *   K branchLinks     — "… Eğitim Plan Tablosu ve Kurs Tarihleri" (opsiyonel;
  *                        şube satırları + varsa kardeş sayfa linkleri)
  *
@@ -29,9 +29,12 @@
  */
 
 import siteContent from "@/data/site_content.json";
+import ddmcaddeContent from "@/data/ddmcadde_content.json";
 import {
   SectionResolver,
   ContentSectionsError,
+  applyH1Edit,
+  findDdmcaddeRecord,
   parseRecord,
   type SiteContentRecord,
 } from "@/lib/contentSections";
@@ -61,6 +64,12 @@ export const LANGUAGE_SLUGS = [
   "flemenkce-kursu",
   "yabancila-icin-turkce-kurs",
   "ingilizce-konusma-kursu",
+  // Eski sitede sayfası olmayan diller (2026-10-01) — kaynak `data/ddmcadde_content.json`.
+  "japonca-kursu",
+  "korece-kursu",
+  "yunanca-kursu",
+  "bulgarca-kursu",
+  "isvecce-kursu",
 ] as const;
 
 export type LanguageSlug = (typeof LANGUAGE_SLUGS)[number];
@@ -70,7 +79,7 @@ export type LanguageSlug = (typeof LANGUAGE_SLUGS)[number];
  * anahtarı. `components/graphics/Illustration.tsx`in `ILLUSTRATIONS` kaydı
  * Adım 1'de bu birlik ile hizalanacak (bkz. plan §7).
  */
-export const LANGUAGE_KEYS = ["en", "de", "fr", "it", "es", "ru", "zh", "nl", "tr", "speak"] as const;
+export const LANGUAGE_KEYS = ["en", "de", "fr", "it", "es", "ru", "zh", "nl", "tr", "speak", "ja", "ko", "el", "bg", "sv"] as const;
 export type LanguageKey = (typeof LANGUAGE_KEYS)[number];
 
 /* ---------------------------------------------------------------
@@ -140,8 +149,23 @@ export type LanguageContentMap = {
   levelGroupsHeading: string | null;
   whoCanJoin: BulletRefBlock | null; // H
   teachingModel: TeachingModelRef; // I — her zaman var
-  pricing: PricingRefBlock; // J — her zaman var
+  /** J — eski sitenin 10 dilinde var; ddmcadde kaynaklı dillerde fiyat bölümü kaynağa hiç alınmadı → null. */
+  pricing: PricingRefBlock | null;
   branchLinks: BranchBlockRef | null; // K
+
+  /**
+   * Metnin kaynağı. Varsayılan: eski sitenin crawl'ı (`site_content.json`). "ddmcadde": eski sitede sayfası
+   * olmayan dil — Bağdat Caddesi şubesinin sitesinden `scripts/pull-ddmcadde.mjs --new` ile çekilen
+   * `data/ddmcadde_content.json` (kullanıcı, 2026-10-01: "firma hakkında bilgi varsa fiyat dışında koyabilirsin").
+   * Kapsama denetimi (`assertCoverage`) bu kaynakta da aynen çalışır.
+   */
+  source?: "ddmcadde";
+  /** H1 düzeltmesi (kaynak H1 birebir `from` olmalı, yoksa build düşer). */
+  h1Edit?: { from: string; to: string; reason: string };
+  /** `about`a eklenen başka bölümden satırlar (ör. sertifika başlığı altındaki "Konuşma odaklı…" paragrafı). */
+  aboutAlso?: SectionRef;
+  /** Kaynağı olmayan ya da kaynaktaki zayıf başlık/açıklama yerine yazılan metadata (gerekçe `reasons`). */
+  meta?: { title: string; description: string; reasons: string[] };
 
   /** Kapsama iddiası için: bilinçli olarak sayfaya alınmayan satırlar + gerekçe
    *  (ör. İngilizce kaydındaki ara-hal artıkları — bkz. data/languages.ts). */
@@ -213,7 +237,7 @@ export type LanguagePage = {
   levelGroupsHeading: string | null;
   whoCanJoin: BulletBlock | null;
   teachingModel: TeachingModel;
-  pricing: PricingBlock;
+  pricing: PricingBlock | null;
   branchLinks: BranchLinks | null;
   diagnostics: LanguagePageDiagnostic[];
 };
@@ -228,8 +252,9 @@ function isBranchLine(line: string): boolean {
   return BRANCH_LABELS.some((b) => line.includes(b));
 }
 
-function findRecord(slug: LanguageSlug): SiteContentRecord {
-  const url = `https://www.dunyadillerimerkezi.com/yabanci-dil-egitimleri/${slug}.html`;
+function findRecord(def: LanguageDef): SiteContentRecord {
+  if (def.content.source === "ddmcadde") return findDdmcaddeRecord(def.slug, ddmcaddeContent);
+  const url = `https://www.dunyadillerimerkezi.com/yabanci-dil-egitimleri/${def.slug}.html`;
   const record = (siteContent as SiteContentRecord[]).find((r) => r.url === url);
   if (!record) {
     throw new ContentSectionsError(`data/site_content.json içinde "${url}" kaydı bulunamadı.`);
@@ -258,7 +283,7 @@ function resolveBulletBlock(
  * ------------------------------------------------------------- */
 
 export function getLanguagePage(def: LanguageDef): LanguagePage {
-  const record = findRecord(def.slug);
+  const record = findRecord(def);
   const context = def.slug;
   const sections = parseRecord(record);
   const resolver = new SectionResolver(sections);
@@ -268,7 +293,7 @@ export function getLanguagePage(def: LanguageDef): LanguagePage {
 
   // H1 — CLAUDE.md §6: yoksa title'a düş, sessizce atlama.
   const h1Heading = record.headings.find((h) => h.level === "h1");
-  const h1 = h1Heading?.text ?? record.title;
+  const h1 = applyH1Edit(h1Heading?.text ?? record.title, c.h1Edit, def.slug);
   if (!h1Heading) {
     diagnostics.push({ kind: "h1-fallback", detail: `${def.slug}: h1 kaynakta yok, title'a düşüldü` });
     console.warn(`[Faz 6.4] ${def.slug}: H1 eksik — title'a düşüldü.`);
@@ -277,8 +302,11 @@ export function getLanguagePage(def: LanguageDef): LanguagePage {
   // A
   const heroLead = resolver.take(c.heroLead, `${context}/heroLead`) ?? [];
 
-  // B
-  const about = resolver.take(c.about, `${context}/about`) ?? [];
+  // B (+ başka bölümden eklenen satırlar)
+  const about = [
+    ...(resolver.take(c.about, `${context}/about`) ?? []),
+    ...(c.aboutAlso ? (resolver.take(c.aboutAlso, `${context}/aboutAlso`) ?? []) : []),
+  ];
 
   // C — her zaman var
   const programSchedule =
@@ -324,19 +352,22 @@ export function getLanguagePage(def: LanguageDef): LanguagePage {
     closingCta: teachingModelLines[teachingModelLines.length - 1],
   };
 
-  // J — her zaman var
-  const planLines =
-    resolver.take({ heading: c.pricing.heading, take: c.pricing.planIndexes }, `${context}/pricing.plans`) ?? [];
-  const noteLines =
-    resolver.take({ heading: c.pricing.heading, take: c.pricing.noteIndexes }, `${context}/pricing.notes`) ?? [];
-  const pricing: PricingBlock = {
-    title: c.pricing.heading,
-    plans: planLines.map((line) => {
-      const at = line.lastIndexOf(":");
-      return at === -1 ? { label: line, price: "" } : { label: line.slice(0, at).trim(), price: line.slice(at + 1).trim() };
-    }),
-    notes: noteLines,
-  };
+  // J — sayfada basılmaz (kullanıcı kararı 2026-09-24); kapsama için okunur. ddmcadde kaynaklı dillerde yok.
+  let pricing: PricingBlock | null = null;
+  if (c.pricing) {
+    const planLines =
+      resolver.take({ heading: c.pricing.heading, take: c.pricing.planIndexes }, `${context}/pricing.plans`) ?? [];
+    const noteLines =
+      resolver.take({ heading: c.pricing.heading, take: c.pricing.noteIndexes }, `${context}/pricing.notes`) ?? [];
+    pricing = {
+      title: c.pricing.heading,
+      plans: planLines.map((line) => {
+        const at = line.lastIndexOf(":");
+        return at === -1 ? { label: line, price: "" } : { label: line.slice(0, at).trim(), price: line.slice(at + 1).trim() };
+      }),
+      notes: noteLines,
+    };
+  }
 
   // K
   let branchLinks: BranchLinks | null = null;
@@ -401,6 +432,7 @@ export function getLanguagePage(def: LanguageDef): LanguagePage {
   const fixedCertification = certification?.map(fix) ?? null;
   const fixedWhyLearn = whyLearn?.map(fix) ?? null;
   teachingModel.items = teachingModel.items.map(fix);
+  teachingModel.closingCta = fix(teachingModel.closingCta);
   const unused = Object.keys(edits).filter((k) => !used.has(k));
   if (unused.length > 0) {
     throw new ContentSectionsError(

@@ -538,7 +538,12 @@ export const ONLINE_HUB: OnlineHubDef = {
     width: 735,
     height: 490,
   },
-  fixes: [["Profosyonel", "Profesyonel"]],
+  fixes: [
+    ["Profosyonel", "Profesyonel"],
+    // 2026-10-02: TOEIC ve IELTS Life Skills yayından kalktı (`data/hiddenPages.ts`) — sınav cümlesinden çıktı.
+    ["YÖKDİL, TOEIC, SAT", "YÖKDİL, SAT"],
+    ["Almanca Aile Birleşimi A1, IELTS Life Skills ve diğer", "Almanca Aile Birleşimi A1 ve diğer"],
+  ],
   extraLanguages: ["Japonca", "Korece", "Yunanca", "Bulgarca", "Hollandaca"],
   exams: [
     { label: "TOEFL", slug: "toefl-kursu" },
@@ -546,7 +551,6 @@ export const ONLINE_HUB: OnlineHubDef = {
     { label: "PTE", slug: "academic-pte" },
     { label: "YDS", slug: "yds-kursu" },
     { label: "YÖKDİL", slug: "yokdil-sinavi-kursu" },
-    { label: "TOEIC", slug: "toeic-kursu" },
     { label: "SAT", slug: "sat-kursu" },
     { label: "GMAT", slug: "gmat-kursu" },
     { label: "GRE", slug: "gre-kursu" },
@@ -554,12 +558,11 @@ export const ONLINE_HUB: OnlineHubDef = {
     { label: "ELAE", slug: null },
     { label: "TRACE", slug: null },
     { label: "TestDaF", slug: "testdaf-kursu" },
-    { label: "DELE", slug: null },
-    { label: "DELF", slug: null },
-    { label: "CELI", slug: null },
-    { label: "CILS", slug: null },
+    { label: "DELE", slug: "dele-kursu" },
+    { label: "DELF", slug: "delf-dalf-kursu" },
+    { label: "CELI", slug: "cils-celi-kursu" },
+    { label: "CILS", slug: "cils-celi-kursu" },
     { label: "Almanca Aile Birleşimi A1", slug: "aile-birlesimi-egitimi" },
-    { label: "IELTS Life Skills", slug: null },
   ],
   faq: [
     {
@@ -571,7 +574,7 @@ export const ONLINE_HUB: OnlineHubDef = {
     {
       question: "Hangi sınavlara online hazırlanabilirim?",
       answer: [
-        "TOEFL, IELTS, PTE, YDS, YÖKDİL, TOEIC, SAT, GMAT, GRE, Proficiency, TestDaF, DELE, DELF, CELI ve CILS gibi sınavların yanı sıra Almanca Aile Birleşimi A1 ve IELTS Life Skills programlarına online hazırlanabilirsiniz.",
+        "TOEFL, IELTS, PTE, YDS, YÖKDİL, SAT, GMAT, GRE, Proficiency, TestDaF, DELE, DELF, CELI ve CILS gibi sınavların yanı sıra Almanca Aile Birleşimi A1 programına online hazırlanabilirsiniz.",
       ],
     },
     {

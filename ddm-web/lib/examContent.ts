@@ -18,9 +18,12 @@
  */
 
 import siteContent from "@/data/site_content.json";
+import ddmcaddeContent from "@/data/ddmcadde_content.json";
 import {
   SectionResolver,
   ContentSectionsError,
+  applyH1Edit,
+  findDdmcaddeRecord,
   parseRecord,
   type SiteContentRecord,
 } from "@/lib/contentSections";
@@ -65,6 +68,13 @@ export type ProseBlockRef = {
   take?: Take;
   format?: "prose" | "list";
   list?: ListHint;
+  /**
+   * Yalnız BU bloğun sonuna eklenen genel bilgi paragrafları (`additions` başlığa bağlıdır; tek başlığı birden çok
+   * bloğa bölünen kaynakta — TestDaF — her bloğa eklenirdi). Olgu resmi kaynaktan, kaynak yorumda (P2 kuralı).
+   */
+  append?: string[];
+  /** `append` gibi, ama kaynak satırlarından ÖNCE (açıklayıcı genel bilgi kaynak cümlesinin önüne gelecekse). */
+  prepend?: string[];
 };
 
 /**
@@ -191,7 +201,27 @@ export type FaqBlockRef = {
   items: { heading: string; format?: "prose" | "list"; question?: string }[];
 };
 
+/**
+ * Kaynakta karşılığı OLMAYAN genel sınav bilgisi (ddmcadde kaynaklı sınavlar, 2026-10-01). Kaynak sayfa çok kısa
+ * (~200 kelime) olduğu için sınavın yapısı, puanlaması ve SSS'si buraya yazılır. P2 kuralı: her olgu resmi kaynaktan
+ * doğrulanır, kaynak `data/exams.ts`te yorumda. Firmaya ait bilgi (ders düzeni, öğretmen) burada YAZILMAZ — o
+ * kaynaktan gelir.
+ */
+export type AddedProseBlockRef = {
+  kind: "addedProse";
+  kicker: string;
+  title: string;
+  paragraphs: string[];
+  format?: "prose" | "list";
+  list?: ListHint;
+};
+export type AddedStructureBlockRef = { kind: "addedStructure"; title: string; lead: string | null; sections: ExamSection[] };
+export type AddedFaqBlockRef = { kind: "addedFaq"; title: string; id?: string; items: Faq[] };
+
 export type ExamBlockRef =
+  | AddedProseBlockRef
+  | AddedStructureBlockRef
+  | AddedFaqBlockRef
   | ProseBlockRef
   | FactsBlockRef
   | BranchLinksBlockRef
@@ -222,6 +252,18 @@ export type ExamDef = {
   additions?: Record<string, string[]>;
   /** Bilinçli olarak basılmayan satırlar — her biri gerekçeli (yorumla). */
   ignored: string[];
+  /**
+   * Metnin kaynağı. Varsayılan: eski sitenin crawl'ı. "ddmcadde": eski sitede sayfası olmayan sınav — Bağdat Caddesi
+   * şubesinin sitesinden `scripts/pull-ddmcadde.mjs --new` ile çekilen `data/ddmcadde_content.json` (fiyat / ücret
+   * satırları ve kurs başlangıç tarihleri kaynağa alınmadı). Eski sitede adresi yok → 301 yok.
+   */
+  source?: "ddmcadde";
+  /** H1 düzeltmesi (kaynak H1 birebir `from` olmalı). */
+  h1Edit?: { from: string; to: string; reason: string };
+  /** Yeniden yazılan title / description (gerekçe `reasons`). */
+  meta?: { title: string; description: string; reasons: string[] };
+  /** Sınavın dili için kurs sayfası — hero'daki kâğıdın altından bağlantı (sınav ↔ dil iç linki). */
+  language?: { label: string; href: string };
 };
 
 /* ---------------------------------------------------------------
@@ -337,8 +379,9 @@ function checkListHint(hint: ListHint | undefined, lines: string[], where: strin
   return hint;
 }
 
-function findRecord(slug: string): SiteContentRecord {
-  const url = `https://www.dunyadillerimerkezi.com/${CATEGORY}/${slug}.html`;
+function findRecord(def: ExamDef): SiteContentRecord {
+  if (def.source === "ddmcadde") return findDdmcaddeRecord(def.slug, ddmcaddeContent);
+  const url = `https://www.dunyadillerimerkezi.com/${CATEGORY}/${def.slug}.html`;
   const record = (siteContent as SiteContentRecord[]).find((r) => r.url === url);
   if (!record) {
     throw new ContentSectionsError(`data/site_content.json içinde "${url}" kaydı bulunamadı.`);
@@ -352,7 +395,7 @@ function findRecord(slug: string): SiteContentRecord {
 
 export function getExamPage(def: ExamDef): ExamPage {
   const context = `exam/${def.slug}`;
-  const record = findRecord(def.slug);
+  const record = findRecord(def);
   const resolver = new SectionResolver(parseRecord(record));
   const diagnostics: ExamPageDiagnostic[] = [];
 
@@ -405,6 +448,7 @@ export function getExamPage(def: ExamDef): ExamPage {
     }
   }
 
+  const shownH1 = applyH1Edit(h1, def.h1Edit, context);
   const heroHeading = def.hero.heading ?? h1;
   const heroLines = take(heroHeading, def.hero.take ?? "first", "hero", false);
   const heroLead = heroLines.join(" ") || null;
@@ -412,8 +456,22 @@ export function getExamPage(def: ExamDef): ExamPage {
   const blocks: ExamBlock[] = def.blocks.map((b, i): ExamBlock => {
     const slot = `blocks[${i}]`;
     switch (b.kind) {
+      case "addedProse":
+        return {
+          kind: "prose",
+          id: slugifyId(b.title),
+          kicker: b.kicker,
+          title: b.title,
+          paragraphs: [...b.paragraphs],
+          format: b.format ?? "prose",
+          list: checkListHint(b.list, b.paragraphs, `${context}/${slot}`),
+        };
+      case "addedStructure":
+        return { kind: "structure", id: "sinav-yapisi", title: b.title, lead: b.lead, sections: b.sections, detailAnchor: null };
+      case "addedFaq":
+        return { kind: "faq", id: b.id ?? "sss", kicker: "SIKÇA SORULAN SORULAR", title: b.title, items: b.items };
       case "prose": {
-        const paragraphs = take(b.heading, b.take ?? "all", slot);
+        const paragraphs = [...(b.prepend ?? []), ...take(b.heading, b.take ?? "all", slot), ...(b.append ?? [])];
         return {
           kind: "prose",
           id: slugifyId(b.title ?? b.heading),
@@ -629,5 +687,6 @@ export function getExamPage(def: ExamDef): ExamPage {
 
   resolver.assertCoverage(def.ignored, context);
 
-  return { def, record, h1, heroLead, blocks, diagnostics };
+  // Hero lead'i kaynak H1 metniyle bulunur; sayfada düzeltilmiş H1 basılır.
+  return { def, record, h1: shownH1, heroLead, blocks, diagnostics };
 }

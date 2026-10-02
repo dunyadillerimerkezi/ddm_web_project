@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { SiteChrome } from "@/components/layout";
 import { PageHero } from "@/components/sections/PageHero";
+import { illustrationFor } from "@/components/graphics/Illustration";
 import { PageSection } from "@/components/sections/PageSection";
 import { LanguageBenefits } from "@/components/sections/LanguageBenefits";
 import { AboutBento } from "@/components/sections/AboutBento";
@@ -17,12 +18,15 @@ import { LanguageLinks, type LanguageLinkItem } from "@/components/sections/Lang
 import { ContactForm } from "@/components/sections/ContactForm";
 import { FORM_HREF } from "@/lib/formAnchor";
 import { yearsSinceFounding } from "@/data/company";
-import { LANGUAGES, getLanguageDef } from "@/data/languages";
-import { LANGUAGE_EXTRAS } from "@/data/languageExtras";
+import { LANGUAGE_PAGES, getLanguageDef } from "@/data/languages";
+import { EXAMS } from "@/data/exams";
+import { examHref } from "@/lib/examContent";
+import { LANGUAGE_EXTRAS, type LanguageExtra } from "@/data/languageExtras";
 import type { HomeStat } from "@/data/home";
 import { getLanguagePage, type LanguageDef } from "@/lib/languageContent";
 import { buildLanguageFaqs, courseFacts, factTiles, parseSchedule } from "@/lib/languageFaq";
 import { absoluteUrl } from "@/lib/site";
+import { checkMeta } from "@/lib/richContent";
 import type { Crumb } from "@/lib/types";
 
 /**
@@ -49,17 +53,36 @@ import type { Crumb } from "@/lib/types";
  * kendi `{{ dilAdi }}` enterpolasyon deseniyle aynı — sabit etiket, gövde
  * metni değil (bkz. AboutCertification yorum notu).
  */
-function certBoxes(def: LanguageDef, certification: string[] | null): CertBox[] {
+function certBoxes(def: LanguageDef, certification: string[] | null, extra: LanguageExtra): CertBox[] {
   if (!certification) return [];
+  // ddmcadde kaynaklı dillerde kaynakta yalnız kur sınavı paragrafı var; ikinci kutu genel bilgi (`certAdded`).
+  const international = certification[1] ?? extra.certAdded;
+  if (!international) throw new Error(`${def.slug}: uluslararası sertifika paragrafı yok — languageExtras.certAdded ekleyin.`);
   return [
     { id: "kur-sinavi", title: `${def.name} Düzeyi Seviye Kur Sınavları`, body: certification[0] },
-    { id: "sertifika", title: `Uluslararası ${def.name} Dil Sertifikası Sınav Programları`, body: certification[1] },
+    { id: "sertifika", title: `Uluslararası ${def.name} Dil Sertifikası Sınav Programları`, body: international, links: examLinks(def, international) },
   ];
+}
+
+/**
+ * Bu dilin sınav hazırlık sayfaları: kaydında `language` bu dili gösteren sınavlar (DELE → İspanyolca; tek kaynak
+ * `data/exams.ts`) + kutunun metninde ADI geçen sınavlar (İngilizce: "TOEFL, IELTS, YDS, YÖKDİL…"). Kaynak sırası korunur.
+ */
+function examLinks(def: LanguageDef, text: string) {
+  const href = `/yabanci-dil-egitimleri/${def.slug}`;
+  const lower = text.toLocaleLowerCase("tr");
+  const escape = (t: string) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const named = (name: string) =>
+    new RegExp(`(^|[^\\p{L}])${escape(name.toLocaleLowerCase("tr"))}($|[^\\p{L}])`, "u").test(lower);
+  return EXAMS.filter((e) => e.slug !== "proficiency-kursu" && (e.language?.href === href || named(e.name))).map((e) => ({
+    label: e.label,
+    href: examHref(e.slug),
+  }));
 }
 
 /** Diğer diller — bayrağı olmayan `speak` sohbet-balonu ikonuyla. */
 function otherLanguageItems(current: LanguageDef): LanguageLinkItem[] {
-  return LANGUAGES.filter((l) => l.slug !== current.slug).map((l) => ({
+  return LANGUAGE_PAGES.filter((l) => l.slug !== current.slug).map((l) => ({
     label: l.name,
     href: `/yabanci-dil-egitimleri/${l.slug}`,
     flag: l.flag,
@@ -86,7 +109,7 @@ export const dynamicParams = false;
 
 
 export function generateStaticParams() {
-  return LANGUAGES.map((l) => ({ kurs: l.slug }));
+  return LANGUAGE_PAGES.map((l) => ({ kurs: l.slug }));
 }
 
 type Params = { kurs: string };
@@ -100,9 +123,12 @@ export async function generateMetadata({
   const def = getLanguageDef(kurs);
   if (!def) return {};
   const page = getLanguagePage(def);
+  // ddmcadde kaynaklı dillerde yeniden yazılan başlık / açıklama (gerekçe `data/languages.ts` `meta.reasons`).
+  const meta = def.content.meta;
+  if (meta) checkMeta(meta.title, meta.description, def.slug);
   return {
-    title: page.record.title,
-    description: page.record.meta_description,
+    title: meta?.title ?? page.record.title,
+    description: meta?.description ?? page.record.meta_description,
     alternates: { canonical: absoluteUrl(`/yabanci-dil-egitimleri/${kurs}`) },
   };
 }
@@ -118,7 +144,14 @@ export default async function DilKursuPage({
   const page = getLanguagePage(def);
   const extra = LANGUAGE_EXTRAS[def.key];
   const slots = parseSchedule(page.programSchedule, `${def.slug}/programSchedule`);
-  const faqs = buildLanguageFaqs(def, page, slots);
+  const faqs = buildLanguageFaqs(def, page, slots, extra.faqAdded ?? []);
+  // Seviyeler: kaynağın kendi grupları; yoksa dilin genel seviye bilgisi (`languageExtras.levelsAdded`).
+  const levels =
+    page.levelGroups.length > 0
+      ? { title: page.levelGroupsHeading ?? page.h1, groups: page.levelGroups }
+      : extra.levelsAdded
+        ? { title: extra.levelsAdded.heading, groups: extra.levelsAdded.groups }
+        : null;
 
   // "Neden … Öğrenmelisiniz?" — kaynak metin (E) varsa o, yoksa eklenen evrensel metin.
   const whyLearn =
@@ -146,7 +179,7 @@ export default async function DilKursuPage({
         primary={{ label: "Bilgi Al", href: FORM_HREF }}
         secondary={{ label: "", href: null }}
         art={{
-          name: def.key,
+          name: illustrationFor(def.key),
           flag: def.flag,
           greeting: def.greeting,
           skill: def.skill,
@@ -168,22 +201,15 @@ export default async function DilKursuPage({
 
       <AboutBento
         // G (seviyeler) bölümü olmayan dillerde #seviyeler çıpası buraya taşınır (plan §3).
-        id={page.levelGroups.length === 0 ? "seviyeler" : undefined}
+        id={levels === null ? "seviyeler" : undefined}
         kicker="HAKKINDA"
         title={def.content.about.heading ?? page.h1}
         paragraphs={page.about}
         facts={factTiles(courseFacts(def, page))}
-        boxes={certBoxes(def, page.certification)}
+        boxes={certBoxes(def, page.certification, extra)}
       />
 
-      {page.levelGroups.length > 0 && (
-        <LevelLadder
-          id="seviyeler"
-          kicker="SEVİYELER"
-          title={page.levelGroupsHeading ?? page.h1}
-          groups={page.levelGroups}
-        />
-      )}
+      {levels && <LevelLadder id="seviyeler" kicker="SEVİYELER" title={levels.title} groups={levels.groups} />}
 
       <PageSection id="kurs-takvimi" ground="light" kicker="KURS TAKVİMİ" title={def.content.programSchedule.heading}>
         <WeekSchedule slots={slots} cta={{ label: "Ön Bilgi Formu", href: FORM_HREF }} />

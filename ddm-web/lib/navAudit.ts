@@ -1,6 +1,7 @@
 import type { NavLink } from "@/lib/types";
 import { NAV_ITEMS } from "@/lib/nav";
 import { isProducedPage } from "@/lib/pageRegistry";
+import { isHiddenPath } from "@/data/hiddenPages";
 
 /**
  * `lib/nav.ts`'teki `soon: true` bayraklarını `lib/pageRegistry.ts`'e karşı
@@ -48,6 +49,8 @@ export function assertNavSoonFlags(): void {
 
   for (const link of walk()) {
     if (!link.href) continue;
+    // Gizli sınavlar menü süzgecinde (`lib/navTree.ts`) düşer; kalemleri geri açmak için `nav.ts`te bekler.
+    if (isHiddenPath(link.href)) continue;
     // `pageRegistry` yalnız kök-göreli iç sayfaları tanır (CLAUDE.md §4 zaten
     // menüde başkasına izin vermiyor). Dış/protokollü bir hedef sayfa kaydında
     // bulunamayacağı için "üretilmemiş" sanılıp soluklaştırılmamalı.

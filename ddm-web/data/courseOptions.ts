@@ -1,4 +1,4 @@
-import { LANGUAGES } from "@/data/languages";
+import { LANGUAGE_PAGES } from "@/data/languages";
 import { EXAMS, EXAM_GROUPS } from "@/data/exams";
 import { ENGLISH_PROGRAMS, ENGLISH_PROGRAM_PATHS } from "@/data/englishPrograms";
 import { OTHER_PROGRAM_PAGES } from "@/data/otherPrograms";
@@ -41,7 +41,7 @@ function pageLabel(path: string): string {
 }
 
 function build(): CourseGroup[] {
-  const languages = LANGUAGES.map((l) => ({
+  const languages = LANGUAGE_PAGES.map((l) => ({
     value: `/yabanci-dil-egitimleri/${l.slug}`,
     label: LANGUAGE_LABELS[l.key] ?? l.name,
   }));

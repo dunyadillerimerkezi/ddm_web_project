@@ -19,7 +19,7 @@ import { BRANCH_TRANSIT, type TransitItem } from "@/data/branchTransit";
 import { BRANCH_PROMOS, SHARED_LINKS, type BranchPromoDef, type Excerpt, type PromoBlock, type PromoTitle } from "@/data/branchPromo";
 import { COURSE_DATES } from "@/data/courseDates";
 import { EXAMS } from "@/data/exams";
-import { ALL_LANGUAGE_NAMES, LANGUAGES } from "@/data/languages";
+import { ALL_LANGUAGE_NAMES, LANGUAGE_PAGES } from "@/data/languages";
 import type { Photo } from "@/data/privateLessonsShared";
 import type { IconName } from "@/components/graphics/icons";
 import { ContentSectionsError } from "@/lib/contentSections";
@@ -92,7 +92,7 @@ const TAG_SLUG: Record<string, string> = {
 };
 
 function tag(label: string, context: string): PromoTag {
-  const lang = LANGUAGES.find((l) => l.name === label);
+  const lang = LANGUAGE_PAGES.find((l) => l.name === label);
   const href = lang ? `/yabanci-dil-egitimleri/${lang.slug}` : TAG_SLUG[label] ? examHref(TAG_SLUG[label]) : undefined;
   if (href && !isProducedPage(href)) throw new ContentSectionsError(`${context}: etiket hedefi üretilmemiş — "${href}"`);
   return href ? { label, href } : { label };
@@ -122,9 +122,9 @@ function blockLines(text: string, from: string, to: string, context: string): st
   return lines.slice(a, b + 1);
 }
 
-/** Kurs sırası sitenin geri kalanıyla aynı: diller `LANGUAGES`, sınavlar `EXAMS` sırasında. */
+/** Kurs sırası sitenin geri kalanıyla aynı: diller `LANGUAGE_PAGES`, sınavlar `EXAMS` sırasında. */
 function courseOrder(slug: string): number {
-  const lang = LANGUAGES.findIndex((l) => l.slug === slug);
+  const lang = LANGUAGE_PAGES.findIndex((l) => l.slug === slug);
   if (lang >= 0) return lang;
   const exam = EXAMS.findIndex((e) => e.slug === slug);
   return exam >= 0 ? 100 + exam : 999;

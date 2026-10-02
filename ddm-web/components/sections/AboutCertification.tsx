@@ -1,7 +1,8 @@
 import { PageSection } from "./PageSection";
 import styles from "@/styles/AboutCertification.module.css";
 
-export type CertBox = { id?: string; title: string; body: string };
+/** `links`: o dilin sınav hazırlık sayfaları (DELE → İspanyolca) — `data/exams.ts` `language` alanından türetilir. */
+export type CertBox = { id?: string; title: string; body: string; links?: { label: string; href: string }[] };
 
 /**
  * Bölüm 4 · Hakkında + sertifika kutuları.

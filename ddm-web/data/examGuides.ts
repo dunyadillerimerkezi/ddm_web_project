@@ -13,6 +13,7 @@
  */
 
 import type { IconName } from "@/components/graphics/icons";
+import { isHiddenPath } from "@/data/hiddenPages";
 import type { SlotRef } from "@/data/privateLessonsShared";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 
@@ -1438,4 +1439,5 @@ const GMAT: ExamGuideDef = {
   ],
 };
 
-export const EXAM_GUIDES: ExamGuideDef[] = [TOEFL, IELTS, TOEIC, YDS, PROFICIENCY, GRE, SAT, GMAT];
+// Gizli sınavların rehberleri (TOEIC) dosyada durur, yayından süzülür — `data/hiddenPages.ts`.
+export const EXAM_GUIDES: ExamGuideDef[] = [TOEFL, IELTS, TOEIC, YDS, PROFICIENCY, GRE, SAT, GMAT].filter((g) => !isHiddenPath(g.path));

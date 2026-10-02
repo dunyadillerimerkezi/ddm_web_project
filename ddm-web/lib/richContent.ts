@@ -13,7 +13,7 @@
 import siteContent from "@/data/site_content.json";
 import { EXAMS } from "@/data/exams";
 import { PRIVATE_HUB_ADDED } from "@/data/hubs";
-import { LANGUAGES } from "@/data/languages";
+import { LANGUAGE_PAGES } from "@/data/languages";
 import { PRIVATE_LESSONS } from "@/data/privateLessons";
 import type { FlagCode } from "@/components/graphics/Flag";
 import type { OnlineExam } from "@/data/onlineLessons";
@@ -150,7 +150,7 @@ export function checkMeta(title: string, description: string, context: string): 
 /** Üst kurs: "/{kategori}/{kurs}/…" → dil ya da sınav kursunun etiketi. */
 export function parentCourse(path: string, context: string): { label: string; href: string } {
   const [, category, slug] = path.split("/");
-  const label = LANGUAGES.find((l) => l.slug === slug)?.label ?? EXAMS.find((e) => e.slug === slug)?.label;
+  const label = LANGUAGE_PAGES.find((l) => l.slug === slug)?.label ?? EXAMS.find((e) => e.slug === slug)?.label;
   if (!label) throw new ContentSectionsError(`${context}: üst kurs bulunamadı — "${slug}"`);
   return { label, href: `/${category}/${slug}` };
 }
