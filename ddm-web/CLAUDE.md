@@ -174,6 +174,22 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
     (satır sayısı), tam metin "Devamını oku" penceresinde. Yayında olmayan yorum silinmez (`published: false`). Tekil yorum
     sayfası açılmaz. Title / description yeniden yazıldı (kaynak açıklama form çağrısı; gerekçe `TESTIMONIALS_PAGE.meta.reasons`).
     JSON-LD `Review` / puan eklenmez (karar #6). Fotoğraf yalnız öğrencinin kendi fotoğrafı (Joomla stok görseli değil).
+  - **Gizli sınavlar (2026-10-02, müşteri):** TOEIC (alt sayfalarıyla), TOEFL Essentials, TOEFL Primary, İngiltere Vize (IELTS Life
+    Skills A1), Fransızca Aile Birleşimi sitede GÖRÜNMEZ ve adresi 404 — ama tanımları SİLİNMEZ ("yarın isterse koyarız"). Tek liste
+    `data/hiddenPages.ts`; veri listeleri (`EXAMS`, `EXAM_GROUPS`, `EXAM_GUIDES`, `EXAM_PRIVATE_LESSONS`, `COURSE_DATES`, hub kataloğu)
+    ve menü (`navTree`) oradan süzülür. Yeni bağlantı / sınav listesi yazarken gizli sınava bağlantı ya da "sunuyoruz" listesinde
+    adını koyma; bağlantısız olgu tabloları (iş İngilizcesi / çocuk sınavları) kalabilir.
+  - **ddmcadde kaynaklı sayfalar (2026-10-01, kullanıcı):** eski sitede OLMAYAN dil / sınav sayfası (Japonca, Korece, Yunanca,
+    Bulgarca, İsveççe; TELC, DELF | DALF, DELE, CILS | CELI, E-TEP, OET; ÖSD ← almancakurslari.com, aynı şube) firma metnini Bağdat Caddesi şubesinin sitesinden alır:
+    `node scripts/pull-ddmcadde.mjs --new` → `data/ddmcadde_content.json` (`site_content.json`a YAZILMAZ). Kullanıcı: "firma
+    hakkında bilgi varsa fiyat dışında koyabilirsin" — **fiyat, ücret satırı ve kurs başlangıç tarihi kaynağa hiç alınmaz**, H1'deki
+    "… Fiyatları" `h1Edit` ile çıkar. Kayıt `source: "ddmcadde"` ile bağlanır; `SectionResolver` + `assertCoverage` aynen çalışır.
+    Firma iddiaları: "25 yıllık" → `FOUNDING_EDIT`; şube adı / şubeye özgü cümle yazılmaz; üstünlük iddiası ("en iyi", "doğru
+    yerdesiniz") `edits` / `drop` / `ignored` ile çıkar; kaynaktaki olgu hatası (yanlış kurum, yanlış ölçek, başka dilin adı)
+    resmi kaynaktan `edits`le düzeltilir. Kaynakta olmayan bölüm GENEL bilgidir — dil: `data/languageExtras.ts` (`whyLearnAdded`,
+    `levelsAdded`, `certAdded`, `faqAdded`); sınav: `addedProse` / `addedStructure` / `addedFaq` ve prose `prepend` / `append`;
+    resmi kaynak + alıntı yorumda, doğrulanamayan (ör. Türkiye'deki sınav merkezi) yazılmaz. `meta` (title ≤60 / description ≤155,
+    `checkMeta`) gerekçesiyle yeniden yazılır. Sınavın `language` alanı sınav ↔ dil bağlantısının tek kaynağıdır.
   - **Dil Kursu sayfaları (UI turu, 2026-09-25):** firmaya özel bilgiye (kur sayısı/süresi, ders saati,
     not barajı, sertifika) ekleme-çıkarma YOK (tek istisna müşterinin kendi düzeltmesi: "25 yıllık" → "2003’ten
     bugüne", `data/company.ts` `FOUNDING_EDIT`, 2026-09-30); sayfada zaten yazılı olgular aynı anlamda yeniden
@@ -252,11 +268,13 @@ ddm-web/
 │   └── *.module.css # bileşen başına CSS Module
 ├── data/
 │   ├── site_content.json   # Crawl edilmiş TÜM sayfa içeriği (384 kayıt) — salt okunur kaynak
+│   ├── ddmcadde_content.json # eski sitede OLMAYAN 5 dil + 7 sınav (+ TestDaF arşivi) — ddmcadde.com / almancakurslari.com, fiyatsız (§5)
+│   ├── hiddenPages.ts       # yayından kaldırılan (gizli) sınavlar — tanım durur, sayfa 404 (§5)
 │   ├── urls.csv             # URL + title + meta + H1 + kelime sayısı (SEO referansı)
 │   ├── branches.ts          # 5 şube — adres/telefon eksikse null (§5)
 │   ├── universities.ts      # 19 üniversite (proficiency şablonu; kapanmış 2'si 2026-09-30'da kalktı)
 │   ├── universityExams.ts   # 19 üniversitenin GÜNCEL sınav bilgisi + eskimiş kaynak satırlarının `edits`'i (kaynak yorumda)
-│   ├── languages.ts         # 10 dil kursu sayfası + 19 dilin tek listesi (`ALL_LANGUAGE_NAMES`)
+│   ├── languages.ts         # 10 dil (`LANGUAGES`) + 5 ddmcadde dili (`EXTRA_LANGUAGES`) = `LANGUAGE_PAGES` + 19 dilin tek listesi
 │   ├── company.ts           # kuruluş yılı (2003) — yıl sayısı buradan hesaplanır
 │   ├── courseDates.ts       # 72 şube×kurs kaydı (üretim betiğiyle çıkarıldı)
 │   └── home.ts              # Ana Sayfa verisi
@@ -288,7 +306,7 @@ ddm-web/
 │   ├── branchPromoContent.ts    # P6 şube tanıtım çözücüsü (kapsama + parça bekçisi + etiket bağlantıları)
 │   ├── richPages.ts         # P4 tüm alt türlerin tek listesi (`RichEntry`: rich | guide) + dağıtıcı yardımcıları
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
-├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
+├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme; `--new` → ddmcadde_content.json), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
 ├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
 ├── public/images/, public/ddm/indir/  # P4: eski sitenin örnek sınav dosyaları, ESKİ YOLLARIYLA (backlink'ler kırılmasın)
 ├── next.config.ts

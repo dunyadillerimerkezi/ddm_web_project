@@ -7,44 +7,45 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-09-30, müşteri cevapları koda işlendi — commit bekliyor)*
+## §A — Güncel durum  *(son güncelleme: 2026-10-02, 5 sınav gizlendi + ÖSD sayfası + Sınav Hazırlık kataloğu — commit'lendi)*
 
-> ⚠ **FORM GÖRSEL, ARKA UÇ YOK.** `ContactForm` 131 sayfada duruyor ama HİÇBİR YERE veri göndermiyor; basınca "Form henüz
+> ⚠ **FORM GÖRSEL, ARKA UÇ YOK.** `ContactForm` sayfaların çoğunda duruyor ama HİÇBİR YERE veri göndermiyor; basınca "Form henüz
 > açılmadı, bilgileriniz gönderilmedi" notu + seçilen şubenin telefonu / WhatsApp'ı çıkıyor. Gönderim = karar #4, açık.
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `c77e031` (kullanıcı; "Arapça" dil listelerinden çıkarıldı). 2026-10-01: tek yıl kalıbı + üniversite düzeltmeleri de commit bekliyor. Öncesi `6ce4e9d` (Ana Sayfa sırası + müşteri cevaplarının notu), `2e135ed` (PF görsel yarı). **Çalışma ağacında commit'lenmemiş iş var:** müşteri cevaplarının işlenmesi (kod + döküman) — kullanıcıya soruldu. |
-| **Son döküman commit'i** | `c77e031`. Bu oturumun döküman değişiklikleri (bu dosya, `bekleyen-sorular.md`, `PROGRESS.md`, `page-types.md`, `remaining-pages-plan.md`, `ddm-web/CLAUDE.md`) commit bekliyor — koddan AYRI commit. |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**205 statik sayfa**; 207'den 2 üniversite kalktı) · `check-links` **0 ölü hedef** (ilk kez sıfır) · 33 sayfa × 1440 / 390 / 360: taşma yok, tek H1, konsol hatası yok · yeni yönlendirmelerin hepsi tek adımda 200'e gidiyor (8 üniversite + 29 duyuru / aktivite adresi, `curl` ile denendi) |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 10 · Üniversite Proficiency **19** · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana 16 · Menü (PM) · Kategori Hub'ları 7 (P3) · P4 · P5 İngilizce Kursları 9 · **P6 Şube Tanıtım 4 (kapandı)** · **P7 Öğrenci Yorumları (kapandı; Duyurular + Aktiviteler kaldırıldı)** · PF form (görsel) |
-| **Aktif faz** | Müşteri cevapları işlendi (20 / 21). Kalan: **PF arka uç** (karar #4 — e-posta adresleri kullanıcıdan bekleniyor) · P8 SEO taşıma + temizlik · P9 kesişen işler + QA. |
-| **Bir sonraki somut adım** | **(1)** Bu oturumun işini commit'le (önce kod, sonra döküman; push yok) · **(2)** PF arka uç: `components/sections/ContactFormFields.tsx` `onSubmit` → Route Handler + e-posta servisi (önce `form.reportValidity()`; adresler gelince) · **(3)** P8: genel `.html` → temiz adres 301 kuralı + `remaining-pages-plan.md` §4'teki kalan sorgulu adresler · **(4)** P9: JSON-LD / OG / analytics / a11y / CWV + QA. |
+| **Son kod commit'i** | `83f29b5` (5 dil + 7 sınav sayfası, ÖSD, 5 gizli sınav, Sınav Hazırlık kataloğu) · `5080ad1` (Ana Sayfa yurtdışı fotoğrafı — ayrı oturumun işi, ayrı commit). Çalışma ağacı temiz. |
+| **Son döküman commit'i** | Bu dosya + `bekleyen-sorular.md`, `PROGRESS.md`, `page-types.md`, `remaining-pages-plan.md`, `ddm-web/CLAUDE.md` — koddan ayrı commit (2026-10-02). |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**209 statik sayfa**: 208 → +11 yeni → −11 gizli → +ÖSD) · `check-links` **0 ölü hedef** · gizli 11 adres 404, sitemap'te yok · 16 sayfa × 1440 / 390 / 360: taşma yok, tek H1, konsol hatası yok · `code-review` (high) 10 bulgu → hepsi düzeltildi |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu **15** (10 + Japonca, Korece, Yunanca, Bulgarca, İsveççe) · Üniversite Proficiency 19 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana **18 yayında** (16 + TELC, ÖSD, DELF \| DALF, DELE, CILS \| CELI, E-TEP, OET − 5 gizli: TOEIC, TOEFL Essentials, TOEFL Primary, İngiltere Vize / IELTS Life Skills A1, Fransızca Aile Birleşimi) · Menü (PM) · Kategori Hub'ları 7 · P4 · P5 · P6 · P7 · PF form (görsel) |
+| **Aktif faz** | Eksik dil + sınav sayfaları (yeni istek, planda yoktu) **bitti**. Kalan: PF arka uç (karar #4) · P8 SEO taşıma + temizlik · P9 kesişen işler + QA. |
+| **Bir sonraki somut adım** | **(1)** Push kullanıcıya bağlı · **(2)** `bekleyen-sorular.md` "Eksik dil / sınav sayfaları" sorularını müşteriye sor (fiyat kelimesi geçen eski başlıklar, İsveç Kültür Merkezi, E-TEP / OET grup şubesi, kalan 5 dil) · **(3)** PF arka uç · **(4)** P8. |
 | **Yarım kalan iş** | Yok. |
-| **Engeller** | Yok (ölü hedef 0). PF arka ucu için e-posta adresleri bekleniyor. |
-| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** Müşteriden: form e-posta adresleri. Bir sonraki toplu soruda: Ümraniye "15 yıllık tecrübe" · Bağdat Caddesi "20 yıldır" · "19 farklı dil" cümlesinde 18 ad · "8 farklı dilde" cümlesi · üniversite sayfalarında DDM tanıtım paragrafları (speaking / listening) · Acıbadem "AYES" adı · "Flemenkçe" → "Felemenkçe" · 16 üniversitede doğrulanamayan ayrıntı tablosu. |
-| **Bilinen veri notları** | **19 dil** = kursu olan 9 dil + diğer 10 dil (`data/languages.ts` `ALL_LANGUAGE_NAMES`; ad eklenir / çıkarsa build düşer). **Kuruluş yılı** `data/company.ts` (2003; "Neden DDM" kartındaki yıl sayısı build gününde hesaplanır — yılbaşından sonra yeniden build gerekir). **Şube adı** "Etiler" (`data/branches.ts`; kaynaktaki "Beşiktaş Şubesi" / "Levent, Etiler" `currentBranchName` ile çevrilir; adresler ve `levent@…` e-postası değişmedi). **Üniversite sınav bilgisi** 30.09.2026'da 19 üniversitenin resmi sitesinden yeniden doğrulandı (`data/universityExams.ts` yorumlarında kaynak + alıntı); sınav ayları / tarihleri her akademik yıl değişir. Ümraniye: tanıtım sayfası ve kurs takvimi yok — karar. İzlenmeyen: `public/assets/summer_school.jpg`, kök ve `ddm-web/` altında `r3/`. |
-| **Kalıcı kurallar** | CLAUDE.md §5 "Müşteri kararları 2026-09-30" (dokunulmayacaklar dahil) · §5 Proficiency üniversite: eskimiş satır `edits` ile güncellenir, doğrulanamayan değişmez (`caveat`) · §9 PF notu · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
+| **Engeller** | Yok. PF arka ucu için e-posta adresleri bekleniyor. |
+| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** Yeni: eski 10 dil sayfasının başlığında "Ders Fiyatları" · İsveççe "İsveç Kültür Merkezi" cümlesi · E-TEP / OET grup derslerinin şubesi · Portekizce, Hırvatça, Boşnakça, Slovakça, Farsça sayfası. |
+| **Bilinen veri notları** | **ddmcadde kaynağı:** eski sitede OLMAYAN 11 sayfanın firma metni Bağdat Caddesi sitesinden `node scripts/pull-ddmcadde.mjs --new` ile `ddm-web/data/ddmcadde_content.json`a çekildi (fiyat / "Ücreti:" / "TL" satırları ve "Kurs Başlama" tarihleri kaynağa ALINMAZ; `✅` süsü temizlenir). Yeniden çekmek bu dosyayı günceller — `site_content.json`a dokunmaz. TestDaF'ın ddmcadde kaydı bu sitenin TestDaF kaynağıyla aynı metin (yalnız arşiv). **Dil listesi:** `LANGUAGES` (10, Ana Sayfa ızgarası / hero balonları / Yabancı Dil selam duvarı) + `EXTRA_LANGUAGES` (5) = `LANGUAGE_PAGES` (route, menü, form, sitemap, "diğer diller"); `OTHER_LANGUAGE_NAMES` artık 5 dil (sayfası olmayan). **Sınav ↔ dil bağlantısı:** `data/exams.ts` `language` alanı → sınav hero'sunda dil bağlantısı + dil sayfasının "Uluslararası … Sertifikası" kutusunda ters bağlantı (+ kutunun metninde adı geçen sınavlar). Fotoğraflar: `public/assets/home_page_images/dil-{japonca,korece,yunanca,bulgarca,isvecce}{,2}.jpg` (İsveççe dosya adları ASCII'ye çevrildi — "ç" NFD kodlanmıştı, sunucu bulamıyordu). |
+| **Gizli sınavlar (2026-10-02)** | Müşteri isteği: TOEIC (+ nedir, özel ders, 4 şube tarihi), TOEFL Essentials, TOEFL Primary, İngiltere Vize (IELTS Life Skills A1), Fransızca Aile Birleşimi **sitede görünmez, adresi 404**. Tanımlar dosyalarda DURUR; tek liste `ddm-web/data/hiddenPages.ts`. Geri açmak: slug'ı listeden çıkar + o commit'te elle silinen bağlantıları geri koy (ana sayfa TOEIC logosu, hub metinleri, kurumsal / diğer program / tekil sayfa bağlantıları). Bilgi amaçlı kalanlar: Business English sayfasındaki iş İngilizcesi sınav tablosu (TOEIC satırları), Çocuklar İçin İngilizce'deki çocuk sınavları tablosu (TOEFL Primary satırı), IELTS Nedir'deki "IELTS for UKVI Life Skills" — bağlantısız, olgu. |
+| **Kalıcı kurallar** | CLAUDE.md §5 "ddmcadde kaynaklı sayfalar (2026-10-01)" (yeni) · §5 "Müşteri kararları 2026-09-30" · §9 PF notu · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
 
 
-**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-09-30):**
+**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-10-01):**
 
 ```
 PF devam · İletişim formunun arka ucu (karar #4) — ya da P8 SEO taşıma (hangisini istersen).
 
 OTURUM BAŞI
 - Oku: docs/SESSION-HANDOFF.md §A (FORM GÖRSEL, ARKA UÇ YOK), ddm-web/CLAUDE.md §2 (output export yok), §4, §5 "Müşteri
-  kararları 2026-09-30", §9 PF notu, docs/bekleyen-sorular.md. git status / git log -5. AGENTS.md: Route Handler yazmadan
-  önce node_modules/next/dist/docs/ altındaki rehberi oku. Türkçe ve kısa yaz.
-- Başlangıç sayıları: npm run build (205 sayfa) · node scripts/check-links.mjs (0 ölü hedef).
+  kararları 2026-09-30" + "ddmcadde kaynaklı sayfalar", §9 PF notu, docs/bekleyen-sorular.md. git status / git log -5.
+  AGENTS.md: Route Handler yazmadan önce node_modules/next/dist/docs/ altındaki rehberi oku. Türkçe ve kısa yaz.
+- Başlangıç sayıları: npm run build (209 sayfa) · node scripts/check-links.mjs (0 ölü hedef).
 
 BU OTURUMUN İŞİ (PF arka uç)
 - Önce sor: başvurular hangi adrese (şubeye göre mi?), gönderim yöntemi (Route Handler + e-posta servisi / form servisi),
   spam koruması.
 - ContactFormFields.tsx onSubmit: önce reportValidity, sonra gönderim; hata stilleri hazır (aria-invalid + .error).
-  Başarı mesajı ANCAK gerçekten gönderildiğinde. Sayfa sayısı 205 kalsın, check-links 0 kalsın.
+  Başarı mesajı ANCAK gerçekten gönderildiğinde. Sayfa sayısı 209 kalsın, check-links 0 kalsın.
 
-DOKUNULMAYACAKLAR (müşteri "kalsın" dedi): Enforex cümlesi · Kaplan metni ve rakamları · Fransızca Aile Birleşimi sayfası ·
+DOKUNULMAYACAKLAR (müşteri "kalsın" dedi): Enforex cümlesi · Kaplan metni ve rakamları ·
 KVKK metni ve tek onay kutusu.
 
 KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
@@ -86,6 +87,56 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-10-02 (2) · Opus 5.5 · ÖSD Kursu + yeni sınavlar Sınav Hazırlık sayfasında — `83f29b5`
+- **ÖSD:** firma metni almancakurslari.com/sinav/osd-kursu (aynı şubenin Almanca sitesi; aynı Joomla şablonu) — `pull-ddmcadde.mjs` girdisine `origin` alanı eklendi, kayıt `ddmcadde_content.json`da (`osd-kursu`). Kaynak 213 kelime → genel bilgi resmi kaynaklardan (osd.at Durchführungsbestimmungen B1 / B2, Prüfungsordnung 2026, oesterreich.gv.at, migration.gv.at, wien.gv.at, BAMF; adresler `data/exams.ts` yorumunda): ÖSD nedir, B1 yapısı, sınav türleri, puanlama, 6 SSS (geçerlilik, aile birleşimi, vatandaşlık — 2021 sonrası B1 sayılmıyor, üniversite, Goethe farkı, Türkiye'deki merkezler). Pazarlama kapanışı + "Kontenjanlar sınırlıdır / erken kayıt" `drop`. Kaynaktaki "Küçük gruplarda", "Online ve yüz yüze" firma cümlesi olarak kaldı. Menü (TELC'ten sonra), "Avrupa dillerinde sınavlar" grubu, `examGlance`, Almanca sayfasının sertifika kutusu (otomatik).
+- **Sınav Hazırlık sayfası:** kataloğa TELC, ÖSD, DELF | DALF, DELE, CILS | CELI, E-TEP, OET (amaç grupları + karşılaştırma tablosu); grup girişleri güncellendi ("İş hayatı" → "Meslek ve iş hayatı", OET; vize girişinde Fransa / İngiltere çıktı; kamu girişine e-TEP; yurtdışı girişine Avrupa dilleri + ÖSD); "16 sınav" sayısı metinden çıktı.
+- **Alt linkler:** sınav sayfalarının altındaki "Diğer sınavlar" dizini `EXAM_GROUPS`ten — yeniler var, gizliler yok. Footer "SINAV HAZIRLIK" sütunu (8 eski sınav) değişmedi.
+- **Doğrulama:** tsc ✅ · lint ✅ · build **209** · check-links **0** · ÖSD + hub 1440 / 390 / 360: taşma yok, tek H1, konsol hatası yok.
+
+### 2026-10-02 · Opus 5.5 · 5 sınav yayından kaldırıldı (sayfa silinmedi) — `83f29b5`
+- **İstek:** TOEIC, TOEFL Primary, Fransızca Aile Birleşimi, TOEFL Essentials, IELTS Life Skills "her yerden kalksın, sayfa silinmesin, URL ile de gidilemesin".
+- **Yapı:** `data/hiddenPages.ts` (`HIDDEN_EXAM_SLUGS`, `isHiddenExam`, `isHiddenPath` — alt ağaç dahil). Süzülen kaynaklar: `EXAMS` (`ALL_EXAMS` süzülür), `EXAM_GROUPS`, `EXAM_GUIDES`, `EXAM_PRIVATE_LESSONS`, `COURSE_DATES` (`ALL_COURSE_DATES`), sınav hub kataloğu (`hubs.ts`), menü (`lib/navTree.ts` her modda düşürür; `lib/navAudit.ts` atlar — `nav.ts` kalemleri geri açılış için durur), Özel Dersler hub listesi. Form listesi, dil sayfası sınav bağlantıları, sitemap otomatik.
+- **Elle temizlenen:** ana sayfa TOEIC logosu · sınav hub metni + "geçerlilik" SSS · kurumsal hub (kaynak cümle `edits`, program kartı, SSS; ilgili bağlantıda TOEIC → Business English) · İngilizce Kursları "İlköğretim" alt önerisi · Diğer Programlar (TOEFL Primary önerisi + bağlantı) · tekil sayfa "TOEIC Nedir?" · Business English bağlantı bloğu · Çocuklar İçin İngilizce bağlantısı · Online Eğitim (TOEIC / IELTS Life Skills çipleri + kaynak cümle `fixes` + SSS). Ek: Online Eğitim'de DELE, DELF, CELI, CILS çipleri yeni sınav sayfalarına bağlandı.
+- **Bilerek kalan (olgu, bağlantısız):** Business English iş İngilizcesi sınav tablosu (TOEIC), çocuk sınavları tablosu (TOEFL Primary), IELTS Nedir'de "UKVI Life Skills".
+- **Doğrulama:** tsc ✅ · lint ✅ · build 219 → **208** · check-links **0** · 11 gizli adres `next start`ta 404, sitemap'te 0, ana sayfada 0 geçiş.
+
+### 2026-10-01 (8) · Opus 5.5 · Eksik 5 dil + 6 sınav sayfası (ddmcadde kaynaklı) + TestDaF güçlendirmesi — `83f29b5`
+- **İstek:** Bağdat Caddesi sitesinde (ddmcadde.com) olup bizde olmayan diller ve sınavlar; her biri tek sayfa, diğer sayfalar
+  gibi görünsün. Aşama 0 → Japonca pilotu → 4 dil → DELE pilotu → 5 sınav; her pilotta kullanıcı onayı alındı.
+- **Kullanıcı kararları:** adresler onaylandı (`/yabanci-dil-egitimleri/{japonca,korece,yunanca,bulgarca,isvecce}-kursu`,
+  `/sinav-hazirlik-egitimleri/{telc,delf-dalf,dele,cils-celi,e-tep,oet}-kursu`) · **"firma hakkında bilgi varsa fiyat dışında
+  koyabilirsin"** (ddmcadde firma metni kullanılır, fiyat asla) · fotoğrafları kullanıcı verdi (10 adet) · "TestDaF'ın yazısı az,
+  ddmcadde'den eklemeler yapabilirsin".
+- **Yapılanlar:**
+  - `scripts/pull-ddmcadde.mjs --new` → `data/ddmcadde_content.json` (5 dil + 6 sınav + TestDaF arşivi). Fiyat bölümü, tek
+    tek "Ücreti:" / "… TL" satırları ve "Kurs Başlama" tarihleri alınmıyor; bozuk JSON'da betik durur (kayıt silmez).
+  - Dil: `LanguageContentMap` `source: "ddmcadde"`, `h1Edit` (H1'deki "Ders Fiyatları" çıkar), `aboutAlso`, `meta`; `pricing`
+    artık isteğe bağlı. Genel bilgi `data/languageExtras.ts` (`whyLearnAdded`, `levelsAdded`, `certAdded`, `faqAdded`; resmi
+    kaynaklar yorumda: JLPT, TOPIK, Ellinomatheia, Sofya Üniversitesi, Swedex / Tisus). Kaynaktan "25 yıllık" →
+    `FOUNDING_EDIT` (otomatik). Bulgarca "İstanbul'daki en iyi" çıkarıldı (`edits`); İsveççe "İsveç Kültür Merkezi" cümlesi
+    doğrulanamadı → `ignored` + soru.
+  - Sınav: `ExamDef` `source`, `h1Edit`, `meta`, `language`; yeni bloklar `addedProse` / `addedStructure` / `addedFaq`, prose
+    bloğunda `prepend` / `append`. Kaynaktaki olgu hataları `edits`te düzeltildi (DELE / DELF / CILS "Milli Eğitim Bakanlığı
+    yönetmeliği" + CILS'te "İspanyolca"; OET not bantları 0–100 → resmi 0–500; e-TEP yazım). Yeni grup "Avrupa dillerinde
+    sınavlar"; sınav kâğıdı bilgileri `data/examGlance.ts`.
+  - TestDaF (428 → 843 kelime): kaynak metin ddmcadde'deki soru başlıklarına bölündü + dijital TestDaF yapısı, TDN, Türkiye
+    merkezleri, SSS (testdaf.de) + Almanca Kursu kaynağındaki firma cümlesi ("TDN 4 ve TDN 5 eğitimleri birebir özel ders").
+  - Menü (`lib/nav.ts`): 5 dil (ddmcadde sırası) + 6 sınav. `pageRegistry` / form / sitemap `LANGUAGE_PAGES`ten. Yabancı Dil
+    sayfası: "diğer diller"de 5 yeni dil bağlantılı çip, karşılaştırma tablosunda 5 satır (süre kaynaktan türer).
+  - Bağlantılar: sınav hero'sunda dil kursu; dil sayfasının sertifika kutusunda sınavlar (`language` + metinde adı geçen).
+  - 5 bayrak (jp, kr, gr, bg, se). Fotoğraf yer tutucusu yazıldı, fotoğraflar gelince kaldırıldı.
+- **code-review (high):** 10 bulgu → düzeltildi (betik ENOENT / li fiyat süzgeci, İngilizce kutusunun eksik bağlantıları,
+  `languageLinks` 15 dil, Kore trigramları, meta uzunluk bekçisi, ortak `findDdmcaddeRecord` / `applyH1Edit`, `illustrationFor`,
+  ölü yer tutucu, hub süresi türetme).
+- **Doğrulama:** tsc ✅ · lint ✅ · build 208 → **219** · check-links **0** · 1440 / 390 / 360 taşma yok, tek H1, hata yok.
+- **Açık kalanlar:** `bekleyen-sorular.md` "Eksik dil / sınav sayfaları (2026-10-01)". **Commit'ler:** henüz yok.
+
+### 2026-10-01 (7) · Opus 5.5 · Ana Sayfa yurtdışı fotoğrafı — sağdaki öğrencinin yüzü kesikti — `5080ad1`
+- **Neden:** fotoğraf 3:2, kutu 4:3,4 (masaüstü) → ortalı kırpma sağdan ~%11 kesiyordu; öğrenciler fotoğrafın sağ yarısında.
+- **Yapılan:** `styles/AbroadSection.module.css` `.photo`: `object-position: 100% 50%` (kırpma sağa yaslı) + `transform-origin:
+  80% 50%` (ddmKenBurns'ün -%2 kaydırması sağda boşluk açmasın; %81'in üstünde açılıyor).
+- **Doğrulama:** build ✅ · 1440 / 1100 / 390: üç öğrenci tam, animasyonun uç karesinde de kenar boşluğu yok, taşma yok.
 
 ### 2026-10-01 (6) · Opus 5.5 · Haftalık ders programı panosu — kesik saatler düzeltildi — commit bekliyor
 - **Sorun (kullanıcı ekran görüntüsü):** Çocuklar İçin İngilizce hero panosunda 19:00–21:30 bloklarının bitiş saati kesik.

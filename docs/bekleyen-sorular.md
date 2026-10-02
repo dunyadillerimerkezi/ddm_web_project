@@ -7,6 +7,25 @@
 **2026-09-30:** müşterinin 21 soruluk formundaki 20 cevap koda işlendi ve bu dosyadan silindi (kararlar:
 `SESSION-HANDOFF.md` §D, kalıcı olanlar `ddm-web/CLAUDE.md` §5 / §9). Formdan açık kalan tek soru aşağıda (#1).
 
+## Eksik dil / sınav sayfaları (2026-10-01) — bir sonraki toplu soruda
+
+> Yapıldı: 5 dil + 6 sınav sayfası, firma metni Bağdat Caddesi sitesinden (ddmcadde.com), fiyat hariç (kullanıcı kararı).
+
+1. **Eski 10 dil sayfasının Google başlığında ve H1'inde "Ders Fiyatları" geçiyor** (ör. Yabancı Dil Kursları → İtalyanca
+   Kursu: "İtalyanca Kursu Eğitim Sistemi ve Ders Fiyatları"). Sayfada fiyat yok ama kelime var; yeni 11 sayfada çıkarıldı.
+   Eskilerde de çıkarılsın mı? (Başlık eski sitenin başlığı — SEO sıralaması için bırakılmıştı.)
+2. **İsveççe: "İsveç Kültür Merkezi'nin düzenlediği uluslararası sınavlar"** (ddmcadde) — Türkiye'de İsveççe sınavı yapan böyle
+   bir kurum bulunamadı; cümle sayfaya alınmadı, yerine resmi Swedex / Tisus bilgisi yazıldı. Firmanın kastettiği kurum hangisi?
+3. **E-TEP ve OET grup dersleri** (hafta sonu 11:00–14:00; E-TEP 8 kişi 60 ders / 2,5 ay, OET 12 kişi 72 ders / 3 ay) —
+   ddmcadde'de Bağdat Caddesi şubesi için yazıyor. Tüm şubelerde mi açılıyor? Sayfada şube adı yazılmadı.
+4. **Sayfası olmayan 5 dil:** Portekizce, Hırvatça, Boşnakça, Slovakça, Farsça — ddmcadde'de de sayfaları yok. Bunlara da sayfa
+   açılsın mı? (19 dil listesi tam: 14 dil sayfası + 5 dil.)
+5. **Japonca:** kaynakta bir yerde "Japon öğretmen kadromuz", başka yerde "Türk ve Japon öğretmen kadromuz" — ikisi de sayfada
+   (firma metni). Doğrusu hangisi?
+6. **Bilgi (sorulmayacak):** OET'nin ve Yunanca Yeterlilik Belgesi'nin Türkiye'deki sınav merkezleri resmi kaynakta
+   doğrulanamadı — sayfalarda yer yazılmadı. ddmcadde'deki OET not bantları (0–100) ve CILS / CELI sayfasındaki "İspanyolca"
+   hatası resmi bilgiyle düzeltildi.
+
 ## Müşteriden beklenen
 
 1. **Form başvuruları hangi e-postaya gidecek** (form #18) — kullanıcı: "mailleri alacağım sonra". Adresler gelince PF arka ucu

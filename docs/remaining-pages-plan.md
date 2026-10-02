@@ -714,6 +714,18 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
 > +2,1 KB JS (gzip). **Arka uç YOK** — sonraki iş: gönderim yöntemi (karar #4), doğrulama (`reportValidity`), KVKK hukuki
 > kontrolü (bekleyen-sorular PF).
 
+### PX — Eksik dil + sınav sayfaları  ✅ (2026-10-01) — yeni istek, planda yoktu
+
+> **Sonuç (Opus 5.5):** Bağdat Caddesi sitesinde (ddmcadde.com) olup bizde olmayan 5 dil (`/yabanci-dil-egitimleri/{japonca,korece,
+> yunanca,bulgarca,isvecce}-kursu`) + 6 sınav (`/sinav-hazirlik-egitimleri/{telc,delf-dalf,dele,cils-celi,e-tep,oet}-kursu`).
+> Eski sitede adresleri yok → 301 yok. Kullanıcı: "firma hakkında bilgi varsa fiyat dışında koyabilirsin" → firma metni
+> ddmcadde'den `data/ddmcadde_content.json`a (fiyat / ücret satırı ve kurs başlangıç tarihi alınmaz), kapsama denetimi aynen;
+> kaynakta olmayan bölümler genel bilgi (dil: `data/languageExtras.ts`; sınav: `added*` blokları), resmi kaynak yorumda.
+> Şablonlar mevcut dil / sınav sayfaları; pilot Japonca + DELE kullanıcı onaylı. Menü, form, sitemap, Yabancı Dil sayfası ve
+> sınav ↔ dil bağlantıları güncellendi. Aynı oturumda TestDaF sayfası güçlendirildi (428 → 843 kelime). 208 → 219 sayfa.
+> Açık sorular: `bekleyen-sorular.md` "Eksik dil / sınav sayfaları". Kalan 5 dilin (Portekizce, Hırvatça, Boşnakça, Slovakça,
+> Farsça) sayfası yok — müşteriye soruluyor.
+
 ### P8 — Faz 8 SEO taşıma + 6.7 Temizlik  ⏳ (L)
 - **Genel `.html → temiz` kuralı** (`/:path*.html → /:path*`). Sırası önemli: özel
   kurallardan (üniversite kök, Joomla) SONRA gelir. `urls.csv`'deki 384 URL'in her biri için
