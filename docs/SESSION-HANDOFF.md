@@ -88,6 +88,17 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+### 2026-10-02 · Opus 5.5 · Ana Sayfa yabancı dil bölümü — müşterinin yeni metni — commit bekliyor
+- **İstek:** müşterinin verdiği başlık ("Yabancı dil, Dünya Dilleri Merkezi'nde öğrenilir. M.E.B Onaylı Dil Okuluyuz.") ve
+  iki paragraflık alt yazı bölüme uyarlanıp eklensin.
+- **Yapılan:** `data/home.ts` `LANGUAGE_SECTION`: üst etiket "MEB ONAYLI DİL OKULU" (önce "YABANCI DİL KURSLARI"), başlık
+  "Yabancı dil, Dünya Dilleri Merkezi’nde öğrenilir." (önce Ana Sayfa H1'inin aynısıydı), `lead` artık 2 paragraf
+  (`LanguageGrid` her birini ayrı `<p>` basar). Düzenleme: "M.E.B" → "MEB"; "öğrenim ihtiyaçları doğrultusunda" →
+  "öğrenme ihtiyaçlarına göre"; **"konuşma garantisi veriyoruz" → "konuşmanızı hedefliyoruz"** (sitede "garanti" ifadeleri
+  tüketici hukuku gereği yumuşatıldı — önceki kullanıcı kararı; müşteri "garanti" isterse geri alınır). 19 dil listesi hero
+  kartında duruyor.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ · 1440 / 390 / 360: taşma yok, tek H1, konsol hatası yok.
+
 ### 2026-10-02 (2) · Opus 5.5 · ÖSD Kursu + yeni sınavlar Sınav Hazırlık sayfasında — `83f29b5`
 - **ÖSD:** firma metni almancakurslari.com/sinav/osd-kursu (aynı şubenin Almanca sitesi; aynı Joomla şablonu) — `pull-ddmcadde.mjs` girdisine `origin` alanı eklendi, kayıt `ddmcadde_content.json`da (`osd-kursu`). Kaynak 213 kelime → genel bilgi resmi kaynaklardan (osd.at Durchführungsbestimmungen B1 / B2, Prüfungsordnung 2026, oesterreich.gv.at, migration.gv.at, wien.gv.at, BAMF; adresler `data/exams.ts` yorumunda): ÖSD nedir, B1 yapısı, sınav türleri, puanlama, 6 SSS (geçerlilik, aile birleşimi, vatandaşlık — 2021 sonrası B1 sayılmıyor, üniversite, Goethe farkı, Türkiye'deki merkezler). Pazarlama kapanışı + "Kontenjanlar sınırlıdır / erken kayıt" `drop`. Kaynaktaki "Küçük gruplarda", "Online ve yüz yüze" firma cümlesi olarak kaldı. Menü (TELC'ten sonra), "Avrupa dillerinde sınavlar" grubu, `examGlance`, Almanca sayfasının sertifika kutusu (otomatik).
 - **Sınav Hazırlık sayfası:** kataloğa TELC, ÖSD, DELF | DALF, DELE, CILS | CELI, E-TEP, OET (amaç grupları + karşılaştırma tablosu); grup girişleri güncellendi ("İş hayatı" → "Meslek ve iş hayatı", OET; vize girişinde Fransa / İngiltere çıktı; kamu girişine e-TEP; yurtdışı girişine Avrupa dilleri + ÖSD); "16 sınav" sayısı metinden çıktı.

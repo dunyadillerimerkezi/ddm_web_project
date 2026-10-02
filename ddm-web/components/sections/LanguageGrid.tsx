@@ -52,7 +52,11 @@ export function LanguageGrid() {
           <div className={styles.copy}>
             <Kicker>{kicker}</Kicker>
             <h2 className={styles.title}>{title}</h2>
-            <p className={styles.lead}>{lead}</p>
+            {lead.map((p) => (
+              <p key={p} className={styles.lead}>
+                {p}
+              </p>
+            ))}
           </div>
           <LanguageGlobe />
         </div>

@@ -191,10 +191,19 @@ const YD = "/yabanci-dil-egitimleri";
 // Not: her dilin "Program detayları" madde metni/sayısı şablonla birebir
 // farklılaştığı için aşağıda tek tek yazıldı — otomatik üretim yerine
 // kaynağa sadık kalındı.
+/**
+ * Başlık + giriş metni müşterinin verdiği metin (2026-10-02), bölüme uyarlandı: "M.E.B Onaylı Dil Okuluyuz" üst etikete
+ * ("MEB ONAYLI DİL OKULU"), "M.E.B" → "MEB". "…konuşma garantisi veriyoruz" → "…konuşmanızı hedefliyoruz": sitede
+ * "garanti" ifadeleri tüketici hukuku gereği yumuşatıldı (kullanıcı kararı, `data/hubs.ts` FEATURE_HEADING_EDITS).
+ * Önceki başlık Ana Sayfa H1'iyle aynıydı; 19 dil listesi hero kartında duruyor.
+ */
 export const LANGUAGE_SECTION = {
-  kicker: "YABANCI DİL KURSLARI",
-  title: "19 dilde eğitim, 2003’ten bugüne Dünya Dilleri Merkezi farkıyla yabancı dil eğitimleri",
-  lead: "Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca ve Farsça dil eğitimleri vermektedir.",
+  kicker: "MEB ONAYLI DİL OKULU",
+  title: "Yabancı dil, Dünya Dilleri Merkezi’nde öğrenilir.",
+  lead: [
+    "Öğrencilerimizin yabancı dil öğrenme ihtiyaçlarına göre grup eğitimleri ve kişiye özel ders programları hazırlıyoruz.",
+    "2003’ten bugüne edindiğimiz köklü kurumsal tecrübe ve deneyimli öğretmenlerden oluşan güçlü eğitim kadromuzla, yabancı dili etkili ve akıcı şekilde konuşmanızı hedefliyoruz.",
+  ],
   cta: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "/yabanci-dil" },
   cards: [
     {
