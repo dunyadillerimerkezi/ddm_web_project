@@ -154,6 +154,11 @@
 
 .photo {
   object-fit: cover;
+  /* Üç öğrenci fotoğrafın sağ yarısında; ortalı kırpma sağdaki öğrencinin yüzünü kesiyordu (kullanıcı, 2026-10-01).
+   * Kırpma sağa yaslı. Yakınlaşma merkezi %80: ddmKenBurns'ün sola kaydırması (-%2) sağda boşluk açmaz, sağ kenar
+   * hep görünür (merkez > ~%81 olursa açılır). */
+  object-position: 100% 50%;
+  transform-origin: 80% 50%;
   animation: var(--kf-ken-burns) var(--duration-kenburns) ease-in-out infinite alternate;
 }
 
