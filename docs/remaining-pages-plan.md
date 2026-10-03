@@ -726,7 +726,7 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
 > Açık sorular: `bekleyen-sorular.md` "Eksik dil / sınav sayfaları". Kalan 5 dilin (Portekizce, Hırvatça, Boşnakça, Slovakça,
 > Farsça) sayfası yok — müşteriye soruluyor.
 
-### P8 — Faz 8 SEO taşıma + 6.7 Temizlik  ⏳ (L)
+### P8 — Faz 8 SEO taşıma + 6.7 Temizlik  ✅ (L)
 - **Genel `.html → temiz` kuralı** (`/:path*.html → /:path*`). Sırası önemli: özel
   kurallardan (üniversite kök, Joomla) SONRA gelir. `urls.csv`'deki 384 URL'in her biri için
   bir betik "eski URL → beklenen hedef → gerçek HTTP sonucu" tablosunu çıkarır. Hedef: 0
@@ -751,6 +751,18 @@ düzeltilmeyen tek bulgu footer'ın `soon` denetimine girmemesi — footer'daki 
   seo-audit skill'ini kullan.
   ```
 - **Skill:** `seo-audit`, `code-review`, `simplify` (temizlik).
+- **Sonuç (2026-10-02/03):**
+  - **Yönlendirme:** urls.csv **384** adres (plan 384 diyordu, doğru). Önce 181 ✅ / 7 ⚠ / 196 ❌ → son **383 ✅ + 1 ⏳ · 0 kayıp**
+    (zincir 0, döngü 0). Genel kural en sonda, `statusCode: 301`, gizli sınavlar hariç (doğrudan 404). Kararlar:
+    `component/tags/tag/almanca-kursu` → Almanca Kursu · `…/toeic-kursu` → Sınav Hazırlık (TOEIC gizli) · `star-media` → 404 ·
+    `tanitim-icerik/*` (6) → `branchPromo.ts` `SHARED_LINKS` hedefleri · duyurular + aktiviteler + kapanan 2 üniversite
+    doğrulandı · **yeni:** `is-basvurusu-kariyer` → İletişim GEÇİCİ (307), Kariyer sayfası açılınca silinecek.
+  - **Metadata:** fiyat sözü 0 · tekrar eden başlık / açıklama 0 · tek H1 her sayfada · kısa başlık 20 → 2 · Ana Sayfa
+    başlığı kullanıcının metni · 26 başlığa marka eki. `h1-fallback` listesi: H1'i olmayan sayfa yok.
+  - **6.7 temizlik:** ölü `data-reveal` / `data-count` yok · `next/image` tamam (32 görsel; `priority` → `preload`) ·
+    6 kullanılmayan bileşen + 5 stil silindi · 8 Türkçe adlı görsel ASCII'ye · Türkçe adlı 7 PDF eski adresi olduğu için
+    kaldı · IntersectionObserver reveal zaten `Reveal` bileşeninde.
+  - **Araçlar:** `scripts/check-redirects.mjs`, `scripts/check-metadata.mjs`.
 
 ### P9 — Kesişen işler + Faz 9 QA  ⏳ (M) — karar #6
 - **JSON-LD** (metin değiştirmez, eklemedir):

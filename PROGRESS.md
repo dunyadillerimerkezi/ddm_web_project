@@ -370,7 +370,7 @@ ki koda çevirince veri-tabanlı üretebileyim.
 - [x] **6.14c · Eksik dil + sınav sayfaları** (2026-10-01, yeni istek — planda yoktu) — Japonca, Korece, Yunanca, Bulgarca, İsveççe + TELC, DELF | DALF, DELE, CILS | CELI, E-TEP, OET. Firma metni Bağdat Caddesi sitesinden (`scripts/pull-ddmcadde.mjs --new` → `data/ddmcadde_content.json`, fiyat / tarih satırları alınmaz), genel bilgi resmi kaynaklardan (yorumda). Menü, form, sitemap, Yabancı Dil sayfası, sınav ↔ dil bağlantıları. TestDaF 428 → 843 kelime. **208 → 219 sayfa, check-links 0.**
 - [x] **6.14d · 5 sınav gizlendi** (2026-10-02, müşteri) — TOEIC (+6 alt sayfa), TOEFL Essentials, TOEFL Primary, İngiltere Vize / IELTS Life Skills A1, Fransızca Aile Birleşimi: menü / dizin / bağlantılardan düştü, adres 404; tanımlar `data/hiddenPages.ts` listesiyle süzülür, silinmedi. **219 → 208 sayfa, check-links 0.**
 - [x] **6.14e · ÖSD Kursu + Sınav Hazırlık kataloğu** (2026-10-02) — ÖSD (almancakurslari.com firma metni + osd.at / BAMF / Avusturya resmi kaynakları); 7 yeni sınav Sınav Hazırlık sayfasının amaç grupları ve karşılaştırma tablosunda. **209 sayfa, check-links 0.**
-- [ ] **6.15 · P8 Faz 8 SEO taşıma + 6.7 Temizlik** (genel `.html` 301, 384 URL taraması, metadata denetimi)
+- [x] **6.15 · P8 Faz 8 SEO taşıma + 6.7 Temizlik** (genel `.html` 301, 384 URL taraması, metadata denetimi) — 2026-10-03: 383 ✅ + 1 ⏳ · 0 kayıp; rapor `docs/redirect-raporu-2026-10-03.md`, `docs/metadata-raporu-2026-10-03.md`
 - [ ] **6.16 · P9 Kesişen işler + Faz 9 QA** (JSON-LD, OG, analytics, a11y, CWV)
 
 **Açık kararlar (kullanıcıdan):** yeni şablonların tasarım kaynağı (Claude Design turu
@@ -433,11 +433,11 @@ Her sayfa için:
 **Amaç:** `.html` → temiz URL geçişinde SEO değerini korumak. **Bu fazın atlanması = trafik kaybı.**
 **Çıktı:** Çalışan 301'ler, taşınmış metadata, güncel sitemap
 
-- [ ] `next.config.js` içinde `.html` → temiz URL 301 kuralı eklendi
-- [ ] `urls.csv`'deki tüm eski URL'ler yeni URL'e eşleşiyor (istisnalar kontrol edildi)
-- [ ] title/meta/canonical/H1 taşındı ve doğrulandı
-- [ ] `sitemap.xml` (yeni temiz URL'lerle) üretildi
-- [ ] `robots.txt` doğru
+- [x] `next.config.ts` içinde `.html` → temiz URL 301 kuralı eklendi (dizinin en sonunda, gizli sınavlar hariç)
+- [x] `urls.csv`'deki tüm eski URL'ler yeni URL'e eşleşiyor (istisnalar kontrol edildi) — `scripts/check-redirects.mjs`
+- [x] title/meta/canonical/H1 taşındı ve doğrulandı — `scripts/check-metadata.mjs`
+- [x] `sitemap.xml` (yeni temiz URL'lerle) üretildi — 202 adres, gizliler hariç
+- [x] `robots.txt` doğru (staging: `DDM_DISALLOW_INDEXING=1`; canlıda tanımsız olmalı)
 - [ ] Search Console'a yeni sitemap gönderildi
 
 ### En elegan yol — tek kural (doğrula)
@@ -478,6 +478,8 @@ Türkçe açıklama ekle.
 **Çıktı:** Canlı site + izleme
 
 - [ ] Staging'de `noindex` / robots disallow **kaldırıldığı** doğrulandı (en sık ölümcül hata)
+- [ ] **Sunucuda build alınırken `NEXT_PUBLIC_SITE_URL` tanımlı olmalı, yoksa tüm asıl adresler ve sitemap yanlış çıkar.** (P8 metadata denetimi, 2026-10-02: yerel build'de tanımsızdı → canonical, sitemap ve robots.txt `http://localhost:3000` gösterdi. Build sonrası `node scripts/check-metadata.mjs` raporunun "Canonical kökü" satırı canlı alan adını göstermeli.)
+- [ ] Sunucuya yükledikten sonra `public/images/` ve `public/ddm/indir/` altındaki 18 PDF'in adresini tek tek aç, hepsi 200 dönsün. Türkçe karakterli 7 tanesi (Bahçeşehir, Bilet, DUIYES x2, Koç, Yeditepe, Yıldız Teknik) özellikle kontrol edilsin — dosyalar git üzerinden değil doğrudan kopyalanarak yüklenirse 404 verebilir. (P8, 2026-10-03)
 - [ ] Core Web Vitals eski siteden kötü değil (görsel boyutları, lazy-load)
 - [ ] Yeni site crawl edildi; eski/yeni `urls.csv` diff'i yapıldı (kaybolan URL yok)
 - [ ] 301'ler canlıda çalışıyor (birkaç eski `.html` linki elle test edildi)

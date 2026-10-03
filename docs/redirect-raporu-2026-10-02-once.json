@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-02",
+  "label": "önce — genel .html kuralı yok",
+  "total": 384,
+  "ok": 181,
+  "warn": 7,
+  "bad": 196,
+  "byReason": {
+    "❌ 404": 196,
+    "⚠ gizli bir sayfaya yönleniyor (404) — karar gerekir": 7
+  }
+}

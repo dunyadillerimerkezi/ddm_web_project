@@ -7,13 +7,25 @@
 **2026-09-30:** müşterinin 21 soruluk formundaki 20 cevap koda işlendi ve bu dosyadan silindi (kararlar:
 `SESSION-HANDOFF.md` §D, kalıcı olanlar `ddm-web/CLAUDE.md` §5 / §9). Formdan açık kalan tek soru aşağıda (#1).
 
+## P8 · Yönlendirmeler (2026-10-02)
+
+1. **Kariyer sayfası açılacak (form içerecek), açılınca geçici yönlendirme kaldırılacak.** Şu an eski
+   `/ddm-iletisim/is-basvurusu-kariyer(.html)` adresi GEÇİCİ (307) olarak İletişim sayfasına gidiyor — kural
+   `ddm-web/next.config.ts` `TEMPORARY_REDIRECTS`. Sayfa açıldığı commit'te o satır silinir (kullanıcı kararı 2026-10-02).
+
+2. **Bilgi (sorulmayacak):** gizli TOEIC'in ana eski adresi (`/sinav-hazirlik-egitimleri/toeic-kursu.html`) 404 veriyor
+   (gizli 11 adres 404 kalır kararı), türev adresleri (`?id=` kurs tarihleri, özel ders, `toeic-kursu-2`, etiket sayfası)
+   Sınav Hazırlık'a gidiyor (eski TOEIC adresleri kararı). TOEIC geri açılırsa ikisi de kendiliğinden eski hedefine döner.
+
 ## Eksik dil / sınav sayfaları (2026-10-01) — bir sonraki toplu soruda
 
 > Yapıldı: 5 dil + 6 sınav sayfası, firma metni Bağdat Caddesi sitesinden (ddmcadde.com), fiyat hariç (kullanıcı kararı).
 
-1. **Eski 10 dil sayfasının Google başlığında ve H1'inde "Ders Fiyatları" geçiyor** (ör. Yabancı Dil Kursları → İtalyanca
-   Kursu: "İtalyanca Kursu Eğitim Sistemi ve Ders Fiyatları"). Sayfada fiyat yok ama kelime var; yeni 11 sayfada çıkarıldı.
-   Eskilerde de çıkarılsın mı? (Başlık eski sitenin başlığı — SEO sıralaması için bırakılmıştı.)
+1. ✅ **KAPANDI (müşteri cevabı geldi, `dfe4939`):** ~~Eski 10 dil sayfasının Google başlığında ve H1'inde "Ders Fiyatları"
+   geçiyor~~ — 8 eski dil sayfasında H1 ve başlıktan çıkarıldı (`data/languages.ts` `h1Edit`). P8 metadata denetimi
+   (2026-10-02): 15 dil sayfasında fiyat sözü 0. Aynı karar sınav sayfalarına da uygulandı (GRE, IELTS, YDS, SAT, PTE H1 + 3
+   başlık; Aile Birleşimi kurs tarihi başlıklarındaki "A1 Sınavı Ücreti") — sitede başlık / H1'de fiyat sözü kalmadı.
+   *(Kayıt için duruyor.)*
 2. **İsveççe: "İsveç Kültür Merkezi'nin düzenlediği uluslararası sınavlar"** (ddmcadde) — Türkiye'de İsveççe sınavı yapan böyle
    bir kurum bulunamadı; cümle sayfaya alınmadı, yerine resmi Swedex / Tisus bilgisi yazıldı. Firmanın kastettiği kurum hangisi?
 3. **E-TEP ve OET grup dersleri** (hafta sonu 11:00–14:00; E-TEP 8 kişi 60 ders / 2,5 ay, OET 12 kişi 72 ders / 3 ay) —

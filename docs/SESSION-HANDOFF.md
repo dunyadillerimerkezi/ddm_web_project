@@ -7,48 +7,45 @@
 
 ---
 
-## §A — Güncel durum  *(son güncelleme: 2026-10-02, 5 sınav gizlendi + ÖSD sayfası + Sınav Hazırlık kataloğu — commit'lendi)*
+## §A — Güncel durum  *(son güncelleme: 2026-10-03, P8 SEO taşıma + metadata + temizlik — commit'lendi)*
 
 > ⚠ **FORM GÖRSEL, ARKA UÇ YOK.** `ContactForm` sayfaların çoğunda duruyor ama HİÇBİR YERE veri göndermiyor; basınca "Form henüz
 > açılmadı, bilgileriniz gönderilmedi" notu + seçilen şubenin telefonu / WhatsApp'ı çıkıyor. Gönderim = karar #4, açık.
 
 | Alan | Değer |
 |---|---|
-| **Son kod commit'i** | `83f29b5` (5 dil + 7 sınav sayfası, ÖSD, 5 gizli sınav, Sınav Hazırlık kataloğu) · `5080ad1` (Ana Sayfa yurtdışı fotoğrafı — ayrı oturumun işi, ayrı commit). Çalışma ağacı temiz. |
-| **Son döküman commit'i** | Bu dosya + `bekleyen-sorular.md`, `PROGRESS.md`, `page-types.md`, `remaining-pages-plan.md`, `ddm-web/CLAUDE.md` — koddan ayrı commit (2026-10-02). |
-| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**209 statik sayfa**: 208 → +11 yeni → −11 gizli → +ÖSD) · `check-links` **0 ölü hedef** · gizli 11 adres 404, sitemap'te yok · 16 sayfa × 1440 / 390 / 360: taşma yok, tek H1, konsol hatası yok · `code-review` (high) 10 bulgu → hepsi düzeltildi |
-| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu **15** (10 + Japonca, Korece, Yunanca, Bulgarca, İsveççe) · Üniversite Proficiency 19 · Şube Kurs Tarihi 72 · Şube İletişim hub+5 · Sınav Hazırlık Ana **18 yayında** (16 + TELC, ÖSD, DELF \| DALF, DELE, CILS \| CELI, E-TEP, OET − 5 gizli: TOEIC, TOEFL Essentials, TOEFL Primary, İngiltere Vize / IELTS Life Skills A1, Fransızca Aile Birleşimi) · Menü (PM) · Kategori Hub'ları 7 · P4 · P5 · P6 · P7 · PF form (görsel) |
-| **Aktif faz** | Eksik dil + sınav sayfaları (yeni istek, planda yoktu) **bitti**. Kalan: PF arka uç (karar #4) · P8 SEO taşıma + temizlik · P9 kesişen işler + QA. |
-| **Bir sonraki somut adım** | **(1)** Push kullanıcıya bağlı · **(2)** `bekleyen-sorular.md` "Eksik dil / sınav sayfaları" sorularını müşteriye sor (fiyat kelimesi geçen eski başlıklar, İsveç Kültür Merkezi, E-TEP / OET grup şubesi, kalan 5 dil) · **(3)** PF arka uç · **(4)** P8. |
+| **Son kod commit'i** | `067bfb6` (P8: yönlendirmeler, metadata, temizlik, tarama betikleri). Push yok. |
+| **Son döküman commit'i** | P8 dökümanları + raporlar — koddan ayrı commit (2026-10-03). |
+| **Build durumu** | `tsc --noEmit` ✅ · `lint` ✅ · `npm run build` ✅ (**209 statik sayfa**) · `check-links` **0 ölü hedef** · `check-redirects` **384 eski adresin 383'ü ✅ + 1 ⏳ geçici · 0 kayıp** (zincir 0, döngü 0; 371 yeni adresine tek adımda 301, 12 bilinçli 404 = 11 gizli sınav + star-media) · `check-metadata`: tekrar eden başlık / açıklama 0, H1 eksik / çoklu 0, başlık / H1'de fiyat sözü 0, sitemap 202 = sayfalar, gizli sınav sitemap'te yok · `code-review` (high) 10 bulgu → 5 düzeltildi, 5 gerekçeyle bırakıldı |
+| **Tamamlanan tipler** | Ana Sayfa · Dil Kursu 15 · Üniversite Proficiency 19 · Şube Kurs Tarihi 68 yayında · Şube İletişim hub+5 · Sınav Hazırlık Ana 18 yayında · Menü · Kategori Hub'ları 7 · P4 · P5 · P6 · P7 · PF form (görsel) · **P8 ✅** |
+| **Aktif faz** | P8 bitti. Kalan: PF arka uç (karar #4) · Kariyer sayfası (formlu, yeni istek) · P9 kesişen işler + QA. |
+| **Bir sonraki somut adım** | **(1)** Push kullanıcıya bağlı · **(2)** PF arka uç ya da Kariyer sayfası · **(3)** P9. |
 | **Yarım kalan iş** | Yok. |
 | **Engeller** | Yok. PF arka ucu için e-posta adresleri bekleniyor. |
-| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** Yeni: eski 10 dil sayfasının başlığında "Ders Fiyatları" · İsveççe "İsveç Kültür Merkezi" cümlesi · E-TEP / OET grup derslerinin şubesi · Portekizce, Hırvatça, Boşnakça, Slovakça, Farsça sayfası. |
-| **Bilinen veri notları** | **ddmcadde kaynağı:** eski sitede OLMAYAN 11 sayfanın firma metni Bağdat Caddesi sitesinden `node scripts/pull-ddmcadde.mjs --new` ile `ddm-web/data/ddmcadde_content.json`a çekildi (fiyat / "Ücreti:" / "TL" satırları ve "Kurs Başlama" tarihleri kaynağa ALINMAZ; `✅` süsü temizlenir). Yeniden çekmek bu dosyayı günceller — `site_content.json`a dokunmaz. TestDaF'ın ddmcadde kaydı bu sitenin TestDaF kaynağıyla aynı metin (yalnız arşiv). **Dil listesi:** `LANGUAGES` (10, Ana Sayfa ızgarası / hero balonları / Yabancı Dil selam duvarı) + `EXTRA_LANGUAGES` (5) = `LANGUAGE_PAGES` (route, menü, form, sitemap, "diğer diller"); `OTHER_LANGUAGE_NAMES` artık 5 dil (sayfası olmayan). **Sınav ↔ dil bağlantısı:** `data/exams.ts` `language` alanı → sınav hero'sunda dil bağlantısı + dil sayfasının "Uluslararası … Sertifikası" kutusunda ters bağlantı (+ kutunun metninde adı geçen sınavlar). Fotoğraflar: `public/assets/home_page_images/dil-{japonca,korece,yunanca,bulgarca,isvecce}{,2}.jpg` (İsveççe dosya adları ASCII'ye çevrildi — "ç" NFD kodlanmıştı, sunucu bulamıyordu). |
-| **Gizli sınavlar (2026-10-02)** | Müşteri isteği: TOEIC (+ nedir, özel ders, 4 şube tarihi), TOEFL Essentials, TOEFL Primary, İngiltere Vize (IELTS Life Skills A1), Fransızca Aile Birleşimi **sitede görünmez, adresi 404**. Tanımlar dosyalarda DURUR; tek liste `ddm-web/data/hiddenPages.ts`. Geri açmak: slug'ı listeden çıkar + o commit'te elle silinen bağlantıları geri koy (ana sayfa TOEIC logosu, hub metinleri, kurumsal / diğer program / tekil sayfa bağlantıları). Bilgi amaçlı kalanlar: Business English sayfasındaki iş İngilizcesi sınav tablosu (TOEIC satırları), Çocuklar İçin İngilizce'deki çocuk sınavları tablosu (TOEFL Primary satırı), IELTS Nedir'deki "IELTS for UKVI Life Skills" — bağlantısız, olgu. |
-| **Kalıcı kurallar** | CLAUDE.md §5 "ddmcadde kaynaklı sayfalar (2026-10-01)" (yeni) · §5 "Müşteri kararları 2026-09-30" · §9 PF notu · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
+| **⏳ Geçici yönlendirme** | Eski Kariyer adresi (`/ddm-iletisim/is-basvurusu-kariyer`) GEÇİCİ (307) olarak İletişim'e gidiyor — Kariyer sayfası (formlu) açılınca `next.config.ts` `TEMPORARY_REDIRECTS` satırı SİLİNECEK (kullanıcı kararı 2026-10-02). |
+| **Yayın öncesi (PROGRESS Faz 9)** | Sunucuda build alınırken **`NEXT_PUBLIC_SITE_URL` tanımlı olmalı** — yoksa tüm canonical'lar ve sitemap `localhost` çıkar (yerel build'de öyle). Staging'deki `DDM_DISALLOW_INDEXING` canlıda TANIMSIZ olmalı. Yükleme sonrası 18 PDF'in (7'si Türkçe adlı) adresi 200 dönmeli. |
+| **Bekleyen kullanıcı kararları** | **Tam liste: [`bekleyen-sorular.md`](bekleyen-sorular.md).** "Ders Fiyatları" ✅ kapandı (kayıt duruyor). Yeni: Kariyer sayfası açılacak. |
+| **P8 araçları** | `scripts/check-redirects.mjs` (urls.csv → `next start`, takip etmeden; rapor `docs/redirect-raporu-<tarih>.md`; port doluysa durur) · `scripts/check-metadata.mjs` (rapor `docs/metadata-raporu-<tarih>.md`, yalnız ölçer). Yeni sayfa / yönlendirme eklendiğinde ikisi de tekrar çalıştırılır. |
+| **Kalıcı kurallar** | CLAUDE.md §3 (genel `.html` kuralı EN SONDA, 301, gizliler hariç, geçici kural listesi) · §6 "P8 metadata denetimi — onaylı istisnalar" (Ana Sayfa başlığı, marka eki `meta.brandSuffix`, fiyat sözü yok, `data/courseDateMeta.ts`) · §7 `public/images/` dosya adları eski adreslerdir, yeniden adlandırılmaz · **sayfada düz yazı yok** · **içerik soruları iş bitince toplu sorulur** (hafıza) |
 
 
-**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-10-01):**
+**Sonraki oturum prompt'u (kullanıcıya verilecek, 2026-10-03):**
 
 ```
-PF devam · İletişim formunun arka ucu (karar #4) — ya da P8 SEO taşıma (hangisini istersen).
+PF arka uç (karar #4) — ya da Kariyer sayfası (formlu; açılınca geçici yönlendirme silinir) — ya da P9.
 
 OTURUM BAŞI
-- Oku: docs/SESSION-HANDOFF.md §A (FORM GÖRSEL, ARKA UÇ YOK), ddm-web/CLAUDE.md §2 (output export yok), §4, §5 "Müşteri
-  kararları 2026-09-30" + "ddmcadde kaynaklı sayfalar", §9 PF notu, docs/bekleyen-sorular.md. git status / git log -5.
-  AGENTS.md: Route Handler yazmadan önce node_modules/next/dist/docs/ altındaki rehberi oku. Türkçe ve kısa yaz.
-- Başlangıç sayıları: npm run build (209 sayfa) · node scripts/check-links.mjs (0 ölü hedef).
+- Oku: docs/SESSION-HANDOFF.md §A (FORM GÖRSEL, ⏳ Geçici yönlendirme, Yayın öncesi), ddm-web/CLAUDE.md §2, §3, §4, §6,
+  docs/bekleyen-sorular.md. git status / git log -5. AGENTS.md: API kullanmadan önce node_modules/next/dist/docs/ rehberi.
+- Başlangıç sayıları: npm run build (209 sayfa) · node scripts/check-links.mjs (0) · node scripts/check-redirects.mjs
+  (383 ✅ + 1 ⏳ · 0 ❌). Türkçe ve kısa yaz.
 
-BU OTURUMUN İŞİ (PF arka uç)
-- Önce sor: başvurular hangi adrese (şubeye göre mi?), gönderim yöntemi (Route Handler + e-posta servisi / form servisi),
-  spam koruması.
-- ContactFormFields.tsx onSubmit: önce reportValidity, sonra gönderim; hata stilleri hazır (aria-invalid + .error).
-  Başarı mesajı ANCAK gerçekten gönderildiğinde. Sayfa sayısı 209 kalsın, check-links 0 kalsın.
+KARİYER SAYFASI AÇILIRSA: next.config.ts TEMPORARY_REDIRECTS'ten kariyer satırını sil; sayfa sayısı 210 olur; taramada
+satır ✅'ye döner; bekleyen-sorular + §A'daki ⏳ satırı kaldırılır.
 
-DOKUNULMAYACAKLAR (müşteri "kalsın" dedi): Enforex cümlesi · Kaplan metni ve rakamları ·
-KVKK metni ve tek onay kutusu.
+DOKUNULMAYACAKLAR: Enforex cümlesi · Kaplan metni ve rakamları · KVKK metni ve tek onay kutusu · public/images/ dosya adları.
 
-KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
+KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS. Commit'i kullanıcıya sor; kod ve döküman ayrı; push yok.
 ```
 
 ---
@@ -87,6 +84,33 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS (PF satırı), plan karar #4. Comm
 ---
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
+
+### 2026-10-02/03 · Opus 5.5 · P8 — Eski adresler, metadata denetimi, temizlik — `067bfb6`
+- **Yönlendirmeler (`next.config.ts`):** genel `.html` kuralı dizinin EN SONUNA (gizli sınavlar negatif lookahead ile hariç →
+  doğrudan 404; liste `data/hiddenPages.ts`'ten üretilir). Tüm kalıcı kurallar `statusCode: 301` (Next `permanent` 308
+  veriyordu; kullanıcı kararı). Gizli sınava giden eski adres → Sınav Hazırlık (7 TOEIC `?id=` adresi + `toeic-kursu-2`).
+  Etiket sayfaları (almanca → Almanca Kursu, toeic → Sınav Hazırlık) + 6 `tanitim-icerik` (hedefler `branchPromo.ts`
+  `SHARED_LINKS` ile aynı) `RETIRED_PAGES`'e. star-media 404 kalır (kullanıcı). Kariyer → İletişim GEÇİCİ 307
+  (`TEMPORARY_REDIRECTS`).
+- **Tarama (`scripts/check-redirects.mjs`):** önce 181 ✅ / 7 ⚠ / 196 ❌ → sonra 383 ✅ + 1 ⏳ / 0 ⚠ / 0 ❌. Rapor:
+  `docs/redirect-raporu-2026-10-02-once.md` (önce) · `docs/redirect-raporu-2026-10-03.md` (son). urls.csv 384 adres (386 değil).
+- **Metadata (`scripts/check-metadata.mjs`):** fiyat sözü (5 sınav H1 + 3 başlık + 4 Aile Birleşimi kurs tarihi başlığı) 12 → 0 ·
+  kısa başlık 20 → 2 (Etiler GRE / YDS kurs tarihi, 29 kr — kullanıcı: kalsın) · tekrar eden açıklama 4 → 0 (Fransızca kurs
+  tarihi) · >160 açıklama 4 → 1 (İTÜ, firma cümlesi — kalsın) · Ana Sayfa başlığı kullanıcının metni (`HOME_META_TITLE`).
+  26 başlığa marka eki (`meta.brandSuffix` → `lib/meta.ts` `metaTitle`); kurs tarihi + üniversite kendi kalıbında. Kurs
+  tarihi düzeltmeleri `data/courseDateMeta.ts`. Sınav `meta` alanları tek tek isteğe bağlı oldu. Rapor:
+  `docs/metadata-raporu-2026-10-02-once.md` · `docs/metadata-raporu-2026-10-03.md`.
+- **Temizlik:** silindi — `StickyToc`, `ScheduleTable` (+3 tip), `BranchHero`, `BulletPanel`, `PricingPanel`, `ProseSection` (+5 stil),
+  `dil-almanca2.jpg`, `yabancı-dil.jpg`. `IconButton` kaldı (Carousel kullanıyor — ilk liste yanlıştı). 8 Türkçe adlı görsel
+  ASCII'ye (`yurtdısı_egitim.jpg` → `yurtdisi-egitim-dikey.jpg`, aynı adlı başka fotoğraf vardı). 7 Türkçe adlı PDF
+  DEĞİŞMEDİ (eski herkese açık adresleri — kullanıcı). `priority` → `preload` (Next 16, davranış aynı). `data-reveal`
+  canlı, `data-count` yok. Kullanılmayan 14 görsel kullanıcı kararıyla kalır (şube iç mekân 5, yayında olmayan yorum 8, TOEIC logosu).
+- **code-review (high):** düzeltildi — GRE/YDS/IELTS başlığı `brandSuffix`, `applyMetaEdit` `lib/meta.ts`'e (ContentSectionsError),
+  hub + Ana Sayfa başlığına `checkMeta`, `metaTitle` hafif modüle, tarama betiği port doluysa durur / öksüz sunucu bırakmaz;
+  CLAUDE.md §6 istisnalar. Bırakıldı — kaynak başlık / açıklama uzunluğu bilerek denetlenmiyor (kullanıcı onaylı), TOEIC ana
+  adresi 404 ↔ türevleri hub (iki kullanıcı kararının sonucu), reason tekrarı (proje deseni), `fetchPriority` (Next 16'da
+  `priority` de vermiyordu — kaynakta doğrulandı).
+- **Not:** canonical / sitemap / robots yerel build'de `http://localhost:3000` — `NEXT_PUBLIC_SITE_URL` tanımsız; PROGRESS Faz 9'a yazıldı.
 
 ### 2026-10-02 (2) · Opus 5.5 · Dil sayfalarından fiyat sözleri kaldırıldı — commit bekliyor
 - **İstek:** "dil sayfalarında fiyat kelimeleri geçiyor, varsa kaldır".

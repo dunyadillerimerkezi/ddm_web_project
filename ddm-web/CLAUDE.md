@@ -72,8 +72,11 @@ dayanıyor (bkz. `../PROGRESS.md` Faz 8). Bu yüzden:
 - `trailingSlash: false` — URL sonunda `/` OLMAYACAK, tutarlı uygulanacak
   (`next.config.ts`'te ayarlı).
 - Eski `.html` URL'lerinden yeni URL'lere **301 redirect zorunlu**
-  (`next.config.ts` → `redirects()`). Genel `.html` → temiz URL kuralı **Faz 8'de**
-  gelecek; ondan önce her tip kendi özel redirect'lerini **o tipin fazında**
+  (`next.config.ts` → `redirects()`, `statusCode: 301`). **P8 (2026-10-02) — genel `.html` → temiz URL kuralı
+  dizinin EN SONUNDA** (önde olsaydı özel kuralları ezerdi); gizli sınavlar ondan hariç, doğrudan 404. Gizli sınava
+  giden eski adres Sınav Hazırlık'a döner. Geçici yönlendirme (`TEMPORARY_REDIRECTS`, 307) yalnız geri alınacak kural
+  için (şu an: Kariyer → İletişim). Kanıt: `node scripts/check-redirects.mjs` (384 adres, 0 kayıp). Bundan önce her
+  tip kendi özel redirect'lerini **o tipin fazında**
   ekler (şu an dolu: 6.5 → 19 üniversite kök URL'i × `.html`/`.html`siz = 38 + kapanmış 2 üniversitenin 8 adresi
   Proficiency Kursu'nun `#universiteler` bölümüne; duyurular + aktiviteler → 29 kural, `ANNOUNCEMENTS` (2026-09-30);
   6.6 + P0 → 16 Joomla `?id=` kurs-tarihi URL'i, `has: query` kuralıyla; P7 → 51 öğrenci yorumu adresi
@@ -237,6 +240,17 @@ yazılmaz:
 - `H1` ← `site_content.json[].headings` içindeki `h1` (yoksa `title`'a
   düşülür, bu durum loglanır/işaretlenir — sessizce atlanmaz)
 
+**P8 metadata denetimi (2026-10-02/03, kullanıcı kararları) — onaylı istisnalar:**
+- **Ana Sayfa title** kullanıcının metni: "İstanbul Dil Kursu ve Sınav Hazırlık | Dünya Dilleri Merkezi"
+  (`data/home.ts` `HOME_META_TITLE`; description kaynaktan).
+- **Marka eki:** kısa (<30) kaynak başlıklar ve türünün çoğunluğu ekli olan 26 sayfa `meta.brandSuffix: true` alır —
+  " | Dünya Dilleri Merkezi" kaynak başlığın sonuna `lib/meta.ts` `metaTitle` ile eklenir, başlık elle yeniden yazılmaz.
+  Kurs tarihi ve üniversite sayfaları kendi kalıbında, ek almaz. Ek sonrası >60 build'i düşürür.
+- **Fiyat sözü yok:** title / H1'deki "Fiyatları" / "Ücreti" `h1Edit` / `meta.title` ile çıkarılır (dil + sınav sayfaları).
+- **Kurs tarihi title / description düzeltmeleri** `data/courseDateMeta.ts` (from → to; görünen değerle uyuşmazsa build düşer).
+- Yalnız teknik hata düzeltilir (eksik, tekrar eden, fiyat sözü, >60 / >155); 61–75 karakterlik kaynak başlıklar bilerek kalır.
+- Denetim: `node scripts/check-metadata.mjs` → `docs/metadata-raporu-<tarih>.md`.
+
 ## 7. Klasör Düzeni ve Veri Şeması
 
 ```
@@ -253,15 +267,15 @@ ddm-web/
 │   └── diger-program/[sayfa]/, kurumsal-dil-egitim/[sayfa]/  # P4 diğer program / kurumsal (kendi klasörü olanlar hariç)
 ├── components/     # Paylaşılan UI bileşenleri — Faz 6'da doluyor
 │   ├── layout/     # SiteHeader, MobileBottomBar, SiteFooter, SiteChrome,
-│   │               # Breadcrumb, StickyToc
+│   │               # Breadcrumb
 │   ├── ui/         # Button, Primitives (Kicker/Badge/…), Accordion, Carousel,
 │   │               # ProgressTrack (barrel: index.ts)
 │   ├── cards/      # BranchCard, CourseChipCard, ExamSectionCard, FeatureCard,
 │   │               # LanguageCard, MediaCard, ProgramCard, TestimonialCard
-│   ├── sections/   # Sayfa bölümleri: PageHero (modlar dil/uni/sube), ScheduleTable,
+│   ├── sections/   # Sayfa bölümleri: PageHero (modlar dil/uni/sube),
 │   │               # WeekGrid, CourseDatePage, ProcessSteps, ContactForm (+ ContactFormFields, KvkkSection),
 │   │               # BranchContactPage, BranchHub, UniversityGrid, LanguageGrid,
-│   │               # LevelExplorer, PricingPanel, CtaBand, TestimonialsPage…
+│   │               # LevelExplorer, CtaBand, TestimonialsPage…
 │   └── graphics/   # Icon + ikon kaydı, Illustration (200×200 set), Flag, LanguageGlobe
 ├── styles/
 │   ├── tokens.css  # TÜM tasarım tokenları (§1) — tek kaynak
@@ -306,9 +320,11 @@ ddm-web/
 │   ├── branchPromoContent.ts    # P6 şube tanıtım çözücüsü (kapsama + parça bekçisi + etiket bağlantıları)
 │   ├── richPages.ts         # P4 tüm alt türlerin tek listesi (`RichEntry`: rich | guide) + dağıtıcı yardımcıları
 │   └── languageContent.ts / universityContent.ts / courseDateContent.ts   # tip başına içerik çözücü
-├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme; `--new` → ddmcadde_content.json), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli)
+├── scripts/        # pull-ddmcadde.mjs (içerik tazeleme; `--new` → ddmcadde_content.json), check-links.mjs (`npm run check-links`: build sonrası ölü iç link sayımı — her faz sayıyı düşürmeli),
+│                   # check-redirects.mjs (P8: urls.csv'deki 384 eski adres → `next start`, zincir / 404 / geçici raporu), check-metadata.mjs (P8: title / description / canonical / H1 denetimi)
 ├── public/assets/  # ddm-logo-{lacivert,beyaz}.png, foto-1..12.jpg
 ├── public/images/, public/ddm/indir/  # P4: eski sitenin örnek sınav dosyaları, ESKİ YOLLARIYLA (backlink'ler kırılmasın)
+│                   # public/images/ altındaki dosya adları eski adreslerdir, yeniden adlandırılmaz (Türkçe karakterli olanlar dahil — kullanıcı kararı, P8 2026-10-03).
 ├── next.config.ts
 ├── .env.example
 └── CLAUDE.md
