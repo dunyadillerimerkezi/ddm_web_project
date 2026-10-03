@@ -6,8 +6,7 @@ import styles from "@/styles/WeekGrid.module.css";
  * Haftalık ders programı ızgarası — 7 gün × slot satırları + lejant.
  *
  * Kaynak: `DDM Şube Kurs Tarihi Sayfası.dc.html` bölüm 6 (satır 381-412).
- * `ScheduleTable` bunu karşılamıyor — o satır-tabanlı bir tablo, bu bir
- * matris (gün × slot). `overflow-x: auto` yalnız kendi kabında (ui-ux-pro-max
+ * Satır tabanlı bir tablo değil, bir matris (gün × slot). `overflow-x: auto` yalnız kendi kabında (ui-ux-pro-max
  * `horizontal-scroll`) — sayfa gövdesi yatay kaymıyor.
  */
 export function WeekGrid({ rows }: { rows: WeekGridRow[] }) {

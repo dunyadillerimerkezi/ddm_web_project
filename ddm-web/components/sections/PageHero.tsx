@@ -179,7 +179,7 @@ export function PageHero({
               src={photo.src}
               alt={photo.alt}
               fill
-              priority
+              preload
               sizes="(max-width: 999px) 100vw, 60vw"
               className={styles.photoImg}
             />

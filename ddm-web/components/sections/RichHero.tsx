@@ -33,7 +33,7 @@ export function RichHero({
           alt={hero.photo.alt}
           width={hero.photo.width}
           height={hero.photo.height}
-          priority
+          preload
           sizes="(max-width: 999px) 100vw, 60vw"
           className={styles.img}
         />

@@ -11,14 +11,14 @@ import { VideoPromo } from "@/components/sections/VideoPromo";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { currentBranchName } from "@/data/branches";
-import { HOME_STATS } from "@/data/home";
+import { HOME_META_TITLE, HOME_STATS } from "@/data/home";
+import { checkMeta } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 import siteContent from "@/data/site_content.json";
 
 /**
- * CLAUDE.md §6: title/description/canonical `data/site_content.json`'daki
- * "/" kaydından — elle yazılmaz. Kayıtta `canonical` boş (eski sitede yoktu)
- * → `absoluteUrl("/")` üretir.
+ * CLAUDE.md §6: description `data/site_content.json`'daki "/" kaydından; title kullanıcının metni (`HOME_META_TITLE`,
+ * gerekçe orada). Kayıtta `canonical` boş (eski sitede yoktu) → `absoluteUrl("/")` üretir.
  */
 const HOME_RECORD = siteContent.find(
   (record) => record.url.replace(/\/$/, "") === "https://www.dunyadillerimerkezi.com",
@@ -28,8 +28,10 @@ if (!HOME_RECORD) {
   throw new Error("site_content.json içinde Ana Sayfa (\"/\") kaydı bulunamadı.");
 }
 
+checkMeta(HOME_META_TITLE, "", "home");
+
 export const metadata: Metadata = {
-  title: HOME_RECORD.title,
+  title: HOME_META_TITLE,
   // Kaynak açıklama aynı şubeyi "Levent, Etiler" diye iki kez sayıyor → `currentBranchName` (müşteri kararı 2026-09-30).
   description: currentBranchName(HOME_RECORD.meta_description),
   alternates: { canonical: absoluteUrl("/") },

@@ -79,7 +79,7 @@ export type ProseBlockRef = {
 
 /**
  * Giriş cümlesi + olgu satırları. Satırların HEPSİ "Etiket: değer" biçimindeyse
- * ve `icons` verilmişse ikonlu `FactCards`, aksi halde tek ikonlu `BulletPanel`
+ * ve `icons` verilmişse ikonlu `FactCards`, aksi halde madde kartları (`ExamRows` `InfoCards`)
  * olarak basılır.
  */
 export type FactsBlockRef = {
@@ -260,8 +260,8 @@ export type ExamDef = {
   source?: "ddmcadde";
   /** H1 düzeltmesi (kaynak H1 birebir `from` olmalı). */
   h1Edit?: { from: string; to: string; reason: string };
-  /** Yeniden yazılan title / description (gerekçe `reasons`). */
-  meta?: { title: string; description: string; reasons: string[] };
+  /** Yeniden yazılan title ve / veya description (gerekçe `reasons`); verilmeyen alan kaynaktan gelir. */
+  meta?: { title?: string; description?: string; brandSuffix?: true; reasons: string[] };
   /** Sınavın dili için kurs sayfası — hero'daki kâğıdın altından bağlantı (sınav ↔ dil iç linki). */
   language?: { label: string; href: string };
 };
@@ -288,7 +288,7 @@ export type ExamBlock =
       lead: string | null;
       items: string[];
       icon: IconName;
-      /** null → satırlar "Etiket: değer" değil; BulletPanel'e düşülür. */
+      /** null → satırlar "Etiket: değer" değil; madde kartlarına (`InfoCards`) düşülür. */
       cards: FactCard[] | null;
     }
   | { kind: "branchLinks"; id: string; title: string; lead: string | null; rows: BranchDateRow[] }

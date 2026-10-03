@@ -3,7 +3,8 @@ import { join } from "node:path";
 
 import type { NextConfig } from "next";
 
-// Göreli yol: config yükleyicisi `@/` takma adını çözmeyebilir. data/testimonials.ts içe aktarma yapmıyor (saf veri).
+// Göreli yol: config yükleyicisi `@/` takma adını çözmeyebilir. İkisi de içe aktarma yapmıyor (saf modül).
+import { HIDDEN_EXAM_SLUGS, isHiddenPath } from "./data/hiddenPages";
 import { TESTIMONIALS } from "./data/testimonials";
 
 /**
@@ -51,6 +52,7 @@ const UNIVERSITY_SLUGS = [
 const CLOSED_UNIVERSITY_SLUGS = ["istanbul-sehir-universitesi", "suleymansah-universitesi"];
 const PROFICIENCY_PATH = "/sinav-hazirlik-egitimleri/proficiency-kursu";
 const UNIVERSITY_LIST_PATH = `${PROFICIENCY_PATH}#universiteler`;
+const EXAM_HUB_PATH = "/sinav-hazirlik-egitimleri";
 
 /**
  * Faz 6.6 — 16 eski Joomla kurs-tarihi URL'i (`{kurs}.html?view=article&id=...`).
@@ -200,6 +202,29 @@ const RETIRED_PAGES: [string, string][] = [
   ...["academic-pte", "gmat-kursu", "gre-kursu", "ielts-kursu", "proficiency-kursu", "sat-kursu", "toefl-kursu", "toeic-kursu", "yds-kursu"].map(
     (k): [string, string] => [`/sinav-hazirlik-egitimleri/${k}/${k}-2`, `/sinav-hazirlik-egitimleri/${k}`],
   ),
+  // P8 (kullanıcı onayı, 2026-10-02): Joomla etiket listeleri — etiketin kursuna (TOEIC gizli → aşağıdaki gizli hedef
+  // kuralıyla Sınav Hazırlık'a döner).
+  ["/component/tags/tag/almanca-kursu", "/yabanci-dil-egitimleri/almanca-kursu"],
+  ["/component/tags/tag/toeic-kursu", "/sinav-hazirlik-egitimleri/toeic-kursu"],
+  // P8 (kullanıcı onayı, 2026-10-02): şube tanıtım sayfalarının 6 sekmesinin içerikleri. Hedefler `data/branchPromo.ts`
+  // `SHARED_LINKS`'teki bağlantılarla aynı; ayrı sayfası olmayan "Öğrenme Garantisi" Yabancı Dil Programları'na.
+  ["/tanitim-icerik/10-sistem", "/yabanci-dil-egitimleri/ingilizce-kursu/ingilizce-egitim-sistemi"],
+  ["/tanitim-icerik/plan-10", "/yabanci-dil"],
+  ["/tanitim-icerik/10-ozel", "/diger-program/ozel-dersler"],
+  ["/tanitim-icerik/8-dilde", "/yabanci-dil"],
+  ["/tanitim-icerik/10-hazirlik", EXAM_HUB_PATH],
+  ["/tanitim-icerik/10-ogrenme", "/yabanci-dil"],
+  // `/star-media` (başka bir firmanın web tasarım reklamı) bilerek YOK: 404 kalır (kullanıcı kararı, 2026-10-02) —
+  // ilgisiz bir sayfaya yönlendirmek Google'da "soft 404" sayılır.
+];
+
+/**
+ * GEÇİCİ yönlendirmeler (`permanent: false` → 307). Tarayıcı 301'i kalıcı önbelleğe alır; geri alınacak bir yönlendirme
+ * kalıcı yazılırsa sayfa açıldıktan sonra da eski ziyaretçiler eski hedefe düşer.
+ */
+const TEMPORARY_REDIRECTS: [string, string][] = [
+  // GEÇİCİ — Kariyer sayfası açılınca bu kural SİLİNECEK (kullanıcı kararı 2026-10-02).
+  ["/ddm-iletisim/is-basvurusu-kariyer", "/ddm-iletisim"],
 ];
 
 /**
@@ -228,6 +253,29 @@ const ANNOUNCEMENTS: [string, string][] = [
   ["/aktivite-aktiviteler", "/"],
 ];
 
+/** Gruplar `permanent` ile yazılır; kalıcı olanların durum kodu `redirects()` sonunda tek yerde 301'e çevrilir. */
+type Rule = { source: string; destination: string; permanent: boolean; has?: { type: "query"; key: string; value: string }[] };
+
+/**
+ * P8 — genel `.html` → temiz adres kuralı (`/a/b.html` → `/a/b`). Eski sitenin her adresi `.html` ile bitiyordu ve
+ * slug'lar birebir korundu (CLAUDE.md §3), yani özel kuralı olmayan her eski adres buradan tek adımda yeni adresine gider.
+ *
+ * ⚠ SIRA: bu kural dizinin EN SONUNDA olmalı. Next ilk eşleşen kuralı uygular; önde dursaydı özel kuralların kaynaklarını
+ * da (`/{üniversite}.html`, `?id=` Joomla adresleri, duyurular…) yakalar, onları önce `.html`siz adrese, oradan ikinci
+ * adımda asıl hedefe — ya da hiç sayfası olmayan bir adrese — gönderirdi.
+ *
+ * Gizli sınavların adresleri (`data/hiddenPages.ts`, alt sayfalarıyla) kuraldan HARİÇ: `.html`'li eski adres de doğrudan
+ * 404 verir, önce 404 veren temiz adrese uğramaz. Dışlama listesi aynı dosyadan üretilir; sınav listeden çıkınca kural onu
+ * da kapsar.
+ */
+function genericHtmlRedirect() {
+  for (const slug of HIDDEN_EXAM_SLUGS) {
+    if (!/^[a-z0-9-]+$/.test(slug)) throw new Error(`next.config: gizli sınav slug'ı desene girmez: ${slug}`);
+  }
+  const hidden = `${EXAM_HUB_PATH.slice(1)}/(?:${HIDDEN_EXAM_SLUGS.join("|")})(?:/|\\.html)`;
+  return { source: `/:path((?!${hidden}).+)\\.html`, destination: "/:path", permanent: true };
+}
+
 const nextConfig: NextConfig = {
   // Trailing slash kararı: URL'lerin sonunda "/" YOK, tutarlı biçimde
   // uygulanıyor (bkz. CLAUDE.md). Next.js varsayılanı zaten bu; kararı
@@ -243,9 +291,8 @@ const nextConfig: NextConfig = {
   // özellikler kullanılabilir) korunuyor. Detay: CLAUDE.md "Statik Üretim
   // ve 301 Redirect" bölümü.
 
-  // Faz 8'de eski .html -> yeni temiz URL 301 kuralları burada,
-  // `redirects()` altında tanımlanacak. Şimdi (Faz 3) boş bırakılıyor —
-  // TEK istisna: Faz 6.5 üniversite kök URL'leri (yukarı bkz).
+  // Eski adreslerin tamamı (`data/urls.csv`, 384) burada 301 alır: önce tiplerin özel kuralları, EN SONDA genel `.html`
+  // kuralı. Kanıt: `node scripts/check-redirects.mjs` → `docs/redirect-raporu-<tarih>.md`.
   async redirects() {
     const university = UNIVERSITY_SLUGS.flatMap((slug) => {
       const destination = `${PROFICIENCY_PATH}/${slug}`;
@@ -301,7 +348,25 @@ const nextConfig: NextConfig = {
       // Yukarıdaki özel kurallardan SONRA gelmeli — ilk eşleşen kural kazanır.
       { source: "/duyurular/:rest*", destination: "/", permanent: true },
     ];
-    return [...university, ...closedUniversity, ...announcements, ...courseDates, ...contact, ...privateLessons, ...guides, ...retired, ...testimonials];
+    const temporary = TEMPORARY_REDIRECTS.flatMap(([source, destination]) => [
+      { source, destination, permanent: false },
+      { source: `${source}.html`, destination, permanent: false },
+    ]);
+    const specific = [
+      ...university, ...closedUniversity, ...announcements, ...courseDates, ...contact, ...privateLessons, ...guides, ...retired,
+      ...testimonials, ...temporary,
+    ];
+    return [...specific, genericHtmlRedirect()].map(({ source, has, destination, permanent }: Rule) => ({
+      source,
+      ...(has && { has }),
+      // Gizli sınavın sayfasına giden eski adres 404'e düşmesin (kullanıcı kararı, P8 2026-10-02: eski TOEIC
+      // `?id=` adresleri) — Sınav Hazırlık'a gider. Sınav listeden çıkınca kural kendiliğinden eski hedefine döner.
+      destination: isHiddenPath(destination) ? EXAM_HUB_PATH : destination,
+      // Kalıcı yönlendirme 301 (kullanıcı kararı, P8): `permanent: true` Next'te 308 döner; Google ikisini aynı
+      // sayar ama SEO araçları ve raporlar 301 bekliyor. Next'in kendi sondaki-`/` kuralı (iç kural) 308 kalır.
+      // Geçici kurallar (`TEMPORARY_REDIRECTS`) `permanent: false` kalır → 307.
+      ...(permanent ? { statusCode: 301 as const } : { permanent: false }),
+    }));
   },
 };
 

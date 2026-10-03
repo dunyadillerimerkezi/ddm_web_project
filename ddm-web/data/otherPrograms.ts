@@ -11,6 +11,7 @@
  * (`data/abroadPages.ts`). Pegasus sayfası kaynakta İngilizce → `lang: "en"`.
  */
 
+import { BRAND_SUFFIX_REASON } from "@/data/company";
 import type { SinglePageDef } from "@/data/singlePages";
 
 const DP = "/diger-program";
@@ -39,7 +40,7 @@ const BUSINESS_ENGLISH: SinglePageDef = {
   path: `${DP}/business-english`,
   label: "Business English",
   parent: OTHER_PARENT,
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: BE_PROGRAM, take: [1] }, sentence: 0 },
     board: {
@@ -181,7 +182,7 @@ const KIDS_ENGLISH: SinglePageDef = {
   path: `${DP}/cocuklar-icin-ingilizce-kursu`,
   label: "Çocuklar İçin İngilizce",
   parent: OTHER_PARENT,
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: KIDS_H1, take: [0] }, sentence: 0 },
     board: {
@@ -384,7 +385,7 @@ const TRANSLATION: SinglePageDef = {
   path: `${DP}/tercume-hizmetleri`,
   label: "Tercüme Hizmetleri",
   parent: OTHER_PARENT,
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: TR_H1, take: [34] }, sentence: 0 },
     board: {

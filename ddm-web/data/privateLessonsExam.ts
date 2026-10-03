@@ -7,6 +7,7 @@
  * birebir; yazım düzeltmeleri `edits`te (orijinal → yeni).
  */
 
+import { BRAND_SUFFIX_REASON } from "@/data/company";
 import { isHiddenPath } from "@/data/hiddenPages";
 import { PRIVATE_LESSON_PHOTO, type PrivateLessonDef } from "@/data/privateLessonsShared";
 
@@ -298,7 +299,7 @@ const PTE_H1 = "PTE Akademik Özel Ders";
 const PTE: PrivateLessonDef = {
   path: `${SH}/academic-pte/pte-akademik-ozel-ders`,
   label: "PTE Akademik Özel Ders",
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     photo: EXAM_PHOTOS.pte,
     intro: { heading: PTE_H1, take: [0] },

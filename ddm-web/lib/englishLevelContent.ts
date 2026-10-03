@@ -38,7 +38,7 @@ import { createGuideResolver, sentencesOf } from "@/lib/guideContent";
 
 export { sentencesOf };
 import { linkIfProduced } from "@/lib/hubLinks";
-import { checkMeta, findRecord, norm } from "@/lib/richContent";
+import { checkMeta, findRecord, metaTitle, norm } from "@/lib/richContent";
 import type { Branch, Crumb, Faq } from "@/lib/types";
 
 export type LadderStep = { code: EnLevelCode; name: string; href: string | null; current: boolean };
@@ -278,7 +278,7 @@ export function getEnglishLevelPage(def: EnglishLevelDef): EnglishLevelPage {
     assertNumbers(f.answer.join(" "), `${pageText} ${courseText} ${cefrNumbers}`, `${context}/faq "${f.question}"`);
   }
 
-  const title = norm(def.meta.title ?? r.record.title);
+  const title = metaTitle(def.meta, r.record.title, context);
   const description = norm(def.meta.description ?? r.record.meta_description);
   checkMeta(title, description, context);
 

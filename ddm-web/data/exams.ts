@@ -12,12 +12,17 @@
  * diğerleri `app/sinav-hazirlik-egitimleri/[kurs]/page.tsx` üzerinden üretilir.
  */
 
-import { EXPERIENCE } from "@/data/company";
+import { BRAND_SUFFIX_REASON, EXPERIENCE } from "@/data/company";
 import { isHiddenExam } from "@/data/hiddenPages";
 import type { ExamDef } from "@/lib/examContent";
 
 /** P4'te yayınlanan alt sayfalar (Nedir / Özel Ders / Örnek Sorular) — `extraHrefs` hedefleri. */
 const SH = "/sinav-hazirlik-egitimleri";
+
+/** P8 metadata denetimi (kullanıcı onayı, 2026-10-02) — dil sayfalarındaki `H1_PRICE_REASON` ile aynı karar. */
+const EXAM_PRICE_REASON = "\"Fiyatları\" çıkarıldı — sitede fiyat yok (kullanıcı kararı, P8 2026-10-02); başka sözcük değişmedi";
+/** P8 metadata denetimi — açıklama 155 karakteri aşıyordu; yalnız dolgu sözcükler çıktı, bilgi değişmedi. */
+const DESC_TRIM_REASON = "description: >155 karakter — \"hakkında detaylı bilgi\" ve dolgu sözcükler çıkarıldı, bilgi aynı (kullanıcı onayı, P8 2026-10-02)";
 
 /* ---------------------------------------------------------------
  * TOEFL (pilot)
@@ -25,6 +30,11 @@ const SH = "/sinav-hazirlik-egitimleri";
 
 const TOEFL: ExamDef = {
   slug: "toefl-kursu",
+  meta: {
+    description:
+      "TOEFL kursu: Kadıköy, Bağdat Caddesi, Levent–Etiler ve Ataşehir şubelerinde Türk ve yabancı öğretmenlerle küçük grup, birebir, yüz yüze ve online eğitim",
+    reasons: [DESC_TRIM_REASON],
+  },
   name: "TOEFL",
   label: "TOEFL Kursu",
   code: "TOEFL iBT",
@@ -130,6 +140,7 @@ const TOEFL: ExamDef = {
 
 const YOKDIL: ExamDef = {
   slug: "yokdil-sinavi-kursu",
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   name: "YÖKDİL",
   label: "YÖKDİL Kursu",
   code: "YÖKDİL",
@@ -394,6 +405,8 @@ const PROFICIENCY: ExamDef = {
 
 const PTE: ExamDef = {
   slug: "academic-pte",
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
+  h1Edit: { from: "PTE Kursu Sınav Hazırlık Eğitimi Ders Fiyatları", to: "PTE Kursu Sınav Hazırlık Eğitimi", reason: EXAM_PRICE_REASON },
   name: "PTE",
   label: "PTE Kursu",
   code: "PTE Academic",
@@ -491,6 +504,8 @@ const FRANSIZCA_AILE: ExamDef = {
 
 const GRE: ExamDef = {
   slug: "gre-kursu",
+  h1Edit: { from: "GRE Kursu Sınav Hazırlık Eğitimi ve Fiyatları", to: "GRE Kursu Sınav Hazırlık Eğitimi", reason: EXAM_PRICE_REASON },
+  meta: { title: "GRE Kursu Sınav Hazırlık Eğitimi", brandSuffix: true, reasons: [`title: ${EXAM_PRICE_REASON}`, BRAND_SUFFIX_REASON] },
   name: "GRE",
   label: "GRE Kursu",
   code: "GRE",
@@ -580,6 +595,7 @@ const GRE: ExamDef = {
 
 const GMAT: ExamDef = {
   slug: "gmat-kursu",
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   name: "GMAT",
   label: "GMAT Kursu",
   code: "GMAT",
@@ -725,6 +741,8 @@ const TOEIC: ExamDef = {
 
 const SAT: ExamDef = {
   slug: "sat-kursu",
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
+  h1Edit: { from: "SAT Kursu Sınav Hazırlık Dersleri Eğitim Fiyatları", to: "SAT Kursu Sınav Hazırlık Dersleri", reason: EXAM_PRICE_REASON },
   name: "SAT",
   label: "SAT Kursu",
   code: "SAT",
@@ -804,6 +822,8 @@ const SAT: ExamDef = {
 
 const YDS: ExamDef = {
   slug: "yds-kursu",
+  h1Edit: { from: "YDS Kursu Sınav Hazırlık Eğitimi ve Fiyatları", to: "YDS Kursu Sınav Hazırlık Eğitimi", reason: EXAM_PRICE_REASON },
+  meta: { title: "YDS Kursu Sınav Hazırlık Eğitimi", brandSuffix: true, reasons: [`title: ${EXAM_PRICE_REASON}`, BRAND_SUFFIX_REASON] },
   name: "YDS",
   label: "YDS Kursu",
   code: "YDS",
@@ -931,6 +951,8 @@ const YDS: ExamDef = {
 
 const IELTS: ExamDef = {
   slug: "ielts-kursu",
+  h1Edit: { from: "IELTS Kursu Sınav Hazırlık Dersleri Eğitim Fiyatları", to: "IELTS Kursu Sınav Hazırlık Dersleri", reason: EXAM_PRICE_REASON },
+  meta: { title: "IELTS Kursu Sınav Hazırlık Dersleri", brandSuffix: true, reasons: [`title: ${EXAM_PRICE_REASON}`, BRAND_SUFFIX_REASON] },
   name: "IELTS",
   label: "IELTS Kursu",
   code: "IELTS",
@@ -1001,6 +1023,12 @@ const IELTS: ExamDef = {
 
 const AILE_BIRLESIMI: ExamDef = {
   slug: "aile-birlesimi-egitimi",
+  meta: {
+    brandSuffix: true,
+    description:
+      "Almanca Aile Birleşimi A1 kursu: Kadıköy, Bağdat Caddesi, Levent–Etiler ve Ataşehir şubelerinde SD1 sertifikası için kurs tarihleri ve kayıt koşulları",
+    reasons: [BRAND_SUFFIX_REASON, DESC_TRIM_REASON],
+  },
   name: "Almanca Aile Birleşimi",
   label: "Almanca Aile Birleşimi A1 Kursu",
   code: "Start Deutsch 1",

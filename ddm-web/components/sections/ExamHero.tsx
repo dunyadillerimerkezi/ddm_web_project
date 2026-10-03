@@ -11,8 +11,7 @@ import styles from "@/styles/ExamHero.module.css";
 
 /**
  * Sınav Hazırlık hero'su (UI turu 2026-09-28, kullanıcı: "A · optik form").
- * Solda kırıntı, sınav kodu, H1, lead, butonlar (`PageHero` sınıfları, `BranchHero`
- * ile aynı dil); sağda cevap kâğıdı: balonlar açılışta bir kez sırayla dolar,
+ * Solda kırıntı, sınav kodu, H1, lead, butonlar (`PageHero` sınıfları); sağda cevap kâğıdı: balonlar açılışta bir kez sırayla dolar,
  * altında sınavın üç temel bilgisi. Bilgiler resmi kaynaktan (`data/examGlance.ts`);
  * kaydı olmayan sınavda kâğıt yalnız balonlarla durur. Mobilde (≤999) balonlar
  * gizlenir, kâğıt metnin altında düz bir bilgi kartıdır.

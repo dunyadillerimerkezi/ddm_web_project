@@ -13,7 +13,7 @@ import { EXAM_GUIDES } from "@/data/examGuides";
 import { getExamGlance } from "@/data/examGlance";
 import { examHref, getExamPage, type ExamDef } from "@/lib/examContent";
 import { absoluteUrl } from "@/lib/site";
-import { checkMeta } from "@/lib/richContent";
+import { checkMeta, metaTitle } from "@/lib/richContent";
 import type { Crumb, NavLink } from "@/lib/types";
 import styles from "@/styles/ExamRows.module.css";
 
@@ -33,10 +33,13 @@ import styles from "@/styles/ExamRows.module.css";
 
 export function examMetadata(def: ExamDef): Metadata {
   const page = getExamPage(def);
-  // ddmcadde kaynaklı sınavlarda yeniden yazılan başlık / açıklama (gerekçe `data/exams.ts` `meta.reasons`).
-  if (def.meta) checkMeta(def.meta.title, def.meta.description, `exam/${def.slug}`);
+  const context = `exam/${def.slug}`;
+  const title = metaTitle(def.meta, page.record.title, context);
+  // Yeniden yazılan başlık / açıklama (gerekçe `data/exams.ts` `meta.reasons`) — yalnız yeniden yazılan alan denetlenir.
+  const rewrittenTitle = def.meta?.title || def.meta?.brandSuffix ? title : "";
+  if (def.meta) checkMeta(rewrittenTitle, def.meta.description ?? "", context);
   return {
-    title: def.meta?.title ?? page.record.title,
+    title,
     description: def.meta?.description ?? page.record.meta_description,
     alternates: { canonical: absoluteUrl(examHref(def.slug)) },
   };

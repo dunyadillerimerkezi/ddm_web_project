@@ -68,7 +68,7 @@ export type PrivateLessonDef = {
   path: string;
   /** Kırıntı etiketi. */
   label: string;
-  meta: { title?: string; description?: string; h1?: string; reasons: string[] };
+  meta: { title?: string; description?: string; h1?: string; brandSuffix?: true; reasons: string[] };
   hero: {
     photo: Photo;
     intro: SlotRef;

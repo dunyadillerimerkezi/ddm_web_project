@@ -24,6 +24,8 @@
  */
 
 import { BRANCHES, currentBranchName } from "@/data/branches";
+import { COURSE_DATE_META_EDITS } from "@/data/courseDateMeta";
+import { applyMetaEdit } from "@/lib/meta";
 import siteContent from "@/data/site_content.json";
 import { parseRecord, SectionResolver, ContentSectionsError, type SiteContentRecord } from "./contentSections";
 import type {
@@ -198,8 +200,13 @@ export function getCourseDatePage(entry: CourseDateEntry): CourseDatePage {
     category,
     pageSlug: entry.pageSlug,
     href,
-    title: currentBranchName(record.title),
-    metaDescription: currentBranchName(record.meta_description),
+    // P8: teknik hatalı title / description düzeltmeleri (`data/courseDateMeta.ts`, gerekçe orada).
+    title: applyMetaEdit(currentBranchName(record.title), COURSE_DATE_META_EDITS[href]?.title, `${context} title`),
+    metaDescription: applyMetaEdit(
+      currentBranchName(record.meta_description),
+      COURSE_DATE_META_EDITS[href]?.description,
+      `${context} description`,
+    ),
     h1: currentBranchName(titleHeading),
     h1Fallback,
     crumbs,

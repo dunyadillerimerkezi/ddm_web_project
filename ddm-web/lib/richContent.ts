@@ -25,10 +25,11 @@ import {
   parseRecord,
   type SiteContentRecord,
 } from "@/lib/contentSections";
+import { checkMeta, metaTitle, norm } from "@/lib/meta";
 import type { Crumb, Faq } from "@/lib/types";
 
-const TITLE_MAX = 60;
-const DESCRIPTION_MAX = 155;
+// Eski içe aktarmalar (`@/lib/richContent`) çalışmaya devam etsin.
+export { checkMeta, metaTitle, norm };
 
 export type RichAboutPart =
   | { kind: "p"; text: string }
@@ -105,9 +106,6 @@ export type RichPage = {
   cta: { sub: string };
 };
 
-export function norm(s: string): string {
-  return s.replace(/ /g, " ").replace(/\s+/g, " ").trim();
-}
 
 /** `path`: temiz yol (".html" eklenir) ya da eski sorgulu yol ("….html?view=article&id=…", olduğu gibi). */
 export function findRecord(path: string): SiteContentRecord {
@@ -137,14 +135,6 @@ export function categoryCrumb(path: string, context: string): Crumb {
   const crumb = CATEGORY_CRUMB[path.split("/")[1]];
   if (!crumb) throw new ContentSectionsError(`${context}: kategori kırıntısı tanımsız.`);
   return crumb;
-}
-
-/** title / description uzunluk bekçisi (CLAUDE.md §6 — sessizce kesilmez). */
-export function checkMeta(title: string, description: string, context: string): void {
-  if (title.length > TITLE_MAX) throw new ContentSectionsError(`${context}: title ${title.length} karakter (≤${TITLE_MAX}).`);
-  if (description.length > DESCRIPTION_MAX) {
-    throw new ContentSectionsError(`${context}: description ${description.length} karakter (≤${DESCRIPTION_MAX}).`);
-  }
 }
 
 /** Üst kurs: "/{kategori}/{kurs}/…" → dil ya da sınav kursunun etiketi. */
@@ -244,7 +234,7 @@ export function getPrivateLessonPage(def: PrivateLessonDef): RichPage {
   resolver.assertCoverage(def.ignored.map((i) => i.line), context);
 
   // Metadata (CLAUDE.md §6)
-  const title = norm(def.meta.title ?? record.title);
+  const title = metaTitle(def.meta, record.title, context);
   const description = norm(def.meta.description ?? record.meta_description);
   checkMeta(title, description, context);
   const sourceH1 = record.headings.find((h) => h.level === "h1");

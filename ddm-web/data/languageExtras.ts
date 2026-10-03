@@ -67,7 +67,7 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   fr: {
-    heroPhoto: { src: `${IMG}/dil-fransızca3.jpg`, alt: "Paris'te balkonlu klasik bir bina ve arkada Eyfel Kulesi" },
+    heroPhoto: { src: `${IMG}/dil-fransizca3.jpg`, alt: "Paris'te balkonlu klasik bir bina ve arkada Eyfel Kulesi" },
     benefitsPhoto: { src: `${IMG}/dil-fransizca2.jpg`, alt: "Gece Paris'te Zafer Takı'ndan yayılan caddeler ve Eyfel Kulesi" },
     benefits: [
       { icon: "kupa", label: "Uluslararası kariyer" },
@@ -100,7 +100,7 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   ru: {
-    heroPhoto: { src: `${IMG}/dil-rusça2.jpg`, alt: "Moskova'da Aziz Vasil Katedrali" },
+    heroPhoto: { src: `${IMG}/dil-rusca2.jpg`, alt: "Moskova'da Aziz Vasil Katedrali" },
     benefitsPhoto: { src: `${IMG}/dil-rusca.jpg`, alt: "Moskova'da Kızıl Meydan'daki Devlet Tarih Müzesi" },
     benefits: [
       { icon: "kupa", label: "Kariyer fırsatlarını artırmak" },
@@ -111,7 +111,7 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     whyLearnAdded: null,
   },
   zh: {
-    heroPhoto: { src: `${IMG}/dil-çince2.jpg`, alt: "Dağların üzerinde uzanan Çin Seddi, gün batımı" },
+    heroPhoto: { src: `${IMG}/dil-cince2.jpg`, alt: "Dağların üzerinde uzanan Çin Seddi, gün batımı" },
     benefitsPhoto: { src: `${IMG}/dil-cince.jpg`, alt: "Geleneksel Çin tapınak mimarisi" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
@@ -123,7 +123,7 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
   },
   nl: {
     heroPhoto: { src: `${IMG}/dil-felemenkce.jpg`, alt: "Amsterdam'da kanal kenarı" },
-    benefitsPhoto: { src: `${IMG}/dil-felemenkçe2.jpg`, alt: "Amsterdam'da kanal kıyısındaki renkli evler" },
+    benefitsPhoto: { src: `${IMG}/dil-felemenkce2.jpg`, alt: "Amsterdam'da kanal kıyısındaki renkli evler" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
       { icon: "konum", label: "Hollanda ve Belçika'da çalışmak" },
@@ -139,8 +139,8 @@ export const LANGUAGE_EXTRAS: Record<LanguageKey, LanguageExtra> = {
     },
   },
   tr: {
-    heroPhoto: { src: `${IMG}/dil-türkçe3.jpg`, alt: "İstanbul'da Tarihi Yarımada ve Boğaz'ın havadan görünümü, gün batımı" },
-    benefitsPhoto: { src: `${IMG}/dil-türkçe2.jpg`, alt: "Galata Kulesi ve Haliç'in havadan görünümü" },
+    heroPhoto: { src: `${IMG}/dil-turkce3.jpg`, alt: "İstanbul'da Tarihi Yarımada ve Boğaz'ın havadan görünümü, gün batımı" },
+    benefitsPhoto: { src: `${IMG}/dil-turkce2.jpg`, alt: "Galata Kulesi ve Haliç'in havadan görünümü" },
     benefits: [
       { icon: "kupa", label: "Kariyerinde yükselmek" },
       { icon: "konum", label: "Türkiye'de iş hayatı" },

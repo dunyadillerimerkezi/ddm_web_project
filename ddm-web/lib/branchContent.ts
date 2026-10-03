@@ -16,6 +16,7 @@
 
 import { currentBranchName } from "@/data/branches";
 import siteContent from "@/data/site_content.json";
+import { checkMeta, metaTitle } from "@/lib/meta";
 import type { SiteContentRecord } from "./contentSections";
 import type { Branch, Crumb } from "./types";
 
@@ -101,8 +102,11 @@ export function getHubPage(): HubPage {
   if (h1Heading.level !== "h1") {
     console.warn(`[h1-fallback] branchContent[hub]: h1 yok, ilk başlığa (${h1Heading.level}) düşüldü`);
   }
+  // Kaynak başlık "İletişim" (8 karakter) — marka eki (P8, `data/company.ts` `BRAND_SUFFIX_REASON`).
+  const title = metaTitle({ brandSuffix: true }, record.title, "branchContent[hub]");
+  checkMeta(title, "", "branchContent[hub]");
   return {
-    title: record.title,
+    title,
     metaDescription: currentBranchName(record.meta_description),
     h1: h1Heading.text,
     lead: currentBranchName(record.meta_description),

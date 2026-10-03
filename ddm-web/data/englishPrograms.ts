@@ -9,7 +9,7 @@
  * hero + program şeridi + sayfaya özgü tek baskın blok (kartlar / adımlar / soru dağılımı / rakamlar).
  */
 
-import { SERVING } from "@/data/company";
+import { BRAND_SUFFIX_REASON, SERVING } from "@/data/company";
 import { LANGUAGE_COUNT } from "@/data/languages";
 import type { GuideText } from "@/data/examGuides";
 import type { SlotRef } from "@/data/privateLessonsShared";
@@ -50,7 +50,7 @@ export type EnglishProgramDef = {
   slug: string;
   /** Kırıntı ve program şeridi etiketi. */
   label: string;
-  meta: { title?: string; description?: string; reasons?: string[] };
+  meta: { title?: string; description?: string; brandSuffix?: true; reasons?: string[] };
   hero: {
     lead: GuideText;
     photo: Photo;
@@ -89,7 +89,7 @@ const IO_WHAT = "İlköğretim İngilizcesi Nedir?";
 const ILKOGRETIM: EnglishProgramDef = {
   slug: "ilkogretim-ingilizce-kursu",
   label: "İlköğretim İngilizcesi",
-  meta: {},
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: IO_H1, take: [0] }, sentence: 0 },
     photo: { src: "/assets/home_page_images/ddm-kids.jpg", alt: "Öğretmeniyle İngilizce çalışan ilkokul öğrencisi", width: 7008, height: 4672 },
@@ -125,7 +125,7 @@ const ILKOGRETIM: EnglishProgramDef = {
       blocks: [
         {
           kind: "highlights",
-          photo: { src: "/assets/home_page_images/yabancı-dil2.jpg", alt: "Masada bayraklarla dil çalışan çocuklar", width: 735, height: 490 },
+          photo: { src: "/assets/home_page_images/yabanci-dil2.jpg", alt: "Masada bayraklarla dil çalışan çocuklar", width: 735, height: 490 },
           items: [
             // "2. Dil" cümle sonu gibi bölünüyor → 1–3 aralığı iki gerçek cümleyi birlikte alır.
             { icon: "konusma", text: { src: { heading: IO_H1, take: [0] }, sentence: [1, 3] } },
@@ -209,7 +209,7 @@ const UNI_WHAT = "Üniversite Hazırlık İngilizcesi Nedir?";
 const UNIVERSITE: EnglishProgramDef = {
   slug: "universite-ingilizce-kursu",
   label: "Üniversite Hazırlık İngilizcesi",
-  meta: {},
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: UNI_H1, take: [0] }, sentence: 0 },
     photo: { src: "/assets/university3.jpg", alt: "Kampüste çimlerde ders çalışan üniversite öğrencileri", width: 1024, height: 1024 },
@@ -335,7 +335,7 @@ const YKS_INTRO =
 const YKS: EnglishProgramDef = {
   slug: "yks-dil-ingilizce",
   label: "YKS Dil İngilizce",
-  meta: {},
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: YKS_H1, take: [0] }, sentence: 1 },
     photo: { src: "/assets/study_exam.jpg", alt: "Sınava hazırlık masası: notlar, kitaplar ve saat", width: 735, height: 581 },
@@ -442,9 +442,10 @@ const YAZ_OKULU: EnglishProgramDef = {
   slug: "yaz-okulu-ingilizce-kursu",
   label: "Yaz Okulu İngilizce Programları",
   meta: {
+    brandSuffix: true,
     description:
       "Dünya Dilleri Merkezi yaz okulu İngilizce programları: 7-22 yaş, 10-12 kişilik sınıflar, haftada 15-20 ders ve derslerin ardından aktiviteler.",
-    reasons: [
+    reasons: [BRAND_SUFFIX_REASON, 
       "description: kaynak Levent ve Etiler'i iki şube sayıyor, İngilizce kurs tarihi olmayan Ümraniye'yi ve gövdede geçmeyen 'online' programı anıyor — gövdedeki olgularla yeniden.",
     ],
   },

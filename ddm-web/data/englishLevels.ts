@@ -13,6 +13,7 @@
  * solda yapışkan seviye merdiveni).
  */
 
+import { BRAND_SUFFIX_REASON } from "@/data/company";
 import type { GuideText } from "@/data/examGuides";
 import type { IconName } from "@/components/graphics/icons";
 import type { Faq } from "@/lib/types";
@@ -248,7 +249,7 @@ export type EnglishLevelDef = {
   trName: string;
   /** Kırıntı etiketi. */
   label: string;
-  meta: { title?: string; description?: string; reasons?: string[] };
+  meta: { title?: string; description?: string; brandSuffix?: true; reasons?: string[] };
   hero: {
     /** Kartın üst satırı — giriş paragrafının başlık gibi ilk cümlesi. */
     caption: GuideText;
@@ -314,7 +315,7 @@ const ELEMENTARY: EnglishLevelDef = {
   name: "Elementary",
   trName: "Başlangıç",
   label: "Elementary İngilizce Kursu",
-  meta: {},
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     caption: { src: { heading: A1_H1, take: [0] }, sentence: 0 },
     lead: { src: { heading: A1_H1, take: [0] }, sentence: 1 },
@@ -380,7 +381,7 @@ const PRE_INTERMEDIATE: EnglishLevelDef = {
   name: "Pre-Intermediate",
   trName: "Başlangıç üzeri",
   label: "Pre-Intermediate İngilizce Kursu",
-  meta: {},
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     caption: { src: { heading: A2_H1, take: [0] }, sentence: 0 },
     lead: { src: { heading: A2_H1, take: [0] }, sentence: 1 },
@@ -448,7 +449,7 @@ const INTERMEDIATE: EnglishLevelDef = {
   name: "Intermediate",
   trName: "Orta seviye",
   label: "Intermediate İngilizce Kursu",
-  meta: {},
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     caption: { src: { heading: B1_H1, take: [0] }, sentence: 0 },
     lead: { src: { heading: B1_H1, take: [0] }, sentence: 1 },
@@ -521,7 +522,7 @@ const UPPER_INTERMEDIATE: EnglishLevelDef = {
   name: "Upper-Intermediate",
   trName: "Orta ileri seviye",
   label: "Upper-Intermediate İngilizce Kursu",
-  meta: {},
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     caption: { src: { heading: B2_H1, take: [0] }, sentence: 0 },
     lead: { src: { heading: B2_H1, take: [0] }, sentence: 1 },

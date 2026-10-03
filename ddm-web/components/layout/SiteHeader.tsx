@@ -206,7 +206,7 @@ export function SiteHeader({ ctaLabel = "Kayıt Ol", ctaHref = FORM_HREF }: Site
               alt="Dünya Dilleri Merkezi"
               width={220}
               height={58}
-              priority
+              preload
             />
           </Link>
 

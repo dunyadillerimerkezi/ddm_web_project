@@ -13,7 +13,7 @@ export type FactCard = {
 
 /**
  * "Etiket: değer" biçimindeki kaynak satırlarını ikonlu bilgi kartlarına
- * ayırır (P2). `BulletPanel`den farkı: madde tek cümle değil, bir OLGU —
+ * ayırır (P2). Madde kartından farkı: madde tek cümle değil, bir OLGU —
  * etiket kartın başlığı, değer gövdesi olur; böylece taranabilir olur.
  * Metin bölünür, YENİDEN YAZILMAZ.
  */

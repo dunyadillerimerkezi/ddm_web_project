@@ -28,3 +28,12 @@ export const FOUNDING_EDIT = {
   from: "25 yıllık deneyim ve tecrübemiz",
   to: `${EXPERIENCE} deneyim ve tecrübemiz`,
 } as const;
+
+/**
+ * Başlık marka eki — P8 metadata denetimi (kullanıcı kararı 2026-10-03). Kısa (<30) kaynak başlıklar ve türünün
+ * çoğunluğunda ek olan sayfalar `meta.brandSuffix: true` alır; ek kaynak başlığın sonuna `lib/richContent.ts`
+ * `metaTitle` ile eklenir, başlık metni elle yeniden yazılmaz. Ek sonrası >60 karakter checkMeta'da build'i düşürür.
+ */
+export const BRAND_NAME = "Dünya Dilleri Merkezi";
+export const BRAND_SUFFIX_REASON =
+  "title: kaynak başlığın sonuna \" | Dünya Dilleri Merkezi\" eklendi, başlık sözcükleri aynı (kullanıcı kararı, P8 2026-10-03)";

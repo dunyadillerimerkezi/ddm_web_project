@@ -7,6 +7,7 @@
  * `edits`te (orijinal → yeni, kullanıcı onayı P4).
  */
 
+import { BRAND_SUFFIX_REASON } from "@/data/company";
 import {
   PRIVATE_LESSON_PHOTO,
   cefrLead,
@@ -633,7 +634,7 @@ const TYS_NONE = "Yunus Emre Enstitüsü TYS bu seviyede belge vermez";
 const TURKCE: PrivateLessonDef = {
   path: `${YD}/yabancila-icin-turkce-kurs/turkce-ozel-ders`,
   label: "Yabancılar İçin Türkçe Özel Ders",
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     photo: HERO_PHOTOS[1],
     intro: { heading: TR_H1, take: [0] },

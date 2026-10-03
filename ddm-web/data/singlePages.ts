@@ -21,6 +21,7 @@
  * örnek sınav dosyaları eski siteden indirilip aynı yollarla `public/`e kondu.
  */
 
+import { BRAND_SUFFIX_REASON } from "@/data/company";
 import type { IconName } from "@/components/graphics/icons";
 import type { GuideBlock, GuideSection, GuideText } from "@/data/examGuides";
 import { CEFR_CAN } from "@/data/privateLessonsShared";
@@ -146,7 +147,7 @@ export type SinglePageDef = {
   lang?: "en";
   /** Kaynakta h1 yoksa H1'e yükseltilen kaynak başlığı (gerekçe yorumda). */
   h1Heading?: string;
-  meta: { title?: string; description?: string; reasons: string[] };
+  meta: { title?: string; description?: string; brandSuffix?: true; reasons: string[] };
   hero: { lead: GuideText; board: SingleBoard };
   sections: SingleSection[];
   /** Gri bant: "Nerede katılabilirsiniz?" — şube kartları `data/branches.ts`ten, etiketler kaynak satırı. */
@@ -583,9 +584,10 @@ const TURKCE_SEVIYELER: SinglePageDef = {
   path: `${YD}/yabancila-icin-turkce-kurs/turkce-egitim-seviyeleri`,
   label: "Türkçe Eğitim Seviyeleri",
   meta: {
+    brandSuffix: true,
     description:
       "Yabancılar için Türkçe kurslarımızın A1'den C2'ye altı seviyesi: her seviyede neleri anlayıp ifade edebildiğiniz ve Türkçe yeterlik belgesi.",
-    reasons: ["description: kaynak 169 karakter ve bayat şube listesi (Ümraniye yok) — ≤155 ve konuya göre yeniden."],
+    reasons: [BRAND_SUFFIX_REASON, "description: kaynak 169 karakter ve bayat şube listesi (Ümraniye yok) — ≤155 ve konuya göre yeniden."],
   },
   hero: {
     // Kaynak: "Türkçe düzeyi kur programı toplam 6 kur sisteminden oluşmaktadır. Başlangıç A1 … İleri Seviye C2" — arayüz özeti.
@@ -1171,7 +1173,7 @@ const PROF_H1 = "Proficiency Örnek Sınav Soruları";
 const PROFICIENCY_ORNEK: SinglePageDef = {
   path: `${SH}/proficiency-kursu/proficiency-ornek-sinav-sorulari`,
   label: "Örnek Sınav Soruları",
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: {
       added:

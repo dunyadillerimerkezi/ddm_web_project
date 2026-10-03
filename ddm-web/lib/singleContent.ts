@@ -13,7 +13,7 @@ import { byCourse } from "@/data/courseDates";
 import type { FacetItem, SingleBlock, SingleBoard, SinglePageDef, TaskRef } from "@/data/singlePages";
 import { ContentSectionsError } from "@/lib/contentSections";
 import { createGuideResolver, type GuideResolvedBlock } from "@/lib/guideContent";
-import { categoryCrumb, checkMeta, norm, parentCourse } from "@/lib/richContent";
+import { categoryCrumb, checkMeta, metaTitle, norm, parentCourse } from "@/lib/richContent";
 import type { Branch, Crumb } from "@/lib/types";
 
 export type FileGroup = {
@@ -229,7 +229,7 @@ export function getSinglePage(def: SinglePageDef): SinglePage {
     board = def.hero.board;
   }
 
-  const title = norm(def.meta.title ?? r.record.title);
+  const title = metaTitle(def.meta, r.record.title, context);
   const description = norm(def.meta.description ?? currentBranchName(r.record.meta_description));
   checkMeta(title, description, context);
 

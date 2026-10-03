@@ -205,33 +205,6 @@ export type Stat = {
 };
 
 /* ---------------------------------------------------------------
- * Tablo (ScheduleTable) — Faz 6.5/6.6 aynı şemayı yeniden kullanacak
- * ------------------------------------------------------------- */
-
-export type ScheduleColumn = {
-  key: string;
-  /** Masaüstü başlık hücresi metni. "" → görsel başlık yok (CTA kolonu). */
-  head: string;
-  /** ≤759px kart görünümünde satır içi etiket. null → etiket basılmaz
-   *  (ör. şube adı sütunu zaten kendini anlatıyor). */
-  rowLabel: string | null;
-};
-
-export type ScheduleCell =
-  | { kind: "title"; title: string; note: string | null }
-  | { kind: "text"; value: string | null; pending: string }
-  | { kind: "link"; label: string; href: string | null }
-  | { kind: "cta"; label: string; href: string };
-
-export type ScheduleTableRow = {
-  key: string;
-  /** FilterPills eşleşme anahtarı (şube adı). null → filtreden muaf, hep görünür. */
-  group: string | null;
-  /** `columns` ile aynı uzunlukta olmalı — build-time assert edilir. */
-  cells: ScheduleCell[];
-};
-
-/* ---------------------------------------------------------------
  * İç link ağı (LinkRow)
  * ------------------------------------------------------------- */
 

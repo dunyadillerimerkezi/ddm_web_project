@@ -34,7 +34,7 @@ export function EnglishProgramPage({ page }: { page: PageData }) {
             alt={page.hero.photo.alt}
             width={page.hero.photo.width}
             height={page.hero.photo.height}
-            priority
+            preload
             sizes="(max-width: 999px) 100vw, 60vw"
             className={hero.img}
           />

@@ -51,7 +51,7 @@ export function HomeHero() {
                   alt={slot.alt}
                   fill
                   sizes="(min-width: 1000px) 52vw, 92vw"
-                  priority
+                  preload
                   className={styles.featureImage}
                 />
               </div>

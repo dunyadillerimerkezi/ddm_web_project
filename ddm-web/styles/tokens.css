@@ -199,7 +199,7 @@
   --ddm-text-body-s: 13.5px;
   --ddm-text-caption: 12.5px;
   --ddm-text-label: 11.5px;
-  --ddm-text-table-head: 12px; /* Faz 6.4: ScheduleTable başlık satırı (6.5/6.6 aynı tabloyu kullanacak) */
+  --ddm-text-table-head: 12px; /* tablo başlık satırı (ComparisonTable, WeekSchedule) */
 
   --ddm-leading-tight: 1.1;
   --ddm-leading-heading: 1.28;
@@ -210,7 +210,7 @@
   --ddm-tracking-h2: -0.025em;
   --ddm-tracking-h3: -0.015em;
   --ddm-tracking-label: 0.12em;
-  --ddm-tracking-label-sm: 0.08em; /* Faz 6.4: ScheduleTable başlık/satır etiketi harf aralığı */
+  --ddm-tracking-label-sm: 0.08em; /* küçük etiket harf aralığı (LinkRow, ProgramCard) */
   --ddm-tracking-kicker: 0.14em;
 
   /* ---------------------------------------------------------------

@@ -14,7 +14,7 @@ import { ContentSectionsError } from "@/lib/contentSections";
 import { assertNumbers, resolveTemplate, sentencesOf, takeTemplateCta, type EnglishTemplate } from "@/lib/englishLevelContent";
 import { createGuideResolver } from "@/lib/guideContent";
 import { linkIfProduced } from "@/lib/hubLinks";
-import { checkMeta, norm } from "@/lib/richContent";
+import { checkMeta, metaTitle, norm } from "@/lib/richContent";
 import type { Crumb, Faq } from "@/lib/types";
 
 type Photo = { src: string; alt: string; width: number; height: number };
@@ -140,7 +140,7 @@ export function getEnglishProgramPage(def: EnglishProgramDef): EnglishProgramPag
   const template = resolveTemplate(r, path, context, cta);
   r.finish(def.ignored);
 
-  const title = norm(def.meta.title ?? r.record.title);
+  const title = metaTitle(def.meta, r.record.title, context);
   const description = norm(def.meta.description ?? r.record.meta_description);
   checkMeta(title, description, context);
 

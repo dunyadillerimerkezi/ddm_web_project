@@ -8,6 +8,13 @@ import { BRANCH_PHOTOS } from "@/data/branchPhotos";
 import { joinTr } from "@/lib/listText";
 
 /**
+ * Ana Sayfa Google başlığı — kullanıcının kendi metni (P8 metadata denetimi, 2026-10-02). Kaynak başlık
+ * ("Dil Kursları - İngilizce - Almanca - … - Türkçe", 100 karakter) Google'da kırpılıyordu ve 8 dil sayıyordu (sitede 19);
+ * "İstanbul" yerel arama için başta (5 şubenin hepsi İstanbul'da), marka adı sonda tam. Description kaynaktan gelir.
+ */
+export const HOME_META_TITLE = "İstanbul Dil Kursu ve Sınav Hazırlık | Dünya Dilleri Merkezi";
+
+/**
  * Ana Sayfa içerik verisi — Faz 6.3.
  *
  * Kaynak: `docs/design-refs/DDM_Tasarım_Sistemi_faz5/DDM Ana Sayfa.dc.html`,
@@ -44,7 +51,7 @@ export const HOME_HERO = {
     text: "Dünya Dilleri Merkezi 2003 yılından bugüne öğrencilerine İngilizce, Almanca, Fransızca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Flemenkçe, Yunanca, Korece, İsveççe, Portekizce, Hırvatça, Boşnakça, Slovakça, Bulgarca ve Farsça dil eğitimleri vermektedir.",
     cta: { label: "Sana Uygun Yabancı Dil Kursunu Keşfet", href: "#dil-kurslari" },
     slot: {
-      src: `${IMG}/yabancı-dil2.jpg`,
+      src: `${IMG}/yabanci-dil2.jpg`,
       alt: "Masada bayraklarla çok dilli grup dersi yapan öğrenciler",
       ratio: "16/9",
       width: 735,
@@ -73,7 +80,7 @@ export const HOME_HERO = {
       text: "İngilizce konuşulan bir ülkede dil eğitimi alman isteyen öğrenciler için geniş çapta İngilizce dil kursları sunuyoruz. Uluslararası eğitim kurumları tarafından akredite edilmiş Genel İngilizce Kursları, Sınav Hazırlık Kursları, İş İngilizcesi Kursları veya Uzun Dönem kurslar arasından seçim yapabilirsiniz.",
       cta: { label: "Sana Uygun Yurtdışı Dil Eğitimini Keşfet", href: "#yurtdisi" },
       slot: {
-        src: `${IMG}/yurtdısı_egitim.jpg`,
+        src: `${IMG}/yurtdisi-egitim-dikey.jpg`,
         alt: "Londra'da Big Ben önünde bir arada öğrenciler",
         ratio: "1/1",
         width: 736,

@@ -79,7 +79,7 @@ export function HubHero({
   );
 }
 
-/** Hero fotoğrafı — `priority` (LCP), üstte isteğe bağlı sayı rozetleri, altta alt yazı. */
+/** Hero fotoğrafı — `preload` (LCP), üstte isteğe bağlı sayı rozetleri, altta alt yazı. */
 export function HubPhoto({
   src,
   alt,
@@ -102,7 +102,7 @@ export function HubPhoto({
         alt={alt}
         width={width}
         height={height}
-        priority
+        preload
         sizes="(max-width: 899px) 100vw, 640px"
         className={styles.photo}
       />

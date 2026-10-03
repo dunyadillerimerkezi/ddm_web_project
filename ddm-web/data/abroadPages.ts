@@ -15,6 +15,7 @@
  * adrese (`…/ingiltere`) taşınır, eski adres 301.
  */
 
+import { BRAND_SUFFIX_REASON } from "@/data/company";
 import type { SinglePageDef } from "@/data/singlePages";
 
 const YE = "/yurtdisi-egitim";
@@ -76,7 +77,7 @@ const WORK_AND_TRAVEL: SinglePageDef = {
   path: `${YE}/work-and-travel`,
   label: "Work and Travel",
   parent: ABROAD_PARENT,
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: WAT_H1, take: [0] }, sentence: 0 },
     board: {
@@ -337,7 +338,7 @@ const ADULT_ENGLISH: SinglePageDef = {
   path: ADULT_PATH,
   label: "Yetişkinler için İngilizce",
   parent: ABROAD_PARENT,
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: ADULT_H1, take: [0] }, sentence: 0 },
     board: {
@@ -917,7 +918,7 @@ const HIGHER_EDUCATION: SinglePageDef = {
   path: `${YE}/yuksek-ogrenim`,
   label: "Yüksek Öğrenim",
   parent: ABROAD_PARENT,
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: HIGHER_H1, take: [0] }, sentence: 0 },
     board: {
@@ -1027,7 +1028,7 @@ const EXAM_PREP: SinglePageDef = {
   path: `${YE}/sinav-hazirlik`,
   label: "Sınav Hazırlık",
   parent: ABROAD_PARENT,
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: EXAM_ALL } },
     board: {
@@ -1221,7 +1222,7 @@ const PATHWAY: SinglePageDef = {
   path: `${YE}/pathway-programi`,
   label: "Pathway Programı",
   parent: ABROAD_PARENT,
-  meta: { reasons: [] },
+  meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: PATHWAY_H1, take: [4] }, sentence: 0 },
     board: {
