@@ -128,7 +128,7 @@ export function getOnlineLessonPage(def: OnlineLessonDef): RichPage {
     title,
     description,
     h1,
-    crumbs: [{ label: "Anasayfa", href: "/" }, categoryCrumb(def.path, context), parent, { label: def.label }],
+    crumbs: [{ label: "Ana Sayfa", href: "/" }, categoryCrumb(def.path, context), parent, { label: def.label }],
     parent,
     hero: {
       lead,
@@ -240,7 +240,7 @@ export function getOnlineHubPage(def: OnlineHubDef): RichPage {
     title,
     description,
     h1,
-    crumbs: [{ label: "Anasayfa", href: "/" }, parent, { label: def.label }],
+    crumbs: [{ label: "Ana Sayfa", href: "/" }, parent, { label: def.label }],
     parent,
     hero: {
       lead,

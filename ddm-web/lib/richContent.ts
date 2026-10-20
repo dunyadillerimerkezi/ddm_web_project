@@ -286,7 +286,7 @@ export function getPrivateLessonPage(def: PrivateLessonDef): RichPage {
     title,
     description,
     h1,
-    crumbs: [{ label: "Anasayfa", href: "/" }, category, parent, { label: def.label }],
+    crumbs: [{ label: "Ana Sayfa", href: "/" }, category, parent, { label: def.label }],
     parent,
     hero: {
       lead,

@@ -10,9 +10,11 @@ import { OtherProgramsSection } from "@/components/sections/OtherProgramsSection
 import { VideoPromo } from "@/components/sections/VideoPromo";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { websiteLd } from "@/lib/jsonLd";
 import { currentBranchName } from "@/data/branches";
 import { HOME_META_TITLE, HOME_STATS } from "@/data/home";
-import { checkMeta } from "@/lib/meta";
+import { checkMeta, withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 import siteContent from "@/data/site_content.json";
 
@@ -30,12 +32,12 @@ if (!HOME_RECORD) {
 
 checkMeta(HOME_META_TITLE, "", "home");
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocial({
   title: HOME_META_TITLE,
   // Kaynak açıklama aynı şubeyi "Levent, Etiler" diye iki kez sayıyor → `currentBranchName` (müşteri kararı 2026-09-30).
   description: currentBranchName(HOME_RECORD.meta_description),
   alternates: { canonical: absoluteUrl("/") },
-};
+});
 
 /**
  * Ana Sayfa — Faz 6.3.
@@ -62,6 +64,7 @@ export default function Home() {
       <VideoPromo />
       <TestimonialsSection />
       <ContactForm />
+      <JsonLd data={websiteLd()} where="home" />
     </SiteChrome>
   );
 }

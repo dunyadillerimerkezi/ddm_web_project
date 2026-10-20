@@ -705,6 +705,18 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
 
 export const BRAND_BLURB = `Türkiye’de 19 farklı dil eğitimi veren tek dil okuluyuz. ${SERVING} İstanbul’daki 5 şubemizde yabancı dil, sınav hazırlık ve yurtdışı eğitim programları.`;
 
+/**
+ * Kurumsal sosyal hesaplar (P9, kullanıcı 2026-10-19). Footer'da ikon olarak görünür; aynı liste kurum JSON-LD'sinin
+ * `sameAs` alanıdır (`lib/jsonLd.ts`). Kapanan hesap buradan çıkarılır — kapalı hesaba bağlantı verilmez.
+ * Eski sitedeki diğer 3 hesap BİLEREK yok: X (x.com/dunyadilleri) 2018'den beri kullanılmıyor; Facebook
+ * (facebook.com/dunyadillerimerkezi) ve YouTube (UCWc4l3anqzuW8Q1tlrTagvQ, "… Bağdat Caddesi") Bağdat Caddesi şubesinin
+ * adres / telefonunu taşıyor — kurumun hesabı mı şubenin mi, müşteriye soruldu (`docs/bekleyen-sorular.md`).
+ * `SocialIcon` dört ağın ikonunu da tanır; hesap eklenirse yalnız bu listeye satır eklenir.
+ */
+export const SOCIAL_LINKS = [
+  { network: "instagram", label: "Instagram", href: "https://www.instagram.com/dunyadillerimerkezi" },
+] as const;
+
 /** Footer'daki tek iletişim: kurumsal mail (kullanıcı, 2026-10-01). */
 export const CORPORATE_MAIL = "info@dunyadillerimerkezi.com";
 

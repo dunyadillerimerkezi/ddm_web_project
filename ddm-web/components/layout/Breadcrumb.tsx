@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbLd } from "@/lib/jsonLd";
 import type { Crumb } from "@/lib/types";
 import styles from "@/styles/Breadcrumb.module.css";
 
@@ -8,6 +10,8 @@ import styles from "@/styles/Breadcrumb.module.css";
  * Kaynak: `DDM Dil Kursu Sayfası.dc.html` bölüm 1+2. Faz 6.5/6.6 aynı
  * bileşeni kullanacak (§7 — sunucu bileşeni). Varsayılan koyu zemin; P3 hub
  * hero'su beyaz zeminde olduğu için `tone="onLight"`.
+ *
+ * P9: aynı öğelerden `BreadcrumbList` JSON-LD basar — kırıntı yolu elle ikinci kez yazılmaz.
  */
 export function Breadcrumb({ items, tone = "onDark" }: { items: Crumb[]; tone?: "onDark" | "onLight" }) {
   return (
@@ -35,6 +39,7 @@ export function Breadcrumb({ items, tone = "onDark" }: { items: Crumb[]; tone?: 
           );
         })}
       </ol>
+      <JsonLd data={breadcrumbLd(items)} where="Breadcrumb" />
     </nav>
   );
 }

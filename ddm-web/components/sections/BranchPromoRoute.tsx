@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 
 import { BranchPromoPage } from "@/components/sections/BranchPromoPage";
 import { getBranchPromoPage } from "@/lib/branchPromoContent";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /** P6 — statik tanıtım route'larının ortak gövdesi (4 şube; Ümraniye'nin tanıtım sayfası yok — müşteri kararı 2026-09-30). Her şube kök dizinde kendi klasöründe (CLAUDE.md §3). */
 export function branchPromoMetadata(path: string): Metadata {
   const page = getBranchPromoPage(path);
-  return {
+  return withSocial({
     title: page.title,
     description: page.description,
     alternates: { canonical: absoluteUrl(page.path) },
-  };
+  });
 }
 
 export function BranchPromoRoute({ path }: { path: string }) {

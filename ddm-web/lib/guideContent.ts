@@ -210,7 +210,7 @@ export function getGuidePage(def: ExamGuideDef): GuidePage {
     title,
     description,
     h1,
-    crumbs: [{ label: "Anasayfa", href: "/" }, categoryCrumb(def.path, context), course, { label: def.label }],
+    crumbs: [{ label: "Ana Sayfa", href: "/" }, categoryCrumb(def.path, context), course, { label: def.label }],
     course,
     hero: { answer, facts: def.hero.facts },
     sections,

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { BRAND_NAME } from "@/data/company";
+import { SITE_URL } from "@/lib/site";
 
 /*
  * Fontlar self-host ediliyor (CDN <link> değil): şablonlar Google Fonts'a
@@ -22,8 +24,16 @@ const manrope = Manrope({
   display: "swap",
 });
 
+/**
+ * P9: `metadataBase` paylaşım görselinin adresini mutlak yapar (alan adı `lib/site.ts` SITE_URL'den — CLAUDE.md §4).
+ * Sayfalar kendi başlık / açıklamasını `withSocial()` (`lib/meta.ts`) ile paylaşım alanlarına da geçirir; buradaki
+ * yalnız sayfa ayarı olmayan yerler (404) için varsayılan. Görsel `app/opengraph-image.tsx` (+ kategori klasörleri).
+ */
 export const metadata: Metadata = {
-  title: "Dünya Dilleri Merkezi",
+  metadataBase: new URL(SITE_URL),
+  title: BRAND_NAME,
+  openGraph: { type: "website", siteName: BRAND_NAME, locale: "tr_TR" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -1,5 +1,7 @@
 import { SiteChrome } from "@/components/layout";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { articleLd, faqLd } from "@/lib/jsonLd";
 import { FORM_HREF } from "@/lib/formAnchor";
 import { GuideBlock } from "@/components/sections/GuideBlock";
 import { GuideHero } from "@/components/sections/GuideHero";
@@ -50,6 +52,10 @@ function related(page: GuidePageData) {
  * bölümleri ince çizgi ayırır.
  */
 export function GuidePage({ page }: { page: GuidePageData }) {
+  // P9: soru biçimli bölüm başlığı + altındaki kalın kısa cevap = görünen soru-cevap.
+  const questions = page.sections
+    .filter((s) => s.title.trim().endsWith("?"))
+    .map((s) => ({ question: s.title, answer: [s.answer] }));
   return (
     <SiteChrome ctaLabel="Bilgi Al">
       <GuideHero page={page} contactHref={FORM_HREF} />
@@ -84,6 +90,11 @@ export function GuidePage({ page }: { page: GuidePageData }) {
         link={page.course}
       />
       <RelatedLinks title="İlgili sayfalar" groups={related(page)} />
+      <JsonLd
+        data={articleLd({ headline: page.h1, description: page.hero.answer, path: page.href, dateModified: page.updated })}
+        where={`guide${page.href}`}
+      />
+      {questions.length > 0 && <JsonLd data={faqLd(questions)} where={`guide${page.href}#sorular`} />}
     </SiteChrome>
   );
 }

@@ -8,6 +8,7 @@ import { ENGLISH_PROGRAMS } from "@/data/englishPrograms";
 import { ContentSectionsError } from "@/lib/contentSections";
 import { getEnglishLevelBySlug } from "@/lib/englishLevelContent";
 import { getEnglishProgramBySlug } from "@/lib/englishProgramContent";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const hit = find(sayfa);
   if (!hit) return {};
   const { page } = hit;
-  return { title: page.title, description: page.description, alternates: { canonical: absoluteUrl(page.href) } };
+  return withSocial({ title: page.title, description: page.description, alternates: { canonical: absoluteUrl(page.href) } });
 }
 
 export default async function Page({ params }: { params: Promise<Params> }) {

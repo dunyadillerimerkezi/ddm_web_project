@@ -6,6 +6,7 @@ import { RichRoute } from "@/components/sections/RichRoute";
 import { COURSE_DATES, findCourseDateEntry } from "@/data/courseDates";
 import { getCourseDatePage } from "@/lib/courseDateContent";
 import { assertNoSlugCollision, getRichPage, richMetadata, richPathsUnder } from "@/lib/richPages";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -48,11 +49,11 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const entry = findCourseDateEntry(CATEGORY, kurs, sayfa);
   if (entry) {
     const page = getCourseDatePage(entry);
-    return {
+    return withSocial({
       title: page.title,
       description: page.metaDescription,
       alternates: { canonical: absoluteUrl(page.href) },
-    };
+    });
   }
 
   const rich = getRichPage(`${PREFIX}${kurs}/${sayfa}`);

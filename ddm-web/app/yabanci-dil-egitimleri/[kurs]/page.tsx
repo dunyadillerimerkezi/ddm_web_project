@@ -16,6 +16,8 @@ import { FaqAside } from "@/components/sections/FaqAside";
 import { CourseDateList } from "@/components/sections/CourseDateList";
 import { LanguageLinks, type LanguageLinkItem } from "@/components/sections/LanguageLinks";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { courseLd } from "@/lib/jsonLd";
 import { FORM_HREF } from "@/lib/formAnchor";
 import { yearsSinceFounding } from "@/data/company";
 import { LANGUAGE_PAGES, getLanguageDef } from "@/data/languages";
@@ -25,6 +27,7 @@ import { LANGUAGE_EXTRAS, type LanguageExtra } from "@/data/languageExtras";
 import type { HomeStat } from "@/data/home";
 import { getLanguagePage, type LanguageDef } from "@/lib/languageContent";
 import { buildLanguageFaqs, courseFacts, factTiles, parseSchedule } from "@/lib/languageFaq";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 import { checkMeta } from "@/lib/richContent";
 import type { Crumb } from "@/lib/types";
@@ -129,11 +132,11 @@ export async function generateMetadata({
   // H1'den çıkarılan "Ders Fiyatları" (`h1Edit`) kaynak başlıkta da var → aynı düzeltme <title>'a (sitede fiyat yok).
   const h1Edit = def.content.h1Edit;
   const sourceTitle = h1Edit ? page.record.title.replace(h1Edit.from, h1Edit.to) : page.record.title;
-  return {
+  return withSocial({
     title: meta?.title ?? sourceTitle,
     description: meta?.description ?? page.record.meta_description,
     alternates: { canonical: absoluteUrl(`/yabanci-dil-egitimleri/${kurs}`) },
-  };
+  });
 }
 
 export default async function DilKursuPage({
@@ -165,7 +168,7 @@ export default async function DilKursuPage({
         : null;
 
   const crumbs: Crumb[] = [
-    { label: "Anasayfa", href: "/" },
+    { label: "Ana Sayfa", href: "/" },
     { label: "Yabancı Dil Kursları", href: "/yabanci-dil" },
     { label: def.label },
   ];
@@ -257,6 +260,10 @@ export default async function DilKursuPage({
 
       {/* Kaynağın kapanış çağrısı (eski şeridin başlığıydı) — uzun cümle, başlık değil alt satır. */}
       <ContactForm lead={page.teachingModel.closingCta} course={`/yabanci-dil-egitimleri/${def.slug}`} />
+      <JsonLd
+        data={courseLd({ name: def.label, description: page.heroLead.join(" "), path: `/yabanci-dil-egitimleri/${def.slug}` })}
+        where={`language/${def.slug}`}
+      />
     </SiteChrome>
   );
 }

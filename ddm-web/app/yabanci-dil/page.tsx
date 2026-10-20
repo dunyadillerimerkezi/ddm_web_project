@@ -15,6 +15,7 @@ import { LANGUAGE_HUB, LANGUAGE_HUB_ADDED } from "@/data/hubs";
 import { LANGUAGE_PAGES } from "@/data/languages";
 import { getCategoryHubPage } from "@/lib/hubContent";
 import { hubRelated, languageLinks, languageTiles, linkIfProduced } from "@/lib/hubLinks";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 import blocks from "@/styles/HubBlocks.module.css";
 
@@ -26,11 +27,11 @@ import blocks from "@/styles/HubBlocks.module.css";
 
 export function generateMetadata(): Metadata {
   const page = getCategoryHubPage(LANGUAGE_HUB);
-  return {
+  return withSocial({
     title: page.title,
     description: page.description,
     alternates: { canonical: absoluteUrl(LANGUAGE_HUB.path) },
-  };
+  });
 }
 
 export default function YabanciDilHubPage() {
@@ -53,7 +54,7 @@ export default function YabanciDilHubPage() {
   return (
     <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
-        crumbs={[{ label: "Anasayfa", href: "/" }, { label: LANGUAGE_HUB.label }]}
+        crumbs={[{ label: "Ana Sayfa", href: "/" }, { label: LANGUAGE_HUB.label }]}
         h1={page.h1}
         lead={page.slots.intro[0] ?? null}
         primary={{ label: "Dilini seç", href: "#diller" }}

@@ -15,6 +15,7 @@ import { ABROAD_HUB, ABROAD_HUB_ADDED } from "@/data/hubs";
 import { ABROAD_SECTION } from "@/data/home";
 import { getCategoryHubPage, stripArrow } from "@/lib/hubContent";
 import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -26,11 +27,11 @@ import { absoluteUrl } from "@/lib/site";
 
 export function generateMetadata(): Metadata {
   const page = getCategoryHubPage(ABROAD_HUB);
-  return {
+  return withSocial({
     title: page.title,
     description: page.description,
     alternates: { canonical: absoluteUrl(ABROAD_HUB.path) },
-  };
+  });
 }
 
 export default function YurtdisiEgitimHubPage() {
@@ -58,7 +59,7 @@ export default function YurtdisiEgitimHubPage() {
   return (
     <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
-        crumbs={[{ label: "Anasayfa", href: "/" }, { label: ABROAD_HUB.label }]}
+        crumbs={[{ label: "Ana Sayfa", href: "/" }, { label: ABROAD_HUB.label }]}
         h1={page.h1}
         lead={ABROAD_SECTION.panelText}
         primary={{ label: "Dile göre okullar", href: "#diller" }}

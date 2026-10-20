@@ -34,6 +34,17 @@ main > :first-child {
   border-top: var(--ddm-header-flow-h) solid transparent;
 }
 
+/*
+ * P9 (2026-10-19): ilk çocuk görünmez bir <script> (JSON-LD) olsa da kural ilk GÖRÜNÜR bölüme uygulansın — script'in
+ * <main>'in başına konması 46 sayfada header'ın arkasını beyaz bırakmıştı. Ayrı blok bilinçli: `of S` sözdizimini
+ * bilmeyen eski tarayıcı (Chrome <111, Firefox <113) yalnız bu bloğu atar, üstteki kural çalışmaya devam eder.
+ * JSON-LD her yerde ebeveynin SONUNA konur; `scripts/check-jsonld.mjs` <main>'in ilk çocuğu script ise build'i düşürür.
+ */
+main > :nth-child(1 of :not(script)) {
+  margin-top: calc(-1 * var(--ddm-header-flow-h));
+  border-top: var(--ddm-header-flow-h) solid transparent;
+}
+
 body {
   min-height: 100%;
   background: var(--ddm-white);

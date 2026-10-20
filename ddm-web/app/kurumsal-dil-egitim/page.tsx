@@ -14,6 +14,7 @@ import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { CORPORATE_HUB, CORPORATE_HUB_ADDED } from "@/data/hubs";
 import { getCategoryHubPage } from "@/lib/hubContent";
 import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -24,11 +25,11 @@ import { absoluteUrl } from "@/lib/site";
 
 export function generateMetadata(): Metadata {
   const page = getCategoryHubPage(CORPORATE_HUB);
-  return {
+  return withSocial({
     title: page.title,
     description: page.description,
     alternates: { canonical: absoluteUrl(CORPORATE_HUB.path) },
-  };
+  });
 }
 
 export default function KurumsalHubPage() {
@@ -45,7 +46,7 @@ export default function KurumsalHubPage() {
     <SiteChrome ctaLabel="Teklif Al">
       <HubHero
         tone="dark"
-        crumbs={[{ label: "Anasayfa", href: "/" }, { label: "Diğer Programlar", href: "/diger-program" }, { label: CORPORATE_HUB.label }]}
+        crumbs={[{ label: "Ana Sayfa", href: "/" }, { label: "Diğer Programlar", href: "/diger-program" }, { label: CORPORATE_HUB.label }]}
         h1={page.h1}
         lead={s.lead[0] ?? null}
         primary={{ label: "Kurumsal teklif alın", href: FORM_HREF }}

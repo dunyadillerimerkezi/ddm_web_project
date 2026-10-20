@@ -242,7 +242,7 @@ export function getSinglePage(def: SinglePageDef): SinglePage {
     description,
     h1,
     crumbs: [
-      { label: "Anasayfa", href: "/" },
+      { label: "Ana Sayfa", href: "/" },
       category,
       ...(course.href === category.href ? [] : [course]),
       { label: def.label },

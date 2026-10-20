@@ -13,6 +13,7 @@ import { RelatedLinks } from "@/components/sections/RelatedLinks";
 import { OTHER_PROGRAMS_HUB, OTHER_PROGRAMS_HUB_ADDED } from "@/data/hubs";
 import { getCategoryHubPage } from "@/lib/hubContent";
 import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -25,11 +26,11 @@ const DP = "/diger-program";
 
 export function generateMetadata(): Metadata {
   const page = getCategoryHubPage(OTHER_PROGRAMS_HUB);
-  return {
+  return withSocial({
     title: page.title,
     description: page.description,
     alternates: { canonical: absoluteUrl(OTHER_PROGRAMS_HUB.path) },
-  };
+  });
 }
 
 export default function DigerProgramHubPage() {
@@ -116,7 +117,7 @@ export default function DigerProgramHubPage() {
   return (
     <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
-        crumbs={[{ label: "Anasayfa", href: "/" }, { label: OTHER_PROGRAMS_HUB.label }]}
+        crumbs={[{ label: "Ana Sayfa", href: "/" }, { label: OTHER_PROGRAMS_HUB.label }]}
         h1={page.h1}
         lead={page.slots.intro[0] ?? null}
         primary={{ label: "Programları incele", href: "#programlar" }}

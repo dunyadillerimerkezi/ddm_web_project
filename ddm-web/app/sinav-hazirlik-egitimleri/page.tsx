@@ -17,6 +17,7 @@ import { UNIVERSITY_INDEX } from "@/data/universities";
 import { examHref } from "@/lib/examContent";
 import { getCategoryHubPage } from "@/lib/hubContent";
 import { hubRelated, linkIfProduced, onlyProduced } from "@/lib/hubLinks";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 import uniStyles from "@/styles/HubUniversities.module.css";
 
@@ -34,11 +35,11 @@ import uniStyles from "@/styles/HubUniversities.module.css";
 
 export function generateMetadata(): Metadata {
   const page = getCategoryHubPage(EXAM_HUB);
-  return {
+  return withSocial({
     title: page.title,
     description: page.description,
     alternates: { canonical: absoluteUrl(EXAM_HUB.path) },
-  };
+  });
 }
 
 function buildGroups(): HubGuideGroup[] {
@@ -133,7 +134,7 @@ export default function SinavHazirlikHubPage() {
   return (
     <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
-        crumbs={[{ label: "Anasayfa", href: "/" }, { label: EXAM_HUB.label }]}
+        crumbs={[{ label: "Ana Sayfa", href: "/" }, { label: EXAM_HUB.label }]}
         h1={page.h1}
         lead={page.slots.lead[0] ?? null}
         primary={{ label: "Sınavları incele", href: "#amaca-gore" }}

@@ -54,6 +54,36 @@
   color: var(--ddm-sky-line);
 }
 
+/* Sosyal hesaplar — kurumsal mailin altında 4 yuvarlak ikon (P9). Dokunma alanı 40px. */
+.social {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socialLink {
+  display: grid;
+  place-items: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 1px solid var(--ddm-navy-line);
+  border-radius: var(--radius-pill);
+  color: var(--ddm-navy-200);
+  transition:
+    color var(--duration-fast),
+    background var(--duration-fast),
+    border-color var(--duration-fast);
+}
+
+.socialLink:hover,
+.socialLink:focus-visible {
+  border-color: var(--ddm-sky-400);
+  background: var(--ddm-navy-800);
+  color: var(--ddm-white);
+}
+
 .kicker {
   font-family: var(--ddm-font-heading);
   font-size: var(--ddm-text-label);

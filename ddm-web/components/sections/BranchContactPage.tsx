@@ -8,12 +8,36 @@ import type { IconName } from "@/components/graphics/icons";
 import { BranchMap } from "@/components/sections/BranchMap";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { TransitList } from "@/components/sections/TransitList";
-import { BRANCH_LIST, WHATSAPP, directionsHref, mapQuery, telHref, waHref } from "@/data/branches";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { BRANCH_LIST, OPENING_HOURS, WHATSAPP, directionsHref, mapQuery, telHref, waHref } from "@/data/branches";
 import { BRANCH_PHOTOS } from "@/data/branchPhotos";
 import { PROMO_PATHS } from "@/data/branchPromoPaths";
 import { BRANCH_TRANSIT } from "@/data/branchTransit";
 import type { BranchPage } from "@/lib/branchContent";
+import { localBusinessLd } from "@/lib/jsonLd";
 import styles from "@/styles/BranchContactPage.module.css";
+
+/** Çalışma saatleri (5 şubede aynı, `data/branches.ts` OPENING_HOURS) — P9, iletişim kutularının altında (kullanıcı, 2026-10-19). */
+function OpeningHours() {
+  return (
+    <div className={styles.hours}>
+      <p className={styles.hoursTitle}>
+        <Icon name="saat" size={18} strokeWidth={1.8} />
+        Çalışma saatleri
+      </p>
+      <dl className={styles.hoursList}>
+        {OPENING_HOURS.map((h) => (
+          <div key={h.label} className={styles.hoursRow}>
+            <dt>{h.label}</dt>
+            <dd>
+              {h.opens} – {h.closes}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
 
 type Action = { icon: IconName; label: string; value: string; href: string; external?: boolean; primary?: boolean };
 
@@ -69,6 +93,7 @@ export function BranchContactPage({ page, lead }: { page: BranchPage; lead: stri
                 </li>
               ))}
             </ul>
+            <OpeningHours />
           </div>
 
           <article className={styles.card} aria-label={`${branch.name} şubesi`}>
@@ -145,6 +170,8 @@ export function BranchContactPage({ page, lead }: { page: BranchPage; lead: stri
           </ul>
         </section>
       </div>
+      {/* P9: şubenin yerel kaydı (LocalBusiness) — adres / telefon / e-posta bu sayfada görünür. */}
+      <JsonLd data={localBusinessLd(branch)} where={`branch/${branch.slug}`} />
     </SiteChrome>
   );
 }

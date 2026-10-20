@@ -99,6 +99,18 @@ export function currentBranchName(text: string): string {
 export const ALL_BRANCHES_OFFER = `${LANGUAGE_COUNT} dilde eğitim ve sınav hazırlık kursları`;
 export const ALL_BRANCHES_LINE = `Tüm şubelerimizde ${ALL_BRANCHES_OFFER} veriyoruz; ${SERVING} hizmetinizdeyiz.`;
 
+/**
+ * Çalışma saatleri — 5 şubede AYNI (P9, kullanıcı 2026-10-19). Kaynak: eski sitenin ortak footer bloğu "Çalışma Saatleri ·
+ * PZT-CUM 09:30 - 19:30 · CTS 09:30 - 18:30 · PZR 09:30 - 18:30"; beş şubenin eski iletişim sayfasında da birebir aynı
+ * (2026-10-19 canlı sitede bakıldı). Şube iletişim sayfasında görünür; JSON-LD `openingHoursSpecification` buradan.
+ * Bir şubenin saati değişirse bu tek liste şube başına ayrılır — uydurma saat yazılmaz.
+ */
+export const OPENING_HOURS = [
+  { label: "Pazartesi – Cuma", days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:30", closes: "19:30" },
+  { label: "Cumartesi", days: ["Saturday"], opens: "09:30", closes: "18:30" },
+  { label: "Pazar", days: ["Sunday"], opens: "09:30", closes: "18:30" },
+] as const;
+
 /** Menü/footer sırası — tasarımdaki sıra. */
 export const BRANCH_ORDER: BranchSlug[] = [
   "kadikoy",

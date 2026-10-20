@@ -4,6 +4,7 @@
  *
  * `npm run build` çıktısındaki her sayfanın (`.next/server/app/**\/*.html`) `<head>`'ini ve H1'lerini okur:
  *   başlık (title) · açıklama (description) · asıl adres (canonical) · H1 sayısı ve metni · robots meta
+ *   P9: paylaşım (og:title / og:description / og:url sayfanınkiyle aynı mı, og:image var mı, görsel dosyası üretilmiş mi)
  * ve `sitemap.xml` + `robots.txt` gövdelerini. Sorunları SAYFA TÜRÜNE göre gruplar.
  *
  * Eşikler: başlık 30–60 karakter · açıklama 70–160 (proje kuralı ≤155, CLAUDE.md §5 / `checkMeta`) ·
@@ -79,6 +80,11 @@ function readPage(file) {
     canonical: attr(/<link rel="canonical" href="([^"]*)"/),
     canonicalCount: (head.match(/<link rel="canonical"/g) ?? []).length,
     robots: attr(/<meta name="robots" content="([^"]*)"/),
+    ogTitle: attr(/<meta property="og:title" content="([^"]*)"/),
+    ogDescription: attr(/<meta property="og:description" content="([^"]*)"/),
+    ogUrl: attr(/<meta property="og:url" content="([^"]*)"/),
+    ogImages: [...head.matchAll(/<meta property="og:image" content="([^"]*)"/g)].map((m) => decodeHtml(m[1])),
+    twitterCard: attr(/<meta name="twitter:card" content="([^"]*)"/),
     h1s,
   };
 }
@@ -185,6 +191,17 @@ for (const p of pages) {
     if (r < 0.5) add("h1-gap", p, `%${Math.round(r * 100)} ortak · H1: ${p.h1s[0]} ‖ title: ${p.title}`);
   }
   if (p.robots && /noindex/i.test(p.robots)) add("noindex", p, p.robots);
+  // P9 paylaşım — sayfanın kendi başlık / açıklama / adresi + üretilmiş bir görsel.
+  if (p.route !== "/_not-found") {
+    if (p.ogTitle !== p.title || p.ogDescription !== p.description) add("og-mismatch", p, `og:title «${p.ogTitle}»`);
+    if (p.ogUrl && p.canonical && p.ogUrl.replace(/\/$/, "") !== p.canonical.replace(/\/$/, "")) add("og-mismatch", p, `og:url ${p.ogUrl}`);
+    if (p.ogImages.length !== 1) add("og-image", p, `${p.ogImages.length} og:image`);
+    for (const img of p.ogImages) {
+      const path = new URL(img).pathname;
+      if (!existsSync(join(APP_DIR, `${path}.body`))) add("og-image", p, `görsel üretilmemiş: ${path}`);
+    }
+    if (p.twitterCard !== "summary_large_image") add("og-image", p, `twitter:card ${p.twitterCard}`);
+  }
 }
 
 /** Aynı değeri paylaşan sayfa kümeleri. */
@@ -228,6 +245,8 @@ const LABELS = {
   "h1-price": "H1'de \"fiyat / ücret\" sözü",
   "h1-gap": "H1 ile başlık kopuk (H1'in sözcüklerinin yarısından azı başlıkta)",
   noindex: "Sayfada `noindex`",
+  "og-mismatch": "Paylaşım başlığı / açıklaması / adresi sayfanınkinden farklı",
+  "og-image": "Paylaşım görseli yok, birden fazla ya da üretilmemiş",
 };
 
 const esc = (s) => String(s).replace(/\|/g, "\\|");

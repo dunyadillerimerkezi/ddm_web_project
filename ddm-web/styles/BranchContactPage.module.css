@@ -110,6 +110,59 @@
   color: var(--ddm-gray-600);
 }
 
+/* --- çalışma saatleri (P9) --- */
+.hours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-8);
+  align-items: center;
+  max-width: var(--ddm-contact-actions-w);
+  margin: var(--space-3) 0 0;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--ddm-sky-line);
+  border-radius: var(--radius-lg);
+  background: var(--ddm-sky-bg);
+}
+
+.hoursTitle {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin: 0;
+  font-family: var(--ddm-font-heading);
+  font-size: var(--ddm-text-body);
+  font-weight: 700;
+  color: var(--ddm-navy-900);
+}
+
+.hoursTitle svg {
+  color: var(--ddm-sky-ink);
+}
+
+.hoursList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin: 0;
+}
+
+.hoursRow {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--ddm-text-body);
+}
+
+.hoursRow dt {
+  color: var(--ddm-gray-600);
+}
+
+.hoursRow dd {
+  margin: 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ddm-navy-900);
+}
+
 /* --- şube kartı --- */
 .card {
   overflow: hidden;
@@ -265,6 +318,16 @@
 @media (max-width: 599px) {
   .actions {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Saat satırları alt alta, gün solda saat sağda — saatler aynı sütunda hizalı. */
+  .hoursList {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hoursRow {
+    justify-content: space-between;
   }
 
   .transit {

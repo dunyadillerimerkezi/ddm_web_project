@@ -7,11 +7,14 @@ import { ExamRow } from "./ExamRows";
 import { ExamDirectory } from "./ExamDirectory";
 import { UniversityGrid } from "./UniversityGrid";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { courseLd, faqLd, isQuestion } from "@/lib/jsonLd";
 import { FORM_HREF } from "@/lib/formAnchor";
 import { UNIVERSITY_INDEX } from "@/data/universities";
 import { EXAM_GUIDES } from "@/data/examGuides";
 import { getExamGlance } from "@/data/examGlance";
 import { examHref, getExamPage, type ExamDef } from "@/lib/examContent";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 import { checkMeta, metaTitle } from "@/lib/richContent";
 import type { Crumb, NavLink } from "@/lib/types";
@@ -38,11 +41,11 @@ export function examMetadata(def: ExamDef): Metadata {
   // Yeniden yazılan başlık / açıklama (gerekçe `data/exams.ts` `meta.reasons`) — yalnız yeniden yazılan alan denetlenir.
   const rewrittenTitle = def.meta?.title || def.meta?.brandSuffix ? title : "";
   if (def.meta) checkMeta(rewrittenTitle, def.meta.description ?? "", context);
-  return {
+  return withSocial({
     title,
     description: def.meta?.description ?? page.record.meta_description,
     alternates: { canonical: absoluteUrl(examHref(def.slug)) },
-  };
+  });
 }
 
 /** Sınavın "Nedir?" rehberi (P4) — kâğıdın altından bağlantı. */
@@ -57,12 +60,15 @@ export function ExamCoursePage({ def }: { def: ExamDef }) {
   const hasUniversities = page.blocks.some((b) => b.kind === "universities");
 
   const crumbs: Crumb[] = [
-    { label: "Anasayfa", href: "/" },
+    { label: "Ana Sayfa", href: "/" },
     { label: "Sınav Hazırlık", href: "/sinav-hazirlik-egitimleri" },
     { label: def.label },
   ];
 
   const guide = guideLink(def);
+  // P9: sayfadaki tüm SSS akordiyonları tek FAQPage (Google sayfa başına bir tane ister). Yalnız soru biçimindeki
+  // maddeler girer — SAT'ın "2016 yenilemesi" akordiyonu kaynak başlıklarından (soru değil); sayfada aynen kalır.
+  const faqs = page.blocks.flatMap((b) => (b.kind === "faq" ? b.items.filter((f) => isQuestion(f.question)) : []));
 
   return (
     <SiteChrome ctaLabel="Bilgi Al">
@@ -90,6 +96,11 @@ export function ExamCoursePage({ def }: { def: ExamDef }) {
       <ExamDirectory current={def.slug} />
 
       <ContactForm title={`${def.name} kursu hakkında bilgi alın`} course={examHref(def.slug)} />
+      <JsonLd
+        data={courseLd({ name: def.label, description: page.heroLead ?? "", path: examHref(def.slug) })}
+        where={`exam/${def.slug}`}
+      />
+      {faqs.length > 0 && <JsonLd data={faqLd(faqs)} where={`exam/${def.slug}#sss`} />}
     </SiteChrome>
   );
 }

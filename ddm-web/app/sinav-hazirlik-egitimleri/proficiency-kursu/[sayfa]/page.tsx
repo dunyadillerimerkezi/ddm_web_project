@@ -19,6 +19,7 @@ import { getUniversityPage, type UniversityPage, type UniversityDef } from "@/li
 import { universityFlow } from "@/lib/universityFlow";
 import { getCourseDatePage } from "@/lib/courseDateContent";
 import { COURSE_DATES, findCourseDateEntry } from "@/data/courseDates";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 import type { Crumb, LinkRowItem } from "@/lib/types";
 
@@ -83,23 +84,23 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const def = getUniversityDef(sayfa);
   if (def) {
     const page = getUniversityPage(def);
-    return {
+    return withSocial({
       title: page.record.title,
       description: page.metaDescription,
       alternates: {
         canonical: absoluteUrl(`/sinav-hazirlik-egitimleri/proficiency-kursu/${sayfa}`),
       },
-    };
+    });
   }
 
   const entry = findCourseDateEntry("sinav-hazirlik-egitimleri", "proficiency-kursu", sayfa);
   if (entry) {
     const page = getCourseDatePage(entry);
-    return {
+    return withSocial({
       title: page.title,
       description: page.metaDescription,
       alternates: { canonical: absoluteUrl(page.href) },
-    };
+    });
   }
 
   const rich = richPage(sayfa);
@@ -116,7 +117,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
  */
 function UniversityPageBody({ def, page }: { def: UniversityDef; page: UniversityPage }) {
   const crumbs: Crumb[] = [
-    { label: "Anasayfa", href: "/" },
+    { label: "Ana Sayfa", href: "/" },
     { label: "Sınav Hazırlık", href: "/sinav-hazirlik-egitimleri" },
     { label: "Proficiency Kursu", href: "/sinav-hazirlik-egitimleri/proficiency-kursu" },
     { label: def.name },

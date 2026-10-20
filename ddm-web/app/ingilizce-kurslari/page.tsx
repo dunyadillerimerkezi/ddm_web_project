@@ -14,6 +14,7 @@ import { ENGLISH_HUB, ENGLISH_HUB_ADDED, IK_H1 } from "@/data/hubs";
 import { COURSE_DATES } from "@/data/courseDates";
 import { getCategoryHubPage, stripArrow } from "@/lib/hubContent";
 import { hubRelated, languageLinks, linkIfProduced } from "@/lib/hubLinks";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -61,11 +62,11 @@ function target(line: string): string | null {
 
 export function generateMetadata(): Metadata {
   const page = getCategoryHubPage(ENGLISH_HUB);
-  return {
+  return withSocial({
     title: page.title,
     description: page.description,
     alternates: { canonical: absoluteUrl(ENGLISH_HUB.path) },
-  };
+  });
 }
 
 export default function IngilizceKurslariHubPage() {
@@ -117,7 +118,7 @@ export default function IngilizceKurslariHubPage() {
   return (
     <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
-        crumbs={[{ label: "Anasayfa", href: "/" }, { label: ENGLISH_HUB.label }]}
+        crumbs={[{ label: "Ana Sayfa", href: "/" }, { label: ENGLISH_HUB.label }]}
         h1={page.h1}
         lead={page.slots.lead[0] ?? null}
         primary={{ label: "Seviyeni bul", href: "#seviyeler" }}

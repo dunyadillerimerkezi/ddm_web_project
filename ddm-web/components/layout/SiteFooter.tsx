@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { BRAND_BLURB, CORPORATE_MAIL, FOOTER_COLUMNS, FOOTER_LEGAL } from "@/lib/nav";
+import { SocialIcon } from "@/components/graphics/SocialIcon";
+import { BRAND_BLURB, CORPORATE_MAIL, FOOTER_COLUMNS, FOOTER_LEGAL, SOCIAL_LINKS } from "@/lib/nav";
 import styles from "@/styles/SiteFooter.module.css";
 
 /**
@@ -29,6 +30,15 @@ export function SiteFooter() {
                 {CORPORATE_MAIL}
               </a>
             </div>
+            <ul className={styles.social} aria-label="Sosyal medya hesaplarımız">
+              {SOCIAL_LINKS.map((s) => (
+                <li key={s.network}>
+                  <a className={styles.socialLink} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.label} (yeni sekmede açılır)`}>
+                    <SocialIcon network={s.network} />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {FOOTER_COLUMNS.map((col) => (

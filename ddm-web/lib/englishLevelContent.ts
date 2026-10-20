@@ -288,7 +288,7 @@ export function getEnglishLevelPage(def: EnglishLevelDef): EnglishLevelPage {
     title,
     description,
     h1,
-    crumbs: [{ label: "Anasayfa", href: "/" }, { label: "İngilizce Kursları", href: IK }, { label: def.label }],
+    crumbs: [{ label: "Ana Sayfa", href: "/" }, { label: "İngilizce Kursları", href: IK }, { label: def.label }],
     hero: {
       caption,
       lead,

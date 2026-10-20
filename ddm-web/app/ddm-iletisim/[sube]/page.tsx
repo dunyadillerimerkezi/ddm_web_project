@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { BranchContactPage } from "@/components/sections/BranchContactPage";
 import { BRANCH_LIST, ALL_BRANCHES_LINE } from "@/data/branches";
 import { getBranchPage } from "@/lib/branchContent";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -35,11 +36,11 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const branch = findBranch(sube);
   if (!branch) return {};
   const page = getBranchPage(branch);
-  return {
+  return withSocial({
     title: page.title,
     description: page.metaDescription,
     alternates: { canonical: absoluteUrl(branch.href) },
-  };
+  });
 }
 
 export default async function Page({ params }: { params: Promise<Params> }) {

@@ -29,7 +29,7 @@ export function TestimonialsPage() {
       <section className={`${hero.section} ${styles.hero}`}>
         <div className={hero.glow} aria-hidden="true" />
         <div className={hero.crumbWrap}>
-          <Breadcrumb items={[{ label: "Anasayfa", href: "/" }, { label: TESTIMONIALS_PAGE.h1 }]} />
+          <Breadcrumb items={[{ label: "Ana Sayfa", href: "/" }, { label: TESTIMONIALS_PAGE.h1 }]} />
         </div>
         <div className={`${hero.grid} ${styles.heroGrid}`}>
           <div className={hero.intro}>

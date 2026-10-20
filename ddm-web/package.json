@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check-links": "node scripts/check-links.mjs"
+    "check-links": "node scripts/check-links.mjs",
+    "check-jsonld": "node scripts/check-jsonld.mjs",
+    "postbuild": "node scripts/check-jsonld.mjs"
   },
   "dependencies": {
     "next": "16.3.5",

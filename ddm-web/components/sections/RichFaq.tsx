@@ -1,5 +1,7 @@
 import { UpdatedDate } from "@/components/sections/SourcesFooter";
 import { Accordion } from "@/components/ui";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqLd } from "@/lib/jsonLd";
 import type { Faq } from "@/lib/types";
 import styles from "@/styles/RichFaq.module.css";
 
@@ -19,6 +21,7 @@ export function RichFaq({ id, title, items, updated }: { id: string; title: stri
           <UpdatedDate updated={updated} />
         </p>
       </div>
+      <JsonLd data={faqLd(items)} where={`RichFaq#${id}`} />
     </section>
   );
 }

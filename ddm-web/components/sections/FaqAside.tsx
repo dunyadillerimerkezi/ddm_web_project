@@ -1,4 +1,6 @@
 import { Accordion, ButtonLink } from "@/components/ui";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqLd } from "@/lib/jsonLd";
 import type { Faq, NavLink } from "@/lib/types";
 import styles from "@/styles/FaqAside.module.css";
 
@@ -35,6 +37,7 @@ export function FaqAside({
         </div>
         <Accordion items={items} name={id} />
       </div>
+      <JsonLd data={faqLd(items)} where={`FaqAside#${id}`} />
     </section>
   );
 }

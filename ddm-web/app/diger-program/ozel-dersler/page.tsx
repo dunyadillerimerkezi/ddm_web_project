@@ -16,6 +16,7 @@ import { isHiddenPath } from "@/data/hiddenPages";
 import { LANGUAGE_PAGES } from "@/data/languages";
 import { getCategoryHubPage } from "@/lib/hubContent";
 import { hubRelated, linkIfProduced } from "@/lib/hubLinks";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -28,11 +29,11 @@ import { absoluteUrl } from "@/lib/site";
 
 export function generateMetadata(): Metadata {
   const page = getCategoryHubPage(PRIVATE_HUB);
-  return {
+  return withSocial({
     title: page.title,
     description: page.description,
     alternates: { canonical: absoluteUrl(PRIVATE_HUB.path) },
-  };
+  });
 }
 
 /** "/yabanci-dil-egitimleri/almanca-kursu/almanca-ozel-ders" → Almanca Kursu (üretilmişse). */
@@ -59,7 +60,7 @@ export default function OzelDerslerHubPage() {
   return (
     <SiteChrome ctaLabel="Bilgi Al">
       <HubHero
-        crumbs={[{ label: "Anasayfa", href: "/" }, { label: "Diğer Programlar", href: "/diger-program" }, { label: PRIVATE_HUB.label }]}
+        crumbs={[{ label: "Ana Sayfa", href: "/" }, { label: "Diğer Programlar", href: "/diger-program" }, { label: PRIVATE_HUB.label }]}
         h1={page.h1}
         lead={page.slots.intro[0] ?? null}
         primary={{ label: "Özel dersleri incele", href: "#dersler" }}

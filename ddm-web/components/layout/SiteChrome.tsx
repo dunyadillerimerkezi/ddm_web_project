@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationLd } from "@/lib/jsonLd";
 import { assertNavSoonFlags } from "@/lib/navAudit";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
@@ -29,6 +31,8 @@ export function SiteChrome({ children, ctaLabel, ctaHref }: SiteChromeProps) {
       <main>{children}</main>
       <SiteFooter />
       <MobileBottomBar ctaHref={ctaHref} />
+      {/* P9: site geneli kurum (EducationalOrganization) — ad / logo header'da, mail + kuruluş yılı footer'da. */}
+      <JsonLd data={organizationLd()} where="SiteChrome" />
     </>
   );
 }

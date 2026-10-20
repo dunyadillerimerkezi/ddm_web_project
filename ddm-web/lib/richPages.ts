@@ -19,6 +19,7 @@ import { getGuidePage, type GuidePage } from "@/lib/guideContent";
 import { getOnlineHubPage, getOnlineLessonPage } from "@/lib/onlineContent";
 import { getPrivateLessonPage, type RichPage } from "@/lib/richContent";
 import { getSinglePage, type SinglePage } from "@/lib/singleContent";
+import { withSocial } from "@/lib/meta";
 import { absoluteUrl } from "@/lib/site";
 
 /** Blok listeli sayfalar (`RichContentPage`), nedir rehberleri (`GuidePage`) ya da tekil sayfalar (`SinglePage`). */
@@ -70,7 +71,7 @@ export function assertNoSlugCollision(route: string, rich: string[], others: str
 
 /** Zengin içerik sayfasının metadata'sı (CLAUDE.md §6). */
 export function richMetadata({ page }: RichEntry): Metadata {
-  return { title: page.title, description: page.description, alternates: { canonical: absoluteUrl(page.href) } };
+  return withSocial({ title: page.title, description: page.description, alternates: { canonical: absoluteUrl(page.href) } });
 }
 
 /** Üretilen tüm zengin içerik yolları (`lib/pageRegistry.ts`). */
