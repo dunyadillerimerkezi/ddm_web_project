@@ -90,6 +90,15 @@
   object-fit: cover;
 }
 
+/* Önemli kısmı üstte olan fotoğraf (ör. "NEVER GIVE UP." yazısı): header'ın arkasına uzanmaz, kırpma üstten. */
+.photoTop {
+  top: 0;
+}
+
+.photoTop .img {
+  object-position: 50% 0;
+}
+
 /* ≤999px: fotoğraf metnin altında, kenardan kenara şerit. */
 @media (max-width: 999px) {
   .section {
@@ -102,7 +111,8 @@
     max-width: none;
   }
 
-  .photo {
+  .photo,
+  .photoTop {
     position: relative;
     order: 2;
     top: auto;

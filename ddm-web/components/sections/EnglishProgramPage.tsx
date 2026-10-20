@@ -28,7 +28,7 @@ export function EnglishProgramPage({ page }: { page: PageData }) {
   return (
     <SiteChrome ctaLabel="Bilgi Al">
       <section className={hero.section}>
-        <div className={hero.photo}>
+        <div className={page.hero.photo.focus === "top" ? `${hero.photo} ${hero.photoTop}` : hero.photo}>
           <Image
             src={page.hero.photo.src}
             alt={page.hero.photo.alt}

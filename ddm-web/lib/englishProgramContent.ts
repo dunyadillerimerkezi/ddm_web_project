@@ -17,7 +17,7 @@ import { linkIfProduced } from "@/lib/hubLinks";
 import { checkMeta, metaTitle, norm } from "@/lib/richContent";
 import type { Crumb, Faq } from "@/lib/types";
 
-type Photo = { src: string; alt: string; width: number; height: number };
+type Photo = { src: string; alt: string; width: number; height: number; focus?: "top" };
 
 export type ProgramResolvedBlock =
   | { kind: "cards"; items: { title: string; icon: IconName; text: string }[] }
@@ -149,7 +149,7 @@ export function getEnglishProgramPage(def: EnglishProgramDef): EnglishProgramPag
     title,
     description,
     h1,
-    crumbs: [{ label: "Anasayfa", href: "/" }, { label: "İngilizce Kursları", href: IK }, { label: def.label }],
+    crumbs: [{ label: "Ana Sayfa", href: "/" }, { label: "İngilizce Kursları", href: IK }, { label: def.label }],
     hero: { lead, photo: def.hero.photo, facts: def.hero.facts.map(({ label, icon }) => ({ label, icon })) },
     strip: PROGRAM_STRIP.map((p) => {
       const href = `${IK}/${p.slug}`;

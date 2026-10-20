@@ -17,7 +17,8 @@ import type { IconName } from "@/components/graphics/icons";
 import { IK } from "@/data/englishLevels";
 import type { Faq } from "@/lib/types";
 
-type Photo = { src: string; alt: string; width: number; height: number };
+/** `focus: "top"` — önemli kısmı fotoğrafın üstünde (yazı vb.): hero'da header'ın altından başlar, kırpma üstten. */
+type Photo = { src: string; alt: string; width: number; height: number; focus?: "top" };
 
 export type ProgramBlock =
   /** Kaynak cümleleri sırayla ikonlu kartlara (başlık arayüz etiketi). */
@@ -338,7 +339,8 @@ const YKS: EnglishProgramDef = {
   meta: { brandSuffix: true, reasons: [BRAND_SUFFIX_REASON] },
   hero: {
     lead: { src: { heading: YKS_H1, take: [0] }, sentence: 1 },
-    photo: { src: "/assets/study_exam.jpg", alt: "Sınava hazırlık masası: notlar, kitaplar ve saat", width: 735, height: 581 },
+    // "NEVER GIVE UP." yazısı fotoğrafın en üstünde: header arkasında / ortalı kırpmada "NEVER" kayboluyordu (kullanıcı, 2026-10-20).
+    photo: { src: "/assets/study_exam.jpg", alt: "Sınava hazırlık masası: notlar, kitaplar ve saat", width: 735, height: 581, focus: "top" },
     facts: [
       { label: "80 soru · 120 dakika", icon: "sure", basis: "general" },
       { label: "YKS'nin 3. oturumu (YDT)", icon: "takvim", basis: "general" },
