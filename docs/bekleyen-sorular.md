@@ -7,6 +7,23 @@
 **2026-09-30:** müşterinin 21 soruluk formundaki 20 cevap koda işlendi ve bu dosyadan silindi (kararlar:
 `SESSION-HANDOFF.md` §D, kalıcı olanlar `ddm-web/CLAUDE.md` §5 / §9). Formdan açık kalan tek soru aşağıda (#1).
 
+## P9 · Yayın öncesi son kat (2026-10-19)
+
+1. **Facebook ve YouTube hesapları Bağdat Caddesi şubesinin bilgileriyle açılmış. Kurumun genel hesabı mı olacak, şube hesabı
+   mı kalacak?** Facebook (`facebook.com/dunyadillerimerkezi`) sayfasında adres "Bağdat Caddesi, Zümrüt Apt. No:386/7", telefon
+   "(0216) 368 07 03", web sitesi ddmcadde.com; YouTube kanalının adı "Dünya Dilleri Merkezi Bağdat Caddesi". Kurumun hesabı diye
+   bağlanırsa Google'a ve yapay zekâya çelişkili adres / telefon gider → şimdilik footer'da da yapısal veride (`sameAs`) de YOK
+   (kullanıcı kararı 2026-10-19). Cevaba göre `ddm-web/lib/nav.ts` `SOCIAL_LINKS`'e satır eklenir; ikonlar hazır.
+   *(Bilgi: X hesabı `x.com/dunyadilleri` 2018'den beri kullanılmıyor — konmadı, sorulmayacak.)*
+
+2. **Beyaz yazı + açık mavi zemin 3,1:1 — kullanıcı şimdilik eski tonda bıraktı (2026-10-20).** Erişilebilirlik taramasında
+   (Adım 5) WCAG AA'nın (küçük yazı 4,5:1) altında kalan, açık mavi (`--ddm-sky-base`, panoda `--ddm-sky-mid`) zemin üzerinde beyaz
+   yazılı öğeler: kurs takviminde hafta sonu kutuları (`WeekSchedule`), kurs tarihi kartlarında hafta sonu gün çipleri
+   (`Primitives` `.dayOnWeekend`) ve tablo hücreleri (`WeekGrid`), Kadıköy tanıtımında "Özel ders formatında" rozeti
+   (`BranchPromoPage` `.columnBadge`), İngilizce seviye merdiveninde seçili seviye kodu (`EnglishLevelPage`), haftalık panoda hafta
+   sonu blokları ve renk açıklaması (`WeekBoard`, 4,1:1). Zemini `--ddm-sky-ink`'e almak 5,7:1 veriyordu; önce/sonra görüntüsü
+   Masaüstü → DDM-taslaklar → erisilebilirlik. Karar verilince tek satırlık değişiklik.
+
 ## P8 · Yönlendirmeler (2026-10-02)
 
 1. **Kariyer sayfası açılacak (form içerecek), açılınca geçici yönlendirme kaldırılacak.** Şu an eski

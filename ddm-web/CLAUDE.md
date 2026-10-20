@@ -421,6 +421,12 @@ ddm-web/
 > - **"Arapça" DDM'nin dil listelerinde yok (kullanıcı, 2026-09-30):** kaynakta geçen yerler `edits` ile çıkarıldı
 >   (`data/hubs.ts` `LANGUAGE_LIST_EDITS`, `home.ts`, `branchPromo.ts`, `otherPrograms.ts`); Arap harfli selam da şeritten
 >   kalktı. Yeni sayfada dil listesine Arapça EKLEMEYİN. İstisna: ÖSYM'nin sınav dili listeleri (YDS Nedir, YÖKDİL) aynen kalır.
+> - **Erişilebilirlik (P9 Adım 5, kullanıcı 2026-10-20):** açık zeminde metin en az WCAG AA (küçük yazı 4,5:1). Yardımcı gri
+>   `--ddm-gray-500` = #686a74 (önce #7c7e88, 4,0:1). Açık zeminde küçük mavi etiket (kicker) `--ddm-sky-ink`; `--ddm-sky-400`
+>   yalnız KOYU zeminde, `--ddm-sky-mid` metin rengi değil. `--ddm-gray-400` metin rengi olarak kullanılmaz (etiket / pasif gün
+>   → gray-500). **İstisna (şimdilik):** açık mavi zemin (`--ddm-sky-base` / panoda `--ddm-sky-mid`) üzerinde beyaz yazı 3,1:1
+>   kalır — kullanıcı eski tonda bıraktı, `../docs/bekleyen-sorular.md` P9 #2. Her sayfada "İçeriğe geç" (`SiteChrome`, hedef
+>   `main#icerik`); dokunma hedefi ≥ 24 px; çerçevesi kapalı girdi / iframe odak halkasını kapta gösterir (`:focus-within`).
 > - Ortam hareketleri yalnız transform + token (`--duration-kenburns/-float/-marquee`);
 >   globals.css reduced-motion kuralı hepsini durdurur.
 > - **Dil Kursu (2026-09-25):** her dilin İKİ ayrı fotoğrafı var (`heroPhoto` yatay, `benefitsPhoto` kareye yakın;

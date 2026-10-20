@@ -85,6 +85,38 @@ KAPANIŞ: SESSION-HANDOFF §A + §D, PROGRESS. Commit'i kullanıcıya sor; kod v
 
 ## §D — Oturum günlüğü  *(en yeni üstte, yalnız eklenir)*
 
+### 2026-10-19/20 · Opus 5.5 · P9-A Yayın öncesi son kat — Adım 0–5 bitti, Adım 6–7 kaldı — commit edildi (push yok)
+- **Adım 2 · JSON-LD:** `lib/jsonLd.ts` (kurucular + `assertJsonLd`: fiyat / puan / `Review` yasak, zorunlu alan, gizli sayfa),
+  `components/seo/JsonLd.tsx`, `scripts/check-jsonld.mjs` (`postbuild`; tanımsız alan, görünürlük, sayfa başına tekrar, `<main>`'in
+  ilk çocuğu script olamaz, SSS maddesi soru biçiminde olmalı). Kurum (her sayfa), WebSite, Breadcrumb, Course (dil + sınav),
+  Article (nedir), FAQPage, LocalBusiness (yalnız 5 şube iletişim sayfası; saatler `data/branches.ts` `OPENING_HOURS`, 5 şubede aynı).
+  **Ders:** JSON-LD `<main>`'in başına konunca `main > :first-child` kuralı script'e uygulandı, 46 sayfada header'ın arkası beyaz
+  kaldı → script'ler ebeveynin SONUNDA, globals.css'e `:nth-child(1 of :not(script))` yedeği, build denetimi; 202×2 tarama 0.
+- **Adım 3 · Paylaşım görseli:** `lib/ogImage.tsx` (tasarım A) + 7 `opengraph-image.tsx` (66 görsel); `lib/meta.ts` `withSocial`;
+  `check-metadata.mjs` og denetimi. Footer'da yalnız Instagram (`SOCIAL_LINKS`); FB / YouTube bekleyen soru. Kırıntı "Ana Sayfa".
+- **Adım 4 · GEO:** `/llms.txt` build'de veriden (`app/llms.txt/route.ts`, menü ağacından, gizli / kurs tarihi yok, dil sayısı yok).
+  TOEFL Nedir kısa cevabına "ETS'nin düzenlediği"; 8 IELTS / TOEFL kurs tarihi girişinde "{Şube} şubesi olarak {yıl}" → "Dünya Dilleri
+  Merkezi olarak 2003’ten bu yana" + "profesyonel" (`data/courseDateMeta.ts` `COURSE_DATE_INTRO_EDITS`); TOEFL ücret cevabı "Güncel
+  sınav ücreti ETS'nin resmî sitesinde yer alır." + ETS ücret sayfası bağlantısı (`Faq.link`); SAT: yeni "Dijital SAT (2024'ten beri)"
+  bölümü, eski notlar tekrar etmeyecek şekilde bölüm başına (`prepend`); GMAT "Güncel durum" bölüm başına; GMAT / YÖKDİL / Proficiency
+  SSS (4'er soru, kaynaklar `data/exams.ts` yorumunda). SSS yapısal verisine yalnız soru biçimindekiler (`isQuestion`).
+- **Adım 5 · Erişilebilirlik:** paketsiz CDP taraması (202 sayfa × 2 + 16 sayfa klavye). Onaylanan: `--ddm-gray-500` #686a74, açık
+  zeminde kicker `--ddm-sky-ink`, metin olarak `--ddm-gray-400` yerine gray-500, menü oku 24 px, "İçeriğe geç" (`SiteChrome`,
+  `main#icerik`), harita + üniversite arama odak halkası. **Geri alınan:** beyaz yazı + açık mavi zeminler (bekleyen soru).
+  Önce / sonra: Masaüstü → DDM-taslaklar → erisilebilirlik.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ (JSON-LD temiz, FAQPage 66) · check-links 0 ölü · check-metadata P8 ile aynı.
+- **Kalan:** Adım 6 Core Web Vitals, Adım 7 kapanış (code-review high, simplify, check-redirects, PROGRESS / §A / CLAUDE.md JSON-LD
+  kuralı). HED Health dosyası takipsiz — hiçbir commit'e girmez.
+
+### 2026-10-20 · Opus 5.5 · YKS Dil İngilizce hero fotoğrafı — "NEVER" görünmüyordu — commit edildi (push yok)
+- **Neden:** `study_exam.jpg`'deki "NEVER GIVE UP." yazısı fotoğrafın en üstünde. Masaüstünde hero fotoğrafı header'ın
+  arkasına uzandığı için "NEVER" beyaz header'ın altında kalıyordu; mobil şeritte ortalı kırpma üstü kesiyordu.
+- **Yapılan:** İngilizce program fotoğraflarına isteğe bağlı `focus: "top"` (`data/englishPrograms.ts`,
+  `lib/englishProgramContent.ts`); `EnglishProgramPage` bunu `RichHero.module.css` `.photoTop` sınıfına çevirir: masaüstünde
+  fotoğraf header'ın altından başlar (`top: 0`), kırpma üstten (`object-position: 50% 0`). Yalnız YKS fotoğrafında açık;
+  diğer hero'lar aynen.
+- **Doğrulama:** tsc ✅ · lint ✅ · build ✅ · 1440 / 1100 / 390 / 360: "NEVER GIVE UP." tam görünüyor, taşma yok, konsol hatası yok.
+
 ### 2026-10-02/03 · Opus 5.5 · P8 — Eski adresler, metadata denetimi, temizlik — `067bfb6`
 - **Yönlendirmeler (`next.config.ts`):** genel `.html` kuralı dizinin EN SONUNA (gizli sınavlar negatif lookahead ile hariç →
   doğrudan 404; liste `data/hiddenPages.ts`'ten üretilir). Tüm kalıcı kurallar `statusCode: 301` (Next `permanent` 308
