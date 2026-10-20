@@ -198,7 +198,7 @@ export type FaqBlockRef = {
   id?: string;
   /** Varsayılan "SIKÇA SORULAN SORULAR". */
   kicker?: string;
-  items: { heading: string; format?: "prose" | "list"; question?: string }[];
+  items: { heading: string; format?: "prose" | "list"; question?: string; link?: Faq["link"] }[];
 };
 
 /**
@@ -668,6 +668,7 @@ export function getExamPage(def: ExamDef): ExamPage {
           question: it.question ?? clean(it.heading),
           answer: take(it.heading, "all", `${slot}/items[${j}]`),
           format: it.format ?? "prose",
+          ...(it.link && { link: it.link }),
         }));
         return { kind: "faq", id: b.id ?? "sss", kicker: b.kicker ?? "SIKÇA SORULAN SORULAR", title: b.title, items };
       }

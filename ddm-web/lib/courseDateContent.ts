@@ -24,7 +24,7 @@
  */
 
 import { BRANCHES, currentBranchName } from "@/data/branches";
-import { COURSE_DATE_META_EDITS } from "@/data/courseDateMeta";
+import { COURSE_DATE_INTRO_EDITS, COURSE_DATE_META_EDITS } from "@/data/courseDateMeta";
 import { applyMetaEdit } from "@/lib/meta";
 import siteContent from "@/data/site_content.json";
 import { parseRecord, SectionResolver, ContentSectionsError, type SiteContentRecord } from "./contentSections";
@@ -130,6 +130,19 @@ function quickFacts(
   return facts;
 }
 
+/** Giriş paragrafındaki onaylı firma cümlesi düzeltmeleri (`data/courseDateMeta.ts`) — parça tam bir kez geçmeli. */
+function applyIntroEdits(paras: string[], href: string, context: string): string[] {
+  const edit = COURSE_DATE_INTRO_EDITS[href];
+  if (!edit) return paras;
+  let out = paras;
+  for (const { from, to } of edit.edits) {
+    const hits = out.reduce((n, p) => n + p.split(from).length - 1, 0);
+    if (hits !== 1) throw new ContentSectionsError(`${context}: giriş düzeltmesi ${hits} kez eşleşti (tam 1 olmalı) — "${from}"`);
+    out = out.map((p) => p.replace(from, to));
+  }
+  return out;
+}
+
 export function getCourseDatePage(entry: CourseDateEntry): CourseDatePage {
   const context = `courseDateContent[${entry.pageSlug}]`;
   const record = findRecord(entry.sourcePath);
@@ -145,7 +158,11 @@ export function getCourseDatePage(entry: CourseDateEntry): CourseDatePage {
     console.warn(`[h1-fallback] ${context}: h1 yok, ilk başlığa (${record.headings[0].level}) düşüldü`);
   }
 
-  const introParas = resolver.take({ heading: titleHeading, take: "all" }, `${context}: giriş`) ?? [];
+  const introParas = applyIntroEdits(
+    resolver.take({ heading: titleHeading, take: "all" }, `${context}: giriş`) ?? [],
+    `/${entry.category}/${entry.courseSlug}/${entry.pageSlug}`,
+    context,
+  );
 
   const programs: ProgramBlock[] = entry.programs.map((p) => {
     const paras = resolver.take({ heading: p.heading, take: "all" }, `${context}: ${p.kind}`) ?? [];
@@ -183,7 +200,7 @@ export function getCourseDatePage(entry: CourseDateEntry): CourseDatePage {
   const branchLabel = BRANCHES[entry.branch].name;
 
   const crumbs: Crumb[] = [
-    { label: "Anasayfa", href: "/" },
+    { label: "Ana Sayfa", href: "/" },
     { label: entry.crumbRoot, href: entry.crumbRootHref },
     { label: entry.crumbCourse, href: entry.crumbCourseHref },
     { label: `${branchLabel} Şubesi` },

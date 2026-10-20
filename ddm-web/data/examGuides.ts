@@ -270,8 +270,12 @@ const TOEFL: ExamGuideDef = {
     "IELTS resmi sayfası (ielts.org)",
     "Pearson — PTE Academic (pearsonpte.com)",
   ],
-  updated: "2026-09-26",
+  updated: "2026-10-19",
   edits: {
+    // P9 (GEO, kullanıcı onayı 2026-10-19): kısa cevap diğer rehberler gibi düzenleyeni söylesin — ets.org/toefl
+    // ("The TOEFL iBT test … by ETS"). Cümlenin geri kalanı aynen.
+    "TOEFL ana dili İngilizce olmayan kişilerin İngilizce seviyesini ölçen, bilgisayar tabanlı yetkin bir sınav sistemidir. Yurt içinde ve yurt dışında birçok yüksek öğrenim kurumu, özel şirket ve kamu kuruluşları tarafından kabul edilmektedir.":
+      "TOEFL, ETS'nin düzenlediği ve ana dili İngilizce olmayan kişilerin İngilizce seviyesini ölçen, bilgisayar tabanlı yetkin bir sınav sistemidir. Yurt içinde ve yurt dışında birçok yüksek öğrenim kurumu, özel şirket ve kamu kuruluşları tarafından kabul edilmektedir.",
     "Merkezi Amerika'da bulanan ETS tarafından düzenli bir şekilde dünyanın pek çok ülkesinde gerçekleştirilir. TOEFL iBT sınavı, İngilizce'yi üniversite seviyesinde kullanma ve anlama yeteneğinizi ölçer.":
       "TOEFL, merkezi ABD'de bulunan ETS tarafından dünyanın pek çok ülkesinde düzenli olarak yapılır. TOEFL iBT, İngilizceyi üniversite düzeyinde kullanma ve anlama becerinizi ölçer.",
     "Okuma, Yazma, Konuşma ve Dinleme becerilerinizi akademik görevleri yerine getirirken ne kadar iyi bir şekilde birleştirdiğinizi de değerlendirir.":

@@ -95,7 +95,11 @@ const TOEFL: ExamDef = {
       items: [
         { heading: "TOEFL IBT kursu için hangi seviyede İngilizce gerekir?" },
         { heading: "TOEFL IBT sınavının süresi ve puanlaması nedir?" },
-        { heading: "TOEFL IBT sınavının ücreti nedir?" },
+        {
+          heading: "TOEFL IBT sınavının ücreti nedir?",
+          // ETS "TOEFL iBT Test Fees" — ücret sınava girilen ülkeye göre, sayfadaki ülke seçicisinde.
+          link: { label: "ETS · TOEFL iBT sınav ücretleri", href: "https://www.ets.org/toefl/test-takers/ibt/register/fees.html" },
+        },
         { heading: "TOEFL IBT sınavı testine Türkiye'de nerede girebilirim?" },
         { heading: "TOEFL IBT test sınavına nasıl kayıt olunur?" },
       ],
@@ -109,10 +113,9 @@ const TOEFL: ExamDef = {
     // 21 Ocak 2026'dan itibaren 1–6 ölçeği (ETS "Understanding Your Scores").
     "TOEFL sınavının her bir bölümü 0–30 puan olup toplamda 120 puan üzerinden değerlendirilir.":
       "21 Ocak 2026'dan itibaren TOEFL iBT puanları 1–6 ölçeğinde, yarım puanlık aralıklarla verilir. Her bölüm ayrı puanlanır; genel puan dört bölümün ortalamasıdır ve Avrupa Ortak Dil Çerçevesi (CEFR) seviyeleriyle eşleşir.",
-    // Tutar ETS'nin etkileşimli tablosunda; resmi olarak doğrulanamadı → tutar
-    // korunur, güncellik uyarısı eklenir (kullanıcıdan güncel tutar istendi).
-    "TOEFL IBT sınavının Türkiye'deki ücreti 185 dolardır.":
-      "TOEFL IBT sınavının Türkiye'deki ücreti 185 dolardır. Ücret ETS tarafından ABD doları cinsinden belirlenir ve dönem dönem güncellenir; kayıt olmadan önce güncel tutarı ets.org/toefl üzerinden kontrol etmenizi öneririz.",
+    // P9 (kullanıcı kararı, 2026-10-19): tutar ÇIKTI — sebep "fiyat yok" kuralı değil (o kural DDM'nin kurs
+    // fiyatları için), rakamın eskimesi. Ücret ülkeye göre ETS'nin ücret sayfasında; bağlantı soruda (`link`).
+    "TOEFL IBT sınavının Türkiye'deki ücreti 185 dolardır.": "Güncel sınav ücreti ETS'nin resmî sitesinde yer alır.",
     // toefl.org artık ETS'ye yönleniyor; dış adres düz metin (tıklanır link değil).
     "Dünyanın pek çok ülkesinde olduğu gibi Türkiye'de de TOEFL test merkezleri bulunmaktadır. Size en yakın sınav merkezi için toefl.org adresini ziyaret edebilirsiniz.":
       "Dünyanın pek çok ülkesinde olduğu gibi Türkiye'de de TOEFL test merkezleri bulunmaktadır. Kayıt, ETS'nin resmi sitesi ets.org/toefl üzerinden oluşturacağınız hesapla yapılır; size en yakın sınav merkezini ve uygun tarihleri kayıt sırasında seçebilirsiniz.",
@@ -146,7 +149,35 @@ const YOKDIL: ExamDef = {
   code: "YÖKDİL",
   illustration: "kampus",
   hero: { heading: null },
-  blocks: [{ kind: "prose", heading: "YÖKDİL Nedir?", kicker: "SINAV HAKKINDA" }],
+  blocks: [
+    { kind: "prose", heading: "YÖKDİL Nedir?", kicker: "SINAV HAKKINDA" },
+    {
+      // P9 (kullanıcı onayı 2026-10-20) — ÖSYM 2026-YÖKDİL/1 kılavuzu (dokuman.osym.gov.tr/pdfdokuman/2026/YOKDIL-1/
+      // kilavuz_ykdl1d21012026.pdf): md. 1.1 alan / dil / "yılda iki kez", md. 1.7 geçerlilik, bölüm 3 "soru sayısı 80,
+      // sınav süresi 180 dakika" + soru türleri, 3.8 "yalnız doğru cevaplar dikkate alınacak … 100 üzerinden".
+      // Arapça ÖSYM'nin dil listesi olduğu için aynen (CLAUDE.md §9 Arapça istisnası). Sayfadaki tarih / başvuru bölümü tekrar edilmez.
+      kind: "addedFaq",
+      title: "YÖKDİL hakkında sık sorulanlar",
+      items: [
+        {
+          question: "YÖKDİL kaç soru, kaç dakika?",
+          answer: ["80 çoktan seçmeli soru, 180 dakika. Sorular sözcük bilgisi, dil bilgisi, çeviri ve okuduğunu anlama üzerinedir."],
+        },
+        {
+          question: "YÖKDİL hangi alanlarda ve dillerde yapılır?",
+          answer: ["İngilizcede Fen Bilimleri, Sağlık Bilimleri ve Sosyal Bilimler; Almanca, Arapça ve Fransızcada yalnız Sosyal Bilimler alanında. Bir dönemde yalnız bir dil ve alandan sınava girilir."],
+        },
+        {
+          question: "Yanlış cevaplar doğruları götürür mü?",
+          answer: ["Hayır. Yalnız doğru cevaplar sayılır; puan 100 üzerinden hesaplanır."],
+        },
+        {
+          question: "YÖKDİL sonucu kaç yıl geçerli?",
+          answer: ["Lisansüstü eğitim ve yabancı dil hazırlık muafiyetinde 5 yıl; öğretim elemanı kadroları ve doçentlik başvurularında süresiz."],
+        },
+      ],
+    },
+  ],
   edits: {
     // Şube listesi düzeltmesi: kaynakta "Pendik" geçiyor ama bugünkü şubeler
     // data/branches.ts'te (Pendik yok, Ümraniye var).
@@ -391,6 +422,33 @@ const PROFICIENCY: ExamDef = {
       take: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
       icon: "kupa",
     },
+    {
+      // P9 (kullanıcı onayı 2026-10-20) — genel bilgi, tek üniversitenin formatı genel diye yazılmaz (kullanıcı):
+      // YÖK Yükseköğretim Kurumlarında Yabancı Dil Öğretimi ve Yabancı Dille Öğretim Yönetmeliği (RG 23.03.2016/29662)
+      // md. 6/3-b (kabul edilen merkezi / uluslararası sınavla muafiyet, puanı senato belirler); bölüm çeşitliliği
+      // `data/universityExams.ts`teki 19 üniversitenin resmi kaynaklı kayıtları (ör. BUEPT: dinleme / okuma / yazma;
+      // İTÜ: iki oturum, dil kullanımı dahil) — `data/examGuides.ts` Proficiency Nedir ile aynı olgular.
+      kind: "addedFaq",
+      title: "Proficiency hakkında sık sorulanlar",
+      items: [
+        {
+          question: "Proficiency sınavı her üniversitede aynı mı?",
+          answer: ["Hayır. Her üniversite kendi sınavını hazırlar; bölümler, soru tipleri ve geçme puanı üniversiteden üniversiteye değişir."],
+        },
+        {
+          question: "Sınavda hangi bölümler olur?",
+          answer: ["Çoğu sınavda okuma, dinleme ve yazma vardır; bazı üniversiteler dil kullanımı ya da konuşma bölümü ekler."],
+        },
+        {
+          question: "Proficiency yerine uluslararası sınav sonucu kullanılabilir mi?",
+          answer: ["Evet. YÖK yönetmeliğine göre, üniversitenin kabul ettiği merkezi ya da uluslararası sınavlarda senatonun belirlediği puanı alanlar hazırlıktan muaf olur."],
+        },
+        {
+          question: "Proficiency sınavı ne zaman yapılır?",
+          answer: ["Üniversiteye göre değişir; tarihleri her üniversitenin yabancı diller okulu duyurur."],
+        },
+      ],
+    },
     { kind: "universities" },
   ],
   // "Kurs Programı" sayfasından taşınacak kayda değer bilgi çıkmadı: tek özgün
@@ -618,13 +676,48 @@ const GMAT: ExamDef = {
       ],
     },
     { kind: "prose", heading: "GMAT (Graduate Management Admission Test)", kicker: "SINAV HAKKINDA" },
-    { kind: "prose", heading: "GMAT Sınavı Dört Bölümden Oluşur", kicker: "SINAV YAPISI" },
+    {
+      kind: "prose",
+      heading: "GMAT Sınavı Dört Bölümden Oluşur",
+      kicker: "SINAV YAPISI",
+      // GMAT Focus Edition (2023 sonu): 3 bölüm, 2 sa 15 dk, 205–805 puan.
+      // P9 (2026-10-20): bölümün başına alındı — sonda "Ayrıntılı bilgi" altında gizli kalıyor, ziyaretçi önce eski
+      // "dört bölüm"ü görüyordu (yeni SSS "üç bölüm" diyor). Metin aynı.
+      prepend: ["Güncel durum: GMAT, 2023 sonunda GMAT Focus Edition'a geçti. Sınav bugün üç bölümden oluşuyor — Nicel Akıl Yürütme, Sözel Akıl Yürütme ve Veri İçgörüleri (Data Insights) — toplam süre 2 saat 15 dakika. Analitik Yazma Değerlendirmesi kaldırıldı, Bütünleşik Akıl Yürütmenin yerini Veri İçgörüleri aldı ve toplam puan 205–805 aralığında veriliyor. Aşağıdaki bölüm açıklamaları sınavın önceki sürümünü anlatmaktadır."],
+    },
     { kind: "prose", heading: "Analitik Yazma Değerlendirmesi (AYD)", kicker: "ANALİTİK YAZMA" },
     { kind: "prose", heading: "Bütünleşik Akıl Yürütme", kicker: "BÜTÜNLEŞİK AKIL YÜRÜTME", take: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] },
     { kind: "prose", heading: "Nicel bölüm", kicker: "NİCEL BÖLÜM" },
     { kind: "prose", heading: "İki tür nicel sorusu vardır, problem çözme ve veri yeterliliği.", kicker: "NİCEL SORU TİPLERİ" },
     { kind: "prose", heading: "Sözel bölüm", kicker: "SÖZEL BÖLÜM" },
     { kind: "prose", heading: "GMAT Puanlama Sistemi", kicker: "PUANLAMA", take: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+    {
+      // P9 (kullanıcı onayı 2026-10-20) — GMAC: mba.com "GMAT Focus" (bölüm başına 45 dk, isteğe bağlı 10 dk mola, bölüm
+      // sırası adayın seçimi; bölüm puanı 60–90, üç bölüm eşit ağırlık), mba.com FAQ (5 yıl geçerli; 12 ayda 5 giriş, iki
+      // giriş arası 16 gün), "Test Center / Online" belgesi (aynı sınav, iki ortam). Ömür boyu giriş sınırı resmi
+      // sayfalarda çelişkili (8 / sınır yok) → yazılmadı. Bölümler, toplam süre ve 205–805 yukarıdaki "Güncel durum"da —
+      // burada tekrar edilmez. Doğrulama 2026-10-19.
+      kind: "addedFaq",
+      title: "GMAT hakkında sık sorulanlar",
+      items: [
+        {
+          question: "GMAT'ta her bölüm kaç dakika?",
+          answer: ["Üç bölümün her biri 45 dakikadır; isteğe bağlı 10 dakikalık bir mola vardır. Bölümlerin sırasını sınav günü siz seçersiniz."],
+        },
+        {
+          question: "Bölüm puanları nasıl verilir?",
+          answer: ["Her bölüm 60–90 arasında puanlanır ve üç bölüm toplam puana eşit ağırlıkla katılır."],
+        },
+        {
+          question: "GMAT puanı kaç yıl geçerli?",
+          answer: ["5 yıl."],
+        },
+        {
+          question: "GMAT'a evden girilebilir mi, kaç kez girilebilir?",
+          answer: ["Sınav test merkezinde ya da online (evden) yapılır. 12 ay içinde en fazla 5 kez girilebilir; iki sınav arasında en az 16 gün olmalıdır."],
+        },
+      ],
+    },
     {
       kind: "branchLinks",
       heading: "GMAT Eğitim Programı Plan Tablosu ve Kurs Tarihleri",
@@ -639,12 +732,6 @@ const GMAT: ExamDef = {
     { kind: "drop", heading: "GMAT Puanlama Sistemi", take: "rest", reason: "tablo hücreleri, aynı bilgi metinde var" },
     { kind: "drop", heading: "Bütünleşik Akıl Yürütme", take: "rest", reason: "tablo hücreleri, aynı bilgi metinde var" },
   ],
-  additions: {
-    "GMAT Sınavı Dört Bölümden Oluşur": [
-      // GMAT Focus Edition (2023 sonu): 3 bölüm, 2 sa 15 dk, 205–805 puan.
-      "Güncel durum: GMAT, 2023 sonunda GMAT Focus Edition'a geçti. Sınav bugün üç bölümden oluşuyor — Nicel Akıl Yürütme, Sözel Akıl Yürütme ve Veri İçgörüleri (Data Insights) — toplam süre 2 saat 15 dakika. Analitik Yazma Değerlendirmesi kaldırıldı, Bütünleşik Akıl Yürütmenin yerini Veri İçgörüleri aldı ve toplam puan 205–805 aralığında veriliyor. Aşağıdaki bölüm açıklamaları sınavın önceki sürümünü anlatmaktadır.",
-    ],
-  },
   // Gövdesiz başlıklar: "Makale Puanı Açıklama" ve altındaki puan etiketleri
   // satırı — kaynakta da altında metin yok.
   ignored: ["Makale Puanı Açıklama", "Eksik yazı, Hatalı yazı, Sınırlı yazı, Yeterli yazı, Güçlü yazı, Çok iyi yazı"],
@@ -762,11 +849,46 @@ const SAT: ExamDef = {
         "Sertifika programları",
       ],
     },
-    { kind: "prose", heading: "SAT Sınavının Yapısı Hakkında Bilgi", kicker: "SINAV YAPISI" },
+    {
+      // P9 (kullanıcı onayı 2026-10-20): bugünkü sınav — College Board "How the SAT Is Structured"
+      // (satsuite.collegeboard.org/sat/whats-on-the-test/structure: Reading and Writing 64 dk / 54 soru,
+      // Math 70 dk / 44 soru, iki eşit modül, ikinci modül ilkine göre), newsroom.collegeboard.org (dijital:
+      // uluslararası Mart 2023, ABD Mart 2024), "Assessment Framework for the Digital SAT Suite" (4 seçenekli
+      // çoktan seçmeli; Matematiğin ~%25'i cevabı yazılan soru). Doğrulama 2026-10-19.
+      kind: "addedStructure",
+      title: "Dijital SAT (2024'ten beri)",
+      lead:
+        "SAT, uluslararası merkezlerde Mart 2023'ten, ABD'de Mart 2024'ten beri yalnız dijital yapılıyor; sınav College Board'un Bluebook uygulamasıyla test merkezinde çözülür. İki bölüm, toplam 2 saat 14 dakika (arada 10 dakikalık mola). Her bölüm iki modüle ayrılır; ikinci modülün zorluğu ilk moduldeki performansa göre belirlenir. Puan 400–1600 (her bölüm 200–800).",
+      sections: [
+        { name: "Okuma ve Yazma", skill: "Reading and Writing", icon: "okuma", parts: [{ title: "", meta: [{ icon: "sure", text: "64 dk" }, { icon: "soru", text: "54 soru" }, { icon: "kisim", text: "2 modül" }] }] },
+        { name: "Matematik", skill: "Math", icon: "soru", parts: [{ title: "", meta: [{ icon: "sure", text: "70 dk" }, { icon: "soru", text: "44 soru" }, { icon: "kisim", text: "2 modül" }] }] },
+      ],
+    },
+    {
+      kind: "prose",
+      heading: "SAT Sınavının Yapısı Hakkında Bilgi",
+      kicker: "SINAV YAPISI",
+      // P9: güncel yapı yukarıdaki "Dijital SAT" bölümünde (aynı bilgi iki kez görünmesin — kullanıcı 2026-10-20).
+      // Bölüm başına (prepend): sonda "Ayrıntılı bilgi" altında gizli kalıyordu.
+      prepend: ["Not: Bu bölüm ve devamı sınavın kâğıt üzerindeki önceki sürümünü anlatır; bugünkü yapı yukarıdaki \"Dijital SAT\" bölümündedir."],
+    },
     { kind: "prose", heading: "SAT - Eleştirel Okuma", kicker: "ELEŞTİREL OKUMA" },
     { kind: "prose", heading: "SAT - Matematik", kicker: "MATEMATİK" },
-    { kind: "prose", heading: "SAT - Yazma", kicker: "YAZMA" },
-    { kind: "prose", heading: "SAT - Soru Stilleri", kicker: "SORU STİLLERİ" },
+    {
+      kind: "prose",
+      heading: "SAT - Yazma",
+      kicker: "YAZMA",
+      // College Board (allaccess.collegeboard.org, "An Update on Reducing and Simplifying Demands on Students"):
+      // makale Haziran 2021'den sonra kalktı. Dijital SAT'ta yazma becerisi Okuma ve Yazma bölümünde ölçülür.
+      prepend: ["Not: Bugünkü SAT'ta ayrı bir yazma bölümü yok; yazma becerisi Okuma ve Yazma bölümündeki çoktan seçmeli sorularla ölçülür."],
+    },
+    {
+      kind: "prose",
+      heading: "SAT - Soru Stilleri",
+      kicker: "SORU STİLLERİ",
+      // Digital SAT Assessment Framework: "four-option multiple-choice"; puan kesme 2016'da kalktı (aşağıdaki bölüm).
+      prepend: ["Not: Bu bölüm eski sınavın puanlamasını anlatır; yanlış cevaba puan kesme 2016'da kalktı (bkz. \"Tahminde Bulunmanın Cezası Yok\"). Dijital SAT'ta çoktan seçmeli sorular dört seçeneklidir."],
+    },
     {
       // Kaynakta bu yedi bölüm tek bir konunun (2016 yenilemesi) alt başlıkları;
       // arka arkaya düz metin olarak basıldığında sayfa okunmaz hâle geliyordu.
@@ -802,6 +924,10 @@ const SAT: ExamDef = {
     },
   ],
   edits: {
+    // P9 (kullanıcı onayı 2026-10-20): gelecek zaman bayat + yazım ("eksem") — College Board newsroom
+    // "One Year Since First Administration in March 2016".
+    "College Board, 5 Mart 2014 yılında, sınavı lise öğrencilerinin sınıf ortamında öğrendikleri ders içeriklerine daha yakın hale getirmek üzere SAT'yi yeniden tasarlama planını duyurdu. Yeni eksem, ilk kez 2016 yılı bahar döneminde uygulanacaktır.":
+      "College Board, 5 Mart 2014 yılında, sınavı lise öğrencilerinin sınıf ortamında öğrendikleri ders içeriklerine daha yakın hale getirmek üzere SAT'yi yeniden tasarlama planını duyurdu. Yeni sınav ilk kez Mart 2016'da uygulandı.",
     // Kaynak cümlesi kendi içinde çelişiyordu ("izin verilirken … izin verilmez").
     // Dijital SAT'ta matematik bölümünün tamamında hesap makinesi serbest;
     // sınav yazılımının içinde Desmos hesap makinesi gömülü geliyor.
@@ -809,12 +935,11 @@ const SAT: ExamDef = {
       "Dijital SAT'ta matematik bölümünün tamamında hesap makinesi serbesttir: sınav uygulamasının içinde Desmos grafik hesap makinesi gömülü gelir, isterseniz kendi onaylı hesap makinenizi de kullanabilirsiniz. QWERTY klavyeli hesap makineleri, cep telefonu hesap makineleri, taşınabilir bilgisayarlar ve kişisel organizatörler kabul edilmez.",
   },
   additions: {
-    "SAT Sınavının Yapısı Hakkında Bilgi": [
-      // Dijital SAT (2024'ten beri): 2 bölüm, 2 sa 14 dk, uyarlanabilir modüller.
-      "Güncel durum: SAT 2024'ten beri tamamen dijital uygulanıyor ve iki bölümden oluşuyor — Okuma ve Yazma (64 dakika, 54 soru) ile Matematik (70 dakika, 44 soru). Toplam süre 2 saat 14 dakika; her bölüm ikişer modüle ayrılıyor ve ikinci modülün zorluğu ilk moduldeki performansa göre belirleniyor. Toplam puan yine 400–1600 aralığında. Aşağıdaki bölüm açıklamaları sınavın kâğıt üzerindeki önceki sürümünü anlatmaktadır.",
+    "SAT Sınavının 2016 Yılındaki Değişiklikleri": [
+      "Bugünkü durum: 2016 yenilemesinin getirdiği yapı ve 1600 puanlık ölçek korunarak sınav 2024'te dijitale geçti; güncel yapı yukarıdaki \"Dijital SAT\" bölümündedir.",
     ],
     "Makale, Bir Kaynağı Analiz Etme": [
-      "Not: SAT'ın makale (essay) bölümü 2021'de kaldırıldı; dijital SAT'ta makale yazma görevi bulunmuyor.",
+      "Not: SAT'ın makale (essay) bölümü Haziran 2021'den sonra kaldırıldı; dijital SAT'ta makale yazma görevi bulunmuyor.",
     ],
   },
   ignored: [],
@@ -962,6 +1087,9 @@ const IELTS: ExamDef = {
     // Bayat şube adı: Beşiktaş → Etiler (müşteri kararı 2026-09-30).
     "Eğitimler hafta sonu ve hafta içi programları şeklinde olup dersler İstanbul'da Kadıköy, Bağdat Caddesi, Beşiktaş ve Ataşehir şubelerimizde düzenlenmektedir. Gruplardaki katılımcıların dil beceri düzeyinin homojen olması esastır. Seviye tespit sınavı sonucuna göre hafta içi günleri ders alacak öğrenciler ve hafta sonu ders alacak öğrenciler belirlenerek gruplar oluşturulur. Her katılımcı ayrı ayrı yazılı ve sözlü sınava tabi tutulmaktadır. Toplam 10 hafta süren ve 60 dersten oluşan, her ders saatinin 50 dakika olduğu eğitim sistemiyle İngilizcenizi geliştirmeniz ve IELTS sınavına hazırlanmanız için dil okulumuz mükemmel bir fırsat sunmaktadır.":
       "Eğitimler hafta sonu ve hafta içi programları şeklinde olup dersler İstanbul'da Kadıköy, Bağdat Caddesi, Etiler ve Ataşehir şubelerimizde düzenlenmektedir. Gruplardaki katılımcıların dil beceri düzeyinin homojen olması esastır. Seviye tespit sınavı sonucuna göre hafta içi günleri ders alacak öğrenciler ve hafta sonu ders alacak öğrenciler belirlenerek gruplar oluşturulur. Her katılımcı ayrı ayrı yazılı ve sözlü sınava tabi tutulmaktadır. Toplam 10 hafta süren ve 60 dersten oluşan, her ders saatinin 50 dakika olduğu eğitim sistemiyle İngilizcenizi geliştirmeniz ve IELTS sınavına hazırlanmanız için dil okulumuz mükemmel bir fırsat sunmaktadır.",
+    // Yazım: "profosyonel" → "profesyonel" (P9, kullanıcı onayı 2026-10-19).
+    "Eğer yoğun bir programınız varsa özel ders sizin için en avantajlı seçenek olacaktır. Belirleyeceğiniz gün ve saatlerde haftalık olarak revize edilebilen bir program ile IELTS sınavı akademik yaşamınızda ya da iş hayatınızda profosyonel amaçlarınızın önünde bir engel olmaktan çıkacaktır.":
+      "Eğer yoğun bir programınız varsa özel ders sizin için en avantajlı seçenek olacaktır. Belirleyeceğiniz gün ve saatlerde haftalık olarak revize edilebilen bir program ile IELTS sınavı akademik yaşamınızda ya da iş hayatınızda profesyonel amaçlarınızın önünde bir engel olmaktan çıkacaktır.",
   },
   blocks: [
     { kind: "prose", heading: "IELTS Kursu Sınav Hazırlık Dersleri Eğitim Fiyatları", kicker: "EĞİTİM PROGRAMI", title: "IELTS hazırlık programımız", take: "rest" },

@@ -148,6 +148,8 @@ export type Faq = {
   format?: "prose" | "list";
   /** UI turu (2026-09-25): sorunun solunda ikon kutusu — verilmezse basılmaz. */
   icon?: IconName;
+  /** Cevabın altında resmi kaynağa dış bağlantı (yeni sekmede) — ör. ETS'nin güncel ücret sayfası (P9). */
+  link?: { label: string; href: string };
 };
 
 /** Kurs takvimi satırı — tarih/gün/saat kaynak içerikte YOK, hepsi null gelir. */

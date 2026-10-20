@@ -1,5 +1,5 @@
 /**
- * Şube Kurs Tarihi sayfalarının title / description düzeltmeleri — P8 metadata denetimi (kullanıcı onayı, 2026-10-02).
+ * Şube Kurs Tarihi sayfalarının title / description (+ giriş cümlesi, aşağıda) düzeltmeleri — P8 metadata denetimi (kullanıcı onayı, 2026-10-02).
  *
  * Kurs tarihi sayfasının title / description'ı kaynaktan gelir (`lib/courseDateContent.ts`, şube adı
  * `currentBranchName` ile çevrilmiş hâli). Burada yalnız TEKNİK hatası olan sayfalar düzeltilir; `from` sayfada o an
@@ -70,9 +70,47 @@ export const COURSE_DATE_META_EDITS: Record<string, CourseDateMetaEdit> = {
   },
 };
 
+/**
+ * Giriş paragrafındaki firma cümlesi düzeltmeleri (P9, kullanıcı onayı 2026-10-19). `from` giriş paragraflarında
+ * TAM BİR KEZ geçen metin parçasıdır; geçmezse ya da birden çok geçerse build düşer (`lib/courseDateContent.ts`).
+ */
+export type CourseDateIntroEdit = { edits: MetaEdit[]; reason: string };
+
+const SH = "/sinav-hazirlik-egitimleri";
+const YEAR_REASON =
+  "Şube yıl iddiası (\"{Şube} şubesi olarak {yıl} yılından bugüne\") → kurum kalıbı: kullanıcı 2026-10-19 — yıl değil ÖZNE " +
+  "değişir; \"Ataşehir şubesi olarak 2003'ten bu yana\" doğru olmaz, şube 2003'te yoktu (CLAUDE.md §5 \"2003’ten bu yana\" kararı " +
+  "kurum içindir). Aynı cümlede yazım: \"profosyonel\" → \"profesyonel\".";
+/** [sayfa adresi, kaynakta yazan şube adı, kaynaktaki yıl, sınav] — IELTS ve TOEFL kurs tarihi sayfalarının 8'i. */
+const BRANCH_YEAR_PAGES: [string, string, number, string][] = [
+  [`${SH}/ielts-kursu/kadikoy-subesi-kurs-tarihi`, "Kadıköy", 2003, "IELTS"],
+  [`${SH}/ielts-kursu/bagdat-caddesi-subesi-kurs-tarihi`, "Bağdat Caddesi", 2010, "IELTS"],
+  [`${SH}/ielts-kursu/besiktas-subesi-kurs-tarihi`, "Etiler", 2014, "IELTS"],
+  [`${SH}/ielts-kursu/atasehir-subesi-kurs-tarihi`, "Ataşehir", 2010, "IELTS"],
+  [`${SH}/toefl-kursu/kadikoy-subesi-kurs-tarihi`, "Kadıköy", 2003, "TOEFL"],
+  [`${SH}/toefl-kursu/bagdat-caddesi-subesi-toefl-kurs-tarihi`, "Bağdat Caddesi", 2009, "TOEFL"],
+  [`${SH}/toefl-kursu/besiktas-subesi-toefl-kurs-tarihi`, "Etiler", 2011, "TOEFL"],
+  [`${SH}/toefl-kursu/atasehir-subesi-toefl-kurs-tarihi`, "Ataşehir", 2009, "TOEFL"],
+];
+
+export const COURSE_DATE_INTRO_EDITS: Record<string, CourseDateIntroEdit> = Object.fromEntries(
+  BRANCH_YEAR_PAGES.map(([href, branch, year, exam]) => {
+    const edit: CourseDateIntroEdit = {
+      edits: [
+        {
+          from: `Dünya Dilleri Merkezi ${branch} şubesi olarak ${year} yılından bugüne ${exam} sınavına profosyonel şekilde`,
+          to: `Dünya Dilleri Merkezi olarak 2003’ten bu yana ${exam} sınavına profesyonel şekilde`,
+        },
+      ],
+      reason: YEAR_REASON,
+    };
+    return [href, edit];
+  }),
+);
+
 // Yayında olmayan (ya da adı değişmiş) sayfaya ait satır sessizce boşta kalmasın.
 const LIVE_HREFS = new Set(COURSE_DATES.map((e) => `/${e.category}/${e.courseSlug}/${e.pageSlug}`));
-for (const href of Object.keys(COURSE_DATE_META_EDITS)) {
+for (const href of [...Object.keys(COURSE_DATE_META_EDITS), ...Object.keys(COURSE_DATE_INTRO_EDITS)]) {
   if (!LIVE_HREFS.has(href)) throw new Error(`data/courseDateMeta.ts: "${href}" yayındaki bir kurs tarihi sayfası değil.`);
 }
 

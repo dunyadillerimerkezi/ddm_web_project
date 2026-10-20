@@ -46,6 +46,14 @@ export function Accordion({
                 </p>
               ))
             )}
+            {item.link && (
+              <p className={styles.answerP}>
+                <a className={styles.link} href={item.link.href} target="_blank" rel="noopener noreferrer">
+                  {item.link.label}
+                  <span className={styles.srOnly}> (yeni sekmede açılır)</span>
+                </a>
+              </p>
+            )}
           </div>
         </details>
       ))}

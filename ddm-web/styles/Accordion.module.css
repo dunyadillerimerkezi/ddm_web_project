@@ -95,3 +95,24 @@
   line-height: var(--ddm-leading-body);
   color: var(--ddm-gray-700);
 }
+
+/* Cevabın altındaki resmi kaynak bağlantısı (dış site, yeni sekmede). */
+.link {
+  color: var(--ddm-sky-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link:hover {
+  color: var(--ddm-sky-deep);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
