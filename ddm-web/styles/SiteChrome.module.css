@@ -1,0 +1,26 @@
+/* ---------------------------------------------------------------
+ * SiteChrome — "İçeriğe geç" bağlantısı (P9 erişilebilirlik, WCAG 2.4.1).
+ * Görünmez; klavyede ilk Tab'da sol üstte belirir, header ve mega menüyü atlayıp <main>'e götürür.
+ * ------------------------------------------------------------- */
+.skip {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 80; /* header (60) ve mobil çubuğun (70) üstünde */
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--ddm-navy-600);
+  color: var(--ddm-white);
+  font-family: var(--ddm-font-heading);
+  font-weight: 700;
+  font-size: var(--ddm-text-body-s);
+  text-decoration: none;
+  box-shadow: var(--shadow-card);
+  transform: translateY(calc(-100% - var(--space-6)));
+  opacity: 0;
+}
+
+.skip:focus-visible {
+  transform: none;
+  opacity: 1;
+}

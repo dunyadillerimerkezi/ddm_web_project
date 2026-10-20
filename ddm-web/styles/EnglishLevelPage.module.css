@@ -278,7 +278,7 @@ a.chip:focus-visible {
 .stepC2 .stepCode {
   border: var(--ddm-level-line) dashed var(--ddm-gray-300);
   background: none;
-  color: var(--ddm-gray-400);
+  color: var(--ddm-gray-500);
 }
 
 /* Dar ekranda merdiven yerine yatay seviye düğmeleri. */
@@ -746,7 +746,7 @@ a.chip:focus-visible {
 
 .none {
   font-size: var(--ddm-text-caption);
-  color: var(--ddm-gray-400);
+  color: var(--ddm-gray-500);
 }
 
 .hours {

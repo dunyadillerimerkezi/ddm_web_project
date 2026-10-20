@@ -48,7 +48,7 @@
   font-size: var(--ddm-text-label);
   font-weight: 800;
   letter-spacing: var(--ddm-tracking-label);
-  color: var(--ddm-sky-400);
+  color: var(--ddm-sky-ink); /* P9 erişilebilirlik: sky-400 beyaz kartta 2,3:1 idi */
 }
 
 .name {

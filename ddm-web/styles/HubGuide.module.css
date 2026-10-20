@@ -73,7 +73,7 @@
   font-family: var(--ddm-font-heading);
   font-size: var(--ddm-text-caption);
   font-weight: 700;
-  color: var(--ddm-gray-400);
+  color: var(--ddm-gray-500);
 }
 
 .tocLink[aria-current="location"] .tocCount {

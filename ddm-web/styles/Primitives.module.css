@@ -1,13 +1,13 @@
 /* ---------------------------------------------------------------
  * Kicker — bölüm üstü büyük harf etiket. ~30 kullanım.
- * İki renk: açık zeminde sky-mid, koyu zemin/kartta sky-400.
+ * İki renk: açık zeminde sky-ink (P9: sky-mid küçük harfte 4,1:1 — AA altı), koyu zemin/kartta sky-400.
  * ------------------------------------------------------------- */
 .kicker {
   font-family: var(--ddm-font-heading);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: var(--ddm-tracking-kicker);
-  color: var(--ddm-sky-mid);
+  color: var(--ddm-sky-ink);
 }
 
 .kickerOnDark {
@@ -265,7 +265,7 @@
   letter-spacing: 0.02em;
   background: var(--ddm-white);
   border: 1px solid var(--ddm-gray-200);
-  color: var(--ddm-gray-400);
+  color: var(--ddm-gray-500);
   transition: background var(--duration-base) ease, color var(--duration-base) ease;
 }
 

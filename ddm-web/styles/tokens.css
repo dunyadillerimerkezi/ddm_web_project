@@ -115,7 +115,7 @@
   --ddm-gray-800: #2a2b33; /* güçlü gövde metni */
   --ddm-gray-700: #3f4049; /* gövde metni — varsayılan */
   --ddm-gray-600: #5a5c66; /* ikincil metin */
-  --ddm-gray-500: #7c7e88; /* yardımcı metin / placeholder */
+  --ddm-gray-500: #686a74; /* yardımcı metin / placeholder — P9: #7c7e88 beyazda 4,0:1 idi, WCAG AA 4,5:1 için koyulaştı (açık zeminlerde ≥4,7:1) */
   --ddm-gray-400: #a8aab3; /* pasif metin, ikon, küçük etiket */
   --ddm-gray-300: #cdced4; /* form kenarlığı */
   --ddm-gray-200: #e4e5e9; /* kart kenarlığı */

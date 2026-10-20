@@ -46,7 +46,7 @@
   font-size: var(--ddm-text-caption);
   font-weight: 700;
   text-align: center;
-  color: var(--ddm-gray-400);
+  color: var(--ddm-gray-500);
 }
 
 .dayOn {

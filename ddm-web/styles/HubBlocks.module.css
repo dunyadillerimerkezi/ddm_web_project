@@ -30,7 +30,7 @@
 .splitCount {
   font-size: var(--ddm-text-body-s);
   font-weight: 700;
-  color: var(--ddm-gray-400);
+  color: var(--ddm-gray-500);
 }
 
 .splitIntro {

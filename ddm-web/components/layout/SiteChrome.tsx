@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationLd } from "@/lib/jsonLd";
+import styles from "@/styles/SiteChrome.module.css";
 import { assertNavSoonFlags } from "@/lib/navAudit";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
@@ -27,8 +28,12 @@ export function SiteChrome({ children, ctaLabel, ctaHref }: SiteChromeProps) {
 
   return (
     <>
+      {/* P9 erişilebilirlik: klavyede ilk Tab — header ve mega menüyü atlar (görünmez, odakta belirir). */}
+      <a className={styles.skip} href="#icerik">
+        İçeriğe geç
+      </a>
       <SiteHeader ctaLabel={ctaLabel} ctaHref={ctaHref} />
-      <main>{children}</main>
+      <main id="icerik">{children}</main>
       <SiteFooter />
       <MobileBottomBar ctaHref={ctaHref} />
       {/* P9: site geneli kurum (EducationalOrganization) — ad / logo header'da, mail + kuruluş yılı footer'da. */}

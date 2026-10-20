@@ -50,7 +50,7 @@
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.11em;
-  color: var(--ddm-sky-400);
+  color: var(--ddm-sky-ink); /* P9 erişilebilirlik: sky-400 beyaz kartta 2,2:1 idi */
 }
 
 .kickerBirebir {
@@ -58,7 +58,7 @@
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.11em;
-  color: var(--ddm-sky-mid);
+  color: var(--ddm-sky-ink);
 }
 
 .title {
@@ -104,7 +104,7 @@
   font-size: var(--ddm-text-label);
   font-weight: 800;
   letter-spacing: var(--ddm-tracking-label-sm);
-  color: var(--ddm-gray-400);
+  color: var(--ddm-gray-500);
 }
 
 .dayRow {

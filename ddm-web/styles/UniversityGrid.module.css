@@ -15,8 +15,11 @@
   transition: border-color var(--duration-fast) ease;
 }
 
+/* P9 erişilebilirlik: girdinin kendi çerçevesi kapalı — odak halkası kapta (metin kutusu fareyle de odak gösterir). */
 .search:focus-within {
   border-color: var(--ddm-sky-line);
+  outline: 2px solid var(--ddm-sky-base);
+  outline-offset: 2px;
 }
 
 .searchInput {

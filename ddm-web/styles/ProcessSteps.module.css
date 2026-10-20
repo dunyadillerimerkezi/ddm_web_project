@@ -48,7 +48,7 @@
   border-radius: var(--radius-pill);
   background: var(--ddm-white);
   border: 3px solid var(--ddm-gray-200);
-  color: var(--ddm-gray-400);
+  color: var(--ddm-gray-500);
   font-family: var(--ddm-font-heading);
   font-weight: 800;
   font-size: 17px;

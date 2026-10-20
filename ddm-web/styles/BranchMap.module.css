@@ -19,6 +19,12 @@
   border: 0;
 }
 
+/* P9 erişilebilirlik: klavyeyle haritaya gelince çerçeve. Odak iframe'in içine geçtiği için halka kapta çizilir. */
+.frame:focus-within {
+  outline: 2px solid var(--ddm-sky-base);
+  outline-offset: 2px;
+}
+
 .directions {
   padding: var(--space-3) var(--space-5);
   border: var(--ddm-level-line) solid var(--ddm-gray-300);
